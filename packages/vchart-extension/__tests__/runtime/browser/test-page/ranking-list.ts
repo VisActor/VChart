@@ -250,7 +250,7 @@ const spec = {
   },
   // animation: false,
   customTransformSpec: spec => {
-    console.log('spec----', spec);
+    // console.log('spec----', spec);
     spec.axes[0].paddingOuter = 0.7;
   }
 };

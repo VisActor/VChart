@@ -2,7 +2,7 @@ import { isMobile } from 'react-device-detect';
 import type { IRadarChartSpec } from '../../../../src/index';
 import { VChart } from '../../../../src/index';
 
-const run = () => {
+const run = async () => {
   const mockData: any[] = [];
   const types = ['A', 'B', 'C'];
 
@@ -69,7 +69,47 @@ const run = () => {
   cs.renderAsync().then(() => {
     console.timeEnd('renderTime');
   });
+
+  const c = document.createElement('button');
+  c.innerHTML = 'release';
+  c.style.marginRight = '5px';
+  c.style.marginTop = '5px';
+  function releaseChart() {
+    cs.release();
+    // cs.destroy();
+  }
+  c.onclick = releaseChart;
+  document?.getElementsByTagName('body')[0].appendChild(c);
+
+  const d = document.createElement('button');
+  d.innerHTML = 'reRender';
+  d.style.marginRight = '5px';
+  d.style.marginTop = '5px';
+  function reRenderChart() {
+    const cs = new VChart(spec, {
+      dom: document.getElementById('chart') as HTMLElement,
+      //theme: 'dark',
+      onError: err => {
+        console.error(err);
+      }
+    });
+    console.time('renderTime');
+
+    cs.renderSync();
+    window['vchart'] = cs;
+  }
+  d.onclick = reRenderChart;
+  document?.getElementsByTagName('body')[0].appendChild(d);
+
   window['vchart'] = cs;
   console.log(cs);
+
+  for (let i = 0; i < 1000; i++) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    window['vchart'].release();
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+    reRenderChart();
+  }
 };
 run();
