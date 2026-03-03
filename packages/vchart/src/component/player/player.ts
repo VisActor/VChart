@@ -319,7 +319,12 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       }
     });
   }
-
+  autoPlayCallback = () => {
+    if (this._spec?.auto) {
+      this._playerComponent.pause();
+      this._playerComponent.play();
+    }
+  };
   /**
    * 事件
    */
@@ -328,12 +333,9 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       return;
     }
     // 自动播放
-    this._option.globalInstance.on(ChartEvent.rendered, () => {
-      if (this._spec?.auto) {
-        this._playerComponent.pause();
-        this._playerComponent.play();
-      }
-    });
+    this._option.globalInstance.off(ChartEvent.rendered, this.autoPlayCallback);
+    // 自动播放
+    this._option.globalInstance.on(ChartEvent.rendered, this.autoPlayCallback);
 
     // 循环播放 与 交替方向
     this._playerComponent.addEventListener(PlayerEventEnum.end, () => {
@@ -417,6 +419,10 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       });
     });
   };
+  release(): void {
+    // 自动播放
+    this._option.globalInstance.off(ChartEvent.rendered, this.autoPlayCallback);
+  }
 }
 
 export const registerPlayer = () => {

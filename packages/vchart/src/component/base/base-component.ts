@@ -29,7 +29,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     });
   }
 
-  protected declare _option: IComponentOption;
+  declare protected _option: IComponentOption;
 
   protected _regions: IRegion[];
   getRegions() {
@@ -104,6 +104,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     if (components && components.length) {
       components.forEach(c => {
         if (c) {
+          c.release(true);
           this.getContainer()?.removeChild(c as unknown as INode);
           c = null;
         }
