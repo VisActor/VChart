@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: Fix memory leaks in Player component and BaseComponent release logic.",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "visactor@bytedance.com"
+}
