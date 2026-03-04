@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "force": "^0.0.3",
     "rush-upgrade-self-plugin": "^1.1.2"
   }
 }

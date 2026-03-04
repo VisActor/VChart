@@ -1,4 +1,4 @@
-name: Sync main to develop after release
+name: Sync main to develop after release (Scheme A)
 
 on:
   pull_request:
@@ -8,10 +8,10 @@ on:
       - main
 
 jobs:
-  if_merged:
-    if: github.event.pull_request.merged == true
+  sync_main_to_develop:
+    if: github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'release/')
 
-    runs-on: macos-13
+    runs-on: macos-latest
 
     permissions:
       contents: write
@@ -19,43 +19,94 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [20.x]
 
     steps:
-      - uses: actions/checkout@v3
-      - run: |
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Git identity
+        run: |
           git config user.name ${{ github.actor }}
           git config user.email ${{ github.actor }}@users.noreply.github.com
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
-        # Install rush
+      - name: Install Python distutils (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          python3 -m pip install setuptools --break-system-packages
+
+      - name: Install Python distutils (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-distutils
+          python3 -m pip install setuptools --break-system-packages
+
+      - name: Install native deps for node-canvas (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          brew update
+          brew install pkg-config cairo pango libpng jpeg giflib librsvg
+
+      - name: Install native deps for node-canvas (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev pkg-config
+
+      - name: Install latest pnpm
+        run: npm install -g pnpm@10.7.0
+
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
-      - name: Get version
-        id: package-version
+      - name: Read vchart version from package.json
+        id: package_version
         uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
 
-      - name: Create a new branch
+      - name: Compute sync branch name and check existence
+        id: sync_branch
         run: |
-          git status
-          git checkout -b sync/main-${{ steps.package-version.outputs.current_version }}
-          git push origin sync/main-${{ steps.package-version.outputs.current_version }}
+          set -euo pipefail
+          VERSION="${{ steps.package_version.outputs.current_version }}"
+          BRANCH="sync/main-${VERSION}"
+          echo "sync_branch=${BRANCH}" >> "$GITHUB_OUTPUT"
 
-      - name: Create Pull Request
+          git fetch origin "${BRANCH}":refs/remotes/origin/tmp-sync-branch 2>/dev/null || true
+          if git ls-remote --exit-code --heads origin "${BRANCH}" > /dev/null 2>&1; then
+            echo "Branch ${BRANCH} already exists on origin, skip creating new sync branch."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create and push sync/main-X.Y.Z branch
+        if: steps.sync_branch.outputs.exists == 'false'
+        run: |
+          set -euo pipefail
+          VERSION="${{ steps.package_version.outputs.current_version }}"
+          BRANCH="${{ steps.sync_branch.outputs.sync_branch }}"
+          git checkout main
+          git pull --ff-only origin main
+          git checkout -b "${BRANCH}"
+          git push --no-verify origin "${BRANCH}"
+
+      - name: Create Pull Request to develop
+        if: steps.sync_branch.outputs.exists == 'false'
         uses: dustinirving/create-pr@v1.0.2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          title: '[Auto Sync] Sync the code from branch main to branch develop after release ${{ steps.package-version.outputs.current_version }}'
+          title: '[Auto Sync] Sync the code from branch main to branch develop after release ${{ steps.package_version.outputs.current_version }}'
           base: develop
-          head: sync/main-${{ steps.package-version.outputs.current_version }}
+          head: ${{ steps.sync_branch.outputs.sync_branch }}
           reviewers: xile611
-          body: 'Sync the code from branch main to branch develop after release ${{ steps.package-version.outputs.current_version }}'
+          body: 'Sync the code from branch main to branch develop after release ${{ steps.package_version.outputs.current_version }}'
