@@ -13,7 +13,7 @@ export const initTextMeasure = (
   return initTextMeasureFunc(textSpec, option, useNaiveCanvas, {
     fontFamily: token.fontFamily,
     fontSize: token.fontSize
-  });
+  }) as any;
 };
 
 export const measureText = (
