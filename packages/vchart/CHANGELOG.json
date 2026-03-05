@@ -2,6 +2,29 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.17",
+      "tag": "@visactor/vchart_v2.0.17",
+      "date": "Thu, 05 Mar 2026 11:35:47 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: optimiz workflows for release\n\n"
+          },
+          {
+            "comment": "fix: fix default lineWidth for heatmap label\n\n"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: ensure DataZoom updates when data source changes (Issue #4185)"
+          },
+          {
+            "comment": "fix: Fix memory leaks in Player component and BaseComponent release logic."
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.16",
       "tag": "@visactor/vchart_v2.0.16",
       "date": "Thu, 26 Feb 2026 08:40:19 GMT",

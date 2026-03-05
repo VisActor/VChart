@@ -47,6 +47,8 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _width: number;
     protected _height: number;
     protected _filterMode: IFilterMode;
+    protected _handleDataCollectionChangeBound: any;
+    protected _currentDataCollection: any[];
     setStartAndEnd(start: number | string, end: number | string, rangeMode?: ['percent' | 'value', 'percent' | 'value']): void;
     enableInteraction(): void;
     disableInteraction(): void;
@@ -91,6 +93,13 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     setAttrFromSpec(): void;
     protected _setAxisFromSpec(): void;
     protected _setRegionsFromSpec(): void;
+    protected _collectDataInfo(): {
+        dataCollection: any[];
+        seriesCollection: any[];
+        stateFields: string[];
+        valueFields: string[];
+        isCategoryState: boolean;
+    };
     protected _initData(): void;
     protected _addTransformToSeries(): void;
     onDataUpdate(): void;
