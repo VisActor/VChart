@@ -190,7 +190,10 @@ async function bootstrap() {
   }
   taker.series(taskList)(err => {
     if (err) {
-      throw err;
+      console.error(err);
+      process.exit(1);
+    } else {
+      process.exit(0);
     }
   });
 }

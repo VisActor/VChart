@@ -124,7 +124,10 @@ module.exports = {
           const dest = `../harmony_vchart/library/src/main/ets/${source}`;
           const envSource = path.join(__dirname, config.outputDir.umd, source);
           copyFile(envSource, path.join(__dirname, dest));
-          fs.unlinkSync(path.join(__dirname, config.outputDir.umd, source));
+          const filePath = path.join(__dirname, config.outputDir.umd, source);
+          if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+          }
 
           debug('[copy file]', `copy ${envSource} to ${path.join(__dirname, dest)}`)
         } catch(e) {
@@ -132,7 +135,10 @@ module.exports = {
         }
       });
       umdEntries.forEach(entry => {
-        fs.unlinkSync(path.join(__dirname, config.outputDir.umd, `${entry}.min.js`));
+        const filePath = path.join(__dirname, config.outputDir.umd, `${entry}.min.js`);
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+        }
       });
     }
   }
