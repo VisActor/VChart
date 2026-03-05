@@ -9,5 +9,10 @@ export const heatmap: IHeatmapSeriesTheme = {
   },
   cellBackground: {
     visible: false
+  },
+  label: {
+    style: {
+      lineWidth: 2
+    }
   }
 };

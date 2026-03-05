@@ -134,6 +134,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   protected _filterMode!: IFilterMode;
 
+  protected _handleDataCollectionChangeBound!: any;
+  protected _currentDataCollection: any[] = [];
+
   /*** start: public function ***/
   /**
    * 外部可以通过此方法强制改变datazoom的start和end，达到聚焦定位的效果
@@ -333,6 +336,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
 
   /*** start: component lifecycle ***/
   created() {
+    this._handleDataCollectionChangeBound = this._handleDataCollectionChange.bind(this);
     super.created();
     this._setAxisFromSpec();
     this._setRegionsFromSpec();
@@ -535,14 +539,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   /*** end: set attributes & bind related axis and region ***/
 
   /*** start: data change and reset view  ***/
-  protected _initData() {
+  protected _collectDataInfo() {
     const dataCollection: any[] = [];
     const seriesCollection: any[] = [];
     const stateFields: string[] = [];
     const valueFields: string[] = [];
     let isCategoryState: boolean;
     if (this._relatedAxisComponent) {
-      const originalStateFields = {};
+      const originalStateFields: any = {};
       eachSeries(
         this._regions,
         s => {
@@ -551,14 +555,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getXAxisHelper()
               : s.coordinate === 'polar'
-                ? (s as IPolarSeries).angleAxisHelper
-                : null;
+              ? (s as IPolarSeries).angleAxisHelper
+              : null;
           const yAxisHelper =
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getYAxisHelper()
               : s.coordinate === 'polar'
-                ? (s as IPolarSeries).radiusAxisHelper
-                : null;
+              ? (s as IPolarSeries).radiusAxisHelper
+              : null;
           if (!xAxisHelper || !yAxisHelper) {
             return;
           }
@@ -566,10 +570,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             xAxisHelper.getAxisId() === this._relatedAxisComponent.id
               ? xAxisHelper
               : yAxisHelper.getAxisId() === this._relatedAxisComponent.id
-                ? yAxisHelper
-                : this._isHorizontal
-                  ? xAxisHelper
-                  : yAxisHelper;
+              ? yAxisHelper
+              : this._isHorizontal
+              ? xAxisHelper
+              : yAxisHelper;
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
           const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
@@ -632,6 +636,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         }
       );
     }
+    return { dataCollection, seriesCollection, stateFields, valueFields, isCategoryState };
+  }
+
+  protected _initData() {
+    const { dataCollection, seriesCollection, stateFields, valueFields, isCategoryState } = this._collectDataInfo();
     const { dataSet } = this._option;
     registerDataSetInstanceParser(dataSet, 'dataview', dataViewParser);
     registerDataSetInstanceTransform(dataSet, 'dataFilterComputeDomain', dataFilterComputeDomain);
@@ -659,7 +668,8 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     // todo 似乎没必要创建
     this._data = new CompilableData(this._option, data);
     data.reRunAllTransform();
-    dataSet.multipleDataViewAddListener(dataCollection, 'change', this._handleDataCollectionChange.bind(this));
+    this._currentDataCollection = dataCollection;
+    dataSet.multipleDataViewAddListener(dataCollection, 'change', this._handleDataCollectionChangeBound);
   }
   protected _addTransformToSeries() {
     if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
@@ -706,10 +716,59 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       );
     }
   }
+
+  // 数据更新流程
   onDataUpdate(): void {
+    const { dataCollection, seriesCollection, stateFields, valueFields, isCategoryState } = this._collectDataInfo();
+
+    // 1. 重新注册事件
+    if (
+      this._currentDataCollection.length !== dataCollection.length ||
+      this._currentDataCollection.some((dv, i) => dv !== dataCollection[i])
+    ) {
+      this._currentDataCollection.forEach(dv => {
+        dv?.target?.removeListener('change', this._handleDataCollectionChangeBound);
+      });
+      this._currentDataCollection = dataCollection;
+      const { dataSet } = this._option;
+      dataSet.multipleDataViewAddListener(this._currentDataCollection, 'change', this._handleDataCollectionChangeBound);
+    }
+
+    // 2. 执行数据更新
+    this._data.getDataView().transform(
+      {
+        type: 'dataFilterComputeDomain',
+        options: {
+          input: {
+            dataCollection: dataCollection,
+            seriesCollection,
+            stateFields,
+            valueFields,
+            isCategoryState
+          },
+          output: {
+            stateField: this._stateField,
+            valueField: this._valueField
+          }
+        }
+      },
+      false
+    );
+    this._data.getDataView().reRunAllTransform();
+
+    // 3. 重新计算domain
     const domain = this._computeDomainOfStateScale(isContinuous(this._stateScale.type));
     this._stateScale.domain(domain, false);
+
+    // 4. 重新计算start和end
+    // 如果 spec 中有配置 start/end，使用 spec 中的配置
+    // 否则保持当前的 start/end
+    if (isValid(this._spec.start) || isValid(this._spec.end)) {
+      this._setStateFromSpec();
+    }
     this._handleChange(this._start, this._end, true);
+
+    // 5. 重新布局
     // auto 模式下需要重新布局
     if (this._spec.auto && !isEqual(this._domainCache, domain)) {
       this._domainCache = domain;
@@ -747,13 +806,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       start = this._spec.start
         ? this._spec.start
         : this._spec.startValue
-          ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
-          : 0;
+        ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
+        : 0;
       end = this._spec.end
         ? this._spec.end
         : this._spec.endValue
-          ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
-          : 1;
+        ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
+        : 1;
     }
     this._start = Math.max(0, Math.min(1, start));
     this._end = Math.max(0, Math.min(1, end));

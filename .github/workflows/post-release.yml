@@ -74,31 +74,28 @@ jobs:
 
           echo "skip=false" >> "$GITHUB_OUTPUT"
 
-      - name: Fetch develop changelog
+      - name: Ensure main changelog exists
         if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true'
         run: |
           set -euo pipefail
-          git fetch origin develop:refs/remotes/origin/develop --depth=1
-          git show origin/develop:docs/assets/changelog/en/release.md > release-develop.md
+          if [ ! -f "docs/assets/changelog/en/release.md" ]; then
+            echo "Error: docs/assets/changelog/en/release.md not found in main."
+            exit 1
+          fi
 
-      - name: Extract release body from develop changelog
+      - name: Extract release body from main changelog
         id: body
         if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true'
         env:
           VERSION: ${{ steps.meta.outputs.version }}
         run: |
           set -euo pipefail
-          if [ ! -f "release-develop.md" ]; then
-            echo "develop changelog file not found, skip post-release."
-            echo "has_body=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          if node <<'NODE'
+          node <<'NODE'
           const fs = require('fs');
 
           const version = process.env.VERSION;
-          const content = fs.readFileSync('release-develop.md', 'utf8');
+          const changelogPath = 'docs/assets/changelog/en/release.md';
+          const content = fs.readFileSync(changelogPath, 'utf8');
 
           function escapeRegExp(str) {
             return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -108,27 +105,53 @@ jobs:
           const match = headerPattern.exec(content);
 
           if (!match) {
-            console.log('No changelog block for version', version, 'found in develop.');
+            console.error('No changelog block for version', version, 'found in main changelog.');
             process.exit(1);
           }
 
           const startIndex = match.index;
           const rest = content.slice(startIndex);
 
-          const nextHeaderPattern = /^#\s*v?\d+\.\d+\.\d+[^\n]*$/gm;
+          // Find the next release header after the current one.
+          const nextHeaderPattern = /^#\s*v?\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?[^\n]*$/gm;
           let nextIndex = rest.length;
           let m;
-          if ((m = nextHeaderPattern.exec(rest)) !== null && m.index !== 0) {
-            nextIndex = m.index;
+          while ((m = nextHeaderPattern.exec(rest)) !== null) {
+            if (m.index > 0) {
+              nextIndex = m.index;
+              break;
+            }
           }
 
           const block = rest.slice(0, nextIndex).trimEnd() + '\n';
+          if (!block.trim()) {
+            console.error('Extracted changelog block is empty for version', version);
+            process.exit(1);
+          }
           fs.writeFileSync('release-body.md', block, 'utf8');
           NODE
-          then
-            echo "has_body=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_body=false" >> "$GITHUB_OUTPUT"
+          echo "has_body=true" >> "$GITHUB_OUTPUT"
+
+      - name: Validate extracted release body
+        if: steps.meta.outputs.skip != 'true' && steps.exist.outputs.skip != 'true' && steps.body.outputs.has_body == 'true'
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
+        run: |
+          set -euo pipefail
+          if [ ! -s "release-body.md" ]; then
+            echo "Error: release-body.md is missing or empty."
+            exit 1
+          fi
+
+          if ! grep -Eq "^#\\s*v?${VERSION}\\b" release-body.md; then
+            echo "Error: release-body.md does not start with expected version header v${VERSION}."
+            exit 1
+          fi
+
+          HEADER_COUNT="$(grep -Ec '^#\s*v?[0-9]+\.[0-9]+\.[0-9]+([-.][0-9A-Za-z.]+)?\b' release-body.md || true)"
+          if [ "${HEADER_COUNT}" -ne 1 ]; then
+            echo "Error: extracted release body contains ${HEADER_COUNT} release headers, expected exactly 1."
+            exit 1
           fi
 
       - name: Verify gh identity
