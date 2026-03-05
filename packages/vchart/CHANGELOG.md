@@ -1,6 +1,23 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 26 Feb 2026 08:40:19 GMT and should not be manually modified.
+This log was last generated on Thu, 05 Mar 2026 11:35:47 GMT and should not be manually modified.
+
+## 2.0.17
+Thu, 05 Mar 2026 11:35:47 GMT
+
+### Patches
+
+- fix: ensure DataZoom updates when data source changes (Issue #4185)
+- fix: Fix memory leaks in Player component and BaseComponent release logic.
+
+### Updates
+
+- feat: optimiz workflows for release
+
+
+- fix: fix default lineWidth for heatmap label
+
+
 
 ## 2.0.16
 Thu, 26 Feb 2026 08:40:19 GMT
