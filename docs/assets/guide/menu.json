@@ -23,6 +23,13 @@
           }
         },
         {
+          "path": "VChart_Skill_Usage",
+          "title": {
+            "zh": "VChart Skill 使用",
+            "en": "VChart Skill Usage"
+          }
+        },
+        {
           "path": "Contribution_Guide",
           "title": {
             "zh": "如何加入 VChart 社区",
