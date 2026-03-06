@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.18",
+      "tag": "@visactor/vchart_v2.0.18",
+      "date": "Fri, 06 Mar 2026 11:34:27 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "chore: remove unused GitHub Actions workflows"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.17",
       "tag": "@visactor/vchart_v2.0.17",
       "date": "Thu, 05 Mar 2026 11:35:47 GMT",

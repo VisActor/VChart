@@ -1,6 +1,13 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 05 Mar 2026 11:35:47 GMT and should not be manually modified.
+This log was last generated on Fri, 06 Mar 2026 11:34:27 GMT and should not be manually modified.
+
+## 2.0.18
+Fri, 06 Mar 2026 11:34:27 GMT
+
+### Patches
+
+- chore: remove unused GitHub Actions workflows
 
 ## 2.0.17
 Thu, 05 Mar 2026 11:35:47 GMT
