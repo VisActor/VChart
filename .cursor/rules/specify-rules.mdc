@@ -5,6 +5,7 @@ Auto-generated from all feature plans. Last updated: 2026-01-15
 ## Active Technologies
 - TypeScript 4.x+ (Project uses TS) + `@visactor/vchart` (Core logic), `@visactor/react-vchart` (React wrapper) (007-fix-datazoom-react)
 - N/A (In-memory chart state) (007-fix-datazoom-react)
+- Markdown + JSON（文档内容与菜单配置） + `@internal/docs` 文档构建体系、`docs/assets/guide/menu.json` 导航配置、现有教程目录结构 (001-vchart-skill-tutorial)
 
 - TypeScript/React 18 + @visactor/react-vchart, @visactor/vchar (001-react-vchart-demo)
 
@@ -26,10 +27,10 @@ npm test && npm run lint
 TypeScript 4.9.5: Follow standard conventions
 
 ## Recent Changes
+- 001-vchart-skill-tutorial: Added Markdown + JSON（文档内容与菜单配置） + `@internal/docs` 文档构建体系、`docs/assets/guide/menu.json` 导航配置、现有教程目录结构
 - 007-fix-datazoom-react: Added TypeScript 4.x+ (Project uses TS) + `@visactor/vchart` (Core logic), `@visactor/react-vchart` (React wrapper)
 - 007-fix-datazoom-react: Added [if applicable, e.g., PostgreSQL, CoreData, files or N/A]
 
-- 001-react-vchart-demo: Added TypeScript/React 18 + @visactor/react-vchart, @visactor/vchar
 
 
 <!-- MANUAL ADDITIONS START -->
