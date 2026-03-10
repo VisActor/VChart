@@ -132,6 +132,7 @@ export class CirclePackingSeries<
       options: (): ICirclePackingOpt => {
         return {
           nodeKey: this._categoryField,
+          valueField: this._valueField,
           padding: this._layoutPadding,
           includeRoot: false,
           width: this.getLayoutRect().width || 1,
