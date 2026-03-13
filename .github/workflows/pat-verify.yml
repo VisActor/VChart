@@ -1,0 +1,11 @@
+name: PAT Verification
+
+on:
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo PAT verification
+        run: echo "PAT verification workflow for VChart"
