@@ -2056,4 +2056,10 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   runAnimation() {
     this._runStateAnimation(this.getGraphics());
   }
+
+  clearBeforeReInit() {
+    this.state.clearAllStateInfo();
+    this.uncommit();
+    this.stateStyle = {};
+  }
 }
