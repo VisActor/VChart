@@ -1087,7 +1087,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       return;
     }
     this._product = mark.getProduct();
+    this._product.clearStates();
     this._graphics = mark.getGraphics();
+    this._graphics.forEach(g => {
+      g.clearStates();
+    });
     this._graphicMap = (mark as any)._graphicMap;
 
     this._graphicMap.forEach(g => {
@@ -2055,5 +2059,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   runAnimation() {
     this._runStateAnimation(this.getGraphics());
+  }
+
+  clearBeforeReInit() {
+    this.state.clearAllStateInfo();
+    this.uncommit();
+    this.stateStyle = {};
+    this.getGraphics().forEach(g => {
+      g.clearStates();
+    });
   }
 }

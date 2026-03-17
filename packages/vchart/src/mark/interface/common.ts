@@ -246,6 +246,8 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   disableAnimationByState: (state: string | string[]) => void;
   /** 启用状态动画 */
   enableAnimationByState: (state: string | string[]) => void;
+  /** 重新加载前清除缓存 */
+  clearBeforeReInit: () => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;
