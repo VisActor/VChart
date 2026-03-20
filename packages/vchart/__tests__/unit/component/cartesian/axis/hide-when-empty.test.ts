@@ -19,7 +19,8 @@ describe('cartesian axis hideWhenEmpty', () => {
     vchart?.release();
   });
 
-  const getAxis = (orient: string) => vchart.getComponents().find(com => com.layout?.layoutOrient === orient) as any;
+  const getAxis = (orient: string) =>
+    vchart.getComponents().find((com: any) => com.layout?.layoutOrient === orient) as any;
 
   test('should hide axis on initial render when bound series has no collected data', () => {
     vchart = new VChartConstructor(

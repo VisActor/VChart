@@ -1,3 +1,4 @@
+import type { IGroup } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components';
 import type { IBandLikeScale, IBaseScale, IContinuousScale } from '@visactor/vscale';
@@ -274,52 +275,53 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected collectData(depth: number, rawData?: boolean) {
     const data: { min: number; max: number; values: any[] }[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        let field = this.collectSeriesField(depth, s);
-        field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
-        if (!depth) {
-          this._dataFieldText = s.getFieldAlias(field[0]);
-        }
-
-        if (field) {
-          const viewData = s.getViewData();
-          if (rawData) {
-            field.forEach(f => {
-              data.push(
-                s.getRawDataStatisticsByField(f, !!isContinuous(this._scale.type)) as {
-                  min: number;
-                  max: number;
-                  values: any[];
-                }
-              );
-            });
-          } else if (viewData && viewData.latestData && viewData.latestData.length) {
-            const seriesData = s.getViewDataStatistics?.();
-            const userSetBreaks =
-              this.type === ComponentTypeEnum.cartesianLinearAxis && this._spec.breaks && this._spec.breaks.length;
-
-            field.forEach(f => {
-              if (seriesData?.latestData?.[f]) {
-                if (userSetBreaks) {
-                  data.push({
-                    ...seriesData.latestData[f],
-                    values: viewData.latestData.map((obj: Datum) => obj[f])
-                  });
-                } else {
-                  data.push(seriesData.latestData[f]);
-                }
-              }
-            });
+    this._regions &&
+      eachSeries(
+        this._regions,
+        s => {
+          let field = this.collectSeriesField(depth, s);
+          field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
+          if (!depth) {
+            this._dataFieldText = s.getFieldAlias(field[0]);
           }
+
+          if (field) {
+            const viewData = s.getViewData();
+            if (rawData) {
+              field.forEach(f => {
+                data.push(
+                  s.getRawDataStatisticsByField(f, !!isContinuous(this._scale.type)) as {
+                    min: number;
+                    max: number;
+                    values: any[];
+                  }
+                );
+              });
+            } else if (viewData && viewData.latestData && viewData.latestData.length) {
+              const seriesData = s.getViewDataStatistics?.();
+              const userSetBreaks =
+                this.type === ComponentTypeEnum.cartesianLinearAxis && this._spec.breaks && this._spec.breaks.length;
+
+              field.forEach(f => {
+                if (seriesData?.latestData?.[f]) {
+                  if (userSetBreaks) {
+                    data.push({
+                      ...seriesData.latestData[f],
+                      values: viewData.latestData.map((obj: Datum) => obj[f])
+                    });
+                  } else {
+                    data.push(seriesData.latestData[f]);
+                  }
+                }
+              });
+            }
+          }
+        },
+        {
+          userId: this._seriesUserId,
+          specIndex: this._seriesIndex
         }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+      );
     return data;
   }
 
@@ -421,8 +423,13 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
   }
 
   protected _syncComponentVisibility() {
-    this._axisMark?.setSimpleStyle({ visible: this._visible });
-    this._gridMark?.setSimpleStyle({ visible: this._visible && this._spec.grid?.visible !== false });
+    this._axisMark?.setVisible(this._visible);
+    this._gridMark?.setVisible(this._visible && this._spec.grid?.visible !== false);
+
+    (this._axisMark?.getComponent?.() as IGroup)?.setAttributes?.({ visibleAll: this._visible });
+    (this._gridMark?.getComponent?.() as IGroup)?.setAttributes?.({
+      visibleAll: this._visible && this._spec.grid?.visible !== false
+    });
   }
 
   protected _clearRawDomain() {
