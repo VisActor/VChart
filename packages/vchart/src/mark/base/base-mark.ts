@@ -1789,6 +1789,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         this.getVisible() &&
         (!this._skipBeforeLayouted || this.getCompiler().getLayoutState() !== LayoutState.before)
       ) {
+        // A mark may lose its product when visibility toggles to false during compile.
+        // Later data/layout updates can make it visible again without triggering compile,
+        // so recreate the product lazily before rendering.
+        if (!this._product) {
+          this._initProduct();
+        }
         log(`render mark: ${this.getProductId()}, type is ${this.type}`);
         this.renderInner();
       }
