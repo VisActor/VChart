@@ -18,7 +18,7 @@ import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
+import { isArray, isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import { vglobal } from '@visactor/vrender-core';
