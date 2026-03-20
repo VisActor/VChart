@@ -96,9 +96,15 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
    * if axis will be shown
    */
   protected _visible: boolean = true;
+  getVisible() {
+    return this._visible;
+  }
   get visible() {
     return this._visible;
   }
+
+  protected _specVisible: boolean = true;
+  protected _hideWhenEmpty: boolean = false;
 
   /** 轴是否产生反转的真实值，在横向图表的竖轴上可能和用户在 spec 上配的值相反 */
   protected _inverse: boolean;
@@ -129,8 +135,21 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
-    this._visible = spec.visible ?? true;
+    this._specVisible = spec.visible ?? true;
+    this._hideWhenEmpty = spec.hideWhenEmpty ?? false;
+    this._visible = this._specVisible;
     this._coordinateType = 'none';
+  }
+
+  setAttrFromSpec() {
+    super.setAttrFromSpec();
+    this._specVisible = this._spec.visible ?? true;
+    this._hideWhenEmpty = this._spec.hideWhenEmpty ?? false;
+    this._visible = this._specVisible;
+
+    if (this._scale) {
+      this._refreshVisibilityByData();
+    }
   }
 
   getVRenderComponents() {
@@ -146,10 +165,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // scales
     this.initScales();
     this.updateSeriesScale();
+    this._refreshVisibilityByData();
     // data
     this._shouldComputeTickData() && this._initData();
 
-    if (this._visible) {
+    if (this._specVisible) {
       // 创建语法元素
       const axisMark = this._createMark(
         { type: 'component', name: `axis-${this.getOrient()}` },
@@ -190,6 +210,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         this._marks.addMark(gridMark);
         this._gridMark = gridMark as IComponentMark;
       }
+
+      this._syncComponentVisibility();
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
       if (
@@ -232,7 +254,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _shouldComputeTickData() {
     // 当轴被展示、或者强制要求计算 data 时再计算 data
-    return this.getVisible() || this._spec.forceInitTick;
+    return this._specVisible && (this.getVisible() || this._spec.forceInitTick || this._hideWhenEmpty);
   }
 
   protected _onTickDataChange = (tickData?: ICompilableData) => {
@@ -376,6 +398,31 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected updateScaleDomain() {
     // 留给各个类型的 axis 来 override
+  }
+
+  protected _hasCollectedSeriesData() {
+    return this.collectData(0).length > 0;
+  }
+
+  protected _refreshVisibilityByData() {
+    const nextVisible = this._specVisible && (!this._hideWhenEmpty || this._hasCollectedSeriesData());
+    const changed = this._visible !== nextVisible;
+    this._visible = nextVisible;
+
+    if (this._axisMark || this._gridMark) {
+      this._syncComponentVisibility();
+    }
+
+    if (changed) {
+      this._forceLayout();
+    }
+
+    return changed;
+  }
+
+  protected _syncComponentVisibility() {
+    this._axisMark?.setSimpleStyle({ visible: this._visible });
+    this._gridMark?.setSimpleStyle({ visible: this._visible && this._spec.grid?.visible !== false });
   }
 
   protected _clearRawDomain() {
