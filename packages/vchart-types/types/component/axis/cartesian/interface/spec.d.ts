@@ -21,6 +21,7 @@ export type ICartesianZ = {
     orient: 'z';
 };
 export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
+    hideWhenEmpty?: boolean;
     grid?: IGrid;
     subGrid?: IGrid;
     domainLine?: ICartesianDomainLine;

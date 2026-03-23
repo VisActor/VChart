@@ -18,6 +18,7 @@ All axis types are based on `ICartesianAxisCommonSpec`:
 ```typescript
 type ICartesianAxisCommonSpec = ICommonAxisSpec & {
   // Core configuration
+  hideWhenEmpty?: boolean;           // Hide axis when bound series collect no axis data
   grid?: IGrid;                    // Grid line configuration
   subGrid?: IGrid;                 // Sub grid line configuration
   domainLine?: ICartesianDomainLine; // Axis line configuration
@@ -31,6 +32,21 @@ type ICartesianAxisCommonSpec = ICommonAxisSpec & {
   hasDimensionTooltip?: boolean;   // Dimension tooltip
 } & (ICartesianVertical | ICartesianHorizontal | ICartesianZ);
 ```
+
+## Runtime Visibility
+
+`hideWhenEmpty` is a cartesian-axis-only opt-in flag that works together with the existing `visible` property.
+
+```typescript
+type ICartesianAxisCommonSpec = ICommonAxisSpec & {
+  hideWhenEmpty?: boolean; // @default false
+};
+```
+
+Behavior notes:
+- If `visible` is `false`, the axis stays hidden regardless of `hideWhenEmpty`.
+- If `hideWhenEmpty` is `true`, the axis hides when its bound series do not collect any axis data.
+- When later data updates make the bound series non-empty, the axis shows again automatically.
 
 ## Orientation Configuration
 
@@ -335,6 +351,7 @@ const linearAxis: ICartesianLinearAxisSpec = {
   type: 'linear',
   min: 0,
   max: 100,
+  hideWhenEmpty: true,
   nice: true,
   grid: { visible: true },
   label: { formatMethod: text => `${text}%` },

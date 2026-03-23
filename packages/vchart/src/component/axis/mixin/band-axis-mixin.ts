@@ -32,6 +32,7 @@ export interface BandAxisMixin {
   _getNormalizedValue: (values: any[], length: number) => number;
   _onTickDataChange: (compilableData: CompilableData) => void;
   registerTicksTransform: () => string;
+  _refreshVisibilityByData: () => boolean;
 }
 
 export class BandAxisMixin {
@@ -199,6 +200,7 @@ export class BandAxisMixin {
       }
     }
     this.transformScaleDomain();
+    this._refreshVisibilityByData();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as unknown as IModel });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as unknown as IModel, value: 'domain' });
   }
