@@ -15,12 +15,13 @@ function transformHandlerText(handlerText: IColorLegendSpec['handlerText'] | ISi
   const nextHandlerText = {
     ...handlerText
   };
+  const handlerTextStyle = handlerText.style;
 
-  if (isFunction(handlerText.style)) {
+  if (isFunction(handlerTextStyle)) {
     nextHandlerText.style = (value: string | number, position: 'start' | 'end', context: HandlerTextStyleContext) =>
-      transformToGraphic(handlerText.style(value, position, context));
-  } else if (!isEmpty(handlerText.style)) {
-    nextHandlerText.style = transformToGraphic(handlerText.style);
+      transformToGraphic(handlerTextStyle(value, position, context));
+  } else if (!isEmpty(handlerTextStyle)) {
+    nextHandlerText.style = transformToGraphic(handlerTextStyle);
   }
 
   return nextHandlerText;
