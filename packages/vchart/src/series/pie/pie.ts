@@ -92,6 +92,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   protected _showAllZero: boolean;
   protected _supportNegative: boolean;
+  protected _pendingViewDataLabelUpdate: boolean = false;
 
   protected _buildMarkAttributeContext() {
     super._buildMarkAttributeContext();
@@ -323,6 +324,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
   initEvent(): void {
     super.initEvent();
     this._viewDataLabel.getDataView()?.target.addListener('change', this.viewDataLabelUpdate.bind(this));
+    this.event.on(ChartEvent.afterRender, this.flushViewDataLabelUpdate);
   }
 
   // 饼图不支持分组
@@ -335,7 +337,7 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
    * @param ctx
    */
   onLayoutEnd(): void {
-    this._viewDataLabel.getDataView().reRunAllTransform();
+    this._pendingViewDataLabelUpdate = true;
     this.onMarkPositionUpdate();
     super.onLayoutEnd();
   }
@@ -351,6 +353,14 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
     this.event.emit(ChartEvent.viewDataLabelUpdate, { model: this });
     this._viewDataLabel.updateData();
   }
+
+  private flushViewDataLabelUpdate = () => {
+    if (!this._pendingViewDataLabelUpdate) {
+      return;
+    }
+    this._pendingViewDataLabelUpdate = false;
+    this._viewDataLabel.getDataView().reRunAllTransform();
+  };
 
   protected generateRadiusStyle(spec: any) {
     if (!spec) {
