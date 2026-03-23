@@ -1,8 +1,15 @@
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
 import type { ComponentThemeWithDirection } from '../../interface';
 import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
+import type { HandlerTextStyleContext } from '@visactor/vrender-components';
 
 type Text = StringOrNumber;
+type ContinuousLegendTextStyle = Omit<NoVisibleMarkStyle<ITextMarkSpec>, 'text'>;
+type ContinuousLegendTextStyleCallback = (
+  value: Text,
+  position: 'start' | 'end',
+  context: HandlerTextStyleContext
+) => ContinuousLegendTextStyle | undefined;
 
 export type TextAttribute = {
   /** 是否展示 */
@@ -16,7 +23,7 @@ export type TextAttribute = {
   /**
    * 文本样式
    */
-  style?: Omit<NoVisibleMarkStyle<ITextMarkSpec>, 'text'>;
+  style?: ContinuousLegendTextStyle;
 };
 
 export type HandlerTextAttribute = {
@@ -35,7 +42,7 @@ export type HandlerTextAttribute = {
   /**
    * 文本样式
    */
-  style?: Omit<NoVisibleMarkStyle<ITextMarkSpec>, 'text'>;
+  style?: ContinuousLegendTextStyle | ContinuousLegendTextStyleCallback;
 };
 
 // 连续图例通用配置
