@@ -18,7 +18,7 @@ import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
+import { isArray, isNil, isValid, Logger, LoggerLevel } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import { vglobal } from '@visactor/vrender-core';
@@ -162,6 +162,38 @@ export class Compiler implements ICompiler {
     this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
   };
 
+  private _isGeoRegionRoamDragEnabled() {
+    const chartSpec = this._compileChart?.getSpec?.();
+    const regions = chartSpec?.region;
+    if (!isArray(regions)) {
+      return false;
+    }
+
+    return regions.some((region: any) => {
+      if (region?.coordinate !== 'geo' || !region.roam) {
+        return false;
+      }
+
+      if (region.roam === true) {
+        return true;
+      }
+
+      return region.roam.drag ?? true;
+    });
+  }
+
+  private _shouldDisableCanvasTouchAction() {
+    if (!isTrueBrowser(this._option.mode)) {
+      return false;
+    }
+
+    const supportsTouchEvents = isValid(this._option.supportsTouchEvents)
+      ? this._option.supportsTouchEvents
+      : vglobal.supportsTouchEvents;
+
+    return supportsTouchEvents === false && this._isGeoRegionRoamDragEnabled();
+  }
+
   private _setCanvasStyle() {
     if (!this._view) {
       return;
@@ -172,6 +204,7 @@ export class Compiler implements ICompiler {
       const canvas = this.getCanvas();
       if (canvas) {
         canvas.style.display = 'block';
+        canvas.style.touchAction = this._shouldDisableCanvasTouchAction() ? 'none' : '';
       }
     }
   }
@@ -223,6 +256,7 @@ export class Compiler implements ICompiler {
     }
 
     chart.compile();
+    this._setCanvasStyle();
     chart.afterCompile();
     this.updateDepend();
 
