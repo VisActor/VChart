@@ -188,4 +188,5 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     hasAnimationByState(state: AnimationStateValues): boolean;
     hasAnimation(): boolean;
     runAnimation(): void;
+    clearBeforeReInit(): void;
 }

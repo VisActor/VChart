@@ -27,6 +27,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     protected _emptyArcMark: IArcMark | null;
     protected _showAllZero: boolean;
     protected _supportNegative: boolean;
+    protected _pendingViewDataLabelUpdate: boolean;
     protected _buildMarkAttributeContext(): void;
     setAttrFromSpec(): void;
     initData(): void;
@@ -50,6 +51,7 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     getDimensionField(): string[];
     getMeasureField(): string[];
     private viewDataLabelUpdate;
+    private flushViewDataLabelUpdate;
     protected generateRadiusStyle(spec: any): any;
     computeCenter(datum: Datum): IPoint;
     getRadius(state?: StateValueType): number;
