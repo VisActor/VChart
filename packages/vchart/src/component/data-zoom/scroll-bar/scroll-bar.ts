@@ -16,7 +16,8 @@ import { Factory } from '../../../core/factory';
 import type { ILayoutType } from '../../../typings/layout';
 import { isClose } from '../../../util';
 import { scrollBar } from '../../../theme/builtin/common/component/scroll-bar';
-import { statePointToData } from '../util';
+import { isReverse, statePointToData } from '../util';
+import type { CartesianAxis } from '../../axis/cartesian';
 // import { SCROLLBAR_EVENT, SCROLLBAR_END_EVENT } from '@visactor/vrender-components/es/constant';
 
 // 由vrender透出, 接入新版本后需修改
@@ -59,8 +60,10 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
 
       this._start = start;
       this._end = end;
-      const startValue = statePointToData(start, this._stateScale, false);
-      const endValue = statePointToData(end, this._stateScale, false);
+      const axis = this._relatedAxisComponent as CartesianAxis<any>;
+      const reverse = isReverse(axis, this._isHorizontal);
+      const startValue = statePointToData(start, this._stateScale, reverse);
+      const endValue = statePointToData(end, this._stateScale, reverse);
       const hasChange = isFunction(this._spec.updateDataAfterChange)
         ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
         : this._handleStateChange(startValue, endValue);
