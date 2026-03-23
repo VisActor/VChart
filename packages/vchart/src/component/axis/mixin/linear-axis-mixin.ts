@@ -52,6 +52,7 @@ export interface LinearAxisMixin {
   _orient: IOrientType;
   _option: IComponentOption;
   niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
+  _refreshVisibilityByData: () => boolean;
 }
 
 export class LinearAxisMixin {
@@ -403,6 +404,7 @@ export class LinearAxisMixin {
     this._updateNiceLabelFormatter(domain);
 
     this._domainAfterSpec = this._scale.domain();
+    this._refreshVisibilityByData();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }

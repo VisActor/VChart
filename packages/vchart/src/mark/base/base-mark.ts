@@ -1087,7 +1087,11 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       return;
     }
     this._product = mark.getProduct();
+    this._product.clearStates();
     this._graphics = mark.getGraphics();
+    this._graphics.forEach(g => {
+      g.clearStates();
+    });
     this._graphicMap = (mark as any)._graphicMap;
 
     this._graphicMap.forEach(g => {
@@ -1789,6 +1793,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         this.getVisible() &&
         (!this._skipBeforeLayouted || this.getCompiler().getLayoutState() !== LayoutState.before)
       ) {
+        // A mark may lose its product when visibility toggles to false during compile.
+        // Later data/layout updates can make it visible again without triggering compile,
+        // so recreate the product lazily before rendering.
+        if (!this._product) {
+          this._initProduct();
+        }
         log(`render mark: ${this.getProductId()}, type is ${this.type}`);
         this.renderInner();
       }
@@ -2055,5 +2065,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   runAnimation() {
     this._runStateAnimation(this.getGraphics());
+  }
+
+  clearBeforeReInit() {
+    this.state.clearAllStateInfo();
+    this.uncommit();
+    this.stateStyle = {};
+    this.getGraphics().forEach(g => {
+      g.clearStates();
+    });
   }
 }

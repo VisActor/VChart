@@ -201,7 +201,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    if (this.visible) {
+    if (this._specVisible) {
       this._axisStyle = this._getAxisAttributes();
       this._gridStyle = this._getGridAttributes();
     }

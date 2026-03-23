@@ -302,7 +302,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    if (this.visible) {
+    if (this._specVisible) {
       const isX = isXAxis(this.getOrient());
       if (isX) {
         if (isUndefined(this._spec.maxHeight)) {
@@ -790,7 +790,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   protected initEvent() {
     super.initEvent();
 
-    if (this.visible) {
+    if (this._specVisible) {
       // 过程: dolayout -> getBoundsInRect: update tick attr -> forceLayout ->  updateLayoutAttr: update tick attr -> chart layout -> scale update -> mark encode
       // 问题: chart layout之后, scale发生变化, 导致tick 和 mark position 不同步
       // 解决方案: chart layout 之后重新计算tick位置
@@ -805,6 +805,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   protected _updateAxisLayout = () => {
+    if (!this._visible) {
+      this._syncComponentVisibility();
+      return;
+    }
+
     const startPoint = this.getLayoutStartPoint();
     const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
     const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
@@ -822,6 +827,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
         mergeSpec({ x: startPoint.x, y: startPoint.y }, this._getGridAttributes(), updateGridAttrs)
       );
     }
+
+    this._syncComponentVisibility();
   };
 
   protected _getNormalizedValue(values: any[], length: number) {

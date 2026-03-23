@@ -1,3 +1,4 @@
+import type { IGroup } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components';
 import type { IBandLikeScale, IBaseScale, IContinuousScale } from '@visactor/vscale';
@@ -96,9 +97,15 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
    * if axis will be shown
    */
   protected _visible: boolean = true;
+  getVisible() {
+    return this._visible;
+  }
   get visible() {
     return this._visible;
   }
+
+  protected _specVisible: boolean = true;
+  protected _hideWhenEmpty: boolean = false;
 
   /** 轴是否产生反转的真实值，在横向图表的竖轴上可能和用户在 spec 上配的值相反 */
   protected _inverse: boolean;
@@ -129,8 +136,21 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   constructor(spec: T, options: IComponentOption) {
     super(spec, options);
-    this._visible = spec.visible ?? true;
+    this._specVisible = spec.visible ?? true;
+    this._hideWhenEmpty = spec.hideWhenEmpty ?? false;
+    this._visible = this._specVisible;
     this._coordinateType = 'none';
+  }
+
+  setAttrFromSpec() {
+    super.setAttrFromSpec();
+    this._specVisible = this._spec.visible ?? true;
+    this._hideWhenEmpty = this._spec.hideWhenEmpty ?? false;
+    this._visible = this._specVisible;
+
+    if (this._scale) {
+      this._refreshVisibilityByData();
+    }
   }
 
   getVRenderComponents() {
@@ -146,10 +166,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     // scales
     this.initScales();
     this.updateSeriesScale();
+    this._refreshVisibilityByData();
     // data
     this._shouldComputeTickData() && this._initData();
 
-    if (this._visible) {
+    if (this._specVisible) {
       // 创建语法元素
       const axisMark = this._createMark(
         { type: 'component', name: `axis-${this.getOrient()}` },
@@ -190,6 +211,8 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
         this._marks.addMark(gridMark);
         this._gridMark = gridMark as IComponentMark;
       }
+
+      this._syncComponentVisibility();
 
       // Tip: 支持 spec.animationAppear.axis，并且坐标轴默认关闭动画
       if (
@@ -232,7 +255,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _shouldComputeTickData() {
     // 当轴被展示、或者强制要求计算 data 时再计算 data
-    return this.getVisible() || this._spec.forceInitTick;
+    return this._specVisible && (this.getVisible() || this._spec.forceInitTick || this._hideWhenEmpty);
   }
 
   protected _onTickDataChange = (tickData?: ICompilableData) => {
@@ -252,52 +275,53 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected collectData(depth: number, rawData?: boolean) {
     const data: { min: number; max: number; values: any[] }[] = [];
-    eachSeries(
-      this._regions,
-      s => {
-        let field = this.collectSeriesField(depth, s);
-        field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
-        if (!depth) {
-          this._dataFieldText = s.getFieldAlias(field[0]);
-        }
-
-        if (field) {
-          const viewData = s.getViewData();
-          if (rawData) {
-            field.forEach(f => {
-              data.push(
-                s.getRawDataStatisticsByField(f, !!isContinuous(this._scale.type)) as {
-                  min: number;
-                  max: number;
-                  values: any[];
-                }
-              );
-            });
-          } else if (viewData && viewData.latestData && viewData.latestData.length) {
-            const seriesData = s.getViewDataStatistics?.();
-            const userSetBreaks =
-              this.type === ComponentTypeEnum.cartesianLinearAxis && this._spec.breaks && this._spec.breaks.length;
-
-            field.forEach(f => {
-              if (seriesData?.latestData?.[f]) {
-                if (userSetBreaks) {
-                  data.push({
-                    ...seriesData.latestData[f],
-                    values: viewData.latestData.map((obj: Datum) => obj[f])
-                  });
-                } else {
-                  data.push(seriesData.latestData[f]);
-                }
-              }
-            });
+    this._regions &&
+      eachSeries(
+        this._regions,
+        s => {
+          let field = this.collectSeriesField(depth, s);
+          field = (isArray(field) ? (isContinuous(this._scale.type) ? field : [field[0]]) : [field]) as string[];
+          if (!depth) {
+            this._dataFieldText = s.getFieldAlias(field[0]);
           }
+
+          if (field) {
+            const viewData = s.getViewData();
+            if (rawData) {
+              field.forEach(f => {
+                data.push(
+                  s.getRawDataStatisticsByField(f, !!isContinuous(this._scale.type)) as {
+                    min: number;
+                    max: number;
+                    values: any[];
+                  }
+                );
+              });
+            } else if (viewData && viewData.latestData && viewData.latestData.length) {
+              const seriesData = s.getViewDataStatistics?.();
+              const userSetBreaks =
+                this.type === ComponentTypeEnum.cartesianLinearAxis && this._spec.breaks && this._spec.breaks.length;
+
+              field.forEach(f => {
+                if (seriesData?.latestData?.[f]) {
+                  if (userSetBreaks) {
+                    data.push({
+                      ...seriesData.latestData[f],
+                      values: viewData.latestData.map((obj: Datum) => obj[f])
+                    });
+                  } else {
+                    data.push(seriesData.latestData[f]);
+                  }
+                }
+              });
+            }
+          }
+        },
+        {
+          userId: this._seriesUserId,
+          specIndex: this._seriesIndex
         }
-      },
-      {
-        userId: this._seriesUserId,
-        specIndex: this._seriesIndex
-      }
-    );
+      );
     return data;
   }
 
@@ -376,6 +400,36 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected updateScaleDomain() {
     // 留给各个类型的 axis 来 override
+  }
+
+  protected _hasCollectedSeriesData() {
+    return this.collectData(0).length > 0;
+  }
+
+  protected _refreshVisibilityByData() {
+    const nextVisible = this._specVisible && (!this._hideWhenEmpty || this._hasCollectedSeriesData());
+    const changed = this._visible !== nextVisible;
+    this._visible = nextVisible;
+
+    if (this._axisMark || this._gridMark) {
+      this._syncComponentVisibility();
+    }
+
+    if (changed) {
+      this._forceLayout();
+    }
+
+    return changed;
+  }
+
+  protected _syncComponentVisibility() {
+    this._axisMark?.setVisible(this._visible);
+    this._gridMark?.setVisible(this._visible && this._spec.grid?.visible !== false);
+
+    (this._axisMark?.getComponent?.() as IGroup)?.setAttributes?.({ visibleAll: this._visible });
+    (this._gridMark?.getComponent?.() as IGroup)?.setAttributes?.({
+      visibleAll: this._visible && this._spec.grid?.visible !== false
+    });
   }
 
   protected _clearRawDomain() {
