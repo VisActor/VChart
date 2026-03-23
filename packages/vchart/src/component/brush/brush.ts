@@ -700,14 +700,29 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         const boundsStart = isHorizontal ? x1 : y1;
         const boundsEnd = isHorizontal ? x2 : y2;
 
+        const range = axis.getScale().range();
+        const rangeFactor = axis.scaleRangeFactor() ?? [0, 1];
+
+        // 判断轴是否为反向轴（last(range) < range[0])，即从右到左, 或从下到上
+        // 如果是反向轴, 计算start和end时, 也要保持 start < end
+        const isAxisReverse = last(range) < range[0];
+        const startPosTemp = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
+        const endPosTemp = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
+        const endPos = isAxisReverse ? Math.min(startPosTemp, endPosTemp) : Math.max(startPosTemp, endPosTemp);
+        const startPos = isAxisReverse ? Math.max(startPosTemp, endPosTemp) : Math.min(startPosTemp, endPosTemp);
+
+        const start =
+          ((startPos - range[0]) / (last(range) - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+        const end =
+          ((endPos - range[0]) / (last(range) - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
+        const newStart = this._stateClamp(start - axisRangeExpand);
+        const newEnd = this._stateClamp(end + axisRangeExpand);
+
         if (this._axisDataZoomMap[axis.id]) {
           const dataZoom = this._axisDataZoomMap[axis.id];
-          const startPercent =
-            (boundsStart - region.getLayoutStartPoint()[regionStartAttr]) / region.getLayoutRect()[regionSizeAttr];
-          const endPercent =
-            (boundsEnd - region.getLayoutStartPoint()[regionStartAttr]) / region.getLayoutRect()[regionSizeAttr];
-          const newStartPercent = this._stateClamp(startPercent - axisRangeExpand);
-          const newEndPercent = this._stateClamp(endPercent + axisRangeExpand);
+
+          const newStartPercent = isAxisReverse ? 1 - newStart : newStart;
+          const newEndPercent = isAxisReverse ? 1 - newEnd : newEnd;
           dataZoom.setStartAndEnd(Math.min(newStartPercent, newEndPercent), Math.max(newStartPercent, newEndPercent), [
             'percent',
             'percent'
@@ -729,23 +744,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             )
           });
         } else {
-          const range = axis.getScale().range();
-          const rangeFactor = axis.scaleRangeFactor() ?? [0, 1];
-
-          // 判断轴是否为反向轴（last(range) < range[0])，即从右到左, 或从下到上
-          // 如果是反向轴, 计算start和end时, 也要保持 start < end
-          const isAxisReverse = last(range) < range[0];
-          const startPosTemp = boundsStart - region.getLayoutStartPoint()[regionStartAttr];
-          const endPosTemp = boundsEnd - region.getLayoutStartPoint()[regionStartAttr];
-          const endPos = isAxisReverse ? Math.min(startPosTemp, endPosTemp) : Math.max(startPosTemp, endPosTemp);
-          const startPos = isAxisReverse ? Math.max(startPosTemp, endPosTemp) : Math.min(startPosTemp, endPosTemp);
-
-          const start =
-            ((startPos - range[0]) / (last(range) - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
-          const end =
-            ((endPos - range[0]) / (last(range) - range[0])) * (rangeFactor[1] - rangeFactor[0]) + rangeFactor[0];
-          const newStart = this._stateClamp(start - axisRangeExpand);
-          const newEnd = this._stateClamp(end + axisRangeExpand);
           axis.scaleRangeFactor([newStart, newEnd]);
           axis.effect.scaleUpdate();
 
