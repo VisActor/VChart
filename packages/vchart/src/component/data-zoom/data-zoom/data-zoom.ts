@@ -108,6 +108,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _handleDataCollectionChange() {
     const data = this._data.getDataView();
     data.reRunAllTransform();
+    // 数据更新后，重新计算scale的domain和range，保证datazoom组件的预览图和数据保持一致
+    this._initAfterLayout();
 
     const domain = this._computeDomainOfValueScale();
 
@@ -117,6 +119,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       }
       this._valueScale.domain(domain);
       this._updateValueScaleRange();
+
       if (this._component) {
         this._createOrUpdateComponent(true);
       }
@@ -453,10 +456,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   protected _createOrUpdateComponent(changeData?: boolean) {
     if (this._visible) {
-      const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
-      const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
-      const isNeedPreview =
-        this._isScaleValid(xScale) && this._isScaleValid(yScale) && this._spec.showBackgroundChart !== false;
+      const isNeedPreview = this._spec.showBackgroundChart !== false;
       const attrs = this._getAttrs(isNeedPreview);
 
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
