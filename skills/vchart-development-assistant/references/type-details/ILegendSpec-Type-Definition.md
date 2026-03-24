@@ -298,7 +298,14 @@ interface ILegendSpec {
     precision?: number;
     formatter?: (text: string | number) => string | number;
     space?: number;
-    style?: ITextMarkSpec;
+    style?: ITextMarkSpec | ((value: string | number, position: 'start' | 'end', context: {
+      layout?: 'horizontal' | 'vertical' | string;
+      align?: 'top' | 'bottom' | 'left' | 'right';
+      railWidth: number;
+      railHeight: number;
+      handlerSize?: number;
+      slidable?: boolean;
+    }) => ITextMarkSpec | undefined);
   };
   
   // Size legend specific
@@ -404,7 +411,11 @@ const sizeLegend: ILegendSpec = {
   handlerText: {
     visible: true,
     precision: 0,
-    formatter: (value) => `${value}K`
+    formatter: (value) => `${value}K`,
+    style: (value, position) => ({
+      dx: position === 'start' ? -6 : 6,
+      fill: Number(value) > 50 ? '#d03050' : '#666'
+    })
   }
 };
 ```

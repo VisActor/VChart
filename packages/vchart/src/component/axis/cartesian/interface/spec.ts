@@ -66,6 +66,13 @@ export type ICartesianZ = {
 
 export type ICartesianAxisCommonSpec = ICommonAxisSpec & {
   /**
+   * 当轴关联的系列没有收集到任何轴数据时，是否自动隐藏该轴。
+   * 仅在 `visible !== false` 时生效。
+   * @default false
+   * @since 2.0.20
+   */
+  hideWhenEmpty?: boolean;
+  /**
    * 网格线配置
    */
   grid?: IGrid;

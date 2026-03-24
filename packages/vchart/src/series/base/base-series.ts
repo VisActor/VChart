@@ -111,7 +111,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   declare getSpecInfo: () => ISeriesSpecInfo;
 
-  protected declare _option: ISeriesOption;
+  declare protected _option: ISeriesOption;
 
   // 坐标系信息
   readonly coordinate: CoordinateType = 'none';
@@ -240,7 +240,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
   protected _dataSet: DataSet;
 
-  protected declare _tooltipHelper: ISeriesTooltipHelper | undefined;
+  declare protected _tooltipHelper: ISeriesTooltipHelper | undefined;
   get tooltipHelper() {
     if (!this._tooltipHelper) {
       this.initTooltip();
@@ -842,8 +842,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
-      ? ['empty']
-      : ['empty', finalSelectSpec.trigger];
+        ? ['empty']
+        : ['empty', finalSelectSpec.trigger];
     return {
       type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT as string,
       trigger: finalSelectSpec.trigger as GraphicEventType,
@@ -1109,6 +1109,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const marks = this.getMarksWithoutRoot();
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
     marks.forEach(mark => {
+      mark.clearBeforeReInit();
       (this._spec as any)[mark.name] && this.initMarkStyleWithSpec(mark, (this._spec as any)[mark.name]);
     });
     this.initMarkStyle();
@@ -1281,7 +1282,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       attributeContext: this._markAttributeContext,
       componentType: option.componentType,
       noSeparateStyle,
-      parent: parent !== false ? parent ?? this._rootMark : null
+      parent: parent !== false ? (parent ?? this._rootMark) : null
     });
 
     if (isValid(m)) {
