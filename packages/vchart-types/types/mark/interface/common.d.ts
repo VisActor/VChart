@@ -99,6 +99,7 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
     needClear?: boolean;
     disableAnimationByState: (state: string | string[]) => void;
     enableAnimationByState: (state: string | string[]) => void;
+    clearBeforeReInit: () => void;
 }
 export type IMark = IMarkRaw<ICommonSpec>;
 export interface ICompileMarkConfig extends IMarkConfig {
