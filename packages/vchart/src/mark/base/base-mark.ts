@@ -1087,6 +1087,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       return;
     }
     this._product = mark.getProduct();
+    if (!this._product) {
+      return;
+    }
     this._product.clearStates();
     this._graphics = mark.getGraphics();
     this._graphics.forEach(g => {
