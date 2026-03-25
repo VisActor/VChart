@@ -81468,7 +81468,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         },
         "size": {
@@ -81476,14 +81476,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12595",
+        "__@toStringTag@12608",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         },
         "size": {
@@ -81491,14 +81491,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12595",
+        "__@toStringTag@12608",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         },
         "size": {
@@ -81506,14 +81506,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12595",
+        "__@toStringTag@12608",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         },
         "size": {
@@ -81521,14 +81521,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12595",
+        "__@toStringTag@12608",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         },
         "size": {
@@ -81536,14 +81536,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12595",
+        "__@toStringTag@12608",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         },
         "size": {
@@ -81551,14 +81551,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12595",
+        "__@toStringTag@12608",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         },
         "size": {
@@ -81566,7 +81566,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12595",
+        "__@toStringTag@12608",
         "size"
       ],
       "type": "object"
@@ -82831,6 +82831,12 @@
         "height": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局大小：高度"
+        },
+        "hideWhenEmpty": {
+          "default": false,
+          "description": "当轴关联的系列没有收集到任何轴数据时，是否自动隐藏该轴。\n仅在 `visible !== false` 时生效。",
+          "since": "2.0.20",
+          "type": "boolean"
         },
         "hover": {
           "default": false,
@@ -103269,34 +103275,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12595"
+        "__@toStringTag@12608"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12595"
+        "__@toStringTag@12608"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12595": {
+        "__@toStringTag@12608": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12595"
+        "__@toStringTag@12608"
       ],
       "type": "object"
     },
@@ -117443,6 +117449,7 @@
         },
         "interactInvertType": {
           "enum": [
+            "background",
             "inside",
             "none",
             "stroked"

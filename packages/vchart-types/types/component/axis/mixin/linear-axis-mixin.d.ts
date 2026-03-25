@@ -42,6 +42,7 @@ export interface LinearAxisMixin {
     _orient: IOrientType;
     _option: IComponentOption;
     niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
+    _refreshVisibilityByData: () => boolean;
 }
 export declare class LinearAxisMixin {
     protected _extend: {
