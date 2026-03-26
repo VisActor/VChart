@@ -1,10 +1,31 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type { IColorLegendSpec, ISizeLegendSpec } from './interface';
+import type { HandlerTextStyleContext } from '@visactor/vrender-components';
 import { ColorContinuousLegend, SizeContinuousLegend } from '@visactor/vrender-components';
-import { isEmpty, isValid } from '@visactor/vutils';
+import { isEmpty, isFunction, isValid } from '@visactor/vutils';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
+
+function transformHandlerText(handlerText: IColorLegendSpec['handlerText'] | ISizeLegendSpec['handlerText']) {
+  if (!handlerText) {
+    return handlerText;
+  }
+
+  const nextHandlerText = {
+    ...handlerText
+  };
+  const handlerTextStyle = handlerText.style;
+
+  if (isFunction(handlerTextStyle)) {
+    nextHandlerText.style = (value: string | number, position: 'start' | 'end', context: HandlerTextStyleContext) =>
+      transformToGraphic(handlerTextStyle(value, position, context));
+  } else if (!isEmpty(handlerTextStyle)) {
+    nextHandlerText.style = transformToGraphic(handlerTextStyle);
+  }
+
+  return nextHandlerText;
+}
 
 // 获取连续图例组件属性
 export function getContinuousLegendAttributes(spec: IColorLegendSpec | ISizeLegendSpec) {
@@ -68,7 +89,7 @@ export function getContinuousLegendAttributes(spec: IColorLegendSpec | ISizeLege
 
   attrs.startText = transformComponentStyle(startText);
   attrs.endText = transformComponentStyle(endText);
-  attrs.handlerText = transformComponentStyle(handlerText);
+  attrs.handlerText = transformHandlerText(handlerText);
 
   if (!isEmpty(sizeBackground)) {
     attrs.sizeBackground = transformToGraphic(sizeBackground);

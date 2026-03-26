@@ -76,4 +76,48 @@ describe('ScrollBar', () => {
     expect(attrs.range[0]).toBeCloseTo(0.98);
     expect(attrs.range[1]).toBeCloseTo(1);
   });
+
+  it('should map reversed vertical axis state to top-first domain values', () => {
+    const spec: any = {
+      orient: 'right'
+    };
+
+    scrollBar = new ScrollBar(spec, option);
+
+    const handleStateChange = jest.fn().mockReturnValue(true);
+    const emit = jest.fn();
+
+    (scrollBar as any)._handleStateChange = handleStateChange;
+    (scrollBar as any)._stateScale = {
+      type: 'band',
+      range: () => [100, 0],
+      domain: () => ['A', 'B', 'C', 'D'],
+      invert: (value: number) => {
+        if (value < 25) {
+          return 'A';
+        }
+        if (value < 50) {
+          return 'B';
+        }
+        if (value < 75) {
+          return 'C';
+        }
+        return 'D';
+      }
+    };
+    (scrollBar as any)._relatedAxisComponent = {
+      getScale: () => ({
+        range: () => [100, 0]
+      }),
+      getInverse: () => false
+    };
+    (scrollBar as any).event = { emit };
+    (scrollBar as any)._start = 0;
+    (scrollBar as any)._end = 1;
+
+    (scrollBar as any)._handleChange(0, 0.5);
+
+    expect(handleStateChange).toHaveBeenCalledWith('A', 'C');
+    expect(emit).toHaveBeenCalled();
+  });
 });

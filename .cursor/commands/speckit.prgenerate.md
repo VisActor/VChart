@@ -1,5 +1,5 @@
 ---
-description: 'Generate a PR body using the GitHub pull request template and specs/<spec-id>/plan.md; default to the English template and write to specs/<spec-id>/PR_BODY.md.'
+description: 'Generate a PR body using the GitHub pull request template and specs/<spec-id>/plan.md; default to the English template and write to .trae/output/pr.body.local.md.'
 handoffs:
   - label: 'Create Pull Request'
     agent: 'speckit.prcreate'
@@ -22,7 +22,7 @@ You **MUST** consider the user input before proceeding (if not empty), but treat
     - Parse `$ARGUMENTS` only for CLI-style options (for example, `--lang`, `--out`):
       - If `--lang zh` is present, use the Chinese template at `.github/PULL_REQUEST_TEMPLATE/pr_cn.md`.
       - Otherwise, use the English template at `.github/PULL_REQUEST_TEMPLATE.md` (the default; **do not** auto-detect language).
-      - If an explicit output path is provided (for example, `--out specs/001-foo/PR_BODY.md`), respect it; otherwise, default to `specs/<spec-id>/PR_BODY.md`.
+      - If an explicit output path is provided (for example, `--out specs/001-foo/PR_BODY.md`), respect it; otherwise, default to `.trae/output/pr.body.local.md`.
     - Resolve `specs/<spec-id>/` by deriving the numeric prefix from the current branch name and matching it to a directory under `specs/` whose name starts with that prefix.
     - From that directory, resolve `plan.md` as the primary context source for the PR.
 
@@ -61,7 +61,7 @@ You **MUST** consider the user input before proceeding (if not empty), but treat
 
 6.  **Write PR body file without touching templates**:
     - Render the updated markdown content (with checklist, background, and Changelog injected) into a single PR body string.
-    - Write this string to the resolved output path (default `specs/<spec-id>/PR_BODY.md`), creating parent directories if needed.
+    - Write this string to the resolved output path (default `.trae/output/pr.body.local.md`), creating parent directories if needed.
     - Do **not** modify the original template files under `.github/`.
 
 7.  **Validation checklist**:

@@ -34,6 +34,7 @@ export interface BandAxisMixin {
     _getNormalizedValue: (values: any[], length: number) => number;
     _onTickDataChange: (compilableData: CompilableData) => void;
     registerTicksTransform: () => string;
+    _refreshVisibilityByData: () => boolean;
 }
 export declare class BandAxisMixin {
     private _tickDataMap;

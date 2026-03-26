@@ -32,6 +32,7 @@ export interface IMarkStateManager {
     addStateInfo: (stateInfo: IStateInfo) => void;
     changeStateInfo: (stateInfo: Partial<IStateInfo>) => void;
     clearStateInfo: (stateValues: StateValue[]) => void;
+    clearAllStateInfo: () => void;
     checkOneState: (renderNode: IMarkGraphic, datum: Datum[], state: IStateInfo) => 'in' | 'out' | 'skip';
     checkState: (renderNode: IMarkGraphic, datum: Datum[]) => StateValue[];
     getStateMap: () => StateValueMap;
