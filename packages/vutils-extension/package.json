@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vutils-extension",
-  "version": "2.0.19",
+  "version": "2.0.20",
   "description": "The extension module for VUtil from VisActor",
   "sideEffects": false,
   "main": "cjs/index.js",
