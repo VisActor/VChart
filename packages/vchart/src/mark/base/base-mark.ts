@@ -257,13 +257,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _stateSort?: (stateA: string, stateB: string) => number;
 
-  protected declare _product: Maybe<IGroup>;
+  declare protected _product: Maybe<IGroup>;
   getProduct() {
     return this._product;
   }
 
   // 保存上一次的mark，用于morph的时候获取上次的图元
-  protected declare _lastMark?: IMark;
+  declare protected _lastMark?: IMark;
 
   /** 初始化 mark data */
   protected initMarkData(option: ICompilableInitOption) {
@@ -526,7 +526,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this._simpleStyle;
   }
 
-  protected declare _option: IMarkOption;
+  declare protected _option: IMarkOption;
 
   protected _attributeContext: IModelMarkAttributeContext;
 
@@ -1155,8 +1155,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._keyGetter = isFunction(this.key)
       ? (this.key as (datum: Datum) => string)
       : isValid(this.key)
-      ? (datum: Datum) => datum?.[this.key as string]
-      : (datum: Datum) => datum?.[DEFAULT_DATA_KEY];
+        ? (datum: Datum) => datum?.[this.key as string]
+        : (datum: Datum) => datum?.[DEFAULT_DATA_KEY];
     this._groupKeyGetter = isValid(this._groupKey)
       ? (datum: Datum) => {
           return `${datum?.[this._groupKey]}`;
@@ -1171,8 +1171,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     const animationState = graphicsAnimationStates.every(state => state === AnimationStateEnum.appear)
       ? AnimationStateEnum.appear
       : graphicsAnimationStates.every(state => state === AnimationStateEnum.disappear)
-      ? AnimationStateEnum.disappear
-      : graphicsAnimationStates[0];
+        ? AnimationStateEnum.disappear
+        : graphicsAnimationStates[0];
     return animationState ?? AnimationStateEnum.none;
   }
 
@@ -1193,7 +1193,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       ? {
           ...config,
           // 循环动画的优先级定为最高，不会被屏蔽掉
-          priority: type === 'normal' ? config.priority ?? Infinity : config.priority
+          priority: type === 'normal' ? (config.priority ?? Infinity) : config.priority
         }
       : config;
   }
@@ -1318,8 +1318,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         return diffState === AnimationStateEnum.exit
           ? AnimationStateEnum.exit
           : diffState === AnimationStateEnum.update
-          ? AnimationStateEnum.update
-          : AnimationStateEnum.appear;
+            ? AnimationStateEnum.update
+            : AnimationStateEnum.appear;
       });
     const customizedState = callback(g);
 
