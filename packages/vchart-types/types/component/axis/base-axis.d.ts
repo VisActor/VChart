@@ -1,3 +1,4 @@
+import type { IGroup } from '@visactor/vrender-core';
 import type { ITickDataOpt } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGraphic } from '@visactor/vrender-core';
@@ -28,7 +29,10 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _regionUserId?: StringOrNumber[];
     protected _regionIndex?: number[];
     protected _visible: boolean;
+    getVisible(): boolean;
     get visible(): boolean;
+    protected _specVisible: boolean;
+    protected _hideWhenEmpty: boolean;
     protected _inverse: boolean;
     getInverse(): boolean;
     protected _tick: ITick | undefined;
@@ -51,7 +55,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected _coordinateType: CoordinateType;
     getCoordinateType(): CoordinateType;
     constructor(spec: T, options: IComponentOption);
-    getVRenderComponents(): import("@visactor/vrender-core").IGroup[];
+    setAttrFromSpec(): void;
+    getVRenderComponents(): IGroup[];
     created(): void;
     protected _shouldComputeTickData(): boolean;
     protected _onTickDataChange: (tickData?: ICompilableData) => void;
@@ -69,6 +74,9 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     };
     protected initEvent(): void;
     protected updateScaleDomain(): void;
+    protected _hasCollectedSeriesData(): boolean;
+    protected _refreshVisibilityByData(): boolean;
+    protected _syncComponentVisibility(): void;
     protected _clearRawDomain(): void;
     onLayoutEnd(): void;
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;

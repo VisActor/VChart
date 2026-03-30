@@ -1,6 +1,22 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 06 Mar 2026 11:34:27 GMT and should not be manually modified.
+This log was last generated on Thu, 26 Mar 2026 08:32:46 GMT and should not be manually modified.
+
+## 2.0.19
+Thu, 26 Mar 2026 08:32:46 GMT
+
+### Updates
+
+- update changes for 008-fix-size-legend-handler-text: Allow size legend handlerText.style to accept function-based values in the same way other legend style hooks already do, and add regression coverage proving the style callback is preserved through continuous legend attribute transformation.
+- update changes for 009-fix-heatmap-scrollbar-axis-direction: Align ScrollBar with DataZoom by using the shared reverse-axis detection when converting scrollbar state percentages back into domain values.
+- update changes for 009-fix-issue-of-mark-state-when-updateSpec: Fix an issue where mark states were not properly cleared when updateSpec was called, causing incorrect state persistence.
+- update changes for 010-hide-empty-axes: Add an opt-in hideWhenEmpty axis option for cartesian axes.
+- fix: fix theme config of spec and option
+
+
+- update changes for 009-fix-issue-of-mark-state-when-updateSpec: Fix an issue where mark states were not properly cleared when updateSpec was called, causing incorrect state persistence.
+- fix: datazoom update domain after data change. fix#4186
+- chore: upgrade vutils, vdataset, vscale, vlayouts to ~1.0.23
 
 ## 2.0.18
 Fri, 06 Mar 2026 11:34:27 GMT
