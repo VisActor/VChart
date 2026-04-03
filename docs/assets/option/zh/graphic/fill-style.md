@@ -86,6 +86,20 @@ const spec = {
 - `'repeat-x'`: 水平方向平铺
 - `'repeat-y'`: 垂直方向平铺
 - `'no-repeat'`: 不平铺
+- `'no-repeat-cover'`: 自 `2.0.21` 版本开始支持，不平铺，等比缩放并覆盖整个图元区域
+- `'no-repeat-contain'`: 自 `2.0.21` 版本开始支持，不平铺，等比缩放并完整包含在图元区域内
+- `'no-repeat-fill'`: 自 `2.0.21` 版本开始支持，不平铺，拉伸填满图元区域
+- `'no-repeat-auto'`: 自 `2.0.21` 版本开始支持，不平铺，按图片原始尺寸绘制
+
+#${prefix} backgroundPosition(string|Array<string | number>)
+
+自 `2.0.21` 版本开始支持。背景图锚定位置，语义类似 CSS `background-position`，仅在图片背景且最终为 `no-repeat` 时生效。
+
+支持以下写法：
+
+- 单关键字：`'left'`、`'center'`、`'right'`、`'top'`、`'bottom'`
+- 预设位置：`'top-left'`、`'top-center'`、`'top-right'`、`'center-left'`、`'center'`、`'center-right'`、`'bottom-left'`、`'bottom-center'`、`'bottom-right'`
+- 元组：`[x, y]`，其中 `x` / `y` 支持数值、关键字或百分比字符串，例如 `['25%', '75%']`
 
 #${prefix} backgroundFit(boolean)
 

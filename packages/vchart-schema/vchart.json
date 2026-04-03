@@ -321,6 +321,161 @@
       ],
       "type": "string"
     },
+    "BackgroundMode": {
+      "enum": [
+        "no-repeat",
+        "no-repeat-auto",
+        "no-repeat-contain",
+        "no-repeat-cover",
+        "no-repeat-fill",
+        "repeat",
+        "repeat-x",
+        "repeat-y"
+      ],
+      "type": "string"
+    },
+    "BackgroundMode_1": {
+      "enum": [
+        "no-repeat",
+        "no-repeat-auto",
+        "no-repeat-contain",
+        "no-repeat-cover",
+        "no-repeat-fill",
+        "repeat",
+        "repeat-x",
+        "repeat-y"
+      ],
+      "type": "string"
+    },
+    "BackgroundPosition": {
+      "anyOf": [
+        {
+          "items": [
+            {
+              "$ref": "#/definitions/BackgroundPositionValue"
+            },
+            {
+              "$ref": "#/definitions/BackgroundPositionValue"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "enum": [
+            "bottom",
+            "bottom-center",
+            "bottom-left",
+            "bottom-right",
+            "center",
+            "center-left",
+            "center-right",
+            "left",
+            "right",
+            "top",
+            "top-center",
+            "top-left",
+            "top-right"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "BackgroundPositionValue": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "enum": [
+            "bottom",
+            "center",
+            "left",
+            "right",
+            "top"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "BackgroundPositionValue_1": {
+      "anyOf": [
+        {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        {
+          "enum": [
+            "bottom",
+            "center",
+            "left",
+            "right",
+            "top"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "number"
+        }
+      ]
+    },
+    "BackgroundPosition_1": {
+      "anyOf": [
+        {
+          "items": [
+            {
+              "$ref": "#/definitions/BackgroundPositionValue_1"
+            },
+            {
+              "$ref": "#/definitions/BackgroundPositionValue_1"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "enum": [
+            "bottom",
+            "bottom-center",
+            "bottom-left",
+            "bottom-right",
+            "center",
+            "center-left",
+            "center-right",
+            "left",
+            "right",
+            "top",
+            "top-center",
+            "top-left",
+            "top-right"
+          ],
+          "type": "string"
+        }
+      ],
+      "description": "类似 CSS `background-position` 的定位写法。",
+      "since": "2.0.21"
+    },
+    "BackgroundSizing": {
+      "description": "非平铺背景图/图片的尺寸模式。",
+      "enum": [
+        "auto",
+        "contain",
+        "cover",
+        "fill"
+      ],
+      "since": "2.0.21",
+      "type": "string"
+    },
     "BarProp": {
       "properties": {
         "visible": {
@@ -970,8 +1125,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -984,6 +1139,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1208,8 +1368,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1222,6 +1382,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1446,8 +1611,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1460,6 +1625,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1680,8 +1850,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1694,6 +1864,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1894,8 +2069,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -1908,6 +2083,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2547,8 +2727,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2561,6 +2741,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2757,8 +2942,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2771,6 +2956,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2967,8 +3157,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -2981,6 +3171,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3022,6 +3217,31 @@
         "image": {
           "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>",
           "description": "设置图片的内容，支持三种类型：\n1. string类型，可以是图片资源的路径或者是svg 标签字符串\n2. image 元素\n3. canvas 元素"
+        },
+        "imageMode": {
+          "$ref": "#/definitions/VisualType<BackgroundSizing>",
+          "description": "图片绘制模式。\n仅在 `repeatX` 和 `repeatY` 最终都为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "imageOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图片 x 方向偏移，仅在不重复平铺时生效。",
+          "since": "2.0.21"
+        },
+        "imageOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图片 y 方向偏移，仅在不重复平铺时生效。",
+          "since": "2.0.21"
+        },
+        "imagePosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "图片锚定位置，语义与 `backgroundPosition` 一致。",
+          "since": "2.0.21"
+        },
+        "imageScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图片额外缩放比例，仅在不重复平铺时生效。",
+          "since": "2.0.21"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -3185,8 +3405,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3199,6 +3419,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3240,6 +3465,31 @@
         "image": {
           "$ref": "#/definitions/VisualType<string|HTMLCanvasElement|HTMLImageElement>",
           "description": "设置图片的内容，支持三种类型：\n1. string类型，可以是图片资源的路径或者是svg 标签字符串\n2. image 元素\n3. canvas 元素"
+        },
+        "imageMode": {
+          "$ref": "#/definitions/VisualType<BackgroundSizing>",
+          "description": "图片绘制模式。\n仅在 `repeatX` 和 `repeatY` 最终都为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "imageOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图片 x 方向偏移，仅在不重复平铺时生效。",
+          "since": "2.0.21"
+        },
+        "imageOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图片 y 方向偏移，仅在不重复平铺时生效。",
+          "since": "2.0.21"
+        },
+        "imagePosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "图片锚定位置，语义与 `backgroundPosition` 一致。",
+          "since": "2.0.21"
+        },
+        "imageScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图片额外缩放比例，仅在不重复平铺时生效。",
+          "since": "2.0.21"
         },
         "innerBorder": {
           "$ref": "#/definitions/VisualType<IBorder>",
@@ -3403,8 +3653,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3417,6 +3667,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3621,8 +3876,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3635,6 +3890,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3843,8 +4103,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -3857,6 +4117,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4092,8 +4357,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4106,6 +4371,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4337,8 +4607,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4351,6 +4621,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4538,8 +4813,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4552,6 +4827,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4739,8 +5019,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4753,6 +5033,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4941,8 +5226,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -4955,6 +5240,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5143,8 +5433,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5157,6 +5447,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5357,8 +5652,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5371,6 +5666,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5571,8 +5871,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5585,6 +5885,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5788,8 +6093,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -5802,6 +6107,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -6332,8 +6642,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -6346,6 +6656,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -6558,8 +6873,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -6572,6 +6887,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -6902,8 +7222,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -6916,6 +7236,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7116,8 +7441,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7130,6 +7455,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7330,8 +7660,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7344,6 +7674,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7619,8 +7954,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7633,6 +7968,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7908,8 +8248,8 @@
           "description": "是否保持背景图的宽高比"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">",
-          "description": "背景填充模式（与具体图元有关）"
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "$ref": "#/definitions/VisualType<number>",
@@ -7922,6 +8262,11 @@
         "backgroundOpacity": {
           "$ref": "#/definitions/VisualType<number>",
           "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "$ref": "#/definitions/VisualType<number>",
@@ -19459,14 +19804,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -19479,6 +19818,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -20961,14 +21305,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -20981,6 +21319,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -28716,22 +29059,6 @@
       ],
       "type": "string"
     },
-    "IColor": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ILinearGradient"
-        },
-        {
-          "$ref": "#/definitions/IRadialGradient"
-        },
-        {
-          "$ref": "#/definitions/IConicalGradient"
-        },
-        {
-          "type": "string"
-        }
-      ]
-    },
     "IColorKey": {
       "description": "语义化色值的色值索引",
       "properties": {
@@ -33671,13 +33998,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -33687,6 +34008,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -47475,14 +47799,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -47495,6 +47813,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -56058,14 +56381,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -56078,6 +56395,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -58210,14 +58532,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -58230,6 +58546,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -58611,13 +58932,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -58627,6 +58942,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -63585,14 +63903,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -63605,6 +63917,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -64042,6 +64359,12 @@
         "clear": {
           "anyOf": [
             {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
               "$ref": "#/definitions/ILinearGradient"
             },
             {
@@ -64049,6 +64372,12 @@
             },
             {
               "$ref": "#/definitions/IConicalGradient"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
             },
             {
               "type": [
@@ -64112,7 +64441,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -65226,14 +65555,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -65246,6 +65569,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -70076,7 +70404,32 @@
           "type": "boolean"
         },
         "background": {
-          "$ref": "#/definitions/IColor"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "camera": {
           "$ref": "#/definitions/ICamera"
@@ -72305,14 +72658,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -72325,6 +72672,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -72669,14 +73021,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -72689,6 +73035,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -76305,51 +76656,6 @@
       ],
       "type": "object"
     },
-    "IVisualSpecStyle<unknown,\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">": {
-      "properties": {
-        "clamp": {
-          "default": false,
-          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
-          "since": "1.13.6",
-          "type": "boolean"
-        },
-        "domain": {
-          "description": "will set to scale.domain, it means input of scale",
-          "items": {},
-          "type": "array"
-        },
-        "field": {
-          "description": "指定映射对应的数据字段",
-          "type": "string"
-        },
-        "range": {
-          "description": "will set to scale.range, it means output of scale",
-          "items": {
-            "enum": [
-              "no-repeat",
-              "repeat",
-              "repeat-x",
-              "repeat-y"
-            ],
-            "type": "string"
-          },
-          "type": "array"
-        },
-        "specified": {
-          "typeof": "function"
-        },
-        "type": {
-          "$ref": "#/definitions/ScaleType",
-          "description": "type of scale"
-        }
-      },
-      "required": [
-        "domain",
-        "range",
-        "type"
-      ],
-      "type": "object"
-    },
     "IVisualSpecStyle<unknown,\"normal\"|\"no-wrap\">": {
       "properties": {
         "clamp": {
@@ -76658,6 +76964,123 @@
           "description": "will set to scale.range, it means output of scale",
           "items": {
             "typeof": "function"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,BackgroundMode>": {
+      "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/BackgroundMode_1"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,BackgroundPosition>": {
+      "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/BackgroundPosition_1"
+          },
+          "type": "array"
+        },
+        "specified": {
+          "typeof": "function"
+        },
+        "type": {
+          "$ref": "#/definitions/ScaleType",
+          "description": "type of scale"
+        }
+      },
+      "required": [
+        "domain",
+        "range",
+        "type"
+      ],
+      "type": "object"
+    },
+    "IVisualSpecStyle<unknown,BackgroundSizing>": {
+      "properties": {
+        "clamp": {
+          "default": false,
+          "description": "enable clamp in linear scale\nIf clamp is enabled, the return value of the scale is always within the scale’s range.",
+          "since": "1.13.6",
+          "type": "boolean"
+        },
+        "domain": {
+          "description": "will set to scale.domain, it means input of scale",
+          "items": {},
+          "type": "array"
+        },
+        "field": {
+          "description": "指定映射对应的数据字段",
+          "type": "string"
+        },
+        "range": {
+          "description": "will set to scale.range, it means output of scale",
+          "items": {
+            "$ref": "#/definitions/BackgroundSizing"
           },
           "type": "array"
         },
@@ -81355,6 +81778,15 @@
       ],
       "type": "object"
     },
+    "ImageMode": {
+      "enum": [
+        "auto",
+        "contain",
+        "cover",
+        "fill"
+      ],
+      "type": "string"
+    },
     "InterpolateType": {
       "enum": [
         "basis",
@@ -81468,7 +81900,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         },
         "size": {
@@ -81476,14 +81908,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12608",
+        "__@toStringTag@12647",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         },
         "size": {
@@ -81491,14 +81923,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12608",
+        "__@toStringTag@12647",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         },
         "size": {
@@ -81506,14 +81938,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12608",
+        "__@toStringTag@12647",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         },
         "size": {
@@ -81521,14 +81953,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12608",
+        "__@toStringTag@12647",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         },
         "size": {
@@ -81536,14 +81968,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12608",
+        "__@toStringTag@12647",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         },
         "size": {
@@ -81551,14 +81983,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12608",
+        "__@toStringTag@12647",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         },
         "size": {
@@ -81566,7 +81998,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12608",
+        "__@toStringTag@12647",
         "size"
       ],
       "type": "object"
@@ -82166,13 +82598,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -82182,6 +82608,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -84402,13 +84831,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -84418,6 +84841,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -86144,13 +86570,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -86160,6 +86580,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -86796,13 +87219,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -86812,6 +87229,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -87798,13 +88218,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -87814,6 +88228,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -88377,13 +88794,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -88393,6 +88804,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -88996,13 +89410,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -89012,6 +89420,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -89443,7 +89854,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -89579,13 +89990,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -89595,6 +90000,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -90228,13 +90636,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -90244,6 +90646,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -90773,13 +91178,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -90789,6 +91188,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -91408,13 +91810,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -91424,6 +91820,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -91906,6 +92305,21 @@
             }
           ]
         },
+        "imageMode": {
+          "$ref": "#/definitions/ImageMode"
+        },
+        "imageOffsetX": {
+          "type": "number"
+        },
+        "imageOffsetY": {
+          "type": "number"
+        },
+        "imagePosition": {
+          "$ref": "#/definitions/BackgroundPosition"
+        },
+        "imageScale": {
+          "type": "number"
+        },
         "maxHeight": {
           "type": "number"
         },
@@ -92060,13 +92474,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -92076,6 +92484,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -92246,6 +92657,21 @@
               "type": "string"
             }
           ]
+        },
+        "imageMode": {
+          "$ref": "#/definitions/ImageMode"
+        },
+        "imageOffsetX": {
+          "type": "number"
+        },
+        "imageOffsetY": {
+          "type": "number"
+        },
+        "imagePosition": {
+          "$ref": "#/definitions/BackgroundPosition"
+        },
+        "imageScale": {
+          "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -92823,13 +93249,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -92839,6 +93259,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -94221,13 +94644,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -94237,6 +94654,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -94750,13 +95170,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -94766,6 +95180,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -95237,14 +95654,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -95257,6 +95668,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -95640,13 +96056,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -95656,6 +96066,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -96140,14 +96553,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -96160,6 +96567,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -96501,7 +96913,32 @@
           "type": "boolean"
         },
         "background": {
-          "$ref": "#/definitions/IColor"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "$ref": "#/definitions/ILinearGradient"
+            },
+            {
+              "$ref": "#/definitions/IRadialGradient"
+            },
+            {
+              "$ref": "#/definitions/IConicalGradient"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "typeof": "function"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "beforeRender": {
           "typeof": "function"
@@ -96741,13 +97178,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -96757,6 +97188,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -97297,13 +97731,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -97313,6 +97741,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -97836,13 +98267,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -97852,6 +98277,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -98437,14 +98865,8 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "description": "背景填充模式（与具体图元有关）",
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode_1",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
           "description": "背景图偏移，只在no-repeat的时候生效",
@@ -98457,6 +98879,11 @@
         "backgroundOpacity": {
           "description": "背景透明度",
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition_1",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
         },
         "backgroundScale": {
           "description": "背景图缩放，只在no-repeat的时候生效",
@@ -99262,13 +99689,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -99278,6 +99699,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -99905,13 +100329,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -99921,6 +100339,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -100460,13 +100881,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -100476,6 +100891,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -103275,34 +103693,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12608"
+        "__@toStringTag@12647"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12608"
+        "__@toStringTag@12647"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12608": {
+        "__@toStringTag@12647": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12608"
+        "__@toStringTag@12647"
       ],
       "type": "object"
     },
@@ -104012,13 +104430,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -104028,6 +104440,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -104470,6 +104885,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -104693,13 +105109,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -104709,6 +105119,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -105125,6 +105538,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -105347,13 +105761,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -105363,6 +105771,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -105748,6 +106159,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -105963,13 +106375,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -105979,6 +106385,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -106387,6 +106796,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -106621,13 +107031,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -106637,6 +107041,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -107098,6 +107505,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "baseOpacity",
         "beta",
@@ -107323,13 +107731,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -107339,6 +107741,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -107509,6 +107914,21 @@
               "type": "string"
             }
           ]
+        },
+        "imageMode": {
+          "$ref": "#/definitions/ImageMode"
+        },
+        "imageOffsetX": {
+          "type": "number"
+        },
+        "imageOffsetY": {
+          "type": "number"
+        },
+        "imagePosition": {
+          "$ref": "#/definitions/BackgroundPosition"
+        },
+        "imageScale": {
+          "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -107766,6 +108186,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -107792,6 +108213,11 @@
         "height",
         "html",
         "image",
+        "imageMode",
+        "imageOffsetX",
+        "imageOffsetY",
+        "imagePosition",
+        "imageScale",
         "innerBorder",
         "keepDirIn3d",
         "keepStrokeScale",
@@ -107987,13 +108413,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -108003,6 +108423,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -108422,6 +108845,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -108645,13 +109069,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -108661,6 +109079,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -109053,6 +109474,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -109268,13 +109690,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -109284,6 +109700,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -109682,6 +110101,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -109897,13 +110317,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -109913,6 +110327,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -110324,6 +110741,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -110550,13 +110968,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -110566,6 +110978,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -111114,6 +111529,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -111391,13 +111807,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -111407,6 +111817,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundRadius": {
           "type": "number"
@@ -111619,6 +112032,21 @@
               "type": "string"
             }
           ]
+        },
+        "imageMode": {
+          "$ref": "#/definitions/ImageMode"
+        },
+        "imageOffsetX": {
+          "type": "number"
+        },
+        "imageOffsetY": {
+          "type": "number"
+        },
+        "imagePosition": {
+          "$ref": "#/definitions/BackgroundPosition"
+        },
+        "imageScale": {
+          "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -111898,6 +112326,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundRadius",
         "backgroundScale",
         "backgroundShowMode",
@@ -111931,6 +112360,11 @@
         "html",
         "id",
         "image",
+        "imageMode",
+        "imageOffsetX",
+        "imageOffsetY",
+        "imagePosition",
+        "imageScale",
         "innerBorder",
         "keepDirIn3d",
         "keepStrokeScale",
@@ -112129,13 +112563,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -112145,6 +112573,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -112533,6 +112964,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -112749,13 +113181,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -112765,6 +113191,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -113167,6 +113596,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -113382,13 +113812,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
+          "$ref": "#/definitions/BackgroundMode"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -113398,6 +113822,9 @@
         },
         "backgroundOpacity": {
           "type": "number"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -113910,6 +114337,7 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
+        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -118135,28 +118563,6 @@
         }
       ]
     },
-    "VisualType<\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/IVisualScale"
-        },
-        {
-          "typeof": "function"
-        },
-        {
-          "$ref": "#/definitions/IVisualSpecStyle<unknown,\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\">"
-        },
-        {
-          "enum": [
-            "no-repeat",
-            "repeat",
-            "repeat-x",
-            "repeat-y"
-          ],
-          "type": "string"
-        }
-      ]
-    },
     "VisualType<\"normal\"|\"no-wrap\">": {
       "anyOf": [
         {
@@ -118298,6 +118704,102 @@
           "$ref": "#/definitions/IVisualSpecStyle<unknown,(datum:Datum)=>number>_4"
         }
       ]
+    },
+    "VisualType<BackgroundMode>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,BackgroundMode>"
+        },
+        {
+          "enum": [
+            "no-repeat",
+            "no-repeat-auto",
+            "no-repeat-contain",
+            "no-repeat-cover",
+            "no-repeat-fill",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
+        }
+      ]
+    },
+    "VisualType<BackgroundPosition>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "items": [
+            {
+              "$ref": "#/definitions/BackgroundPositionValue_1"
+            },
+            {
+              "$ref": "#/definitions/BackgroundPositionValue_1"
+            }
+          ],
+          "maxItems": 2,
+          "minItems": 2,
+          "type": "array"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,BackgroundPosition>"
+        },
+        {
+          "enum": [
+            "bottom",
+            "bottom-center",
+            "bottom-left",
+            "bottom-right",
+            "center",
+            "center-left",
+            "center-right",
+            "left",
+            "right",
+            "top",
+            "top-center",
+            "top-left",
+            "top-right"
+          ],
+          "type": "string"
+        }
+      ],
+      "description": "类似 CSS `background-position` 的定位写法。",
+      "since": "2.0.21"
+    },
+    "VisualType<BackgroundSizing>": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IVisualScale"
+        },
+        {
+          "typeof": "function"
+        },
+        {
+          "$ref": "#/definitions/IVisualSpecStyle<unknown,BackgroundSizing>"
+        },
+        {
+          "enum": [
+            "auto",
+            "contain",
+            "cover",
+            "fill"
+          ],
+          "type": "string"
+        }
+      ],
+      "description": "image 图元在非平铺模式下的尺寸模式。",
+      "since": "2.0.21"
     },
     "VisualType<BoxPlotShaftShape>": {
       "anyOf": [

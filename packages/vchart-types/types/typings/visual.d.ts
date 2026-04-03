@@ -85,6 +85,18 @@ export interface ICommonSpec {
     html?: IMarkHtmlSpec;
     [key: string]: any;
 }
+export type BackgroundSizing = 'cover' | 'contain' | 'fill' | 'auto';
+export type BackgroundRepeatMode = 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
+export type BackgroundSizingShorthand = 'no-repeat-cover' | 'no-repeat-contain' | 'no-repeat-fill' | 'no-repeat-auto';
+export type BackgroundMode = BackgroundRepeatMode | BackgroundSizingShorthand;
+export type BackgroundPositionHorizontalKeyword = 'left' | 'center' | 'right';
+export type BackgroundPositionVerticalKeyword = 'top' | 'center' | 'bottom';
+export type BackgroundPositionKeyword = BackgroundPositionHorizontalKeyword | BackgroundPositionVerticalKeyword;
+export type BackgroundPositionPercent = `${number}%`;
+export type BackgroundPositionValue = number | BackgroundPositionKeyword | BackgroundPositionPercent;
+export type BackgroundPositionPreset = 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+export type BackgroundPosition = BackgroundPositionKeyword | BackgroundPositionPreset | [BackgroundPositionValue, BackgroundPositionValue];
+export type ImageMode = BackgroundSizing;
 export interface IFillMarkSpec extends ICommonSpec {
     fill?: VisualType<string> | IGradient | false | IColorKey;
     shadowBlur?: number;
@@ -93,12 +105,13 @@ export interface IFillMarkSpec extends ICommonSpec {
     shadowOffsetY?: number;
     fillOpacity?: number;
     background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
-    backgroundMode?: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
+    backgroundMode?: BackgroundMode;
     backgroundFit?: boolean;
     backgroundKeepAspectRatio?: boolean;
     backgroundScale?: number;
     backgroundOffsetX?: number;
     backgroundOffsetY?: number;
+    backgroundPosition?: BackgroundPosition;
     backgroundClip?: boolean;
     backgroundCornerRadius?: number | number[];
     backgroundOpacity?: number;
@@ -309,6 +322,11 @@ export interface IImageMarkSpec extends IFillMarkSpec {
     height?: number;
     repeatX?: IRepeatType;
     repeatY?: IRepeatType;
+    imageMode?: ImageMode;
+    imagePosition?: BackgroundPosition;
+    imageScale?: number;
+    imageOffsetX?: number;
+    imageOffsetY?: number;
     image?: string | HTMLImageElement | HTMLCanvasElement;
 }
 export type TextAlign = TextAlignType;
