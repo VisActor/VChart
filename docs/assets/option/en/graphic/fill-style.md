@@ -86,6 +86,20 @@ Background fill mode, related to specific graphic elements. Optional values:
 - `'repeat-x'`: Tile horizontally
 - `'repeat-y'`: Tile vertically
 - `'no-repeat'`: No tiling
+- `'no-repeat-cover'`: Supported since version `2.0.21`. No repeat, scale proportionally and cover the whole graphic area
+- `'no-repeat-contain'`: Supported since version `2.0.21`. No repeat, scale proportionally and fit entirely inside the graphic area
+- `'no-repeat-fill'`: Supported since version `2.0.21`. No repeat, stretch to fill the graphic area
+- `'no-repeat-auto'`: Supported since version `2.0.21`. No repeat, draw with the image's intrinsic size
+
+#${prefix} backgroundPosition(string|Array<string | number>)
+
+Supported since version `2.0.21`. Background image anchor position, similar to CSS `background-position`. Only effective when the background is an image and the final mode is `no-repeat`.
+
+Supported forms:
+
+- Single keyword: `'left'`, `'center'`, `'right'`, `'top'`, `'bottom'`
+- Preset position: `'top-left'`, `'top-center'`, `'top-right'`, `'center-left'`, `'center'`, `'center-right'`, `'bottom-left'`, `'bottom-center'`, `'bottom-right'`
+- Tuple: `[x, y]`, where `x` / `y` can be a number, keyword, or percentage string, for example `['25%', '75%']`
 
 #${prefix} backgroundFit(boolean)
 
