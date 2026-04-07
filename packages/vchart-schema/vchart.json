@@ -334,19 +334,6 @@
       ],
       "type": "string"
     },
-    "BackgroundMode_1": {
-      "enum": [
-        "no-repeat",
-        "no-repeat-auto",
-        "no-repeat-contain",
-        "no-repeat-cover",
-        "no-repeat-fill",
-        "repeat",
-        "repeat-x",
-        "repeat-y"
-      ],
-      "type": "string"
-    },
     "BackgroundPosition": {
       "anyOf": [
         {
@@ -380,7 +367,9 @@
           ],
           "type": "string"
         }
-      ]
+      ],
+      "description": "类似 CSS `background-position` 的定位写法。",
+      "since": "2.0.21"
     },
     "BackgroundPositionValue": {
       "anyOf": [
@@ -404,66 +393,6 @@
           "type": "number"
         }
       ]
-    },
-    "BackgroundPositionValue_1": {
-      "anyOf": [
-        {
-          "items": {
-            "type": "string"
-          },
-          "type": "array"
-        },
-        {
-          "enum": [
-            "bottom",
-            "center",
-            "left",
-            "right",
-            "top"
-          ],
-          "type": "string"
-        },
-        {
-          "type": "number"
-        }
-      ]
-    },
-    "BackgroundPosition_1": {
-      "anyOf": [
-        {
-          "items": [
-            {
-              "$ref": "#/definitions/BackgroundPositionValue_1"
-            },
-            {
-              "$ref": "#/definitions/BackgroundPositionValue_1"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        {
-          "enum": [
-            "bottom",
-            "bottom-center",
-            "bottom-left",
-            "bottom-right",
-            "center",
-            "center-left",
-            "center-right",
-            "left",
-            "right",
-            "top",
-            "top-center",
-            "top-left",
-            "top-right"
-          ],
-          "type": "string"
-        }
-      ],
-      "description": "类似 CSS `background-position` 的定位写法。",
-      "since": "2.0.21"
     },
     "BackgroundSizing": {
       "description": "非平铺背景图/图片的尺寸模式。",
@@ -19804,7 +19733,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -19820,7 +19749,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -21305,7 +21234,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -21321,7 +21250,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -21624,7 +21553,17 @@
           "type": "array"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -29059,6 +28998,22 @@
       ],
       "type": "string"
     },
+    "IColor": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ILinearGradient"
+        },
+        {
+          "$ref": "#/definitions/IRadialGradient"
+        },
+        {
+          "$ref": "#/definitions/IConicalGradient"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
     "IColorKey": {
       "description": "语义化色值的色值索引",
       "properties": {
@@ -33998,7 +33953,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -34008,9 +33969,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -34828,7 +34786,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -47799,7 +47767,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -47815,7 +47783,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -56381,7 +56349,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -56397,7 +56365,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -58532,7 +58500,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -58548,7 +58516,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -58932,7 +58900,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -58942,9 +58916,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -59466,7 +59437,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -63903,7 +63884,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -63919,7 +63900,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -64359,12 +64340,6 @@
         "clear": {
           "anyOf": [
             {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
               "$ref": "#/definitions/ILinearGradient"
             },
             {
@@ -64372,12 +64347,6 @@
             },
             {
               "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
             },
             {
               "type": [
@@ -64441,7 +64410,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string|HTMLCanvasElement|HTMLImageElement;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -65555,7 +65524,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -65571,7 +65540,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -70404,32 +70373,7 @@
           "type": "boolean"
         },
         "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "$ref": "#/definitions/IColor"
         },
         "camera": {
           "$ref": "#/definitions/ICamera"
@@ -72658,7 +72602,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -72674,7 +72618,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -73021,7 +72965,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -73037,7 +72981,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -77002,7 +76946,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "$ref": "#/definitions/BackgroundMode_1"
+            "$ref": "#/definitions/BackgroundMode"
           },
           "type": "array"
         },
@@ -77041,7 +76985,7 @@
         "range": {
           "description": "will set to scale.range, it means output of scale",
           "items": {
-            "$ref": "#/definitions/BackgroundPosition_1"
+            "$ref": "#/definitions/BackgroundPosition"
           },
           "type": "array"
         },
@@ -81778,15 +81722,6 @@
       ],
       "type": "object"
     },
-    "ImageMode": {
-      "enum": [
-        "auto",
-        "contain",
-        "cover",
-        "fill"
-      ],
-      "type": "string"
-    },
     "InterpolateType": {
       "enum": [
         "basis",
@@ -81900,7 +81835,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         },
         "size": {
@@ -81908,14 +81843,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12622",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         },
         "size": {
@@ -81923,14 +81858,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12622",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         },
         "size": {
@@ -81938,14 +81873,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12622",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         },
         "size": {
@@ -81953,14 +81888,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12622",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         },
         "size": {
@@ -81968,14 +81903,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12622",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         },
         "size": {
@@ -81983,14 +81918,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12622",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         },
         "size": {
@@ -81998,7 +81933,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12622",
         "size"
       ],
       "type": "object"
@@ -82598,7 +82533,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -82608,9 +82549,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -83066,7 +83004,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -84831,7 +84779,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -84841,9 +84795,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -85236,7 +85187,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -86570,7 +86531,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -86580,9 +86547,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -87005,7 +86969,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -87219,7 +87193,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -87229,9 +87209,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -87669,7 +87646,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -88218,7 +88205,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -88228,9 +88221,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -88612,7 +88602,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -88794,7 +88794,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -88804,9 +88810,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -89162,7 +89165,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -89410,7 +89423,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -89420,9 +89439,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -89747,7 +89763,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -89854,7 +89880,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:\"no-repeat\"|\"repeat\"|\"repeat-x\"|\"repeat-y\";backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string|HTMLCanvasElement|HTMLImageElement;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -89990,7 +90016,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -90000,9 +90032,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -90421,7 +90450,17 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -90636,7 +90675,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -90646,9 +90691,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -90993,7 +91035,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -91178,7 +91230,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -91188,9 +91246,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -91506,7 +91561,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -91810,7 +91875,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -91820,9 +91891,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -92215,7 +92283,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -92304,21 +92382,6 @@
               "type": "string"
             }
           ]
-        },
-        "imageMode": {
-          "$ref": "#/definitions/ImageMode"
-        },
-        "imageOffsetX": {
-          "type": "number"
-        },
-        "imageOffsetY": {
-          "type": "number"
-        },
-        "imagePosition": {
-          "$ref": "#/definitions/BackgroundPosition"
-        },
-        "imageScale": {
-          "type": "number"
         },
         "maxHeight": {
           "type": "number"
@@ -92474,7 +92537,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -92484,9 +92553,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -92657,21 +92723,6 @@
               "type": "string"
             }
           ]
-        },
-        "imageMode": {
-          "$ref": "#/definitions/ImageMode"
-        },
-        "imageOffsetX": {
-          "type": "number"
-        },
-        "imageOffsetY": {
-          "type": "number"
-        },
-        "imagePosition": {
-          "$ref": "#/definitions/BackgroundPosition"
-        },
-        "imageScale": {
-          "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -92865,7 +92916,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -93249,7 +93310,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -93259,9 +93326,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -93620,7 +93684,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -94644,7 +94718,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -94654,9 +94734,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -94988,7 +95065,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -95170,7 +95257,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -95180,9 +95273,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -95520,7 +95610,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -95654,7 +95754,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -95670,7 +95770,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -96056,7 +96156,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -96066,9 +96172,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -96410,7 +96513,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -96553,7 +96666,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -96569,7 +96682,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -96913,32 +97026,7 @@
           "type": "boolean"
         },
         "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "$ref": "#/definitions/IColor"
         },
         "beforeRender": {
           "typeof": "function"
@@ -97178,7 +97266,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -97188,9 +97282,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -97512,7 +97603,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -97731,7 +97832,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -97741,9 +97848,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -98085,7 +98189,17 @@
           "type": "string"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -98267,7 +98381,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -98277,9 +98397,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -98698,7 +98815,17 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -98865,7 +98992,7 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
+          "$ref": "#/definitions/BackgroundMode",
           "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
         },
         "backgroundOffsetX": {
@@ -98881,7 +99008,7 @@
           "type": "number"
         },
         "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
+          "$ref": "#/definitions/BackgroundPosition",
           "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
           "since": "2.0.21"
         },
@@ -99689,7 +99816,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -99699,9 +99832,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -100114,7 +100244,17 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -100329,7 +100469,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -100339,9 +100485,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -100690,7 +100833,17 @@
           "type": "string"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -100881,7 +101034,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -100891,9 +101050,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -101209,7 +101365,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -103693,34 +103859,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12622"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12622"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12622": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12622"
       ],
       "type": "object"
     },
@@ -104430,7 +104596,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -104440,9 +104612,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -104824,7 +104993,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -104885,7 +105064,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -105109,7 +105287,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -105119,9 +105303,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -105477,7 +105658,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -105538,7 +105729,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -105761,7 +105951,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -105771,9 +105967,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -106098,7 +106291,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -106159,7 +106362,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -106375,7 +106577,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -106385,9 +106593,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -106732,7 +106937,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -106796,7 +107011,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -107031,7 +107245,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -107041,9 +107261,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -107436,7 +107653,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -107505,7 +107732,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "baseOpacity",
         "beta",
@@ -107731,7 +107957,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -107741,9 +107973,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -107914,21 +108143,6 @@
               "type": "string"
             }
           ]
-        },
-        "imageMode": {
-          "$ref": "#/definitions/ImageMode"
-        },
-        "imageOffsetX": {
-          "type": "number"
-        },
-        "imageOffsetY": {
-          "type": "number"
-        },
-        "imagePosition": {
-          "$ref": "#/definitions/BackgroundPosition"
-        },
-        "imageScale": {
-          "type": "number"
         },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
@@ -108122,7 +108336,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -108186,7 +108410,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -108213,11 +108436,6 @@
         "height",
         "html",
         "image",
-        "imageMode",
-        "imageOffsetX",
-        "imageOffsetY",
-        "imagePosition",
-        "imageScale",
         "innerBorder",
         "keepDirIn3d",
         "keepStrokeScale",
@@ -108413,7 +108631,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -108423,9 +108647,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -108784,7 +109005,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -108845,7 +109076,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -109069,7 +109299,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -109079,9 +109315,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -109413,7 +109646,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -109474,7 +109717,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -109690,7 +109932,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -109700,9 +109948,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -110040,7 +110285,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -110101,7 +110356,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -110317,7 +110571,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -110327,9 +110587,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -110671,7 +110928,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -110741,7 +111008,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -110968,7 +111234,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -110978,9 +111250,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -111426,7 +111695,17 @@
           "type": "array"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -111529,7 +111808,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -111807,7 +112085,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -111817,9 +112101,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundRadius": {
           "type": "number"
@@ -112033,21 +112314,6 @@
             }
           ]
         },
-        "imageMode": {
-          "$ref": "#/definitions/ImageMode"
-        },
-        "imageOffsetX": {
-          "type": "number"
-        },
-        "imageOffsetY": {
-          "type": "number"
-        },
-        "imagePosition": {
-          "$ref": "#/definitions/BackgroundPosition"
-        },
-        "imageScale": {
-          "type": "number"
-        },
         "innerBorder": {
           "$ref": "#/definitions/Partial<IBorderStyle>"
         },
@@ -112259,7 +112525,17 @@
           "$ref": "#/definitions/CanvasTextBaseline"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -112326,7 +112602,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundRadius",
         "backgroundScale",
         "backgroundShowMode",
@@ -112360,11 +112635,6 @@
         "html",
         "id",
         "image",
-        "imageMode",
-        "imageOffsetX",
-        "imageOffsetY",
-        "imagePosition",
-        "imageScale",
         "innerBorder",
         "keepDirIn3d",
         "keepStrokeScale",
@@ -112563,7 +112833,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -112573,9 +112849,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -112897,7 +113170,17 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -112964,7 +113247,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -113181,7 +113463,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -113191,9 +113479,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -113535,7 +113820,17 @@
           "type": "string"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -113596,7 +113891,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -113812,7 +114106,13 @@
           "type": "boolean"
         },
         "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode"
+          "enum": [
+            "no-repeat",
+            "repeat",
+            "repeat-x",
+            "repeat-y"
+          ],
+          "type": "string"
         },
         "backgroundOffsetX": {
           "type": "number"
@@ -113822,9 +114122,6 @@
         },
         "backgroundOpacity": {
           "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition"
         },
         "backgroundScale": {
           "type": "number"
@@ -114243,7 +114540,17 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -114337,7 +114644,6 @@
         "backgroundOffsetX",
         "backgroundOffsetY",
         "backgroundOpacity",
-        "backgroundPosition",
         "backgroundScale",
         "beta",
         "blur",
@@ -118739,10 +119045,10 @@
         {
           "items": [
             {
-              "$ref": "#/definitions/BackgroundPositionValue_1"
+              "$ref": "#/definitions/BackgroundPositionValue"
             },
             {
-              "$ref": "#/definitions/BackgroundPositionValue_1"
+              "$ref": "#/definitions/BackgroundPositionValue"
             }
           ],
           "maxItems": 2,
