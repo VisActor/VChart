@@ -85,16 +85,8 @@ export interface ICommonSpec {
     html?: IMarkHtmlSpec;
     [key: string]: any;
 }
-/**
- * 非平铺背景图/图片的尺寸模式。
- * @since 2.0.21
- */
 export type BackgroundSizing = 'cover' | 'contain' | 'fill' | 'auto';
 export type BackgroundRepeatMode = 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
-/**
- * `backgroundMode` 在 `no-repeat` 下的尺寸简写。
- * @since 2.0.21
- */
 export type BackgroundSizingShorthand = 'no-repeat-cover' | 'no-repeat-contain' | 'no-repeat-fill' | 'no-repeat-auto';
 export type BackgroundMode = BackgroundRepeatMode | BackgroundSizingShorthand;
 export type BackgroundPositionHorizontalKeyword = 'left' | 'center' | 'right';
@@ -102,20 +94,8 @@ export type BackgroundPositionVerticalKeyword = 'top' | 'center' | 'bottom';
 export type BackgroundPositionKeyword = BackgroundPositionHorizontalKeyword | BackgroundPositionVerticalKeyword;
 export type BackgroundPositionPercent = `${number}%`;
 export type BackgroundPositionValue = number | BackgroundPositionKeyword | BackgroundPositionPercent;
-/**
- * `backgroundPosition` / `imagePosition` 的预设定位。
- * @since 2.0.21
- */
 export type BackgroundPositionPreset = 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
-/**
- * 类似 CSS `background-position` 的定位写法。
- * @since 2.0.21
- */
 export type BackgroundPosition = BackgroundPositionKeyword | BackgroundPositionPreset | [BackgroundPositionValue, BackgroundPositionValue];
-/**
- * image 图元在非平铺模式下的尺寸模式。
- * @since 2.0.21
- */
 export type ImageMode = BackgroundSizing;
 export interface IFillMarkSpec extends ICommonSpec {
     fill?: VisualType<string> | IGradient | false | IColorKey;
@@ -125,23 +105,12 @@ export interface IFillMarkSpec extends ICommonSpec {
     shadowOffsetY?: number;
     fillOpacity?: number;
     background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
-    /**
-     * 背景图绘制模式（与具体图元有关）。
-     * 原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；
-     * 自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /
-     * `no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。
-     */
     backgroundMode?: BackgroundMode;
     backgroundFit?: boolean;
     backgroundKeepAspectRatio?: boolean;
     backgroundScale?: number;
     backgroundOffsetX?: number;
     backgroundOffsetY?: number;
-    /**
-     * 背景图锚定位置，语义类似 CSS `background-position`。
-     * 仅在图片背景且最终为 `no-repeat` 时生效。
-     * @since 2.0.21
-     */
     backgroundPosition?: BackgroundPosition;
     backgroundClip?: boolean;
     backgroundCornerRadius?: number | number[];
@@ -353,31 +322,10 @@ export interface IImageMarkSpec extends IFillMarkSpec {
     height?: number;
     repeatX?: IRepeatType;
     repeatY?: IRepeatType;
-    /**
-     * 图片绘制模式。
-     * 仅在 `repeatX` 和 `repeatY` 最终都为 `no-repeat` 时生效。
-     * @since 2.0.21
-     */
     imageMode?: ImageMode;
-    /**
-     * 图片锚定位置，语义与 `backgroundPosition` 一致。
-     * @since 2.0.21
-     */
     imagePosition?: BackgroundPosition;
-    /**
-     * 图片额外缩放比例，仅在不重复平铺时生效。
-     * @since 2.0.21
-     */
     imageScale?: number;
-    /**
-     * 图片 x 方向偏移，仅在不重复平铺时生效。
-     * @since 2.0.21
-     */
     imageOffsetX?: number;
-    /**
-     * 图片 y 方向偏移，仅在不重复平铺时生效。
-     * @since 2.0.21
-     */
     imageOffsetY?: number;
     image?: string | HTMLImageElement | HTMLCanvasElement;
 }
