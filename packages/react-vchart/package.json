@@ -1,6 +1,6 @@
 {
   "name": "@visactor/react-vchart",
-  "version": "2.0.21",
+  "version": "2.0.22-alpha.2",
   "sideEffects": false,
   "description": "The react version of VChart 4.x",
   "keywords": [
@@ -33,8 +33,8 @@
     "build": "bundle --clean"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:2.0.21",
-    "@visactor/vchart-extension": "workspace:2.0.21",
+    "@visactor/vchart": "workspace:2.0.22-alpha.2",
+    "@visactor/vchart-extension": "workspace:2.0.22-alpha.2",
     "@visactor/vutils": "~1.0.23",
     "@visactor/vrender-core": "1.0.46-alpha.2",
     "@visactor/vrender-kits": "1.0.46-alpha.2",

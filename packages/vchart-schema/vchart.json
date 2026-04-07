@@ -21624,7 +21624,17 @@
           "type": "array"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
@@ -34828,12 +34838,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -59466,12 +59488,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -64441,7 +64475,7 @@
     "IRichTextGraphicAttribute": {
       "allOf": [
         {
-          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
+          "$ref": "#/definitions/Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:{[key:string]:any;alignToGraphic?:boolean;alignOffsetX?:number;alignOffsetY?:number;radius?:number;dynamicTexture?:(ctx:IContext2d,row:number,column:number,rowCount:number,columnCount:number,ratio:number,graphic:IGraphic<Partial<IGraphicAttribute>>,width?:number,height?:number)=>void;beforeDynamicTexture?:(ctx:IContext2d,row:number,column:number,rowCount:number,columnCount:number,ratio:number,graphic:IGraphic<Partial<IGraphicAttribute>>,width?:number,height?:number)=>void;gridConfig?:{columns?:number;rows?:number;gutterColumn?:number;gutterRow?:number;};useNewCanvas?:boolean;};background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string|HTMLCanvasElement|HTMLImageElement;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>"
         },
         {
           "$ref": "#/definitions/Partial<IRichTextAttribute>"
@@ -81900,7 +81934,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         },
         "size": {
@@ -81908,14 +81942,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12649",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         },
         "size": {
@@ -81923,14 +81957,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12649",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         },
         "size": {
@@ -81938,14 +81972,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12649",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         },
         "size": {
@@ -81953,14 +81987,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12649",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         },
         "size": {
@@ -81968,14 +82002,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12649",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         },
         "size": {
@@ -81983,14 +82017,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12649",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         },
         "size": {
@@ -81998,7 +82032,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12649",
         "size"
       ],
       "type": "object"
@@ -83066,12 +83100,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -85236,12 +85282,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -87005,12 +87063,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -87669,12 +87739,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -88612,12 +88694,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -89162,12 +89256,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -89747,12 +89853,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -89854,7 +89972,7 @@
       },
       "type": "object"
     },
-    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:any;background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
+    "Partial<IDebugType&ILayout&IFillStyle&IStrokeStyle&IPickStyle&{forceBoundsWidth:number|(()=>number);forceBoundsHeight:number|(()=>number);opacity:number;shadowGraphic?:IGraphic<Partial<IGraphicAttribute>>;backgroundMode:BackgroundMode;backgroundFit:boolean;backgroundKeepAspectRatio:boolean;backgroundScale:number;backgroundOffsetX:number;backgroundOffsetY:number;backgroundPosition:BackgroundPosition;backgroundClip:boolean;backgroundCornerRadius:number|number[];backgroundOpacity:number;autoAnimateTexture:boolean;textureRatio:number;textureOptions:{[key:string]:any;alignToGraphic?:boolean;alignOffsetX?:number;alignOffsetY?:number;radius?:number;dynamicTexture?:(ctx:IContext2d,row:number,column:number,rowCount:number,columnCount:number,ratio:number,graphic:IGraphic<Partial<IGraphicAttribute>>,width?:number,height?:number)=>void;beforeDynamicTexture?:(ctx:IContext2d,row:number,column:number,rowCount:number,columnCount:number,ratio:number,graphic:IGraphic<Partial<IGraphicAttribute>>,width?:number,height?:number)=>void;gridConfig?:{columns?:number;rows?:number;gutterColumn?:number;gutterRow?:number;};useNewCanvas?:boolean;};background:IBackgroundType|{background:IBackgroundType;dx?:number;dy?:number;width?:number;height?:number;x?:number;y?:number;};texture:string|HTMLCanvasElement|HTMLImageElement;textureColor:string;textureSize:number;texturePadding:number;blur:number;cursor:Cursor;filter:string;renderStyle?:any;roughStyle?:IRoughStyle;html:{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions;react:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;vue:{element:any;}&SimpleDomStyleOptions&CommonDomOptions;}&ITransform&{strokeSeg:IStrokeSeg;boundsPadding:number|number[];pickMode:\"custom\"|\"accurate\"|\"imprecise\";boundsMode:\"empty\"|\"accurate\"|\"imprecise\";customPickShape:()=>boolean;pickable:boolean;fillPickable:boolean;strokePickable:boolean;childrenPickable:boolean;visible:boolean;zIndex:number;layout:any;renderable:boolean;keepDirIn3d?:boolean;shadowRootIdx:number;shadowPickMode?:\"full\"|\"graphic\";globalZIndex:number;globalCompositeOperation:\"\"|GlobalCompositeOperation;overflow:\"hidden\"|\"scroll\"|\"scroll-x\"|\"scroll-y\";fillStrokeOrder:number;keepStrokeScale:boolean;clipConfig:{shape:string;};}&Partial<IGraphicAttribute>&Partial<ITextAttribute>>": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -90421,12 +90539,24 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -90993,12 +91123,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -91506,12 +91648,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -92215,12 +92369,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -92865,12 +93031,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -93620,12 +93798,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -94988,12 +95178,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -95520,12 +95722,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -96410,12 +96624,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -97512,12 +97738,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -98085,12 +98323,24 @@
           "type": "string"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -98698,12 +98948,24 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -100114,12 +100376,24 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -100690,12 +100964,24 @@
           "type": "string"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -101209,12 +101495,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -103693,34 +103991,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12649"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12649"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12649": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12649"
       ],
       "type": "object"
     },
@@ -104824,12 +105122,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -105477,12 +105787,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -106098,12 +106420,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -106732,12 +107066,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -107436,12 +107782,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -108122,12 +108480,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -108784,12 +109154,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -109413,12 +109795,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -110040,12 +110434,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -110671,12 +111077,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -111426,12 +111844,24 @@
           "type": "array"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -112259,12 +112689,24 @@
           "$ref": "#/definitions/CanvasTextBaseline"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -112897,12 +113339,24 @@
           "typeof": "function"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -113535,12 +113989,24 @@
           "type": "string"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
@@ -114243,12 +114709,24 @@
           "$ref": "#/definitions/TextBaselineType"
         },
         "texture": {
-          "type": "string"
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLImageElement"
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "textureColor": {
           "type": "string"
         },
-        "textureOptions": {},
+        "textureOptions": {
+          "typeof": "function"
+        },
         "texturePadding": {
           "type": "number"
         },
