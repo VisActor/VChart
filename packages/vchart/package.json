@@ -126,10 +126,10 @@
     "@visactor/vdataset": "~1.0.23",
     "@visactor/vscale": "~1.0.23",
     "@visactor/vlayouts": "~1.0.23",
-    "@visactor/vrender-core": "1.0.46-alpha.0",
-    "@visactor/vrender-kits": "1.0.46-alpha.0",
-    "@visactor/vrender-components": "1.0.46-alpha.0",
-    "@visactor/vrender-animate": "1.0.46-alpha.0",
+    "@visactor/vrender-core": "1.0.46-alpha.1",
+    "@visactor/vrender-kits": "1.0.46-alpha.1",
+    "@visactor/vrender-components": "1.0.46-alpha.1",
+    "@visactor/vrender-animate": "1.0.46-alpha.1",
     "@visactor/vutils-extension": "workspace:2.0.21"
   },
   "publishConfig": {
