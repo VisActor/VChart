@@ -17,6 +17,11 @@
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
+  "unpkg": "build/index.min.js",
+  "unpkgFiles": [
+    "build/index.js",
+    "build/index.min.js"
+  ],
   "files": [
     "esm",
     "cjs",
