@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "2.0.21",
+  "version": "2.0.22-alpha.3",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -130,7 +130,7 @@
     "@visactor/vrender-kits": "1.0.45",
     "@visactor/vrender-components": "1.0.45",
     "@visactor/vrender-animate": "1.0.45",
-    "@visactor/vutils-extension": "workspace:2.0.21"
+    "@visactor/vutils-extension": "workspace:2.0.22-alpha.3"
   },
   "publishConfig": {
     "access": "public",
