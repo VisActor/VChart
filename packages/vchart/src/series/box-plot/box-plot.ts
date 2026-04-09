@@ -350,7 +350,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     //获取自适应的图元宽度
     const bandAxisHelper = this._direction === Direction.horizontal ? this._yAxisHelper : this._xAxisHelper;
     const depthFromSpec = this._groups ? this._groups.fields.length : 1;
-    const bandWidth = bandAxisHelper.getBandwidth?.(depthFromSpec - 1);
+    const bandWidth = bandAxisHelper.getBandwidth?.(depthFromSpec - 1) ?? this._boxWidth;
 
     let width = bandWidth;
     if (isValid(this._spec.boxWidth)) {
@@ -386,7 +386,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     const depthFromSpec = this._groups ? this._groups.fields.length : 1;
     const depth = depthFromSpec;
 
-    const bandWidth = axisHelper.getBandwidth?.(depth - 1);
+    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? this._boxWidth;
     const size = this._boxPlotMark.getAttribute(sizeAttribute, datum) as number;
 
     if (depth > 1 && isValid(this._spec.boxGapInGroup)) {
@@ -412,7 +412,7 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         }
       }
 
-      const center = scale.scale(datum[groupFields[0]]) + axisHelper.getBandwidth(0) / 2;
+      const center = scale.scale(datum[groupFields[0]]) + (axisHelper.getBandwidth(0) ?? this._boxWidth) / 2;
       return center - totalWidth / 2 + offSet + size / 2;
     }
 
