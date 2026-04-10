@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: map error when roam or drag canvas. fix#4547",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
