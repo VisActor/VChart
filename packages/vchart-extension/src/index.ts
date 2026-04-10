@@ -27,3 +27,4 @@ export * from './components/regression-line';
 export * from './components/scatter-regression-line';
 export * from './components/bar-regression-line';
 export * from './components/histogram-regression-line';
+export * from './components/extension-mark-sync-state';
