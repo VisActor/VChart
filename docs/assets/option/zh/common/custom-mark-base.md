@@ -22,6 +22,14 @@
 
 当自定义 mark 的类型为`component`时，可以用于设置具体的组件类型
 
+#${prefix} syncState(boolean) = false
+
+自 **2.0.22** 版本开始支持
+
+是否同步主图元的交互状态（如 `hover`、`select` 等）。开启后，extensionMark 会自动跟随对应主图元的状态变化，用户需自行配置对应的 `state` 样式使其生效。
+
+> 注意：仅当扩展图元与主图元绑定同一条 datum（即 `context.key` 相同）时，状态同步才会生效。
+
 {{ use: common-mark(
   prefix = ${prefix}
 ) }}

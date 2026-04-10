@@ -808,6 +808,16 @@ export interface IExtensionMarkSpec<T extends Exclude<EnableMarkType, 'group'>> 
    * @support since 1.9.0
    */
   componentType?: string;
+  /**
+   * Whether to synchronize the interactive states (e.g., hover, select) from the corresponding primary mark.
+   * When enabled, the extensionMark will automatically follow state changes of the primary mark that shares
+   * the same data key. Users need to configure the corresponding `state` styles to take effect.
+   * 是否同步主图元的交互状态（如 hover、select 等）
+   * 开启后，extensionMark 会自动同步对应主图元的状态名，需自行配置对应的 state 样式
+   * @default false
+   * @support since 2.0.22
+   */
+  syncState?: boolean;
 }
 
 export interface IExtensionGroupMarkSpec extends ICustomMarkSpec<MarkTypeEnum.group> {

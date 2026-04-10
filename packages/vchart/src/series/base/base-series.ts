@@ -111,7 +111,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   declare getSpecInfo: () => ISeriesSpecInfo;
 
-  declare protected _option: ISeriesOption;
+  protected declare _option: ISeriesOption;
 
   // 坐标系信息
   readonly coordinate: CoordinateType = 'none';
@@ -240,7 +240,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
   protected _dataSet: DataSet;
 
-  declare protected _tooltipHelper: ISeriesTooltipHelper | undefined;
+  protected declare _tooltipHelper: ISeriesTooltipHelper | undefined;
   get tooltipHelper() {
     if (!this._tooltipHelper) {
       this.initTooltip();
@@ -842,8 +842,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
-        ? ['empty']
-        : ['empty', finalSelectSpec.trigger];
+      ? ['empty']
+      : ['empty', finalSelectSpec.trigger];
     return {
       type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT as string,
       trigger: finalSelectSpec.trigger as GraphicEventType,
@@ -978,7 +978,94 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   protected initEvent() {
     this._data?.getDataView()?.target.addListener('change', this.viewDataUpdate.bind(this));
     this._viewDataStatistics?.target.addListener('change', this.viewDataStatisticsUpdate.bind(this));
+
+    // 如果存在配置了 syncState 的 extensionMark，在每次渲染完成后建立状态同步关联
+    if (this._spec.extensionMark?.some(m => m.type !== 'group' && (m as IExtensionMarkSpec<any>).syncState)) {
+      this.event.on(ChartEvent.afterRender, this._bindExtensionMarkSyncState);
+    }
   }
+
+  /**
+   * 将配置了 syncState 的 extensionMark 的 graphics 与主 mark 的 graphics 通过 context.key 配对，
+   * 在主 mark graphic 上监听 afterStateUpdate 事件，回调中同步状态到 extensionMark graphic。
+   * 参考 VRender Label 的 syncState 实现。
+   */
+  private _bindExtensionMarkSyncState = () => {
+    const extensionMarkSpecs = this._spec.extensionMark;
+    if (!extensionMarkSpecs) {
+      return;
+    }
+
+    // 收集主 mark 的 graphics，按 context.key 建立索引
+    const activeMarks = this.getActiveMarks();
+    const mainGraphicByKey = new Map<string, any>();
+    activeMarks.forEach(mark => {
+      mark.getGraphics().forEach(g => {
+        const key = g.context?.key;
+        if (isValid(key)) {
+          mainGraphicByKey.set(String(key), g);
+        }
+      });
+    });
+
+    if (mainGraphicByKey.size === 0) {
+      return;
+    }
+
+    const namePrefix = this._getExtensionMarkNamePrefix();
+
+    extensionMarkSpecs.forEach((spec, i) => {
+      if (spec.type === 'group' || !(spec as IExtensionMarkSpec<any>).syncState) {
+        return;
+      }
+
+      const markName = isValid(spec.name) ? `${spec.name}` : `${namePrefix}_${i}`;
+      const extMark = this._marks.get(markName);
+      if (!extMark) {
+        return;
+      }
+
+      extMark.getGraphics().forEach((extGraphic: any) => {
+        const key = extGraphic.context?.key;
+        if (!isValid(key)) {
+          return;
+        }
+
+        const mainGraphic = mainGraphicByKey.get(String(key));
+        if (!mainGraphic) {
+          return;
+        }
+
+        // 立即同步一次当前状态
+        const currentStates = mainGraphic.currentStates;
+        if (currentStates?.length) {
+          extGraphic.useStates(currentStates);
+        }
+
+        // 避免重复绑定：通过标记位判断
+        if (extGraphic._syncStateBindKey === key && extGraphic._syncStateBindTarget === mainGraphic) {
+          return;
+        }
+
+        // 清理旧监听（如果之前绑定过不同的 mainGraphic）
+        if (extGraphic._syncStateHandler && extGraphic._syncStateBindTarget) {
+          extGraphic._syncStateBindTarget.off('afterStateUpdate', extGraphic._syncStateHandler);
+        }
+
+        // 建立新监听
+        const handler = (e: any) => {
+          const states = e.target?.currentStates ?? [];
+          extGraphic.useStates(states);
+        };
+        mainGraphic.on('afterStateUpdate', handler);
+
+        // 记录绑定信息，用于下次去重/清理
+        extGraphic._syncStateHandler = handler;
+        extGraphic._syncStateBindKey = key;
+        extGraphic._syncStateBindTarget = mainGraphic;
+      });
+    });
+  };
 
   protected _releaseEvent(): void {
     super._releaseEvent();
@@ -1282,7 +1369,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       attributeContext: this._markAttributeContext,
       componentType: option.componentType,
       noSeparateStyle,
-      parent: parent !== false ? (parent ?? this._rootMark) : null
+      parent: parent !== false ? parent ?? this._rootMark : null
     });
 
     if (isValid(m)) {

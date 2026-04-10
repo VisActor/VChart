@@ -21,6 +21,14 @@ From version **1.9.0** onwards
 
 When the type of custom mark is `component`, it can be used to set the specific component type
 
+#${prefix} syncState(boolean) = false
+
+From version **2.0.22** onwards
+
+Whether to synchronize the interactive states (e.g., `hover`, `select`) from the corresponding primary mark. When enabled, the extensionMark will automatically follow state changes of the primary mark that shares the same data key. Users need to configure the corresponding `state` styles to take effect.
+
+> Note: State synchronization only works when the extension mark and the primary mark are bound to the same datum (i.e., they share the same `context.key`).
+
 {{ use: common-mark(
     prefix = ${prefix}
   ) }}
