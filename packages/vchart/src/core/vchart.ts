@@ -698,7 +698,7 @@ export class VChart implements IVChart {
 
     if (updateResult.reMake) {
       // 如果不需要动画，那么释放item，避免元素残留
-      this._compiler?.releaseGrammar();
+      this._compiler?.releaseGrammar(true);
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
