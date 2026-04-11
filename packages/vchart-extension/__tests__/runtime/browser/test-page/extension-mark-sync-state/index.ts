@@ -203,10 +203,10 @@ const run = () => {
 
   console.log('%c[syncState 插件验证] VChart 实例已挂载到 window.__vchart__', 'color: green; font-weight: bold;');
   console.log(
-    '%c[syncState 插件验证] 可通过以下方式检查绑定情况：\n' +
+    '%c[syncState 插件验证] 可通过以下方式检查图元 key：\n' +
       '  const s = __vchart__.getChart().getAllSeries()[0];\n' +
       '  s.getMarks().forEach(m =>' +
-      ' console.log(m.name, m.getGraphics().map(g => ({key: g.context?.key, syncBind: g._syncStateBindKey}))))',
+      ' console.log(m.name, m.getGraphics().map(g => ({key: g.context?.key, states: g.currentStates}))))',
     'color: blue;'
   );
 };

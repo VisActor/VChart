@@ -2,10 +2,11 @@
  * @description ExtensionMark SyncState 插件
  *
  * 将配置了 syncState: true 的 extensionMark 的 graphics 与主 mark 的 graphics
- * 通过 context.key 配对，在主 mark graphic 上监听 afterStateUpdate 事件，
- * 回调中同步状态到 extensionMark graphic。
+ * 通过 context.key 配对，在 afterRender 回调中将主 mark 的当前状态同步到
+ * extensionMark graphic。
  *
- * 参考 VRender Label 的 syncState 实现。
+ * 由于 afterRender 在每次状态更新完成后都会触发，因此无需在单个 graphic 上
+ * 额外监听 afterStateUpdate 事件。
  */
 import {
   type IChartPlugin,
@@ -28,7 +29,6 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
   static readonly type: string = EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE;
   readonly type: string = EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE;
 
-  private _bindHandlers: Array<{ bindTarget: IMarkGraphic; handler: () => void }> = [];
   private _afterRenderHandler?: () => void;
 
   constructor() {
@@ -56,19 +56,15 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
       return;
     }
 
-    // 注册 afterRender 事件，每次渲染完成后建立状态同步关联
+    // 注册 afterRender 事件，每次渲染完成后直接同步状态
+    // afterRender 在每次状态更新完成后都会触发，因此无需额外监听单个 graphic 的状态变化
     this._afterRenderHandler = () => {
-      this._bindSyncState(service);
+      this._syncStates(service);
     };
     chart.getEvent().on(ChartEvent.afterRender, this._afterRenderHandler);
   }
 
   release(): void {
-    // 清理所有 afterStateUpdate 监听
-    this._bindHandlers.forEach(({ bindTarget, handler }) => {
-      bindTarget.off('afterStateUpdate', handler);
-    });
-    this._bindHandlers = [];
     this._afterRenderHandler = undefined;
     super.release();
   }
@@ -101,9 +97,9 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
 
   /**
    * 遍历所有 series，找到配置了 syncState 的 extensionMark，
-   * 将其 graphics 与主 mark 的 graphics 通过 context.key 配对并建立状态同步
+   * 将其 graphics 与主 mark 的 graphics 通过 context.key 配对并同步状态
    */
-  private _bindSyncState(service: IChartPluginService) {
+  private _syncStates(service: IChartPluginService) {
     const chart = service.globalInstance.getChart();
     if (!chart) {
       return;
@@ -117,14 +113,14 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
         return;
       }
 
-      this._bindSeriesSyncState(series, extensionMarkSpecs);
+      this._syncSeriesStates(series, extensionMarkSpecs);
     });
   }
 
   /**
-   * 对单个 series 建立 extensionMark 与主 mark 的状态同步
+   * 对单个 series，将主 mark 的当前状态同步到 extensionMark
    */
-  private _bindSeriesSyncState(series: ISeries, extensionMarkSpecs: IExtensionMarkSpecWithSyncState[]) {
+  private _syncSeriesStates(series: ISeries, extensionMarkSpecs: IExtensionMarkSpecWithSyncState[]) {
     // 收集主 mark 的 graphics，按 context.key 建立索引
     const activeMarks = series.getActiveMarks();
     const mainGraphicByKey = new Map<string, IMarkGraphic>();
@@ -155,7 +151,7 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
         return;
       }
 
-      extMark.getGraphics().forEach((extGraphic: IMarkGraphic & Record<string, any>) => {
+      extMark.getGraphics().forEach(extGraphic => {
         const key = extGraphic.context?.key;
         if (!isValid(key)) {
           return;
@@ -166,40 +162,13 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
           return;
         }
 
-        // 立即同步一次当前状态
+        // 直接同步主 graphic 的当前状态
         const currentStates = mainGraphic.currentStates;
         if (currentStates?.length) {
           extGraphic.useStates(currentStates);
+        } else {
+          extGraphic.clearStates();
         }
-
-        // 避免重复绑定：通过标记位判断
-        if (extGraphic._syncStateBindKey === key && extGraphic._syncStateBindTarget === mainGraphic) {
-          return;
-        }
-
-        // 清理旧监听（如果之前绑定过不同的 mainGraphic）
-        if (extGraphic._syncStateHandler && extGraphic._syncStateBindTarget) {
-          extGraphic._syncStateBindTarget.off('afterStateUpdate', extGraphic._syncStateHandler);
-          // 从 _bindHandlers 中移除旧记录
-          this._bindHandlers = this._bindHandlers.filter(
-            h => !(h.bindTarget === extGraphic._syncStateBindTarget && h.handler === extGraphic._syncStateHandler)
-          );
-        }
-
-        // 建立新监听
-        const handler = () => {
-          const states = mainGraphic.currentStates ?? [];
-          extGraphic.useStates(states);
-        };
-        mainGraphic.on('afterStateUpdate', handler);
-
-        // 记录绑定信息，用于下次去重/清理
-        extGraphic._syncStateHandler = handler;
-        extGraphic._syncStateBindKey = key;
-        extGraphic._syncStateBindTarget = mainGraphic;
-
-        // 记录到插件级别的清理列表
-        this._bindHandlers.push({ bindTarget: mainGraphic, handler });
       });
     });
   }
