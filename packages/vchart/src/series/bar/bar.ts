@@ -494,14 +494,21 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
+    const isVertical = this.direction === Direction.vertical;
 
     this._barMark.setMarkConfig({
       clip: true,
       clipPath: () => {
+        const usePreCalculatedRect = !!this._shouldDoPreCalculate();
+        if (usePreCalculatedRect) {
+          this._calculateStackRectPosition(isVertical);
+        }
         const rectPaths: any[] = [];
         this._forEachStackGroup(node => {
           let min = Infinity;
           let max = -Infinity;
+          let rectMin = Infinity;
+          let rectMax = -Infinity;
           let hasPercent = false;
           let minPercent = Infinity;
           let maxPercent = -Infinity;
@@ -512,6 +519,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             const endPercent = datum[STACK_FIELD_END_PERCENT];
             min = Math.min(min, start, end);
             max = Math.max(max, start, end);
+            if (usePreCalculatedRect) {
+              const rectStart = datum[isVertical ? RECT_Y : RECT_X];
+              const rectEnd = datum[isVertical ? RECT_Y1 : RECT_X1];
+              rectMin = Math.min(rectMin, rectStart, rectEnd);
+              rectMax = Math.max(rectMax, rectStart, rectEnd);
+            }
             if (isValid(startPercent) && isValid(endPercent)) {
               hasPercent = true;
               minPercent = Math.min(minPercent, startPercent, endPercent);
@@ -532,14 +545,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           const rectAttr =
             this.direction === Direction.horizontal
               ? {
-                  x: this._getBarXStart(mockDatum, xScale),
-                  x1: this._getBarXEnd(mockDatum, xScale),
+                  x: usePreCalculatedRect ? rectMin : this._getBarXStart(mockDatum, xScale),
+                  x1: usePreCalculatedRect ? rectMax : this._getBarXEnd(mockDatum, xScale),
                   y: this._getPosition(this.direction, mockDatum),
                   height: this._getBarWidth(this._yAxisHelper)
                 }
               : {
-                  y: this._getBarYStart(mockDatum, yScale),
-                  y1: this._getBarYEnd(mockDatum, yScale),
+                  y: usePreCalculatedRect ? rectMin : this._getBarYStart(mockDatum, yScale),
+                  y1: usePreCalculatedRect ? rectMax : this._getBarYEnd(mockDatum, yScale),
                   x: this._getPosition(this.direction, mockDatum),
                   width: this._getBarWidth(this._xAxisHelper)
                 };
