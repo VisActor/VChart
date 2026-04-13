@@ -6,6 +6,17 @@ import { TOOLTIP_EL_CLASS_NAME } from './constant';
 import { getTooltipActualActiveType } from './utils/common';
 import { mergeSpec } from '@visactor/vutils-extension';
 
+const TOOLTIP_STYLE_THEME_KEYS = [
+  'panel',
+  'shape',
+  'titleLabel',
+  'keyLabel',
+  'valueLabel',
+  'spaceRow',
+  'maxContentHeight',
+  'align'
+] as const;
+
 export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
   protected _shouldMergeThemeToSpec() {
     return false;
@@ -13,17 +24,24 @@ export class TooltipSpecTransformer extends BaseComponentSpecTransformer<any> {
 
   protected _initTheme(spec: any, chartSpec: any): { spec: any; theme: any } {
     const { spec: newSpec, theme } = super._initTheme(spec, chartSpec);
+    const themeStyle = mergeSpec(
+      {},
+      ...TOOLTIP_STYLE_THEME_KEYS.map(key => (theme?.[key] !== undefined ? { [key]: theme[key] } : undefined)),
+      theme?.style
+    );
+    const themeSpec = mergeSpec({}, theme);
 
-    // 合并样式和配置
-    newSpec.style = mergeSpec({}, this._theme, newSpec.style);
-    newSpec.offset = mergeSpec({}, theme.offset, spec.offset);
-    newSpec.transitionDuration = spec.transitionDuration ?? theme.transitionDuration;
+    TOOLTIP_STYLE_THEME_KEYS.forEach(key => {
+      delete themeSpec[key];
+    });
+    delete themeSpec.style;
 
-    // 合并交互相关配置
-    newSpec.trigger = spec.trigger ?? theme.trigger;
-    newSpec.triggerOff = spec.triggerOff ?? theme.triggerOff;
+    const mergedSpec = mergeSpec({}, themeSpec, newSpec);
 
-    return { spec: newSpec, theme };
+    // 合并样式配置
+    mergedSpec.style = mergeSpec({}, themeStyle, mergedSpec.style);
+
+    return { spec: mergedSpec, theme };
   }
 
   protected _transformSpecAfterMergingTheme(spec: any, chartSpec: any, chartSpecInfo?: IChartSpecInfo) {
