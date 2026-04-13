@@ -4,9 +4,6 @@
  * 将配置了 syncState: true 的 extensionMark 的 graphics 与主 mark 的 graphics
  * 通过 context.key 配对，在 afterRender 回调中将主 mark 的当前状态同步到
  * extensionMark graphic。
- *
- * 由于 afterRender 在每次状态更新完成后都会触发，因此无需在单个 graphic 上
- * 额外监听 afterStateUpdate 事件。
  */
 import {
   type IChartPlugin,
@@ -14,7 +11,8 @@ import {
   type ISeries,
   type IMark,
   type IMarkGraphic,
-  type VChartRenderActionSource,
+  type IEvent,
+  type ISeriesSpec,
   BasePlugin,
   ChartEvent,
   registerChartPlugin,
@@ -24,31 +22,23 @@ import type { IExtensionMarkSpecWithSyncState } from './type';
 
 const EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE = 'ExtensionMarkSyncStatePlugin';
 
-export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPlugin {
+export class ExtensionMarkSyncStatePlugin extends BasePlugin<IChartPluginService> implements IChartPlugin {
   static readonly pluginType: 'chart' = 'chart';
   static readonly type: string = EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE;
   readonly type: string = EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE;
 
-  private _afterRenderHandler?: () => void;
+  /** 取消 afterRender 订阅的函数，release 时调用 */
+  private _unsubscribeAfterRender?: () => void;
+  /** 已订阅的 event 实例，chart reMake 后会更换 */
+  private _subscribedEvent?: IEvent;
 
   constructor() {
     super(EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE);
   }
 
-  private _hasSyncState = false;
-
-  onInit(service: IChartPluginService, chartSpec: any) {
-    // onInit 阶段 chart 尚未创建，仅做 spec 检测
-    this._hasSyncState = this._detectSyncState(chartSpec);
-  }
-
-  onAfterInitChart(service: IChartPluginService, chartSpec: any, _actionSource: VChartRenderActionSource) {
-    if (!this._hasSyncState) {
-      // updateSpec 场景：重新检测
-      this._hasSyncState = this._detectSyncState(chartSpec);
-      if (!this._hasSyncState) {
-        return;
-      }
+  onAfterInitChart(service: IChartPluginService, chartSpec: any) {
+    if (!this._detectSyncState(chartSpec)) {
+      return;
     }
 
     const chart = service.globalInstance.getChart();
@@ -56,76 +46,66 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
       return;
     }
 
-    // 注册 afterRender 事件，每次渲染完成后直接同步状态
-    // afterRender 在每次状态更新完成后都会触发，因此无需额外监听单个 graphic 的状态变化
-    this._afterRenderHandler = () => {
-      this._syncStates(service);
+    const event = chart.getEvent();
+
+    if (this._subscribedEvent === event) {
+      return;
+    }
+
+    this._unsubscribeAfterRender?.();
+
+    const handler = () => this._syncStates();
+    event.on(ChartEvent.afterRender, handler);
+    this._subscribedEvent = event;
+    this._unsubscribeAfterRender = () => {
+      event.off(ChartEvent.afterRender, handler);
+      this._subscribedEvent = undefined;
     };
-    chart.getEvent().on(ChartEvent.afterRender, this._afterRenderHandler);
   }
 
   release(): void {
-    this._afterRenderHandler = undefined;
+    this._unsubscribeAfterRender?.();
     super.release();
   }
 
-  /**
-   * 检测 chartSpec 中是否存在配置了 syncState 的 extensionMark
-   */
+  /** 检测 chartSpec 中是否存在配置了 syncState 的 extensionMark */
   private _detectSyncState(chartSpec: any): boolean {
-    // 检查顶层 series spec 中的 extensionMark
     const seriesSpecs = chartSpec?.series;
-    if (seriesSpecs) {
-      for (const seriesSpec of seriesSpecs) {
-        if (this._hasExtensionMarkSyncState(seriesSpec.extensionMark)) {
-          return true;
-        }
-      }
-    }
-
-    // 非 common chart 时，extensionMark 可直接配置在顶层 spec 上
-    if (this._hasExtensionMarkSyncState(chartSpec?.extensionMark)) {
+    if (
+      seriesSpecs?.some((s: ISeriesSpec) =>
+        this._hasExtensionMarkWithSyncState(s.extensionMark as IExtensionMarkSpecWithSyncState[])
+      )
+    ) {
       return true;
     }
-
-    return false;
+    return this._hasExtensionMarkWithSyncState(chartSpec?.extensionMark);
   }
 
-  private _hasExtensionMarkSyncState(extensionMarks: IExtensionMarkSpecWithSyncState[] | undefined): boolean {
+  private _hasExtensionMarkWithSyncState(extensionMarks: IExtensionMarkSpecWithSyncState[] | undefined): boolean {
     return !!extensionMarks?.some(m => m.type !== 'group' && m.syncState);
   }
 
-  /**
-   * 遍历所有 series，找到配置了 syncState 的 extensionMark，
-   * 将其 graphics 与主 mark 的 graphics 通过 context.key 配对并同步状态
-   */
-  private _syncStates(service: IChartPluginService) {
-    const chart = service.globalInstance.getChart();
+  /** 将所有 series 中主 mark 的当前状态同步到对应的 extensionMark graphics */
+  private _syncStates() {
+    const chart = this.service?.globalInstance.getChart();
     if (!chart) {
       return;
     }
 
-    const allSeries = chart.getAllSeries();
-    allSeries.forEach(series => {
-      const spec = series.getSpec();
-      const extensionMarkSpecs: IExtensionMarkSpecWithSyncState[] | undefined = spec?.extensionMark;
-      if (!extensionMarkSpecs?.some(m => m.type !== 'group' && m.syncState)) {
-        return;
+    chart.getAllSeries().forEach(series => {
+      const syncSpecs = (series.getSpec()?.extensionMark as IExtensionMarkSpecWithSyncState[] | undefined)?.filter(
+        m => m.type !== 'group' && m.syncState
+      );
+      if (syncSpecs?.length) {
+        this._syncSeriesStates(series, syncSpecs);
       }
-
-      this._syncSeriesStates(series, extensionMarkSpecs);
     });
   }
 
-  /**
-   * 对单个 series，将主 mark 的当前状态同步到 extensionMark
-   */
+  /** 将单个 series 主 mark 的当前状态同步到其 extensionMark graphics */
   private _syncSeriesStates(series: ISeries, extensionMarkSpecs: IExtensionMarkSpecWithSyncState[]) {
-    // 收集主 mark 的 graphics，按 context.key 建立索引
-    const activeMarks = series.getActiveMarks();
     const mainGraphicByKey = new Map<string, IMarkGraphic>();
-
-    activeMarks.forEach((mark: IMark) => {
+    series.getActiveMarks().forEach((mark: IMark) => {
       mark.getGraphics().forEach(g => {
         const key = g.context?.key;
         if (isValid(key)) {
@@ -138,13 +118,10 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
       return;
     }
 
-    const namePrefix = this._getExtensionMarkNamePrefix(series);
+    // 命名格式与 BaseSeries._getExtensionMarkNamePrefix 一致
+    const namePrefix = `${series.type}_${series.id}_extensionMark`;
 
     extensionMarkSpecs.forEach((spec, i) => {
-      if (spec.type === 'group' || !spec.syncState) {
-        return;
-      }
-
       const markName = isValid(spec.name) ? `${spec.name}` : `${namePrefix}_${i}`;
       const extMark = series.getMarkInName(markName);
       if (!extMark) {
@@ -162,7 +139,6 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
           return;
         }
 
-        // 直接同步主 graphic 的当前状态
         const currentStates = mainGraphic.currentStates;
         if (currentStates?.length) {
           extGraphic.useStates(currentStates);
@@ -171,14 +147,6 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin implements IChartPl
         }
       });
     });
-  }
-
-  /**
-   * 重建 extensionMark 的命名前缀
-   * 与 BaseSeries._getExtensionMarkNamePrefix 保持一致：`${series.type}_${series.id}_extensionMark`
-   */
-  private _getExtensionMarkNamePrefix(series: ISeries): string {
-    return `${series.type}_${series.id}_extensionMark`;
   }
 }
 
