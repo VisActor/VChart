@@ -1,12 +1,16 @@
 {
   "name": "@visactor/vchart",
-  "version": "2.0.21",
+  "version": "2.0.22",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "browser": "esm/index.js",
   "types": "esm/index.d.ts",
   "unpkg": "build/index.min.js",
+  "unpkgFiles": [
+    "build/index.js",
+    "build/index.min.js"
+  ],
   "sideEffects": [
     "./*/index-lark.js",
     "./*/index-wx-simple.js",
@@ -126,7 +130,7 @@
     "@visactor/vrender-kits": "1.0.45",
     "@visactor/vrender-components": "1.0.45",
     "@visactor/vrender-animate": "1.0.45",
-    "@visactor/vutils-extension": "workspace:2.0.21"
+    "@visactor/vutils-extension": "workspace:2.0.22"
   },
   "publishConfig": {
     "access": "public",
