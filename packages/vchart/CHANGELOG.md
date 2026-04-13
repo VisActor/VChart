@@ -1,6 +1,20 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 26 Mar 2026 08:32:46 GMT and should not be manually modified.
+This log was last generated on Mon, 13 Apr 2026 12:57:51 GMT and should not be manually modified.
+
+## 2.0.21
+Mon, 13 Apr 2026 12:57:51 GMT
+
+### Patches
+
+- fix: correct stacked bar corner clipping when barMinHeight is applied (Issue #4543)
+- fix: handle sankey tooltip labels when source index is 0 (Issue #4488)
+
+### Updates
+
+- fix: relayout api not work bug. fix#4537
+- fix: custom mark not release after update spec. fix#4537
+- fix: map error when roam or drag canvas. fix#4547
 
 ## 2.0.19
 Thu, 26 Mar 2026 08:32:46 GMT
