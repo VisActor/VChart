@@ -133,3 +133,4 @@ packages/vchart/__tests__/runtime/node/**.png
 .env.local
 
 *.tsbuildinfo
+.omx/
