@@ -30583,7 +30583,14 @@
           "description": "图表标题配置"
         },
         "tooltip": {
-          "$ref": "#/definitions/ITooltipTheme<string|IColorKey>",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITooltipTheme<string|IColorKey>"
+            },
+            {
+              "$ref": "#/definitions/Partial<Pick<ITooltipSpec,\"mark\"|\"visible\"|\"group\"|\"dimension\"|\"activeType\"|\"trigger\"|\"triggerOff\"|\"showDelay\"|\"hideTimer\"|\"lockAfterClick\"|\"renderMode\"|\"confine\"|\"className\"|\"parentElement\"|\"enterable\"|\"throttleInterval\">>"
+            }
+          ],
           "description": "tooltip 组件配置"
         },
         "totalLabel": {
@@ -101251,6 +101258,174 @@
         },
         "zIndex": {
           "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<Pick<ITooltipSpec,\"mark\"|\"visible\"|\"group\"|\"dimension\"|\"activeType\"|\"trigger\"|\"triggerOff\"|\"showDelay\"|\"hideTimer\"|\"lockAfterClick\"|\"renderMode\"|\"confine\"|\"className\"|\"parentElement\"|\"enterable\"|\"throttleInterval\">>": {
+      "properties": {
+        "activeType": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/definitions/TooltipActiveType"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "dimension",
+                "group",
+                "mark"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "受支持的激活类型\n（*支持在series上设置）\n（*会影响自定义handler）"
+        },
+        "className": {
+          "description": "tooltip dom元素的 className，仅当 renderMode: 'html' 时生效",
+          "type": "string"
+        },
+        "confine": {
+          "description": "是否将 tooltip 框限制在画布区域内，renderMode 为 canvas 时，默认开启。",
+          "type": "boolean"
+        },
+        "dimension": {
+          "$ref": "#/definitions/ITooltipPattern",
+          "description": "dimension tooltip 对应的配置，其中dimension tooltip 用于展示维度对应的数据信息，比如x轴对应的数据信息"
+        },
+        "enterable": {
+          "description": "鼠标是否可进入提示框浮层中，默认为false，如需详情内交互，如添加链接，按钮，可设置为 true。\n该属性目前只对 renderMode 为 html 时生效\nTODO: 支持 renderMode: canvas",
+          "type": "boolean"
+        },
+        "group": {
+          "$ref": "#/definitions/IGroupTooltipPattern",
+          "description": "group tooltip 对应的配置，其中group tooltip 用于展示整个分组数据对应的数据信息，比如说线图中一条线代表一个相同的分组，可以使用 group tooltip展示整条线所有点对应的数据"
+        },
+        "hideTimer": {
+          "description": "隐藏计时器",
+          "since": "1.11.7",
+          "type": "number"
+        },
+        "lockAfterClick": {
+          "description": "点击后锁定，只有点击才可以更新位置或者解锁，通常用于 trigger 为 `['hover', 'click']` 的场景\n（*会影响自定义handler）",
+          "since": "1.10.0",
+          "type": "boolean"
+        },
+        "mark": {
+          "allOf": [
+            {
+              "$ref": "#/definitions/ITooltipPattern"
+            },
+            {
+              "typeof": "function"
+            }
+          ],
+          "description": "mark tooltip对应的配置，其中mark tooltip 用于展示图元对应的数据信息，比如柱图中的柱子，散点图中的点，面积图中的点灯"
+        },
+        "parentElement": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HTMLElement"
+            },
+            {
+              "$ref": "#/definitions/HTMLCanvasElement"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "description": "tooltip dom 元素的挂载点，可传 id 或 dom 对象"
+        },
+        "renderMode": {
+          "description": "tooltip 渲染方式，默认为 html",
+          "enum": [
+            "canvas",
+            "html"
+          ],
+          "type": "string"
+        },
+        "showDelay": {
+          "description": "当设置了`enterable: true`，且 trigger类型为`hover`的时候，为了方便鼠标进入提示信息的内容区域，设置的显示延迟时长\n其他情况设置无效",
+          "since": "1.12.8",
+          "type": "number"
+        },
+        "throttleInterval": {
+          "description": "更新 tooltip 的防抖动时间间隔，单位是 ms",
+          "type": "number"
+        },
+        "trigger": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "hover",
+                "none"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "tooltip触发方式\n（*会影响自定义handler）",
+          "since": "1.12.10 支持自定义的事件触发"
+        },
+        "triggerOff": {
+          "anyOf": [
+            {
+              "typeof": "function"
+            },
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "typeof": "function"
+                  },
+                  {
+                    "enum": [
+                      "click",
+                      "hover"
+                    ],
+                    "type": "string"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "click",
+                "hover",
+                "none"
+              ],
+              "type": "string"
+            }
+          ],
+          "description": "隐藏tooltip的触发方式（目前仅支持和trigger一致的设置以及none）\n（*会影响自定义handler）",
+          "since": "1.12.10 支持自定义的事件触发"
+        },
+        "visible": {
+          "description": "是否显示\n（*支持在series上设置）\n（*会影响自定义handler）",
+          "type": "boolean"
         }
       },
       "type": "object"
