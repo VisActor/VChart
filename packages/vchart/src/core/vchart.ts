@@ -2283,7 +2283,7 @@ export class VChart implements IVChart {
 
   private _reSetRenderState() {
     this._renderState = RenderStateEnum.render;
-    this.getStage().eventSystem.resumeTriggerEvent();
+    this.getStage()?.eventSystem?.resumeTriggerEvent();
   }
 }
 
