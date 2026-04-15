@@ -11,7 +11,7 @@ import type { IMarkLineTheme } from '../marker/mark-line/interface';
 import type { IMarkPointTheme } from '../marker/mark-point/interface';
 import type { IPlayerTheme } from '../player/interface';
 import type { ITitleTheme } from '../title/interface';
-import type { ITooltipTheme } from '../tooltip/interface';
+import type { ITooltipSpec, ITooltipTheme } from '../tooltip/interface';
 import type { ComponentTypeEnum } from './type';
 import type { ITotalLabelTheme } from '../label/interface';
 import type { IPoptipTheme } from '../poptip/interface';
@@ -37,7 +37,7 @@ export interface IComponentTheme {
     [ComponentTypeEnum.markPoint]?: IMarkPointTheme;
     [ComponentTypeEnum.polarMarkPoint]?: IMarkPointTheme;
     [ComponentTypeEnum.geoMarkPoint]?: IMarkPointTheme;
-    [ComponentTypeEnum.tooltip]?: ITooltipTheme<string | IColorKey>;
+    [ComponentTypeEnum.tooltip]?: ITooltipTheme<string | IColorKey> & Partial<Pick<ITooltipSpec, 'visible' | 'activeType' | 'mark' | 'dimension' | 'group' | 'trigger' | 'triggerOff' | 'showDelay' | 'hideTimer' | 'lockAfterClick' | 'renderMode' | 'confine' | 'className' | 'parentElement' | 'enterable' | 'throttleInterval'>>;
     [ComponentTypeEnum.crosshair]?: ICrosshairTheme;
     [ComponentTypeEnum.dataZoom]?: IDataZoomTheme;
     [ComponentTypeEnum.scrollBar]?: IScrollBarTheme;
