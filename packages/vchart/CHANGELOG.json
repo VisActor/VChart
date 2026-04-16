@@ -2,6 +2,32 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.0.21",
+      "tag": "@visactor/vchart_v2.0.21",
+      "date": "Mon, 13 Apr 2026 12:57:51 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: correct stacked bar corner clipping when barMinHeight is applied (Issue #4543)"
+          },
+          {
+            "comment": "fix: handle sankey tooltip labels when source index is 0 (Issue #4488)"
+          }
+        ],
+        "none": [
+          {
+            "comment": "fix: relayout api not work bug. fix#4537"
+          },
+          {
+            "comment": "fix: custom mark not release after update spec. fix#4537"
+          },
+          {
+            "comment": "fix: map error when roam or drag canvas. fix#4547"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.0.19",
       "tag": "@visactor/vchart_v2.0.19",
       "date": "Thu, 26 Mar 2026 08:32:46 GMT",
