@@ -28,6 +28,7 @@ import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { scatter } from '../../theme/builtin/common/series/scatter';
+import type { IGraphic } from '@visactor/vrender-core';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -351,35 +352,48 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
    * 处理缩放
    */
   handleZoom(e: any) {
-    this.getMarksWithoutRoot().forEach(mark => {
-      if (!mark) {
-        return;
-      }
-      const graphics = mark.getGraphics();
+    const graphics = this._symbolMark?.getGraphics();
 
-      if (!graphics || !graphics.length) {
-        return;
-      }
-
-      graphics.forEach((graphicItem: IMarkGraphic, i: number) => {
+    if (graphics && graphics.length) {
+      graphics.forEach((graphicItem: IMarkGraphic) => {
         const datum = graphicItem?.context?.data?.[0];
         const newPosition = this.dataToPosition(datum);
         if (newPosition && graphicItem) {
-          graphicItem.translateTo(newPosition.x, newPosition.y);
+          (graphicItem as unknown as IGraphic).translateTo(newPosition.x, newPosition.y);
         }
       });
-    });
+    }
 
-    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
+    const labelComponent = this._labelMark?.getComponent();
 
-    if (vgrammarLabel) {
-      (vgrammarLabel as any).evaluate(null, null);
+    if (labelComponent) {
+      labelComponent.renderInner();
     }
   }
 
   handlePan(e: any) {
-    // TODO 现在处理好像一模一样
-    this.handleZoom(e);
+    const { delta } = e;
+    if (delta?.[0] === 0 && delta?.[1] === 0) {
+      return;
+    }
+
+    const graphics = this._symbolMark?.getGraphics();
+
+    if (graphics && graphics.length) {
+      graphics.forEach((graphicItem: IMarkGraphic) => {
+        const datum = graphicItem?.context?.data?.[0];
+        const newPosition = this.dataToPosition(datum);
+        if (newPosition && graphicItem) {
+          (graphicItem as IMarkGraphic).translateTo(newPosition.x, newPosition.y);
+        }
+      });
+    }
+
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+
+    if (labelGraphic) {
+      labelGraphic.translate(delta[0], delta[1]);
+    }
   }
 
   getDefaultShapeType() {
