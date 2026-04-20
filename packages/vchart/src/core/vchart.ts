@@ -1815,10 +1815,8 @@ export class VChart implements IVChart {
    * 强制重新布局
    */
   reLayout() {
-    this._chart?.resetLayoutItemTag();
-    // Force immediate layout + render to ensure geo components reset roam state.
-    this._chart?.setLayoutTag(true, null, false);
-    this._compiler?.render();
+    this._chart.resetLayoutItemTag();
+    this._chart?.setLayoutTag(true);
   }
 
   /**
