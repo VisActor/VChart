@@ -1,6 +1,13 @@
 import { FederatedEvent } from '@visactor/vrender-core';
-import type { IBarChartSpec } from '../../../src';
-import { default as VChart } from '../../../src';
+import VChart, {
+  type BaseEventParams,
+  type IBarChartSpec,
+  type IChart,
+  type ICommonChartSpec,
+  type IMark,
+  type IMarkGraphic,
+  type ISeries
+} from '../../../src';
 import { createDiv, removeDom } from '../../util/dom';
 
 describe('vchart event test', () => {
@@ -191,5 +198,213 @@ describe('vchart event test', () => {
     vchart.release();
 
     expect(handleTooltipRelease).toBeCalledTimes(1);
+  });
+
+  it('should keep series element-active triggers isolated in common chart', () => {
+    const commonContainer = createDiv();
+    const commonDom = createDiv(commonContainer);
+    commonDom.id = 'common-container';
+    commonContainer.style.position = 'fixed';
+    commonContainer.style.width = '500px';
+    commonContainer.style.height = '500px';
+    commonContainer.style.top = '0px';
+    commonContainer.style.left = '0px';
+
+    const commonChart = new VChart(
+      {
+        type: 'common',
+        data: [
+          {
+            id: 'barData',
+            values: [
+              { x: 'Mon', y: 10 },
+              { x: 'Tue', y: 12 }
+            ]
+          },
+          {
+            id: 'lineData',
+            values: [
+              { x: 'Mon', y: 8 },
+              { x: 'Tue', y: 15 }
+            ]
+          }
+        ],
+        series: [
+          {
+            type: 'line',
+            dataId: 'lineData',
+            xField: 'x',
+            yField: 'y',
+            line: {
+              state: {
+                active: {
+                  lineWidth: 4
+                }
+              }
+            },
+            interactions: [
+              {
+                type: 'element-active',
+                trigger: 'click'
+              }
+            ]
+          },
+          {
+            type: 'bar',
+            dataId: 'barData',
+            xField: 'x',
+            yField: 'y',
+            bar: {
+              state: {
+                active: {
+                  stroke: '#000',
+                  lineWidth: 2
+                }
+              }
+            },
+            interactions: [
+              {
+                type: 'element-active',
+                trigger: 'pointerover'
+              }
+            ]
+          }
+        ],
+        axes: [{ orient: 'left' }, { orient: 'bottom', type: 'band' }]
+      } as ICommonChartSpec,
+      {
+        dom: commonDom,
+        animation: false
+      }
+    );
+
+    commonChart.renderSync();
+
+    try {
+      const chart = commonChart.getChart() as IChart;
+      const barSeries = chart.getAllSeries().find((series: ISeries) => series.type === 'bar');
+      expect(barSeries).toBeDefined();
+      if (!barSeries) {
+        throw new Error('Expected bar series to exist');
+      }
+
+      const barMark = barSeries.getMarks().find((mark: IMark) => mark.name === 'bar');
+      expect(barMark).toBeDefined();
+      if (!barMark) {
+        throw new Error('Expected bar mark to exist');
+      }
+
+      const barGraphic = barMark.getGraphics()[0] as IMarkGraphic;
+
+      chart.getEvent().emit('pointerover', { item: barGraphic } as unknown as BaseEventParams);
+      expect(barGraphic.hasState('active')).toBe(true);
+
+      chart.getEvent().emit('pointerout', { item: barGraphic } as unknown as BaseEventParams);
+      expect(barGraphic.hasState('active')).toBe(false);
+
+      chart.getEvent().emit('click', { item: barGraphic } as unknown as BaseEventParams);
+      expect(barGraphic.hasState('active')).toBe(false);
+    } finally {
+      commonChart.release();
+      removeDom(commonContainer);
+    }
+  });
+
+  it('should merge only identical interaction triggers in common chart', () => {
+    const commonContainer = createDiv();
+    const commonDom = createDiv(commonContainer);
+
+    const createSpec = (
+      lineTrigger: 'click' | 'pointerover',
+      barTrigger: 'click' | 'pointerover'
+    ): ICommonChartSpec => ({
+      type: 'common',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            { x: 'Mon', y: 10 },
+            { x: 'Tue', y: 12 }
+          ]
+        },
+        {
+          id: 'lineData',
+          values: [
+            { x: 'Mon', y: 8 },
+            { x: 'Tue', y: 15 }
+          ]
+        }
+      ],
+      series: [
+        {
+          type: 'line',
+          dataId: 'lineData',
+          xField: 'x',
+          yField: 'y',
+          line: {
+            state: {
+              active: {
+                lineWidth: 4
+              }
+            }
+          },
+          interactions: [
+            {
+              type: 'element-active',
+              trigger: lineTrigger
+            }
+          ]
+        },
+        {
+          type: 'bar',
+          dataId: 'barData',
+          xField: 'x',
+          yField: 'y',
+          bar: {
+            state: {
+              active: {
+                stroke: '#000',
+                lineWidth: 2
+              }
+            }
+          },
+          interactions: [
+            {
+              type: 'element-active',
+              trigger: barTrigger
+            }
+          ]
+        }
+      ],
+      axes: [{ orient: 'left' }, { orient: 'bottom', type: 'band' }]
+    });
+
+    const getActiveTriggerCount = (spec: ICommonChartSpec) => {
+      const chart = new VChart(spec, {
+        dom: commonDom,
+        animation: false
+      });
+
+      chart.renderSync();
+
+      try {
+        const activeTriggers = ((
+          chart.getChart() as unknown as {
+            _interaction: { _triggerMapByState: Map<string, unknown[]> };
+          }
+        )._interaction._triggerMapByState.get('active') ?? []) as unknown[];
+
+        return activeTriggers.length;
+      } finally {
+        chart.release();
+      }
+    };
+
+    try {
+      expect(getActiveTriggerCount(createSpec('pointerover', 'pointerover'))).toBe(1);
+      expect(getActiveTriggerCount(createSpec('click', 'pointerover'))).toBe(2);
+    } finally {
+      removeDom(commonContainer);
+    }
   });
 });

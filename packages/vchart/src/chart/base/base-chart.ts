@@ -261,7 +261,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     const series = this.getAllSeries();
     const mergedTriggers: Partial<IBaseTriggerOptions>[] = [];
-    const mergedTriggersMarks: Record<string, Partial<IBaseTriggerOptions>> = {};
+    const groupedTriggers: Array<{
+      regionId: number;
+      config: Partial<IBaseTriggerOptions>;
+      trigger: Partial<IBaseTriggerOptions>;
+    }> = [];
 
     series.forEach(s => {
       const triggers = s.getInteractionTriggers();
@@ -270,15 +274,19 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         const regionId = s.getRegion().id;
 
         triggers.forEach(({ trigger, marks }) => {
-          const interactionId = `${regionId}-${trigger.type}`;
+          const sameTrigger = groupedTriggers.find(item => item.regionId === regionId && isEqual(item.config, trigger));
 
-          if (mergedTriggersMarks[interactionId]) {
-            marks.forEach(m => {
-              mergedTriggersMarks[interactionId].marks.push(m);
-            });
+          if (sameTrigger) {
+            sameTrigger.trigger.marks.push(...marks);
           } else {
-            mergedTriggersMarks[interactionId] = { ...trigger, marks };
-            mergedTriggers.push(mergedTriggersMarks[interactionId]);
+            const mergedTrigger = { ...trigger, marks: [...marks] };
+
+            groupedTriggers.push({
+              regionId,
+              config: { ...trigger },
+              trigger: mergedTrigger
+            });
+            mergedTriggers.push(mergedTrigger);
           }
         });
       }
