@@ -1815,8 +1815,15 @@ export class VChart implements IVChart {
    * 强制重新布局
    */
   reLayout() {
+    if (!this._chart || !this._compiler || this._isReleased) {
+      return;
+    }
     this._chart.resetLayoutItemTag();
-    this._chart?.setLayoutTag(true);
+    this._chart.setLayoutTag(true, null, false);
+    this._compiler.render();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    this._chart.onEvaluateEnd();
   }
 
   /**

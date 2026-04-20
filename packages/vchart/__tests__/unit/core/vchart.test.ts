@@ -299,6 +299,46 @@ describe('VChart', () => {
       expect((labels.children[3] as Text).attribute.fillOpacity).toBe(1);
       expect((labels.children[3] as Text).attribute.text).toBe(1200);
     });
+
+    it('reLayout', () => {
+      const spec: IBarChartSpec = {
+        type: 'bar',
+        width: 200,
+        height: 150,
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 100 },
+              { x: 'Tue', y: 66 }
+            ]
+          }
+        ],
+        xField: 'x',
+        yField: 'y',
+        axes: [{ orient: 'bottom', type: 'band' }, { orient: 'left' }]
+      };
+
+      vchart = new VChart(spec, {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      vchart.renderSync();
+
+      const chart = vchart.getChart();
+      const compiler = vchart.getCompiler();
+      const resetLayoutItemTagSpy = jest.spyOn(chart, 'resetLayoutItemTag');
+      const setLayoutTagSpy = jest.spyOn(chart, 'setLayoutTag');
+      const renderSpy = jest.spyOn(compiler, 'render');
+      const onEvaluateEndSpy = jest.spyOn(chart, 'onEvaluateEnd');
+
+      vchart.reLayout();
+
+      expect(resetLayoutItemTagSpy).toHaveBeenCalledTimes(1);
+      expect(setLayoutTagSpy).toHaveBeenCalledWith(true, null, false);
+      expect(renderSpy).toHaveBeenCalledTimes(1);
+      expect(onEvaluateEndSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('convertDatumToPosition and convertValueToPosition', () => {
