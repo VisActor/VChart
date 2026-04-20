@@ -4,7 +4,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { IScatterSeriesSpec, ScatterAppearPreset } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric } from '@visactor/vutils';
+import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, Matrix } from '@visactor/vutils';
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -351,23 +351,49 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   /**
    * 处理缩放
    */
-  handleZoom(e: any) {
+  private _updateSymbolGraphicPosition() {
     const graphics = this._symbolMark?.getGraphics();
 
-    if (graphics && graphics.length) {
-      graphics.forEach((graphicItem: IMarkGraphic) => {
-        const datum = graphicItem?.context?.data?.[0];
-        const newPosition = this.dataToPosition(datum);
-        if (newPosition && graphicItem) {
-          (graphicItem as unknown as IGraphic).translateTo(newPosition.x, newPosition.y);
-        }
+    if (!graphics || !graphics.length) {
+      return;
+    }
+
+    graphics.forEach((graphicItem: IMarkGraphic) => {
+      const datum = graphicItem?.context?.data?.[0];
+      const newPosition = this.dataToPosition(datum);
+      if (newPosition && graphicItem) {
+        (graphicItem as unknown as IGraphic).setAttributes({
+          x: newPosition.x,
+          y: newPosition.y
+        });
+      }
+    });
+  }
+
+  private _ensureLabelGraphicPostMatrix() {
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+
+    if (labelGraphic && !labelGraphic.attribute.postMatrix) {
+      labelGraphic.setAttributes({
+        postMatrix: new Matrix()
       });
     }
 
-    const labelComponent = this._labelMark?.getComponent();
+    return labelGraphic;
+  }
 
-    if (labelComponent) {
-      labelComponent.renderInner();
+  handleZoom(e: any) {
+    const { scale, scaleCenter } = e;
+    if (scale === 1) {
+      return;
+    }
+
+    this._updateSymbolGraphicPosition();
+
+    const labelGraphic = this._ensureLabelGraphicPostMatrix();
+
+    if (labelGraphic) {
+      labelGraphic.scale(scale, scale, scaleCenter);
     }
   }
 
@@ -377,19 +403,9 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       return;
     }
 
-    const graphics = this._symbolMark?.getGraphics();
+    this._updateSymbolGraphicPosition();
 
-    if (graphics && graphics.length) {
-      graphics.forEach((graphicItem: IMarkGraphic) => {
-        const datum = graphicItem?.context?.data?.[0];
-        const newPosition = this.dataToPosition(datum);
-        if (newPosition && graphicItem) {
-          (graphicItem as IMarkGraphic).translateTo(newPosition.x, newPosition.y);
-        }
-      });
-    }
-
-    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+    const labelGraphic = this._ensureLabelGraphicPostMatrix();
 
     if (labelGraphic) {
       labelGraphic.translate(delta[0], delta[1]);
