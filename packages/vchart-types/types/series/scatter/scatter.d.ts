@@ -33,6 +33,8 @@ export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeries
     protected initTooltip(): void;
     viewDataStatisticsUpdate(d: DataView): void;
     initLabelMarkStyle(labelMark?: ILabelMark): void;
+    private _updateSymbolGraphicPosition;
+    private _ensureLabelGraphicPostMatrix;
     handleZoom(e: any): void;
     handlePan(e: any): void;
     getDefaultShapeType(): string;
