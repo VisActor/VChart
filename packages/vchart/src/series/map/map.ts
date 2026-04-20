@@ -252,24 +252,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.scale(scale, scale, scaleCenter);
     }
-    const labelComponent = this._labelMark?.getComponent();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
-    if (labelComponent?.renderInner) {
-      labelComponent.renderInner();
-    }
-    const vgrammarLabel = labelComponent?.getComponent?.();
-    if (vgrammarLabel?.evaluate) {
-      (vgrammarLabel as any).evaluate(null, null);
-    }
-    // 标签跟随地图
-    const labelGroup = labelComponent?.getProduct?.();
-    if (labelGroup && scale && scaleCenter) {
-      if (!labelGroup.attribute?.postMatrix) {
-        labelGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      labelGroup.scale(scale, scale, scaleCenter);
+    if (vgrammarLabel) {
+      vgrammarLabel.renderInner();
     }
   }
 
@@ -287,24 +273,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.translate(delta[0], delta[1]);
     }
-    const labelComponent = this._labelMark?.getComponent();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
-    if (labelComponent?.renderInner) {
-      labelComponent.renderInner();
-    }
-    const vgrammarLabel = labelComponent?.getComponent?.();
-    if (vgrammarLabel?.evaluate) {
-      (vgrammarLabel as any).evaluate(null, null);
-    }
-    // 标签跟随地图
-    const labelGroup = labelComponent?.getProduct?.();
-    if (labelGroup && delta) {
-      if (!labelGroup.attribute?.postMatrix) {
-        labelGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      labelGroup.translate(delta[0], delta[1]);
+    if (vgrammarLabel) {
+      vgrammarLabel.renderInner();
     }
   }
 

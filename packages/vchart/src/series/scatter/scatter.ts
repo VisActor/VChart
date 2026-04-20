@@ -4,7 +4,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { IScatterSeriesSpec, ScatterAppearPreset } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, Matrix } from '@visactor/vutils';
+import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric } from '@visactor/vutils';
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -370,25 +370,10 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       });
     });
 
-    const labelComponent = this._labelMark?.getComponent();
+    const vgrammarLabel = this._labelMark?.getComponent()?.getProduct();
 
-    if (labelComponent?.renderInner) {
-      labelComponent.renderInner();
-    }
-    const vgrammarLabel = labelComponent?.getComponent?.();
-    if (vgrammarLabel?.evaluate) {
+    if (vgrammarLabel) {
       (vgrammarLabel as any).evaluate(null, null);
-    }
-
-    // 标签跟随地图
-    const labelGroup = labelComponent?.getProduct?.();
-    if (labelGroup && e?.scale && e?.scaleCenter) {
-      if (!labelGroup.attribute?.postMatrix) {
-        labelGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      labelGroup.scale(e.scale, e.scale, e.scaleCenter);
     }
   }
 
