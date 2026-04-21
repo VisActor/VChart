@@ -412,6 +412,23 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     }
   }
 
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
+    this._updateSymbolGraphicPosition();
+
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+    if (labelGraphic?.attribute.postMatrix) {
+      labelGraphic.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+
+    const vgrammarLabel = this._labelMark?.getComponent();
+    if (vgrammarLabel) {
+      vgrammarLabel.renderInner();
+    }
+  }
+
   getDefaultShapeType() {
     return 'circle';
   }
