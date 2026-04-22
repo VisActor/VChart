@@ -56,7 +56,7 @@ export class ElementActive extends BaseTrigger<IElementActiveOptions> implements
     const statedGraphics = interaction.getStatedGraphics(this);
     const g = graphic ?? statedGraphics?.[0];
 
-    if (g && statedGraphics.includes(g)) {
+    if (g && statedGraphics?.includes(g)) {
       g.removeState(state);
       interaction.setStatedGraphics(
         this,
