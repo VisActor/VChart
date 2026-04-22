@@ -21,6 +21,7 @@ export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeries
     private _sizeField;
     private _shape;
     private _shapeField;
+    private _enableLabelAnimationHook?;
     protected _invalidType: IScatterInvalidType;
     setAttrFromSpec(): void;
     private _getSeriesAttribute;
@@ -33,8 +34,13 @@ export declare class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeries
     protected initTooltip(): void;
     viewDataStatisticsUpdate(d: DataView): void;
     initLabelMarkStyle(labelMark?: ILabelMark): void;
+    private _updateSymbolGraphicPosition;
+    private _ensureLabelGraphicPostMatrix;
+    private _isGeoCoordinateSeries;
+    private _refreshLabelComponent;
     handleZoom(e: any): void;
     handlePan(e: any): void;
+    onLayoutEnd(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
 }
