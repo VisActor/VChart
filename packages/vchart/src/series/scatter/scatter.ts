@@ -29,6 +29,8 @@ import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { scatter } from '../../theme/builtin/common/series/scatter';
 import type { IGraphic } from '@visactor/vrender-core';
+import { ComponentTypeEnum } from '../../component/interface/type';
+import { HOOK_EVENT } from '../../constant/event';
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -46,6 +48,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   private _sizeField: string;
   private _shape: IScatterSeriesSpec['shape'];
   private _shapeField: string;
+  private _enableLabelAnimationHook?: () => void;
 
   protected _invalidType: IScatterInvalidType = 'zero';
 
@@ -314,6 +317,13 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     if (this._symbolMark.getProduct()) {
       this._symbolMark.compileEncode();
     }
+
+    // geo 场景下，图例筛选会触发 data update，需要同步刷新散点与 label 的位置
+    // 避免复用旧图元导致位置滞后
+    if (this._isGeoCoordinateSeries()) {
+      this._updateSymbolGraphicPosition();
+      this._refreshLabelComponent(true, true);
+    }
   }
 
   /**
@@ -382,6 +392,38 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
     return labelGraphic;
   }
 
+  private _isGeoCoordinateSeries() {
+    return this.getXAxisHelper()?.getAxisType?.() === ComponentTypeEnum.geoCoordinate;
+  }
+
+  private _refreshLabelComponent(resetPostMatrix: boolean = false, disableAnimation: boolean = false) {
+    const vgrammarLabel = this._labelMark?.getComponent();
+    const labelGraphic = vgrammarLabel?.getComponent?.();
+    if (resetPostMatrix) {
+      if (labelGraphic?.attribute.postMatrix) {
+        labelGraphic.setAttributes({
+          postMatrix: new Matrix()
+        });
+      }
+    }
+    if (disableAnimation && labelGraphic?.disableAnimation) {
+      labelGraphic.disableAnimation();
+      if (!this._enableLabelAnimationHook) {
+        this._enableLabelAnimationHook = () => {
+          const currentLabelGraphic = this._labelMark?.getComponent()?.getComponent?.();
+          currentLabelGraphic?.enableAnimation?.();
+          this.event.off(HOOK_EVENT.AFTER_MARK_RENDER_END, this._enableLabelAnimationHook);
+          this._enableLabelAnimationHook = undefined;
+        };
+        this.event.on(HOOK_EVENT.AFTER_MARK_RENDER_END, this._enableLabelAnimationHook);
+      }
+    }
+    // 图例筛选等数据流程中，label component 可能尚未挂载 product，直接 renderInner 会触发 appendChild 报错
+    if (vgrammarLabel?.getProduct()) {
+      vgrammarLabel.renderInner();
+    }
+  }
+
   handleZoom(e: any) {
     const { scale, scaleCenter } = e;
     if (scale === 1) {
@@ -423,10 +465,7 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
       });
     }
 
-    const vgrammarLabel = this._labelMark?.getComponent();
-    if (vgrammarLabel) {
-      vgrammarLabel.renderInner();
-    }
+    this._refreshLabelComponent();
   }
 
   getDefaultShapeType() {
