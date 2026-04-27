@@ -1,9 +1,5 @@
-import { createBrowserApp, Stage, type Group, type IApp, type IArc, type Text } from '@visactor/vrender-core';
-import {
-  installBrowserEnvToApp,
-  installBrowserPickersToApp,
-  installDefaultGraphicsToApp
-} from '@visactor/vrender-kits';
+import { Stage, type Group, type IApp, type IArc, type Text } from '@visactor/vrender-core';
+import { createBrowserVRenderApp } from '@visactor/vrender';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
 import { getDefaultVRenderApp } from '../../../src/compile/stage-app';
@@ -807,10 +803,7 @@ describe('VChart', () => {
     };
 
     const createExternalApp = () => {
-      externalApp = createBrowserApp();
-      installBrowserEnvToApp(externalApp);
-      installDefaultGraphicsToApp(externalApp);
-      installBrowserPickersToApp(externalApp);
+      externalApp = createBrowserVRenderApp();
       rawExternalAppRelease = externalApp.release.bind(externalApp);
       return externalApp;
     };
@@ -976,6 +969,40 @@ describe('VChart', () => {
       second.release();
 
       expect(releaseSecondStage).toHaveBeenCalledTimes(1);
+      removeDom(secondCanvasDom);
+    });
+
+    it('should release the fallback app after the last internally owned stage is released', () => {
+      const fallbackApp = getDefaultVRenderApp('desktop-browser');
+      const rawFallbackAppRelease = fallbackApp.release.bind(fallbackApp);
+      const releaseFallbackApp = jest.fn(() => rawFallbackAppRelease());
+      fallbackApp.release = releaseFallbackApp as any;
+      const secondCanvasDom = createCanvas();
+      secondCanvasDom.width = 200;
+      secondCanvasDom.height = 150;
+
+      const first = new VChart(spec(), {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      charts.push(first);
+      first.renderSync();
+
+      const second = new VChart(spec(6), {
+        renderCanvas: secondCanvasDom,
+        animation: false
+      });
+      charts.push(second);
+      second.renderSync();
+
+      first.release();
+
+      expect(releaseFallbackApp).not.toHaveBeenCalled();
+
+      second.release();
+
+      expect(releaseFallbackApp).toHaveBeenCalledTimes(1);
+      expect(getDefaultVRenderApp('desktop-browser')).not.toBe(fallbackApp);
       removeDom(secondCanvasDom);
     });
 

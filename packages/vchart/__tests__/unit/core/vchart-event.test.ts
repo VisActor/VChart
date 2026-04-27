@@ -3,12 +3,29 @@ import VChart, {
   type BaseEventParams,
   type IBarChartSpec,
   type IChart,
+  type ILineChartSpec,
   type ICommonChartSpec,
   type IMark,
   type IMarkGraphic,
   type ISeries
 } from '../../../src';
 import { createDiv, removeDom } from '../../util/dom';
+
+type StateGraphic = IMarkGraphic & {
+  attribute: Record<string, unknown>;
+  resolvedStatePatch?: Record<string, unknown>;
+  stateProxy?: (stateName: string, states: string[]) => Record<string, unknown>;
+};
+
+type SharedStateDefinitions = Record<
+  string,
+  {
+    resolver?: (context: { graphic: IMarkGraphic }) => Record<string, unknown> | undefined;
+  }
+>;
+
+const getSharedStateDefinitions = (mark: IMark) =>
+  (mark.getProduct() as unknown as { sharedStateDefinitions?: SharedStateDefinitions }).sharedStateDefinitions;
 
 describe('vchart event test', () => {
   let container: HTMLElement;
@@ -361,15 +378,14 @@ describe('vchart event test', () => {
         throw new Error('Expected bar mark to exist');
       }
 
-      const barGraphic = barMark.getGraphics()[0] as IMarkGraphic & {
-        attribute: Record<string, unknown>;
-        resolvedStatePatch?: Record<string, unknown>;
-        stateProxy?: (stateName: string, states: string[]) => Record<string, unknown>;
-      };
+      const barGraphic = barMark.getGraphics()[0] as StateGraphic;
       expect(barGraphic).toBeDefined();
-      expect(typeof barGraphic.stateProxy).toBe('function');
+      const sharedStateDefinitions = getSharedStateDefinitions(barMark);
+      expect(typeof sharedStateDefinitions?.hover?.resolver).toBe('function');
+      expect(typeof sharedStateDefinitions?.selected?.resolver).toBe('function');
+      expect(barGraphic.stateProxy).toBeFalsy();
 
-      const hoverPatch = barGraphic.stateProxy?.('hover', ['hover']);
+      const hoverPatch = sharedStateDefinitions.hover.resolver({ graphic: barGraphic });
       expect(hoverPatch?.fillOpacity).toBe(0.31);
 
       chart.getEvent().emit('pointerover', { item: barGraphic } as unknown as BaseEventParams);
@@ -384,7 +400,7 @@ describe('vchart event test', () => {
       expect(barGraphic.resolvedStatePatch).toBeUndefined();
       expect(barGraphic.attribute.fillOpacity).not.toBe(0.31);
 
-      const selectedPatch = barGraphic.stateProxy?.('selected', ['selected']);
+      const selectedPatch = sharedStateDefinitions.selected.resolver({ graphic: barGraphic });
       expect(selectedPatch?.stroke).toBe('#111827');
       expect(selectedPatch?.lineWidth).toBe(4);
 
@@ -395,6 +411,194 @@ describe('vchart event test', () => {
       expect(barGraphic.resolvedStatePatch?.lineWidth).toBe(4);
       expect(barGraphic.attribute.stroke).toBe('#111827');
       expect(barGraphic.attribute.lineWidth).toBe(4);
+
+      chartWithState.updateSpecSync({
+        ...(chartWithState.getSpec() as IBarChartSpec),
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 14 },
+              { x: 'Tue', y: 16 }
+            ]
+          }
+        ]
+      });
+
+      barGraphic.useStates([]);
+
+      expect(barGraphic.resolvedStatePatch).toBeUndefined();
+      expect(barGraphic.attribute.stroke).not.toBe('#111827');
+      expect(barGraphic.attribute.lineWidth).not.toBe(4);
+    } finally {
+      chartWithState.release();
+      removeDom(stateContainer);
+    }
+  });
+
+  it('should apply line interaction state style through shared vrender state definitions', () => {
+    const stateContainer = createDiv();
+    const stateDom = createDiv(stateContainer);
+
+    const chartWithState = new VChart(
+      {
+        type: 'line',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 10 },
+              { x: 'Tue', y: 12 }
+            ]
+          }
+        ],
+        xField: 'x',
+        yField: 'y',
+        hover: { enable: true, trigger: 'pointerover', triggerOff: 'pointerout' },
+        select: { enable: true, trigger: 'click', mode: 'single' },
+        line: {
+          state: {
+            hover: {
+              stroke: '#ea580c'
+            },
+            selected: {
+              lineWidth: 5
+            }
+          }
+        }
+      } as ILineChartSpec,
+      {
+        dom: stateDom,
+        animation: false
+      }
+    );
+
+    chartWithState.renderSync();
+
+    try {
+      const chart = chartWithState.getChart() as IChart;
+      const lineSeries = chart.getAllSeries()[0];
+      const lineMark = lineSeries.getMarks().find((mark: IMark) => mark.name === 'line');
+      expect(lineMark).toBeDefined();
+      if (!lineMark) {
+        throw new Error('Expected line mark to exist');
+      }
+
+      const lineGraphic = lineMark.getGraphics()[0] as StateGraphic;
+      const sharedStateDefinitions = getSharedStateDefinitions(lineMark);
+      expect(typeof sharedStateDefinitions?.hover?.resolver).toBe('function');
+      expect(typeof sharedStateDefinitions?.selected?.resolver).toBe('function');
+      expect(lineGraphic.stateProxy).toBeFalsy();
+
+      expect(sharedStateDefinitions.hover.resolver({ graphic: lineGraphic })?.stroke).toBe('#ea580c');
+      chart.getEvent().emit('pointerover', { item: lineGraphic } as unknown as BaseEventParams);
+      expect(lineGraphic.hasState('hover')).toBe(true);
+      expect(lineGraphic.resolvedStatePatch?.stroke).toBe('#ea580c');
+      expect(lineGraphic.attribute.stroke).toBe('#ea580c');
+
+      chart.getEvent().emit('pointerout', { item: lineGraphic } as unknown as BaseEventParams);
+      expect(lineGraphic.hasState('hover')).toBe(false);
+      expect(lineGraphic.resolvedStatePatch).toBeUndefined();
+      expect(lineGraphic.attribute.stroke).not.toBe('#ea580c');
+
+      expect(sharedStateDefinitions.selected.resolver({ graphic: lineGraphic })?.lineWidth).toBe(5);
+      chart.getEvent().emit('click', { item: lineGraphic } as unknown as BaseEventParams);
+      expect(lineGraphic.hasState('selected')).toBe(true);
+      expect(lineGraphic.resolvedStatePatch?.lineWidth).toBe(5);
+      expect(lineGraphic.attribute.lineWidth).toBe(5);
+
+      lineGraphic.useStates([]);
+      expect(lineGraphic.resolvedStatePatch).toBeUndefined();
+    } finally {
+      chartWithState.release();
+      removeDom(stateContainer);
+    }
+  });
+
+  it('should apply text custom-mark interaction state style through shared vrender state definitions', () => {
+    const stateContainer = createDiv();
+    const stateDom = createDiv(stateContainer);
+
+    const chartWithState = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'data',
+            values: [{ x: 'Mon', y: 10 }]
+          }
+        ],
+        xField: 'x',
+        yField: 'y',
+        hover: { enable: true, trigger: 'pointerover', triggerOff: 'pointerout' },
+        select: { enable: true, trigger: 'click', mode: 'single' },
+        customMark: [
+          {
+            type: 'text',
+            name: 'stateText',
+            style: {
+              x: 40,
+              y: 40,
+              text: 'state',
+              fill: '#334155',
+              fontSize: 14
+            },
+            state: {
+              hover: {
+                fill: '#dc2626'
+              },
+              selected: {
+                fontSize: 24
+              }
+            }
+          }
+        ]
+      } as IBarChartSpec,
+      {
+        dom: stateDom,
+        animation: false
+      }
+    );
+
+    chartWithState.renderSync();
+
+    try {
+      const chart = chartWithState.getChart() as IChart;
+      const textMark = chart.getAllMarks().find((mark: IMark) => mark.name === 'stateText');
+      expect(textMark).toBeDefined();
+      if (!textMark) {
+        throw new Error('Expected text custom mark to exist');
+      }
+
+      const textGraphic = textMark.getGraphics()[0] as StateGraphic;
+      const sharedStateDefinitions = getSharedStateDefinitions(textMark);
+      expect(typeof sharedStateDefinitions?.hover?.resolver).toBe('function');
+      expect(typeof sharedStateDefinitions?.selected?.resolver).toBe('function');
+      expect(textGraphic.stateProxy).toBeFalsy();
+
+      expect(sharedStateDefinitions.hover.resolver({ graphic: textGraphic })?.fill).toBe('#dc2626');
+      textGraphic.useStates(['hover']);
+      expect(textGraphic.hasState('hover')).toBe(true);
+      expect(textGraphic.resolvedStatePatch?.fill).toBe('#dc2626');
+      expect(textGraphic.attribute.fill).toBe('#dc2626');
+
+      textGraphic.useStates([]);
+      expect(textGraphic.hasState('hover')).toBe(false);
+      expect(textGraphic.resolvedStatePatch).toBeUndefined();
+      expect(textGraphic.attribute.fill).not.toBe('#dc2626');
+
+      expect(sharedStateDefinitions.selected.resolver({ graphic: textGraphic })?.fontSize).toBe(24);
+      textGraphic.useStates(['selected']);
+      expect(textGraphic.hasState('selected')).toBe(true);
+      expect(textGraphic.resolvedStatePatch?.fontSize).toBe(24);
+      expect(textGraphic.attribute.fontSize).toBe(24);
+
+      textGraphic.useStates([]);
+      expect(textGraphic.resolvedStatePatch).toBeUndefined();
     } finally {
       chartWithState.release();
       removeDom(stateContainer);

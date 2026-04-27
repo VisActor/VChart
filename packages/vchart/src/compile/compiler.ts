@@ -50,6 +50,8 @@ export class Compiler implements ICompiler {
 
   private _isExternalStage: boolean = false;
 
+  private _releaseVRenderAppRef?: () => void;
+
   protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
   get stateAnimationConfig() {
     return this._stateAnimationConfig;
@@ -132,40 +134,49 @@ export class Compiler implements ICompiler {
     vglobal.setEnv(toRenderMode(mode), modeParams ?? {});
     const externalStage = this._option.stage;
     this._isExternalStage = !!externalStage;
+    this._releaseVRenderAppRef = undefined;
     this._stage = externalStage;
 
     if (!this._stage) {
-      const app = resolveVRenderApp(this._option.app, mode);
-      this._stage = createStageFromApp(app, {
-        background,
-        width: this._width,
-        height: this._height,
-        container: this._container.dom ?? null,
-        canvas: this._container.canvas ?? null,
-        dpr,
-        viewBox: this._option.viewBox,
-        canvasControled: this._option.canvasControled,
-        beforeRender: (stage: IStage) => {
-          this._compileChart?.onBeforeRender();
-          this._option.beforeRender?.(stage);
-        },
-        afterRender: this._option.afterRender,
-        disableDirtyBounds: true,
-        autoRender: true,
-        ticker: this._option.ticker,
-        pluginList: this._option.pluginList,
-        enableHtmlAttribute: this._option.enableHtmlAttribute,
-        optimize: this._option.optimize,
-        supportsTouchEvents: this._option.supportsTouchEvents,
-        supportsPointerEvents: this._option.supportsPointerEvents,
-        event: {
-          clickInterval: clickInterval,
-          autoPreventDefault: autoPreventDefault
-        },
-        ReactDOM: this._option.ReactDOM,
-        autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
-        ...(this._option.renderHooks ?? {})
-      }) as unknown as IStage;
+      const resolvedApp = resolveVRenderApp(this._option.app, mode);
+      this._releaseVRenderAppRef = resolvedApp.releaseAppRef;
+
+      try {
+        this._stage = createStageFromApp(resolvedApp.app, {
+          background,
+          width: this._width,
+          height: this._height,
+          container: this._container.dom ?? null,
+          canvas: this._container.canvas ?? null,
+          dpr,
+          viewBox: this._option.viewBox,
+          canvasControled: this._option.canvasControled,
+          beforeRender: (stage: IStage) => {
+            this._compileChart?.onBeforeRender();
+            this._option.beforeRender?.(stage);
+          },
+          afterRender: this._option.afterRender,
+          disableDirtyBounds: true,
+          autoRender: true,
+          ticker: this._option.ticker,
+          pluginList: this._option.pluginList,
+          enableHtmlAttribute: this._option.enableHtmlAttribute,
+          optimize: this._option.optimize,
+          supportsTouchEvents: this._option.supportsTouchEvents,
+          supportsPointerEvents: this._option.supportsPointerEvents,
+          event: {
+            clickInterval: clickInterval,
+            autoPreventDefault: autoPreventDefault
+          },
+          ReactDOM: this._option.ReactDOM,
+          autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
+          ...(this._option.renderHooks ?? {})
+        }) as unknown as IStage;
+      } catch (error) {
+        this._releaseVRenderAppRef?.();
+        this._releaseVRenderAppRef = undefined;
+        throw error;
+      }
     }
 
     this._stage.enableIncrementalAutoRender();
@@ -737,6 +748,7 @@ export class Compiler implements ICompiler {
     const stage = this._stage;
     const rootGroup = this._rootGroup;
     const shouldReleaseStage = !!stage && !this._isExternalStage;
+    const releaseVRenderAppRef = this._releaseVRenderAppRef;
 
     this.clearNextRender();
     this.releaseEvent();
@@ -751,9 +763,11 @@ export class Compiler implements ICompiler {
         rootGroup.release();
       }
     }
+    releaseVRenderAppRef?.();
     this._stage = null;
     this._rootGroup = null;
     this._isExternalStage = false;
+    this._releaseVRenderAppRef = undefined;
     this._option = this._container = null as any;
 
     this.isInited = false;

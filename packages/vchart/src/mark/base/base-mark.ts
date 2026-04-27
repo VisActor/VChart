@@ -55,7 +55,14 @@ import { array, degreeToRadian, isArray, isBoolean, isFunction, isNil, isObject,
 import { curveTypeTransform, groupData, runEncoder } from '../utils/common';
 import type { ICompilableInitOption } from '../../compile/interface';
 import { LayoutState } from '../../compile/interface';
-import type { IGroupGraphicAttribute, IGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
+import type {
+  IGroupGraphicAttribute,
+  IGraphicAttribute,
+  IGroup,
+  IGraphic,
+  StateDefinitionsInput,
+  StateResolveContext
+} from '@visactor/vrender-core';
 import { createGroup, CustomPath2D } from '@visactor/vrender-core';
 import { isStateAttrChangeable } from '../../compile/mark/util';
 import { Factory } from '../../core/factory';
@@ -70,6 +77,7 @@ import { CompilableData } from '../../compile/data/compilable-data';
 import { getDiffAttributesOfGraphic } from '../../util/mark';
 import { log } from '../../util/debug';
 import { morph as runMorph } from '../../compile/morph';
+import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -257,13 +265,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _stateSort?: (stateA: string, stateB: string) => number;
 
-  declare protected _product: Maybe<IGroup>;
+  protected declare _product: Maybe<IGroup>;
   getProduct() {
     return this._product;
   }
 
   // 保存上一次的mark，用于morph的时候获取上次的图元
-  declare protected _lastMark?: IMark;
+  protected declare _lastMark?: IMark;
 
   /** 初始化 mark data */
   protected initMarkData(option: ICompilableInitOption) {
@@ -526,7 +534,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return this._simpleStyle;
   }
 
-  declare protected _option: IMarkOption;
+  protected declare _option: IMarkOption;
 
   protected _attributeContext: IModelMarkAttributeContext;
 
@@ -1155,8 +1163,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this._keyGetter = isFunction(this.key)
       ? (this.key as (datum: Datum) => string)
       : isValid(this.key)
-        ? (datum: Datum) => datum?.[this.key as string]
-        : (datum: Datum) => datum?.[DEFAULT_DATA_KEY];
+      ? (datum: Datum) => datum?.[this.key as string]
+      : (datum: Datum) => datum?.[DEFAULT_DATA_KEY];
     this._groupKeyGetter = isValid(this._groupKey)
       ? (datum: Datum) => {
           return `${datum?.[this._groupKey]}`;
@@ -1171,8 +1179,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     const animationState = graphicsAnimationStates.every(state => state === AnimationStateEnum.appear)
       ? AnimationStateEnum.appear
       : graphicsAnimationStates.every(state => state === AnimationStateEnum.disappear)
-        ? AnimationStateEnum.disappear
-        : graphicsAnimationStates[0];
+      ? AnimationStateEnum.disappear
+      : graphicsAnimationStates[0];
     return animationState ?? AnimationStateEnum.none;
   }
 
@@ -1193,7 +1201,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       ? {
           ...config,
           // 循环动画的优先级定为最高，不会被屏蔽掉
-          priority: type === 'normal' ? (config.priority ?? Infinity) : config.priority
+          priority: type === 'normal' ? config.priority ?? Infinity : config.priority
         }
       : config;
   }
@@ -1318,8 +1326,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         return diffState === AnimationStateEnum.exit
           ? AnimationStateEnum.exit
           : diffState === AnimationStateEnum.update
-            ? AnimationStateEnum.update
-            : AnimationStateEnum.appear;
+          ? AnimationStateEnum.update
+          : AnimationStateEnum.appear;
       });
     const customizedState = callback(g);
 
@@ -1545,13 +1553,46 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     g.stateProxy = null;
 
     if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
-      g.stateProxy = (stateName: string, nexStates: string[]) => {
-        return this._runEncoderOfGraphic(this._encoderOfState?.[stateName], g);
-      };
-
       g.context.states && g.useStates(g.context.states, hasAnimation);
     }
   };
+
+  protected _applySharedStateDefinitions() {
+    if (!this._product) {
+      return;
+    }
+
+    const stateNames = Object.keys(this._encoderOfState ?? {}).filter(
+      stateName => stateName !== 'group' && stateName !== 'update'
+    );
+
+    if (!stateNames.length) {
+      this._product.sharedStateDefinitions = undefined;
+      return;
+    }
+
+    const sortedStateNames = this._stateSort ? stateNames.slice().sort(this._stateSort) : stateNames;
+    const statePriority = new Map<string, number>();
+
+    sortedStateNames.forEach((stateName, index) => {
+      statePriority.set(stateName, index);
+    });
+
+    const sharedStateDefinitions: StateDefinitionsInput<Record<string, unknown>> = {};
+
+    stateNames.forEach(stateName => {
+      const encoder = this._encoderOfState[stateName];
+
+      sharedStateDefinitions[stateName] = {
+        priority: statePriority.get(stateName) ?? 0,
+        declaredAffectedKeys: Object.keys(encoder ?? {}),
+        resolver: ({ graphic }: StateResolveContext<Record<string, unknown>>) =>
+          this._runEncoderOfGraphic(encoder, graphic as IMarkGraphic)
+      };
+    });
+
+    this._product.sharedStateDefinitions = sharedStateDefinitions;
+  }
 
   protected _addProgressiveGraphic(parent: IGroup, g: IMarkGraphic) {
     (parent as IGroup).incrementalAppendChild(g);
@@ -1559,16 +1600,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _runEncoder(graphics: IMarkGraphic[], noGroupEncode?: boolean) {
     const attrsByGroup = noGroupEncode ? null : this._runGroupEncoder(this._encoderOfState?.group);
-    graphics.forEach((g, index) => {
-      let attrs = this._runEncoderOfGraphic(this._encoderOfState?.update, g);
-      // 此时需要将最终的正确的样式设置给graphic，这样后续的动画目标属性才会正确，否则会动画样式只有默认状态的样式
-      g.currentStates?.forEach((_state: string) => {
-        const stateAttr = this._runEncoderOfGraphic(this._encoderOfState?.[_state], g);
-        attrs = {
-          ...attrs,
-          ...stateAttr
-        };
-      });
+    graphics.forEach(g => {
+      const attrs = this._runEncoderOfGraphic(this._encoderOfState?.update, g);
 
       // 配置的优先级高于encoder
       if (!isNil(this._markConfig.interactive)) {
@@ -1754,6 +1787,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   renderInner() {
     this._updateEncoderByState();
+    this._applySharedStateDefinitions();
 
     const data = this._data?.getProduct() ?? [{}];
 
@@ -1818,9 +1852,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
     this._graphics.forEach(g => {
       if (this.state.checkOneState(g, g.context.data, stateInfo) === 'in') {
-        g.addState(key, true, this.hasAnimationByState('state'));
+        addGraphicState(g, key, true, this.hasAnimationByState('state'));
       } else {
-        g.removeState(key, this.hasAnimationByState('state'));
+        removeGraphicState(g, key, this.hasAnimationByState('state'));
       }
     });
   }

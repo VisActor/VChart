@@ -528,6 +528,9 @@ importers:
       '@visactor/vlayouts':
         specifier: ~1.0.23
         version: 1.0.23
+      '@visactor/vrender':
+        specifier: 1.1.0-alpha.2
+        version: 1.1.0-alpha.2
       '@visactor/vrender-animate':
         specifier: 1.1.0-alpha.2
         version: 1.1.0-alpha.2

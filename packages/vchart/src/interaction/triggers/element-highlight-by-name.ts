@@ -6,6 +6,7 @@ import type { BaseEventParams } from '../../event/interface';
 import { array } from '@visactor/vutils';
 import type { IMarkGraphic } from '../../mark/interface';
 import { generateFilterValue } from './util';
+import { removeGraphicState } from '../../util/graphic-state';
 
 const type = 'element-highlight-by-name';
 const defaultOptions: Partial<IElementHighlightByNameOptions> = {
@@ -95,7 +96,7 @@ export class ElementHighlightByName
     if (g) {
       const statedGraphics = interaction.getStatedGraphics(this);
       if (statedGraphics && statedGraphics.includes(g)) {
-        g.removeState([highlightState, blurState]);
+        removeGraphicState(g, [highlightState, blurState]);
         interaction.setStatedGraphics(
           this,
           statedGraphics.filter(sg => sg !== g)
