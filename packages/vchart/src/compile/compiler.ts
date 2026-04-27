@@ -9,7 +9,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import { array, isArray, isObject, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import { createGroup, Stage, vglobal, waitForAllSubLayers } from '@visactor/vrender-core';
+import { createGroup, vglobal, waitForAllSubLayers } from '@visactor/vrender-core';
 import type { IColor, IEventTarget, IGroup, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
@@ -23,6 +23,7 @@ import { log } from '../util/debug';
 import type { MarkAnimationSpec, TypeAnimationConfig } from '../animation/interface';
 import { AnimationStateEnum } from '../animation/interface';
 import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
+import { createStageFromApp, resolveVRenderApp } from './stage-app';
 
 type EventListener = {
   type: string;
@@ -46,6 +47,8 @@ export class Compiler implements ICompiler {
   protected _rootMarks: IMark[] = [];
 
   protected _stage: IStage;
+
+  private _isExternalStage: boolean = false;
 
   protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
   get stateAnimationConfig() {
@@ -127,9 +130,13 @@ export class Compiler implements ICompiler {
       background
     } = this._option;
     vglobal.setEnv(toRenderMode(mode), modeParams ?? {});
-    this._stage =
-      this._option.stage ??
-      (new Stage({
+    const externalStage = this._option.stage;
+    this._isExternalStage = !!externalStage;
+    this._stage = externalStage;
+
+    if (!this._stage) {
+      const app = resolveVRenderApp(this._option.app, mode);
+      this._stage = createStageFromApp(app, {
         background,
         width: this._width,
         height: this._height,
@@ -158,7 +165,8 @@ export class Compiler implements ICompiler {
         ReactDOM: this._option.ReactDOM,
         autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
         ...(this._option.renderHooks ?? {})
-      }) as unknown as IStage);
+      }) as unknown as IStage;
+    }
 
     this._stage.enableIncrementalAutoRender();
 
@@ -726,17 +734,27 @@ export class Compiler implements ICompiler {
   }
 
   release(): void {
+    const stage = this._stage;
+    const rootGroup = this._rootGroup;
+    const shouldReleaseStage = !!stage && !this._isExternalStage;
+
     this.clearNextRender();
     this.releaseEvent();
-    this._option = this._container = null as any;
     // vgrammar release
     this.releaseGrammar(true);
 
-    if (this._stage !== this._option?.stage) {
-      // don't release the stage created by outside
-      this._stage.release();
+    if (stage) {
+      if (shouldReleaseStage) {
+        stage.release();
+      } else if (rootGroup) {
+        stage.defaultLayer.removeChild(rootGroup);
+        rootGroup.release();
+      }
     }
     this._stage = null;
+    this._rootGroup = null;
+    this._isExternalStage = false;
+    this._option = this._container = null as any;
 
     this.isInited = false;
     this._compileChart = null;

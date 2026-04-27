@@ -310,6 +310,97 @@ describe('vchart event test', () => {
     }
   });
 
+  it('should apply interaction state style through vrender state patch', () => {
+    const stateContainer = createDiv();
+    const stateDom = createDiv(stateContainer);
+
+    const chartWithState = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 10 },
+              { x: 'Tue', y: 12 }
+            ]
+          }
+        ],
+        xField: 'x',
+        yField: 'y',
+        hover: { enable: true, trigger: 'pointerover', triggerOff: 'pointerout' },
+        select: { enable: true, trigger: 'click', mode: 'single' },
+        bar: {
+          state: {
+            hover: {
+              fillOpacity: 0.31
+            },
+            selected: {
+              stroke: '#111827',
+              lineWidth: 4
+            }
+          }
+        }
+      } as IBarChartSpec,
+      {
+        dom: stateDom,
+        animation: false
+      }
+    );
+
+    chartWithState.renderSync();
+
+    try {
+      const chart = chartWithState.getChart() as IChart;
+      const barSeries = chart.getAllSeries()[0];
+      const barMark = barSeries.getMarks().find((mark: IMark) => mark.name === 'bar');
+      expect(barMark).toBeDefined();
+      if (!barMark) {
+        throw new Error('Expected bar mark to exist');
+      }
+
+      const barGraphic = barMark.getGraphics()[0] as IMarkGraphic & {
+        attribute: Record<string, unknown>;
+        resolvedStatePatch?: Record<string, unknown>;
+        stateProxy?: (stateName: string, states: string[]) => Record<string, unknown>;
+      };
+      expect(barGraphic).toBeDefined();
+      expect(typeof barGraphic.stateProxy).toBe('function');
+
+      const hoverPatch = barGraphic.stateProxy?.('hover', ['hover']);
+      expect(hoverPatch?.fillOpacity).toBe(0.31);
+
+      chart.getEvent().emit('pointerover', { item: barGraphic } as unknown as BaseEventParams);
+
+      expect(barGraphic.hasState('hover')).toBe(true);
+      expect(barGraphic.resolvedStatePatch?.fillOpacity).toBe(0.31);
+      expect(barGraphic.attribute.fillOpacity).toBe(0.31);
+
+      chart.getEvent().emit('pointerout', { item: barGraphic } as unknown as BaseEventParams);
+
+      expect(barGraphic.hasState('hover')).toBe(false);
+      expect(barGraphic.resolvedStatePatch).toBeUndefined();
+      expect(barGraphic.attribute.fillOpacity).not.toBe(0.31);
+
+      const selectedPatch = barGraphic.stateProxy?.('selected', ['selected']);
+      expect(selectedPatch?.stroke).toBe('#111827');
+      expect(selectedPatch?.lineWidth).toBe(4);
+
+      chart.getEvent().emit('click', { item: barGraphic } as unknown as BaseEventParams);
+
+      expect(barGraphic.hasState('selected')).toBe(true);
+      expect(barGraphic.resolvedStatePatch?.stroke).toBe('#111827');
+      expect(barGraphic.resolvedStatePatch?.lineWidth).toBe(4);
+      expect(barGraphic.attribute.stroke).toBe('#111827');
+      expect(barGraphic.attribute.lineWidth).toBe(4);
+    } finally {
+      chartWithState.release();
+      removeDom(stateContainer);
+    }
+  });
+
   it('should merge only identical interaction triggers in common chart', () => {
     const commonContainer = createDiv();
     const commonDom = createDiv(commonContainer);

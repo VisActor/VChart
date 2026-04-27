@@ -1,4 +1,4 @@
-import type { IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
+import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
@@ -114,9 +114,15 @@ export interface IRenderOption {
    */
   canvasControled?: boolean;
   /**
-   * 外部传入的 VRender stage
+   * 外部传入的 VRender stage。普通用户仍应优先使用 dom/renderCanvas；
+   * 显式传入 stage 时，stage ownership 属于外部，VChart release 不会释放该 stage。
    */
   stage?: IStage;
+  /**
+   * 外部传入的 VRender app。VChart 可使用它创建内部 stage，但 app ownership 属于外部，
+   * VChart release 只释放自己创建的 stage，不释放该 app。
+   */
+  app?: IApp;
   /**
    * 外部传入的 VRender layer
    */
