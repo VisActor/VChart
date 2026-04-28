@@ -885,7 +885,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       this._data.setTransform([
         {
-          type: 'sampling',
+          type: 'dataSampling',
           size: this._direction === Direction.horizontal ? height : width,
           factor: this._spec.samplingFactor,
           yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],
