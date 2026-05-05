@@ -1,0 +1,403 @@
+import VChart, {
+  ManualTicker,
+  type IBarChartSpec,
+  type IChart,
+  type IMark,
+  type IMarkGraphic,
+  type ISeries
+} from '../../../src';
+import { createDiv, removeDom } from '../../util/dom';
+
+type AnimatedGraphic = IMarkGraphic & {
+  attribute: Record<string, any>;
+  baseAttributes?: Record<string, any>;
+  finalAttribute?: Record<string, any>;
+  getFinalAttribute?: () => Record<string, any> | undefined;
+};
+
+type TraversableGraphic = AnimatedGraphic & {
+  type?: string;
+  name?: string;
+  parent?: TraversableGraphic;
+  forEachChildren?: (cb: (child: TraversableGraphic) => void | boolean) => void;
+};
+
+const APPEAR_DURATION = 300;
+const UPDATE_DURATION = 300;
+const COLOR_BY_SERIES: Record<string, string> = {
+  'east-利润profit': '#8D72F6',
+  'east-销售量sales': '#5766EC',
+  'north of east-利润profit': '#66A3FE',
+  'north of east-销售量sales': '#51D5E6'
+};
+
+const createChartContainer = () => {
+  const container = createDiv();
+  const dom = createDiv(container);
+
+  container.style.position = 'fixed';
+  container.style.width = '500px';
+  container.style.height = '500px';
+  container.style.top = '0px';
+  container.style.left = '0px';
+
+  return { container, dom };
+};
+
+const createManualTicker = () => {
+  const ticker = new ManualTicker();
+
+  ticker.autoStop = false;
+
+  return ticker;
+};
+
+const getGraphicFinalAttribute = (graphic: AnimatedGraphic) =>
+  graphic.finalAttribute ?? graphic.getFinalAttribute?.() ?? {};
+
+const expectClose = (actual: number, expected: number) => {
+  expect(actual).toBeCloseTo(expected, 6);
+};
+
+const expectBarYLayout = (graphic: AnimatedGraphic, expected: { y: number; y1: number }) => {
+  expectClose(graphic.attribute.y, expected.y);
+  expectClose(graphic.attribute.y1, expected.y1);
+  expectClose(graphic.baseAttributes?.y, expected.y);
+  expectClose(graphic.baseAttributes?.y1, expected.y1);
+  expectClose(getGraphicFinalAttribute(graphic).y, expected.y);
+  expectClose(getGraphicFinalAttribute(graphic).y1, expected.y1);
+};
+
+const getBarGraphics = (chart: VChart) => {
+  const model = chart.getChart() as IChart;
+  const barSeries = model.getAllSeries().find((series: ISeries) => series.type === 'bar');
+
+  expect(barSeries).toBeDefined();
+  if (!barSeries) {
+    throw new Error('Expected bar series to exist');
+  }
+
+  const barMark = barSeries.getMarks().find((mark: IMark) => mark.name === 'bar');
+
+  expect(barMark).toBeDefined();
+  if (!barMark) {
+    throw new Error('Expected bar mark to exist');
+  }
+
+  return barMark.getGraphics() as AnimatedGraphic[];
+};
+
+const walkGraphics = (root: TraversableGraphic, visitor: (graphic: TraversableGraphic) => void) => {
+  visitor(root);
+  root.forEachChildren?.((child: TraversableGraphic) => {
+    walkGraphics(child, visitor);
+  });
+};
+
+const getAnimatedLabelTexts = (chart: VChart) => {
+  const texts: TraversableGraphic[] = [];
+
+  walkGraphics(chart.getStage() as unknown as TraversableGraphic, graphic => {
+    if (graphic.type === 'text' && graphic.baseAttributes && getGraphicFinalAttribute(graphic).x !== undefined) {
+      texts.push(graphic);
+    }
+  });
+
+  return texts;
+};
+
+const getLabelTextByFill = (chart: VChart, fill: string) => {
+  const label = getAnimatedLabelTexts(chart).find(graphic => graphic.attribute.fill === fill);
+
+  expect(label).toBeDefined();
+  if (!label) {
+    throw new Error(`Expected label with fill ${fill} to exist`);
+  }
+
+  return label;
+};
+
+const getVisibleBarByFill = (chart: VChart, fill: string) => {
+  const bar = getBarGraphics(chart).find(
+    graphic => graphic.attribute.fill === fill && graphic.attribute.visible !== false
+  );
+
+  expect(bar).toBeDefined();
+  if (!bar) {
+    throw new Error(`Expected visible bar with fill ${fill} to exist`);
+  }
+
+  return bar;
+};
+
+const getBarCenterX = (graphic: AnimatedGraphic) => {
+  const attrs = getGraphicFinalAttribute(graphic);
+
+  return attrs.x + attrs.width / 2;
+};
+
+const expectStaticXLayout = (graphic: AnimatedGraphic, expectedX: number) => {
+  expectClose(graphic.baseAttributes?.x, expectedX);
+  expectClose(getGraphicFinalAttribute(graphic).x, expectedX);
+};
+
+describe('manual ticker animation regressions', () => {
+  it('keeps default bar appear starts out of static truth', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'barData',
+            values: [{ month: 'Monday', sales: 22 }]
+          }
+        ],
+        xField: 'month',
+        yField: 'sales',
+        axes: [
+          { orient: 'left', visible: false },
+          { orient: 'bottom', visible: false }
+        ],
+        animationAppear: {
+          duration: APPEAR_DURATION,
+          easing: 'linear'
+        }
+      } as IBarChartSpec,
+      {
+        dom,
+        ticker,
+        animation: true
+      }
+    );
+
+    chart.renderSync();
+
+    try {
+      const barGraphic = getBarGraphics(chart)[0];
+      const expectedFinalLayout = {
+        y: getGraphicFinalAttribute(barGraphic).y,
+        y1: getGraphicFinalAttribute(barGraphic).y1
+      };
+
+      expect(expectedFinalLayout.y).not.toBe(expectedFinalLayout.y1);
+      expect(barGraphic.baseAttributes?.y).toBe(expectedFinalLayout.y);
+      expect(barGraphic.baseAttributes?.y1).toBe(expectedFinalLayout.y1);
+
+      ticker.tickAt(APPEAR_DURATION / 2);
+
+      expect(barGraphic.attribute.y).not.toBe(barGraphic.attribute.y1);
+      expect(barGraphic.baseAttributes?.y).toBe(expectedFinalLayout.y);
+      expect(barGraphic.baseAttributes?.y1).toBe(expectedFinalLayout.y1);
+      expect(getGraphicFinalAttribute(barGraphic).y).toBe(expectedFinalLayout.y);
+      expect(getGraphicFinalAttribute(barGraphic).y1).toBe(expectedFinalLayout.y1);
+
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      expectBarYLayout(barGraphic, expectedFinalLayout);
+      expect(barGraphic.attribute.y).not.toBe(barGraphic.attribute.y1);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('keeps data label update final x at the filtered bar position', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(
+      {
+        type: 'bar',
+        direction: 'vertical',
+        width: 500,
+        height: 300,
+        xField: ['date', '__DimGroup__'],
+        yField: '__MeaValue__',
+        seriesField: '__DimGroupID__',
+        padding: 0,
+        region: [
+          {
+            clip: true
+          }
+        ],
+        animation: true,
+        animationAppear: {
+          duration: APPEAR_DURATION,
+          easing: 'linear'
+        },
+        animationUpdate: {
+          duration: UPDATE_DURATION,
+          easing: 'linear'
+        },
+        stackCornerRadius: [4, 4, 0, 0],
+        color: {
+          type: 'ordinal',
+          domain: Object.keys(COLOR_BY_SERIES),
+          range: Object.values(COLOR_BY_SERIES),
+          specified: {}
+        },
+        data: {
+          values: [
+            {
+              date: '2019',
+              region: 'east',
+              __OriginalData__: {
+                date: '2019',
+                region: 'east',
+                profit: 10,
+                sales: 20
+              },
+              profit: 10,
+              __MeaId__: 'profit',
+              __MeaName__: '利润',
+              __MeaValue__: 10,
+              __DimGroup__: 'east-利润',
+              __DimGroupID__: 'east-利润profit'
+            },
+            {
+              date: '2019',
+              region: 'east',
+              __OriginalData__: {
+                date: '2019',
+                region: 'east',
+                profit: 10,
+                sales: 20
+              },
+              sales: 20,
+              __MeaId__: 'sales',
+              __MeaName__: '销售量',
+              __MeaValue__: 20,
+              __DimGroup__: 'east-销售量',
+              __DimGroupID__: 'east-销售量sales'
+            },
+            {
+              date: '2019',
+              region: 'north of east',
+              __OriginalData__: {
+                date: '2019',
+                region: 'north of east',
+                profit: 10,
+                sales: 20
+              },
+              profit: 10,
+              __MeaId__: 'profit',
+              __MeaName__: '利润',
+              __MeaValue__: 10,
+              __DimGroup__: 'north of east-利润',
+              __DimGroupID__: 'north of east-利润profit'
+            },
+            {
+              date: '2019',
+              region: 'north of east',
+              __OriginalData__: {
+                date: '2019',
+                region: 'north of east',
+                profit: 10,
+                sales: 20
+              },
+              sales: 20,
+              __MeaId__: 'sales',
+              __MeaName__: '销售量',
+              __MeaValue__: 20,
+              __DimGroup__: 'north of east-销售量',
+              __DimGroupID__: 'north of east-销售量sales'
+            }
+          ]
+        },
+        label: {
+          visible: true,
+          animationUpdate: {
+            duration: UPDATE_DURATION,
+            easing: 'linear'
+          }
+        },
+        legends: {
+          type: 'discrete',
+          visible: true,
+          maxCol: 1,
+          maxRow: 1,
+          autoPage: true,
+          orient: 'right',
+          position: 'start',
+          item: {
+            focus: true,
+            background: {
+              state: {
+                selectedHover: {
+                  fill: '#646A73',
+                  fillOpacity: 0.05
+                }
+              }
+            }
+          }
+        }
+      } as unknown as IBarChartSpec,
+      {
+        dom,
+        ticker,
+        animation: true
+      }
+    );
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const retainedSeries = Object.keys(COLOR_BY_SERIES).slice(0, 3);
+      const initialXBySeries = retainedSeries.reduce<Record<string, number>>((result, seriesName) => {
+        result[seriesName] = getLabelTextByFill(chart, COLOR_BY_SERIES[seriesName]).attribute.x;
+        return result;
+      }, {});
+
+      chart.setLegendSelectedDataByIndex(0, retainedSeries);
+      chart.renderSync();
+
+      const updateStart = ticker.getTime();
+      const expectedXBySeries = retainedSeries.reduce<Record<string, number>>((result, seriesName) => {
+        result[seriesName] = getBarCenterX(getVisibleBarByFill(chart, COLOR_BY_SERIES[seriesName]));
+        return result;
+      }, {});
+
+      expect(retainedSeries.some(seriesName => initialXBySeries[seriesName] !== expectedXBySeries[seriesName])).toBe(
+        true
+      );
+
+      retainedSeries.forEach(seriesName => {
+        expectStaticXLayout(getLabelTextByFill(chart, COLOR_BY_SERIES[seriesName]), expectedXBySeries[seriesName]);
+      });
+
+      ticker.tickAt(updateStart + UPDATE_DURATION / 2);
+
+      retainedSeries.forEach(seriesName => {
+        const label = getLabelTextByFill(chart, COLOR_BY_SERIES[seriesName]);
+        const startX = initialXBySeries[seriesName];
+        const finalX = expectedXBySeries[seriesName];
+
+        if (startX !== finalX) {
+          expect(label.attribute.x).toBeGreaterThanOrEqual(Math.min(startX, finalX));
+          expect(label.attribute.x).toBeLessThanOrEqual(Math.max(startX, finalX));
+        }
+        expectStaticXLayout(label, finalX);
+      });
+
+      ticker.tickAt(updateStart + UPDATE_DURATION + 50);
+
+      retainedSeries.forEach(seriesName => {
+        const label = getLabelTextByFill(chart, COLOR_BY_SERIES[seriesName]);
+        const finalX = expectedXBySeries[seriesName];
+
+        expectClose(label.attribute.x, finalX);
+        expectStaticXLayout(label, finalX);
+      });
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+});
