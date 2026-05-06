@@ -37,11 +37,11 @@ importers:
         specifier: 1.2.4-alpha.5
         version: 1.2.4-alpha.5
       '@visactor/vrender':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-kits':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vtable':
         specifier: 1.19.0-alpha.0
         version: 1.19.0-alpha.0
@@ -203,11 +203,11 @@ importers:
         specifier: workspace:2.0.22
         version: link:../vchart
       '@visactor/vrender-core':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-kits':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -294,11 +294,11 @@ importers:
         specifier: workspace:2.0.22
         version: link:../vchart-extension
       '@visactor/vrender-core':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-kits':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -529,20 +529,20 @@ importers:
         specifier: ~1.0.23
         version: 1.0.23
       '@visactor/vrender':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-animate':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-components':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-core':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-kits':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vscale':
         specifier: ~1.0.23
         version: 1.0.23
@@ -695,17 +695,17 @@ importers:
         specifier: ~1.0.23
         version: 1.0.23
       '@visactor/vrender-animate':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-components':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-core':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-kits':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -1263,14 +1263,14 @@ importers:
         specifier: workspace:2.0.22
         version: link:../../packages/vchart
       '@visactor/vrender':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-core':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vrender-kits':
-        specifier: 1.1.0-alpha.9
-        version: 1.1.0-alpha.9
+        specifier: 1.1.0-alpha.11
+        version: 1.1.0-alpha.11
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -3076,29 +3076,29 @@ packages:
   '@visactor/vrender-animate@1.0.0-alpha.18':
     resolution: {integrity: sha512-9kTtvp1ef+1t+AtUiza6A7qBQP7SmvOu3/ILGrqs/HGdZVj1XGjbYvD/X/zwKJ3LEb7gGV5fa8x95e4czTvRSA==}
 
-  '@visactor/vrender-animate@1.1.0-alpha.9':
-    resolution: {integrity: sha512-dVWOYQeZmttKLBlkl38aDSXzcz8Oqygc8M7RKSCP+jsb0s2kns9jaiaGaK2J1uEEtLxJ4Itz3CGedB+QaqtF9Q==}
+  '@visactor/vrender-animate@1.1.0-alpha.11':
+    resolution: {integrity: sha512-RgWD8BYip6QvrkQsXJWvHvboWoyuvHmycxDY4Pq5NKyWxatns5S4n1kwdeViRtBd8bKklVAc/UE4d3BbGv2zJA==}
 
   '@visactor/vrender-components@1.0.0-alpha.18':
     resolution: {integrity: sha512-7Euq+ZfswL74n2pgkaqZSsPxoSa5SPIGyXatN1eUrdzM2Z0kX6U0RcJg01fctvRs4op6WhcecRLqGvnHcBeb9Q==}
 
-  '@visactor/vrender-components@1.1.0-alpha.9':
-    resolution: {integrity: sha512-4PMPlLiy+Eyo9+Zhx2vKOw6WvpDQYWUaSrr4gRRKUaTmhEtJk7YNHlrhO37YBvv6iHLhKdhIQR23GvFL7AJ/Gg==}
+  '@visactor/vrender-components@1.1.0-alpha.11':
+    resolution: {integrity: sha512-yGxjh1vYyxiSQoPLxJYpRgLtcQlpT0k+p2IGKvtU7zt6RGFSDSThpSHnAwHcWkFKy6X/6r8P28YmoYl5hhLWSw==}
 
   '@visactor/vrender-core@1.0.0-alpha.18':
     resolution: {integrity: sha512-0ihtNvCyNkOsWPFgRqowHzq0IcQgS2Wl/nPpKbVtxWKveenwlhA+ZKoQvam6VJyBY7jeNe1pROy0mJMDyVAJQw==}
 
-  '@visactor/vrender-core@1.1.0-alpha.9':
-    resolution: {integrity: sha512-qs7iA2BKFWWQILTkWvLYjcjror2+oXMKsVE35UoqTSHMXgzqk7Em1oGAFgukEKRcYRqKMop6oNfUG8DbvH5dcg==}
+  '@visactor/vrender-core@1.1.0-alpha.11':
+    resolution: {integrity: sha512-BGTtnZAmRkPredqFwLnVxoRbb/OLRbVfAjR3gz8cWjrz6QwL8WJT7QgzQX/GvjZcIio6q01ONPejLWLnVmVWrQ==}
 
   '@visactor/vrender-kits@1.0.0-alpha.18':
     resolution: {integrity: sha512-Tvolkq+4G8qiPFZo0Aj8M//Yr6jR2h8FNkFEyWM9gbQbEiTkjpmHAJOYnoSsaPtPrcMSlG4EhJSFDk6ymANHVg==}
 
-  '@visactor/vrender-kits@1.1.0-alpha.9':
-    resolution: {integrity: sha512-dACr5rnEkzncekbfraYqcDK9LVYxcUnMN/73OSwrpeog2dbwFDZ/iBoET724NecpmGmi3WAEE+pINB6/acBgvA==}
+  '@visactor/vrender-kits@1.1.0-alpha.11':
+    resolution: {integrity: sha512-n/XGF5equ/7quxKUTFMlWGKxu6znp/sN8i/2rIaQ/HyZDQBj558LX4qhFLqWeWikHENv96CYFUrVhOfQXGeqQA==}
 
-  '@visactor/vrender@1.1.0-alpha.9':
-    resolution: {integrity: sha512-vaUTjFPwEsZS3iIrYY5VY5bCMa45hWT5JlO1OP9daKMxN+3nU67bRRCAT1vbOTG69RCcYyqarFsTMl3wS8BqEQ==}
+  '@visactor/vrender@1.1.0-alpha.11':
+    resolution: {integrity: sha512-ilKoCLi2Ax4oUmzCbFNmNdmEqcitk7ESlryGAQPUIO1DVJkmu8H2zzO4gUlunEKYkMhCSOj4a1bI8/7jUMO2eQ==}
 
   '@visactor/vscale@0.18.18':
     resolution: {integrity: sha512-iRG4kv+5Fv4KX3AxEfV95XU3I6OmF0QizyAhqHxKa7L1MaT+MRvDDk5zHWf1E8gialLbL2xDe3GnT6g/4u5jhA==}
@@ -15029,9 +15029,9 @@ snapshots:
       '@visactor/vrender-core': 1.0.0-alpha.18
       '@visactor/vutils': 1.0.4
 
-  '@visactor/vrender-animate@1.1.0-alpha.9':
+  '@visactor/vrender-animate@1.1.0-alpha.11':
     dependencies:
-      '@visactor/vrender-core': 1.1.0-alpha.9
+      '@visactor/vrender-core': 1.1.0-alpha.11
       '@visactor/vutils': 1.0.23
 
   '@visactor/vrender-components@1.0.0-alpha.18':
@@ -15042,11 +15042,11 @@ snapshots:
       '@visactor/vscale': 1.0.4
       '@visactor/vutils': 1.0.4
 
-  '@visactor/vrender-components@1.1.0-alpha.9':
+  '@visactor/vrender-components@1.1.0-alpha.11':
     dependencies:
-      '@visactor/vrender-animate': 1.1.0-alpha.9
-      '@visactor/vrender-core': 1.1.0-alpha.9
-      '@visactor/vrender-kits': 1.1.0-alpha.9
+      '@visactor/vrender-animate': 1.1.0-alpha.11
+      '@visactor/vrender-core': 1.1.0-alpha.11
+      '@visactor/vrender-kits': 1.1.0-alpha.11
       '@visactor/vscale': 1.0.23
       '@visactor/vutils': 1.0.23
 
@@ -15055,7 +15055,7 @@ snapshots:
       '@visactor/vutils': 1.0.4
       color-convert: 2.0.1
 
-  '@visactor/vrender-core@1.1.0-alpha.9':
+  '@visactor/vrender-core@1.1.0-alpha.11':
     dependencies:
       '@visactor/vutils': 1.0.23
       color-convert: 2.0.1
@@ -15069,21 +15069,21 @@ snapshots:
       lottie-web: 5.13.0
       roughjs: 4.5.2
 
-  '@visactor/vrender-kits@1.1.0-alpha.9':
+  '@visactor/vrender-kits@1.1.0-alpha.11':
     dependencies:
       '@resvg/resvg-js': 2.4.1
-      '@visactor/vrender-core': 1.1.0-alpha.9
+      '@visactor/vrender-core': 1.1.0-alpha.11
       '@visactor/vutils': 1.0.23
       gifuct-js: 2.1.2
       lottie-web: 5.13.0
       roughjs: 4.6.6
 
-  '@visactor/vrender@1.1.0-alpha.9':
+  '@visactor/vrender@1.1.0-alpha.11':
     dependencies:
-      '@visactor/vrender-animate': 1.1.0-alpha.9
-      '@visactor/vrender-components': 1.1.0-alpha.9
-      '@visactor/vrender-core': 1.1.0-alpha.9
-      '@visactor/vrender-kits': 1.1.0-alpha.9
+      '@visactor/vrender-animate': 1.1.0-alpha.11
+      '@visactor/vrender-components': 1.1.0-alpha.11
+      '@visactor/vrender-core': 1.1.0-alpha.11
+      '@visactor/vrender-kits': 1.1.0-alpha.11
 
   '@visactor/vscale@0.18.18':
     dependencies:

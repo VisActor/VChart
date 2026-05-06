@@ -185,6 +185,22 @@ const getBarClipPathRects = (chart: VChart) =>
     path => path.baseAttributes ?? path.attribute
   );
 
+const getBarClipPathGraphics = (chart: VChart) => (getBarMarkProduct(chart).attribute.path ?? []) as AnimatedGraphic[];
+
+const clickLegendItem = (chart: VChart, index: number) => {
+  const legendModel = chart.getComponents().find((component: any) => component.type === 'discreteLegend') as any;
+  const legendComponent = legendModel?._legendComponent;
+  const legendItem = legendComponent?._itemsContainer?.getChildren?.()[index];
+
+  if (!legendComponent?._onClick || !legendItem) {
+    throw new Error(`Expected legend item ${index} to exist`);
+  }
+
+  legendComponent._onClick({
+    target: legendItem
+  });
+};
+
 const createStackCornerLegendSpec = () =>
   ({
     type: 'bar',
@@ -640,6 +656,64 @@ describe('manual ticker animation regressions', () => {
         expectClose(finalClipPathRects[index].width, expectedRects[index].width);
         expectClose(finalClipPathRects[index].y, expectedRects[index].y);
         expectClose(finalClipPathRects[index].y1, expectedRects[index].y1);
+      });
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('keeps stack corner clip paths synced during quick legend reselect update animations', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createStackCornerLegendSpec(), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const allSeries = Object.keys(COLOR_BY_SERIES);
+      const retainedSeries = allSeries.slice(0, 3);
+
+      clickLegendItem(chart, 3);
+      chart.renderSync();
+
+      const hideUpdate = ticker.getTime();
+
+      ticker.tickAt(hideUpdate + UPDATE_DURATION / 10);
+
+      clickLegendItem(chart, 3);
+      chart.renderSync();
+
+      const showUpdate = ticker.getTime();
+
+      ticker.tickAt(showUpdate + UPDATE_DURATION / 15);
+
+      const clipPaths = getBarClipPathGraphics(chart);
+      const isAnimatingBackToAll = retainedSeries.some(seriesName => {
+        const graphic = getVisibleBarByFill(chart, COLOR_BY_SERIES[seriesName]);
+        const finalAttribute = getGraphicFinalAttribute(graphic);
+
+        return graphic.attribute.x !== finalAttribute.x || graphic.attribute.width !== finalAttribute.width;
+      });
+
+      expect(clipPaths.length).toBe(allSeries.length);
+      expect(isAnimatingBackToAll).toBe(true);
+
+      retainedSeries.forEach((seriesName, index) => {
+        const graphic = getVisibleBarByFill(chart, COLOR_BY_SERIES[seriesName]);
+        const clipPath = clipPaths[index];
+
+        expectClose(clipPath.attribute.x, graphic.attribute.x);
+        expectClose(clipPath.attribute.width, graphic.attribute.width);
+        expectClose(clipPath.attribute.y, graphic.attribute.y);
+        expectClose(clipPath.attribute.y1, graphic.attribute.y1);
       });
     } finally {
       chart.release();
