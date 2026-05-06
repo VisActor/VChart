@@ -141,6 +141,178 @@ const expectStaticXLayout = (graphic: AnimatedGraphic, expectedX: number) => {
   expectClose(getGraphicFinalAttribute(graphic).x, expectedX);
 };
 
+const expectStaticRectLayout = (
+  graphic: AnimatedGraphic,
+  expected: { x: number; width: number; y: number; y1: number }
+) => {
+  expectClose(graphic.attribute.x, expected.x);
+  expectClose(graphic.attribute.width, expected.width);
+  expectClose(graphic.attribute.y, expected.y);
+  expectClose(graphic.attribute.y1, expected.y1);
+  expectClose(graphic.baseAttributes?.x, expected.x);
+  expectClose(graphic.baseAttributes?.width, expected.width);
+  expectClose(graphic.baseAttributes?.y, expected.y);
+  expectClose(graphic.baseAttributes?.y1, expected.y1);
+  expectClose(getGraphicFinalAttribute(graphic).x, expected.x);
+  expectClose(getGraphicFinalAttribute(graphic).width, expected.width);
+  expectClose(getGraphicFinalAttribute(graphic).y, expected.y);
+  expectClose(getGraphicFinalAttribute(graphic).y1, expected.y1);
+};
+
+const getBarMarkProduct = (chart: VChart) => {
+  const model = chart.getChart() as IChart;
+  const barSeries = model.getAllSeries().find((series: ISeries) => series.type === 'bar');
+
+  expect(barSeries).toBeDefined();
+  if (!barSeries) {
+    throw new Error('Expected bar series to exist');
+  }
+
+  const barMark = barSeries.getMarks().find((mark: IMark) => mark.name === 'bar') as IMark & {
+    getProduct?: () => AnimatedGraphic;
+  };
+
+  expect(barMark).toBeDefined();
+  if (!barMark?.getProduct) {
+    throw new Error('Expected bar mark product to exist');
+  }
+
+  return barMark.getProduct();
+};
+
+const getBarClipPathRects = (chart: VChart) =>
+  ((getBarMarkProduct(chart).attribute.path ?? []) as AnimatedGraphic[]).map(
+    path => path.baseAttributes ?? path.attribute
+  );
+
+const createStackCornerLegendSpec = () =>
+  ({
+    type: 'bar',
+    direction: 'vertical',
+    width: 500,
+    height: 300,
+    xField: ['date', '__DimGroup__'],
+    yField: '__MeaValue__',
+    seriesField: '__DimGroupID__',
+    padding: 0,
+    region: [
+      {
+        clip: true
+      }
+    ],
+    animation: true,
+    animationAppear: {
+      duration: APPEAR_DURATION,
+      easing: 'linear'
+    },
+    animationUpdate: {
+      duration: UPDATE_DURATION,
+      easing: 'linear'
+    },
+    stackCornerRadius: [4, 4, 0, 0],
+    color: {
+      type: 'ordinal',
+      domain: Object.keys(COLOR_BY_SERIES),
+      range: Object.values(COLOR_BY_SERIES),
+      specified: {}
+    },
+    data: {
+      values: [
+        {
+          date: '2019',
+          region: 'east',
+          __OriginalData__: {
+            date: '2019',
+            region: 'east',
+            profit: 10,
+            sales: 20
+          },
+          profit: 10,
+          __MeaId__: 'profit',
+          __MeaName__: '利润',
+          __MeaValue__: 10,
+          __DimGroup__: 'east-利润',
+          __DimGroupID__: 'east-利润profit'
+        },
+        {
+          date: '2019',
+          region: 'east',
+          __OriginalData__: {
+            date: '2019',
+            region: 'east',
+            profit: 10,
+            sales: 20
+          },
+          sales: 20,
+          __MeaId__: 'sales',
+          __MeaName__: '销售量',
+          __MeaValue__: 20,
+          __DimGroup__: 'east-销售量',
+          __DimGroupID__: 'east-销售量sales'
+        },
+        {
+          date: '2019',
+          region: 'north of east',
+          __OriginalData__: {
+            date: '2019',
+            region: 'north of east',
+            profit: 10,
+            sales: 20
+          },
+          profit: 10,
+          __MeaId__: 'profit',
+          __MeaName__: '利润',
+          __MeaValue__: 10,
+          __DimGroup__: 'north of east-利润',
+          __DimGroupID__: 'north of east-利润profit'
+        },
+        {
+          date: '2019',
+          region: 'north of east',
+          __OriginalData__: {
+            date: '2019',
+            region: 'north of east',
+            profit: 10,
+            sales: 20
+          },
+          sales: 20,
+          __MeaId__: 'sales',
+          __MeaName__: '销售量',
+          __MeaValue__: 20,
+          __DimGroup__: 'north of east-销售量',
+          __DimGroupID__: 'north of east-销售量sales'
+        }
+      ]
+    },
+    label: {
+      visible: true,
+      animationUpdate: {
+        duration: UPDATE_DURATION,
+        easing: 'linear'
+      }
+    },
+    legends: {
+      type: 'discrete',
+      visible: true,
+      maxCol: 1,
+      maxRow: 1,
+      autoPage: true,
+      orient: 'right',
+      position: 'start',
+      item: {
+        focus: true,
+        background: {
+          state: {
+            selectedHover: {
+              fill: '#646A73',
+              fillOpacity: 0.05
+            }
+          }
+        }
+      }
+    }
+  } as unknown as IBarChartSpec);
+
 describe('manual ticker animation regressions', () => {
   it('keeps default bar appear starts out of static truth', () => {
     const { container, dom } = createChartContainer();
@@ -393,6 +565,81 @@ describe('manual ticker animation regressions', () => {
 
         expectClose(label.attribute.x, finalX);
         expectStaticXLayout(label, finalX);
+      });
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('keeps stack corner clip paths aligned after interrupted legend update animations', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createStackCornerLegendSpec(), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const allSeries = Object.keys(COLOR_BY_SERIES);
+      const retainedSeries = allSeries.slice(0, 3);
+
+      chart.setLegendSelectedDataByIndex(0, retainedSeries);
+      chart.renderSync();
+
+      const firstUpdate = ticker.getTime();
+
+      ticker.tickAt(firstUpdate + UPDATE_DURATION / 2);
+
+      chart.setLegendSelectedDataByIndex(0, allSeries);
+      chart.renderSync();
+
+      const secondUpdate = ticker.getTime();
+
+      ticker.tickAt(secondUpdate + UPDATE_DURATION / 2);
+
+      chart.setLegendSelectedDataByIndex(0, retainedSeries);
+      chart.renderSync();
+
+      const thirdUpdate = ticker.getTime();
+      const expectedRects = retainedSeries.map(seriesName => {
+        const graphic = getVisibleBarByFill(chart, COLOR_BY_SERIES[seriesName]);
+        const finalAttribute = getGraphicFinalAttribute(graphic);
+
+        return {
+          x: finalAttribute.x,
+          width: finalAttribute.width,
+          y: finalAttribute.y,
+          y1: finalAttribute.y1
+        };
+      });
+      const clipPathRects = getBarClipPathRects(chart);
+
+      expect(clipPathRects.length).toBe(retainedSeries.length);
+      clipPathRects.forEach((clipPathRect, index) => {
+        expectClose(clipPathRect.x, expectedRects[index].x);
+        expectClose(clipPathRect.width, expectedRects[index].width);
+        expectClose(clipPathRect.y, expectedRects[index].y);
+        expectClose(clipPathRect.y1, expectedRects[index].y1);
+      });
+
+      ticker.tickAt(thirdUpdate + UPDATE_DURATION + 50);
+
+      const finalClipPathRects = getBarClipPathRects(chart);
+
+      expect(finalClipPathRects.length).toBe(retainedSeries.length);
+      retainedSeries.forEach((seriesName, index) => {
+        expectStaticRectLayout(getVisibleBarByFill(chart, COLOR_BY_SERIES[seriesName]), expectedRects[index]);
+        expectClose(finalClipPathRects[index].x, expectedRects[index].x);
+        expectClose(finalClipPathRects[index].width, expectedRects[index].width);
+        expectClose(finalClipPathRects[index].y, expectedRects[index].y);
+        expectClose(finalClipPathRects[index].y1, expectedRects[index].y1);
       });
     } finally {
       chart.release();
