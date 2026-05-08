@@ -6,10 +6,13 @@ import type { IChartSpecInfo } from '../../chart/interface/common';
 export declare class ChartPluginService<T extends IChartPlugin = IChartPlugin> extends BasePluginService<T> implements IChartPluginService<T> {
     globalInstance: IVChart;
     constructor(globalInstance: IVChart);
+    getPlugin(name: string): T | undefined;
     onInit(chartSpec: any): void;
     onBeforeResize(width: number, height: number): void;
     onAfterChartSpecTransform(chartSpec: any, actionSource: VChartRenderActionSource): void;
     onAfterModelSpecTransform(chartSpec: any, chartSpecInfo: IChartSpecInfo, actionSource: VChartRenderActionSource): void;
     onBeforeInitChart(chartSpec: any, actionSource: VChartRenderActionSource): void;
+    onLayoutRectUpdate(): void;
+    onAfterRender(): void;
     releaseAll(): void;
 }

@@ -1,6 +1,23 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 02 Jul 2025 11:21:17 GMT and should not be manually modified.
+This log was last generated on Fri, 08 May 2026 08:47:28 GMT and should not be manually modified.
+
+## 1.13.14
+Fri, 08 May 2026 08:47:28 GMT
+
+### Patches
+
+- fix: handle sankey tooltip labels when source index is 0 (Issue #4488)
+
+### Updates
+
+- update changes for 009-fix-map-roam-pointer-drag: This plan fixes a map roam drag bug where mobile browsers lose stable vertical dragging after supportsTouchEvents is forced to false
+- feat: upgrade vrender vgrammar for hideOnOverflow & wordcloud
+
+
+- fix: fix bug of resize by spec
+
+
 
 ## 1.13.13
 Wed, 02 Jul 2025 11:21:17 GMT
