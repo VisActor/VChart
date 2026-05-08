@@ -38,6 +38,7 @@ export interface IGridLayoutSpec extends ILayoutSpecBase {
 }
 export interface IBaseLayoutSpec extends ILayoutSpecBase {
     type: 'base';
+    secondLayoutLeftRight?: boolean;
 }
 export type ILayoutSpec = IBaseLayoutSpec | IGridLayoutSpec;
 export interface ILayoutConstructor {

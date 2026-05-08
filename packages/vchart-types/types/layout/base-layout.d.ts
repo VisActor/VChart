@@ -48,7 +48,7 @@ export declare class Layout implements IBaseLayout {
     layoutItems(_chart: IChart, items: ILayoutItem[], chartLayoutRect: IRect, chartViewBox: IBoundsLike): void;
     protected _processAutoIndent(regionItems: ILayoutItem[], relativeItems: ILayoutItem[], relativeOverlapItems: ILayoutItem[], overlapItems: {
         [key in IOrientType]: overlapInfo;
-    }, allRelatives: ILayoutItem[], layoutTemp: LayoutSideType): void;
+    }, allRelatives: ILayoutItem[], layoutTemp: LayoutSideType, secondLayoutLeftRight?: boolean): void;
     protected layoutNormalItems(normalItems: ILayoutItem[]): void;
     protected layoutNormalInlineItems(normalItems: ILayoutItem[]): void;
     protected _layoutRelativeOverlap(orient: IOrientType, info: overlapInfo): void;
@@ -59,7 +59,7 @@ export declare class Layout implements IBaseLayout {
     };
     protected layoutRegionItems(regionItems: ILayoutItem[], regionRelativeItems: ILayoutItem[], regionRelativeOverlapItems: ILayoutItem[], overlapItems?: {
         [key in IOrientType]: overlapInfo;
-    }): void;
+    }, secondLayoutLeftRight?: boolean): void;
     protected layoutAbsoluteItems(absoluteItems: ILayoutItem[]): void;
     filterRegionsWithID(items: ILayoutItem[], id: number): ILayoutItem;
     getItemComputeLayoutRect(item: ILayoutItem): {

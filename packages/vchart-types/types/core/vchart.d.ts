@@ -22,6 +22,7 @@ import { Compiler } from '../compile/compiler';
 import type { IMorphConfig } from '../animation/spec';
 import type { DataLinkAxis, DataLinkSeries, IGlobalConfig, IVChart, IVChartRenderOption } from './interface';
 import { InstanceManager } from './instance-manager';
+import type { IChartPluginService } from '../plugin/chart/interface';
 export declare class VChart implements IVChart {
     readonly id: number;
     static useRegisters(comps: (() => void)[]): void;
@@ -77,6 +78,7 @@ export declare class VChart implements IVChart {
     private _context;
     private _isReleased;
     private _chartPlugin?;
+    get chartPlugin(): IChartPluginService<any>;
     private _onResize?;
     constructor(spec: ISpec, options: IInitOption);
     private _setNewSpec;

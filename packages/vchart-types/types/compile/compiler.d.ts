@@ -36,6 +36,8 @@ export declare class Compiler implements ICompiler {
     getStage(): IStage | undefined;
     initView(): void;
     protected handleStageRender: () => void;
+    private _isGeoRegionRoamDragEnabled;
+    private _shouldDisableCanvasTouchAction;
     private _setCanvasStyle;
     protected compileInteractions(): void;
     compile(ctx: {

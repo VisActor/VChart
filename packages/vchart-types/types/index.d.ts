@@ -18,3 +18,5 @@ export * from './plugin/other';
 export * from './vrender-tools';
 export * from './util/data';
 export * from './util/spec/transform';
+export * from './constant/attribute';
+export * from './data/register';
