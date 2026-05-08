@@ -862,7 +862,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   private _getSpecKeys(spec: T) {
-    const ignoreKeys: Record<string, boolean> = { width: true, height: true };
+    const ignoreKeys: Record<string, boolean> = {
+      width: true,
+      height: true,
+      xField: true,
+      yField: true
+    };
     return Object.keys(spec)
       .filter(key => !ignoreKeys[key])
       .sort();

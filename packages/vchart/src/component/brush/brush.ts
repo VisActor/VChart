@@ -112,6 +112,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       });
     });
   }
+
+  reInit(spec?: T) {
+    super.reInit(spec);
+    this.init();
+  }
+
   private _initNeedOperatedItem() {
     const seriesUserId = this._spec.seriesId;
     const seriesIndex = this._spec.seriesIndex;

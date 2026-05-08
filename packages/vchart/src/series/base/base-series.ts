@@ -111,7 +111,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   declare getSpecInfo: () => ISeriesSpecInfo;
 
-  declare protected _option: ISeriesOption;
+  protected declare _option: ISeriesOption;
 
   // 坐标系信息
   readonly coordinate: CoordinateType = 'none';
@@ -240,7 +240,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
   protected _dataSet: DataSet;
 
-  declare protected _tooltipHelper: ISeriesTooltipHelper | undefined;
+  protected declare _tooltipHelper: ISeriesTooltipHelper | undefined;
   get tooltipHelper() {
     if (!this._tooltipHelper) {
       this.initTooltip();
@@ -842,8 +842,8 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const triggerOff = isValid(finalSelectSpec.triggerOff)
       ? finalSelectSpec.triggerOff
       : isMultiple
-        ? ['empty']
-        : ['empty', finalSelectSpec.trigger];
+      ? ['empty']
+      : ['empty', finalSelectSpec.trigger];
     return {
       type: TRIGGER_TYPE_ENUM.ELEMENT_SELECT as string,
       trigger: finalSelectSpec.trigger as GraphicEventType,
@@ -1282,7 +1282,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       attributeContext: this._markAttributeContext,
       componentType: option.componentType,
       noSeparateStyle,
-      parent: parent !== false ? (parent ?? this._rootMark) : null
+      parent: parent !== false ? parent ?? this._rootMark : null
     });
 
     if (isValid(m)) {
@@ -1341,13 +1341,27 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return key;
     }
 
-    const dimensionFields = this.getDimensionField();
-    key = dimensionFields.map(field => datum[field]).join('_');
-
     const seriesField = this.getSeriesField();
+    const dimensionFields = this.getDimensionField();
+    const seriesFieldValue = seriesField ? datum[seriesField] : undefined;
+    let hasSeriesFieldInDimension = false;
+    let lastDimensionValue: unknown;
 
-    if (seriesField && !dimensionFields.includes(seriesField)) {
-      key += `_${datum[seriesField]}`;
+    for (let i = 0; i < dimensionFields.length; i++) {
+      const field = dimensionFields[i];
+      const dimensionValue = datum[field];
+
+      key += `${i > 0 ? '_' : ''}${isNil(dimensionValue) ? '' : dimensionValue}`;
+      hasSeriesFieldInDimension ||= field === seriesField;
+      lastDimensionValue = dimensionValue;
+    }
+
+    if (
+      seriesField &&
+      !hasSeriesFieldInDimension &&
+      !(dimensionFields.length > 1 && lastDimensionValue === seriesFieldValue)
+    ) {
+      key += `_${seriesFieldValue}`;
     }
 
     return key;

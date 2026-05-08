@@ -105,6 +105,22 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
     }
+
+    this.initRectMarkStyle();
+  }
+
+  protected initRectMarkStyle() {
+    if (!this._barMark) {
+      return;
+    }
+
+    const bandAxisHelper = this.direction === Direction.vertical ? this._xAxisHelper : this._yAxisHelper;
+    const scale = bandAxisHelper?.getScale?.(0);
+    if (!scale) {
+      return;
+    }
+
+    scale.type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
   }
 
   initLabelMarkStyle(textMark: ITextMark) {
@@ -256,11 +272,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   init(option: IModelInitOption): void {
     super.init(option);
-    if (this.direction === 'vertical') {
-      this._xAxisHelper?.getScale(0).type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
-    } else {
-      this._yAxisHelper?.getScale(0).type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
-    }
+    this.initRectMarkStyle();
   }
 
   private _shouldDoPreCalculate() {

@@ -196,6 +196,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         AttributeLevel.Series
       );
     }
+
+    this.initBoxPlotMarkStyle();
   }
 
   initBoxPlotMarkStyle(): void {

@@ -135,6 +135,296 @@ describe('vchart updateSpec test', () => {
   });
 });
 
+describe('vchart updateSpec mark style reInit test', () => {
+  it('should preserve component-injected brush state styles after data-only updateSpec', () => {
+    const container = createDiv();
+    const dom = createDiv(container);
+    const createSpec = (values: Array<{ type: string; value: number }>) =>
+      ({
+        type: 'bar',
+        width: 300,
+        height: 200,
+        data: [
+          {
+            id: 'bar',
+            values
+          }
+        ],
+        xField: 'type',
+        yField: 'value',
+        brush: {
+          visible: true,
+          brushType: 'rect',
+          inBrush: {
+            colorAlpha: 1
+          },
+          outOfBrush: {
+            colorAlpha: 0.2
+          }
+        }
+      } as IBarChartSpec);
+    const chart = new VChart(
+      createSpec([
+        { type: '1', value: 20 },
+        { type: '2', value: 30 }
+      ]),
+      {
+        dom,
+        animation: false
+      }
+    );
+
+    chart.renderSync();
+
+    const getBarMark = () => {
+      const barSeries = chart
+        .getChart()
+        ?.getAllSeries()
+        .find(series => series.type === 'bar');
+      const barMark = barSeries?.getMarks().find(mark => mark.name === 'bar') as any;
+
+      expect(barMark).toBeDefined();
+      return barMark;
+    };
+    const expectBrushStates = () => {
+      const barMark = getBarMark();
+
+      expect(barMark.stateStyle.inBrush.fillOpacity.style).toBe(1);
+      expect(barMark.stateStyle.outOfBrush.fillOpacity.style).toBe(0.2);
+    };
+
+    try {
+      expectBrushStates();
+
+      chart.updateSpecSync(
+        createSpec([
+          { type: '1', value: 25 },
+          { type: '2', value: 35 }
+        ])
+      );
+
+      expectBrushStates();
+    } finally {
+      chart.release();
+      removeDom(container);
+    }
+  });
+});
+
+describe('vchart updateSpec field update classification test', () => {
+  const getBarGraphicById = (chart: VChart, id: string) => {
+    const barSeries = chart
+      .getChart()
+      ?.getAllSeries()
+      .find(series => series.type === 'bar');
+    const barMark = barSeries?.getMarks().find(mark => mark.name === 'bar') as any;
+    const barGraphic = barMark?.getGraphics().find((graphic: any) => graphic.context?.data?.[0]?.id === id);
+
+    expect(barMark).toBeDefined();
+    expect(barGraphic).toBeDefined();
+    return barGraphic as any;
+  };
+  const getBarGraphicByDatum = (chart: VChart, predicate: (datum: any) => boolean) => {
+    const barSeries = chart
+      .getChart()
+      ?.getAllSeries()
+      .find(series => series.type === 'bar');
+    const barMark = barSeries?.getMarks().find(mark => mark.name === 'bar') as any;
+    const barGraphic = barMark?.getGraphics().find((graphic: any) => predicate(graphic.context?.data?.[0]));
+
+    expect(barMark).toBeDefined();
+    expect(barGraphic).toBeDefined();
+    return barGraphic as any;
+  };
+  const getBarHeight = (graphic: any) => Math.abs(graphic.attribute.y1 - graphic.attribute.y);
+
+  it('should keep seriesField in default data key when a single dimension value equals the series value', () => {
+    const container = createDiv();
+    const dom = createDiv(container);
+    const chart = new VChart(
+      {
+        type: 'bar',
+        width: 300,
+        height: 200,
+        data: [
+          {
+            id: 'bar',
+            values: [
+              { category: 'A', group: 'A', value: 10 },
+              { category: 'A', group: 'B', value: 20 }
+            ]
+          }
+        ],
+        xField: 'category',
+        yField: 'value',
+        seriesField: 'group',
+        axes: [
+          { orient: 'left', visible: false },
+          { orient: 'bottom', visible: false }
+        ]
+      } as IBarChartSpec,
+      {
+        dom
+      }
+    );
+
+    chart.renderSync();
+
+    try {
+      expect(getBarGraphicByDatum(chart, datum => datum?.group === 'A').context.key).toBe('A_A');
+      expect(getBarGraphicByDatum(chart, datum => datum?.group === 'B').context.key).toBe('A_B');
+    } finally {
+      chart.release();
+      removeDom(container);
+    }
+  });
+
+  it('should update top-level xField through recompile without remaking chart', () => {
+    const container = createDiv();
+    const dom = createDiv(container);
+    const createSpec = (xField: 'category' | 'nextCategory') =>
+      ({
+        type: 'bar',
+        width: 300,
+        height: 200,
+        dataKey: 'id',
+        data: [
+          {
+            id: 'bar',
+            values: [
+              { id: 'a', category: 'A', nextCategory: 'A', value: 10 },
+              { id: 'b', category: 'B', nextCategory: 'A', value: 20 },
+              { id: 'c', category: 'C', nextCategory: 'C', value: 30 }
+            ]
+          }
+        ],
+        xField,
+        yField: 'value',
+        axes: [
+          { orient: 'left', visible: false },
+          { orient: 'bottom', visible: false }
+        ]
+      } as IBarChartSpec);
+    const chart = new VChart(createSpec('category'), {
+      dom,
+      animation: false
+    });
+
+    chart.renderSync();
+
+    try {
+      const chartBefore = chart.getChart();
+      const barBefore = getBarGraphicById(chart, 'b');
+      const xBefore = barBefore.attribute.x;
+
+      chart.updateSpecSync(createSpec('nextCategory'));
+
+      const barAfter = getBarGraphicById(chart, 'b');
+
+      expect(chart.getChart()).toBe(chartBefore);
+      expect(barAfter.attribute.x).not.toBe(xBefore);
+    } finally {
+      chart.release();
+      removeDom(container);
+    }
+  });
+
+  it('should update top-level yField through recompile without remaking chart', () => {
+    const container = createDiv();
+    const dom = createDiv(container);
+    const createSpec = (yField: 'value' | 'nextValue') =>
+      ({
+        type: 'bar',
+        width: 300,
+        height: 200,
+        dataKey: 'id',
+        data: [
+          {
+            id: 'bar',
+            values: [
+              { id: 'a', category: 'A', value: 10, nextValue: 30 },
+              { id: 'b', category: 'B', value: 30, nextValue: 30 }
+            ]
+          }
+        ],
+        xField: 'category',
+        yField,
+        axes: [
+          { orient: 'left', visible: false },
+          { orient: 'bottom', visible: false }
+        ]
+      } as IBarChartSpec);
+    const chart = new VChart(createSpec('value'), {
+      dom,
+      animation: false
+    });
+
+    chart.renderSync();
+
+    try {
+      const chartBefore = chart.getChart();
+      const barBefore = getBarGraphicById(chart, 'a');
+      const yBefore = barBefore.attribute.y;
+      const heightBefore = getBarHeight(barBefore);
+
+      chart.updateSpecSync(createSpec('nextValue'));
+
+      const barAfter = getBarGraphicById(chart, 'a');
+
+      expect(chart.getChart()).toBe(chartBefore);
+      expect(barAfter.attribute.y).not.toBe(yBefore);
+      expect(getBarHeight(barAfter)).not.toBe(heightBefore);
+    } finally {
+      chart.release();
+      removeDom(container);
+    }
+  });
+
+  it('should remake when top-level seriesField changes because mark groupKey is initialized from seriesField', () => {
+    const container = createDiv();
+    const dom = createDiv(container);
+    const createSpec = (seriesField: 'group' | 'nextGroup') =>
+      ({
+        type: 'bar',
+        width: 300,
+        height: 200,
+        data: [
+          {
+            id: 'bar',
+            values: [
+              { category: 'A', value: 10, group: 'old-a', nextGroup: 'new-a' },
+              { category: 'B', value: 20, group: 'old-b', nextGroup: 'new-b' }
+            ]
+          }
+        ],
+        xField: 'category',
+        yField: 'value',
+        seriesField,
+        axes: [
+          { orient: 'left', visible: false },
+          { orient: 'bottom', visible: false }
+        ]
+      } as IBarChartSpec);
+    const chart = new VChart(createSpec('group'), {
+      dom,
+      animation: false
+    });
+
+    chart.renderSync();
+
+    try {
+      const chartBefore = chart.getChart();
+
+      chart.updateSpecSync(createSpec('nextGroup'));
+
+      expect(chart.getChart()).not.toBe(chartBefore);
+    } finally {
+      chart.release();
+      removeDom(container);
+    }
+  });
+});
+
 describe('vchart updateSpec of same spec', () => {
   let container: HTMLElement;
   let dom: HTMLElement;

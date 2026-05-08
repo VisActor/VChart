@@ -1657,7 +1657,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           // 表示正在被复用，需要重设属性的
           // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除，这里需要硬拷贝(通过initAttributes重设属性也行)
           g.context.lastAttrs = g.attribute;
-          g.initAttributes({});
+          g.initAttributes(finalAttrs);
           // 为了避免exit一些和enter不一样的属性，所以这里要重置属性
           // const finalAttrs = g.getFinalAttribute();
           // finalAttrs && g.initAttributes({ ...finalAttrs });
@@ -1889,9 +1889,10 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
             }
           }));
           g.applyAnimationState(['exit'], [exitConfigList.length === 1 ? exitConfigList[0] : exitConfigList], () => {
-            // 有可能又被复用了，所以这里需要判断，如果还是在exiting阶段的话才删除
-            // TODO 这里如果频繁执行的话，可能会误判
-            doRemove(g, key);
+            // 有可能又被复用了，所以这里需要判断，如果还是在 exiting 阶段的话才删除
+            if (g.context.diffState === DiffState.exit && g.isExiting && this._graphicMap.get(key) === g) {
+              doRemove(g, key);
+            }
           });
         }
       } else {
