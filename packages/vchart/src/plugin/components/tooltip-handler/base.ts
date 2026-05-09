@@ -250,7 +250,7 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     let relativePosOffset = { x: 0, y: 0 };
     let tooltipParentElementRect: IPoint | DOMRect = { x: 0, y: 0 };
     let chartElementRect: DOMRect;
-    let chartElementScale = 1;
+    let chartElementScale = { x: 1, y: 1 };
     let tooltipParentElementScale = 1;
     const isBrowser = isTrueBrowser(this._env);
 
@@ -271,10 +271,23 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
         x: chartElementRect.x - tooltipParentElementRect.x,
         y: chartElementRect.y - tooltipParentElementRect.y
       };
-      chartElementScale = getScale(chartElement, chartElementRect);
+      const chartElementDomScale = getScale(chartElement, chartElementRect);
+      chartElementScale = {
+        x:
+          isValidNumber(chartElementRect?.width) && canvasWidth > 0
+            ? chartElementRect.width / canvasWidth
+            : chartElementDomScale,
+        y:
+          isValidNumber(chartElementRect?.height) && canvasHeight > 0
+            ? chartElementRect.height / canvasHeight
+            : chartElementDomScale
+      };
       tooltipParentElementScale = getScale(tooltipParentElement, tooltipParentElementRect as DOMRect);
     }
-    const tooltipSizeScale = tooltipParentElementScale / chartElementScale;
+    const tooltipSizeScale = {
+      x: tooltipParentElementScale / chartElementScale.x,
+      y: tooltipParentElementScale / chartElementScale.y
+    };
 
     /* 一、计算 left、top、right、bottom */
 
@@ -320,24 +333,25 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       if (isFixedPosition) {
         const posKey = dimToPos[dim][0] as TooltipPositionKeys;
         const boxSize = dim === 'x' ? tooltipBoxWidth : tooltipBoxHeight;
+        const dimTooltipSizeScale = tooltipSizeScale[dim];
         switch (getPositionType(orient, dim)) {
           case -2:
-            calcPos[posKey] = dim1 - boxSize * tooltipSizeScale - dimOffset;
+            calcPos[posKey] = dim1 - boxSize * dimTooltipSizeScale - dimOffset;
             break;
           case -1.5:
             calcPos[posKey] = dim1 + dimOffset;
             break;
           case 0:
-            calcPos[posKey] = (dim1 + dim2) / 2 - (boxSize * tooltipSizeScale) / 2;
+            calcPos[posKey] = (dim1 + dim2) / 2 - (boxSize * dimTooltipSizeScale) / 2;
             break;
           case -1:
-            calcPos[posKey] = (dim1 + dim2) / 2 - boxSize * tooltipSizeScale - dimOffset;
+            calcPos[posKey] = (dim1 + dim2) / 2 - boxSize * dimTooltipSizeScale - dimOffset;
             break;
           case 1:
             calcPos[posKey] = (dim1 + dim2) / 2 + dimOffset;
             break;
           case 1.5:
-            calcPos[posKey] = dim2 - boxSize * tooltipSizeScale - dimOffset;
+            calcPos[posKey] = dim2 - boxSize * dimTooltipSizeScale - dimOffset;
             break;
           case 2:
             calcPos[posKey] = dim2 + dimOffset;
@@ -387,19 +401,19 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       if (isValidNumber(calcPos[dimToPos[dim][0] as TooltipPositionKeys])) {
         result[dim] = calcPos[dimToPos[dim][0] as TooltipPositionKeys];
       } else if (isValidNumber(calcPos[dimToPos[dim][1] as TooltipPositionKeys])) {
-        result[dim] = canvasSize - boxSize * tooltipSizeScale - calcPos[dimToPos[dim][1] as TooltipPositionKeys];
+        result[dim] = canvasSize - boxSize * tooltipSizeScale[dim] - calcPos[dimToPos[dim][1] as TooltipPositionKeys];
       } else {
         const value0 = dim === 'x' ? (event as any).canvasX : (event as any).canvasY;
 
         if (posType > 0) {
           result[dim] = value0 + offset;
         } else if (posType === 0) {
-          result[dim] = value0 - (boxSize * tooltipSizeScale) / 2;
+          result[dim] = value0 - (boxSize * tooltipSizeScale[dim]) / 2;
         } else {
-          result[dim] = value0 - boxSize * tooltipSizeScale - offset;
+          result[dim] = value0 - boxSize * tooltipSizeScale[dim] - offset;
         }
       }
-      result[dim] *= chartElementScale;
+      result[dim] *= chartElementScale[dim];
 
       if (isBrowser) {
         result[dim] += relativePosOffset[dim];
@@ -409,10 +423,10 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       /* 三、确保tooltip在视区内 */
       const containerDimSize = dim === 'x' ? containerSize.width : containerSize.height;
       const leftOrTop = tooltipSpec.confine
-        ? -(tooltipParentElementRect[dim] - (chartElementRect?.[dim] ?? 0) / chartElementScale) /
-          tooltipParentElementScale
+        ? ((chartElementRect?.[dim] ?? 0) - tooltipParentElementRect[dim]) / tooltipParentElementScale
         : -tooltipParentElementRect[dim] / tooltipParentElementScale;
-      const rightOrBottom = containerDimSize / tooltipParentElementScale + leftOrTop - boxSize;
+      const actualContainerDimSize = tooltipSpec.confine ? containerDimSize * chartElementScale[dim] : containerDimSize;
+      const rightOrBottom = actualContainerDimSize / tooltipParentElementScale + leftOrTop - boxSize;
 
       // 处理左右
       if (posType !== 2 && result[dim] < leftOrTop) {
