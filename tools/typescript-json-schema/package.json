@@ -21,6 +21,7 @@
   "devDependencies": {
     "@types/chai": "^4.2.21",
     "@types/glob": "^7.1.4",
+    "@types/minimatch": "^5.1.2",
     "@types/mocha": "^9.0.0",
     "ajv": "^8.12.0",
     "ajv-formats": "^2.1.1",
