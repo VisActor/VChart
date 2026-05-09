@@ -47,7 +47,8 @@ export function getRollupOptions(
         tsconfig: path.resolve(projectRoot, config.tsconfig),
         compilerOptions: {
           sourceMap: false,
-          declaration: false
+          declaration: false,
+          composite: false
         }
       }),
       url({

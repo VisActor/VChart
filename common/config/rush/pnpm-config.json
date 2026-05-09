@@ -83,11 +83,11 @@
    * PNPM documentation: https://pnpm.io/package_json#pnpmoverrides
    */
   "globalOverrides": {
-    "@types/node": "20.14.10"
-    // "@visactor/vutils": "1.0.6",
-    // "@visactor/vlayouts": "1.0.6",
-    // "@visactor/vdataset": "1.0.6",
-    // "@visactor/vscale": "1.0.6",
+    "@types/node": "20.14.10",
+    "@visactor/vutils": "1.0.6",
+    "@visactor/vlayouts": "1.0.6",
+    "@visactor/vdataset": "1.0.6",
+    "@visactor/vscale": "1.0.6"
     // "@visactor/vrender-core": "1.0.0",
     // "@visactor/vrender-kits": "1.0.0",
     // "@visactor/vrender-animate": "1.0.0",
