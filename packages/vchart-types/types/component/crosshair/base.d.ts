@@ -36,7 +36,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
         value: string | number;
     }[]): void;
     protected _getLimitBounds(): IBoundsLike;
-    protected _showDefaultCrosshairBySpec(): void;
+    protected _showDefaultCrosshairBySpec(): boolean;
     protected _updateVisibleCrosshair(): void;
     protected _showDefaultCrosshair(): void;
     setAttrFromSpec(): void;
@@ -64,6 +64,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     private _registerTooltipEvent;
     private _handleTooltipShow;
     private _handleTooltipHideOrRelease;
+    private _renderNextFrame;
     protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value'): IAxisInfo<T>;
     onLayoutEnd(): void;
     protected _releaseEvent(): void;

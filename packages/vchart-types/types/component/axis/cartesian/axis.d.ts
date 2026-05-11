@@ -52,6 +52,12 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
         left: number;
         right: number;
     };
+    getInnerOffset(): {
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
+    };
     constructor(spec: T, options: IComponentOption);
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     static createComponent(specInfo: IModelSpecInfo, options: IComponentOption): IAxis;
