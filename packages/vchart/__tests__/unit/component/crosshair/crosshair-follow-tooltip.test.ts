@@ -39,6 +39,9 @@ describe('Crosshair followTooltip', () => {
           followTooltip: true,
           xField: {
             visible: true,
+            label: {
+              visible: false
+            },
             line: {
               visible: true,
               type: 'line'
@@ -69,5 +72,70 @@ describe('Crosshair followTooltip', () => {
     });
 
     expect(crosshair._stateByField.xField.currentValue.size).toBe(0);
+  });
+
+  test('schedules a render after followed tooltip updates stale crosshair state', () => {
+    const crosshair = vchart.getComponents().find(com => com.type === 'cartesianCrosshair') as any;
+    const axis = vchart.getComponents().find(com => (com as any).getOrient?.() === 'bottom') as any;
+    const series = vchart.getChart().getSeriesInIndex()[0] as any;
+    const stage = vchart.getStage() as any;
+    const datumB = series.getViewData().latestData.find((item: any) => item.x === 'B');
+    const pointB = series.dataToPosition(datumB);
+    const renderNextFrame = jest.spyOn(stage, 'renderNextFrame').mockImplementation(() => undefined);
+
+    crosshair.showCrosshair([{ axis, value: 'A' }]);
+    const crosshairComp = crosshair._stateByField.xField.crosshairComp;
+
+    // Simulate an outer stage drawing before tooltipShow updates the current dimension.
+    crosshair.onBeforeRender();
+    expect(Array.from(crosshair._stateByField.xField.currentValue.values())[0]).toMatchObject({ datum: 'A' });
+
+    renderNextFrame.mockClear();
+    jest.spyOn(crosshairComp, 'setAttributes').mockImplementation(() => undefined);
+
+    crosshair.event.emit(ChartEvent.tooltipShow, {
+      source: Event_Source_Type.chart,
+      event: {
+        viewX: pointB.x,
+        viewY: pointB.y
+      },
+      activeType: 'dimension',
+      tooltipData: [
+        {
+          axis,
+          value: 'B',
+          data: [{ series, datum: [datumB], key: 'line_1' }]
+        }
+      ],
+      tooltip: {}
+    });
+
+    expect(Array.from(crosshair._stateByField.xField.currentValue.values())[0]).toMatchObject({ datum: 'B' });
+    expect(renderNextFrame).toHaveBeenCalled();
+
+    renderNextFrame.mockClear();
+    crosshair.event.emit(ChartEvent.tooltipShow, {
+      source: Event_Source_Type.chart,
+      event: {
+        viewX: pointB.x,
+        viewY: pointB.y
+      },
+      activeType: 'dimension',
+      tooltipData: [
+        {
+          axis,
+          value: 'B',
+          data: [{ series, datum: [datumB], key: 'line_1' }]
+        }
+      ],
+      tooltip: {}
+    });
+
+    expect(Array.from(crosshair._stateByField.xField.currentValue.values())[0]).toMatchObject({ datum: 'B' });
+    expect(crosshair._stateByField.xField.currentValue.size).toBe(1);
+    expect(renderNextFrame).toHaveBeenCalled();
+
+    renderNextFrame.mockRestore();
+    (crosshairComp.setAttributes as jest.Mock).mockRestore();
   });
 });

@@ -158,6 +158,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _showDefaultCrosshairBySpec() {
+    let hasDefaultCrosshair = false;
+
     Object.keys(this._stateByField).forEach(field => {
       const fieldSpec = (this._spec as any)[field];
 
@@ -166,11 +168,14 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IAxis;
 
         if (axis) {
+          hasDefaultCrosshair = true;
           this._stateByField[field].currentValue.clear();
           this._stateByField[field].currentValue.set(axisIndex, { axis, datum });
         }
       }
     });
+
+    return hasDefaultCrosshair;
   }
 
   protected _updateVisibleCrosshair() {
@@ -193,8 +198,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   protected _showDefaultCrosshair() {
     if (this.showDefault) {
-      this._showDefaultCrosshairBySpec();
-      this.layoutByValue(false);
+      const hasDefault = this._showDefaultCrosshairBySpec();
+      hasDefault && this.layoutByValue(false);
     } else {
       this._updateVisibleCrosshair();
     }
@@ -400,13 +405,19 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
     const components = this._getNeedClearVRenderComponents();
     this._hasActive = components.some(comp => comp && comp.attribute.visible !== false);
+    this._renderNextFrame();
   };
 
   private _handleTooltipHideOrRelease = () => {
     this.clearOutEvent();
 
     this.hideCrosshair();
+    this._renderNextFrame();
   };
+
+  private _renderNextFrame() {
+    (this._option.globalInstance.getStage() as any)?.renderNextFrame?.();
+  }
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
     // 加判空防止某些特殊时刻（如 updateSpec 时）鼠标滑过图表导致报错
@@ -439,13 +450,14 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       if (!axis) {
         return;
       }
+      const innerOffset = (axis as any).getInnerOffset?.() || { left: 0, right: 0, top: 0, bottom: 0 };
       const regions = axis.getRegions();
       regions.forEach(r => {
         const { x: regionStartX, y: regionStartY } = r.getLayoutStartPoint();
-        x1 = Math.min(x1, regionStartX - sx);
-        y1 = Math.min(y1, regionStartY - sy);
-        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx);
-        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy);
+        x1 = Math.min(x1, regionStartX - sx + innerOffset.left);
+        y1 = Math.min(y1, regionStartY - sy + innerOffset.top);
+        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx - innerOffset.right);
+        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy - innerOffset.bottom);
       });
       map.set(idx, { x1, y1, x2, y2, axis: axis as unknown as T });
     });

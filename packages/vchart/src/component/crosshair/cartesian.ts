@@ -113,10 +113,29 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
   ) {
     let x = relativeX;
     let y = relativeY;
+    let tooltipAxisValue: { axis: IAxis; value: StringOrNumber } | undefined;
+    const setTooltipAxisValue = () => {
+      if (!tooltipAxisValue) {
+        return;
+      }
+
+      const field = isXAxis(tooltipAxisValue.axis.getOrient() as IOrientType) ? 'xField' : 'yField';
+      const { currentValue } = this._stateByField[field];
+      if (!currentValue.has(tooltipAxisValue.axis.getSpecIndex())) {
+        currentValue.clear();
+      }
+      this.setAxisValue(tooltipAxisValue.value, tooltipAxisValue.axis);
+    };
 
     if (tooltipData && tooltipData.length) {
       if (activeType === 'dimension') {
         const dimensionInfo = (tooltipData as IDimensionInfo[])[0];
+        if (dimensionInfo?.axis && isValid(dimensionInfo.value)) {
+          tooltipAxisValue = {
+            axis: dimensionInfo.axis as unknown as IAxis,
+            value: dimensionInfo.value
+          };
+        }
         // 图例筛选时, 找到第一个没有被筛选的系列
         const datumIndex = dimensionInfo.data.findIndex(dimData => dimData.datum.length > 0);
         let pos;
@@ -147,6 +166,12 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     // 找到所有的包含这个点的轴
     const { xAxisMap, yAxisMap } = this._findAllAxisContains(x, y);
     if ((xAxisMap && xAxisMap.size === 0) || (yAxisMap && yAxisMap.size === 0)) {
+      if (tooltipAxisValue) {
+        setTooltipAxisValue();
+        this.layoutByValue(false);
+        return;
+      }
+
       if (this.enableRemain) {
         return;
       }
@@ -158,6 +183,9 @@ export class CartesianCrossHair<T extends ICartesianCrosshairSpec = ICartesianCr
     // 将数据保存到这个对象中，如果不存在，就直接不执行后续逻辑
     xAxisMap && xAxisMap.size && this._setAllAxisValues(xAxisMap, { x, y }, 'xField');
     yAxisMap && yAxisMap.size && this._setAllAxisValues(yAxisMap, { x, y }, 'yField');
+    if (tooltipAxisValue) {
+      setTooltipAxisValue();
+    }
 
     this.layoutByValue();
   }
