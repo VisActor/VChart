@@ -338,7 +338,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
     this.clearOutEvent();
 
-    this.hide();
+    this.hideCrosshair();
   };
 
   private _getTriggerEvent() {
@@ -405,7 +405,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _handleTooltipHideOrRelease = () => {
     this.clearOutEvent();
 
-    this.hide();
+    this.hideCrosshair();
   };
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
