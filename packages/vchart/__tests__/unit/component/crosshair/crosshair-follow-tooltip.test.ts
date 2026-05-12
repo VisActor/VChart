@@ -139,7 +139,55 @@ describe('Crosshair followTooltip', () => {
     (crosshairComp.setAttributes as jest.Mock).mockRestore();
   });
 
-  test('falls back to next frame render when followed tooltip updates during render', () => {
+  test('clears stale followed tooltip drawings on transparent external canvas', () => {
+    const crosshair = vchart.getComponents().find(com => com.type === 'cartesianCrosshair') as any;
+    const axis = vchart.getComponents().find(com => (com as any).getOrient?.() === 'bottom') as any;
+    const series = vchart.getChart().getSeriesInIndex()[0] as any;
+    const stage = vchart.getStage() as any;
+    const datumB = series.getViewData().latestData.find((item: any) => item.x === 'B');
+    const pointB = series.dataToPosition(datumB);
+    const nativeContext = stage.window.getContext().nativeContext;
+    const prevBackground = stage.background;
+    const prevCanvasControled = stage.params.canvasControled;
+    const render = jest.spyOn(stage, 'render').mockImplementation(() => undefined);
+    const clearRect = jest.spyOn(nativeContext, 'clearRect');
+
+    stage.background = false;
+    stage.params.canvasControled = false;
+    stage._story_needRender = false;
+
+    crosshair.showCrosshair([{ axis, value: 'A' }]);
+
+    crosshair.event.emit(ChartEvent.tooltipShow, {
+      source: Event_Source_Type.chart,
+      event: {
+        viewX: pointB.x,
+        viewY: pointB.y
+      },
+      activeType: 'dimension',
+      tooltipData: [
+        {
+          axis,
+          value: 'B',
+          data: [{ series, datum: [datumB], key: 'line_1' }]
+        }
+      ],
+      tooltip: {}
+    });
+
+    expect(Array.from(crosshair._stateByField.xField.currentValue.values())[0]).toMatchObject({ datum: 'B' });
+    expect(clearRect).toHaveBeenCalled();
+    expect(stage._story_needRender).toBe(true);
+    expect(render).toHaveBeenCalled();
+
+    stage.background = prevBackground;
+    stage.params.canvasControled = prevCanvasControled;
+    delete stage._story_needRender;
+    clearRect.mockRestore();
+    render.mockRestore();
+  });
+
+  test('renders after current render when followed tooltip updates during render', async () => {
     const crosshair = vchart.getComponents().find(com => com.type === 'cartesianCrosshair') as any;
     const axis = vchart.getComponents().find(com => (com as any).getOrient?.() === 'bottom') as any;
     const series = vchart.getChart().getSeriesInIndex()[0] as any;
@@ -174,6 +222,10 @@ describe('Crosshair followTooltip', () => {
     expect(renderNextFrame).toHaveBeenCalled();
 
     stage.state = prevState;
+    await Promise.resolve();
+
+    expect(render).toHaveBeenCalled();
+
     render.mockRestore();
     renderNextFrame.mockRestore();
   });

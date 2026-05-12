@@ -57,6 +57,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _clickLock?: boolean;
   private _hasActive?: boolean;
   private _onlyLockClick?: boolean;
+  private _pendingRenderAfterRendering?: boolean;
 
   get enableRemain(): boolean {
     return this.triggerOff === 'none';
@@ -399,23 +400,26 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       }
     }
 
+    const prevComponentBounds = this._getNeedClearVRenderComponentBounds();
     const { x, y } = this.calculateTriggerPoint(params);
     this.showDefault = false;
     this._layoutCrosshair(x, y, tooltipData, params.activeType);
 
     const components = this._getNeedClearVRenderComponents();
     this._hasActive = components.some(comp => comp && comp.attribute.visible !== false);
-    this._renderNextFrame();
+    this._renderNextFrame(prevComponentBounds);
   };
 
   private _handleTooltipHideOrRelease = () => {
+    const prevComponentBounds = this._getNeedClearVRenderComponentBounds();
+
     this.clearOutEvent();
 
     this.hideCrosshair();
-    this._renderNextFrame();
+    this._renderNextFrame(prevComponentBounds);
   };
 
-  private _renderNextFrame() {
+  private _renderNextFrame(prevComponentBounds?: IBoundsLike[]) {
     const stage = this._option.globalInstance.getStage() as any;
 
     if (!stage) {
@@ -424,7 +428,36 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
     if (stage.state === 'rendering') {
       stage.renderNextFrame?.();
+      if (!this._pendingRenderAfterRendering) {
+        this._pendingRenderAfterRendering = true;
+        // Nested VRender stages need a normal render after the current pass to repaint the updated crosshair.
+        Promise.resolve().then(() => {
+          this._pendingRenderAfterRendering = false;
+
+          if (stage.releaseStatus === 'released') {
+            return;
+          }
+
+          if (stage.state === 'rendering') {
+            stage.renderNextFrame?.();
+            return;
+          }
+
+          this._renderStage(stage, prevComponentBounds);
+        });
+      }
       return;
+    }
+
+    this._renderStage(stage, prevComponentBounds);
+  }
+
+  private _renderStage(stage: any, prevComponentBounds?: IBoundsLike[]) {
+    const cleared = this._clearPreviousComponents(stage, prevComponentBounds);
+
+    if (cleared && '_story_needRender' in stage) {
+      // VStory pauses child VChart renders unless the render is initiated by its outer stage.
+      stage._story_needRender = true;
     }
 
     if (stage.render) {
@@ -433,6 +466,52 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
 
     stage.renderNextFrame?.();
+  }
+
+  private _clearPreviousComponents(stage: any, prevComponentBounds?: IBoundsLike[]) {
+    if (!prevComponentBounds?.length || stage.background !== false || stage.params?.canvasControled !== false) {
+      return false;
+    }
+
+    const context = stage.window?.getContext?.();
+    const nativeContext = context?.nativeContext;
+    const matrix = stage.window?.getViewBoxTransform?.();
+
+    if (
+      !nativeContext ||
+      !matrix ||
+      !nativeContext.save ||
+      !nativeContext.setTransform ||
+      !nativeContext.clearRect ||
+      !nativeContext.restore
+    ) {
+      return false;
+    }
+
+    const dpr = stage.window?.dpr ?? context.dpr ?? 1;
+    const transformPoint = (x: number, y: number) => ({
+      x: matrix.a * x + matrix.c * y + matrix.e,
+      y: matrix.b * x + matrix.d * y + matrix.f
+    });
+    const padding = 8;
+
+    nativeContext.save();
+    nativeContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+    prevComponentBounds.forEach(bounds => {
+      const p1 = transformPoint(bounds.x1, bounds.y1);
+      const p2 = transformPoint(bounds.x1, bounds.y2);
+      const p3 = transformPoint(bounds.x2, bounds.y1);
+      const p4 = transformPoint(bounds.x2, bounds.y2);
+      const x1 = Math.min(p1.x, p2.x, p3.x, p4.x) - padding;
+      const y1 = Math.min(p1.y, p2.y, p3.y, p4.y) - padding;
+      const x2 = Math.max(p1.x, p2.x, p3.x, p4.x) + padding;
+      const y2 = Math.max(p1.y, p2.y, p3.y, p4.y) + padding;
+
+      nativeContext.clearRect(x1, y1, x2 - x1, y2 - y1);
+    });
+    nativeContext.restore();
+
+    return true;
   }
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
@@ -719,5 +798,32 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       }
       return res;
     }, []);
+  }
+
+  private _getNeedClearVRenderComponentBounds(): IBoundsLike[] {
+    return this._getNeedClearVRenderComponents().reduce((bounds, component) => {
+      if (!component || component.attribute.visible === false) {
+        return bounds;
+      }
+
+      const componentBounds = component.globalAABBBounds;
+
+      if (
+        componentBounds &&
+        Number.isFinite(componentBounds.x1) &&
+        Number.isFinite(componentBounds.y1) &&
+        Number.isFinite(componentBounds.x2) &&
+        Number.isFinite(componentBounds.y2)
+      ) {
+        bounds.push({
+          x1: componentBounds.x1,
+          y1: componentBounds.y1,
+          x2: componentBounds.x2,
+          y2: componentBounds.y2
+        });
+      }
+
+      return bounds;
+    }, [] as IBoundsLike[]);
   }
 }
