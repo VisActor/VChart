@@ -453,9 +453,10 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   private _renderStage(stage: any, prevComponentBounds?: IBoundsLike[]) {
+    const shouldRenderExternalCanvas = this._isTransparentExternalCanvasStage(stage);
     const cleared = this._clearPreviousComponents(stage, prevComponentBounds);
 
-    if (cleared && '_story_needRender' in stage) {
+    if ((shouldRenderExternalCanvas || cleared) && '_story_needRender' in stage) {
       // VStory pauses child VChart renders unless the render is initiated by its outer stage.
       stage._story_needRender = true;
     }
@@ -468,8 +469,12 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     stage.renderNextFrame?.();
   }
 
+  private _isTransparentExternalCanvasStage(stage: any) {
+    return stage?.background === false && stage.params?.canvasControled === false;
+  }
+
   private _clearPreviousComponents(stage: any, prevComponentBounds?: IBoundsLike[]) {
-    if (!prevComponentBounds?.length || stage.background !== false || stage.params?.canvasControled !== false) {
+    if (!prevComponentBounds?.length || !this._isTransparentExternalCanvasStage(stage)) {
       return false;
     }
 
