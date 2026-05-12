@@ -690,7 +690,13 @@ export class VChart implements IVChart {
 
     // 卸载了chart之后再设置主题 避免多余的reInit
     if (updateResult.changeTheme) {
-      this._setCurrentTheme();
+      if (updateResult.reMake && updateResult.reTransformSpec) {
+        // The new chart will transform the original spec before initialization;
+        // avoid transforming the same spec twice.
+        this._updateCurrentTheme();
+      } else {
+        this._setCurrentTheme();
+      }
       this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     } else if (updateResult.changeBackground) {
       this._compiler?.setBackground(this._getBackground());
@@ -1082,6 +1088,7 @@ export class VChart implements IVChart {
     const result = this._updateSpec(spec, forceMerge);
     return this._updateCustomConfigAndRecompile(result, {
       actionSource: 'updateSpecAndRecompile',
+      transformSpec: result?.reTransformSpec,
       ...option
     });
   }
