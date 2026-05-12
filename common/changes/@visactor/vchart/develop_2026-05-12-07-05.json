@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: waterfall lead line bug. fix#4580",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
