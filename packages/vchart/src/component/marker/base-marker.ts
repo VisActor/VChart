@@ -16,7 +16,7 @@ import type {
   IMarkerSupportSeries,
   IMarkProcessOptions
 } from './interface';
-import type { IGraphic, IGroup } from '@visactor/vrender-core';
+import type { IAnimate, IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import { calcLayoutNumber } from '../../util/space';
 import { isAggrSpec } from './utils';
 import { getFirstSeries } from '../../util';
@@ -26,6 +26,23 @@ import type { IOptionWithCoordinates } from '../../data/transforms/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { markerAggregation } from '../../data/transforms/aggregation';
 import { markerFilter } from '../../data/transforms/marker-filter';
+
+type MarkerExitComponent = IGraphic &
+  IGroup & {
+    attribute: IGraphic['attribute'] & {
+      animation?: unknown;
+      animationExit?: unknown;
+    };
+    _animationConfig?: unknown;
+    markerAnimate?: (state: 'exit') => void;
+    getTrackedAnimates?: () => Map<string | number, IAnimate>;
+    animates?: Map<string | number, IAnimate>;
+  };
+
+type MaybeAnimatedGraphic = IGraphic & {
+  getTrackedAnimates?: () => Map<string | number, IAnimate>;
+  animates?: Map<string | number, IAnimate>;
+};
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
@@ -226,8 +243,82 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     }
   }
 
+  private _collectMarkerExitAnimates(graphic: IGraphic, animates: IAnimate[], visited: Set<IAnimate>) {
+    const maybeAnimatedGraphic = graphic as MaybeAnimatedGraphic;
+    const trackedAnimates = maybeAnimatedGraphic.getTrackedAnimates?.() ?? maybeAnimatedGraphic.animates;
+
+    trackedAnimates?.forEach((animate: IAnimate) => {
+      if (animate && !visited.has(animate)) {
+        visited.add(animate);
+        animates.push(animate);
+      }
+    });
+
+    (graphic as IGroup).forEachChildren?.((child: INode) => {
+      this._collectMarkerExitAnimates(child as IGraphic, animates, visited);
+    });
+  }
+
+  private _releaseMarkerComponent(component: MarkerExitComponent) {
+    component._animationConfig = undefined;
+    component.attribute.animation = false;
+    component.removeAllChild?.(true);
+    component.release(true);
+    component.parent?.removeChild(component);
+  }
+
+  private _runMarkerExitAnimationBeforeClear(component?: MarkerExitComponent) {
+    if (
+      !component?.stage ||
+      component.attribute.animation === false ||
+      component.attribute.animationExit === false ||
+      typeof component.markerAnimate !== 'function'
+    ) {
+      return false;
+    }
+
+    const existingAnimates: IAnimate[] = [];
+    this._collectMarkerExitAnimates(component, existingAnimates, new Set());
+
+    component.markerAnimate('exit');
+
+    const animates: IAnimate[] = [];
+    this._collectMarkerExitAnimates(component, animates, new Set());
+    const exitAnimates = animates.filter(animate => !existingAnimates.includes(animate));
+
+    if (!exitAnimates.length) {
+      return false;
+    }
+
+    const pendingAnimates = new Set(exitAnimates);
+    let released = false;
+    const finish = (animate: IAnimate) => {
+      if (released || !pendingAnimates.has(animate)) {
+        return;
+      }
+      pendingAnimates.delete(animate);
+      if (!pendingAnimates.size) {
+        released = true;
+        this._releaseMarkerComponent(component);
+      }
+    };
+
+    exitAnimates.forEach(animate => {
+      animate.onEnd(() => finish(animate));
+      animate.onRemove?.(() => finish(animate));
+    });
+
+    return true;
+  }
+
   clear(): void {
-    super.clear();
+    if (this._runMarkerExitAnimationBeforeClear(this._markerComponent as MarkerExitComponent)) {
+      this._markerComponent = null;
+      this._container = null;
+      this.pluginService?.clearAll();
+    } else {
+      super.clear();
+    }
     this._firstSeries = null;
   }
 
