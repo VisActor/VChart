@@ -9,6 +9,7 @@ import VChart, {
   type IMarkGraphic,
   type ISeries
 } from '../../../src';
+import { DiffState } from '../../../src/mark/interface/enum';
 import { createDiv, removeDom } from '../../util/dom';
 
 type StateGraphic = IMarkGraphic & {
@@ -20,6 +21,7 @@ type StateGraphic = IMarkGraphic & {
 type SharedStateDefinitions = Record<
   string,
   {
+    patch?: Record<string, unknown>;
     resolver?: (context: { graphic: IMarkGraphic }) => Record<string, unknown> | undefined;
   }
 >;
@@ -381,12 +383,11 @@ describe('vchart event test', () => {
       const barGraphic = barMark.getGraphics()[0] as StateGraphic;
       expect(barGraphic).toBeDefined();
       const sharedStateDefinitions = getSharedStateDefinitions(barMark);
-      expect(typeof sharedStateDefinitions?.hover?.resolver).toBe('function');
-      expect(typeof sharedStateDefinitions?.selected?.resolver).toBe('function');
+      expect(sharedStateDefinitions?.hover?.patch).toEqual({ fillOpacity: 0.31 });
+      expect(sharedStateDefinitions?.hover?.resolver).toBeUndefined();
+      expect(sharedStateDefinitions?.selected?.patch).toEqual({ stroke: '#111827', lineWidth: 4 });
+      expect(sharedStateDefinitions?.selected?.resolver).toBeUndefined();
       expect(barGraphic.stateProxy).toBeFalsy();
-
-      const hoverPatch = sharedStateDefinitions.hover.resolver({ graphic: barGraphic });
-      expect(hoverPatch?.fillOpacity).toBe(0.31);
 
       chart.getEvent().emit('pointerover', { item: barGraphic } as unknown as BaseEventParams);
 
@@ -399,10 +400,6 @@ describe('vchart event test', () => {
       expect(barGraphic.hasState('hover')).toBe(false);
       expect(barGraphic.resolvedStatePatch).toBeUndefined();
       expect(barGraphic.attribute.fillOpacity).not.toBe(0.31);
-
-      const selectedPatch = sharedStateDefinitions.selected.resolver({ graphic: barGraphic });
-      expect(selectedPatch?.stroke).toBe('#111827');
-      expect(selectedPatch?.lineWidth).toBe(4);
 
       chart.getEvent().emit('click', { item: barGraphic } as unknown as BaseEventParams);
 
@@ -432,6 +429,210 @@ describe('vchart event test', () => {
       expect(barGraphic.attribute.lineWidth).not.toBe(4);
     } finally {
       chartWithState.release();
+      removeDom(stateContainer);
+    }
+  });
+
+  it('should not sync vrender states for graphics without state styles during update', () => {
+    const stateContainer = createDiv();
+    const stateDom = createDiv(stateContainer);
+
+    const chartWithoutState = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 10 },
+              { x: 'Tue', y: 12 }
+            ]
+          }
+        ],
+        xField: 'x',
+        yField: 'y'
+      } as IBarChartSpec,
+      {
+        dom: stateDom,
+        animation: false
+      }
+    );
+
+    chartWithoutState.renderSync();
+
+    try {
+      const chart = chartWithoutState.getChart() as IChart;
+      const barSeries = chart.getAllSeries()[0];
+      const barMark = barSeries.getMarks().find((mark: IMark) => mark.name === 'bar');
+      expect(barMark).toBeDefined();
+      if (!barMark) {
+        throw new Error('Expected bar mark to exist');
+      }
+
+      const barGraphic = barMark.getGraphics()[0] as StateGraphic;
+      const clearStates = jest.spyOn(barGraphic, 'clearStates');
+      const useStates = jest.spyOn(barGraphic, 'useStates');
+      const setStates = jest.spyOn(barGraphic, 'setStates');
+
+      barGraphic.context.diffState = DiffState.update;
+      barGraphic.context.states = [];
+      (barMark as any)._setStateOfGraphic(barGraphic, false);
+
+      expect(clearStates).not.toHaveBeenCalled();
+      expect(useStates).not.toHaveBeenCalled();
+      expect(setStates).not.toHaveBeenCalled();
+      expect(getSharedStateDefinitions(barMark)).toBeUndefined();
+    } finally {
+      chartWithoutState.release();
+      removeDom(stateContainer);
+    }
+  });
+
+  it('should keep shared vrender state definitions stable across data updates', () => {
+    const stateContainer = createDiv();
+    const stateDom = createDiv(stateContainer);
+
+    const chartWithState = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 10 },
+              { x: 'Tue', y: 12 }
+            ]
+          }
+        ],
+        xField: 'x',
+        yField: 'y',
+        bar: {
+          state: {
+            hover: {
+              fillOpacity: 0.31
+            }
+          }
+        }
+      } as IBarChartSpec,
+      {
+        dom: stateDom,
+        animation: false
+      }
+    );
+
+    chartWithState.renderSync();
+
+    try {
+      const chart = chartWithState.getChart() as IChart;
+      const barSeries = chart.getAllSeries()[0];
+      const barMark = barSeries.getMarks().find((mark: IMark) => mark.name === 'bar');
+      expect(barMark).toBeDefined();
+      if (!barMark) {
+        throw new Error('Expected bar mark to exist');
+      }
+
+      const firstDefinitions = getSharedStateDefinitions(barMark);
+      expect(firstDefinitions).toBeDefined();
+      expect(firstDefinitions?.hover?.patch).toEqual({ fillOpacity: 0.31 });
+      expect(firstDefinitions?.hover?.resolver).toBeUndefined();
+
+      chartWithState.updateSpecSync({
+        ...(chartWithState.getSpec() as IBarChartSpec),
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 14 },
+              { x: 'Tue', y: 16 }
+            ]
+          }
+        ]
+      });
+
+      expect(getSharedStateDefinitions(barMark)).toBe(firstDefinitions);
+
+      const barGraphic = barMark.getGraphics()[0] as StateGraphic;
+      barGraphic.useStates(['hover']);
+      barGraphic.context.diffState = DiffState.update;
+      barGraphic.context.states = ['hover'];
+
+      const invalidateResolver = jest.spyOn(barGraphic, 'invalidateResolver');
+      const setStates = jest.spyOn(barGraphic, 'setStates');
+
+      (barMark as any)._setStateOfGraphic(barGraphic, false);
+
+      expect(invalidateResolver).not.toHaveBeenCalled();
+      expect(setStates).toHaveBeenCalledWith(['hover'], false);
+    } finally {
+      chartWithState.release();
+      removeDom(stateContainer);
+    }
+  });
+
+  it('should invalidate same-state vrender resolver only for dynamic state styles', () => {
+    const stateContainer = createDiv();
+    const stateDom = createDiv(stateContainer);
+
+    const chartWithDynamicState = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'data',
+            values: [{ x: 'Mon', y: 10 }]
+          }
+        ],
+        xField: 'x',
+        yField: 'y',
+        bar: {
+          state: {
+            hover: {
+              fillOpacity: ((datum: { y: number }) => (datum?.y > 5 ? 0.31 : 0.21)) as any
+            }
+          }
+        }
+      } as IBarChartSpec,
+      {
+        dom: stateDom,
+        animation: false
+      }
+    );
+
+    chartWithDynamicState.renderSync();
+
+    try {
+      const chart = chartWithDynamicState.getChart() as IChart;
+      const barSeries = chart.getAllSeries()[0];
+      const barMark = barSeries.getMarks().find((mark: IMark) => mark.name === 'bar');
+      expect(barMark).toBeDefined();
+      if (!barMark) {
+        throw new Error('Expected bar mark to exist');
+      }
+
+      const sharedStateDefinitions = getSharedStateDefinitions(barMark);
+      expect(sharedStateDefinitions?.hover?.patch).toBeUndefined();
+      expect(typeof sharedStateDefinitions?.hover?.resolver).toBe('function');
+
+      const barGraphic = barMark.getGraphics()[0] as StateGraphic;
+      barGraphic.useStates(['hover']);
+      barGraphic.context.diffState = DiffState.update;
+      barGraphic.context.states = ['hover'];
+
+      const invalidateResolver = jest.spyOn(barGraphic, 'invalidateResolver');
+      const setStates = jest.spyOn(barGraphic, 'setStates');
+
+      (barMark as any)._setStateOfGraphic(barGraphic, false);
+
+      expect(invalidateResolver).toHaveBeenCalledTimes(1);
+      expect(setStates).not.toHaveBeenCalled();
+    } finally {
+      chartWithDynamicState.release();
       removeDom(stateContainer);
     }
   });
@@ -488,11 +689,12 @@ describe('vchart event test', () => {
 
       const lineGraphic = lineMark.getGraphics()[0] as StateGraphic;
       const sharedStateDefinitions = getSharedStateDefinitions(lineMark);
-      expect(typeof sharedStateDefinitions?.hover?.resolver).toBe('function');
-      expect(typeof sharedStateDefinitions?.selected?.resolver).toBe('function');
+      expect(sharedStateDefinitions?.hover?.patch?.stroke).toBe('#ea580c');
+      expect(sharedStateDefinitions?.hover?.resolver).toBeUndefined();
+      expect(sharedStateDefinitions?.selected?.patch?.lineWidth).toBe(5);
+      expect(sharedStateDefinitions?.selected?.resolver).toBeUndefined();
       expect(lineGraphic.stateProxy).toBeFalsy();
 
-      expect(sharedStateDefinitions.hover.resolver({ graphic: lineGraphic })?.stroke).toBe('#ea580c');
       chart.getEvent().emit('pointerover', { item: lineGraphic } as unknown as BaseEventParams);
       expect(lineGraphic.hasState('hover')).toBe(true);
       expect(lineGraphic.resolvedStatePatch?.stroke).toBe('#ea580c');
@@ -503,7 +705,6 @@ describe('vchart event test', () => {
       expect(lineGraphic.resolvedStatePatch).toBeUndefined();
       expect(lineGraphic.attribute.stroke).not.toBe('#ea580c');
 
-      expect(sharedStateDefinitions.selected.resolver({ graphic: lineGraphic })?.lineWidth).toBe(5);
       chart.getEvent().emit('click', { item: lineGraphic } as unknown as BaseEventParams);
       expect(lineGraphic.hasState('selected')).toBe(true);
       expect(lineGraphic.resolvedStatePatch?.lineWidth).toBe(5);
@@ -576,11 +777,12 @@ describe('vchart event test', () => {
 
       const textGraphic = textMark.getGraphics()[0] as StateGraphic;
       const sharedStateDefinitions = getSharedStateDefinitions(textMark);
-      expect(typeof sharedStateDefinitions?.hover?.resolver).toBe('function');
-      expect(typeof sharedStateDefinitions?.selected?.resolver).toBe('function');
+      expect(sharedStateDefinitions?.hover?.patch?.fill).toBe('#dc2626');
+      expect(sharedStateDefinitions?.hover?.resolver).toBeUndefined();
+      expect(sharedStateDefinitions?.selected?.patch?.fontSize).toBe(24);
+      expect(sharedStateDefinitions?.selected?.resolver).toBeUndefined();
       expect(textGraphic.stateProxy).toBeFalsy();
 
-      expect(sharedStateDefinitions.hover.resolver({ graphic: textGraphic })?.fill).toBe('#dc2626');
       textGraphic.useStates(['hover']);
       expect(textGraphic.hasState('hover')).toBe(true);
       expect(textGraphic.resolvedStatePatch?.fill).toBe('#dc2626');
@@ -591,7 +793,6 @@ describe('vchart event test', () => {
       expect(textGraphic.resolvedStatePatch).toBeUndefined();
       expect(textGraphic.attribute.fill).not.toBe('#dc2626');
 
-      expect(sharedStateDefinitions.selected.resolver({ graphic: textGraphic })?.fontSize).toBe(24);
       textGraphic.useStates(['selected']);
       expect(textGraphic.hasState('selected')).toBe(true);
       expect(textGraphic.resolvedStatePatch?.fontSize).toBe(24);

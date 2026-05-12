@@ -35,6 +35,7 @@
     "dev": "cross-env DEBUG='Bundler*' bundle --clean -f es -w",
     "compile": "tsc --noEmit",
     "start": "ts-node __tests__/runtime/browser/scripts/initVite.ts && vite serve __tests__/runtime/browser",
+    "perf:render": "ts-node --transpileOnly scripts/render-performance.ts",
     "clear": "rimraf build && rimraf esm && rimraf cjs",
     "prettier": "prettier --write --ignore-unknown .",
     "prettier:check": "prettier --check .",

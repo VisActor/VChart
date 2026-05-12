@@ -86,6 +86,12 @@ export type ExChannelCall = (
   baseValue: unknown
 ) => unknown;
 
+const statesClearedBeforeReInitKey = Symbol('statesClearedBeforeReInit');
+
+type ReinitStateGraphic = IMarkGraphic & {
+  [statesClearedBeforeReInitKey]?: string[];
+};
+
 export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMarkRaw<T> {
   /** 类型 */
   readonly type: MarkType = undefined as unknown as MarkType;
@@ -507,9 +513,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     // return this.getProduct()?.animate?.resumeAnimationByState(state);
   }
 
-  removeProduct() {
+  removeProduct(releaseDetach?: boolean) {
     if (this._product && this._product.parent) {
-      this._product.parent.removeChild(this._product);
+      this._product.parent.removeChild(this._product, releaseDetach);
     }
     this._product = null;
     this._compiledProductId = null;
@@ -539,6 +545,16 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   protected _attributeContext: IModelMarkAttributeContext;
 
   protected _encoderOfState: Record<string, Record<string, (datum: Datum) => any>>;
+
+  protected _sharedStateDefinitionsCacheKey?: string;
+
+  protected _sharedStateDefinitionsCache?: StateDefinitionsInput<Record<string, unknown>>;
+
+  protected _sharedStateDefinitionRefIds = new WeakMap<object, number>();
+
+  protected _sharedStateDefinitionRefId = 0;
+
+  protected _dynamicSharedStateNames = new Set<string>();
 
   /** by _unCompileChannel, some channel need add default channel to make sure update available */
   _extensionChannel: {
@@ -1548,14 +1564,102 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   };
 
+  protected _isSameGraphicStates(currentStates: readonly string[] | undefined, targetStates: readonly string[]) {
+    const current = currentStates ?? [];
+    if (current.length !== targetStates.length) {
+      return false;
+    }
+
+    return current.every((stateName, index) => stateName === targetStates[index]);
+  }
+
   protected _setStateOfGraphic = (g: IMarkGraphic, hasAnimation?: boolean) => {
-    g.clearStates();
     g.stateProxy = null;
 
-    if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
-      g.context.states && g.useStates(g.context.states, hasAnimation);
+    const targetStates =
+      g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update
+        ? g.context.states
+        : undefined;
+    const hasCurrentState =
+      !!g.currentStates?.length ||
+      !!g.effectiveStates?.length ||
+      !!g.resolvedStatePatch ||
+      !!g.registeredActiveScopes?.size;
+
+    if (!targetStates?.length && !hasCurrentState) {
+      return;
+    }
+
+    if (
+      targetStates?.length &&
+      this._isSameGraphicStates(g.currentStates, targetStates) &&
+      targetStates.some(stateName => this._dynamicSharedStateNames.has(stateName))
+    ) {
+      g.invalidateResolver?.();
+      return;
+    }
+
+    if (isFunction(g.setStates)) {
+      g.setStates(targetStates, hasAnimation);
+      return;
+    }
+
+    if (targetStates?.length) {
+      g.useStates(targetStates, hasAnimation);
+    } else {
+      g.clearStates(hasAnimation);
     }
   };
+
+  protected _getSharedStateDefinitionRefId(value: unknown) {
+    if ((typeof value !== 'object' && typeof value !== 'function') || value === null) {
+      return `${value}`;
+    }
+
+    const objectValue = value as object;
+    let id = this._sharedStateDefinitionRefIds.get(objectValue);
+    if (!id) {
+      id = ++this._sharedStateDefinitionRefId;
+      this._sharedStateDefinitionRefIds.set(objectValue, id);
+    }
+
+    return `ref:${id}`;
+  }
+
+  protected _getSharedStateDefinitionValueKey(value: unknown) {
+    try {
+      const jsonValue = JSON.stringify(value);
+      return jsonValue ?? `${value}`;
+    } catch (_error) {
+      return this._getSharedStateDefinitionRefId(value);
+    }
+  }
+
+  protected _isStaticSharedStateAttribute(stateName: string, key: string) {
+    const stateStyle = this.stateStyle[stateName]?.[key];
+    if (!stateStyle || stateStyle.referer || isFunction(stateStyle.postProcess) || key in this._computeExChannel) {
+      return false;
+    }
+
+    const style = stateStyle.style as any;
+    if (isFunction(style)) {
+      return false;
+    }
+
+    if (GradientType.includes(style?.gradient)) {
+      return false;
+    }
+
+    if (['outerBorder', 'innerBorder'].includes(key)) {
+      return false;
+    }
+
+    if (isValidScaleType(style?.scale?.type)) {
+      return false;
+    }
+
+    return true;
+  }
 
   protected _applySharedStateDefinitions() {
     if (!this._product) {
@@ -1567,7 +1671,10 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     );
 
     if (!stateNames.length) {
-      this._product.sharedStateDefinitions = undefined;
+      this._dynamicSharedStateNames.clear();
+      if (this._product.sharedStateDefinitions !== undefined) {
+        this._product.sharedStateDefinitions = undefined;
+      }
       return;
     }
 
@@ -1579,18 +1686,82 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     });
 
     const sharedStateDefinitions: StateDefinitionsInput<Record<string, unknown>> = {};
+    const cacheKeys: string[] = [];
+    const dynamicSharedStateNames = new Set<string>();
 
     stateNames.forEach(stateName => {
       const encoder = this._encoderOfState[stateName];
+      const patch: Record<string, unknown> = {};
+      const dynamicEncoder: Record<string, (datum: Datum) => any> = {};
+      const patchKeys: string[] = [];
+      const dynamicKeys: string[] = [];
 
-      sharedStateDefinitions[stateName] = {
-        priority: statePriority.get(stateName) ?? 0,
-        declaredAffectedKeys: Object.keys(encoder ?? {}),
-        resolver: ({ graphic }: StateResolveContext<Record<string, unknown>>) =>
-          this._runEncoderOfGraphic(encoder, graphic as IMarkGraphic)
+      Object.keys(encoder ?? {}).forEach(key => {
+        if (this._isStaticSharedStateAttribute(stateName, key)) {
+          patch[key] = this._computeAttribute(key as keyof T, stateName)(undefined);
+          patchKeys.push(key);
+        } else {
+          dynamicEncoder[key] = encoder[key];
+          dynamicKeys.push(key);
+        }
+      });
+
+      if (!patchKeys.length && !dynamicKeys.length) {
+        return;
+      }
+
+      const definition: any = {
+        priority: statePriority.get(stateName) ?? 0
       };
+
+      if (patchKeys.length) {
+        definition.patch = patch;
+      }
+
+      if (dynamicKeys.length) {
+        dynamicSharedStateNames.add(stateName);
+        definition.declaredAffectedKeys = dynamicKeys;
+        definition.resolver = ({ graphic }: StateResolveContext<Record<string, unknown>>) =>
+          this._runEncoderOfGraphic(dynamicEncoder, graphic as IMarkGraphic);
+      }
+
+      sharedStateDefinitions[stateName] = definition;
+      cacheKeys.push(
+        [
+          stateName,
+          definition.priority,
+          patchKeys.sort().map(key => `${key}:${this._getSharedStateDefinitionValueKey(patch[key])}`),
+          dynamicKeys.sort().map(key => {
+            const stateStyle = this.stateStyle[stateName]?.[key];
+            const styleId = this._getSharedStateDefinitionRefId(stateStyle?.style);
+            const postProcessId = this._getSharedStateDefinitionRefId(stateStyle?.postProcess);
+            const refererId = this._getSharedStateDefinitionRefId(stateStyle?.referer);
+
+            return `${key}:${styleId}:${postProcessId}:${refererId}`;
+          })
+        ].join('|')
+      );
     });
 
+    if (!cacheKeys.length) {
+      this._dynamicSharedStateNames.clear();
+      if (this._product.sharedStateDefinitions !== undefined) {
+        this._product.sharedStateDefinitions = undefined;
+      }
+      return;
+    }
+
+    const cacheKey = cacheKeys.sort().join('||');
+    this._dynamicSharedStateNames = dynamicSharedStateNames;
+    if (cacheKey === this._sharedStateDefinitionsCacheKey && this._sharedStateDefinitionsCache) {
+      if (this._product.sharedStateDefinitions !== this._sharedStateDefinitionsCache) {
+        this._product.sharedStateDefinitions = this._sharedStateDefinitionsCache;
+      }
+      return;
+    }
+
+    this._sharedStateDefinitionsCacheKey = cacheKey;
+    this._sharedStateDefinitionsCache = sharedStateDefinitions;
     this._product.sharedStateDefinitions = sharedStateDefinitions;
   }
 
@@ -1851,10 +2022,24 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     const stateInfo = this.state.getStateInfo(key);
 
     this._graphics.forEach(g => {
+      const reinitStateGraphic = g as ReinitStateGraphic;
+      const statesClearedBeforeReInit = reinitStateGraphic[statesClearedBeforeReInitKey];
+      const wasStateClearedBeforeReInit = statesClearedBeforeReInit?.includes(key);
+      const hasStateAnimation = wasStateClearedBeforeReInit ? false : this.hasAnimationByState('state');
+
       if (this.state.checkOneState(g, g.context.data, stateInfo) === 'in') {
-        addGraphicState(g, key, true, this.hasAnimationByState('state'));
+        addGraphicState(g, key, true, hasStateAnimation);
       } else {
-        removeGraphicState(g, key, this.hasAnimationByState('state'));
+        removeGraphicState(g, key, hasStateAnimation);
+      }
+
+      if (wasStateClearedBeforeReInit) {
+        const nextStates = statesClearedBeforeReInit.filter(stateName => stateName !== key);
+        if (nextStates.length) {
+          reinitStateGraphic[statesClearedBeforeReInitKey] = nextStates;
+        } else {
+          delete reinitStateGraphic[statesClearedBeforeReInitKey];
+        }
       }
     });
   }
@@ -2110,6 +2295,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this.uncommit();
     this.stateStyle = {};
     this.getGraphics().forEach(g => {
+      if (g.currentStates?.length) {
+        (g as ReinitStateGraphic)[statesClearedBeforeReInitKey] = g.currentStates.slice();
+      }
       g.clearStates();
     });
   }

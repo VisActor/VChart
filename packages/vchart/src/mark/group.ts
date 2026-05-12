@@ -166,7 +166,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
   release() {
     super.release();
-    this.removeProduct();
+    this.removeProduct(true);
   }
 }
 

@@ -848,9 +848,15 @@ describe('VChart', () => {
 
       const rootGroup = stage.defaultLayer.find(node => node.name === 'root', false);
       expect(rootGroup).toBeDefined();
+      const barMark = (chart.getChart() as any).getAllSeries()[0].getMarks()[0];
+      const barProduct = barMark.getProduct();
+      const removeBarProduct = jest.spyOn(barProduct.parent, 'removeChild');
+      const removeRootGroup = jest.spyOn(stage.defaultLayer, 'removeChild');
 
       chart.release();
 
+      expect(removeBarProduct).toHaveBeenCalledWith(barProduct, true);
+      expect(removeRootGroup).toHaveBeenCalledWith(rootGroup, true);
       expect(releaseStage).not.toHaveBeenCalled();
       expect(stage.window).toBeDefined();
       expect(stage.defaultLayer).toBeDefined();

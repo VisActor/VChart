@@ -119,7 +119,7 @@ export interface IGrammarItem extends ICompilable {
   /** 获取语法元素名称 */
   getProductId: () => string;
   /** 删除已编译的语法元素 */
-  removeProduct: () => void;
+  removeProduct: (releaseDetach?: boolean) => void;
   // transform
   setTransform: (transform: ITransformSpec[]) => void;
 }

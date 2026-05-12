@@ -759,7 +759,7 @@ export class Compiler implements ICompiler {
       if (shouldReleaseStage) {
         stage.release();
       } else if (rootGroup) {
-        stage.defaultLayer.removeChild(rootGroup);
+        stage.defaultLayer.removeChild(rootGroup, true);
         rootGroup.release();
       }
     }
@@ -787,7 +787,7 @@ export class Compiler implements ICompiler {
         traverseGroupMark(
           g,
           m => {
-            m.removeProduct();
+            m.removeProduct(true);
           },
           null,
           true

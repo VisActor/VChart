@@ -31,7 +31,7 @@ export abstract class GrammarItem extends CompilableBase implements IGrammarItem
 
   /** 编译主过程 */
   protected abstract _compileProduct(option?: GrammarItemCompileOption): void;
-  abstract removeProduct(): void;
+  abstract removeProduct(releaseDetach?: boolean): void;
 
   protected _transform: ITransformSpec[];
   setTransform(transform: ITransformSpec[]) {

@@ -118,7 +118,7 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
 
   release() {
     super.release();
-    this.removeProduct();
+    this.removeProduct(true);
   }
 }
 
