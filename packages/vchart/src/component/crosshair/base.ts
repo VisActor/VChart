@@ -416,7 +416,23 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   };
 
   private _renderNextFrame() {
-    (this._option.globalInstance.getStage() as any)?.renderNextFrame?.();
+    const stage = this._option.globalInstance.getStage() as any;
+
+    if (!stage) {
+      return;
+    }
+
+    if (stage.state === 'rendering') {
+      stage.renderNextFrame?.();
+      return;
+    }
+
+    if (stage.render) {
+      stage.render();
+      return;
+    }
+
+    stage.renderNextFrame?.();
   }
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
