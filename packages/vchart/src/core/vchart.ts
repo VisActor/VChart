@@ -673,9 +673,21 @@ export class VChart implements IVChart {
       this._updateAnimateState(true);
     }
 
+    const transformedByThemeUpdate =
+      option.transformSpec &&
+      (updateSpecResult as IUpdateSpecResult).changeTheme &&
+      (updateSpecResult as IUpdateSpecResult).reMake &&
+      (updateSpecResult as IUpdateSpecResult).reTransformSpec;
     this._reCompile(updateSpecResult as IUpdateSpecResult, option.morphConfig);
     if (isUpdateSpecResultLocalOnly(updateSpecResult as IUpdateSpecResult)) {
       return this as unknown as IVChart;
+    }
+    if (transformedByThemeUpdate) {
+      // _setCurrentTheme in _reCompile has already transformed a fresh copy of the original spec.
+      option = {
+        ...option,
+        transformSpec: false
+      };
     }
     if (sync) {
       return this._renderSync(option);
@@ -707,13 +719,7 @@ export class VChart implements IVChart {
 
     // 卸载了chart之后再设置主题 避免多余的reInit
     if (updateResult.changeTheme) {
-      if (updateResult.reMake && updateResult.reTransformSpec) {
-        // The new chart will transform the original spec before initialization;
-        // avoid transforming the same spec twice.
-        this._updateCurrentTheme();
-      } else {
-        this._setCurrentTheme();
-      }
+      this._setCurrentTheme();
       this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     } else if (updateResult.changeBackground) {
       this._compiler?.setBackground(this._getBackground());
@@ -1129,7 +1135,6 @@ export class VChart implements IVChart {
     const result = this._updateSpec(spec, forceMerge);
     return this._updateCustomConfigAndRecompile(result, {
       actionSource: 'updateSpecAndRecompile',
-      transformSpec: result?.reTransformSpec,
       ...option
     });
   }
