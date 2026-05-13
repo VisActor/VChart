@@ -137,6 +137,25 @@ export function normalizeUpdateSpecEffects(result: IUpdateSpecResult): IUpdateSp
   return effects;
 }
 
+export function isUpdateSpecResultLocalOnly(result: IUpdateSpecResult): boolean {
+  const effects = normalizeUpdateSpecEffects(result);
+
+  return (
+    !!effects.localOnly &&
+    !effects.remake &&
+    !effects.compile &&
+    !effects.render &&
+    !effects.layout &&
+    !effects.data &&
+    !effects.scaleDomain &&
+    !effects.series &&
+    !result.reTransformSpec &&
+    !result.reAnimate &&
+    !result.changeTheme &&
+    !result.changeBackground
+  );
+}
+
 export function mergeUpdateResult(target: IUpdateSpecResult, ...sources: IUpdateSpecResult[]) {
   type UpdateSpecResultFlag = Exclude<keyof IUpdateSpecResult, 'effects'>;
   const merge = (key: UpdateSpecResultFlag) => sources.reduce((value, cur) => value || cur?.[key], target[key]);

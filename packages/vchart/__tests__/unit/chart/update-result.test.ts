@@ -1,5 +1,5 @@
 import type { IUpdateSpecResult } from '../../../src/model/interface';
-import { mergeUpdateResult, normalizeUpdateSpecEffects } from '../../../src/chart/util';
+import { isUpdateSpecResultLocalOnly, mergeUpdateResult, normalizeUpdateSpecEffects } from '../../../src/chart/util';
 
 const createResult = (result: Partial<IUpdateSpecResult>): IUpdateSpecResult => ({
   change: false,
@@ -53,5 +53,16 @@ describe('update spec result effects', () => {
       render: true
     });
     expect(result.effects).toBe(effects);
+  });
+
+  it('treats explicit local-only component effects as local', () => {
+    expect(
+      isUpdateSpecResultLocalOnly(createResult({ change: true, effects: { localOnly: true, component: true } }))
+    ).toBe(true);
+  });
+
+  it('does not treat legacy render or compile work as local-only', () => {
+    expect(isUpdateSpecResultLocalOnly(createResult({ reRender: true, effects: { localOnly: true } }))).toBe(false);
+    expect(isUpdateSpecResultLocalOnly(createResult({ reCompile: true, effects: { localOnly: true } }))).toBe(false);
   });
 });

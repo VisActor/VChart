@@ -99,7 +99,7 @@ import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import type { PopTipAttributes } from '@visactor/vrender-components';
 import { setPoptipTheme } from '@visactor/vrender-components';
-import { calculateChartSize, mergeUpdateResult } from '../chart/util';
+import { calculateChartSize, isUpdateSpecResultLocalOnly, mergeUpdateResult } from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
 import { registerGroupMark } from '../mark/group';
@@ -662,6 +662,9 @@ export class VChart implements IVChart {
     }
 
     this._reCompile(updateSpecResult as IUpdateSpecResult);
+    if (isUpdateSpecResultLocalOnly(updateSpecResult as IUpdateSpecResult)) {
+      return this as unknown as IVChart;
+    }
     if (sync) {
       return this._renderSync(option);
     }
@@ -1240,9 +1243,13 @@ export class VChart implements IVChart {
     }
 
     const result = model.updateSpec(spec);
-    model.reInit(spec);
-    if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
-      this._chart.reDataFlow();
+    const localOnly = isUpdateSpecResultLocalOnly(result);
+
+    if (!localOnly) {
+      model.reInit(spec);
+      if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
+        this._chart.reDataFlow();
+      }
     }
 
     return this.updateCustomConfigAndRerender(result, sync, {
