@@ -265,7 +265,9 @@ export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
       const comp = removedComponents[name];
 
       if (comp) {
-        comp.release(); // todo 是否要上报
+        if (!comp.releaseWithExitAnimation()) {
+          comp.release(); // todo 是否要上报
+        }
         this._labelComponentMap.delete(comp);
       }
     });

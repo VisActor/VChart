@@ -1159,11 +1159,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._option.performanceHook?.afterComponentCompile?.(this._option.globalInstance);
   }
 
-  release() {
+  release(forceReleaseVRenderComponents: boolean = true) {
     /* release 前的处理 */
-    [...this._components, ...this._regions, ...this._series].forEach(m => {
-      m.beforeRelease();
-    });
+    if (forceReleaseVRenderComponents) {
+      [...this._components, ...this._regions, ...this._series].forEach(m => {
+        m.beforeRelease();
+      });
+    }
 
     /* 开始 release */
     super.release();

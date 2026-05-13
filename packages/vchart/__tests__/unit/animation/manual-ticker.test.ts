@@ -1922,4 +1922,42 @@ describe('manual ticker animation regressions', () => {
       }
     }
   );
+
+  it('forces pending marker exit cleanup when the chart releases', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createRegularMarkLineExitSpec(true), {
+      dom,
+      ticker,
+      animation: true
+    });
+    let released = false;
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(MARKER_DURATION + 50);
+
+      const markerGraphic = getMarkerGraphic(chart, 'markLine');
+      const trackedGraphics = collectGraphics(markerGraphic).filter(graphic => graphic !== markerGraphic);
+
+      chart.updateSpecSync(createRegularMarkLineExitSpec(false));
+
+      const exitStart = ticker.getTime();
+      ticker.tickAt(exitStart + MARKER_EXIT_DURATION / 2);
+
+      expect(trackedGraphics.some(isGraphicAttached)).toBe(true);
+
+      chart.release();
+      released = true;
+
+      expect(trackedGraphics.some(isGraphicAttached)).toBe(false);
+    } finally {
+      if (!released) {
+        chart.release();
+      }
+      ticker.release();
+      removeDom(container);
+    }
+  });
 });
