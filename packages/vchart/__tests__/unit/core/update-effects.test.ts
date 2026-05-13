@@ -1,4 +1,5 @@
 import VChart, { type IBarChartSpec } from '../../../src';
+import { isUpdateSpecResultLocalOnly } from '../../../src/chart/util';
 import type { IUpdateSpecResult } from '../../../src/model/interface';
 import { createDiv, removeDom } from '../../util/dom';
 
@@ -62,6 +63,19 @@ describe('vchart scoped update effects', () => {
       renderSync.mockRestore();
       chart.release();
     }
+  });
+
+  it('keeps local-only predicate from mutating legacy results', () => {
+    const result: IUpdateSpecResult = {
+      change: false,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reCompile: false
+    };
+
+    expect(isUpdateSpecResultLocalOnly(result)).toBe(false);
+    expect(result.effects).toBeUndefined();
   });
 
   it('skips model reInit and chart dataflow for explicit local-only model updates', () => {

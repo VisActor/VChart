@@ -150,6 +150,11 @@ const getAnimatedLabelTexts = (chart: VChart) => {
   return texts;
 };
 
+const getScatterDataLabels = (chart: VChart) =>
+  getAnimatedLabelTexts(chart).filter(graphic => {
+    return typeof graphic.attribute?.text === 'number' && getGraphicFinalAttribute(graphic).x !== undefined;
+  });
+
 const getLabelTextByFill = (chart: VChart, fill: string) => {
   const label = getAnimatedLabelTexts(chart).find(graphic => graphic.attribute.fill === fill);
 
@@ -785,6 +790,80 @@ const createRegularMarkLineExitSpec = (visible = true) =>
         { x: 65.5, y: 126.4, z: 35.3, name: 'US', country: 'United States' },
         { x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal' }
       ]
+    },
+    axes: [
+      { orient: 'bottom', type: 'linear', min: 60, max: 95, visible: false },
+      { orient: 'left', type: 'linear', min: 0, max: 200, visible: false }
+    ],
+    markLine: visible
+      ? [
+          {
+            x: 65,
+            label: {
+              visible: true,
+              position: 'end',
+              text: 'Safe fat intake 65g/day',
+              labelBackground: {
+                visible: false
+              }
+            },
+            line: {
+              style: {
+                stroke: '#000',
+                lineDash: [0]
+              }
+            },
+            animation: {
+              type: 'clipIn',
+              duration: MARKER_DURATION,
+              easing: 'linear'
+            },
+            animationExit: {
+              type: 'fadeOut',
+              duration: MARKER_EXIT_DURATION,
+              easing: 'linear'
+            }
+          }
+        ]
+      : []
+  } as any);
+
+const createScatterMarkLineRemovalSpec = (visible = true) =>
+  ({
+    type: 'scatter',
+    width: 500,
+    height: 300,
+    padding: [12, 20, 12, 12],
+    xField: 'x',
+    yField: 'y',
+    sizeField: 'z',
+    size: {
+      type: 'linear',
+      range: [20, 80]
+    },
+    animation: true,
+    data: {
+      id: 'data',
+      values: [
+        { x: 95, y: 95, z: 13.8, name: 'BE', country: 'Belgium' },
+        { x: 65.5, y: 126.4, z: 35.3, name: 'US', country: 'United States' },
+        { x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal' },
+        { x: 76.7, y: 116.4, z: 31.3, name: 'NO', country: 'Norway' },
+        { x: 80.1, y: 93.6, z: 18.7, name: 'DE', country: 'Germany' },
+        { x: 72.2, y: 84.5, z: 20.2, name: 'FR', country: 'France' },
+        { x: 68.9, y: 110.2, z: 24.8, name: 'GB', country: 'United Kingdom' },
+        { x: 83.4, y: 75.2, z: 14.5, name: 'NL', country: 'Netherlands' },
+        { x: 88.6, y: 66.3, z: 17.9, name: 'SE', country: 'Sweden' },
+        { x: 70.5, y: 140.1, z: 28.4, name: 'ES', country: 'Spain' },
+        { x: 78.3, y: 99.9, z: 21.8, name: 'IT', country: 'Italy' },
+        { x: 61.2, y: 58.7, z: 12.3, name: 'IE', country: 'Ireland' },
+        { x: 90.3, y: 88.4, z: 16.7, name: 'DK', country: 'Denmark' },
+        { x: 74.8, y: 122.6, z: 25.1, name: 'FI', country: 'Finland' },
+        { x: 66.6, y: 101.5, z: 19.9, name: 'AT', country: 'Austria' }
+      ]
+    },
+    label: {
+      visible: true
     },
     axes: [
       { orient: 'bottom', type: 'linear', min: 60, max: 95, visible: false },
@@ -1887,6 +1966,47 @@ describe('manual ticker animation regressions', () => {
         expectClose(getGraphicFinalAttribute(graphic).clipRange, 1);
       });
     } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('does not replay scatter data label text animation when only marker line is removed', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createScatterMarkLineRemovalSpec(true), {
+      dom,
+      ticker,
+      animation: true
+    });
+    const renderSync = jest.spyOn(chart as any, '_renderSync');
+
+    chart.renderSync();
+    renderSync.mockClear();
+
+    try {
+      ticker.tickAt(MARKER_DURATION + 1000);
+
+      const labelsBefore = getScatterDataLabels(chart);
+
+      expect(labelsBefore.length).toBeGreaterThan(0);
+
+      const labelTextsBefore = new Map(labelsBefore.map(label => [label, label.attribute.text]));
+
+      chart.updateSpecSync(createScatterMarkLineRemovalSpec(false));
+
+      expect(renderSync).not.toHaveBeenCalled();
+
+      const updateStart = ticker.getTime();
+
+      ticker.tickAt(updateStart + UPDATE_DURATION / 2);
+
+      labelsBefore.forEach(label => {
+        expect(label.attribute.text).toBe(labelTextsBefore.get(label));
+      });
+    } finally {
+      renderSync.mockRestore();
       chart.release();
       ticker.release();
       removeDom(container);

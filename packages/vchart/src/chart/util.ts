@@ -138,10 +138,14 @@ export function normalizeUpdateSpecEffects(result: IUpdateSpecResult): IUpdateSp
 }
 
 export function isUpdateSpecResultLocalOnly(result: IUpdateSpecResult): boolean {
-  const effects = normalizeUpdateSpecEffects(result);
+  const effects = result.effects;
 
   return (
-    !!effects.localOnly &&
+    !!effects?.localOnly &&
+    !result.reMake &&
+    !result.reCompile &&
+    !result.reRender &&
+    !result.reSize &&
     !effects.remake &&
     !effects.compile &&
     !effects.render &&

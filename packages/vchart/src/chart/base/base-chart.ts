@@ -70,7 +70,7 @@ import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension/interface';
 import type { ITooltip } from '../../component/tooltip/interface';
-import { calculateChartSize, mergeUpdateResult } from '../util';
+import { calculateChartSize, isUpdateSpecResultLocalOnly, mergeUpdateResult } from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
@@ -80,6 +80,12 @@ import { Interaction } from '../../interaction/interaction';
 import type { IInteraction } from '../../interaction/interface/common';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
+
+const MARKER_COMPONENT_SPEC_KEYS: Record<string, boolean> = {
+  [ComponentTypeEnum.markPoint]: true,
+  [ComponentTypeEnum.markLine]: true,
+  [ComponentTypeEnum.markArea]: true
+};
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -874,19 +880,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   updateSpec(spec: T) {
-    const result = {
+    const result: IUpdateSpecResult = {
       change: false,
       reMake: false,
       reRender: false,
       reSize: false,
       reCompile: false
     };
-    // 需要重新布局
-    this.setLayoutTag(true, null, false);
     // 第一版简易逻辑如果配置项出现增删，直接重新创建chart
     // 如果出现类型不同，同上
     if (spec.type !== this.type) {
       result.reMake = true;
+      this.setLayoutTag(true, null, false);
       return result;
     }
     // spec set & transformSpec
@@ -896,37 +901,60 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     const nextKeys = this._getSpecKeys(spec);
     if (!isEqual(currentKeys, nextKeys)) {
       result.reMake = true;
+      this.setLayoutTag(true, null, false);
       return result;
     }
     // spec key 的个数一致，但是数组长度不一致时。remake
     for (let i = 0; i < currentKeys.length; i++) {
       const key = currentKeys[i];
-      if (isArray((this._spec as any)[key]) && (this._spec as any)[key].length !== array((spec as any)[key]).length) {
+      const currentSpec = (this._spec as any)[key];
+      const nextSpec = (spec as any)[key];
+      if (
+        isArray(currentSpec) &&
+        currentSpec.length !== array(nextSpec).length &&
+        !this._canRemoveMarkerComponentsWithoutRemake(key, currentSpec, nextSpec)
+      ) {
         result.reMake = true;
+        this.setLayoutTag(true, null, false);
         return result;
       }
     }
     const oldSpec = this._spec;
+    const onlyMarkerComponentsRemoved = this._isOnlyMarkerComponentsRemoved(this._spec, spec, currentKeys);
+
     this._spec = spec;
+    if (onlyMarkerComponentsRemoved) {
+      this._removeMarkerComponentsForEmptySpecs(result);
+      return result;
+    }
     // update chart config
     this.updateChartConfig(result, oldSpec);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
 
     this.updateGlobalScale(result);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
     // region 变化
     this.updateRegionSpec(result);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
     this.updateComponentSpec(result);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
+    if (isUpdateSpecResultLocalOnly(result)) {
+      return result;
+    }
+    // 需要重新布局
+    this.setLayoutTag(true, null, false);
     this.updateSeriesSpec(result);
     if (result.reMake) {
       return result;
@@ -985,6 +1013,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       [ComponentTypeEnum.brush]: true,
       [ComponentTypeEnum.indicator]: true
     };
+    const removedComponents: IComponent[] = [];
 
     this._components.forEach(c => {
       if (c.type === ComponentTypeEnum.label || c.type === ComponentTypeEnum.totalLabel) {
@@ -1004,6 +1033,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           specCount: cmpSpec.length,
           componentCount: 0
         };
+        if (this._canRemoveMarkerComponentsWithoutRemake(compSpecKey, [c.getSpec()], cmpSpec)) {
+          removedComponents.push(c);
+          return;
+        }
         componentCache[compSpecKey].componentCount++;
         mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()] ?? {}, cmpSpec));
       } else {
@@ -1019,6 +1052,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       }
     }
 
+    if (removedComponents.length) {
+      removedComponents.forEach(component => {
+        this._removeComponent(component);
+      });
+      result.change = true;
+      result.effects = {
+        ...result.effects,
+        component: true,
+        localOnly: true
+      };
+    }
+
     /** 这些组件 visible: false 不创建组件，也在this._components中，所以需要额外检测是否有visible 的切换 */
     const isVisible = (compSpec: any) => compSpec && compSpec.visible !== false;
     Object.keys(checkVisibleComponents).forEach(type => {
@@ -1031,6 +1076,60 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     });
+  }
+
+  private _canRemoveMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
+    return (
+      MARKER_COMPONENT_SPEC_KEYS[key] &&
+      isArray(currentSpec) &&
+      currentSpec.length > 0 &&
+      isArray(nextSpec) &&
+      nextSpec.length === 0
+    );
+  }
+
+  private _isOnlyMarkerComponentsRemoved(currentSpec: any, nextSpec: any, specKeys: string[]) {
+    let hasMarkerRemoval = false;
+
+    const onlyMarkerRemoval = specKeys.every(key => {
+      if (this._canRemoveMarkerComponentsWithoutRemake(key, currentSpec[key], nextSpec[key])) {
+        hasMarkerRemoval = true;
+        return true;
+      }
+
+      return isEqual(currentSpec[key], nextSpec[key]);
+    });
+
+    return hasMarkerRemoval && onlyMarkerRemoval;
+  }
+
+  private _removeMarkerComponentsForEmptySpecs(result: IUpdateSpecResult) {
+    const removedComponents = this._components.filter(component => {
+      const compSpecKey = component.specKey || component.type;
+      const cmpSpec = (this._spec as any)[compSpecKey] ?? {};
+
+      return this._canRemoveMarkerComponentsWithoutRemake(compSpecKey, [component.getSpec()], cmpSpec);
+    });
+
+    if (!removedComponents.length) {
+      return;
+    }
+
+    removedComponents.forEach(component => {
+      this._removeComponent(component);
+    });
+    result.change = true;
+    result.effects = {
+      ...result.effects,
+      component: true,
+      localOnly: true
+    };
+  }
+
+  private _removeComponent(component: IComponent) {
+    this._components = this._components.filter(c => c !== component);
+    this._idMap.delete(component.id);
+    component.release();
   }
 
   updateSeriesSpec(result: IUpdateSpecResult) {
