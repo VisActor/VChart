@@ -150,6 +150,34 @@ describe('vchart scoped update effects', () => {
     }
   });
 
+  it('skips chart dataflow for component-only model updates', () => {
+    const chart = new VChart(createSpec(), { dom, animation: false });
+    const chartInternals = chart as unknown as VChartInternals;
+    const model: TestModel = {
+      updateSpec: jest.fn((_spec: unknown) => ({
+        change: true,
+        reMake: false,
+        reRender: true,
+        effects: { component: true, layout: true, render: true }
+      })),
+      reInit: jest.fn((_spec: unknown) => undefined)
+    };
+    const chartModel = { reDataFlow: jest.fn(), release: jest.fn() };
+    const rerender = jest.spyOn(chart, 'updateCustomConfigAndRerender').mockReturnValue(chart);
+
+    try {
+      chartInternals._chart = chartModel;
+      chartInternals._updateModelSpec(model, { text: 'after' }, true);
+
+      expect(model.reInit).toHaveBeenCalledWith({ text: 'after' });
+      expect(chartModel.reDataFlow).not.toHaveBeenCalled();
+      expect(rerender).toHaveBeenCalled();
+    } finally {
+      rerender.mockRestore();
+      chart.release();
+    }
+  });
+
   it('keeps legacy model updates running reInit and dataflow', () => {
     const chart = new VChart(createSpec(), { dom, animation: false });
     const chartInternals = chart as unknown as VChartInternals;

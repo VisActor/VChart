@@ -99,7 +99,12 @@ import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
 import type { PopTipAttributes } from '@visactor/vrender-components';
 import { setPoptipTheme } from '@visactor/vrender-components';
-import { calculateChartSize, isUpdateSpecResultLocalOnly, mergeUpdateResult } from '../chart/util';
+import {
+  calculateChartSize,
+  isUpdateSpecResultComponentOnly,
+  isUpdateSpecResultLocalOnly,
+  mergeUpdateResult
+} from '../chart/util';
 import { Region } from '../region/region';
 import { Layout } from '../layout/base-layout';
 import { registerGroupMark } from '../mark/group';
@@ -1244,10 +1249,11 @@ export class VChart implements IVChart {
 
     const result = model.updateSpec(spec);
     const localOnly = isUpdateSpecResultLocalOnly(result);
+    const componentOnly = isUpdateSpecResultComponentOnly(result);
 
     if (!localOnly) {
       model.reInit(spec);
-      if (result.change || result.reCompile || result.reMake || result.reSize || result.reRender) {
+      if (!componentOnly && (result.change || result.reCompile || result.reMake || result.reSize || result.reRender)) {
         this._chart.reDataFlow();
       }
     }
