@@ -20,6 +20,7 @@ type TestSeries = {
 
 type TestChartModel = {
   getAllSeries: () => TestSeries[];
+  getComponentsByKey: (key: string) => Array<{ position?: string }>;
   updateDataSpec: () => void;
   updateGlobalScaleDomain: () => void;
 };
@@ -57,7 +58,10 @@ const createAxisAppearanceSpec = (alternateColor?: string[]): IBarChartSpec => (
   ]
 });
 
-const createLegendAppearanceSpec = (labelFill: string): IBarChartSpec => ({
+const createLegendAppearanceSpec = (
+  labelFill: string,
+  position: 'start' | 'middle' | 'end' = 'middle'
+): IBarChartSpec => ({
   type: 'bar',
   data: [
     {
@@ -75,6 +79,7 @@ const createLegendAppearanceSpec = (labelFill: string): IBarChartSpec => ({
     {
       visible: true,
       orient: 'bottom',
+      position,
       item: {
         label: {
           style: {
@@ -211,6 +216,33 @@ describe('vchart scoped update effects', () => {
 
       chart.updateSpecSync(createLegendAppearanceSpec('blue'));
 
+      expect(renderSync).toHaveBeenCalledTimes(1);
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expect(updateDataSpec).not.toHaveBeenCalled();
+      expect(updateGlobalScaleDomain).not.toHaveBeenCalled();
+    } finally {
+      renderSync.mockRestore();
+      chart.release();
+    }
+  });
+
+  it('skips series data stages for legend position-only updates', () => {
+    const chart = new VChart(createLegendAppearanceSpec('red', 'middle'), { dom, animation: false });
+    const renderSync = jest.spyOn(chart as unknown as VChartInternals, '_renderSync');
+
+    try {
+      chart.renderSync();
+      renderSync.mockClear();
+
+      const chartModel = chart.getChart() as unknown as TestChartModel;
+      const series = chartModel.getAllSeries()[0];
+      const seriesReInit = jest.spyOn(series, 'reInit');
+      const updateDataSpec = jest.spyOn(chartModel, 'updateDataSpec');
+      const updateGlobalScaleDomain = jest.spyOn(chartModel, 'updateGlobalScaleDomain');
+
+      chart.updateSpecSync(createLegendAppearanceSpec('red', 'end'));
+
+      expect(chartModel.getComponentsByKey('legends')[0]?.position).toBe('end');
       expect(renderSync).toHaveBeenCalledTimes(1);
       expect(seriesReInit).not.toHaveBeenCalled();
       expect(updateDataSpec).not.toHaveBeenCalled();

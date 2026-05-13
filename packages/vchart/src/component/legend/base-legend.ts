@@ -16,6 +16,7 @@ import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 
 const LEGEND_COMPONENT_ONLY_CHANGE_KEYS: Record<string, true> = {
+  position: true,
   item: true,
   title: true,
   pager: true,

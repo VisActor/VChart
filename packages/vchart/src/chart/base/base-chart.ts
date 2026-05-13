@@ -951,7 +951,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this.setLayoutTag(true, null, false);
       return result;
     }
-    this.updateComponentSpec(result);
+    const componentOnlyUpdatedComponents = this.updateComponentSpec(result);
     if (result.reMake) {
       this.setLayoutTag(true, null, false);
       return result;
@@ -960,6 +960,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       return result;
     }
     if (onlyComponentSpecsChanged && isUpdateSpecResultComponentOnly(result)) {
+      componentOnlyUpdatedComponents.forEach(component => {
+        component.reInit(component.getSpec());
+      });
       if (result.effects?.layout) {
         this.setLayoutTag(true, null, false);
       }
@@ -1013,6 +1016,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   updateComponentSpec(result: IUpdateSpecResult) {
+    const componentOnlyUpdatedComponents: IComponent[] = [];
     // 用来检测组件是否有新增
     const componentCache: {
       [key in string]: {
@@ -1050,9 +1054,17 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           return;
         }
         componentCache[compSpecKey].componentCount++;
-        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()] ?? {}, cmpSpec));
+        const componentResult = c.updateSpec(cmpSpec[c.getSpecIndex()] ?? {}, cmpSpec);
+        if (isUpdateSpecResultComponentOnly(componentResult)) {
+          componentOnlyUpdatedComponents.push(c);
+        }
+        mergeUpdateResult(result, componentResult);
       } else {
-        mergeUpdateResult(result, c.updateSpec(cmpSpec));
+        const componentResult = c.updateSpec(cmpSpec);
+        if (isUpdateSpecResultComponentOnly(componentResult)) {
+          componentOnlyUpdatedComponents.push(c);
+        }
+        mergeUpdateResult(result, componentResult);
       }
     });
     for (const key in componentCache) {
@@ -1088,6 +1100,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     });
+    return componentOnlyUpdatedComponents;
   }
 
   private _canRemoveMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
