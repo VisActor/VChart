@@ -70,7 +70,12 @@ import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension/interface';
 import type { ITooltip } from '../../component/tooltip/interface';
-import { calculateChartSize, isUpdateSpecResultLocalOnly, mergeUpdateResult } from '../util';
+import {
+  calculateChartSize,
+  isUpdateSpecResultComponentOnly,
+  isUpdateSpecResultLocalOnly,
+  mergeUpdateResult
+} from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
@@ -921,6 +926,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
     const oldSpec = this._spec;
     const onlyMarkerComponentsRemoved = this._isOnlyMarkerComponentsRemoved(this._spec, spec, currentKeys);
+    const onlyComponentSpecsChanged = this._isOnlyComponentSpecsChanged(this._spec, spec, currentKeys);
 
     this._spec = spec;
     if (onlyMarkerComponentsRemoved) {
@@ -951,6 +957,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       return result;
     }
     if (isUpdateSpecResultLocalOnly(result)) {
+      return result;
+    }
+    if (onlyComponentSpecsChanged && isUpdateSpecResultComponentOnly(result)) {
+      if (result.effects?.layout) {
+        this.setLayoutTag(true, null, false);
+      }
       return result;
     }
     // 需要重新布局
@@ -1101,6 +1113,31 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
 
     return hasMarkerRemoval && onlyMarkerRemoval;
+  }
+
+  private _isComponentSpecKey(key: string) {
+    return this._components.some(component => {
+      return (component.specKey || component.type) === key;
+    });
+  }
+
+  private _isOnlyComponentSpecsChanged(currentSpec: object, nextSpec: object, specKeys: string[]) {
+    let hasComponentSpecChange = false;
+    const currentSpecRecord = currentSpec as Record<string, unknown>;
+    const nextSpecRecord = nextSpec as Record<string, unknown>;
+
+    const onlyComponentSpecChange = specKeys.every(key => {
+      if (isEqual(currentSpecRecord[key], nextSpecRecord[key])) {
+        return true;
+      }
+      if (this._isComponentSpecKey(key)) {
+        hasComponentSpecChange = true;
+        return true;
+      }
+      return false;
+    });
+
+    return hasComponentSpecChange && onlyComponentSpecChange;
   }
 
   private _removeMarkerComponentsForEmptySpecs(result: IUpdateSpecResult) {

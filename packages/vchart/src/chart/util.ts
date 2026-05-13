@@ -105,7 +105,9 @@ function mergeUpdateSpecEffects(target: IUpdateSpecResult, ...sources: IUpdateSp
     const targetEffects = target.effects;
 
     UPDATE_SPEC_EFFECT_KEYS.forEach(key => {
-      targetEffects[key] = targetEffects[key] || sourceEffects[key];
+      if (sourceEffects[key]) {
+        targetEffects[key] = targetEffects[key] || sourceEffects[key];
+      }
     });
   });
 }
@@ -153,6 +155,27 @@ export function isUpdateSpecResultLocalOnly(result: IUpdateSpecResult): boolean 
     !effects.data &&
     !effects.scaleDomain &&
     !effects.series &&
+    !result.reTransformSpec &&
+    !result.reAnimate &&
+    !result.changeTheme &&
+    !result.changeBackground
+  );
+}
+
+export function isUpdateSpecResultComponentOnly(result: IUpdateSpecResult): boolean {
+  const effects = result.effects;
+
+  return (
+    !!effects?.component &&
+    !result.reMake &&
+    !result.reCompile &&
+    !result.reSize &&
+    !effects.remake &&
+    !effects.compile &&
+    !effects.data &&
+    !effects.scaleDomain &&
+    !effects.series &&
+    !effects.animation &&
     !result.reTransformSpec &&
     !result.reAnimate &&
     !result.changeTheme &&

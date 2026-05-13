@@ -14,11 +14,29 @@ type TestModel = {
   reInit: jest.Mock<void, [unknown]>;
 };
 
+type TestSeries = {
+  reInit: (spec?: unknown) => void;
+};
+
+type TestChartModel = {
+  getAllSeries: () => TestSeries[];
+  updateDataSpec: () => void;
+  updateGlobalScaleDomain: () => void;
+};
+
 const createSpec = (): IBarChartSpec => ({
   type: 'bar',
   data: [{ id: 'data', values: [{ x: 'A', y: 1 }] }],
   xField: 'x',
   yField: 'y'
+});
+
+const createTitledSpec = (title: string): IBarChartSpec => ({
+  ...createSpec(),
+  title: {
+    visible: true,
+    text: title
+  }
 });
 
 describe('vchart scoped update effects', () => {
@@ -76,6 +94,32 @@ describe('vchart scoped update effects', () => {
 
     expect(isUpdateSpecResultLocalOnly(result)).toBe(false);
     expect(result.effects).toBeUndefined();
+  });
+
+  it('skips series data stages for title text-only updates', () => {
+    const chart = new VChart(createTitledSpec('before'), { dom, animation: false });
+    const renderSync = jest.spyOn(chart as unknown as VChartInternals, '_renderSync');
+
+    try {
+      chart.renderSync();
+      renderSync.mockClear();
+
+      const chartModel = chart.getChart() as unknown as TestChartModel;
+      const series = chartModel.getAllSeries()[0];
+      const seriesReInit = jest.spyOn(series, 'reInit');
+      const updateDataSpec = jest.spyOn(chartModel, 'updateDataSpec');
+      const updateGlobalScaleDomain = jest.spyOn(chartModel, 'updateGlobalScaleDomain');
+
+      chart.updateSpecSync(createTitledSpec('after'));
+
+      expect(renderSync).toHaveBeenCalledTimes(1);
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expect(updateDataSpec).not.toHaveBeenCalled();
+      expect(updateGlobalScaleDomain).not.toHaveBeenCalled();
+    } finally {
+      renderSync.mockRestore();
+      chart.release();
+    }
   });
 
   it('skips model reInit and chart dataflow for explicit local-only model updates', () => {
