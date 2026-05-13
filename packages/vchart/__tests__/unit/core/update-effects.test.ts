@@ -57,6 +57,35 @@ const createAxisAppearanceSpec = (alternateColor?: string[]): IBarChartSpec => (
   ]
 });
 
+const createLegendAppearanceSpec = (labelFill: string): IBarChartSpec => ({
+  type: 'bar',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1 },
+        { x: 'B', y: 2 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'x',
+  legends: [
+    {
+      visible: true,
+      orient: 'bottom',
+      item: {
+        label: {
+          style: {
+            fill: labelFill
+          }
+        }
+      }
+    }
+  ]
+});
+
 describe('vchart scoped update effects', () => {
   let container: HTMLElement;
   let dom: HTMLElement;
@@ -155,6 +184,32 @@ describe('vchart scoped update effects', () => {
       const updateGlobalScaleDomain = jest.spyOn(chartModel, 'updateGlobalScaleDomain');
 
       chart.updateSpecSync(createAxisAppearanceSpec(['pink', 'green']));
+
+      expect(renderSync).toHaveBeenCalledTimes(1);
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expect(updateDataSpec).not.toHaveBeenCalled();
+      expect(updateGlobalScaleDomain).not.toHaveBeenCalled();
+    } finally {
+      renderSync.mockRestore();
+      chart.release();
+    }
+  });
+
+  it('skips series data stages for legend appearance-only updates', () => {
+    const chart = new VChart(createLegendAppearanceSpec('red'), { dom, animation: false });
+    const renderSync = jest.spyOn(chart as unknown as VChartInternals, '_renderSync');
+
+    try {
+      chart.renderSync();
+      renderSync.mockClear();
+
+      const chartModel = chart.getChart() as unknown as TestChartModel;
+      const series = chartModel.getAllSeries()[0];
+      const seriesReInit = jest.spyOn(series, 'reInit');
+      const updateDataSpec = jest.spyOn(chartModel, 'updateDataSpec');
+      const updateGlobalScaleDomain = jest.spyOn(chartModel, 'updateGlobalScaleDomain');
+
+      chart.updateSpecSync(createLegendAppearanceSpec('blue'));
 
       expect(renderSync).toHaveBeenCalledTimes(1);
       expect(seriesReInit).not.toHaveBeenCalled();
