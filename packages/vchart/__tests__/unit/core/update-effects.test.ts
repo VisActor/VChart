@@ -39,6 +39,24 @@ const createTitledSpec = (title: string): IBarChartSpec => ({
   }
 });
 
+const createAxisAppearanceSpec = (alternateColor?: string[]): IBarChartSpec => ({
+  ...createSpec(),
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'band'
+    },
+    {
+      orient: 'left',
+      type: 'linear',
+      grid: {
+        visible: true,
+        alternateColor
+      }
+    }
+  ]
+});
+
 describe('vchart scoped update effects', () => {
   let container: HTMLElement;
   let dom: HTMLElement;
@@ -111,6 +129,32 @@ describe('vchart scoped update effects', () => {
       const updateGlobalScaleDomain = jest.spyOn(chartModel, 'updateGlobalScaleDomain');
 
       chart.updateSpecSync(createTitledSpec('after'));
+
+      expect(renderSync).toHaveBeenCalledTimes(1);
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expect(updateDataSpec).not.toHaveBeenCalled();
+      expect(updateGlobalScaleDomain).not.toHaveBeenCalled();
+    } finally {
+      renderSync.mockRestore();
+      chart.release();
+    }
+  });
+
+  it('skips series data stages for axis appearance-only updates', () => {
+    const chart = new VChart(createAxisAppearanceSpec(), { dom, animation: false });
+    const renderSync = jest.spyOn(chart as unknown as VChartInternals, '_renderSync');
+
+    try {
+      chart.renderSync();
+      renderSync.mockClear();
+
+      const chartModel = chart.getChart() as unknown as TestChartModel;
+      const series = chartModel.getAllSeries()[0];
+      const seriesReInit = jest.spyOn(series, 'reInit');
+      const updateDataSpec = jest.spyOn(chartModel, 'updateDataSpec');
+      const updateGlobalScaleDomain = jest.spyOn(chartModel, 'updateGlobalScaleDomain');
+
+      chart.updateSpecSync(createAxisAppearanceSpec(['pink', 'green']));
 
       expect(renderSync).toHaveBeenCalledTimes(1);
       expect(seriesReInit).not.toHaveBeenCalled();

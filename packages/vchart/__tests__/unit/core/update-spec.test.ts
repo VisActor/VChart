@@ -1800,6 +1800,11 @@ describe('vchart updateSpec of different about label', () => {
       changeBackground: false,
       change: false,
       changeTheme: false,
+      effects: {
+        component: true,
+        layout: true,
+        render: true
+      },
       reCompile: false,
       reMake: false,
       reRender: true,

@@ -58,6 +58,20 @@ import type { ICompilableMark } from '../../compile/mark';
 import type { ICompilableData } from './../../compile/data/interface';
 import { transformFunctionAttribute } from '../../util/spec/transform';
 
+const AXIS_COMPONENT_ONLY_CHANGE_KEYS: Record<string, true> = {
+  grid: true,
+  subGrid: true,
+  tick: true,
+  subTick: true,
+  label: true,
+  domainLine: true,
+  title: true,
+  maxWidth: true,
+  minWidth: true,
+  maxHeight: true,
+  minHeight: true
+};
+
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
   implements IAxis
@@ -512,6 +526,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     if (result.reMake) {
       return result;
     }
+    const specChanged = !isEqual(prevSpec, spec);
 
     result.reRender = true;
     /**
@@ -525,8 +540,27 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     result.reMake = ['grid', 'subGrid', 'tick', 'subTick', 'label', 'domainLine', 'title'].some(k => {
       return prevSpec?.[k]?.visible !== spec?.[k]?.visible;
     });
+    if (specChanged && !result.reMake && this._isComponentOnlySpecChange(spec, prevSpec)) {
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
 
     return result;
+  }
+
+  private _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || AXIS_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   protected _getAxisAttributes() {
