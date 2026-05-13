@@ -103,6 +103,50 @@ import { filterMarksOfInteraction } from '../../interaction/triggers/util';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
 
+export interface ISeriesSpecUpdatePolicy {
+  compileOnlyKeys?: Record<string, true>;
+  dataRelatedKeys?: Record<string, true>;
+  compileOnlySubKeys?: Record<string, Record<string, true>>;
+}
+
+const defaultSeriesDataRelatedCheckKeys = Object.keys(defaultSeriesCompileCheckKeys).reduce((keys, key) => {
+  if (!defaultSeriesCompileOnlyCheckKeys[key]) {
+    keys[key] = true;
+  }
+  return keys;
+}, {} as Record<string, true>);
+
+const defaultSeriesSpecUpdatePolicy: ISeriesSpecUpdatePolicy = {
+  compileOnlyKeys: defaultSeriesCompileOnlyCheckKeys,
+  dataRelatedKeys: defaultSeriesDataRelatedCheckKeys
+};
+
+const isSpecObject = (value: unknown): value is Record<string, unknown> =>
+  isObject(value) && !isArray(value) && !isFunction(value);
+
+const hasOnlyAllowedSubKeyChanges = (
+  specValue: unknown,
+  prevSpecValue: unknown,
+  allowedSubKeys: Record<string, true>
+) => {
+  if (!isSpecObject(specValue) || !isSpecObject(prevSpecValue)) {
+    return false;
+  }
+
+  let changed = false;
+  const subKeys = Array.from(new Set([...Object.keys(prevSpecValue), ...Object.keys(specValue)]));
+  for (const subKey of subKeys) {
+    if (!isEqual(specValue[subKey], prevSpecValue[subKey])) {
+      if (!allowedSubKeys[subKey]) {
+        return false;
+      }
+      changed = true;
+    }
+  }
+
+  return changed;
+};
+
 export function markSeriesCompileEffect(compareResult: IUpdateSpecResult, dataRelated: boolean = false) {
   compareResult.effects = {
     ...compareResult.effects,
@@ -1055,6 +1099,10 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   /** updateSpec */
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    return defaultSeriesSpecUpdatePolicy;
+  }
+
   _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>) {
     const result = super._compareSpec(spec, prevSpec);
 
@@ -1065,9 +1113,18 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
+    const specUpdatePolicy = this._getSpecUpdatePolicy();
+    const compileOnlyKeys = specUpdatePolicy.compileOnlyKeys ?? {};
+    const dataRelatedKeys = specUpdatePolicy.dataRelatedKeys ?? {};
+    const compileOnlySubKeys = specUpdatePolicy.compileOnlySubKeys ?? {};
+    const compileCheckKeys = {
+      ...compileOnlyKeys,
+      ...dataRelatedKeys
+    };
+
     const ignores: Record<string, boolean> = {
       ...defaultSeriesIgnoreCheckKeys,
-      ...defaultSeriesCompileCheckKeys,
+      ...compileCheckKeys,
       ...ignoreCheckKeys,
       extensionMark: true,
       label: true,
@@ -1097,17 +1154,30 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     }
 
     const changedCompileKeys = currentKeys.filter((k: string) => {
-      return defaultSeriesCompileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
+      return compileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
+    });
+    const changedCompileOnlySubKeys = currentKeys.filter((k: string) => {
+      return (
+        compileOnlySubKeys[k] &&
+        hasOnlyAllowedSubKeyChanges((spec as any)[k], (prevSpec as any)[k], compileOnlySubKeys[k])
+      );
+    });
+    changedCompileOnlySubKeys.forEach(k => {
+      ignores[k] = true;
     });
 
     // check default compile keys
-    if (!result.reCompile && changedCompileKeys.length) {
+    if (!result.reCompile && (changedCompileKeys.length || changedCompileOnlySubKeys.length)) {
       result.reCompile = true;
     }
 
-    if (changedCompileKeys.some(k => !defaultSeriesCompileOnlyCheckKeys[k])) {
+    if (changedCompileKeys.some(k => dataRelatedKeys[k])) {
       markSeriesCompileEffect(result, true);
-    } else if (result.reCompile && !result.effects?.series && changedCompileKeys.length) {
+    } else if (
+      result.reCompile &&
+      !result.effects?.series &&
+      (changedCompileKeys.length || changedCompileOnlySubKeys.length)
+    ) {
       markSeriesCompileEffect(result);
     }
 

@@ -92,18 +92,6 @@ const MARKER_COMPONENT_SPEC_KEYS: Record<string, boolean> = {
   [ComponentTypeEnum.markArea]: true
 };
 
-const SERIES_RELATED_CHART_SPEC_KEYS: Record<string, true> = {
-  series: true,
-  label: true,
-  totalLabel: true,
-  stackCornerRadius: true,
-  animationAppear: true,
-  animationEnter: true,
-  animationUpdate: true,
-  animationExit: true,
-  animationNormal: true
-};
-
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
   readonly seriesType: string;
@@ -129,6 +117,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   protected _series: ISeries[] = [];
   // 组件
   protected _components: IComponent[] = [];
+  protected _specTransformer: Maybe<IChartSpecTransformer> = null;
 
   // 布局
   protected _layoutFunc: LayoutCallBack;
@@ -258,6 +247,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   created(transformer: Maybe<IChartSpecTransformer>) {
+    this._specTransformer = transformer;
     // data
     this._chartData.parseData(this._spec.data);
     // scale
@@ -1187,12 +1177,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     let hasSeriesSpecChange = false;
     const currentSpecRecord = currentSpec as Record<string, unknown>;
     const nextSpecRecord = nextSpec as Record<string, unknown>;
+    const seriesRelatedSpecKeys = this._specTransformer?.getSeriesRelatedSpecKeys() ?? {};
 
     const onlySeriesSpecChange = specKeys.every(key => {
       if (isEqual(currentSpecRecord[key], nextSpecRecord[key])) {
         return true;
       }
-      if (SERIES_RELATED_CHART_SPEC_KEYS[key]) {
+      if (seriesRelatedSpecKeys[key]) {
         hasSeriesSpecChange = true;
         return true;
       }

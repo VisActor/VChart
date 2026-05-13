@@ -4,6 +4,7 @@ import type { Datum } from '../../../typings';
 import { isValidNumber } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../../interface/type';
+import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
 import { animationConfig, shouldMarkDoMorph, userAnimationConfig } from '../../../animation/utils';
 import type { ICircularProgressSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
@@ -20,6 +21,10 @@ import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 import { registerPolarLinearAxis, registerPolarBandAxis } from '../../../component/axis/polar';
 import { circularProgress } from '../../../theme/builtin/common/series/circular-progress';
 
+const CIRCULAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS: Record<'cornerRadius', true> = {
+  cornerRadius: true
+};
+
 export class CircularProgressSeries<
   T extends ICircularProgressSeriesSpec = ICircularProgressSeriesSpec
 > extends ProgressLikeSeries<T> {
@@ -33,6 +38,17 @@ export class CircularProgressSeries<
 
   private _progressMark: IArcMark | null = null;
   private _trackMark: IArcMark | null = null;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...CIRCULAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS
+      }
+    };
+  }
 
   getStackGroupFields(): string[] {
     return this.getGroupFields();

@@ -22,6 +22,23 @@ import { registerFadeInOutAnimation } from '../../../animation/config';
 import type { IMark, IRectMark } from '../../../mark/interface';
 import { isNil, isValid } from '@visactor/vutils';
 import { linearProgress } from '../../../theme/builtin/common/series/linear-progress';
+import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
+
+const LINEAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS: Record<'bandWidth', true> = {
+  bandWidth: true
+};
+
+const LINEAR_PROGRESS_SERIES_COMPILE_ONLY_SUB_KEYS: Record<
+  'progress',
+  Record<'topPadding' | 'bottomPadding' | 'leftPadding' | 'rightPadding', true>
+> = {
+  progress: {
+    topPadding: true,
+    bottomPadding: true,
+    leftPadding: true,
+    rightPadding: true
+  }
+};
 
 export class LinearProgressSeries<
   T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec
@@ -34,6 +51,21 @@ export class LinearProgressSeries<
 
   private _progressMark: IRectMark | null = null;
   private _trackMark: IRectMark | null = null;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...LINEAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS
+      },
+      compileOnlySubKeys: {
+        ...policy.compileOnlySubKeys,
+        ...LINEAR_PROGRESS_SERIES_COMPILE_ONLY_SUB_KEYS
+      }
+    };
+  }
 
   initMark(): void {
     this._initTrackMark();

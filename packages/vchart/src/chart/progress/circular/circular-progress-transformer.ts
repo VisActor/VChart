@@ -8,6 +8,7 @@ export class CircularProgressChartSpecTransformer<
   protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
 
+    this._addSeriesRelatedSpecKeys(['cornerRadius']);
     series.progress = spec.progress;
     series.track = spec.track;
     series.tickMask = spec.tickMask;

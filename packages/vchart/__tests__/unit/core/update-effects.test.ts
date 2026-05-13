@@ -1,4 +1,14 @@
-import VChart, { type IBarChartSpec } from '../../../src';
+import VChart, {
+  type IBarChartSpec,
+  type IBoxPlotChartSpec,
+  type ICircularProgressChartSpec,
+  type IHeatmapChartSpec,
+  type ILineChartSpec,
+  type ILinearProgressChartSpec,
+  type IPieChartSpec,
+  type IScatterChartSpec,
+  type IWaterfallChartSpec
+} from '../../../src';
 import { isUpdateSpecResultLocalOnly } from '../../../src/chart/util';
 import type { IUpdateSpecResult } from '../../../src/model/interface';
 import { createDiv, removeDom } from '../../util/dom';
@@ -17,6 +27,7 @@ type TestModel = {
 
 type TestSeries = {
   reInit: (spec?: unknown) => void;
+  getSpec: () => { calculationMode?: string };
 };
 
 type TestChartModel = {
@@ -286,6 +297,307 @@ const createTopLevelStackCornerRadiusSpec = (stackCornerRadius: () => number): I
   stack: true,
   stackCornerRadius
 });
+
+const createTopLevelBarWidthSpec = (barWidth: number): IBarChartSpec => ({
+  type: 'bar',
+  data: [{ id: 'data', values: [{ x: 'A', y: 1 }] }],
+  xField: 'x',
+  yField: 'y',
+  barWidth
+});
+
+const createTopLevelLineSamplingSpec = (samplingFactor: number): ILineChartSpec => ({
+  type: 'line',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1 },
+        { x: 'B', y: 2 },
+        { x: 'C', y: 3 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  sampling: 'lttb',
+  samplingFactor
+});
+
+const createTopLevelLineLabelAndUnusedBarWidthSpec = (barWidth: number, position: 'top' | 'inside'): ILineChartSpec =>
+  ({
+    type: 'line',
+    data: [
+      {
+        id: 'data',
+        values: [
+          { x: 'A', y: 1 },
+          { x: 'B', y: 2 }
+        ]
+      }
+    ],
+    xField: 'x',
+    yField: 'y',
+    barWidth,
+    label: {
+      visible: true,
+      position
+    }
+  } as unknown as ILineChartSpec);
+
+const createTopLevelBoxPlotWidthSpec = (boxWidth: number): IBoxPlotChartSpec => ({
+  type: 'boxPlot',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', min: 1, q1: 2, median: 3, q3: 4, max: 5 },
+        { x: 'B', min: 2, q1: 3, median: 4, q3: 5, max: 6 }
+      ]
+    }
+  ],
+  xField: 'x',
+  minField: 'min',
+  q1Field: 'q1',
+  medianField: 'median',
+  q3Field: 'q3',
+  maxField: 'max',
+  boxWidth
+});
+
+const createTopLevelLinearProgressBandWidthSpec = (bandWidth: number): ILinearProgressChartSpec => ({
+  type: 'linearProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ x: 'A', y: 0.6 }]
+    }
+  ],
+  xField: 'y',
+  yField: 'x',
+  bandWidth
+});
+
+const createTopLevelLinearProgressProgressPaddingSpec = (
+  topPadding: number,
+  bottomPadding: number
+): ILinearProgressChartSpec => ({
+  type: 'linearProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ x: 'A', y: 0.6 }]
+    }
+  ],
+  xField: 'y',
+  yField: 'x',
+  bandWidth: 10,
+  progress: {
+    topPadding,
+    bottomPadding
+  }
+});
+
+const createTopLevelCircularProgressCornerRadiusSpec = (cornerRadius: number): ICircularProgressChartSpec => ({
+  type: 'circularProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ category: 'A', value: 0.6 }]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  cornerRadius
+});
+
+const createTopLevelHeatmapValueFieldSpec = (valueField: 'v1' | 'v2'): IHeatmapChartSpec => ({
+  type: 'heatmap',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 'K1', v1: 1, v2: 2 },
+        { x: 'B', y: 'K1', v1: 3, v2: 4 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  valueField
+});
+
+const createTopLevelPieValueFieldSpec = (valueField: 'v1' | 'v2'): IPieChartSpec => ({
+  type: 'pie',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', v1: 1, v2: 3 },
+        { category: 'B', v1: 1, v2: 1 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField
+});
+
+const createTopLevelPieStartAngleSpec = (startAngle: number): IPieChartSpec => ({
+  type: 'pie',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 1 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  startAngle,
+  endAngle: startAngle + 360
+});
+
+const createTopLevelPieMinAngleSpec = (minAngle: number): IPieChartSpec => ({
+  type: 'pie',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 100 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  minAngle
+});
+
+const createTopLevelPieOuterRadiusSpec = (outerRadius: number): IPieChartSpec => ({
+  type: 'pie',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 1 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  outerRadius
+});
+
+const createTopLevelWaterfallCalculationModeSpec = (calculationMode: 'increase' | 'decrease'): IWaterfallChartSpec => ({
+  type: 'waterfall',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 3 },
+        { x: 'B', y: 1 },
+        { x: 'C', y: 2 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  calculationMode
+});
+
+const createTopLevelScatterSizeFieldSpec = (sizeField: 's1' | 's2'): IScatterChartSpec => ({
+  type: 'scatter',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1, s1: 1, s2: 2 },
+        { x: 'B', y: 2, s1: 2, s2: 1 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  size: [10, 20],
+  sizeField
+});
+
+const getFirstBarGraphic = (chart: VChart) => {
+  const barSeries = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(series => series.type === 'bar');
+  const barMark = barSeries?.getMarks().find(mark => mark.name === 'bar');
+  const barGraphic = barMark?.getGraphics()[0] as { attribute: { width?: number } } | undefined;
+
+  expect(barGraphic).toBeDefined();
+  return barGraphic as { attribute: { width?: number } };
+};
+
+const getFirstBoxPlotGraphic = (chart: VChart) => {
+  const boxPlotSeries = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(series => series.type === 'boxPlot');
+  const boxPlotMark = boxPlotSeries?.getMarks().find(mark => mark.name === 'boxPlot');
+  const boxPlotGraphic = boxPlotMark?.getGraphics()[0] as { attribute: { boxWidth?: number } } | undefined;
+
+  expect(boxPlotGraphic).toBeDefined();
+  return boxPlotGraphic as { attribute: { boxWidth?: number } };
+};
+
+const getFirstLinearProgressGraphic = (chart: VChart) => {
+  const linearProgressSeries = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(series => series.type === 'linearProgress');
+  const progressMark = linearProgressSeries?.getMarks().find(mark => mark.name === 'progress');
+  const progressGraphic = progressMark?.getGraphics()[0] as { attribute: { height?: number } } | undefined;
+
+  expect(progressGraphic).toBeDefined();
+  return progressGraphic as { attribute: { height?: number } };
+};
+
+const getFirstCircularProgressGraphic = (chart: VChart) => {
+  const circularProgressSeries = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(series => series.type === 'circularProgress');
+  const progressMark = circularProgressSeries?.getMarks().find(mark => mark.name === 'progress');
+  const progressGraphic = progressMark?.getGraphics()[0] as { attribute: { cornerRadius?: number } } | undefined;
+
+  expect(progressGraphic).toBeDefined();
+  return progressGraphic as { attribute: { cornerRadius?: number } };
+};
+
+const getFirstPieGraphic = (chart: VChart) => {
+  const pieSeries = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(series => series.type === 'pie');
+  const pieMark = pieSeries?.getMarks().find(mark => mark.name === 'pie');
+  const pieGraphic = pieMark?.getGraphics()[0] as
+    | { attribute: { startAngle?: number; endAngle?: number; outerRadius?: number } }
+    | undefined;
+
+  expect(pieGraphic).toBeDefined();
+  return pieGraphic as { attribute: { startAngle?: number; endAngle?: number; outerRadius?: number } };
+};
+
+const getFirstScatterGraphic = (chart: VChart) => {
+  const scatterSeries = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(series => series.type === 'scatter');
+  const pointMark = scatterSeries?.getMarks().find(mark => mark.name === 'point');
+  const pointGraphic = pointMark?.getGraphics()[0] as { attribute: { size?: number } } | undefined;
+
+  expect(pointGraphic).toBeDefined();
+  return pointGraphic as { attribute: { size?: number } };
+};
 
 const createTopLevelFieldSpec = (xField: string): IBarChartSpec => ({
   type: 'bar',
@@ -814,6 +1126,297 @@ describe('vchart scoped update effects', () => {
       expect(beforeRadius).not.toHaveBeenCalled();
       expect(afterRadius).toHaveBeenCalled();
       expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level barWidth updates', () => {
+    const chart = new VChart(createTopLevelBarWidthSpec(10), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstBarGraphic(chart).attribute.width).toBe(10);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelBarWidthSpec(20));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstBarGraphic(chart).attribute.width).toBe(20);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps top-level line sampling updates on the chart data path', () => {
+    const chart = new VChart(createTopLevelLineSamplingSpec(1), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelLineSamplingSpec(2));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps chart data stages when a chart-foreign series key changes with line label', () => {
+    const chart = new VChart(createTopLevelLineLabelAndUnusedBarWidthSpec(10, 'top'), {
+      dom,
+      animation: false
+    });
+
+    try {
+      chart.renderSync();
+
+      const spies = spyOnDataStages(chart);
+
+      chart.updateSpecSync(createTopLevelLineLabelAndUnusedBarWidthSpec(20, 'inside'));
+
+      expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level boxPlot boxWidth updates', () => {
+    const chart = new VChart(createTopLevelBoxPlotWidthSpec(10), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstBoxPlotGraphic(chart).attribute.boxWidth).toBe(10);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelBoxPlotWidthSpec(20));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstBoxPlotGraphic(chart).attribute.boxWidth).toBe(20);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level linearProgress bandWidth updates', () => {
+    const chart = new VChart(createTopLevelLinearProgressBandWidthSpec(10), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstLinearProgressGraphic(chart).attribute.height).toBe(10);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelLinearProgressBandWidthSpec(20));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstLinearProgressGraphic(chart).attribute.height).toBe(20);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level linearProgress progress padding updates', () => {
+    const chart = new VChart(createTopLevelLinearProgressProgressPaddingSpec(1, 1), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstLinearProgressGraphic(chart).attribute.height).toBe(8);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelLinearProgressProgressPaddingSpec(2, 2));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstLinearProgressGraphic(chart).attribute.height).toBe(6);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level circularProgress cornerRadius updates', () => {
+    const chart = new VChart(createTopLevelCircularProgressCornerRadiusSpec(0), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstCircularProgressGraphic(chart).attribute.cornerRadius).toBe(0);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelCircularProgressCornerRadiusSpec(8));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstCircularProgressGraphic(chart).attribute.cornerRadius).toBe(8);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps top-level heatmap valueField updates on the chart data path', () => {
+    const chart = new VChart(createTopLevelHeatmapValueFieldSpec('v1'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelHeatmapValueFieldSpec('v2'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect((spies.chartModel.getAllSeries()[0] as any).getFieldValue()).toEqual(['v2']);
+      expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps top-level pie valueField updates on the chart data path', () => {
+    const chart = new VChart(createTopLevelPieValueFieldSpec('v1'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const initialPieGraphic = getFirstPieGraphic(chart);
+      expect(initialPieGraphic.attribute.endAngle - initialPieGraphic.attribute.startAngle).toBeCloseTo(Math.PI);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelPieValueFieldSpec('v2'));
+
+      const updatedPieGraphic = getFirstPieGraphic(chart);
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(updatedPieGraphic.attribute.endAngle - updatedPieGraphic.attribute.startAngle).toBeCloseTo(Math.PI * 1.5);
+      expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps top-level pie startAngle updates on the chart data path', () => {
+    const chart = new VChart(createTopLevelPieStartAngleSpec(0), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstPieGraphic(chart).attribute.startAngle).toBeCloseTo(0);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelPieStartAngleSpec(90));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstPieGraphic(chart).attribute.startAngle).toBeCloseTo(Math.PI / 2);
+      expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps top-level pie minAngle updates on the chart data path', () => {
+    const chart = new VChart(createTopLevelPieMinAngleSpec(0), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const initialPieGraphic = getFirstPieGraphic(chart);
+      const initialAngle = initialPieGraphic.attribute.endAngle - initialPieGraphic.attribute.startAngle;
+      expect(initialAngle).toBeLessThan(Math.PI / 6);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelPieMinAngleSpec(30));
+
+      const updatedPieGraphic = getFirstPieGraphic(chart);
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(updatedPieGraphic.attribute.endAngle - updatedPieGraphic.attribute.startAngle).toBeCloseTo(Math.PI / 6);
+      expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level pie outerRadius updates', () => {
+    const chart = new VChart(createTopLevelPieOuterRadiusSpec(0.5), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const initialOuterRadius = getFirstPieGraphic(chart).attribute.outerRadius;
+      expect(initialOuterRadius).toBeGreaterThan(0);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelPieOuterRadiusSpec(0.8));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstPieGraphic(chart).attribute.outerRadius).toBeCloseTo((initialOuterRadius / 0.5) * 0.8);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps top-level scatter sizeField updates on the chart data path', () => {
+    const chart = new VChart(createTopLevelScatterSizeFieldSpec('s1'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstScatterGraphic(chart).attribute.size).toBe(10);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelScatterSizeFieldSpec('s2'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstScatterGraphic(chart).attribute.size).toBe(20);
+      expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps top-level waterfall calculationMode updates on the chart data path', () => {
+    const chart = new VChart(createTopLevelWaterfallCalculationModeSpec('increase'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelWaterfallCalculationModeSpec('decrease'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(spies.chartModel.getAllSeries()[0].getSpec().calculationMode).toBe('decrease');
+      expectDataStagesRunOnce(spies);
     } finally {
       chart.release();
     }

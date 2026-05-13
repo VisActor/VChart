@@ -3,7 +3,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
-import { markSeriesCompileEffect } from '../base/base-series';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
@@ -27,7 +27,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerRectMark } from '../../mark/rect';
-import { array, isEqual, isFunction, isNil, isValid, last } from '@visactor/vutils';
+import { array, isFunction, isNil, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
@@ -49,6 +49,23 @@ import { bar } from '../../theme/builtin/common/series/bar';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
+type BarSeriesCompileOnlyKey =
+  | 'barWidth'
+  | 'barMinWidth'
+  | 'barMaxWidth'
+  | 'barGapInGroup'
+  | 'barMinHeight'
+  | 'stackCornerRadius';
+
+const BAR_SERIES_COMPILE_ONLY_KEYS: Record<BarSeriesCompileOnlyKey, true> = {
+  barWidth: true,
+  barMinWidth: true,
+  barMaxWidth: true,
+  barGapInGroup: true,
+  barMinHeight: true,
+  stackCornerRadius: true
+};
+
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
   type: string = SeriesTypeEnum.bar;
@@ -66,20 +83,15 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   protected _barBackgroundViewData: ICompilableData;
 
-  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>) {
-    const stackCornerRadiusChanged = !isEqual(spec.stackCornerRadius, prevSpec.stackCornerRadius);
-    const result = super._compareSpec(
-      spec,
-      prevSpec,
-      stackCornerRadiusChanged ? { ...ignoreCheckKeys, stackCornerRadius: true } : ignoreCheckKeys
-    );
-
-    if (stackCornerRadiusChanged && !result.reMake) {
-      result.reCompile = true;
-      markSeriesCompileEffect(result);
-    }
-
-    return result;
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...BAR_SERIES_COMPILE_ONLY_KEYS
+      }
+    };
   }
 
   initMark(): void {

@@ -1,4 +1,16 @@
-import type { IBarChartSpec, ILineChartSpec } from '../../../src';
+import type {
+  IAreaChartSpec,
+  IBarChartSpec,
+  IBoxPlotChartSpec,
+  ICircularProgressChartSpec,
+  IHeatmapChartSpec,
+  ILineChartSpec,
+  ILinearProgressChartSpec,
+  IPieChartSpec,
+  IRangeColumnChartSpec,
+  IScatterChartSpec,
+  IWaterfallChartSpec
+} from '../../../src';
 import { default as VChart } from '../../../src';
 import { totalLabel } from '../../../src/theme/builtin/common/component/total-label';
 import { series } from '../../../src/theme/builtin/common/series';
@@ -2037,6 +2049,963 @@ describe('vchart updateSpec of stackCornerRadius', () => {
         compile: true,
         layout: true,
         render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of bar layout config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it.each([
+    ['barWidth', 10, 20],
+    ['barMinWidth', 8, 16],
+    ['barMaxWidth', 24, 32],
+    ['barGapInGroup', 4, 8],
+    ['barMinHeight', 2, 6]
+  ])('should reCompile without reMake when top-level %s changes', (key, prevValue, nextValue) => {
+    const spec = {
+      type: 'bar',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            { name: 'Apple', value: 214480 },
+            { name: 'Google', value: 155506 }
+          ]
+        }
+      ],
+      xField: 'name',
+      yField: 'value',
+      [key]: prevValue
+    } as unknown as IBarChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        [key]: nextValue
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reuse bar layout policy for rangeColumn barWidth updates', () => {
+    const spec = {
+      type: 'rangeColumn',
+      data: [
+        {
+          id: 'rangeData',
+          values: [
+            { name: 'Apple', min: 10, max: 20 },
+            { name: 'Google', min: 15, max: 30 }
+          ]
+        }
+      ],
+      xField: 'name',
+      minField: 'min',
+      maxField: 'max',
+      barWidth: 10
+    } as IRangeColumnChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        barWidth: 20
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of line-like sampling config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  const createLineLikeSpec = (type: 'line' | 'area', sampling: 'lttb' | 'average', samplingFactor: number) =>
+    ({
+      type,
+      data: [
+        {
+          id: 'lineData',
+          values: [
+            { name: 'A', value: 1 },
+            { name: 'B', value: 2 },
+            { name: 'C', value: 3 }
+          ]
+        }
+      ],
+      xField: 'name',
+      yField: 'value',
+      sampling,
+      samplingFactor
+    } as ILineChartSpec | IAreaChartSpec);
+
+  it.each(['line', 'area'] as const)('should reCompile without reMake when top-level %s sampling changes', type => {
+    const spec = createLineLikeSpec(type, 'lttb', 1);
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        sampling: 'average'
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        data: true,
+        layout: true,
+        render: true,
+        scaleDomain: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it.each(['line', 'area'] as const)(
+    'should reCompile without reMake when top-level %s samplingFactor changes',
+    type => {
+      const spec = createLineLikeSpec(type, 'lttb', 1);
+      vchart = new VChart(spec, {
+        dom,
+        animation: false
+      });
+      vchart.renderSync();
+      const updateRes = (vchart as any)._updateSpec(
+        {
+          ...spec,
+          samplingFactor: 2
+        },
+        false
+      );
+
+      expect(updateRes).toEqual({
+        change: false,
+        changeBackground: false,
+        changeTheme: false,
+        effects: {
+          compile: true,
+          data: true,
+          layout: true,
+          render: true,
+          scaleDomain: true,
+          series: true
+        },
+        reCompile: true,
+        reMake: false,
+        reRender: true,
+        reSize: false,
+        reTransformSpec: false
+      });
+    }
+  );
+});
+
+describe('vchart updateSpec of boxPlot layout config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it.each([
+    ['boxWidth', 10, 20],
+    ['boxMinWidth', 8, 16],
+    ['boxMaxWidth', 24, 32],
+    ['boxGapInGroup', 4, 8]
+  ])('should reCompile without reMake when top-level %s changes', (key, prevValue, nextValue) => {
+    const spec = {
+      type: 'boxPlot',
+      data: [
+        {
+          id: 'boxData',
+          values: [
+            { name: 'A', min: 1, q1: 2, median: 3, q3: 4, max: 5 },
+            { name: 'B', min: 2, q1: 3, median: 4, q3: 5, max: 6 }
+          ]
+        }
+      ],
+      xField: 'name',
+      minField: 'min',
+      q1Field: 'q1',
+      medianField: 'median',
+      q3Field: 'q3',
+      maxField: 'max',
+      [key]: prevValue
+    } as unknown as IBoxPlotChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        [key]: nextValue
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of linearProgress layout config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should reCompile without reMake when top-level bandWidth changes', () => {
+    const spec = {
+      type: 'linearProgress',
+      data: [
+        {
+          id: 'progressData',
+          values: [{ name: 'A', value: 0.6 }]
+        }
+      ],
+      xField: 'value',
+      yField: 'name',
+      bandWidth: 10
+    } as ILinearProgressChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        bandWidth: 20
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reCompile without reMake when top-level progress padding changes', () => {
+    const spec = {
+      type: 'linearProgress',
+      data: [
+        {
+          id: 'progressData',
+          values: [{ name: 'A', value: 0.6 }]
+        }
+      ],
+      xField: 'value',
+      yField: 'name',
+      bandWidth: 10,
+      progress: {
+        topPadding: 1,
+        bottomPadding: 1
+      }
+    } as ILinearProgressChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        progress: {
+          topPadding: 2,
+          bottomPadding: 2
+        }
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of circularProgress layout config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should reCompile without reMake when top-level cornerRadius changes', () => {
+    const spec = {
+      type: 'circularProgress',
+      data: [
+        {
+          id: 'progressData',
+          values: [{ category: 'A', value: 0.6 }]
+        }
+      ],
+      categoryField: 'category',
+      valueField: 'value',
+      cornerRadius: 0
+    } as ICircularProgressChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        cornerRadius: 8
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of heatmap data field config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should reCompile without reMake when top-level valueField changes', () => {
+    const spec = {
+      type: 'heatmap',
+      data: [
+        {
+          id: 'heatmapData',
+          values: [
+            { x: 'A', y: 'K1', v1: 1, v2: 2 },
+            { x: 'B', y: 'K1', v1: 3, v2: 4 }
+          ]
+        }
+      ],
+      xField: 'x',
+      yField: 'y',
+      valueField: 'v1'
+    } as IHeatmapChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        valueField: 'v2'
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        data: true,
+        layout: true,
+        render: true,
+        scaleDomain: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of pie data field config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should reCompile without reMake when top-level valueField changes', () => {
+    const spec = {
+      type: 'pie',
+      data: [
+        {
+          id: 'pieData',
+          values: [
+            { category: 'A', v1: 1, v2: 3 },
+            { category: 'B', v1: 1, v2: 1 }
+          ]
+        }
+      ],
+      categoryField: 'category',
+      valueField: 'v1'
+    } as IPieChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        valueField: 'v2'
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        data: true,
+        layout: true,
+        render: true,
+        scaleDomain: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: undefined,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reCompile without reMake when top-level startAngle changes', () => {
+    const spec = {
+      type: 'pie',
+      data: [
+        {
+          id: 'pieData',
+          values: [
+            { category: 'A', value: 1 },
+            { category: 'B', value: 1 }
+          ]
+        }
+      ],
+      categoryField: 'category',
+      valueField: 'value',
+      startAngle: 0,
+      endAngle: 360
+    } as IPieChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        startAngle: 90,
+        endAngle: 450
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: true,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        data: true,
+        layout: true,
+        render: true,
+        scaleDomain: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reCompile without reMake when top-level minAngle changes', () => {
+    const spec = {
+      type: 'pie',
+      data: [
+        {
+          id: 'pieData',
+          values: [
+            { category: 'A', value: 1 },
+            { category: 'B', value: 100 }
+          ]
+        }
+      ],
+      categoryField: 'category',
+      valueField: 'value',
+      minAngle: 0
+    } as IPieChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        minAngle: 30
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        data: true,
+        layout: true,
+        render: true,
+        scaleDomain: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: undefined,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+
+  it('should reCompile without reMake when top-level outerRadius changes', () => {
+    const spec = {
+      type: 'pie',
+      data: [
+        {
+          id: 'pieData',
+          values: [
+            { category: 'A', value: 1 },
+            { category: 'B', value: 1 }
+          ]
+        }
+      ],
+      categoryField: 'category',
+      valueField: 'value',
+      outerRadius: 0.5
+    } as IPieChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        outerRadius: 0.8
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: undefined,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of scatter data field config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should reCompile without reMake when top-level sizeField changes', () => {
+    const spec = {
+      type: 'scatter',
+      data: [
+        {
+          id: 'scatterData',
+          values: [
+            { x: 'A', y: 1, s1: 1, s2: 2 },
+            { x: 'B', y: 2, s1: 2, s2: 1 }
+          ]
+        }
+      ],
+      xField: 'x',
+      yField: 'y',
+      size: [10, 20],
+      sizeField: 's1'
+    } as IScatterChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        sizeField: 's2'
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        data: true,
+        layout: true,
+        render: true,
+        scaleDomain: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
+describe('vchart updateSpec of waterfall data transform config', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart | null;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+    vchart = null;
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should reCompile without reMake when top-level calculationMode changes', () => {
+    const spec = {
+      type: 'waterfall',
+      data: [
+        {
+          id: 'waterfallData',
+          values: [
+            { name: 'A', value: 3 },
+            { name: 'B', value: 1 },
+            { name: 'C', value: 2 }
+          ]
+        }
+      ],
+      xField: 'name',
+      yField: 'value',
+      calculationMode: 'increase'
+    } as IWaterfallChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        calculationMode: 'decrease'
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        data: true,
+        layout: true,
+        render: true,
+        scaleDomain: true,
         series: true
       },
       reCompile: true,

@@ -36,8 +36,13 @@ import { CompilableData, type ICompilableData } from '../../compile/data';
 import { waterfall as waterfallTheme } from '../../theme/builtin/common/series/waterfall';
 import type { IStackCacheNode } from '../../util';
 import { getRegionStackGroup, stackTotal } from '../../util';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
+
+const WATERFALL_SERIES_DATA_RELATED_KEYS: Record<'calculationMode', true> = {
+  calculationMode: true
+};
 
 export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.waterfall;
@@ -58,6 +63,17 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
   protected _leaderLineMark: IRuleMark = null;
   protected _stackLabelMark: ITextMark = null;
   protected _labelMark: ITextMark = null;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...WATERFALL_SERIES_DATA_RELATED_KEYS
+      }
+    };
+  }
 
   protected initGroups() {
     const groupFields = this.getGroupFields();
