@@ -27,3 +27,11 @@ export const defaultSeriesCompileCheckKeys: { [key: string]: true } = {
   animationExit: true,
   animationNormal: true
 };
+
+export const defaultSeriesCompileOnlyCheckKeys: { [key: string]: true } = {
+  animationAppear: true,
+  animationEnter: true,
+  animationUpdate: true,
+  animationExit: true,
+  animationNormal: true
+};

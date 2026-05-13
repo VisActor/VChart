@@ -84,7 +84,12 @@ import {
   merge
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { baseSeriesMark, defaultSeriesIgnoreCheckKeys, defaultSeriesCompileCheckKeys } from './constant';
+import {
+  baseSeriesMark,
+  defaultSeriesIgnoreCheckKeys,
+  defaultSeriesCompileCheckKeys,
+  defaultSeriesCompileOnlyCheckKeys
+} from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import { getDefaultInteractionConfigByMode } from '../../interaction/config';
@@ -97,6 +102,21 @@ import { CompilableData } from '../../compile/data';
 import { filterMarksOfInteraction } from '../../interaction/triggers/util';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
+
+export function markSeriesCompileEffect(compareResult: IUpdateSpecResult, dataRelated: boolean = false) {
+  compareResult.effects = {
+    ...compareResult.effects,
+    series: true,
+    compile: true,
+    layout: true,
+    render: true
+  };
+
+  if (dataRelated) {
+    compareResult.effects.data = true;
+    compareResult.effects.scaleDomain = true;
+  }
+}
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -1030,6 +1050,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       })
     ) {
       compareResult.reCompile = true;
+      markSeriesCompileEffect(compareResult);
     }
   }
 
@@ -1075,14 +1096,19 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       result.reCompile = true;
     }
 
+    const changedCompileKeys = currentKeys.filter((k: string) => {
+      return defaultSeriesCompileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
+    });
+
     // check default compile keys
-    if (
-      !result.reCompile &&
-      currentKeys.some((k: string) => {
-        return defaultSeriesCompileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
-      })
-    ) {
+    if (!result.reCompile && changedCompileKeys.length) {
       result.reCompile = true;
+    }
+
+    if (changedCompileKeys.some(k => !defaultSeriesCompileOnlyCheckKeys[k])) {
+      markSeriesCompileEffect(result, true);
+    } else if (result.reCompile && !result.effects?.series && changedCompileKeys.length) {
+      markSeriesCompileEffect(result);
     }
 
     if (

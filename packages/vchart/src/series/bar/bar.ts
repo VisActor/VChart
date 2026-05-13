@@ -3,6 +3,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
+import { markSeriesCompileEffect } from '../base/base-series';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
@@ -26,7 +27,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
 import type { IStateAnimateSpec } from '../../animation/spec';
 import { registerRectMark } from '../../mark/rect';
-import { array, isFunction, isNil, isValid, last } from '@visactor/vutils';
+import { array, isEqual, isFunction, isNil, isValid, last } from '@visactor/vutils';
 import { barSeriesMark } from './constant';
 import { stackWithMinHeight } from '../util/stack';
 import { Factory } from '../../core/factory';
@@ -64,6 +65,22 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barBackgroundMark!: IRectMark;
 
   protected _barBackgroundViewData: ICompilableData;
+
+  _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>) {
+    const stackCornerRadiusChanged = !isEqual(spec.stackCornerRadius, prevSpec.stackCornerRadius);
+    const result = super._compareSpec(
+      spec,
+      prevSpec,
+      stackCornerRadiusChanged ? { ...ignoreCheckKeys, stackCornerRadius: true } : ignoreCheckKeys
+    );
+
+    if (stackCornerRadiusChanged && !result.reMake) {
+      result.reCompile = true;
+      markSeriesCompileEffect(result);
+    }
+
+    return result;
+  }
 
   initMark(): void {
     this._initBarBackgroundMark();
@@ -501,6 +518,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   protected _initStackBarMarkStyle() {
     if (!this._spec.stackCornerRadius) {
+      const markConfig = this._barMark.getMarkConfig();
+
+      if (markConfig.clip || !isNil(markConfig.clipPath)) {
+        this._barMark.setMarkConfig({
+          clip: false,
+          clipPath: []
+        });
+      }
       return;
     }
 

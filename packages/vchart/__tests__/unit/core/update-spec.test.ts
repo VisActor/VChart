@@ -1582,6 +1582,12 @@ describe('vchart updateSpec of different about label', () => {
       changeBackground: false,
       change: false,
       changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
       reCompile: true,
       reMake: false,
       reRender: true,
@@ -1641,6 +1647,12 @@ describe('vchart updateSpec of different about label', () => {
       change: false,
       changeBackground: false,
       changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
       reCompile: true,
       reMake: false,
       reRender: true,
@@ -1966,6 +1978,76 @@ describe('vchart updateSpec of different about label', () => {
   });
 });
 
+describe('vchart updateSpec of stackCornerRadius', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should reCompile without reMake when top-level stackCornerRadius callback changes', () => {
+    const spec = {
+      type: 'bar',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            { name: 'Apple', group: 'A', value: 214480 },
+            { name: 'Apple', group: 'B', value: 155506 }
+          ]
+        }
+      ],
+      xField: 'name',
+      yField: 'value',
+      seriesField: 'group',
+      stack: true,
+      stackCornerRadius: () => 4
+    } as unknown as IBarChartSpec;
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        stackCornerRadius: () => 8
+      },
+      false
+    );
+
+    expect(updateRes).toEqual({
+      change: false,
+      changeBackground: false,
+      changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
+      reRender: true,
+      reSize: false,
+      reTransformSpec: false
+    });
+  });
+});
+
 describe('vchart updateSpec should not throw error', () => {
   let container: HTMLElement;
   let dom: HTMLElement;
@@ -2184,6 +2266,12 @@ describe('vchart updateSpec of totalLabel', () => {
       changeBackground: false,
       change: true,
       changeTheme: false,
+      effects: {
+        compile: true,
+        layout: true,
+        render: true,
+        series: true
+      },
       reCompile: true,
       reMake: false,
       reRender: true,

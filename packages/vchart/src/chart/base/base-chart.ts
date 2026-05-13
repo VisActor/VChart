@@ -92,6 +92,18 @@ const MARKER_COMPONENT_SPEC_KEYS: Record<string, boolean> = {
   [ComponentTypeEnum.markArea]: true
 };
 
+const SERIES_RELATED_CHART_SPEC_KEYS: Record<string, true> = {
+  series: true,
+  label: true,
+  totalLabel: true,
+  stackCornerRadius: true,
+  animationAppear: true,
+  animationEnter: true,
+  animationUpdate: true,
+  animationExit: true,
+  animationNormal: true
+};
+
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
   readonly seriesType: string;
@@ -927,6 +939,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     const oldSpec = this._spec;
     const onlyMarkerComponentsRemoved = this._isOnlyMarkerComponentsRemoved(this._spec, spec, currentKeys);
     const onlyComponentSpecsChanged = this._isOnlyComponentSpecsChanged(this._spec, spec, currentKeys);
+    const onlySeriesSpecsChanged = this._isOnlySeriesSpecsChanged(this._spec, spec, currentKeys);
 
     this._spec = spec;
     if (onlyMarkerComponentsRemoved) {
@@ -951,7 +964,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this.setLayoutTag(true, null, false);
       return result;
     }
-    const componentOnlyUpdatedComponents = this.updateComponentSpec(result);
+    const componentUpdateResult = this.updateComponentSpec(result);
     if (result.reMake) {
       this.setLayoutTag(true, null, false);
       return result;
@@ -959,8 +972,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (isUpdateSpecResultLocalOnly(result)) {
       return result;
     }
-    if (onlyComponentSpecsChanged && isUpdateSpecResultComponentOnly(result)) {
-      componentOnlyUpdatedComponents.forEach(component => {
+    if (
+      onlyComponentSpecsChanged &&
+      !componentUpdateResult.hasNonComponentOnlyUpdate &&
+      isUpdateSpecResultComponentOnly(result)
+    ) {
+      componentUpdateResult.componentOnlyUpdatedComponents.forEach(component => {
         component.reInit(component.getSpec());
       });
       if (result.effects?.layout) {
@@ -980,9 +997,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
      * 所以在更新model前需要调用`reInit`确保`spec`和内部变量已经更新
      */
     this.reInit();
-    this.updateDataSpec();
-    // ensure that the domain of the scale follows the data change
-    this.updateGlobalScaleDomain();
+    if (!onlySeriesSpecsChanged || !this._canSkipChartDataStages(result)) {
+      this.updateDataSpec();
+      // ensure that the domain of the scale follows the data change
+      this.updateGlobalScaleDomain();
+    }
     return result;
   }
 
@@ -1017,6 +1036,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   updateComponentSpec(result: IUpdateSpecResult) {
     const componentOnlyUpdatedComponents: IComponent[] = [];
+    let hasNonComponentOnlyUpdate = false;
     // 用来检测组件是否有新增
     const componentCache: {
       [key in string]: {
@@ -1054,15 +1074,22 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           return;
         }
         componentCache[compSpecKey].componentCount++;
-        const componentResult = c.updateSpec(cmpSpec[c.getSpecIndex()] ?? {}, cmpSpec);
+        const componentSpec = cmpSpec[c.getSpecIndex()] ?? {};
+        const previousComponentSpec = c.getSpec();
+        const componentResult = c.updateSpec(componentSpec, cmpSpec);
         if (isUpdateSpecResultComponentOnly(componentResult)) {
           componentOnlyUpdatedComponents.push(c);
+        } else if (!isEqual(previousComponentSpec, componentSpec)) {
+          hasNonComponentOnlyUpdate = true;
         }
         mergeUpdateResult(result, componentResult);
       } else {
+        const previousComponentSpec = c.getSpec();
         const componentResult = c.updateSpec(cmpSpec);
         if (isUpdateSpecResultComponentOnly(componentResult)) {
           componentOnlyUpdatedComponents.push(c);
+        } else if (!isEqual(previousComponentSpec, cmpSpec)) {
+          hasNonComponentOnlyUpdate = true;
         }
         mergeUpdateResult(result, componentResult);
       }
@@ -1100,7 +1127,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     });
-    return componentOnlyUpdatedComponents;
+    return {
+      componentOnlyUpdatedComponents,
+      hasNonComponentOnlyUpdate
+    };
   }
 
   private _canRemoveMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
@@ -1151,6 +1181,31 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
 
     return hasComponentSpecChange && onlyComponentSpecChange;
+  }
+
+  private _isOnlySeriesSpecsChanged(currentSpec: object, nextSpec: object, specKeys: string[]) {
+    let hasSeriesSpecChange = false;
+    const currentSpecRecord = currentSpec as Record<string, unknown>;
+    const nextSpecRecord = nextSpec as Record<string, unknown>;
+
+    const onlySeriesSpecChange = specKeys.every(key => {
+      if (isEqual(currentSpecRecord[key], nextSpecRecord[key])) {
+        return true;
+      }
+      if (SERIES_RELATED_CHART_SPEC_KEYS[key]) {
+        hasSeriesSpecChange = true;
+        return true;
+      }
+      return false;
+    });
+
+    return hasSeriesSpecChange && onlySeriesSpecChange;
+  }
+
+  private _canSkipChartDataStages(result: IUpdateSpecResult) {
+    const effects = result.effects;
+
+    return !!effects?.series && !effects.remake && !effects.data && !effects.scaleDomain && !result.reMake;
   }
 
   private _removeMarkerComponentsForEmptySpecs(result: IUpdateSpecResult) {
