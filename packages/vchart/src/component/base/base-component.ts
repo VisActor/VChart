@@ -13,7 +13,11 @@ import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
 import { BaseComponentSpecTransformer } from './base-component-transformer';
 import type { IModelSpecInfo } from '../../model/interface';
-import { releaseVRenderComponent, releaseVRenderComponentSync } from './release-vrender-component';
+import {
+  collectVRenderComponents,
+  releaseVRenderComponent,
+  releaseVRenderComponentSync
+} from './release-vrender-component';
 
 export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
   static transformerConstructor = BaseComponentSpecTransformer;
@@ -104,8 +108,8 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     if (this._shouldReleaseVRenderComponentsImmediately()) {
       this._forceReleaseExitingVRenderComponents();
     }
-    super.release();
     this.clear();
+    super.release();
 
     this.pluginService?.releaseAll();
     this.pluginService = null;
@@ -131,19 +135,24 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     const forceRelease = this._shouldReleaseVRenderComponentsImmediately();
 
     if (!forceRelease) {
+      const exitingComponents = collectVRenderComponents(component);
       const releasedWithExit = releaseVRenderComponent(component, {
         enableExitAnimation: true,
         removeFromParent: true,
         onComplete: () => {
-          this._exitingVRenderComponents?.delete(component);
-          (this._option?.globalInstance as any)?._unregisterExitingVRenderComponent?.(component);
+          exitingComponents.forEach(exitingComponent => {
+            this._exitingVRenderComponents?.delete(exitingComponent);
+            (this._option?.globalInstance as any)?._unregisterExitingVRenderComponent?.(exitingComponent);
+          });
         }
       });
 
       if (releasedWithExit) {
         this._exitingVRenderComponents = this._exitingVRenderComponents ?? new Set();
-        this._exitingVRenderComponents.add(component);
-        (this._option?.globalInstance as any)?._registerExitingVRenderComponent?.(component);
+        exitingComponents.forEach(exitingComponent => {
+          this._exitingVRenderComponents.add(exitingComponent);
+          (this._option?.globalInstance as any)?._registerExitingVRenderComponent?.(exitingComponent);
+        });
         return;
       }
 
