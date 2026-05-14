@@ -225,6 +225,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
     const seriesType = this.seriesType;
     if (seriesType) {
+      this._addSeriesRelatedSpecKeys([seriesType]);
       series.type = seriesType;
       series[seriesType] = (chartSpec as any)[seriesType];
     }

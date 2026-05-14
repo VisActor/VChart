@@ -118,6 +118,55 @@ const expectComponentOnlySpecUpdate = (
   }
 };
 
+const expectSeriesCompileOnlyResult = (result: IUpdateSpecResult) => {
+  expect(result.reMake).toBe(false);
+  expect(result.reCompile).toBe(true);
+  expect(result.effects).toMatchObject({
+    series: true,
+    compile: true,
+    layout: true,
+    render: true
+  });
+  expect(result.effects?.remake).toBeUndefined();
+  expect(result.effects?.data).toBeUndefined();
+  expect(result.effects?.scaleDomain).toBeUndefined();
+  expect(result.effects?.component).toBeUndefined();
+};
+
+const expectSeriesCompileOnlySpecUpdate = (
+  dom: HTMLElement,
+  createInitialSpec: () => IBarChartSpec | ILineChartSpec | IPieChartSpec,
+  createNextSpec: () => IBarChartSpec | ILineChartSpec | IPieChartSpec,
+  afterUpdate?: (chart: VChart) => void
+) => {
+  const classifyChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+  try {
+    classifyChart.renderSync();
+
+    const result = (classifyChart as unknown as VChartInternals)._updateSpec(createNextSpec(), false);
+
+    expectSeriesCompileOnlyResult(result);
+  } finally {
+    classifyChart.release();
+  }
+
+  const updateChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+  try {
+    updateChart.renderSync();
+
+    const spies = spyOnDataStages(updateChart);
+
+    updateChart.updateSpecSync(createNextSpec());
+
+    expectDataStagesSkipped(spies);
+    afterUpdate?.(updateChart);
+  } finally {
+    updateChart.release();
+  }
+};
+
 const spyOnFirstSeriesReInit = (chartModel: TestChartModel) => jest.spyOn(chartModel.getAllSeries()[0], 'reInit');
 
 const createSpec = (): IBarChartSpec => ({
@@ -312,6 +361,86 @@ const createTopLevelAnimationSpec = (duration: number): IBarChartSpec => ({
   yField: 'y',
   animationUpdate: {
     duration
+  }
+});
+
+const createTopLevelBarStateFilterSpec = (filter: (datum: unknown) => boolean): IBarChartSpec => ({
+  type: 'bar',
+  data: [{ id: 'data', values: [{ x: 'A', y: 1 }] }],
+  xField: 'x',
+  yField: 'y',
+  bar: {
+    state: {
+      custom: {
+        filter,
+        style: {
+          fillOpacity: 0.4
+        }
+      }
+    }
+  }
+});
+
+const createTopLevelLineMarkStyleSpec = (stroke: string): ILineChartSpec => ({
+  type: 'line',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1 },
+        { x: 'B', y: 2 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  line: {
+    style: {
+      stroke
+    }
+  }
+});
+
+const createTopLevelLineMarkIdSpec = (id: string): ILineChartSpec => ({
+  type: 'line',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1 },
+        { x: 'B', y: 2 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  line: {
+    id
+  }
+});
+
+const createTopLevelPieStateFilterSpec = (filter: (datum: unknown) => boolean): IPieChartSpec => ({
+  type: 'pie',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 2 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  pie: {
+    state: {
+      custom: {
+        filter,
+        style: {
+          outerRadius: 0.8
+        }
+      }
+    }
   }
 });
 
@@ -1506,6 +1635,73 @@ describe('vchart scoped update effects', () => {
     } finally {
       chart.release();
     }
+  });
+
+  it('classifies top-level bar state filter updates as series compile-only', () => {
+    const beforeFilter = () => true;
+    const afterFilter = () => false;
+
+    expectSeriesCompileOnlySpecUpdate(
+      dom,
+      () => createTopLevelBarStateFilterSpec(beforeFilter),
+      () => createTopLevelBarStateFilterSpec(afterFilter),
+      chart => {
+        const barMark = (chart.getChart() as any)
+          .getAllSeries()[0]
+          .getMarks()
+          .find((mark: any) => mark.name === 'bar') as any;
+        expect(barMark?.stateStyle?.custom?.fillOpacity?.style).toBe(0.4);
+        expect(barMark?.state?.getStateInfo('custom')?.filter).toBe(afterFilter);
+      }
+    );
+  });
+
+  it('classifies top-level line mark style updates as series compile-only', () => {
+    expectSeriesCompileOnlySpecUpdate(
+      dom,
+      () => createTopLevelLineMarkStyleSpec('#000'),
+      () => createTopLevelLineMarkStyleSpec('#f00'),
+      chart => {
+        const lineMark = (chart.getChart() as any)
+          .getAllSeries()[0]
+          .getMarks()
+          .find((mark: any) => mark.name === 'line') as any;
+        expect(lineMark?.stateStyle?.normal?.stroke?.style).toBe('#f00');
+      }
+    );
+  });
+
+  it('keeps top-level mark id updates on the structural remake path', () => {
+    const chart = new VChart(createTopLevelLineMarkIdSpec('before'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const result = (chart as unknown as VChartInternals)._updateSpec(createTopLevelLineMarkIdSpec('after'), false);
+
+      expect(result.reMake).toBe(true);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('classifies top-level pie state filter updates as series compile-only', () => {
+    const beforeFilter = () => true;
+    const afterFilter = () => false;
+
+    expectSeriesCompileOnlySpecUpdate(
+      dom,
+      () => createTopLevelPieStateFilterSpec(beforeFilter),
+      () => createTopLevelPieStateFilterSpec(afterFilter),
+      chart => {
+        const pieMark = (chart.getChart() as any)
+          .getAllSeries()[0]
+          .getMarks()
+          .find((mark: any) => mark.name === 'pie') as any;
+        expect(pieMark?.stateStyle?.custom?.outerRadius?.style).toBe(0.8);
+        expect(pieMark?.state?.getStateInfo('custom')?.filter).toBe(afterFilter);
+      }
+    );
   });
 
   it('skips chart data stages for top-level totalLabel appearance-only updates', () => {

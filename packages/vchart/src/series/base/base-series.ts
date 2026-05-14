@@ -121,6 +121,16 @@ const defaultSeriesSpecUpdatePolicy: ISeriesSpecUpdatePolicy = {
   dataRelatedKeys: defaultSeriesDataRelatedCheckKeys
 };
 
+const defaultSeriesMarkCompileOnlySubKeys: Record<string, true> = {
+  interactive: true,
+  zIndex: true,
+  visible: true,
+  style: true,
+  state: true,
+  stateSort: true,
+  customShape: true
+};
+
 const isSpecObject = (value: unknown): value is Record<string, unknown> =>
   isObject(value) && !isArray(value) && !isFunction(value);
 
@@ -1142,14 +1152,16 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
-    // mark visible logic in compile
-    if (
-      !result.reCompile &&
-      this._marks.getMarks().some(m => {
-        (ignores as { [key: string]: true })[m.name] = true;
-        return (prevSpec as any)[m.name]?.visible !== (spec as any)[m.name]?.visible;
-      })
-    ) {
+    const changedMarkCompileOnlyKeys = this.getMarksWithoutRoot()
+      .map(m => m.name)
+      .filter(name =>
+        hasOnlyAllowedSubKeyChanges((spec as any)[name], (prevSpec as any)[name], defaultSeriesMarkCompileOnlySubKeys)
+      );
+    changedMarkCompileOnlyKeys.forEach(k => {
+      ignores[k] = true;
+    });
+
+    if (!result.reCompile && changedMarkCompileOnlyKeys.length) {
       result.reCompile = true;
     }
 
@@ -1176,7 +1188,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     } else if (
       result.reCompile &&
       !result.effects?.series &&
-      (changedCompileKeys.length || changedCompileOnlySubKeys.length)
+      (changedCompileKeys.length || changedCompileOnlySubKeys.length || changedMarkCompileOnlyKeys.length)
     ) {
       markSeriesCompileEffect(result);
     }
