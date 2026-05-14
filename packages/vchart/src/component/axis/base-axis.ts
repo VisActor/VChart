@@ -537,9 +537,11 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       return result;
     }
 
-    result.reMake = ['grid', 'subGrid', 'tick', 'subTick', 'label', 'domainLine', 'title'].some(k => {
-      return prevSpec?.[k]?.visible !== spec?.[k]?.visible;
-    });
+    if (spec?.grid?.visible === true && prevSpec?.grid?.visible !== true && !this._gridMark) {
+      result.reMake = true;
+      return result;
+    }
+
     if (specChanged && !result.reMake && this._isComponentOnlySpecChange(spec, prevSpec)) {
       result.effects = {
         ...result.effects,

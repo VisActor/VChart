@@ -1673,7 +1673,7 @@ describe('vchart updateSpec of different about label', () => {
     });
   });
 
-  it('should remake when visible of axis grid change', () => {
+  it('should update locally when visible of existing axis grid change', () => {
     const spec = {
       type: 'area',
       data: [
@@ -1744,8 +1744,13 @@ describe('vchart updateSpec of different about label', () => {
       changeBackground: false,
       change: false,
       changeTheme: false,
+      effects: {
+        component: true,
+        layout: true,
+        render: true
+      },
       reCompile: false,
-      reMake: true,
+      reMake: false,
       reRender: true,
       reSize: false,
       reTransformSpec: false

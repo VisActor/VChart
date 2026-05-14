@@ -209,6 +209,44 @@ const createAxisAppearanceSpec = (options?: { alternateColor?: string[]; labelFi
   ]
 });
 
+type AxisVisibleElement = 'grid' | 'subGrid' | 'tick' | 'subTick' | 'label' | 'domainLine' | 'title';
+
+const createAxisElementVisibleSpec = (element: AxisVisibleElement, visible: boolean): IBarChartSpec => ({
+  ...createSpec(),
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'band'
+    },
+    {
+      orient: 'left',
+      type: 'linear',
+      grid: {
+        visible: element === 'grid' ? visible : true
+      },
+      subGrid: {
+        visible: element === 'subGrid' ? visible : true
+      },
+      tick: {
+        visible: element === 'tick' ? visible : true
+      },
+      subTick: {
+        visible: element === 'subTick' ? visible : true
+      },
+      label: {
+        visible: element === 'label' ? visible : true
+      },
+      domainLine: {
+        visible: element === 'domainLine' ? visible : true
+      },
+      title: {
+        visible: element === 'title' ? visible : true,
+        text: 'value'
+      }
+    }
+  ]
+});
+
 const createLegendAppearanceSpec = (
   labelFill: string,
   position: 'start' | 'middle' | 'end' = 'middle',
@@ -1318,6 +1356,32 @@ describe('vchart scoped update effects', () => {
       expectDataStagesSkipped(spies);
     } finally {
       renderSync.mockRestore();
+      chart.release();
+    }
+  });
+
+  it.each(['grid', 'subGrid', 'tick', 'subTick', 'label', 'domainLine', 'title'] as const)(
+    'classifies axis %s visible updates as component-only',
+    element => {
+      expectComponentOnlySpecUpdate(
+        dom,
+        () => createAxisElementVisibleSpec(element, true),
+        () => createAxisElementVisibleSpec(element, false),
+        { layout: true }
+      );
+    }
+  );
+
+  it('keeps axis grid visible false to true on the structural remake path when grid mark is absent', () => {
+    const chart = new VChart(createAxisElementVisibleSpec('grid', false), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const result = (chart as unknown as VChartInternals)._updateSpec(createAxisElementVisibleSpec('grid', true));
+
+      expect(result.reMake).toBe(true);
+    } finally {
       chart.release();
     }
   });
