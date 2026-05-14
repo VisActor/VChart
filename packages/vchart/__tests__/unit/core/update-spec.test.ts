@@ -3250,6 +3250,89 @@ describe('vchart updateSpec of totalLabel', () => {
   });
 });
 
+describe('vchart updateSpec of crosshair', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterAll(() => {
+    removeDom(container);
+    vchart.release();
+  });
+
+  it('should update yField label formatMethod without reMake', () => {
+    const createSpec = (formatMethod: (text: string | string[]) => string | string[]) =>
+      ({
+        type: 'bar',
+        data: [
+          {
+            id: 'barData',
+            values: [
+              { name: 'Apple', value: 214480 },
+              { name: 'Google', value: 155506 }
+            ]
+          }
+        ],
+        xField: 'name',
+        yField: 'value',
+        crosshair: {
+          yField: {
+            visible: true,
+            line: {
+              type: 'rect',
+              style: {
+                lineWidth: 0,
+                opacity: 0.26,
+                fill: '#4B4F54'
+              }
+            },
+            label: {
+              visible: true,
+              formatMethod,
+              labelBackground: {
+                visible: true,
+                style: {
+                  fill: '#404349'
+                }
+              },
+              style: {
+                fill: '#ffffff'
+              }
+            }
+          }
+        }
+      } as IBarChartSpec);
+
+    const spec = createSpec(text => text);
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+
+    const updateRes = (vchart as any)._updateSpec(createSpec(text => text), false);
+
+    expect(updateRes.reMake).toBe(false);
+    expect(updateRes.reCompile).toBe(false);
+    expect(updateRes.effects).toEqual({
+      component: true,
+      layout: true,
+      render: true
+    });
+  });
+});
+
 describe('vchart updateSpec of width, height', () => {
   let container: HTMLElement;
   let dom: HTMLElement;

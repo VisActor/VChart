@@ -36,6 +36,24 @@ const ORIENT_MAP = {
   value: ['radius']
 };
 
+const CROSSHAIR_COMPONENT_ONLY_TOP_LEVEL_CHANGE_KEYS: Record<string, boolean> = {
+  labelZIndex: true,
+  gridZIndex: true
+};
+
+const CROSSHAIR_FIELD_KEYS: Record<string, boolean> = {
+  xField: true,
+  yField: true,
+  categoryField: true,
+  valueField: true
+};
+
+const CROSSHAIR_LINE_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  visible: true,
+  width: true,
+  style: true
+};
+
 export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec>
   extends BaseComponent<T>
   implements ICrossHair
@@ -220,11 +238,70 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
    */
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
-    if (!result.reMake && !isEqual(prevSpec, spec)) {
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (specChanged) {
+      result.change = true;
       result.reRender = true;
-      result.reMake = true;
+
+      if (!result.reMake) {
+        if (this._isComponentOnlySpecChange(spec, prevSpec)) {
+          result.effects = {
+            ...result.effects,
+            component: true,
+            layout: true,
+            render: true
+          };
+        } else {
+          result.reMake = true;
+        }
+      }
     }
     return result;
+  }
+
+  private _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return (
+        isEqual(prevSpec?.[key], spec?.[key]) ||
+        CROSSHAIR_COMPONENT_ONLY_TOP_LEVEL_CHANGE_KEYS[key] ||
+        (CROSSHAIR_FIELD_KEYS[key] && this._isFieldComponentOnlySpecChange(prevSpec?.[key], spec?.[key]))
+      );
+    });
+  }
+
+  private _isFieldComponentOnlySpecChange(prevSpec: ICrosshairCategoryFieldSpec, spec: ICrosshairCategoryFieldSpec) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return (
+        isEqual(prevSpec?.[key], spec?.[key]) ||
+        key === 'label' ||
+        (key === 'line' && this._isLineComponentOnlySpecChange(prevSpec?.line, spec?.line))
+      );
+    });
+  }
+
+  private _isLineComponentOnlySpecChange(
+    prevSpec: ICrosshairCategoryFieldSpec['line'],
+    spec: ICrosshairCategoryFieldSpec['line']
+  ) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || CROSSHAIR_LINE_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   protected _initEvent() {
