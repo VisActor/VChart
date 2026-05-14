@@ -19,6 +19,8 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     getRelativeSeries(): IMarkerSupportSeries;
     protected _markerData: DataView;
     getMarkerData(): DataView;
+    private _markerDataChangeHandler;
+    private _markerDataOwned;
     protected _markerComponent: any;
     protected _layoutOffsetX: number;
     protected _layoutOffsetY: number;
@@ -49,20 +51,18 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     };
     protected _processSpecCoo(spec: any): IOptionWithCoordinates;
     protected _getRelativeDataView(): DataView;
+    protected _setMarkerData(data: DataView, owned?: boolean): void;
+    protected _bindMarkerDataChange(): void;
+    private _releaseMarkerData;
     updateLayoutAttribute(): void;
     private _getSeriesByIdOrIndex;
     protected _bindSeries(): void;
     protected initEvent(): void;
     clear(): void;
+    release(): void;
     private _getFirstSeries;
     protected _getNeedClearVRenderComponents(): IGraphic[];
     onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
     _initCommonDataView(): void;
 }

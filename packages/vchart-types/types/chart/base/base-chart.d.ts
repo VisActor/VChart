@@ -30,6 +30,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     protected _regions: IRegion[];
     protected _series: ISeries[];
     protected _components: IComponent[];
+    protected _specTransformer: Maybe<IChartSpecTransformer>;
     protected _layoutFunc: LayoutCallBack;
     protected _layoutRect: IRect;
     getLayoutRect(): IRect;
@@ -118,17 +119,22 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     updateGlobalScale(result: IUpdateSpecResult): void;
     updateGlobalScaleTheme(): void;
     private _getSpecKeys;
-    updateSpec(spec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    updateSpec(spec: T): IUpdateSpecResult;
     updateChartConfig(result: IUpdateSpecResult, oldSpec: IChartSpec): void;
     updateDataSpec(): void;
     updateRegionSpec(result: IUpdateSpecResult): void;
-    updateComponentSpec(result: IUpdateSpecResult): void;
+    updateComponentSpec(result: IUpdateSpecResult): {
+        componentOnlyUpdatedComponents: IComponent[];
+        hasNonComponentOnlyUpdate: boolean;
+    };
+    private _canRemoveMarkerComponentsWithoutRemake;
+    private _isOnlyMarkerComponentsRemoved;
+    private _isComponentSpecKey;
+    private _isOnlyComponentSpecsChanged;
+    private _isOnlySeriesSpecsChanged;
+    private _canSkipChartDataStages;
+    private _removeMarkerComponentsForEmptySpecs;
+    private _removeComponent;
     updateSeriesSpec(result: IUpdateSpecResult): void;
     getCanvas(): HTMLCanvasElement;
     private _updateLayoutRect;
@@ -142,7 +148,7 @@ export declare class BaseChart<T extends IChartSpec> extends CompilableBase impl
     compileRegions(): void;
     compileSeries(): void;
     compileComponents(): void;
-    release(): void;
+    release(forceReleaseVRenderComponents?: boolean): void;
     onLayout(): void;
     updateState(state: Record<string, Omit<IMarkStateSpec<unknown>, 'style'>>, filter?: (series: ISeries, mark: IMark, stateKey: string) => boolean): void;
     setSelected(datum: MaybeArray<any> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;

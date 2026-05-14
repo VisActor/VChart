@@ -76,13 +76,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     created(): void;
     initLayout(): void;
     init(option: IModelInitOption): void;
-    _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>): import("../../model/interface").IUpdateSpecResult;
     reInit(spec?: AdaptiveSpec<T, 'width' | 'height'>): void;
     onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
     updateLayoutAttribute(): void;

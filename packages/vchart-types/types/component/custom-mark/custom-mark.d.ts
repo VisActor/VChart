@@ -18,13 +18,7 @@ export declare class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMark
     protected initMarks(): void;
     private _createExtensionMark;
     initEvent(): void;
-    _compareSpec(spec: ICustomMarkSpec<EnableMarkType>, prevSpec: ICustomMarkSpec<EnableMarkType>): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: ICustomMarkSpec<EnableMarkType>, prevSpec: ICustomMarkSpec<EnableMarkType>): import("../..").IUpdateSpecResult;
     private _getMarkAttributeContext;
     private _getLayoutRect;
     getBoundsInRect(rect: ILayoutRect): {
