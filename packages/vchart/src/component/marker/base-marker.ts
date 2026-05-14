@@ -28,6 +28,45 @@ import { markerAggregation } from '../../data/transforms/aggregation';
 import { markerFilter } from '../../data/transforms/marker-filter';
 import { releaseDataViewWithDependencies } from '../../data/data-view-utils';
 
+const MARKER_FORMAT_METHOD_PLACEHOLDER = '__vchart_marker_format_method__';
+
+const normalizeMarkerLabelFormatMethod = (label: any): any => {
+  if (Array.isArray(label)) {
+    return label.map(normalizeMarkerLabelFormatMethod);
+  }
+  if (!label || typeof label !== 'object') {
+    return label;
+  }
+  if (typeof label.formatMethod !== 'function') {
+    return label;
+  }
+  return {
+    ...label,
+    formatMethod: MARKER_FORMAT_METHOD_PLACEHOLDER
+  };
+};
+
+const normalizeMarkerSpecLabelFormatMethod = (spec: any) => {
+  if (!spec || typeof spec !== 'object') {
+    return spec;
+  }
+
+  const normalized = { ...spec };
+  if ('label' in normalized) {
+    normalized.label = normalizeMarkerLabelFormatMethod(normalized.label);
+  }
+
+  const text = normalized.itemContent?.text;
+  if (text && typeof text === 'object') {
+    normalized.itemContent = {
+      ...normalized.itemContent,
+      text: normalizeMarkerLabelFormatMethod(text)
+    };
+  }
+
+  return normalized;
+};
+
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
 
@@ -304,10 +343,30 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     const result = super._compareSpec(spec, prevSpec);
     if (!isEqual(prevSpec, spec)) {
       result.reRender = true;
-      result.reMake = true;
       result.change = true;
+      if (!result.reMake && !result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          layout: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
     return result;
+  }
+
+  protected _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    return isEqual(normalizeMarkerSpecLabelFormatMethod(prevSpec), normalizeMarkerSpecLabelFormatMethod(spec));
+  }
+
+  reInit(spec?: T) {
+    super.reInit(spec);
+    if (this._markerComponent && this._markerData) {
+      this._markerLayout();
+    }
   }
 
   _initCommonDataView() {

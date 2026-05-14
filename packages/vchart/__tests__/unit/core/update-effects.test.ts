@@ -60,6 +60,59 @@ const expectDataStagesRunOnce = (spies: ReturnType<typeof spyOnDataStages>) => {
   expect(spies.updateGlobalScaleDomain).toHaveBeenCalledTimes(1);
 };
 
+const expectComponentOnlyResult = (result: IUpdateSpecResult) => {
+  expect(result.reMake).toBe(false);
+  expect(result.reCompile).toBe(false);
+  expect(result.effects).toMatchObject({
+    component: true,
+    render: true
+  });
+  expect(result.effects?.remake).toBeUndefined();
+  expect(result.effects?.compile).toBeUndefined();
+  expect(result.effects?.data).toBeUndefined();
+  expect(result.effects?.scaleDomain).toBeUndefined();
+  expect(result.effects?.series).toBeUndefined();
+};
+
+const expectComponentOnlySpecUpdate = (
+  dom: HTMLElement,
+  createInitialSpec: () => IBarChartSpec,
+  createNextSpec: () => IBarChartSpec,
+  options?: { layout?: boolean; afterUpdate?: (chart: VChart) => void }
+) => {
+  const classifyChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+  try {
+    classifyChart.renderSync();
+
+    const result = (classifyChart as unknown as VChartInternals)._updateSpec(createNextSpec(), false);
+
+    expectComponentOnlyResult(result);
+    if (options?.layout) {
+      expect(result.effects?.layout).toBe(true);
+    }
+  } finally {
+    classifyChart.release();
+  }
+
+  const updateChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+  try {
+    updateChart.renderSync();
+
+    const spies = spyOnDataStages(updateChart);
+    const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+    updateChart.updateSpecSync(createNextSpec());
+
+    expect(seriesReInit).not.toHaveBeenCalled();
+    expectDataStagesSkipped(spies);
+    options?.afterUpdate?.(updateChart);
+  } finally {
+    updateChart.release();
+  }
+};
+
 const spyOnFirstSeriesReInit = (chartModel: TestChartModel) => jest.spyOn(chartModel.getAllSeries()[0], 'reInit');
 
 const createSpec = (): IBarChartSpec => ({
@@ -654,6 +707,138 @@ const createModelSpec = (): IBarChartSpec => ({
   ]
 });
 
+const createDataZoomTextSpec = (formatMethod: (text: string | number) => string | string[]): IBarChartSpec =>
+  ({
+    ...createAxisAppearanceSpec(),
+    dataZoom: [
+      {
+        orient: 'bottom',
+        start: 0,
+        end: 1,
+        startText: {
+          formatMethod
+        }
+      }
+    ]
+  } as unknown as IBarChartSpec);
+
+const createScrollBarStyleSpec = (fill: string): IBarChartSpec =>
+  ({
+    ...createAxisAppearanceSpec(),
+    scrollBar: [
+      {
+        orient: 'bottom',
+        start: 0,
+        end: 1,
+        slider: {
+          style: {
+            fill
+          }
+        }
+      }
+    ]
+  } as unknown as IBarChartSpec);
+
+const createTooltipStyleSpec = (backgroundColor: string): IBarChartSpec =>
+  ({
+    ...createSpec(),
+    tooltip: {
+      visible: true,
+      style: {
+        panel: {
+          backgroundColor
+        }
+      }
+    }
+  } as unknown as IBarChartSpec);
+
+const createPlayerStyleSpec = (fill: string): IBarChartSpec =>
+  ({
+    ...createSpec(),
+    player: {
+      type: 'discrete',
+      orient: 'bottom',
+      specs: [{ data: [{ id: 'data', values: [{ x: 'A', y: 2 }] }] }],
+      slider: {
+        railStyle: {
+          fill
+        }
+      }
+    }
+  } as unknown as IBarChartSpec);
+
+const createIndicatorTextSpec = (text: string): IBarChartSpec =>
+  ({
+    ...createSpec(),
+    indicator: {
+      visible: true,
+      fixed: true,
+      title: {
+        visible: true,
+        style: {
+          text
+        }
+      },
+      content: [
+        {
+          visible: true,
+          style: {
+            text: 'content'
+          }
+        }
+      ]
+    }
+  } as unknown as IBarChartSpec);
+
+const createMarkerLabelFormatSpec = (formatMethod: (dataPoints: any[], seriesData: any[]) => string): IBarChartSpec =>
+  ({
+    ...createAxisAppearanceSpec(),
+    markLine: [
+      {
+        y: 1,
+        label: {
+          formatMethod,
+          position: 'insideEndTop'
+        }
+      }
+    ]
+  } as unknown as IBarChartSpec);
+
+const createBrushStyleSpec = (fill: string, outOfBrushOpacity: number): IBarChartSpec =>
+  ({
+    ...createSpec(),
+    brush: {
+      visible: true,
+      brushType: 'rect',
+      style: {
+        fill
+      },
+      inBrush: {
+        colorAlpha: 1
+      },
+      outOfBrush: {
+        colorAlpha: outOfBrushOpacity
+      }
+    }
+  } as unknown as IBarChartSpec);
+
+const createCustomMarkStyleSpec = (fill: string): IBarChartSpec =>
+  ({
+    ...createSpec(),
+    customMark: [
+      {
+        type: 'text',
+        name: 'customText',
+        style: {
+          x: 20,
+          y: 20,
+          text: 'custom',
+          fill
+        }
+      }
+    ]
+  } as unknown as IBarChartSpec);
+
 describe('vchart scoped update effects', () => {
   let container: HTMLElement;
   let dom: HTMLElement;
@@ -1103,6 +1288,104 @@ describe('vchart scoped update effects', () => {
       chart.updateSpecSync(createTopLevelTotalLabelSpec('#666'));
 
       expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('classifies dataZoom startText formatMethod updates as component-only', () => {
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createDataZoomTextSpec(text => `${text}`),
+      () => createDataZoomTextSpec(text => `value:${text}`),
+      { layout: true }
+    );
+  });
+
+  it('classifies scrollBar slider style updates as component-only', () => {
+    expectComponentOnlySpecUpdate(dom, () => createScrollBarStyleSpec('#333'), () => createScrollBarStyleSpec('#666'), {
+      layout: true
+    });
+  });
+
+  it('classifies tooltip style updates as component-only', () => {
+    expectComponentOnlySpecUpdate(dom, () => createTooltipStyleSpec('#333'), () => createTooltipStyleSpec('#666'));
+  });
+
+  it('classifies player appearance updates as component-only', () => {
+    expectComponentOnlySpecUpdate(dom, () => createPlayerStyleSpec('#333'), () => createPlayerStyleSpec('#666'), {
+      layout: true
+    });
+  });
+
+  it('classifies indicator text updates as component-only', () => {
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createIndicatorTextSpec('before'),
+      () => createIndicatorTextSpec('after'),
+      { layout: true }
+    );
+  });
+
+  it('classifies marker label formatMethod updates as component-only', () => {
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createMarkerLabelFormatSpec(() => 'before'),
+      () => createMarkerLabelFormatSpec(() => 'after'),
+      {
+        layout: true,
+        afterUpdate: chart => {
+          const marker = getChartModel(chart).getComponentsByKey('markLine')[0] as any;
+          expect(marker?._markerComponent?.attribute?.label?.[0]?.text).toBe('after');
+        }
+      }
+    );
+  });
+
+  it('classifies brush appearance updates as component-only', () => {
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createBrushStyleSpec('#333', 0.2),
+      () => createBrushStyleSpec('#666', 0.4),
+      {
+        layout: true,
+        afterUpdate: chart => {
+          const barMark = (getChartModel(chart).getAllSeries()[0] as any)
+            .getMarks()
+            .find((mark: any) => mark.name === 'bar') as any;
+          expect(barMark?.stateStyle?.outOfBrush?.fillOpacity?.style).toBe(0.4);
+        }
+      }
+    );
+  });
+
+  it('classifies customMark style updates as component-only', () => {
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createCustomMarkStyleSpec('#333'),
+      () => createCustomMarkStyleSpec('#666'),
+      {
+        afterUpdate: chart => {
+          const customMark = (chart.getChart() as any).getAllMarks().find((mark: any) => mark.name === 'customText');
+          expect(customMark?.getGraphics?.()[0]?.attribute?.fill).toBe('#666');
+        }
+      }
+    );
+  });
+
+  it('skips chart dataflow for label updateModelSpec appearance-only updates', () => {
+    const chart = new VChart(createTopLevelLabelSpec('top'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const label = getChartModel(chart).getComponentsByKey('label')[0] as unknown as TestModel;
+      const chartModel = getChartModel(chart);
+      const reDataFlow = jest.spyOn(chartModel, 'reDataFlow');
+
+      (chart as unknown as VChartInternals)._updateModelSpec(label, createTopLevelLabelSpec('inside'), true);
+
+      expect(reDataFlow).not.toHaveBeenCalled();
     } finally {
       chart.release();
     }

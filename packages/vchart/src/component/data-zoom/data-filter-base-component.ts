@@ -363,11 +363,45 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>) {
     const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake && !isEqual(prevSpec, spec)) {
+      result.change = true;
       result.reRender = true;
-      result.reMake = true;
+      if (!result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          layout: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
 
     return result;
+  }
+
+  protected _getComponentOnlySpecKeys(): Record<string, boolean> {
+    return null;
+  }
+
+  protected _isComponentOnlySpecChange(
+    spec: AdaptiveSpec<T, 'width' | 'height'>,
+    prevSpec: AdaptiveSpec<T, 'width' | 'height'>
+  ) {
+    const componentOnlySpecKeys = this._getComponentOnlySpecKeys();
+
+    if (!componentOnlySpecKeys) {
+      return false;
+    }
+
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || componentOnlySpecKeys[key];
+    });
   }
 
   reInit(spec?: AdaptiveSpec<T, 'width' | 'height'>) {

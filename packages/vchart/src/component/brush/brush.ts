@@ -29,6 +29,11 @@ import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
+const BRUSH_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  style: true,
+  inBrush: true,
+  outOfBrush: true
+};
 
 export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> implements IBrush {
   layoutType: 'none' = 'none';
@@ -220,10 +225,31 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     }
     const result = super._compareSpec(spec, prevSpec);
     if (!isEqual(prevSpec, spec)) {
+      result.change = true;
       result.reRender = true;
-      result.reMake = true;
+      if (!result.reMake && !result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          layout: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
     return result;
+  }
+
+  protected _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || BRUSH_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   onLayoutEnd(): void {
@@ -252,7 +278,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const interactiveAttr = this._getBrushInteractiveAttr(region);
     // 布局变化后, 更新可交互范围
     const brushComponent = this._brushComponents[componentIndex];
-    brushComponent.setAttributes(interactiveAttr as any);
+    brushComponent.setAttributes({
+      brushStyle: transformToGraphic(this._spec?.style),
+      ...interactiveAttr
+    } as any);
 
     // 布局变化后，清空brushMask 和 重置图元高亮状态
     this._initMarkBrushState(componentIndex, '');

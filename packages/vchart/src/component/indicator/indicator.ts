@@ -75,6 +75,24 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     this._regions = this._option.getRegionsInUserIdOrIndex(array(this._spec.regionId), array(this._spec.regionIndex));
   }
 
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (specChanged && !result.reMake && !result.reCompile) {
+      result.change = true;
+      result.reRender = true;
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
+
+    return result;
+  }
+
   // event
   protected initEvent() {
     if (this._option.disableTriggerEvent) {
