@@ -55,18 +55,28 @@ function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean)
   return false;
 }
 
+function getAutoRangeExtendDomainKey(
+  keyPrefix: string | undefined,
+  axisKey: 'xAxis' | 'yAxis' | 'angleAxis' | 'radiusAxis'
+) {
+  return keyPrefix ? `${keyPrefix}_${axisKey}_extend` : `marker_${axisKey}_extend`;
+}
+
 function getXValue(
   datum: Datum,
   xDomain: number[],
   autoRange: boolean,
   refSeries: { [key: string]: IMarkerSupportSeries },
   regionWidth: number,
-  regionStartLayoutStartPoint: IPoint
+  regionStartLayoutStartPoint: IPoint,
+  autoRangeExtendDomainKeyPrefix?: string
 ) {
   const { relativeSeries } = refSeries;
   isNumber(datum.x) &&
     isNeedExtendDomain(xDomain, datum.x, autoRange) &&
-    (relativeSeries as ICartesianSeries)?.getXAxisHelper().setExtendDomain?.('marker_xAxis_extend', datum.x);
+    (relativeSeries as ICartesianSeries)
+      ?.getXAxisHelper()
+      .setExtendDomain?.(getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'xAxis'), datum.x);
   let x: number;
   if (isPercent(datum.x)) {
     x = convertPercentToValue(datum.x, regionWidth) + regionStartLayoutStartPoint.x;
@@ -85,12 +95,15 @@ function getYValue(
   autoRange: boolean,
   refSeries: { [key: string]: IMarkerSupportSeries },
   regionHeight: number,
-  regionStartLayoutStartPoint: IPoint
+  regionStartLayoutStartPoint: IPoint,
+  autoRangeExtendDomainKeyPrefix?: string
 ) {
   const { relativeSeries } = refSeries;
   isNumber(datum.y) &&
     isNeedExtendDomain(yDomain, datum.y, autoRange) &&
-    (relativeSeries as ICartesianSeries).getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', datum.y);
+    (relativeSeries as ICartesianSeries)
+      .getYAxisHelper()
+      ?.setExtendDomain?.(getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'yAxis'), datum.y);
 
   let y: number;
   if (isPercent(datum.y)) {
@@ -108,12 +121,16 @@ function getAngleValue(
   datum: Datum,
   angleDomain: number[],
   autoRange: boolean,
-  refSeries: { [key: string]: IMarkerSupportSeries }
+  refSeries: { [key: string]: IMarkerSupportSeries },
+  autoRangeExtendDomainKeyPrefix?: string
 ) {
   const { relativeSeries } = refSeries;
   isNumber(datum.angle) &&
     isNeedExtendDomain(angleDomain, datum.angle, autoRange) &&
-    (relativeSeries as IPolarSeries).angleAxisHelper?.setExtendDomain?.('marker_angleAxis_extend', datum.angle);
+    (relativeSeries as IPolarSeries).angleAxisHelper?.setExtendDomain?.(
+      getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'angleAxis'),
+      datum.angle
+    );
 
   return convertDatumToValue((relativeSeries as IPolarSeries).angleAxisHelper, [datum.angle]);
 }
@@ -122,12 +139,16 @@ function getRadiusValue(
   datum: Datum,
   radiusDomain: number[],
   autoRange: boolean,
-  refSeries: { [key: string]: IMarkerSupportSeries }
+  refSeries: { [key: string]: IMarkerSupportSeries },
+  autoRangeExtendDomainKeyPrefix?: string
 ) {
   const { relativeSeries } = refSeries;
   isNumber(datum.radius) &&
     isNeedExtendDomain(radiusDomain, datum.radius, autoRange) &&
-    (relativeSeries as IPolarSeries).radiusAxisHelper?.setExtendDomain?.('marker_radiusAxis_extend', datum.radius);
+    (relativeSeries as IPolarSeries).radiusAxisHelper?.setExtendDomain?.(
+      getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'radiusAxis'),
+      datum.radius
+    );
 
   return convertDatumToValue((relativeSeries as IPolarSeries).radiusAxisHelper, [datum.radius]);
 }
@@ -154,7 +175,8 @@ export function xyLayout(
   endRelativeSeries: IMarkerSupportSeries,
   relativeSeries: IMarkerSupportSeries,
   autoRange: boolean,
-  includeFullBand: boolean = false
+  includeFullBand: boolean = false,
+  autoRangeExtendDomainKeyPrefix?: string
 ) {
   const regionStart = startRelativeSeries.getRegion();
   const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
@@ -203,13 +225,37 @@ export function xyLayout(
     let x;
     let y;
     if (isValidX && isValidY) {
-      x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
-      y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
+      x = getXValue(
+        datum,
+        xDomain,
+        autoRange,
+        refSeries,
+        regionWidth,
+        regionStartLayoutStartPoint,
+        autoRangeExtendDomainKeyPrefix
+      );
+      y = getYValue(
+        datum,
+        yDomain,
+        autoRange,
+        refSeries,
+        regionHeight,
+        regionStartLayoutStartPoint,
+        autoRangeExtendDomainKeyPrefix
+      );
       setTempWithValid(x, isXExpand, xTemp, lines.length);
       setTempWithValid(y, isyExpand, yTemp, lines.length);
       lines.push([{ x, y }]);
     } else if (isValidX) {
-      x = getXValue(datum, xDomain, autoRange, refSeries, regionWidth, regionStartLayoutStartPoint);
+      x = getXValue(
+        datum,
+        xDomain,
+        autoRange,
+        refSeries,
+        regionWidth,
+        regionStartLayoutStartPoint,
+        autoRangeExtendDomainKeyPrefix
+      );
       y = Math.max(
         regionStartLayoutStartPoint.y + regionStart.getLayoutRect().height,
         regionEndLayoutStartPoint.y + regionEnd.getLayoutRect().height
@@ -228,7 +274,15 @@ export function xyLayout(
       ]);
     } else if (isValidY) {
       x = Math.min(regionStartLayoutStartPoint.x, regionEndLayoutStartPoint.x);
-      y = getYValue(datum, yDomain, autoRange, refSeries, regionHeight, regionStartLayoutStartPoint);
+      y = getYValue(
+        datum,
+        yDomain,
+        autoRange,
+        refSeries,
+        regionHeight,
+        regionStartLayoutStartPoint,
+        autoRangeExtendDomainKeyPrefix
+      );
       const x1 = Math.max(
         regionStartLayoutStartPoint.x + regionStart.getLayoutRect().width,
         regionEndLayoutStartPoint.x + regionEnd.getLayoutRect().width
@@ -300,7 +354,8 @@ export function polarLayout(
   startRelativeSeries: IMarkerSupportSeries,
   endRelativeSeries: IMarkerSupportSeries,
   relativeSeries: IMarkerSupportSeries,
-  autoRange: boolean
+  autoRange: boolean,
+  autoRangeExtendDomainKeyPrefix?: string
 ) {
   const refSeries = {
     relativeSeries,
@@ -321,11 +376,11 @@ export function polarLayout(
     const isValidAngle = isValid(datum.angle);
     const isValidRadius = isValid(datum.radius);
     if (isValidAngle && isValidRadius) {
-      const angle = getAngleValue(datum, angleDomain, autoRange, refSeries);
-      const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries);
+      const angle = getAngleValue(datum, angleDomain, autoRange, refSeries, autoRangeExtendDomainKeyPrefix);
+      const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries, autoRangeExtendDomainKeyPrefix);
       lines.push([{ angle, radius }]);
     } else if (isValidAngle) {
-      const angle = getAngleValue(datum, angleDomain, autoRange, refSeries);
+      const angle = getAngleValue(datum, angleDomain, autoRange, refSeries, autoRangeExtendDomainKeyPrefix);
       lines.push([
         {
           angle,
@@ -337,7 +392,7 @@ export function polarLayout(
         }
       ]);
     } else if (isValidRadius) {
-      const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries);
+      const radius = getRadiusValue(datum, radiusDomain, autoRange, refSeries, autoRangeExtendDomainKeyPrefix);
       lines.push([
         {
           radius,
@@ -381,7 +436,8 @@ export function cartesianCoordinateLayout(
   data: DataView,
   relativeSeries: IMarkerSupportSeries,
   autoRange: boolean,
-  coordinatesOffset: OffsetPoint[] | OffsetPoint
+  coordinatesOffset: OffsetPoint[] | OffsetPoint,
+  autoRangeExtendDomainKeyPrefix?: string
 ) {
   const points: IPoint[] = [];
   const dataPoints =
@@ -426,12 +482,22 @@ export function cartesianCoordinateLayout(
       xValue.length === 1 &&
         isNumber(xValue[0]) &&
         isNeedExtendDomain(xDomain, xValue[0], autoRange) &&
-        refRelativeSeries.getXAxisHelper()?.setExtendDomain?.('marker_xAxis_extend', xValue[0] as number);
+        refRelativeSeries
+          .getXAxisHelper()
+          ?.setExtendDomain?.(
+            getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'xAxis'),
+            xValue[0] as number
+          );
 
       yValue.length === 1 &&
         isNumber(yValue[0]) &&
         isNeedExtendDomain(yDomain, yValue[0], autoRange) &&
-        refRelativeSeries.getYAxisHelper()?.setExtendDomain?.('marker_yAxis_extend', yValue[0] as number);
+        refRelativeSeries
+          .getYAxisHelper()
+          ?.setExtendDomain?.(
+            getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'yAxis'),
+            yValue[0] as number
+          );
       points.push({
         x: convertDatumToValue(refRelativeSeries.getXAxisHelper(), xValue) + regionStartLayoutStartPoint.x + offsetX,
         y: convertDatumToValue(refRelativeSeries.getYAxisHelper(), yValue) + regionStartLayoutStartPoint.y + offsetY
@@ -441,7 +507,12 @@ export function cartesianCoordinateLayout(
   return points;
 }
 
-export function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSupportSeries, autoRange: boolean) {
+export function polarCoordinateLayout(
+  data: DataView,
+  relativeSeries: IMarkerSupportSeries,
+  autoRange: boolean,
+  autoRangeExtendDomainKeyPrefix?: string
+) {
   const points: IPolarPoint[] = [];
   const dataPoints =
     data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
@@ -463,12 +534,18 @@ export function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSup
       angleValue.length === 1 &&
         isNumber(angleValue[0]) &&
         isNeedExtendDomain(angleDomain, angleValue[0], autoRange) &&
-        refRelativeSeries.angleAxisHelper?.setExtendDomain?.('marker_xAxis_extend', angleValue[0] as number);
+        refRelativeSeries.angleAxisHelper?.setExtendDomain?.(
+          getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'angleAxis'),
+          angleValue[0] as number
+        );
 
       radiusValue.length === 1 &&
         isNumber(radiusValue[0]) &&
         isNeedExtendDomain(radiusDomain, radiusValue[0], autoRange) &&
-        refRelativeSeries.radiusAxisHelper?.setExtendDomain?.('marker_yAxis_extend', radiusValue[0] as number);
+        refRelativeSeries.radiusAxisHelper?.setExtendDomain?.(
+          getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'radiusAxis'),
+          radiusValue[0] as number
+        );
       points.push({
         angle: convertDatumToValue(refRelativeSeries.angleAxisHelper, angleValue),
         radius: convertDatumToValue(refRelativeSeries.radiusAxisHelper, radiusValue)

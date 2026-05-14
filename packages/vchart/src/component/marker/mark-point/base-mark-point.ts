@@ -217,6 +217,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
     if (this._markerComponent) {
       const attribute = this._markerComponent.attribute ?? {};
       const textStyle = (attribute.itemContent as any)?.textStyle ?? {};
+      const specText = this._spec.itemContent.text?.text;
       this._markerComponent.setAttributes({
         position: point === undefined ? { x: null, y: null } : point, // setAttrs时merge时undefined会被忽略, 所以这里做转换
         itemContent: {
@@ -226,6 +227,8 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
             text: this._spec.itemContent.text?.formatMethod
               ? // type error here will be fixed in components
                 (this._spec.itemContent.text.formatMethod(dataPoints, seriesData) as any)
+              : isValid(specText)
+              ? specText
               : textStyle.text
           },
           offsetX: computeOffsetFromRegion(point, attribute.itemContent.offsetX, this._relativeSeries.getRegion()),

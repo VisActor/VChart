@@ -29,6 +29,22 @@ import { markerFilter } from '../../data/transforms/marker-filter';
 import { releaseDataViewWithDependencies } from '../../data/data-view-utils';
 
 const MARKER_FORMAT_METHOD_PLACEHOLDER = '__vchart_marker_format_method__';
+const MARKER_COORDINATE_PLACEHOLDER = '__vchart_marker_coordinate__';
+const MARKER_TEXT_PLACEHOLDER = '__vchart_marker_text__';
+const MARKER_AUTO_RANGE_PLACEHOLDER = '__vchart_marker_auto_range__';
+const MARKER_DOMAIN_POSITION_SPEC_KEYS = [
+  'coordinate',
+  'coordinates',
+  'x',
+  'y',
+  'x1',
+  'y1',
+  'angle',
+  'angle1',
+  'radius',
+  'radius1'
+];
+const MARKER_LAYOUT_POSITION_SPEC_KEYS = ['position', 'positions', 'coordinatesOffset', 'regionRelative'];
 
 const normalizeMarkerLabelFormatMethod = (label: any): any => {
   if (Array.isArray(label)) {
@@ -46,12 +62,30 @@ const normalizeMarkerLabelFormatMethod = (label: any): any => {
   };
 };
 
-const normalizeMarkerSpecLabelFormatMethod = (spec: any) => {
+const normalizeMarkerSpecForComponentOnlyUpdate = (
+  spec: any,
+  options: { normalizeDomainPosition: boolean; normalizeAutoRange?: boolean }
+) => {
   if (!spec || typeof spec !== 'object') {
     return spec;
   }
 
   const normalized = { ...spec };
+  if (options.normalizeDomainPosition) {
+    MARKER_DOMAIN_POSITION_SPEC_KEYS.forEach(key => {
+      if (key in normalized) {
+        normalized[key] = MARKER_COORDINATE_PLACEHOLDER;
+      }
+    });
+  }
+  if (options.normalizeAutoRange && 'autoRange' in normalized) {
+    normalized.autoRange = MARKER_AUTO_RANGE_PLACEHOLDER;
+  }
+  MARKER_LAYOUT_POSITION_SPEC_KEYS.forEach(key => {
+    if (key in normalized) {
+      normalized[key] = MARKER_COORDINATE_PLACEHOLDER;
+    }
+  });
   if ('label' in normalized) {
     normalized.label = normalizeMarkerLabelFormatMethod(normalized.label);
   }
@@ -60,7 +94,10 @@ const normalizeMarkerSpecLabelFormatMethod = (spec: any) => {
   if (text && typeof text === 'object') {
     normalized.itemContent = {
       ...normalized.itemContent,
-      text: normalizeMarkerLabelFormatMethod(text)
+      text: {
+        ...normalizeMarkerLabelFormatMethod(text),
+        text: MARKER_TEXT_PLACEHOLDER
+      }
     };
   }
 
@@ -144,6 +181,30 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     };
   }
 
+  protected _getAutoRangeExtendDomainKeyPrefix() {
+    return `marker_${this.type}_${this.id}`;
+  }
+
+  private _getAutoRangeExtendDomainKey(axisKey: 'xAxis' | 'yAxis' | 'angleAxis' | 'radiusAxis') {
+    return `${this._getAutoRangeExtendDomainKeyPrefix()}_${axisKey}_extend`;
+  }
+
+  private _clearAutoRangeExtendDomain() {
+    const seriesList = array(this._option.getAllSeries?.() as IMarkerSupportSeries[]);
+
+    seriesList.forEach((series: any) => {
+      series?.getXAxisHelper?.()?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('xAxis'), undefined);
+      series?.getYAxisHelper?.()?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('yAxis'), undefined);
+      series?.angleAxisHelper?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('angleAxis'), undefined);
+      series?.radiusAxisHelper?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('radiusAxis'), undefined);
+    });
+  }
+
+  private _updateMarkerLayout() {
+    this._clearAutoRangeExtendDomain();
+    this._markerLayout();
+  }
+
   private _getFieldInfoFromSpec(
     dim: 'x' | 'y' | 'angle' | 'radius' | 'areaName',
     spec: IDataPos | IDataPosCallback,
@@ -216,7 +277,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     }
 
     this._markerDataChangeHandler = () => {
-      this._markerLayout();
+      this._updateMarkerLayout();
     };
     this._markerData.target.on('change', this._markerDataChangeHandler);
   }
@@ -258,7 +319,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
           );
         });
       }
-      this._markerLayout();
+      this._updateMarkerLayout();
     }
 
     super.updateLayoutAttribute();
@@ -294,9 +355,9 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     // 在极坐标系/地理坐标系中, 滚动或缩放画布不会update layout, 所以需要通过事件监听来更新标注的位置
     // 在直角坐标系中, update layout中已经更新标注位置, 在这里不需要重复监听
     if (this._relativeSeries.coordinate !== 'cartesian') {
-      this._relativeSeries.event.on('zoom', this._markerLayout.bind(this));
-      this._relativeSeries.event.on('panmove', this._markerLayout.bind(this));
-      this._relativeSeries.event.on('scroll', this._markerLayout.bind(this));
+      this._relativeSeries.event.on('zoom', this._updateMarkerLayout.bind(this));
+      this._relativeSeries.event.on('panmove', this._updateMarkerLayout.bind(this));
+      this._relativeSeries.event.on('scroll', this._updateMarkerLayout.bind(this));
     }
   }
 
@@ -351,6 +412,14 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
           layout: true,
           render: true
         };
+      } else if (!result.reMake && !result.reCompile && this._isAutoRangeSpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          scaleDomain: true,
+          layout: true,
+          render: true
+        };
       } else {
         result.reMake = true;
       }
@@ -359,13 +428,38 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   }
 
   protected _isComponentOnlySpecChange(spec: T, prevSpec: T) {
-    return isEqual(normalizeMarkerSpecLabelFormatMethod(prevSpec), normalizeMarkerSpecLabelFormatMethod(spec));
+    const normalizeDomainPosition = !spec?.autoRange && !prevSpec?.autoRange;
+
+    return isEqual(
+      normalizeMarkerSpecForComponentOnlyUpdate(prevSpec, { normalizeDomainPosition }),
+      normalizeMarkerSpecForComponentOnlyUpdate(spec, { normalizeDomainPosition })
+    );
+  }
+
+  protected _isAutoRangeSpecChange(spec: T, prevSpec: T) {
+    if (!spec?.autoRange && !prevSpec?.autoRange) {
+      return false;
+    }
+
+    return isEqual(
+      normalizeMarkerSpecForComponentOnlyUpdate(prevSpec, {
+        normalizeDomainPosition: true,
+        normalizeAutoRange: true
+      }),
+      normalizeMarkerSpecForComponentOnlyUpdate(spec, {
+        normalizeDomainPosition: true,
+        normalizeAutoRange: true
+      })
+    );
   }
 
   reInit(spec?: T) {
     super.reInit(spec);
-    if (this._markerComponent && this._markerData) {
-      this._markerLayout();
+    this._bindSeries();
+    this._initDataView();
+    this._buildMarkerAttributeContext();
+    if (this._markerComponent) {
+      this._updateMarkerLayout();
     }
   }
 
@@ -375,6 +469,8 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     const seriesData = this._getRelativeDataView();
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
+    // 重建 marker 自有数据链路前先释放旧链路，避免 transform/listener 残留。
+    this._releaseMarkerData();
     const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([seriesData], {
       type: 'dataview'

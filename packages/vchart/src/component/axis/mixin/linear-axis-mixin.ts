@@ -282,24 +282,17 @@ export class LinearAxisMixin {
   // 用户其他模块扩充轴scale的区间
   setExtendDomain(key: string, value: number | undefined) {
     if (value === undefined) {
+      if (!Object.prototype.hasOwnProperty.call(this._extend, key)) {
+        return;
+      }
       delete this._extend[key];
-      return;
+    } else {
+      if (this._extend[key] === value) {
+        return;
+      }
+      this._extend[key] = value;
     }
-    this._extend[key] = value;
-    const domain = this._scale.domain();
-    this.extendDomain(domain);
-    this.includeZero(domain);
-    this.setDomainMinMax(domain);
-    this.niceDomain(domain);
-    this._scale.domain(domain, this._nice);
-
-    if (this._nice) {
-      const niced = this.setScaleNice();
-
-      !niced && this._scale.rescale();
-    }
-
-    this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
+    this.updateScaleDomain();
   }
 
   protected extendDomain(domain: number[]) {

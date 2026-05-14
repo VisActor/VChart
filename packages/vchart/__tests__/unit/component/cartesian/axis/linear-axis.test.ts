@@ -440,6 +440,22 @@ test('extend', () => {
     expect(scale.domain()).toEqual([0, 1200]);
   }
 
+  {
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: getCartesianAxisInfo(config).componentName,
+        spec: config
+      },
+      ctx
+    ) as CartesianLinearAxis;
+    linearAxis.created();
+    linearAxis.setExtendDomain('test', 1100);
+    linearAxis.setExtendDomain('test', 700);
+    expect(linearAxis.getScale().domain()).toEqual([0, 1000]);
+    linearAxis.setExtendDomain('test', undefined);
+    expect(linearAxis.getScale().domain()).toEqual([0, 1000]);
+  }
+
   /**
    * `range` is the highest priority, which will be the direct result for scale.domain.
    * `extend` will not affect domain.

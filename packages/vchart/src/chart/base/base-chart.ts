@@ -965,7 +965,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     if (
       onlyComponentSpecsChanged &&
       !componentUpdateResult.hasNonComponentOnlyUpdate &&
-      isUpdateSpecResultComponentOnly(result)
+      (isUpdateSpecResultComponentOnly(result) || this._isComponentScaleDomainOnlyUpdate(result))
     ) {
       componentUpdateResult.componentOnlyUpdatedComponents.forEach(component => {
         component.reInit(component.getSpec());
@@ -1067,7 +1067,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         const componentSpec = cmpSpec[c.getSpecIndex()] ?? {};
         const previousComponentSpec = c.getSpec();
         const componentResult = c.updateSpec(componentSpec, cmpSpec);
-        if (isUpdateSpecResultComponentOnly(componentResult)) {
+        if (
+          isUpdateSpecResultComponentOnly(componentResult) ||
+          this._isComponentScaleDomainOnlyUpdate(componentResult)
+        ) {
           componentOnlyUpdatedComponents.push(c);
         } else if (!isEqual(previousComponentSpec, componentSpec)) {
           hasNonComponentOnlyUpdate = true;
@@ -1076,7 +1079,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       } else {
         const previousComponentSpec = c.getSpec();
         const componentResult = c.updateSpec(cmpSpec);
-        if (isUpdateSpecResultComponentOnly(componentResult)) {
+        if (
+          isUpdateSpecResultComponentOnly(componentResult) ||
+          this._isComponentScaleDomainOnlyUpdate(componentResult)
+        ) {
           componentOnlyUpdatedComponents.push(c);
         } else if (!isEqual(previousComponentSpec, cmpSpec)) {
           hasNonComponentOnlyUpdate = true;
@@ -1197,6 +1203,27 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     const effects = result.effects;
 
     return !!effects?.series && !effects.remake && !effects.data && !effects.scaleDomain && !result.reMake;
+  }
+
+  private _isComponentScaleDomainOnlyUpdate(result: IUpdateSpecResult) {
+    const effects = result.effects;
+
+    return (
+      !!effects?.component &&
+      !!effects.scaleDomain &&
+      !result.reMake &&
+      !result.reCompile &&
+      !result.reSize &&
+      !effects.remake &&
+      !effects.compile &&
+      !effects.data &&
+      !effects.series &&
+      !effects.animation &&
+      !result.reTransformSpec &&
+      !result.reAnimate &&
+      !result.changeTheme &&
+      !result.changeBackground
+    );
   }
 
   private _removeMarkerComponentsForEmptySpecs(result: IUpdateSpecResult) {
