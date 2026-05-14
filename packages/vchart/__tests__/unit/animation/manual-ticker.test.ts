@@ -589,6 +589,63 @@ const createStateSwitchSpec = (valueOffset = 0) =>
     ]
   } as unknown as IBarChartSpec);
 
+const createStateFilterSwitchSpec = (highlightDate = '2019', stateOpacity = 0.2) =>
+  ({
+    type: 'bar',
+    direction: 'horizontal',
+    width: 400,
+    height: 300,
+    yField: 'date',
+    xField: 'value',
+    animation: true,
+    animationAppear: {
+      duration: APPEAR_DURATION,
+      easing: 'linear'
+    },
+    animationUpdate: {
+      duration: UPDATE_DURATION,
+      easing: 'linear'
+    },
+    animationState: {
+      duration: UPDATE_DURATION,
+      easing: 'linear'
+    },
+    data: {
+      values: [
+        { date: '2019', value: 20 },
+        { date: '2020', value: 24 },
+        { date: '2021', value: 28 },
+        { date: '2022', value: 22 },
+        { date: '2023', value: 26 }
+      ]
+    },
+    bar: {
+      style: {
+        fillOpacity: 1
+      },
+      state: {
+        custom1: {
+          level: 1,
+          filter: () => true,
+          style: {
+            fillOpacity: stateOpacity
+          }
+        },
+        custom2: {
+          level: 2,
+          filter: (datum: any) => datum.date === highlightDate,
+          style: {
+            fillOpacity: 1
+          }
+        }
+      }
+    },
+    axes: [
+      { orient: 'left', visible: false },
+      { orient: 'bottom', visible: false }
+    ]
+  } as unknown as IBarChartSpec);
+
 const createMarkerLineData = () => [
   { year: '2019', value: 10 },
   { year: '2020', value: 18 },
@@ -1933,6 +1990,94 @@ describe('manual ticker animation regressions', () => {
     }
   });
 
+  it('keeps same state opacity stable when updateSpec changes another state filter', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createStateFilterSwitchSpec('2019'), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const stableBefore = getBarGraphicByDatum(chart, datum => datum?.date === '2020');
+
+      expect(stableBefore.currentStates).toEqual(['custom1']);
+      expect(stableBefore.resolvedStatePatch?.fillOpacity).toBe(0.2);
+      expectClose(stableBefore.attribute.fillOpacity, 0.2);
+
+      chart.updateSpecSync(createStateFilterSwitchSpec('2023'));
+
+      const stableAfter = getBarGraphicByDatum(chart, datum => datum?.date === '2020');
+      const updateStart = ticker.getTime();
+
+      expect(stableAfter.currentStates).toEqual(['custom1']);
+      expect(stableAfter.resolvedStatePatch?.fillOpacity).toBe(0.2);
+      expectClose(stableAfter.attribute.fillOpacity, 0.2);
+
+      ticker.tickAt(updateStart + 1);
+
+      expectClose(stableAfter.attribute.fillOpacity, 0.2);
+
+      ticker.tickAt(updateStart + UPDATE_DURATION / 2);
+
+      expectClose(stableAfter.attribute.fillOpacity, 0.2);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('animates same state opacity when updateSpec changes the state patch', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createStateFilterSwitchSpec('2019', 0.2), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const stableBefore = getBarGraphicByDatum(chart, datum => datum?.date === '2020');
+
+      expect(stableBefore.currentStates).toEqual(['custom1']);
+      expect(stableBefore.resolvedStatePatch?.fillOpacity).toBe(0.2);
+      expectClose(stableBefore.attribute.fillOpacity, 0.2);
+
+      chart.updateSpecSync(createStateFilterSwitchSpec('2019', 0.5));
+
+      const stableAfter = getBarGraphicByDatum(chart, datum => datum?.date === '2020');
+      const updateStart = ticker.getTime();
+
+      expect(stableAfter).toBe(stableBefore);
+      expect(stableAfter.currentStates).toEqual(['custom1']);
+      expect(stableAfter.resolvedStatePatch?.fillOpacity).toBe(0.5);
+      expectClose(stableAfter.attribute.fillOpacity, 0.2);
+
+      ticker.tickAt(updateStart + UPDATE_DURATION / 2);
+
+      expect(stableAfter.attribute.fillOpacity).toBeGreaterThan(0.2);
+      expect(stableAfter.attribute.fillOpacity).toBeLessThan(0.5);
+
+      ticker.tickAt(updateStart + UPDATE_DURATION + 50);
+
+      expectClose(stableAfter.attribute.fillOpacity, 0.5);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
   it('uses clipIn on difference markLine so the arrow line is geometrically revealed', () => {
     const { container, dom } = createChartContainer();
     const ticker = createManualTicker();
@@ -2007,6 +2152,83 @@ describe('manual ticker animation regressions', () => {
       });
     } finally {
       renderSync.mockRestore();
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('does not rerun removed marker layout from stale marker data listeners', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createRegularMarkLineExitSpec(true), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(MARKER_DURATION + 50);
+
+      const markerComponent = (chart.getChart() as any)?.getComponentsByKey('markLine')?.[0];
+      const markerData = markerComponent?.getMarkerData();
+      const markerDataTarget = markerData?.target;
+
+      expect(markerData).toBeDefined();
+      expect(markerDataTarget).toBeDefined();
+
+      chart.updateSpecSync(createRegularMarkLineExitSpec(false));
+
+      expect(() => {
+        markerDataTarget?.emit('change', { latestData: [] });
+      }).not.toThrow();
+      expect(() => {
+        chart.updateDataSync('data', [
+          { x: 95, y: 96, z: 13.8, name: 'BE', country: 'Belgium' },
+          { x: 65.5, y: 126.4, z: 35.3, name: 'US', country: 'United States' },
+          { x: 63.4, y: 51.8, z: 15.4, name: 'PT', country: 'Portugal' }
+        ]);
+      }).not.toThrow();
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('detaches removed coordinate marker intermediate data from source data updates', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createDifferenceMarkLineSpec(true), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(MARKER_DURATION + 50);
+
+      const markerComponent = (chart.getChart() as any)?.getComponentsByKey('markLine')?.[0];
+      const markerData = markerComponent?.getMarkerData();
+      const processData = markerData?.rawData?.[0];
+
+      expect(processData).toBeDefined();
+
+      chart.updateSpecSync(createDifferenceMarkLineSpec(false));
+      expect(processData?.target).toBeNull();
+      expect(() => {
+        chart.updateDataSync('barData', [
+          { type: 'Autocracies', year: '1930', value: 130 },
+          { type: 'Autocracies', year: '2000', value: 90 },
+          { type: 'Democracies', year: '1930', value: 22 },
+          { type: 'Democracies', year: '2000', value: 87 }
+        ]);
+      }).not.toThrow();
+    } finally {
       chart.release();
       ticker.release();
       removeDom(container);

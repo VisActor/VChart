@@ -566,7 +566,10 @@ describe('vchart event test', () => {
       (barMark as any)._setStateOfGraphic(barGraphic, false);
 
       expect(invalidateResolver).not.toHaveBeenCalled();
-      expect(setStates).toHaveBeenCalledWith(['hover'], false);
+      expect(setStates).toHaveBeenCalledWith(['hover'], {
+        animate: false,
+        animateSameStatePatchChange: true
+      });
     } finally {
       chartWithState.release();
       removeDom(stateContainer);
@@ -629,8 +632,11 @@ describe('vchart event test', () => {
 
       (barMark as any)._setStateOfGraphic(barGraphic, false);
 
-      expect(invalidateResolver).toHaveBeenCalledTimes(1);
-      expect(setStates).not.toHaveBeenCalled();
+      expect(invalidateResolver).not.toHaveBeenCalled();
+      expect(setStates).toHaveBeenCalledWith(['hover'], {
+        animate: false,
+        animateSameStatePatchChange: true
+      });
     } finally {
       chartWithDynamicState.release();
       removeDom(stateContainer);

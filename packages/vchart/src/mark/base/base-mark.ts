@@ -77,7 +77,7 @@ import { CompilableData } from '../../compile/data/compilable-data';
 import { getDiffAttributesOfGraphic } from '../../util/mark';
 import { log } from '../../util/debug';
 import { morph as runMorph } from '../../compile/morph';
-import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
+import { addGraphicState, removeGraphicState, setGraphicStates } from '../../util/graphic-state';
 
 export type ExChannelCall = (
   key: string | number | symbol,
@@ -1294,6 +1294,9 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       if (state === 'appear') {
         return;
       }
+      if (state === 'update' && !this._hasDiffAttrs(g)) {
+        return;
+      }
       const config = (animationConfig as any)[state] as any;
       if (config && config.length > 0) {
         const configList = config.map((item: any, index: number) => ({
@@ -1564,15 +1567,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   };
 
-  protected _isSameGraphicStates(currentStates: readonly string[] | undefined, targetStates: readonly string[]) {
-    const current = currentStates ?? [];
-    if (current.length !== targetStates.length) {
-      return false;
-    }
-
-    return current.every((stateName, index) => stateName === targetStates[index]);
-  }
-
   protected _setStateOfGraphic = (g: IMarkGraphic, hasAnimation?: boolean) => {
     g.stateProxy = null;
 
@@ -1590,25 +1584,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       return;
     }
 
-    if (
-      targetStates?.length &&
-      this._isSameGraphicStates(g.currentStates, targetStates) &&
-      targetStates.some(stateName => this._dynamicSharedStateNames.has(stateName))
-    ) {
-      g.invalidateResolver?.();
-      return;
-    }
-
-    if (isFunction(g.setStates)) {
-      g.setStates(targetStates, hasAnimation);
-      return;
-    }
-
-    if (targetStates?.length) {
-      g.useStates(targetStates, hasAnimation);
-    } else {
-      g.clearStates(hasAnimation);
-    }
+    setGraphicStates(g, targetStates, hasAnimation);
   };
 
   protected _getSharedStateDefinitionRefId(value: unknown) {
@@ -1784,6 +1760,41 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     });
   }
 
+  protected _excludeStateControlledDiffAttrs(g: IMarkGraphic, diffAttrs: Record<string, any>) {
+    if (!diffAttrs || !Object.keys(diffAttrs).length) {
+      return diffAttrs;
+    }
+
+    let nextDiffAttrs: Record<string, any>;
+    const excludeKey = (key: string) => {
+      if (!(key in diffAttrs)) {
+        return;
+      }
+      if (!nextDiffAttrs) {
+        nextDiffAttrs = { ...diffAttrs };
+      }
+      delete nextDiffAttrs[key];
+    };
+
+    if (g.resolvedStatePatch) {
+      Object.keys(g.resolvedStatePatch).forEach(excludeKey);
+    }
+
+    g.context.states?.forEach(stateName => {
+      const encoder = this._encoderOfState?.[stateName];
+
+      if (encoder) {
+        Object.keys(encoder).forEach(excludeKey);
+      }
+    });
+
+    return nextDiffAttrs ?? diffAttrs;
+  }
+
+  protected _hasDiffAttrs(g: IMarkGraphic) {
+    return !!g.context.diffAttrs && Object.keys(g.context.diffAttrs).length > 0;
+  }
+
   protected _runApplyGraphic(graphics: IMarkGraphic[]) {
     const hasAnimation = this.hasAnimation();
 
@@ -1822,7 +1833,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           this._graphicMap.set(g.context.uniqueKey, g);
         }
       } else {
-        const diffAttrs = getDiffAttributesOfGraphic(g, finalAttrs);
+        const diffAttrs = this._excludeStateControlledDiffAttrs(g, getDiffAttributesOfGraphic(g, finalAttrs));
         g.context.diffAttrs = diffAttrs;
         if (g.context.reusing) {
           // 表示正在被复用，需要重设属性的
@@ -2298,7 +2309,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       if (g.currentStates?.length) {
         (g as ReinitStateGraphic)[statesClearedBeforeReInitKey] = g.currentStates.slice();
       }
-      g.clearStates();
     });
   }
 }

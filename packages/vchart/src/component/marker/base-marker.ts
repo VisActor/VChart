@@ -26,6 +26,7 @@ import type { IOptionWithCoordinates } from '../../data/transforms/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { markerAggregation } from '../../data/transforms/aggregation';
 import { markerFilter } from '../../data/transforms/marker-filter';
+import { releaseDataViewWithDependencies } from '../../data/data-view-utils';
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
@@ -49,6 +50,8 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   getMarkerData() {
     return this._markerData;
   }
+  private _markerDataChangeHandler: (() => void) | null = null;
+  private _markerDataOwned: boolean = false;
   // marker 组件
   protected _markerComponent!: any;
 
@@ -162,6 +165,38 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     return this._relativeSeries.getViewData();
   }
 
+  protected _setMarkerData(data: DataView, owned: boolean = false) {
+    this._releaseMarkerData();
+    this._markerData = data;
+    this._markerDataOwned = owned;
+  }
+
+  protected _bindMarkerDataChange() {
+    if (!this._markerData?.target) {
+      return;
+    }
+
+    this._markerDataChangeHandler = () => {
+      this._markerLayout();
+    };
+    this._markerData.target.on('change', this._markerDataChangeHandler);
+  }
+
+  private _releaseMarkerData() {
+    const markerData = this._markerData;
+
+    if (markerData?.target && this._markerDataChangeHandler) {
+      markerData.target.removeListener('change', this._markerDataChangeHandler);
+    }
+    this._markerDataChangeHandler = null;
+
+    if (this._markerDataOwned) {
+      releaseDataViewWithDependencies(markerData, dataView => dataView.name === `${this.type}_${this.id}_data`);
+    }
+    this._markerData = null as unknown as DataView;
+    this._markerDataOwned = false;
+  }
+
   updateLayoutAttribute(): void {
     const markerVisible = this._spec.visible ?? true;
     if (markerVisible) {
@@ -232,6 +267,11 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     this._firstSeries = null;
   }
 
+  release(): void {
+    this._releaseMarkerData();
+    super.release();
+  }
+
   private _getFirstSeries(): ICartesianSeries {
     if (this._firstSeries) {
       return this._firstSeries;
@@ -290,9 +330,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       options: this._getAllRelativeSeries()
     });
 
-    data.target.on('change', () => {
-      this._markerLayout();
-    });
-    this._markerData = data;
+    this._setMarkerData(data, true);
+    this._bindMarkerDataChange();
   }
 }
