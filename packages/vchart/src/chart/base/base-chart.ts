@@ -946,6 +946,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     const onlyMarkerComponentsRemoved = this._isOnlyMarkerComponentsRemoved(this._spec, spec, currentKeys);
     const onlyComponentSpecsChanged = this._isOnlyComponentSpecsChanged(this._spec, spec, currentKeys);
     const onlySeriesSpecsChanged = this._isOnlySeriesSpecsChanged(this._spec, spec, currentKeys);
+    const onlyComponentOrSeriesSpecsChanged =
+      onlyComponentSpecsChanged || onlySeriesSpecsChanged
+        ? true
+        : this._isOnlyComponentOrSeriesSpecsChanged(this._spec, spec, currentKeys);
 
     this._spec = spec;
     if (onlyMarkerComponentsRemoved) {
@@ -1006,7 +1010,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
      * 所以在更新model前需要调用`reInit`确保`spec`和内部变量已经更新
      */
     this.reInit();
-    if (!onlySeriesSpecsChanged || !this._canSkipChartDataStages(result)) {
+    if (!onlyComponentOrSeriesSpecsChanged || !this._canSkipChartDataStages(result)) {
       this.updateDataSpec();
       // ensure that series data transforms and scale domains follow the data change
       this.reDataFlow();
@@ -1252,6 +1256,26 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
 
     return hasSeriesSpecChange && onlySeriesSpecChange;
+  }
+
+  private _isOnlyComponentOrSeriesSpecsChanged(currentSpec: object, nextSpec: object, specKeys: string[]) {
+    let hasComponentOrSeriesSpecChange = false;
+    const currentSpecRecord = currentSpec as Record<string, unknown>;
+    const nextSpecRecord = nextSpec as Record<string, unknown>;
+    const seriesRelatedSpecKeys = this._specTransformer?.getSeriesRelatedSpecKeys() ?? {};
+
+    const onlyComponentOrSeriesSpecChange = specKeys.every(key => {
+      if (isEqual(currentSpecRecord[key], nextSpecRecord[key])) {
+        return true;
+      }
+      if (this._isComponentSpecKey(key) || seriesRelatedSpecKeys[key]) {
+        hasComponentOrSeriesSpecChange = true;
+        return true;
+      }
+      return false;
+    });
+
+    return hasComponentOrSeriesSpecChange && onlyComponentOrSeriesSpecChange;
   }
 
   private _canSkipChartDataStages(result: IUpdateSpecResult) {

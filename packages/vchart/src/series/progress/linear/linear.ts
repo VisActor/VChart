@@ -24,8 +24,10 @@ import { isNil, isValid } from '@visactor/vutils';
 import { linearProgress } from '../../../theme/builtin/common/series/linear-progress';
 import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
 
-const LINEAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS: Record<'bandWidth', true> = {
-  bandWidth: true
+const LINEAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS: Record<'bandWidth' | 'cornerRadius' | 'clamp', true> = {
+  bandWidth: true,
+  cornerRadius: true,
+  clamp: true
 };
 
 const LINEAR_PROGRESS_SERIES_COMPILE_ONLY_SUB_KEYS: Record<

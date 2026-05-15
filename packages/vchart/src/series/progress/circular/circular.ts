@@ -21,8 +21,9 @@ import { CircularProgressSeriesSpecTransformer } from './circular-transformer';
 import { registerPolarLinearAxis, registerPolarBandAxis } from '../../../component/axis/polar';
 import { circularProgress } from '../../../theme/builtin/common/series/circular-progress';
 
-const CIRCULAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS: Record<'cornerRadius', true> = {
-  cornerRadius: true
+const CIRCULAR_PROGRESS_SERIES_COMPILE_ONLY_KEYS: Record<'cornerRadius' | 'roundCap', true> = {
+  cornerRadius: true,
+  roundCap: true
 };
 
 export class CircularProgressSeries<

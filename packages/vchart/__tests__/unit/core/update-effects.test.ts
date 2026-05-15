@@ -2,10 +2,15 @@ import VChart, {
   type IBarChartSpec,
   type IBoxPlotChartSpec,
   type ICircularProgressChartSpec,
+  type ICommonChartSpec,
+  type IGaugeChartSpec,
   type IHeatmapChartSpec,
   type ILineChartSpec,
   type ILinearProgressChartSpec,
   type IPieChartSpec,
+  type IRadarChartSpec,
+  type IRangeAreaChartSpec,
+  type IRoseChartSpec,
   type IScatterChartSpec,
   type IWaterfallChartSpec
 } from '../../../src';
@@ -32,7 +37,16 @@ type TestSeries = {
 
 type TestChartModel = {
   getAllSeries: () => TestSeries[];
-  getComponentsByKey: (key: string) => Array<{ position?: string; getScale?: () => { domain: () => unknown[] } }>;
+  getComponentsByKey: (key: string) => Array<{
+    position?: string;
+    getOrient?: () => string;
+    getScale?: () => { domain: () => unknown[] };
+    getTickData?: () => {
+      getDataView: () => {
+        transformsArr: Array<{ type: string; options: { startAngle?: number } }>;
+      };
+    };
+  }>;
   updateDataSpec: () => void;
   updateGlobalScaleDomain: () => void;
   reDataFlow: () => void;
@@ -623,6 +637,46 @@ const createTopLevelLinearProgressProgressPaddingSpec = (
   }
 });
 
+const createTopLevelLinearProgressCornerRadiusSpec = (cornerRadius: number): ILinearProgressChartSpec => ({
+  type: 'linearProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ x: 'A', y: 0.6 }]
+    }
+  ],
+  xField: 'y',
+  yField: 'x',
+  cornerRadius
+});
+
+const createTopLevelLinearProgressClampSpec = (clamp: boolean): ILinearProgressChartSpec => ({
+  type: 'linearProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ x: 'A', y: 0.8 }]
+    }
+  ],
+  xField: 'y',
+  yField: 'x',
+  clamp,
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'linear',
+      min: 0.5,
+      max: 1,
+      visible: false
+    },
+    {
+      orient: 'left',
+      type: 'band',
+      visible: false
+    }
+  ]
+});
+
 const createTopLevelCircularProgressCornerRadiusSpec = (cornerRadius: number): ICircularProgressChartSpec => ({
   type: 'circularProgress',
   data: [
@@ -634,6 +688,76 @@ const createTopLevelCircularProgressCornerRadiusSpec = (cornerRadius: number): I
   categoryField: 'category',
   valueField: 'value',
   cornerRadius
+});
+
+const createTopLevelCircularProgressRoundCapSpec = (roundCap: boolean): ICircularProgressChartSpec => ({
+  type: 'circularProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ category: 'A', value: 0.6 }]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  roundCap
+});
+
+const createTopLevelCircularProgressStyleSpec = (fill: string): ICircularProgressChartSpec => ({
+  type: 'circularProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ category: 'A', value: 0.6 }]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  progress: {
+    style: {
+      fill
+    }
+  }
+});
+
+const createTopLevelCircularProgressPolarLayoutSpec = (options: {
+  startAngle: number;
+  endAngle: number;
+  centerX: number;
+  centerY: number;
+  innerRadius: number;
+  outerRadius: number;
+}): ICircularProgressChartSpec => ({
+  type: 'circularProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ category: 'A', value: 0.6 }]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  startAngle: options.startAngle,
+  endAngle: options.endAngle,
+  centerX: options.centerX,
+  centerY: options.centerY,
+  innerRadius: options.innerRadius,
+  outerRadius: options.outerRadius
+});
+
+const createTopLevelCircularProgressClampSpec = (clamp: boolean): ICircularProgressChartSpec => ({
+  type: 'circularProgress',
+  data: [
+    {
+      id: 'data',
+      values: [{ category: 'A', value: 1.2 }]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  startAngle: 0,
+  endAngle: 180,
+  clamp
 });
 
 const createTopLevelHeatmapValueFieldSpec = (valueField: 'v1' | 'v2'): IHeatmapChartSpec => ({
@@ -750,6 +874,244 @@ const createTopLevelScatterSizeFieldSpec = (sizeField: 's1' | 's2'): IScatterCha
   sizeField
 });
 
+const createDotHighlightSpec = (
+  highLightSeriesGroup: string,
+  titleField = 'type',
+  subTitleField = 'id',
+  gridFillOpacity = 0.4
+): ICommonChartSpec =>
+  ({
+    type: 'common',
+    data: [
+      {
+        id: 'data',
+        values: [
+          {
+            row: 'A',
+            type: 'IP',
+            titleBefore: 'before-a',
+            titleAfter: 'after-a',
+            subTitleBefore: 'sub-before-a',
+            subTitleAfter: 'sub-after-a',
+            dots: [
+              {
+                event_time: 1,
+                id: 'A',
+                type: 'IP',
+                action_type: 'request'
+              }
+            ]
+          },
+          {
+            row: 'B',
+            type: 'DB',
+            titleBefore: 'before-b',
+            titleAfter: 'after-b',
+            subTitleBefore: 'sub-before-b',
+            subTitleAfter: 'sub-after-b',
+            dots: [
+              {
+                event_time: 2,
+                id: 'B',
+                type: 'DB',
+                action_type: 'query'
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    series: [
+      {
+        type: 'dot',
+        dataId: 'data',
+        xField: 'event_time',
+        yField: 'id',
+        seriesGroupField: 'type',
+        titleField,
+        subTitleField,
+        dotTypeField: 'action_type',
+        name: 'id',
+        highLightSeriesGroup,
+        clipHeight: 1000,
+        grid: {
+          background: {
+            fill: '#000',
+            fillOpacity: gridFillOpacity
+          }
+        }
+      }
+    ],
+    axes: [
+      {
+        orient: 'bottom',
+        type: 'linear'
+      },
+      {
+        orient: 'left',
+        type: 'band'
+      }
+    ]
+  } as ICommonChartSpec);
+
+const createTopLevelRangeAreaStyleSpec = (fill: string): IRangeAreaChartSpec => ({
+  type: 'rangeArea',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', min: 1, max: 3 },
+        { x: 'B', min: 2, max: 4 }
+      ]
+    }
+  ],
+  xField: 'x',
+  minField: 'min',
+  maxField: 'max',
+  area: {
+    style: {
+      fill
+    }
+  }
+});
+
+const createTopLevelRadarLineStyleSpec = (stroke: string): IRadarChartSpec => ({
+  type: 'radar',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 2 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  line: {
+    style: {
+      stroke
+    }
+  }
+});
+
+const createTopLevelRadarPolarLayoutSpec = (options: {
+  startAngle: number;
+  endAngle: number;
+  centerX: number;
+  centerY: number;
+}): IRadarChartSpec => ({
+  type: 'radar',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 2 },
+        { category: 'C', value: 3 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  startAngle: options.startAngle,
+  endAngle: options.endAngle,
+  centerX: options.centerX,
+  centerY: options.centerY,
+  outerRadius: 0.7
+});
+
+const createTopLevelRoseOuterRadiusSpec = (outerRadius: number): IRoseChartSpec => ({
+  type: 'rose',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 2 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  outerRadius
+});
+
+const createTopLevelRosePolarLayoutSpec = (startAngle: number, endAngle: number): IRoseChartSpec => ({
+  type: 'rose',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { category: 'A', value: 1 },
+        { category: 'B', value: 2 }
+      ]
+    }
+  ],
+  categoryField: 'category',
+  valueField: 'value',
+  startAngle,
+  endAngle,
+  outerRadius: 0.7
+});
+
+const createTopLevelGaugePointerStyleSpec = (fill: string): IGaugeChartSpec => ({
+  type: 'gauge',
+  data: [
+    {
+      id: 'data',
+      values: [{ value: 0.6, radius: 1 }]
+    }
+  ],
+  valueField: 'value',
+  radiusField: 'radius',
+  pointer: {
+    width: 0.08,
+    height: 0.8,
+    style: {
+      fill
+    }
+  },
+  pin: {
+    width: 0.08,
+    height: 0.08
+  },
+  pinBackground: {
+    width: 0.12,
+    height: 0.12
+  }
+});
+
+const createTopLevelGaugePolarLayoutSpec = (startAngle: number, endAngle: number): IGaugeChartSpec => ({
+  ...createTopLevelGaugePointerStyleSpec('#123456'),
+  startAngle,
+  endAngle
+});
+
+const getFirstSeriesGraphic = (chart: VChart, seriesType: string, markName: string) => {
+  const series = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(seriesItem => seriesItem.type === seriesType);
+  const mark = series?.getMarks().find(markItem => markItem.name === markName);
+  const graphic = mark?.getGraphics()[0] as { attribute: Record<string, unknown> } | undefined;
+
+  expect(graphic).toBeDefined();
+  return graphic as { attribute: Record<string, unknown> };
+};
+
+const getSeriesMarkGraphics = (chart: VChart, seriesType: string, markName: string) => {
+  const series = chart
+    .getChart()
+    ?.getAllSeries()
+    .find(seriesItem => seriesItem.type === seriesType);
+  const mark = series?.getMarks().find(markItem => markItem.name === markName);
+  const graphics = mark?.getGraphics() as Array<{ attribute: Record<string, unknown> }> | undefined;
+
+  expect(graphics?.length).toBeGreaterThan(0);
+  return graphics as Array<{ attribute: Record<string, unknown> }>;
+};
+
 const getFirstBarGraphic = (chart: VChart) => {
   const barSeries = chart
     .getChart()
@@ -788,10 +1150,12 @@ const getFirstLinearProgressGraphic = (chart: VChart) => {
     ?.getAllSeries()
     .find(series => series.type === 'linearProgress');
   const progressMark = linearProgressSeries?.getMarks().find(mark => mark.name === 'progress');
-  const progressGraphic = progressMark?.getGraphics()[0] as { attribute: { height?: number } } | undefined;
+  const progressGraphic = progressMark?.getGraphics()[0] as
+    | { attribute: { height?: number; cornerRadius?: number; x?: number; x1?: number } }
+    | undefined;
 
   expect(progressGraphic).toBeDefined();
-  return progressGraphic as { attribute: { height?: number } };
+  return progressGraphic as { attribute: { height?: number; cornerRadius?: number; x?: number; x1?: number } };
 };
 
 const getFirstCircularProgressGraphic = (chart: VChart) => {
@@ -800,10 +1164,36 @@ const getFirstCircularProgressGraphic = (chart: VChart) => {
     ?.getAllSeries()
     .find(series => series.type === 'circularProgress');
   const progressMark = circularProgressSeries?.getMarks().find(mark => mark.name === 'progress');
-  const progressGraphic = progressMark?.getGraphics()[0] as { attribute: { cornerRadius?: number } } | undefined;
+  const progressGraphic = progressMark?.getGraphics()[0] as
+    | {
+        attribute: {
+          cap?: boolean | boolean[];
+          cornerRadius?: number;
+          endAngle?: number;
+          fill?: string;
+          innerRadius?: number;
+          outerRadius?: number;
+          startAngle?: number;
+          x?: number;
+          y?: number;
+        };
+      }
+    | undefined;
 
   expect(progressGraphic).toBeDefined();
-  return progressGraphic as { attribute: { cornerRadius?: number } };
+  return progressGraphic as {
+    attribute: {
+      cap?: boolean | boolean[];
+      cornerRadius?: number;
+      endAngle?: number;
+      fill?: string;
+      innerRadius?: number;
+      outerRadius?: number;
+      startAngle?: number;
+      x?: number;
+      y?: number;
+    };
+  };
 };
 
 const getFirstPieGraphic = (chart: VChart) => {
@@ -818,6 +1208,19 @@ const getFirstPieGraphic = (chart: VChart) => {
 
   expect(pieGraphic).toBeDefined();
   return pieGraphic as { attribute: { startAngle?: number; endAngle?: number; outerRadius?: number } };
+};
+
+const getAxisTickTransformOptions = (chart: VChart, orient: 'angle' | 'radius') => {
+  const axis = getChartModel(chart)
+    .getComponentsByKey('axes')
+    .find(axisItem => axisItem.getOrient?.() === orient);
+  const tickTransform = axis
+    ?.getTickData?.()
+    ?.getDataView()
+    .transformsArr.find(transform => transform.type.includes('ticks'));
+
+  expect(tickTransform).toBeDefined();
+  return tickTransform?.options as { startAngle?: number };
 };
 
 const getFirstScatterGraphic = (chart: VChart) => {
@@ -2383,6 +2786,48 @@ describe('vchart scoped update effects', () => {
     }
   });
 
+  it('skips chart data stages and reapplies top-level linearProgress cornerRadius updates', () => {
+    const chart = new VChart(createTopLevelLinearProgressCornerRadiusSpec(0), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstLinearProgressGraphic(chart).attribute.cornerRadius).toBe(0);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelLinearProgressCornerRadiusSpec(8));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstLinearProgressGraphic(chart).attribute.cornerRadius).toBe(8);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level linearProgress clamp updates', () => {
+    const chart = new VChart(createTopLevelLinearProgressClampSpec(false), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const initialX = getFirstLinearProgressGraphic(chart).attribute.x as number;
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelLinearProgressClampSpec(true));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstLinearProgressGraphic(chart).attribute.x as number).toBeGreaterThan(initialX);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
   it('skips chart data stages and reapplies top-level circularProgress cornerRadius updates', () => {
     const chart = new VChart(createTopLevelCircularProgressCornerRadiusSpec(0), { dom, animation: false });
 
@@ -2398,6 +2843,118 @@ describe('vchart scoped update effects', () => {
 
       expect(seriesReInit).toHaveBeenCalledTimes(1);
       expect(getFirstCircularProgressGraphic(chart).attribute.cornerRadius).toBe(8);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level circularProgress roundCap updates', () => {
+    const chart = new VChart(createTopLevelCircularProgressRoundCapSpec(false), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstCircularProgressGraphic(chart).attribute.cap).toBe(false);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelCircularProgressRoundCapSpec(true));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstCircularProgressGraphic(chart).attribute.cap).toBe(true);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level circularProgress progress style updates', () => {
+    const chart = new VChart(createTopLevelCircularProgressStyleSpec('#123456'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstCircularProgressGraphic(chart).attribute.fill).toBe('#123456');
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelCircularProgressStyleSpec('#654321'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstCircularProgressGraphic(chart).attribute.fill).toBe('#654321');
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level circularProgress polar layout updates', () => {
+    const chart = new VChart(
+      createTopLevelCircularProgressPolarLayoutSpec({
+        startAngle: 0,
+        endAngle: 180,
+        centerX: 120,
+        centerY: 100,
+        innerRadius: 0.2,
+        outerRadius: 0.6
+      }),
+      { dom, animation: false }
+    );
+
+    try {
+      chart.renderSync();
+
+      const initialGraphic = getFirstCircularProgressGraphic(chart);
+      const initialOuterRadius = initialGraphic.attribute.outerRadius as number;
+      const initialInnerRadius = initialGraphic.attribute.innerRadius as number;
+      expect(initialGraphic.attribute.x).toBe(120);
+      expect(initialGraphic.attribute.y).toBe(100);
+      expect(initialGraphic.attribute.startAngle).toBeCloseTo(0);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      const nextSpec = createTopLevelCircularProgressPolarLayoutSpec({
+        startAngle: 30,
+        endAngle: 210,
+        centerX: 180,
+        centerY: 120,
+        innerRadius: 0.3,
+        outerRadius: 0.8
+      });
+      chart.updateSpecSync(nextSpec);
+
+      const updatedGraphic = getFirstCircularProgressGraphic(chart);
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(updatedGraphic.attribute.x).toBe(180);
+      expect(updatedGraphic.attribute.y).toBe(120);
+      expect(updatedGraphic.attribute.startAngle).toBeCloseTo(Math.PI / 6);
+      expect(updatedGraphic.attribute.outerRadius).not.toBe(initialOuterRadius);
+      expect(updatedGraphic.attribute.innerRadius).not.toBe(initialInnerRadius);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level circularProgress clamp updates', () => {
+    const chart = new VChart(createTopLevelCircularProgressClampSpec(false), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstCircularProgressGraphic(chart).attribute.endAngle).toBeGreaterThan(Math.PI);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelCircularProgressClampSpec(true));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstCircularProgressGraphic(chart).attribute.endAngle).toBeCloseTo(Math.PI);
       expectDataStagesSkipped(spies);
     } finally {
       chart.release();
@@ -2534,6 +3091,102 @@ describe('vchart scoped update effects', () => {
     }
   });
 
+  it('skips chart data stages and reapplies dot highLightSeriesGroup updates', () => {
+    const chart = new VChart(createDotHighlightSpec('IP'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(
+        getSeriesMarkGraphics(chart, 'dot', 'gridBackground').some(graphic => graphic.attribute.fillOpacity === 0.4)
+      ).toBe(true);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createDotHighlightSpec('NONE'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(
+        getSeriesMarkGraphics(chart, 'dot', 'gridBackground').some(graphic => graphic.attribute.fillOpacity === 0.4)
+      ).toBe(false);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies dot titleField updates', () => {
+    const chart = new VChart(createDotHighlightSpec('IP', 'titleBefore'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getSeriesMarkGraphics(chart, 'dot', 'title').map(graphic => graphic.attribute.text)).toContain('before-a');
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createDotHighlightSpec('IP', 'titleAfter'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getSeriesMarkGraphics(chart, 'dot', 'title').map(graphic => graphic.attribute.text)).toContain('after-a');
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies dot subTitleField updates', () => {
+    const chart = new VChart(createDotHighlightSpec('IP', 'type', 'subTitleBefore'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getSeriesMarkGraphics(chart, 'dot', 'subTitle').map(graphic => graphic.attribute.text)).toContain(
+        'sub-before-a'
+      );
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createDotHighlightSpec('IP', 'type', 'subTitleAfter'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getSeriesMarkGraphics(chart, 'dot', 'subTitle').map(graphic => graphic.attribute.text)).toContain(
+        'sub-after-a'
+      );
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies dot grid background updates', () => {
+    const chart = new VChart(createDotHighlightSpec('IP'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(
+        getSeriesMarkGraphics(chart, 'dot', 'gridBackground').some(graphic => graphic.attribute.fillOpacity === 0.4)
+      ).toBe(true);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createDotHighlightSpec('IP', 'type', 'id', 0.7));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(
+        getSeriesMarkGraphics(chart, 'dot', 'gridBackground').some(graphic => graphic.attribute.fillOpacity === 0.7)
+      ).toBe(true);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
   it('keeps top-level waterfall calculationMode updates on the chart data path', () => {
     const chart = new VChart(createTopLevelWaterfallCalculationModeSpec('increase'), { dom, animation: false });
 
@@ -2548,6 +3201,200 @@ describe('vchart scoped update effects', () => {
       expect(seriesReInit).toHaveBeenCalledTimes(1);
       expect(spies.chartModel.getAllSeries()[0].getSpec().calculationMode).toBe('decrease');
       expectDataStagesRunOnce(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level rangeArea area style updates', () => {
+    const chart = new VChart(createTopLevelRangeAreaStyleSpec('#123456'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstSeriesGraphic(chart, 'rangeArea', 'area').attribute.fill).toBe('#123456');
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelRangeAreaStyleSpec('#654321'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstSeriesGraphic(chart, 'rangeArea', 'area').attribute.fill).toBe('#654321');
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level radar line style updates', () => {
+    const chart = new VChart(createTopLevelRadarLineStyleSpec('#123456'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstSeriesGraphic(chart, 'radar', 'line').attribute.stroke).toBe('#123456');
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelRadarLineStyleSpec('#654321'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstSeriesGraphic(chart, 'radar', 'line').attribute.stroke).toBe('#654321');
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level radar polar layout updates', () => {
+    const chart = new VChart(
+      createTopLevelRadarPolarLayoutSpec({ startAngle: 0, endAngle: 360, centerX: 120, centerY: 100 }),
+      { dom, animation: false }
+    );
+
+    try {
+      chart.renderSync();
+
+      const initialPoints = (getFirstSeriesGraphic(chart, 'radar', 'line').attribute.points as unknown[])?.map(
+        point => ({ ...(point as object) })
+      );
+      expect(initialPoints?.length).toBeGreaterThan(0);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(
+        createTopLevelRadarPolarLayoutSpec({ startAngle: 30, endAngle: 390, centerX: 180, centerY: 120 })
+      );
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstSeriesGraphic(chart, 'radar', 'line').attribute.points).not.toEqual(initialPoints);
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level rose outerRadius updates', () => {
+    const chart = new VChart(createTopLevelRoseOuterRadiusSpec(0.5), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const initialOuterRadius = getFirstSeriesGraphic(chart, 'rose', 'rose').attribute.outerRadius as number;
+      expect(initialOuterRadius).toBeGreaterThan(0);
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelRoseOuterRadiusSpec(0.8));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstSeriesGraphic(chart, 'rose', 'rose').attribute.outerRadius as number).toBeGreaterThan(
+        initialOuterRadius
+      );
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level rose polar angle updates', () => {
+    const chart = new VChart(createTopLevelRosePolarLayoutSpec(0, 360), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const initialStartAngle = getFirstSeriesGraphic(chart, 'rose', 'rose').attribute.startAngle as number;
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelRosePolarLayoutSpec(30, 390));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstSeriesGraphic(chart, 'rose', 'rose').attribute.startAngle as number).not.toBeCloseTo(
+        initialStartAngle
+      );
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('refreshes polar band axis tick transform options after rose polar angle updates', () => {
+    const chart = new VChart(createTopLevelRosePolarLayoutSpec(0, 360), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getAxisTickTransformOptions(chart, 'angle').startAngle).toBeCloseTo(0);
+
+      chart.updateSpecSync(createTopLevelRosePolarLayoutSpec(30, 390));
+
+      expect(getAxisTickTransformOptions(chart, 'angle').startAngle).toBeCloseTo(Math.PI / 6);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level gauge pointer style updates', () => {
+    const chart = new VChart(createTopLevelGaugePointerStyleSpec('#123456'), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getFirstSeriesGraphic(chart, 'gaugePointer', 'pointer').attribute.fill).toBe('#123456');
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelGaugePointerStyleSpec('#654321'));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstSeriesGraphic(chart, 'gaugePointer', 'pointer').attribute.fill).toBe('#654321');
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('skips chart data stages and reapplies top-level gauge polar angle updates', () => {
+    const chart = new VChart(createTopLevelGaugePolarLayoutSpec(0, 180), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const initialPointerAngle = getFirstSeriesGraphic(chart, 'gaugePointer', 'pointer').attribute.angle as number;
+
+      const spies = spyOnDataStages(chart);
+      const seriesReInit = spyOnFirstSeriesReInit(spies.chartModel);
+
+      chart.updateSpecSync(createTopLevelGaugePolarLayoutSpec(30, 210));
+
+      expect(seriesReInit).toHaveBeenCalledTimes(1);
+      expect(getFirstSeriesGraphic(chart, 'gaugePointer', 'pointer').attribute.angle as number).not.toBeCloseTo(
+        initialPointerAngle
+      );
+      expectDataStagesSkipped(spies);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('refreshes polar linear axis tick transform options after gauge polar angle updates', () => {
+    const chart = new VChart(createTopLevelGaugePolarLayoutSpec(0, 180), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      expect(getAxisTickTransformOptions(chart, 'angle').startAngle).toBeCloseTo(0);
+
+      chart.updateSpecSync(createTopLevelGaugePolarLayoutSpec(30, 210));
+
+      expect(getAxisTickTransformOptions(chart, 'angle').startAngle).toBeCloseTo(Math.PI / 6);
     } finally {
       chart.release();
     }

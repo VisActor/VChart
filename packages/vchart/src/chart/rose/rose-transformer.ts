@@ -10,6 +10,7 @@ export class RoseChartSpecTransformer<
 > extends RoseLikeChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
+    this._addSeriesRelatedSpecKeys(['radius', 'outerRadius', 'innerRadius']);
     series.radius = spec.radius ?? POLAR_DEFAULT_RADIUS;
     series.outerRadius = spec.outerRadius ?? POLAR_DEFAULT_RADIUS;
     series.innerRadius = spec.innerRadius ?? 0;
