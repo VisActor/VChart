@@ -756,11 +756,19 @@ const getFirstBarGraphic = (chart: VChart) => {
     ?.getAllSeries()
     .find(series => series.type === 'bar');
   const barMark = barSeries?.getMarks().find(mark => mark.name === 'bar');
-  const barGraphic = barMark?.getGraphics()[0] as { attribute: { width?: number } } | undefined;
+  const barGraphic = barMark?.getGraphics()[0] as { attribute: Record<string, unknown> } | undefined;
 
   expect(barGraphic).toBeDefined();
-  return barGraphic as { attribute: { width?: number } };
+  return barGraphic as { attribute: Record<string, unknown> };
 };
+
+const hasFiniteBarCoordinate = (graphic: { attribute: Record<string, unknown> }) =>
+  (Number.isFinite(graphic.attribute.x) ||
+    Number.isFinite(graphic.attribute.x1) ||
+    Number.isFinite(graphic.attribute.width)) &&
+  (Number.isFinite(graphic.attribute.y) ||
+    Number.isFinite(graphic.attribute.y1) ||
+    Number.isFinite(graphic.attribute.height));
 
 const getFirstBoxPlotGraphic = (chart: VChart) => {
   const boxPlotSeries = chart
@@ -1127,6 +1135,56 @@ const createMarkPointCoordinatesOffsetSpec = (offsetX: number, offsetY: number):
       }
     ]
   } as unknown as ILineChartSpec);
+
+const createBarMarkerToggleSpec = (withMarker: boolean): IBarChartSpec =>
+  ({
+    type: 'bar',
+    direction: 'horizontal',
+    data: [
+      {
+        id: 'bar',
+        values: withMarker
+          ? [
+              { name: 'Downtown Connector', value: 56.333333333333336, series: 'peak_delay_min' },
+              { name: 'Gate C Harmon', value: 69.5, series: 'peak_delay_min' }
+            ]
+          : [
+              { name: 'Downtown Connector', value: 52.75, series: 'peak_delay_min' },
+              { name: 'Gate C Harmon', value: 65.75, series: 'peak_delay_min' }
+            ]
+      }
+    ],
+    xField: 'value',
+    yField: 'name',
+    seriesField: 'series',
+    axes: [
+      {
+        orient: 'bottom',
+        type: 'linear'
+      },
+      {
+        orient: 'left',
+        type: 'band'
+      }
+    ],
+    markPoint: withMarker
+      ? [
+          {
+            coordinate: {
+              name: 'Gate C Harmon',
+              value: 69.5
+            },
+            itemContent: {
+              text: {
+                text: 'Gate C Harmon'
+              }
+            }
+          }
+        ]
+      : [],
+    markLine: [],
+    markArea: []
+  } as unknown as IBarChartSpec);
 
 const createAutoRangeMarkPointCoordinateSpec = (year: number, value: number): ILineChartSpec => {
   const spec = createMarkPointCoordinateSpec(year, value, 'autoRange') as any;
@@ -1951,6 +2009,85 @@ describe('vchart scoped update effects', () => {
         }
       }
     );
+  });
+
+  it('adds markPoint components without chart remake when data updates', () => {
+    const chart = new VChart(createBarMarkerToggleSpec(false), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const result = (chart as unknown as VChartInternals)._updateSpec(createBarMarkerToggleSpec(true), false);
+
+      expect(result.reMake).toBe(false);
+      expect(result.reCompile).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        layout: true,
+        render: true
+      });
+      expect(result.effects?.remake).toBeUndefined();
+      expect(result.effects?.compile).toBeUndefined();
+      expect(getChartModel(chart).getComponentsByKey('markPoint')).toHaveLength(1);
+    } finally {
+      chart.release();
+    }
+
+    const updateChart = new VChart(createBarMarkerToggleSpec(false), { dom, animation: false });
+
+    try {
+      updateChart.renderSync();
+
+      const spies = spyOnDataStages(updateChart);
+
+      updateChart.updateSpecSync(createBarMarkerToggleSpec(true));
+
+      const marker = getChartModel(updateChart).getComponentsByKey('markPoint')[0] as any;
+
+      expectDataStagesRunOnce(spies);
+      expect(marker?._markerComponent).toBeDefined();
+      expect(hasFiniteBarCoordinate(getFirstBarGraphic(updateChart))).toBe(true);
+    } finally {
+      updateChart.release();
+    }
+  });
+
+  it('keeps autoRange markPoint additions on the remake path', () => {
+    const chart = new VChart(createBarMarkerToggleSpec(false), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const nextSpec = createBarMarkerToggleSpec(true) as any;
+      nextSpec.markPoint[0].autoRange = true;
+
+      const result = (chart as unknown as VChartInternals)._updateSpec(nextSpec, false);
+
+      expect(result.reMake).toBe(true);
+    } finally {
+      chart.release();
+    }
+  });
+
+  it('keeps data update path when markPoint removal is combined with data changes', () => {
+    const chart = new VChart(createBarMarkerToggleSpec(true), { dom, animation: false });
+    const renderSync = jest.spyOn(chart as unknown as VChartInternals, '_renderSync');
+
+    try {
+      chart.renderSync();
+      renderSync.mockClear();
+
+      const spies = spyOnDataStages(chart);
+
+      chart.updateSpecSync(createBarMarkerToggleSpec(false));
+
+      expectDataStagesRunOnce(spies);
+      expect(renderSync).toHaveBeenCalledTimes(1);
+      expect(hasFiniteBarCoordinate(getFirstBarGraphic(chart))).toBe(true);
+    } finally {
+      renderSync.mockRestore();
+      chart.release();
+    }
   });
 
   it('updates autoRange marker coordinate domain without remake', () => {

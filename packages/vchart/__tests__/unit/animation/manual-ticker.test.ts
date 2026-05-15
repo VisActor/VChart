@@ -1087,6 +1087,105 @@ const createStackCornerLegendSpec = () =>
     }
   } as unknown as IBarChartSpec);
 
+const createMarkerToggleBarAnimationSpec = (withMarker: boolean): IBarChartSpec =>
+  ({
+    type: 'bar',
+    direction: 'horizontal',
+    width: 500,
+    height: 300,
+    padding: 0,
+    animation: true,
+    animationAppear: {
+      duration: APPEAR_DURATION,
+      easing: 'linear'
+    },
+    animationUpdate: {
+      duration: UPDATE_DURATION,
+      easing: 'linear'
+    },
+    dataKey: 'name',
+    data: {
+      id: 'bar',
+      values: withMarker
+        ? [
+            { name: 'Downtown Connector', value: 56.333333333333336, series: 'peak_delay_min' },
+            { name: 'Gate C Harmon', value: 69.5, series: 'peak_delay_min' }
+          ]
+        : [
+            { name: 'Downtown Connector', value: 52.75, series: 'peak_delay_min' },
+            { name: 'Gate C Harmon', value: 65.75, series: 'peak_delay_min' }
+          ]
+    },
+    xField: 'value',
+    yField: 'name',
+    seriesField: 'series',
+    axes: [
+      {
+        orient: 'bottom',
+        type: 'linear',
+        visible: false
+      },
+      {
+        orient: 'left',
+        type: 'band',
+        visible: false
+      }
+    ],
+    label: {
+      visible: true,
+      animationUpdate: {
+        duration: UPDATE_DURATION,
+        easing: 'linear'
+      }
+    },
+    markPoint: withMarker
+      ? [
+          {
+            coordinate: {
+              name: 'Gate C Harmon',
+              value: 69.5
+            },
+            itemLine: {
+              visible: true,
+              type: 'type-do'
+            },
+            itemContent: {
+              text: {
+                text: 'Gate C Harmon'
+              },
+              offsetY: -24
+            },
+            animation: {
+              type: 'moveIn',
+              duration: MARKER_DURATION,
+              easing: 'linear'
+            },
+            animationExit: {
+              type: 'fadeOut',
+              duration: MARKER_EXIT_DURATION,
+              easing: 'linear'
+            }
+          }
+        ]
+      : [],
+    markLine: [],
+    markArea: []
+  } as unknown as IBarChartSpec);
+
+const hasRenderableBarGeometry = (graphic: AnimatedGraphic) => {
+  const getAttr = (key: string) =>
+    graphic.attribute?.[key] ?? graphic.baseAttributes?.[key] ?? getGraphicFinalAttribute(graphic)[key];
+
+  return (
+    isGraphicAttached(graphic as TraversableGraphic) &&
+    graphic.attribute?.visible !== false &&
+    Number.isFinite(getAttr('x')) &&
+    Number.isFinite(getAttr('y')) &&
+    (Number.isFinite(getAttr('width')) || Number.isFinite(getAttr('x1'))) &&
+    (Number.isFinite(getAttr('height')) || Number.isFinite(getAttr('y1')))
+  );
+};
+
 describe('manual ticker animation regressions', () => {
   it('keeps default bar appear starts out of static truth', () => {
     const { container, dom } = createChartContainer();
@@ -2152,6 +2251,55 @@ describe('manual ticker animation regressions', () => {
       });
     } finally {
       renderSync.mockRestore();
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('keeps bars visible when toggling a markPoint with data updates', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createMarkerToggleBarAnimationSpec(false), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const chartModel = chart.getChart();
+
+      chart.updateSpecSync(createMarkerToggleBarAnimationSpec(true));
+
+      expect(chart.getChart()).toBe(chartModel);
+      expect(getMarkerGraphic(chart, 'markPoint')).toBeDefined();
+
+      const firstUpdateStart = ticker.getTime();
+      ticker.tickAt(firstUpdateStart + MARKER_DURATION + 50);
+
+      chart.updateSpecSync(createMarkerToggleBarAnimationSpec(false));
+
+      expect(chart.getChart()).toBe(chartModel);
+
+      const secondUpdateStart = ticker.getTime();
+
+      expect(getBarGraphics(chart)).toHaveLength(2);
+      expect(getBarGraphics(chart).every(hasRenderableBarGeometry)).toBe(true);
+
+      ticker.tickAt(secondUpdateStart + UPDATE_DURATION / 2);
+
+      expect(getBarGraphics(chart)).toHaveLength(2);
+      expect(getBarGraphics(chart).every(hasRenderableBarGeometry)).toBe(true);
+
+      ticker.tickAt(secondUpdateStart + MARKER_EXIT_DURATION + 50);
+
+      expect(getBarGraphics(chart)).toHaveLength(2);
+      expect(getBarGraphics(chart).every(hasRenderableBarGeometry)).toBe(true);
+    } finally {
       chart.release();
       ticker.release();
       removeDom(container);

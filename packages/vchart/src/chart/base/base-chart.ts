@@ -92,6 +92,22 @@ const MARKER_COMPONENT_SPEC_KEYS: Record<string, boolean> = {
   [ComponentTypeEnum.markArea]: true
 };
 
+const MARKER_ADDITION_REMAKE_SPEC_KEYS: Record<string, boolean> = {
+  autoRange: true,
+  regionId: true,
+  regionIndex: true,
+  seriesId: true,
+  seriesIndex: true,
+  relativeSeriesId: true,
+  relativeSeriesIndex: true,
+  startRelativeSeriesId: true,
+  startRelativeSeriesIndex: true,
+  endRelativeSeriesId: true,
+  endRelativeSeriesIndex: true,
+  specifiedDataSeriesId: true,
+  specifiedDataSeriesIndex: true
+};
+
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
   readonly seriesType: string;
@@ -919,7 +935,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       if (
         isArray(currentSpec) &&
         currentSpec.length !== array(nextSpec).length &&
-        !this._canRemoveMarkerComponentsWithoutRemake(key, currentSpec, nextSpec)
+        !this._canChangeMarkerComponentsWithoutRemake(key, currentSpec, nextSpec)
       ) {
         result.reMake = true;
         this.setLayoutTag(true, null, false);
@@ -959,6 +975,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       this.setLayoutTag(true, null, false);
       return result;
     }
+    if (!onlyComponentSpecsChanged && result.effects?.localOnly) {
+      delete result.effects.localOnly;
+    }
     if (isUpdateSpecResultLocalOnly(result)) {
       return result;
     }
@@ -989,8 +1008,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.reInit();
     if (!onlySeriesSpecsChanged || !this._canSkipChartDataStages(result)) {
       this.updateDataSpec();
-      // ensure that the domain of the scale follows the data change
-      this.updateGlobalScaleDomain();
+      // ensure that series data transforms and scale domains follow the data change
+      this.reDataFlow();
+      this._reRunStackDataFlow();
+      this.getAllModels().forEach(model => model.onDataUpdate());
     }
     return result;
   }
@@ -1090,6 +1111,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         mergeUpdateResult(result, componentResult);
       }
     });
+    if (!result.reMake) {
+      this._createMissingMarkerComponentsForSpecs(result, componentCache);
+    }
     for (const key in componentCache) {
       if (Object.prototype.hasOwnProperty.call(componentCache, key)) {
         const element = componentCache[key];
@@ -1129,6 +1153,33 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     };
   }
 
+  private _canChangeMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
+    return (
+      this._canRemoveMarkerComponentsWithoutRemake(key, currentSpec, nextSpec) ||
+      this._canAddMarkerComponentsWithoutRemake(key, currentSpec, nextSpec)
+    );
+  }
+
+  private _canAddMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
+    if (!MARKER_COMPONENT_SPEC_KEYS[key] || !isArray(currentSpec) || !isArray(nextSpec)) {
+      return false;
+    }
+
+    if (nextSpec.length <= currentSpec.length) {
+      return false;
+    }
+
+    return nextSpec.slice(currentSpec.length).every(this._isMarkerAdditionSpecSafeWithoutRemake);
+  }
+
+  private _isMarkerAdditionSpecSafeWithoutRemake = (spec: any) => {
+    if (!spec || typeof spec !== 'object' || spec.visible === false) {
+      return false;
+    }
+
+    return !Object.keys(MARKER_ADDITION_REMAKE_SPEC_KEYS).some(key => !isNil(spec[key]));
+  };
+
   private _canRemoveMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
     return (
       MARKER_COMPONENT_SPEC_KEYS[key] &&
@@ -1155,6 +1206,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   private _isComponentSpecKey(key: string) {
+    if (MARKER_COMPONENT_SPEC_KEYS[key]) {
+      return true;
+    }
+
     return this._components.some(component => {
       return (component.specKey || component.type) === key;
     });
@@ -1224,6 +1279,74 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       !result.changeTheme &&
       !result.changeBackground
     );
+  }
+
+  private _reRunStackDataFlow() {
+    if (!this._series.some(series => series.getStack?.())) {
+      return;
+    }
+
+    (this as any)._stack?.stackAll?.();
+    this._series.forEach(series => {
+      if (series.getViewDataFilter()) {
+        series.reTransformViewData();
+      }
+    });
+  }
+
+  private _getModelSpecIndex(specInfo: IModelSpecInfo) {
+    const specPath = specInfo.specPath ?? [];
+    const specIndex = specPath[specPath.length - 1];
+
+    return typeof specIndex === 'number' ? specIndex : 0;
+  }
+
+  private _hasComponentForSpecInfo(key: string, specInfo: IModelSpecInfo) {
+    const specIndex = this._getModelSpecIndex(specInfo);
+
+    return this._components.some(component => {
+      return (component.specKey || component.type) === key && component.getSpecIndex() === specIndex;
+    });
+  }
+
+  private _createMissingMarkerComponentsForSpecs(
+    result: IUpdateSpecResult,
+    componentCache: Record<string, { specCount: number; componentCount: number }>
+  ) {
+    let createdCount = 0;
+
+    this._specTransformer?.forEachComponentInSpec(this._spec, (constructor, specInfo) => {
+      if (result.reMake) {
+        return;
+      }
+      const compSpecKey = constructor.specKey || constructor.type;
+
+      if (!MARKER_COMPONENT_SPEC_KEYS[compSpecKey] || this._hasComponentForSpecInfo(compSpecKey, specInfo)) {
+        return;
+      }
+      if (!this._isMarkerAdditionSpecSafeWithoutRemake(specInfo.spec)) {
+        result.reMake = true;
+        return;
+      }
+
+      this._createComponent(constructor, specInfo);
+      if (componentCache[compSpecKey]) {
+        componentCache[compSpecKey].componentCount++;
+      }
+      createdCount++;
+    }, this._option.getSpecInfo());
+
+    if (!createdCount) {
+      return;
+    }
+
+    result.change = true;
+    result.effects = {
+      ...result.effects,
+      component: true,
+      layout: true,
+      render: true
+    };
   }
 
   private _removeMarkerComponentsForEmptySpecs(result: IUpdateSpecResult) {
