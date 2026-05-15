@@ -1172,6 +1172,12 @@ const createMarkerToggleBarAnimationSpec = (withMarker: boolean): IBarChartSpec 
     markArea: []
   } as unknown as IBarChartSpec);
 
+const createMarkerPresenceOnlyBarAnimationSpec = (withMarker: boolean): IBarChartSpec =>
+  ({
+    ...createMarkerToggleBarAnimationSpec(withMarker),
+    data: createMarkerToggleBarAnimationSpec(true).data
+  } as unknown as IBarChartSpec);
+
 const hasRenderableBarGeometry = (graphic: AnimatedGraphic) => {
   const getAttr = (key: string) =>
     graphic.attribute?.[key] ?? graphic.baseAttributes?.[key] ?? getGraphicFinalAttribute(graphic)[key];
@@ -2299,6 +2305,40 @@ describe('manual ticker animation regressions', () => {
 
       expect(getBarGraphics(chart)).toHaveLength(2);
       expect(getBarGraphics(chart).every(hasRenderableBarGeometry)).toBe(true);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('lays out a recreated markPoint when only marker presence changes', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createMarkerPresenceOnlyBarAnimationSpec(true), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + MARKER_DURATION + 50);
+
+      const chartModel = chart.getChart();
+
+      chart.updateSpecSync(createMarkerPresenceOnlyBarAnimationSpec(false));
+
+      expect(chart.getChart()).toBe(chartModel);
+
+      const removeStart = ticker.getTime();
+      ticker.tickAt(removeStart + MARKER_EXIT_DURATION + 50);
+
+      chart.updateSpecSync(createMarkerPresenceOnlyBarAnimationSpec(true));
+
+      expect(chart.getChart()).toBe(chartModel);
+      expect(getMarkerGraphic(chart, 'markPoint')).toBeDefined();
     } finally {
       chart.release();
       ticker.release();

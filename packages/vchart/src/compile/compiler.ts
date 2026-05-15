@@ -403,7 +403,10 @@ export class Compiler implements ICompiler {
   }
 
   renderMarks() {
-    if (!this._hasCommitedMark()) {
+    let hasCommitedMark = this._hasCommitedMark();
+    const needsLayout = this._layoutState === LayoutState.before;
+
+    if (!hasCommitedMark && !needsLayout) {
       return;
     }
 
@@ -411,17 +414,20 @@ export class Compiler implements ICompiler {
     this.clearProgressive();
 
     // 更新所有的mark
-    this._rootMarks.forEach(mark => {
-      mark.render();
-    });
+    if (hasCommitedMark) {
+      this._rootMarks.forEach(mark => {
+        mark.render();
+      });
+    }
 
-    if (this._layoutState === LayoutState.before) {
+    if (needsLayout) {
       // 需要更新布局
       this._layoutState = LayoutState.layouting;
       this._compileChart?.onLayout();
       this._layoutState = LayoutState.reevaluate;
+      hasCommitedMark = this._hasCommitedMark();
 
-      if (this._hasCommitedMark()) {
+      if (hasCommitedMark) {
         // 第二次更新所有的mark
         this._rootMarks.forEach(mark => {
           mark.render();
@@ -430,13 +436,17 @@ export class Compiler implements ICompiler {
       this.handleLayoutEnd();
     }
 
-    this.findProgressiveMarks();
+    if (hasCommitedMark) {
+      this.findProgressiveMarks();
 
-    // update stage animation state
-    this.updateStateAnimation();
+      // update stage animation state
+      this.updateStateAnimation();
+    }
 
     this._doRender(true);
-    this.doPreProgressive();
+    if (hasCommitedMark) {
+      this.doPreProgressive();
+    }
 
     log(`--- start of renderMarks(${this._count}) ---`);
     this._count++;
