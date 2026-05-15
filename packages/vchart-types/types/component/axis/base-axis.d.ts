@@ -82,13 +82,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
     protected _updateTickDataMarks(m: ICompilableMark): void;
     protected initScales(): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../..").IUpdateSpecResult;
+    private _isComponentOnlySpecChange;
     protected _getAxisAttributes(): any;
     protected _getGridAttributes(): {
         alternateColor: any;

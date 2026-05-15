@@ -48,6 +48,7 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     private _zoomRecord;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     init(): void;
+    reInit(spec?: T): void;
     private _initNeedOperatedItem;
     created(): void;
     protected _bindRegions(): void;
@@ -55,13 +56,8 @@ export declare class Brush<T extends IBrushSpec = IBrushSpec> extends BaseCompon
     private _initRegionAxisMap;
     private _initAxisDataZoomMap;
     protected initEvent(): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
+    protected _isComponentOnlySpecChange(spec: T, prevSpec: T): boolean;
     onLayoutEnd(): void;
     protected _updateBrushComponent(region: IRegion, componentIndex: number): void;
     protected _shouldEnableInteractive(): boolean;
