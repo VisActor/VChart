@@ -453,6 +453,28 @@ const createTopLevelLineMarkStyleSpec = (stroke: string): ILineChartSpec => ({
   }
 });
 
+const createTopLevelLineColorSpecifiedSpec = (specified?: Record<string, string>): ILineChartSpec => ({
+  type: 'line',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1, series: 'co2_gt' },
+        { x: 'B', y: 2, series: 'co2_gt' }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  seriesField: 'series',
+  color: {
+    type: 'ordinal',
+    domain: ['co2_gt'],
+    range: ['#F0A868'],
+    ...(specified ? { specified } : {})
+  }
+});
+
 const createTopLevelLineMarkIdSpec = (id: string): ILineChartSpec => ({
   type: 'line',
   data: [
@@ -1483,6 +1505,92 @@ const createMarkPointOptionalCoordinateSpec = (
   return spec as ILineChartSpec;
 };
 
+const createMarkPointAxisMixedUpdateSpec = (
+  withCoordinate: boolean,
+  value: number,
+  text: string,
+  color: string,
+  xLabelGap: number,
+  yAxisMin?: number
+): ILineChartSpec => {
+  const spec = createMarkPointOptionalCoordinateSpec(withCoordinate, value, text, color) as any;
+  spec.axes = [
+    {
+      orient: 'bottom',
+      type: 'linear',
+      label: {
+        minGap: xLabelGap,
+        autoHideSeparation: xLabelGap
+      }
+    },
+    {
+      orient: 'left',
+      type: 'linear',
+      ...(yAxisMin === undefined ? {} : { min: yAxisMin })
+    }
+  ];
+
+  return spec as ILineChartSpec;
+};
+
+const createRuntimeLikeLineUpdateSpec = (
+  withCoordinate: boolean,
+  value: number,
+  text: string,
+  color: string,
+  xLabelGap: number,
+  dataCount: number,
+  options?: {
+    yAxisMin?: number;
+    colorSpecified?: Record<string, string>;
+    strokeOpacity?: number;
+  }
+): ILineChartSpec => {
+  const spec = createMarkPointAxisMixedUpdateSpec(
+    withCoordinate,
+    value,
+    text,
+    color,
+    xLabelGap,
+    options?.yAxisMin
+  ) as any;
+  spec.seriesField = 'series';
+  spec.data = [
+    {
+      id: 'data',
+      values: Array.from({ length: dataCount }, (_, index) => ({
+        year: 1950 + index,
+        value: index + 1,
+        series: 'co2_gt'
+      }))
+    }
+  ];
+  spec.color = {
+    type: 'ordinal',
+    domain: ['co2_gt'],
+    range: ['#F0A868'],
+    ...(options?.colorSpecified ? { specified: options.colorSpecified } : {})
+  };
+  spec.line = {
+    style: {},
+    state: {
+      custom1: {
+        level: 1,
+        style: {
+          visible: true,
+          curveType: 'linear',
+          curveTension: 0,
+          ...(options?.strokeOpacity === undefined ? {} : { strokeOpacity: options.strokeOpacity }),
+          lineWidth: 3,
+          lineDash: [0, 0]
+        }
+      }
+    }
+  };
+
+  return spec as ILineChartSpec;
+};
+
 const createMarkLineCoordinatesSpec = (startYear: number, endYear: number): ILineChartSpec =>
   ({
     ...createMarkPointCoordinateSpec(1950, 1, 'point'),
@@ -2260,6 +2368,58 @@ describe('vchart scoped update effects', () => {
     );
   });
 
+  it('updates top-level color specified without chart remake', () => {
+    const classifyAddChart = new VChart(createTopLevelLineColorSpecifiedSpec(), { dom, animation: false });
+
+    try {
+      classifyAddChart.renderSync();
+
+      const result = (classifyAddChart as unknown as VChartInternals)._updateSpec(
+        createTopLevelLineColorSpecifiedSpec({ co2_gt: '#4A5568' }),
+        false
+      );
+
+      expect(result.reMake).toBe(false);
+      expect(result.reCompile).toBe(false);
+      expect(result.reRender).toBe(true);
+    } finally {
+      classifyAddChart.release();
+    }
+
+    const classifyRemoveChart = new VChart(createTopLevelLineColorSpecifiedSpec({ co2_gt: '#4A5568' }), {
+      dom,
+      animation: false
+    });
+
+    try {
+      classifyRemoveChart.renderSync();
+
+      const result = (classifyRemoveChart as unknown as VChartInternals)._updateSpec(
+        createTopLevelLineColorSpecifiedSpec(),
+        false
+      );
+
+      expect(result.reMake).toBe(false);
+      expect(result.reCompile).toBe(false);
+      expect(result.reRender).toBe(true);
+    } finally {
+      classifyRemoveChart.release();
+    }
+
+    const updateChart = new VChart(createTopLevelLineColorSpecifiedSpec(), { dom, animation: false });
+
+    try {
+      updateChart.renderSync();
+      expect(getFirstSeriesGraphic(updateChart, 'line', 'line').attribute.stroke).toBe('#F0A868');
+
+      updateChart.updateSpecSync(createTopLevelLineColorSpecifiedSpec({ co2_gt: '#4A5568' }));
+
+      expect(getFirstSeriesGraphic(updateChart, 'line', 'line').attribute.stroke).toBe('#4A5568');
+    } finally {
+      updateChart.release();
+    }
+  });
+
   it('keeps top-level mark id updates on the structural remake path', () => {
     const chart = new VChart(createTopLevelLineMarkIdSpec('before'), { dom, animation: false });
 
@@ -2477,6 +2637,95 @@ describe('vchart scoped update effects', () => {
       const markerAfterRestore = getChartModel(updateChart).getComponentsByKey('markPoint')[0] as any;
       expect(markerAfterRestore.getMarkerData()).toBeTruthy();
       expect(markerAfterRestore?._markerComponent?.attribute?.position).not.toEqual({ x: null, y: null });
+    } finally {
+      updateChart.release();
+    }
+  });
+
+  it('keeps mixed axis label/min and markPoint coordinate updates off the remake path', () => {
+    const createInitialSpec = () => createMarkPointAxisMixedUpdateSpec(true, 1, 'before', '#F0A868', 24);
+    const createMiddleSpec = () => createMarkPointAxisMixedUpdateSpec(false, 2, 'middle', '#4A5568', 4, 0);
+    const createFinalSpec = () => createMarkPointAxisMixedUpdateSpec(true, 3, 'after', '#F0A868', 24);
+    const coordinateToEmptyChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+    try {
+      coordinateToEmptyChart.renderSync();
+
+      const result = (coordinateToEmptyChart as unknown as VChartInternals)._updateSpec(createMiddleSpec(), false);
+
+      expect(result.reMake).toBe(false);
+      expect(result.reCompile).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        layout: true,
+        render: true
+      });
+    } finally {
+      coordinateToEmptyChart.release();
+    }
+
+    const emptyToCoordinateChart = new VChart(createMiddleSpec(), { dom, animation: false });
+
+    try {
+      emptyToCoordinateChart.renderSync();
+
+      const result = (emptyToCoordinateChart as unknown as VChartInternals)._updateSpec(createFinalSpec(), false);
+
+      expect(result.reMake).toBe(false);
+      expect(result.reCompile).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        layout: true,
+        render: true
+      });
+    } finally {
+      emptyToCoordinateChart.release();
+    }
+  });
+
+  it('keeps runtime-like color axis markPoint and data updates off the remake path', () => {
+    const createInitialSpec = () => createRuntimeLikeLineUpdateSpec(true, 1, 'before', '#F0A868', 24, 2);
+    const createMiddleSpec = () =>
+      createRuntimeLikeLineUpdateSpec(false, 2, 'middle', '#4A5568', 4, 3, {
+        yAxisMin: 0,
+        colorSpecified: { co2_gt: '#4A5568' },
+        strokeOpacity: 0.9
+      });
+    const createFinalSpec = () => createRuntimeLikeLineUpdateSpec(true, 3, 'after', '#F0A868', 24, 4);
+    const firstUpdateChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+    try {
+      firstUpdateChart.renderSync();
+
+      const result = (firstUpdateChart as unknown as VChartInternals)._updateSpec(createMiddleSpec(), false);
+
+      expect(result.reMake).toBe(false);
+    } finally {
+      firstUpdateChart.release();
+    }
+
+    const secondUpdateChart = new VChart(createMiddleSpec(), { dom, animation: false });
+
+    try {
+      secondUpdateChart.renderSync();
+
+      const result = (secondUpdateChart as unknown as VChartInternals)._updateSpec(createFinalSpec(), false);
+
+      expect(result.reMake).toBe(false);
+    } finally {
+      secondUpdateChart.release();
+    }
+
+    const updateChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+    try {
+      updateChart.renderSync();
+
+      updateChart.updateSpecSync(createMiddleSpec());
+      expect(getFirstSeriesGraphic(updateChart, 'line', 'line').attribute.stroke).toBe('#4A5568');
+
+      updateChart.updateSpecSync(createFinalSpec());
+      expect(getFirstSeriesGraphic(updateChart, 'line', 'line').attribute.stroke).toBe('#F0A868');
     } finally {
       updateChart.release();
     }

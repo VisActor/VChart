@@ -10,6 +10,7 @@ import VChart, {
   type ISeries
 } from '../../../src';
 import { DiffState } from '../../../src/mark/interface/enum';
+import type { IUpdateSpecResult } from '../../../src/model/interface';
 import { createDiv, removeDom } from '../../util/dom';
 
 type StateGraphic = IMarkGraphic & {
@@ -28,6 +29,18 @@ type SharedStateDefinitions = Record<
 
 const getSharedStateDefinitions = (mark: IMark) =>
   (mark.getProduct() as unknown as { sharedStateDefinitions?: SharedStateDefinitions }).sharedStateDefinitions;
+
+type VChartWithUpdateSpec = {
+  _updateSpec: (spec: ILineChartSpec, forceMerge: boolean) => IUpdateSpecResult;
+};
+
+type CrosshairStateForTest = {
+  _stateByField?: {
+    xField?: {
+      currentValue?: Map<unknown, unknown>;
+    };
+  };
+};
 
 describe('vchart event test', () => {
   let container: HTMLElement;
@@ -208,6 +221,154 @@ describe('vchart event test', () => {
 
     stage.dispatchEvent(e);
     expect(pointDowmSpy).toBeCalledTimes(2);
+  });
+
+  it('should keep tooltip and crosshair triggerable after line mark and marker update without remake', () => {
+    const lineContainer = createDiv();
+    const lineDom = createDiv(lineContainer);
+    lineDom.id = 'line-interaction-container';
+    lineContainer.style.position = 'fixed';
+    lineContainer.style.width = '500px';
+    lineContainer.style.height = '500px';
+    lineContainer.style.top = '0px';
+    lineContainer.style.left = '0px';
+
+    const createSpec = (overrides: Partial<ILineChartSpec> = {}): ILineChartSpec => ({
+      type: 'line',
+      data: {
+        id: 'line',
+        values: [
+          { x: 'A', y: 10, series: 's1' },
+          { x: 'B', y: 16, series: 's1' },
+          { x: 'C', y: 12, series: 's1' }
+        ]
+      },
+      xField: 'x',
+      yField: 'y',
+      seriesField: 'series',
+      point: {
+        style: {},
+        state: {
+          dimension_hover: {
+            scaleX: 1.4,
+            scaleY: 1.4
+          }
+        }
+      },
+      line: {
+        style: {},
+        state: {
+          custom1: {
+            style: {
+              strokeOpacity: 0.25
+            }
+          }
+        }
+      },
+      markArea: [
+        {
+          coordinates: [
+            { x: 'A', y: 0 },
+            { x: 'B', y: 18 }
+          ]
+        }
+      ],
+      markPoint: [],
+      crosshair: {
+        xField: {
+          visible: true,
+          line: {
+            type: 'line'
+          },
+          label: {
+            visible: true
+          }
+        }
+      },
+      tooltip: {
+        visible: true,
+        throttleInterval: 0
+      },
+      ...overrides
+    });
+
+    const nextSpec = createSpec({
+      data: {
+        id: 'line',
+        values: [
+          { x: 'A', y: 11, series: 's1' },
+          { x: 'B', y: 18, series: 's1' },
+          { x: 'C', y: 13, series: 's1' },
+          { x: 'D', y: 15, series: 's1' }
+        ]
+      },
+      point: {
+        visible: false
+      },
+      line: {
+        style: {}
+      },
+      markArea: [],
+      markPoint: [
+        {
+          coordinate: { x: 'B', y: 18 },
+          itemContent: {
+            text: {
+              text: 'B'
+            }
+          }
+        }
+      ]
+    });
+
+    const lineChart = new VChart(createSpec(), {
+      dom: lineDom,
+      animation: false
+    });
+    lineChart.renderSync();
+
+    const emitPointerMove = (chart: VChart, datum: Record<string, unknown>) => {
+      const point = chart.convertDatumToPosition(datum) as { x: number; y: number };
+
+      chart
+        .getChart()
+        ?.getEvent()
+        .emit('pointermove', {
+          chart: chart.getChart(),
+          event: {
+            type: 'pointermove',
+            viewX: point.x,
+            viewY: point.y
+          },
+          source: 'chart'
+        } as unknown as BaseEventParams);
+    };
+
+    const tooltipShowSpy = jest.fn();
+    lineChart.on('tooltipShow', tooltipShowSpy);
+    emitPointerMove(lineChart, { x: 'B', y: 16, series: 's1' });
+
+    expect(tooltipShowSpy).toBeCalledTimes(1);
+
+    const updateResult = (lineChart as unknown as VChartWithUpdateSpec)._updateSpec(nextSpec, false);
+
+    expect(updateResult.reMake).toBe(false);
+    lineChart.updateCustomConfigAndRerender(updateResult, true, {
+      transformSpec: updateResult.reTransformSpec,
+      actionSource: 'updateSpec'
+    });
+
+    emitPointerMove(lineChart, { x: 'B', y: 18, series: 's1' });
+
+    expect(tooltipShowSpy).toBeCalledTimes(2);
+
+    const crosshair = lineChart.getComponents().find(component => component.type === 'cartesianCrosshair') as
+      | CrosshairStateForTest
+      | undefined;
+    expect(crosshair?._stateByField?.xField?.currentValue?.size).toBeGreaterThan(0);
+
+    lineChart.release();
+    removeDom(lineContainer);
   });
 
   it('should fire tooltipRelease before release chart', () => {

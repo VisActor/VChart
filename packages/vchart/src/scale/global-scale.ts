@@ -11,6 +11,10 @@ import type { IVisualScale, IVisualSpecScale } from '../typings';
 import type { StatisticOperations } from '../data/transforms/interface';
 import type { ISeries } from '../series';
 
+type SpecifiedScale = OrdinalScale & {
+  setSpecified?: (value?: Record<string, unknown>) => OrdinalScale;
+};
+
 export class GlobalScale implements IGlobalScale {
   private _scaleSpecMap: Map<string, IVisualSpecScale<unknown, unknown>> = new Map();
   private _scaleMap: Map<string, IBaseScale> = new Map();
@@ -118,8 +122,20 @@ export class GlobalScale implements IGlobalScale {
         return result;
       }
       if (!isEqual(lastSpec.specified, s.specified)) {
-        result.reMake = true;
-        return result;
+        if (s.id !== 'color') {
+          result.reMake = true;
+          return result;
+        }
+        const colorScale = scale as SpecifiedScale;
+        if (colorScale.setSpecified) {
+          colorScale.setSpecified(s.specified as Record<string, unknown> | undefined);
+        } else if (s.specified && colorScale.specified) {
+          colorScale.specified(s.specified);
+        } else {
+          result.reMake = true;
+          return result;
+        }
+        result.reRender = true;
       }
       if (s.range && !isEqual(s.range, scale.range())) {
         scale.range(s.range);
