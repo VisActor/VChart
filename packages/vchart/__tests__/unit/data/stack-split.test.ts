@@ -53,6 +53,18 @@ test('stackSplit of one field', () => {
   });
 });
 
+test('stackSplit resolves lazy fields on every transform run', () => {
+  const { dataView } = generateDataSet();
+  let fields = ['x'];
+  const options = () => ({ fields });
+
+  expect(stackSplit([dataView], options as unknown as Parameters<typeof stackSplit>[1]).groupField).toBe('x');
+
+  fields = ['type'];
+
+  expect(stackSplit([dataView], options as unknown as Parameters<typeof stackSplit>[1]).groupField).toBe('type');
+});
+
 test('stackSplit of one field', () => {
   const { dataView } = generateDataSet();
 

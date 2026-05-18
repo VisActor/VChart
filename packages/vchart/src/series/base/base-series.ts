@@ -600,9 +600,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._viewStackData.transform(
       {
         type: 'stackSplit',
-        options: {
+        options: () => ({
           fields: this.getStackGroupFields()
-        }
+        })
       },
       false
     );
