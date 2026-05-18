@@ -114,7 +114,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
 
       viewData.transform({
         type: 'sankeyLayout',
-        options: {
+        options: () => ({
           view: () => {
             return {
               x0: this._viewBox.x1,
@@ -148,7 +148,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
           equalNodeHeight: this._spec.equalNodeHeight,
           linkOverlap: this._spec.linkOverlap,
           inverse: this._spec.inverse
-        } as ISankeyOpt,
+        } as ISankeyOpt),
         level: TransformLevel.sankeyLayout
       });
 
