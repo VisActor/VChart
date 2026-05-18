@@ -19,20 +19,20 @@ export declare class BaseComponent<T extends IComponentSpec = IComponentSpec> ex
     protected _regions: IRegion[];
     getRegions(): IRegion[];
     protected _container: IGroup;
+    private _exitingVRenderComponents?;
+    private _forceReleaseVRenderComponents;
     created(): void;
     initLayout(): void;
     protected _getNeedClearVRenderComponents(): IGraphic[];
     getVRenderComponents(): IGraphic<Partial<IGraphicAttribute>>[];
     protected callPlugin(cb: (plugin: IComponentPlugin) => void): void;
     protected getContainer(): IGroup;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
+    beforeRelease(): void;
     release(): void;
+    protected _shouldReleaseVRenderComponentsImmediately(): boolean;
+    protected _forceReleaseExitingVRenderComponents(): void;
+    protected _releaseVRenderComponent(component: IGraphic): void;
     clear(): void;
     compile(): void;
     compileMarks(group?: IGroup): void;
