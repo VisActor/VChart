@@ -145,11 +145,11 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     const displayData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     displayData.transform({
       type: 'indicatorFilter',
-      options: {
+      options: () => ({
         title: this._title,
         content: this._content,
         datum: () => this._activeDatum
-      }
+      })
     });
 
     displayData.target.addListener('change', this.updateDatum.bind(this));
