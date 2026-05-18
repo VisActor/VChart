@@ -115,7 +115,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       this._rawData?.transform(
         {
           type: 'waterfallFillTotal',
-          options: {
+          options: () => ({
             indexField: this.getGroupFields()[0],
             valueField: this.getStackValueField(),
             seriesField: this.getSeriesField(),
@@ -123,7 +123,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
             total: this._spec.total,
             calculationMode: this._spec.calculationMode ?? 'increase',
             stackInverse: this.getRegion().getStackInverse()
-          }
+          })
         },
         false
       );
@@ -137,7 +137,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     totalData.transform(
       {
         type: 'waterfall',
-        options: {
+        options: () => ({
           indexField: this.getGroupFields()[0],
           valueField: this.getStackValueField(),
           seriesField: this.getSeriesField(),
@@ -148,7 +148,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           calculationMode: this._spec.calculationMode ?? 'increase',
           groupData: () => this.getGroups().groupData,
           stackInverse: this.getRegion().getStackInverse()
-        }
+        })
       },
       false
     );
