@@ -329,11 +329,11 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     outlierDataView.name = `${PREFIX}_series_${this.id}_outlierData`;
     outlierDataView.transform({
       type: 'foldOutlierData',
-      options: {
+      options: () => ({
         dimensionField: this._direction === Direction.horizontal ? this._fieldY : this._fieldX,
         outliersField: this._outliersField,
         seriesField: this._seriesField
-      }
+      })
     });
 
     outlierDataView.transform(
