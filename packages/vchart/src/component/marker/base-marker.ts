@@ -32,6 +32,7 @@ const MARKER_FORMAT_METHOD_PLACEHOLDER = '__vchart_marker_format_method__';
 const MARKER_COORDINATE_PLACEHOLDER = '__vchart_marker_coordinate__';
 const MARKER_TEXT_PLACEHOLDER = '__vchart_marker_text__';
 const MARKER_AUTO_RANGE_PLACEHOLDER = '__vchart_marker_auto_range__';
+const MARKER_STYLE_PLACEHOLDER = '__vchart_marker_style__';
 const MARKER_DOMAIN_POSITION_SPEC_KEYS = [
   'coordinate',
   'coordinates',
@@ -62,6 +63,25 @@ const normalizeMarkerLabelFormatMethod = (label: any): any => {
   };
 };
 
+const normalizeMarkerStyles = (value: any): any => {
+  if (Array.isArray(value)) {
+    return value.map(normalizeMarkerStyles);
+  }
+  if (!value || typeof value !== 'object') {
+    return value;
+  }
+
+  const normalized = { ...value };
+  Object.keys(normalized).forEach(key => {
+    if (key === 'style' || key.endsWith('Style')) {
+      normalized[key] = MARKER_STYLE_PLACEHOLDER;
+    } else {
+      normalized[key] = normalizeMarkerStyles(normalized[key]);
+    }
+  });
+  return normalized;
+};
+
 const normalizeMarkerSpecForComponentOnlyUpdate = (
   spec: any,
   options: { normalizeDomainPosition: boolean; normalizeAutoRange?: boolean }
@@ -73,9 +93,7 @@ const normalizeMarkerSpecForComponentOnlyUpdate = (
   const normalized = { ...spec };
   if (options.normalizeDomainPosition) {
     MARKER_DOMAIN_POSITION_SPEC_KEYS.forEach(key => {
-      if (key in normalized) {
-        normalized[key] = MARKER_COORDINATE_PLACEHOLDER;
-      }
+      normalized[key] = MARKER_COORDINATE_PLACEHOLDER;
     });
   }
   if (options.normalizeAutoRange && 'autoRange' in normalized) {
@@ -89,6 +107,10 @@ const normalizeMarkerSpecForComponentOnlyUpdate = (
   if ('label' in normalized) {
     normalized.label = normalizeMarkerLabelFormatMethod(normalized.label);
   }
+
+  Object.keys(normalized).forEach(key => {
+    normalized[key] = normalizeMarkerStyles(normalized[key]);
+  });
 
   const text = normalized.itemContent?.text;
   if (text && typeof text === 'object') {
@@ -455,6 +477,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
 
   reInit(spec?: T) {
     super.reInit(spec);
+    this._releaseMarkerData();
     this._bindSeries();
     this._initDataView();
     this._buildMarkerAttributeContext();

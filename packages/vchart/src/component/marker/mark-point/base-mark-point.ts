@@ -203,6 +203,26 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         ? data.latestData[0].latestData
         : data.latestData
       : seriesData;
+    const { itemLine = {}, itemContent = {} } = this._spec;
+    const { visible: itemLineVisible, line = {}, ...restItemLine } = itemLine;
+    const itemLineAttrs =
+      itemLineVisible !== false
+        ? ({
+            ...restItemLine,
+            visible: true,
+            lineStyle: transformToGraphic(line.style)
+          } as any)
+        : {
+            visible: false
+          };
+    const labelAttrs = transformLabelAttributes(
+      {
+        ...itemContent.text,
+        style: merge({ dx: 0, dy: 0 }, itemContent.text?.style ?? itemContent.style)
+      } as IMarkerLabelWithoutRefSpec,
+      data,
+      this._markAttributeContext
+    ) as any;
 
     let limitRect;
     if (spec.clip || spec.itemContent?.confine) {
@@ -222,8 +242,11 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         position: point === undefined ? { x: null, y: null } : point, // setAttrs时merge时undefined会被忽略, 所以这里做转换
         itemContent: {
           ...attribute.itemContent,
+          panel: labelAttrs.panel ?? (attribute.itemContent as any)?.panel,
+          padding: labelAttrs.padding ?? (attribute.itemContent as any)?.padding,
           textStyle: {
             ...textStyle,
+            ...(labelAttrs.textStyle ?? {}),
             text: this._spec.itemContent.text?.formatMethod
               ? // type error here will be fixed in components
                 (this._spec.itemContent.text.formatMethod(dataPoints, seriesData) as any)
@@ -234,6 +257,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
           offsetX: computeOffsetFromRegion(point, attribute.itemContent.offsetX, this._relativeSeries.getRegion()),
           offsetY: computeOffsetFromRegion(point, attribute.itemContent.offsetY, this._relativeSeries.getRegion())
         } as any,
+        itemLine: itemLineAttrs,
         limitRect,
         dx: this._layoutOffsetX,
         dy: this._layoutOffsetY

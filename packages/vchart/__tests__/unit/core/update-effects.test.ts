@@ -1445,6 +1445,44 @@ const createMarkPointCoordinateSpec = (year: number, value: number, text: string
     ]
   } as unknown as ILineChartSpec);
 
+const createMarkPointOptionalCoordinateSpec = (
+  withCoordinate: boolean,
+  value: number,
+  text: string,
+  color: string = '#F0A868'
+): ILineChartSpec => {
+  const spec = createMarkPointCoordinateSpec(1950, value, text) as any;
+  const markerSpec = spec.markPoint?.[0];
+
+  if (markerSpec) {
+    if (withCoordinate) {
+      markerSpec.coordinate = {
+        year: 1950,
+        value
+      };
+    } else {
+      delete markerSpec.coordinate;
+    }
+    markerSpec.itemLine.startSymbol = {
+      visible: true,
+      style: {
+        fill: color
+      }
+    };
+    markerSpec.itemLine.line.style.stroke = color;
+    markerSpec.itemContent.text.labelBackground = {
+      visible: true,
+      style: {
+        stroke: color,
+        fill: color
+      }
+    };
+    markerSpec.itemContent.style.fill = color;
+  }
+
+  return spec as ILineChartSpec;
+};
+
 const createMarkLineCoordinatesSpec = (startYear: number, endYear: number): ILineChartSpec =>
   ({
     ...createMarkPointCoordinateSpec(1950, 1, 'point'),
@@ -1617,6 +1655,32 @@ const createMarkLineXYSpec = (
         }
       }
     ]
+  } as unknown as ILineChartSpec);
+
+const createAutoRangeMarkLineAdditionSpec = (
+  withMarker: boolean,
+  markerSpec: Record<string, unknown> = {}
+): ILineChartSpec =>
+  ({
+    ...createMarkPointCoordinateSpec(1950, 1, 'point'),
+    markPoint: undefined,
+    markLine: withMarker
+      ? [
+          {
+            x: 1950,
+            y: 1,
+            x1: 2200,
+            y1: 3,
+            autoRange: true,
+            ...markerSpec,
+            line: {
+              style: {
+                stroke: '#F0A868'
+              }
+            }
+          }
+        ]
+      : []
   } as unknown as ILineChartSpec);
 
 const createMarkLinePositionsSpec = (startX: number, endX: number): ILineChartSpec =>
@@ -2255,19 +2319,33 @@ describe('vchart scoped update effects', () => {
   });
 
   it('classifies scrollBar slider style updates as component-only', () => {
-    expectComponentOnlySpecUpdate(dom, () => createScrollBarStyleSpec('#333'), () => createScrollBarStyleSpec('#666'), {
-      layout: true
-    });
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createScrollBarStyleSpec('#333'),
+      () => createScrollBarStyleSpec('#666'),
+      {
+        layout: true
+      }
+    );
   });
 
   it('classifies tooltip style updates as component-only', () => {
-    expectComponentOnlySpecUpdate(dom, () => createTooltipStyleSpec('#333'), () => createTooltipStyleSpec('#666'));
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createTooltipStyleSpec('#333'),
+      () => createTooltipStyleSpec('#666')
+    );
   });
 
   it('classifies player appearance updates as component-only', () => {
-    expectComponentOnlySpecUpdate(dom, () => createPlayerStyleSpec('#333'), () => createPlayerStyleSpec('#666'), {
-      layout: true
-    });
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createPlayerStyleSpec('#333'),
+      () => createPlayerStyleSpec('#666'),
+      {
+        layout: true
+      }
+    );
   });
 
   it('classifies indicator text updates as component-only', () => {
@@ -2318,6 +2396,92 @@ describe('vchart scoped update effects', () => {
     });
   });
 
+  it('classifies markPoint coordinate removal and restore as component-only', () => {
+    const coordinateToEmptyChart = new VChart(createMarkPointOptionalCoordinateSpec(true, 1, 'before'), {
+      dom,
+      animation: false
+    });
+
+    try {
+      coordinateToEmptyChart.renderSync();
+      const result = (coordinateToEmptyChart as unknown as VChartInternals)._updateSpec(
+        createMarkPointOptionalCoordinateSpec(false, 2, 'middle', '#4A5568'),
+        false
+      );
+
+      expect(result.reMake).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        layout: true,
+        render: true
+      });
+    } finally {
+      coordinateToEmptyChart.release();
+    }
+
+    const emptyToCoordinateChart = new VChart(createMarkPointOptionalCoordinateSpec(false, 2, 'middle', '#4A5568'), {
+      dom,
+      animation: false
+    });
+
+    try {
+      emptyToCoordinateChart.renderSync();
+      const result = (emptyToCoordinateChart as unknown as VChartInternals)._updateSpec(
+        createMarkPointOptionalCoordinateSpec(true, 3, 'after'),
+        false
+      );
+
+      expect(result.reMake).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        layout: true,
+        render: true
+      });
+    } finally {
+      emptyToCoordinateChart.release();
+    }
+
+    const updateChart = new VChart(createMarkPointOptionalCoordinateSpec(true, 1, 'before'), {
+      dom,
+      animation: false
+    });
+
+    try {
+      updateChart.renderSync();
+      const chartModel = getChartModel(updateChart);
+      const spies = spyOnDataStages(updateChart);
+      const seriesReInit = spyOnFirstSeriesReInit(chartModel);
+      const markerBeforeRemoval = chartModel.getComponentsByKey('markPoint')[0] as any;
+      const markerDataBeforeRemoval = markerBeforeRemoval.getMarkerData();
+
+      updateChart.updateSpecSync(createMarkPointOptionalCoordinateSpec(false, 2, 'middle', '#4A5568'));
+
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expectDataStagesSkipped(spies);
+      const markerAfterRemoval = getChartModel(updateChart).getComponentsByKey('markPoint')[0] as any;
+      expect(markerAfterRemoval?._markerComponent?.attribute?.position).toEqual({ x: null, y: null });
+      expect(markerAfterRemoval.getMarkerData()).toBeNull();
+      expect(Object.values(markerDataBeforeRemoval.dataSet.dataViewMap)).not.toContain(markerDataBeforeRemoval);
+      expect(markerAfterRemoval?._markerComponent?.attribute?.itemLine?.lineStyle?.stroke).toBe('#4A5568');
+      expect(markerAfterRemoval?._markerComponent?.attribute?.itemContent?.textStyle?.fill).toBe('#4A5568');
+      expect(markerAfterRemoval?._markerComponent?.attribute?.itemContent?.panel?.fill).toBe('#4A5568');
+
+      spies.updateDataSpec.mockClear();
+      spies.updateGlobalScaleDomain.mockClear();
+      seriesReInit.mockClear();
+
+      updateChart.updateSpecSync(createMarkPointOptionalCoordinateSpec(true, 3, 'after'));
+
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expectDataStagesSkipped(spies);
+      const markerAfterRestore = getChartModel(updateChart).getComponentsByKey('markPoint')[0] as any;
+      expect(markerAfterRestore.getMarkerData()).toBeTruthy();
+      expect(markerAfterRestore?._markerComponent?.attribute?.position).not.toEqual({ x: null, y: null });
+    } finally {
+      updateChart.release();
+    }
+  });
+
   it('classifies markLine coordinates updates as component-only', () => {
     expectComponentOnlySpecUpdate(
       dom,
@@ -2357,19 +2521,24 @@ describe('vchart scoped update effects', () => {
   });
 
   it('classifies markPoint x y updates as component-only', () => {
-    expectComponentOnlySpecUpdate(dom, () => createMarkPointXYSpec(1950, 1), () => createMarkPointXYSpec(1990, 2), {
-      layout: true,
-      beforeUpdate: chart => {
-        const marker = getChartModel(chart).getComponentsByKey('markPoint')[0] as any;
-        return { position: { ...marker?._markerComponent?.attribute?.position } };
-      },
-      afterUpdate: (chart, ctx) => {
-        const marker = getChartModel(chart).getComponentsByKey('markPoint')[0] as any;
-        expect(marker?._markerComponent?.attribute?.position).not.toEqual(
-          (ctx as { position: { x: number; y: number } }).position
-        );
+    expectComponentOnlySpecUpdate(
+      dom,
+      () => createMarkPointXYSpec(1950, 1),
+      () => createMarkPointXYSpec(1990, 2),
+      {
+        layout: true,
+        beforeUpdate: chart => {
+          const marker = getChartModel(chart).getComponentsByKey('markPoint')[0] as any;
+          return { position: { ...marker?._markerComponent?.attribute?.position } };
+        },
+        afterUpdate: (chart, ctx) => {
+          const marker = getChartModel(chart).getComponentsByKey('markPoint')[0] as any;
+          expect(marker?._markerComponent?.attribute?.position).not.toEqual(
+            (ctx as { position: { x: number; y: number } }).position
+          );
+        }
       }
-    });
+    );
   });
 
   it('classifies markPoint position updates as component-only', () => {
@@ -2455,20 +2624,115 @@ describe('vchart scoped update effects', () => {
     }
   });
 
-  it('keeps autoRange markPoint additions on the remake path', () => {
+  it('adds autoRange markPoint components without chart remake when data updates', () => {
     const chart = new VChart(createBarMarkerToggleSpec(false), { dom, animation: false });
 
     try {
       chart.renderSync();
 
-      const nextSpec = createBarMarkerToggleSpec(true) as any;
-      nextSpec.markPoint[0].autoRange = true;
+      const nextSpec = createBarMarkerToggleSpec(true);
+      const markPointSpec = Array.isArray(nextSpec.markPoint) ? nextSpec.markPoint[0] : nextSpec.markPoint;
+      if (markPointSpec) {
+        markPointSpec.autoRange = true;
+      }
 
       const result = (chart as unknown as VChartInternals)._updateSpec(nextSpec, false);
 
-      expect(result.reMake).toBe(true);
+      expect(result.reMake).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        scaleDomain: true,
+        layout: true,
+        render: true
+      });
     } finally {
       chart.release();
+    }
+  });
+
+  it('adds autoRange markLine components without chart remake', () => {
+    const classifyChart = new VChart(createAutoRangeMarkLineAdditionSpec(false), { dom, animation: false });
+
+    try {
+      classifyChart.renderSync();
+
+      const result = (classifyChart as unknown as VChartInternals)._updateSpec(
+        createAutoRangeMarkLineAdditionSpec(true),
+        false
+      );
+
+      expect(result.reMake).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        scaleDomain: true,
+        layout: true,
+        render: true
+      });
+    } finally {
+      classifyChart.release();
+    }
+
+    const updateChart = new VChart(createAutoRangeMarkLineAdditionSpec(false), { dom, animation: false });
+
+    try {
+      updateChart.renderSync();
+      const chartModel = getChartModel(updateChart);
+      const xAxis = chartModel.getComponentsByKey('axes')[0] as { getScale: () => { domain: () => number[] } };
+      const spies = spyOnDataStages(updateChart);
+      const seriesReInit = spyOnFirstSeriesReInit(chartModel);
+
+      expect(xAxis.getScale().domain()[1]).toBeLessThan(2200);
+
+      updateChart.updateSpecSync(createAutoRangeMarkLineAdditionSpec(true));
+
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expectDataStagesSkipped(spies);
+      expect(getChartModel(updateChart).getComponentsByKey('markLine')).toHaveLength(1);
+      expect(xAxis.getScale().domain()[1]).toBeGreaterThanOrEqual(2200);
+    } finally {
+      updateChart.release();
+    }
+  });
+
+  it('adds autoRange markLine components with explicit relative series without chart remake', () => {
+    const createInitialSpec = () => createAutoRangeMarkLineAdditionSpec(false);
+    const createNextSpec = () =>
+      createAutoRangeMarkLineAdditionSpec(true, { relativeSeriesId: 'mainSeries', relativeSeriesIndex: 0 });
+    const classifyChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+    try {
+      classifyChart.renderSync();
+
+      const result = (classifyChart as unknown as VChartInternals)._updateSpec(createNextSpec(), false);
+
+      expect(result.reMake).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        scaleDomain: true,
+        layout: true,
+        render: true
+      });
+    } finally {
+      classifyChart.release();
+    }
+
+    const updateChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+    try {
+      updateChart.renderSync();
+      const chartModel = getChartModel(updateChart);
+      const xAxis = chartModel.getComponentsByKey('axes')[0] as { getScale: () => { domain: () => number[] } };
+      const spies = spyOnDataStages(updateChart);
+      const seriesReInit = spyOnFirstSeriesReInit(chartModel);
+
+      updateChart.updateSpecSync(createNextSpec());
+
+      expect(seriesReInit).not.toHaveBeenCalled();
+      expectDataStagesSkipped(spies);
+      expect(getChartModel(updateChart).getComponentsByKey('markLine')).toHaveLength(1);
+      expect(xAxis.getScale().domain()[1]).toBeGreaterThanOrEqual(2200);
+    } finally {
+      updateChart.release();
     }
   });
 

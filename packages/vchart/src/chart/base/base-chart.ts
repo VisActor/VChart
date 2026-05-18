@@ -93,17 +93,10 @@ const MARKER_COMPONENT_SPEC_KEYS: Record<string, boolean> = {
 };
 
 const MARKER_ADDITION_REMAKE_SPEC_KEYS: Record<string, boolean> = {
-  autoRange: true,
   regionId: true,
   regionIndex: true,
   seriesId: true,
   seriesIndex: true,
-  relativeSeriesId: true,
-  relativeSeriesIndex: true,
-  startRelativeSeriesId: true,
-  startRelativeSeriesIndex: true,
-  endRelativeSeriesId: true,
-  endRelativeSeriesIndex: true,
   specifiedDataSeriesId: true,
   specifiedDataSeriesIndex: true
 };
@@ -1176,13 +1169,22 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     return nextSpec.slice(currentSpec.length).every(this._isMarkerAdditionSpecSafeWithoutRemake);
   }
 
-  private _isMarkerAdditionSpecSafeWithoutRemake = (spec: any) => {
-    if (!spec || typeof spec !== 'object' || spec.visible === false) {
+  private _isMarkerAdditionSpecSafeWithoutRemake = (spec: unknown) => {
+    if (!spec || typeof spec !== 'object') {
       return false;
     }
 
-    return !Object.keys(MARKER_ADDITION_REMAKE_SPEC_KEYS).some(key => !isNil(spec[key]));
+    const markerSpec = spec as Record<string, unknown>;
+    if (markerSpec.visible === false) {
+      return false;
+    }
+
+    return !Object.keys(MARKER_ADDITION_REMAKE_SPEC_KEYS).some(key => !isNil(markerSpec[key]));
   };
+
+  private _isAutoRangeMarkerSpec(spec: unknown) {
+    return !!spec && typeof spec === 'object' && (spec as { autoRange?: boolean }).autoRange === true;
+  }
 
   private _canRemoveMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
     return (
@@ -1338,27 +1340,33 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     componentCache: Record<string, { specCount: number; componentCount: number }>
   ) {
     let createdCount = 0;
+    let hasAutoRangeMarker = false;
 
-    this._specTransformer?.forEachComponentInSpec(this._spec, (constructor, specInfo) => {
-      if (result.reMake) {
-        return;
-      }
-      const compSpecKey = constructor.specKey || constructor.type;
+    this._specTransformer?.forEachComponentInSpec(
+      this._spec,
+      (constructor, specInfo) => {
+        if (result.reMake) {
+          return;
+        }
+        const compSpecKey = constructor.specKey || constructor.type;
 
-      if (!MARKER_COMPONENT_SPEC_KEYS[compSpecKey] || this._hasComponentForSpecInfo(compSpecKey, specInfo)) {
-        return;
-      }
-      if (!this._isMarkerAdditionSpecSafeWithoutRemake(specInfo.spec)) {
-        result.reMake = true;
-        return;
-      }
+        if (!MARKER_COMPONENT_SPEC_KEYS[compSpecKey] || this._hasComponentForSpecInfo(compSpecKey, specInfo)) {
+          return;
+        }
+        if (!this._isMarkerAdditionSpecSafeWithoutRemake(specInfo.spec)) {
+          result.reMake = true;
+          return;
+        }
 
-      this._createComponent(constructor, specInfo);
-      if (componentCache[compSpecKey]) {
-        componentCache[compSpecKey].componentCount++;
-      }
-      createdCount++;
-    }, this._option.getSpecInfo());
+        this._createComponent(constructor, specInfo);
+        if (componentCache[compSpecKey]) {
+          componentCache[compSpecKey].componentCount++;
+        }
+        createdCount++;
+        hasAutoRangeMarker = hasAutoRangeMarker || this._isAutoRangeMarkerSpec(specInfo.spec);
+      },
+      this._option.getSpecInfo()
+    );
 
     if (!createdCount) {
       return;
@@ -1368,6 +1376,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     result.effects = {
       ...result.effects,
       component: true,
+      ...(hasAutoRangeMarker ? { scaleDomain: true } : null),
       layout: true,
       render: true
     };
