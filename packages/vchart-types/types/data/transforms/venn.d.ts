@@ -1,4 +1,4 @@
-export declare const vennLayout: (data: Array<any>, op: {
+interface IVennLayoutOptions {
     setField: string;
     valueField: string;
     getViewBox: () => {
@@ -7,4 +7,6 @@ export declare const vennLayout: (data: Array<any>, op: {
         y0: number;
         y1: number;
     };
-}) => (import("@visactor/vlayouts").IVennCircleDatum<any> | import("@visactor/vlayouts").IVennOverlapDatum<any>)[];
+}
+export declare const vennLayout: (data: Array<Record<string, unknown>>, op: IVennLayoutOptions | (() => IVennLayoutOptions)) => (import("@visactor/vlayouts").IVennCircleDatum<any> | import("@visactor/vlayouts").IVennOverlapDatum<any>)[];
+export {};

@@ -31,13 +31,8 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     protected _regionUserIndex?: number[];
     setAttrFromSpec(): void;
     created(): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
+    private _isComponentOnlySpecChange;
     protected abstract _initLegendData(): DataView;
     protected abstract _initSelectedData(): void;
     protected abstract _getLegendAttributes(rect: ILayoutRect): any;
