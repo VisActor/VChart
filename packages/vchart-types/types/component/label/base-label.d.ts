@@ -22,13 +22,7 @@ export declare abstract class BaseLabelComponent<T = any> extends BaseComponent<
             selected_reverse?: Partial<import("../../core").IComposedTextMarkSpec>;
         };
     };
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../core").IUpdateSpecResult;
     _getDataLabelType(baseMark: ICompilableMark, type?: string): string;
     _setTransformOfComponent(labelComponent: IComponentMark, baseMark: IMark | IMark[]): void;
     getVRenderComponents(): any[];

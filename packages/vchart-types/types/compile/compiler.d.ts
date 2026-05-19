@@ -20,6 +20,8 @@ export declare class Compiler implements ICompiler {
     private _progressiveRafId?;
     protected _rootMarks: IMark[];
     protected _stage: IStage;
+    private _isExternalStage;
+    private _releaseVRenderAppRef?;
     protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
     get stateAnimationConfig(): Partial<MarkAnimationSpec>;
     protected _rootGroup: IGroup;
@@ -47,6 +49,8 @@ export declare class Compiler implements ICompiler {
     updateLayoutTag(): void;
     protected handleLayoutEnd: () => void;
     protected handleStageRender: () => void;
+    private _isGeoRegionRoamDragEnabled;
+    private _shouldDisableCanvasTouchAction;
     private _setCanvasStyle;
     compile(ctx: {
         chart: IChart;
