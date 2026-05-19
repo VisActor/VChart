@@ -478,6 +478,40 @@ const createLineGrowthSpec = (values: Array<{ time: string; value: number }>) =>
     ]
   } as ILineChartSpec);
 
+const createStateFilteredLineGrowthSpec = (
+  values: Array<{ time: string; value: number }>,
+  strokeOpacity = 1,
+  stroke = '#6690F2'
+) =>
+  ({
+    ...createLineGrowthSpec(values),
+    color: {
+      type: 'ordinal',
+      domain: ['value'],
+      range: [stroke],
+      specified: {
+        value: stroke
+      }
+    },
+    line: {
+      style: {},
+      state: {
+        custom1: {
+          level: 1,
+          filter: () => true,
+          style: {
+            visible: true,
+            curveType: 'linear',
+            curveTension: 0,
+            strokeOpacity,
+            lineWidth: 3,
+            lineDash: [0, 0]
+          }
+        }
+      }
+    }
+  } as ILineChartSpec);
+
 const cosmeticLineValues = [
   { type: 'Nail polish', country: 'Africa', value: 4229 },
   { type: 'Nail polish', country: 'EU', value: 4376 },
@@ -2030,6 +2064,194 @@ describe('manual ticker animation regressions', () => {
       expectClose(retainedAfter.attribute.y, yAfter);
       expectClose(retainedAfter.baseAttributes?.y, yAfter);
       expectClose(getGraphicFinalAttribute(retainedAfter).y, yAfter);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('keeps line update animation when a persistent state filter is active', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(
+      createStateFilteredLineGrowthSpec([
+        { time: '2019', value: 10 },
+        { time: '2020', value: 12 },
+        { time: '2021', value: 14 }
+      ]),
+      {
+        dom,
+        ticker,
+        animation: true
+      }
+    );
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const lineGraphic = getLineGraphics(chart)[0];
+      const beforePoints = simplifyPoints(getGraphicFinalAttribute(lineGraphic).points);
+      const beforeTail = beforePoints[beforePoints.length - 1];
+
+      expect(lineGraphic.currentStates).toEqual(['custom1']);
+
+      const chartModel = chart.getChart() as IChart & {
+        updateDataSpec: () => void;
+        reDataFlow: () => void;
+      };
+      const updateDataSpec = jest.spyOn(chartModel, 'updateDataSpec');
+      const reDataFlow = jest.spyOn(chartModel, 'reDataFlow');
+
+      chart.updateSpecSync(
+        createStateFilteredLineGrowthSpec(
+          [
+            { time: '2019', value: 10 },
+            { time: '2020', value: 12 },
+            { time: '2021', value: 14 },
+            { time: '2022', value: 16 },
+            { time: '2023', value: 18 }
+          ],
+          0.9
+        )
+      );
+
+      const updateStart = ticker.getTime();
+      const lineGraphicAfterUpdate = getLineGraphics(chart)[0];
+      const finalPoints = simplifyPoints(getGraphicFinalAttribute(lineGraphicAfterUpdate).points);
+
+      expect(updateDataSpec).toHaveBeenCalledTimes(1);
+      expect(reDataFlow).toHaveBeenCalledTimes(1);
+      expect(lineGraphicAfterUpdate).toBe(lineGraphic);
+      expect(lineGraphic.currentStates).toEqual(['custom1']);
+      expect(lineGraphicAfterUpdate.context.data.length).toBe(5);
+      expect(lineGraphicAfterUpdate.context.finalAttrs.points.length).toBe(5);
+      expect(finalPoints.length).toBe(5);
+
+      ticker.tickAt(updateStart + UPDATE_DURATION / 2);
+
+      const midPoints = simplifyPoints(lineGraphic.attribute.points);
+      const newMidPoints = midPoints.slice(beforePoints.length);
+      const newFinalPoints = finalPoints.slice(beforePoints.length);
+
+      expect(newMidPoints.length).toBe(newFinalPoints.length);
+      expect(
+        newMidPoints.some((point, index) => point.x !== newFinalPoints[index].x || point.y !== newFinalPoints[index].y)
+      ).toBe(true);
+      newMidPoints.forEach((point, index) => {
+        const finalPoint = newFinalPoints[index];
+
+        expect(point.x).toBeGreaterThanOrEqual(Math.min(beforeTail.x, finalPoint.x));
+        expect(point.x).toBeLessThanOrEqual(Math.max(beforeTail.x, finalPoint.x));
+        expect(point.y).toBeGreaterThanOrEqual(Math.min(beforeTail.y, finalPoint.y));
+        expect(point.y).toBeLessThanOrEqual(Math.max(beforeTail.y, finalPoint.y));
+      });
+
+      ticker.tickAt(updateStart + UPDATE_DURATION + 50);
+      expectLinePointsLayout(lineGraphic, finalPoints);
+
+      chart.updateSpecSync(
+        createStateFilteredLineGrowthSpec([
+          { time: '2019', value: 11 },
+          { time: '2020', value: 14 },
+          { time: '2021', value: 13 },
+          { time: '2022', value: 17 },
+          { time: '2023', value: 20 }
+        ])
+      );
+
+      const secondUpdateStart = ticker.getTime();
+      const secondFinalPoints = simplifyPoints(getGraphicFinalAttribute(lineGraphic).points);
+
+      expect(lineGraphic.currentStates).toEqual(['custom1']);
+      expect(secondFinalPoints.length).toBe(finalPoints.length);
+
+      ticker.tickAt(secondUpdateStart + UPDATE_DURATION / 2);
+
+      const secondMidPoints = simplifyPoints(lineGraphic.attribute.points);
+
+      expect(
+        secondMidPoints.some(
+          (point, index) => point.x !== secondFinalPoints[index].x || point.y !== secondFinalPoints[index].y
+        )
+      ).toBe(true);
+      secondMidPoints.forEach((point, index) => {
+        const beforePoint = finalPoints[index];
+        const finalPoint = secondFinalPoints[index];
+
+        expect(point.x).toBeGreaterThanOrEqual(Math.min(beforePoint.x, finalPoint.x));
+        expect(point.x).toBeLessThanOrEqual(Math.max(beforePoint.x, finalPoint.x));
+        expect(point.y).toBeGreaterThanOrEqual(Math.min(beforePoint.y, finalPoint.y));
+        expect(point.y).toBeLessThanOrEqual(Math.max(beforePoint.y, finalPoint.y));
+      });
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('animates line color updates while a persistent state filter is active', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(
+      createStateFilteredLineGrowthSpec(
+        [
+          { time: '2019', value: 10 },
+          { time: '2020', value: 12 },
+          { time: '2021', value: 14 }
+        ],
+        1,
+        '#F0A868'
+      ),
+      {
+        dom,
+        ticker,
+        animation: true
+      }
+    );
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      const lineGraphic = getLineGraphics(chart)[0];
+
+      expect(lineGraphic.currentStates).toEqual(['custom1']);
+      expect(lineGraphic.attribute.stroke).toBe('#F0A868');
+
+      chart.updateSpecSync(
+        createStateFilteredLineGrowthSpec(
+          [
+            { time: '2019', value: 10 },
+            { time: '2020', value: 12 },
+            { time: '2021', value: 14 },
+            { time: '2022', value: 16 }
+          ],
+          0.9,
+          '#4A5568'
+        )
+      );
+
+      const updateStart = ticker.getTime();
+      const lineGraphicAfterUpdate = getLineGraphics(chart)[0];
+
+      expect(lineGraphicAfterUpdate).toBe(lineGraphic);
+      expect(lineGraphicAfterUpdate.currentStates).toEqual(['custom1']);
+      expect(lineGraphicAfterUpdate.context.diffAttrs?.stroke).toBe('#4A5568');
+      expect(lineGraphicAfterUpdate.attribute.stroke).not.toBe('#4A5568');
+
+      ticker.tickAt(updateStart + UPDATE_DURATION / 2);
+
+      expect(lineGraphicAfterUpdate.attribute.stroke).not.toBe('#F0A868');
+      expect(lineGraphicAfterUpdate.attribute.stroke).not.toBe('#4A5568');
+
+      ticker.tickAt(updateStart + UPDATE_DURATION + 50);
+
+      expect(lineGraphicAfterUpdate.attribute.stroke).toBe('#4A5568');
     } finally {
       chart.release();
       ticker.release();

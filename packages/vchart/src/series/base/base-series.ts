@@ -1090,13 +1090,24 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   _compareLabelSpec(newLabels: ILabelSpec[], prevLabels: ILabelSpec[], compareResult: IUpdateSpecResult) {
-    if (
-      newLabels.length !== prevLabels.length ||
+    if (newLabels.length !== prevLabels.length) {
+      compareResult.reMake = true;
+    } else if (
       prevLabels.some((prev, index) => {
-        return prev.labelLayout !== newLabels[index].labelLayout || prev.visible !== newLabels[index].visible;
+        return (
+          prev.labelLayout !== newLabels[index].labelLayout || (prev.visible === false && newLabels[index].visible)
+        );
       })
     ) {
       compareResult.reMake = true;
+    } else if (
+      !compareResult.reCompile &&
+      prevLabels.some((prev, index) => {
+        return prev.visible && newLabels[index].visible === false;
+      })
+    ) {
+      compareResult.reCompile = true;
+      markSeriesCompileEffect(compareResult);
     } else if (
       !compareResult.reCompile &&
       prevLabels.some((prev, index) => {

@@ -1058,10 +1058,16 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       [ComponentTypeEnum.indicator]: true
     };
     const removedComponents: IComponent[] = [];
+    let hasNonLocalComponentRemoval = false;
 
     this._components.forEach(c => {
       if (c.type === ComponentTypeEnum.label || c.type === ComponentTypeEnum.totalLabel) {
         // label配置都会被解析到series中，所以不适合放在这里进行比对
+        if (!c.getSpecInfo()) {
+          removedComponents.push(c);
+          hasNonLocalComponentRemoval = true;
+          hasNonComponentOnlyUpdate = true;
+        }
         return;
       }
       if (checkVisibleComponents[c.type]) {
@@ -1128,7 +1134,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       result.effects = {
         ...result.effects,
         component: true,
-        localOnly: true
+        ...(hasNonLocalComponentRemoval ? { layout: true, render: true } : { localOnly: true })
       };
     }
 
@@ -1408,6 +1414,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   private _removeComponent(component: IComponent) {
     this._components = this._components.filter(c => c !== component);
     this._idMap.delete(component.id);
+    component.getMarks().forEach(mark => {
+      this.getCompiler().removeRootMark(mark);
+    });
     component.release();
   }
 

@@ -1854,11 +1854,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         if (!this.renderContext?.progressive && this._product && g.parent !== this._product) {
           this._product.appendChild(g);
         }
-
-        // 如果有动画，需要设置值
-        if (hasAnimation) {
-          g.setFinalAttributes(finalAttrs);
-        }
       }
 
       this._setStateOfGraphic(g, hasStateAnimation);

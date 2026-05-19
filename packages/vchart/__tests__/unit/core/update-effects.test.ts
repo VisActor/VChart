@@ -1735,6 +1735,87 @@ const createBarMarkerToggleSpec = (withMarker: boolean): IBarChartSpec =>
     markArea: []
   } as unknown as IBarChartSpec);
 
+const createRuntimeLikeLineMarkAreaToggleSpec = (withMarker: boolean): ILineChartSpec =>
+  ({
+    type: 'line',
+    data: [
+      {
+        id: 'line',
+        values: withMarker
+          ? [
+              { x: 'A', y: 10, series: 's1' },
+              { x: 'B', y: 16, series: 's1' },
+              { x: 'C', y: 12, series: 's1' },
+              { x: 'D', y: 15, series: 's1' }
+            ]
+          : [
+              { x: 'A', y: 10, series: 's1' },
+              { x: 'B', y: 16, series: 's1' },
+              { x: 'C', y: 12, series: 's1' }
+            ]
+      }
+    ],
+    xField: 'x',
+    yField: 'y',
+    seriesField: 'series',
+    axes: [
+      {
+        orient: 'bottom',
+        type: 'band'
+      },
+      {
+        orient: 'left',
+        type: 'linear'
+      }
+    ],
+    label: {
+      visible: !withMarker,
+      syncState: true,
+      style: {
+        fill: '#F2F2F2'
+      }
+    },
+    line: {
+      state: {
+        custom1: {
+          style: {
+            strokeOpacity: withMarker ? 0.25 : 1,
+            lineWidth: withMarker ? 2 : 3
+          }
+        }
+      }
+    },
+    point: {
+      state: {
+        custom1: {
+          style: {
+            visible: !withMarker,
+            fillOpacity: withMarker ? 0.25 : 1
+          }
+        }
+      }
+    },
+    markArea: withMarker
+      ? [
+          {
+            regionRelative: true,
+            positions: () => [
+              { x: 20, y: 10 },
+              { x: 100, y: 10 },
+              { x: 100, y: 80 },
+              { x: 20, y: 80 }
+            ],
+            label: {
+              visible: true,
+              text: 'range'
+            }
+          }
+        ]
+      : [],
+    markPoint: [],
+    markLine: []
+  } as unknown as ILineChartSpec);
+
 const createAutoRangeMarkPointCoordinateSpec = (year: number, value: number): ILineChartSpec => {
   const spec = createMarkPointCoordinateSpec(year, value, 'autoRange') as any;
   spec.markPoint[0].autoRange = true;
@@ -2980,6 +3061,47 @@ describe('vchart scoped update effects', () => {
       expectDataStagesSkipped(spies);
       expect(getChartModel(updateChart).getComponentsByKey('markLine')).toHaveLength(1);
       expect(xAxis.getScale().domain()[1]).toBeGreaterThanOrEqual(2200);
+    } finally {
+      updateChart.release();
+    }
+  });
+
+  it('keeps runtime-like line label hide and markArea addition off the remake path', () => {
+    const chart = new VChart(createRuntimeLikeLineMarkAreaToggleSpec(false), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const result = (chart as unknown as VChartInternals)._updateSpec(
+        createRuntimeLikeLineMarkAreaToggleSpec(true),
+        false
+      );
+
+      expect(result.reMake).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        layout: true,
+        render: true,
+        series: true
+      });
+    } finally {
+      chart.release();
+    }
+
+    const updateChart = new VChart(createRuntimeLikeLineMarkAreaToggleSpec(false), { dom, animation: false });
+
+    try {
+      updateChart.renderSync();
+      const chartModel = getChartModel(updateChart);
+      const spies = spyOnDataStages(updateChart);
+
+      expect(chartModel.getComponentsByKey('label')).toHaveLength(1);
+
+      updateChart.updateSpecSync(createRuntimeLikeLineMarkAreaToggleSpec(true));
+
+      expectDataStagesRunOnce(spies);
+      expect(chartModel.getComponentsByKey('label')).toHaveLength(0);
+      expect(chartModel.getComponentsByKey('markArea')).toHaveLength(1);
     } finally {
       updateChart.release();
     }

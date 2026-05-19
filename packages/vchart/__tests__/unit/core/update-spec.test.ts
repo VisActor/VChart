@@ -1918,7 +1918,7 @@ describe('vchart updateSpec of different about label', () => {
     });
   });
 
-  it('should reMake when `visible` of label change from `false` to `true`', () => {
+  it('should reCompile when `visible` of label change from `true` to `false`', () => {
     const spec = {
       type: 'area',
       data: {
@@ -1984,10 +1984,17 @@ describe('vchart updateSpec of different about label', () => {
 
     expect(updateRes).toEqual({
       changeBackground: false,
-      change: false,
+      change: true,
       changeTheme: false,
-      reCompile: false,
-      reMake: true,
+      effects: {
+        compile: true,
+        component: true,
+        layout: true,
+        render: true,
+        series: true
+      },
+      reCompile: true,
+      reMake: false,
       reRender: true,
       reSize: false,
       reTransformSpec: false
@@ -3326,7 +3333,10 @@ describe('vchart updateSpec of crosshair', () => {
     });
     vchart.renderSync();
 
-    const updateRes = (vchart as any)._updateSpec(createSpec(text => text), false);
+    const updateRes = (vchart as any)._updateSpec(
+      createSpec(text => text),
+      false
+    );
 
     expect(updateRes.reMake).toBe(false);
     expect(updateRes.reCompile).toBe(false);
