@@ -107,6 +107,7 @@ export interface ISeriesSpecUpdatePolicy {
   compileOnlyKeys?: Record<string, true>;
   dataRelatedKeys?: Record<string, true>;
   compileOnlySubKeys?: Record<string, Record<string, true>>;
+  seriesOnlyKeys?: Record<string, true>;
 }
 
 const defaultSeriesDataRelatedCheckKeys = Object.keys(defaultSeriesCompileCheckKeys).reduce((keys, key) => {
@@ -118,7 +119,10 @@ const defaultSeriesDataRelatedCheckKeys = Object.keys(defaultSeriesCompileCheckK
 
 const defaultSeriesSpecUpdatePolicy: ISeriesSpecUpdatePolicy = {
   compileOnlyKeys: defaultSeriesCompileOnlyCheckKeys,
-  dataRelatedKeys: defaultSeriesDataRelatedCheckKeys
+  dataRelatedKeys: defaultSeriesDataRelatedCheckKeys,
+  seriesOnlyKeys: {
+    tooltip: true
+  }
 };
 
 const defaultSeriesMarkCompileOnlySubKeys: Record<string, true> = {
@@ -170,6 +174,15 @@ export function markSeriesCompileEffect(compareResult: IUpdateSpecResult, dataRe
     compareResult.effects.data = true;
     compareResult.effects.scaleDomain = true;
   }
+}
+
+export function markSeriesOnlyEffect(compareResult: IUpdateSpecResult) {
+  compareResult.change = true;
+  compareResult.effects = {
+    ...compareResult.effects,
+    series: true,
+    render: true
+  };
 }
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
@@ -1138,6 +1151,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const compileOnlyKeys = specUpdatePolicy.compileOnlyKeys ?? {};
     const dataRelatedKeys = specUpdatePolicy.dataRelatedKeys ?? {};
     const compileOnlySubKeys = specUpdatePolicy.compileOnlySubKeys ?? {};
+    const seriesOnlyKeys = specUpdatePolicy.seriesOnlyKeys ?? {};
     const compileCheckKeys = {
       ...compileOnlyKeys,
       ...dataRelatedKeys
@@ -1146,6 +1160,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const ignores: Record<string, boolean> = {
       ...defaultSeriesIgnoreCheckKeys,
       ...compileCheckKeys,
+      ...seriesOnlyKeys,
       ...ignoreCheckKeys,
       extensionMark: true,
       label: true,
@@ -1179,6 +1194,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const changedCompileKeys = currentKeys.filter((k: string) => {
       return compileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
     });
+    const changedSeriesOnlyKeys = currentKeys.filter((k: string) => {
+      return seriesOnlyKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
+    });
     const changedCompileOnlySubKeys = currentKeys.filter((k: string) => {
       return (
         compileOnlySubKeys[k] &&
@@ -1202,6 +1220,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       (changedCompileKeys.length || changedCompileOnlySubKeys.length || changedMarkCompileOnlyKeys.length)
     ) {
       markSeriesCompileEffect(result);
+    }
+    if (changedSeriesOnlyKeys.length) {
+      markSeriesOnlyEffect(result);
     }
 
     if (

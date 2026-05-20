@@ -1357,6 +1357,56 @@ const createTooltipStyleSpec = (backgroundColor: string): IBarChartSpec =>
     }
   } as unknown as IBarChartSpec);
 
+const createSeriesTooltipCallbackSpec = (keyCallback: () => string, valueCallback: () => string): ICommonChartSpec =>
+  ({
+    type: 'common',
+    data: [
+      {
+        id: 'lineData',
+        values: [
+          { x: 'A', y: 1, series: 's1' },
+          { x: 'B', y: 2, series: 's1' }
+        ]
+      }
+    ],
+    series: [
+      {
+        id: 'line',
+        type: 'line',
+        dataId: 'lineData',
+        xField: 'x',
+        yField: 'y',
+        seriesField: 'series',
+        tooltip: {
+          visible: true,
+          dimension: {
+            title: {
+              visible: true,
+              value: keyCallback
+            },
+            content: [
+              {
+                visible: true,
+                key: keyCallback,
+                value: valueCallback
+              }
+            ]
+          }
+        }
+      }
+    ],
+    axes: [
+      {
+        orient: 'bottom',
+        type: 'band'
+      },
+      {
+        orient: 'left',
+        type: 'linear'
+      }
+    ]
+  } as unknown as ICommonChartSpec);
+
 const createPlayerStyleSpec = (fill: string): IBarChartSpec =>
   ({
     ...createSpec(),
@@ -2576,6 +2626,58 @@ describe('vchart scoped update effects', () => {
       () => createTooltipStyleSpec('#333'),
       () => createTooltipStyleSpec('#666')
     );
+  });
+
+  it('classifies series tooltip callback updates as series-only', () => {
+    const beforeKey = () => 'before';
+    const beforeValue = () => 'before-value';
+    const afterKey = () => 'after';
+    const afterValue = () => 'after-value';
+    const chart = new VChart(createSeriesTooltipCallbackSpec(beforeKey, beforeValue), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const result = (chart as unknown as VChartInternals)._updateSpec(
+        createSeriesTooltipCallbackSpec(afterKey, afterValue),
+        false
+      );
+
+      expect(result.reMake).toBe(false);
+      expect(result.reCompile).toBe(false);
+      expect(result.effects).toMatchObject({
+        series: true,
+        render: true
+      });
+      expect(result.effects?.remake).toBeUndefined();
+      expect(result.effects?.compile).toBeUndefined();
+      expect(result.effects?.data).toBeUndefined();
+      expect(result.effects?.scaleDomain).toBeUndefined();
+    } finally {
+      chart.release();
+    }
+
+    const updateChart = new VChart(createSeriesTooltipCallbackSpec(beforeKey, beforeValue), {
+      dom,
+      animation: false
+    });
+
+    try {
+      updateChart.renderSync();
+
+      const chartModel = getChartModel(updateChart);
+      const spies = spyOnDataStages(updateChart);
+      const seriesReInit = spyOnFirstSeriesReInit(chartModel);
+
+      updateChart.updateSpecSync(createSeriesTooltipCallbackSpec(afterKey, afterValue));
+
+      expect(seriesReInit).toHaveBeenCalled();
+      expectDataStagesSkipped(spies);
+      expect((chartModel.getAllSeries()[0] as any).tooltipHelper.spec.dimension.content[0].key).toBe(afterKey);
+      expect((chartModel.getAllSeries()[0] as any).tooltipHelper.spec.dimension.content[0].value).toBe(afterValue);
+    } finally {
+      updateChart.release();
+    }
   });
 
   it('classifies player appearance updates as component-only', () => {
