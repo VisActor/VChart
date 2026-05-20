@@ -46,6 +46,7 @@ const MARKER_DOMAIN_POSITION_SPEC_KEYS = [
   'radius1'
 ];
 const MARKER_LAYOUT_POSITION_SPEC_KEYS = ['position', 'positions', 'coordinatesOffset', 'regionRelative'];
+const MARKER_ITEM_CONTENT_LAYOUT_SPEC_KEYS = ['offsetX', 'offsetY', 'confine'];
 
 const normalizeMarkerLabelFormatMethod = (label: any): any => {
   if (Array.isArray(label)) {
@@ -112,15 +113,24 @@ const normalizeMarkerSpecForComponentOnlyUpdate = (
     normalized[key] = normalizeMarkerStyles(normalized[key]);
   });
 
-  const text = normalized.itemContent?.text;
-  if (text && typeof text === 'object') {
+  const itemContent = normalized.itemContent;
+  if (itemContent && typeof itemContent === 'object') {
     normalized.itemContent = {
-      ...normalized.itemContent,
-      text: {
+      ...itemContent
+    };
+    MARKER_ITEM_CONTENT_LAYOUT_SPEC_KEYS.forEach(key => {
+      if (key in normalized.itemContent) {
+        normalized.itemContent[key] = MARKER_COORDINATE_PLACEHOLDER;
+      }
+    });
+
+    const text = normalized.itemContent.text;
+    if (text && typeof text === 'object') {
+      normalized.itemContent.text = {
         ...normalizeMarkerLabelFormatMethod(text),
         text: MARKER_TEXT_PLACEHOLDER
-      }
-    };
+      };
+    }
   }
 
   return normalized;

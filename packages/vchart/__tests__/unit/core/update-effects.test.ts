@@ -1459,7 +1459,12 @@ const createMarkerLabelFormatSpec = (formatMethod: (dataPoints: any[], seriesDat
     ]
   } as unknown as IBarChartSpec);
 
-const createMarkPointCoordinateSpec = (year: number, value: number, text: string): ILineChartSpec =>
+const createMarkPointCoordinateSpec = (
+  year: number,
+  value: number,
+  text: string,
+  offsetY: number = -24
+): ILineChartSpec =>
   ({
     type: 'line',
     data: [
@@ -1499,7 +1504,7 @@ const createMarkPointCoordinateSpec = (year: number, value: number, text: string
           }
         },
         itemContent: {
-          offsetY: -24,
+          offsetY,
           offsetX: -24,
           confine: true,
           text: {
@@ -1594,6 +1599,7 @@ const createRuntimeLikeLineUpdateSpec = (
     yAxisMin?: number;
     colorSpecified?: Record<string, string>;
     strokeOpacity?: number;
+    markerOffsetY?: number;
   }
 ): ILineChartSpec => {
   const spec = createMarkPointAxisMixedUpdateSpec(
@@ -1604,6 +1610,9 @@ const createRuntimeLikeLineUpdateSpec = (
     xLabelGap,
     options?.yAxisMin
   ) as any;
+  if (options?.markerOffsetY !== undefined) {
+    spec.markPoint[0].itemContent.offsetY = options.markerOffsetY;
+  }
   spec.seriesField = 'series';
   spec.data = [
     {
@@ -2716,7 +2725,7 @@ describe('vchart scoped update effects', () => {
   });
 
   it('classifies markPoint coordinate and text updates as component-only', () => {
-    const createInitialSpec = () => createMarkPointCoordinateSpec(1950, 1, 'before');
+    const createInitialSpec = () => createMarkPointCoordinateSpec(1950, 1, 'before', 24);
     const createNextSpec = () => createMarkPointCoordinateSpec(1990, 2, 'after');
 
     expectComponentOnlySpecUpdate(dom, createInitialSpec, createNextSpec, {
@@ -2725,15 +2734,22 @@ describe('vchart scoped update effects', () => {
         const marker = getChartModel(chart).getComponentsByKey('markPoint')[0] as any;
         return {
           position: { ...marker?._markerComponent?.attribute?.position },
+          offsetY: marker?._markerComponent?.attribute?.itemContent?.offsetY,
           markerData: marker?.getMarkerData()
         };
       },
       afterUpdate: (chart, ctx) => {
-        const { position, markerData } = ctx as { position: { x: number; y: number }; markerData: any };
+        const { position, offsetY, markerData } = ctx as {
+          position: { x: number; y: number };
+          offsetY: number;
+          markerData: any;
+        };
         const marker = getChartModel(chart).getComponentsByKey('markPoint')[0] as any;
         expect(marker.getMarkerData()).not.toBe(markerData);
         expect(Object.values(markerData.dataSet.dataViewMap)).not.toContain(markerData);
         expect(marker?._markerComponent?.attribute?.position).not.toEqual(position);
+        expect(marker?._markerComponent?.attribute?.itemContent?.offsetY).toBe(-24);
+        expect(marker?._markerComponent?.attribute?.itemContent?.offsetY).not.toBe(offsetY);
         expect(marker?._markerComponent?.attribute?.itemContent?.textStyle?.text).toBe('after');
       }
     });
@@ -2909,6 +2925,45 @@ describe('vchart scoped update effects', () => {
 
       updateChart.updateSpecSync(createFinalSpec());
       expect(getFirstSeriesGraphic(updateChart, 'line', 'line').attribute.stroke).toBe('#F0A868');
+    } finally {
+      updateChart.release();
+    }
+  });
+
+  it('keeps runtime-like markPoint offset and data updates off the remake path', () => {
+    const createInitialSpec = () =>
+      createRuntimeLikeLineUpdateSpec(true, 1, 'before', '#F0A868', 24, 2, { markerOffsetY: 24 });
+    const createNextSpec = () =>
+      createRuntimeLikeLineUpdateSpec(true, 2, 'after', '#F0A868', 24, 3, { markerOffsetY: -24 });
+    const chart = new VChart(createInitialSpec(), { dom, animation: false });
+
+    try {
+      chart.renderSync();
+
+      const result = (chart as unknown as VChartInternals)._updateSpec(createNextSpec(), false);
+
+      expect(result.reMake).toBe(false);
+      expect(result.reCompile).toBe(false);
+      expect(result.effects).toMatchObject({
+        component: true,
+        layout: true,
+        render: true
+      });
+    } finally {
+      chart.release();
+    }
+
+    const updateChart = new VChart(createInitialSpec(), { dom, animation: false });
+
+    try {
+      updateChart.renderSync();
+      const spies = spyOnDataStages(updateChart);
+
+      updateChart.updateSpecSync(createNextSpec());
+
+      expectDataStagesRunOnce(spies);
+      const marker = getChartModel(updateChart).getComponentsByKey('markPoint')[0] as any;
+      expect(marker?._markerComponent?.attribute?.itemContent?.offsetY).toBe(-24);
     } finally {
       updateChart.release();
     }

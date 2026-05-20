@@ -39,6 +39,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
 
   protected _createMarkerComponent() {
     const { itemContent = {}, itemLine = {}, targetSymbol = {} } = this._spec;
+    const region = this._relativeSeries.getRegion();
     const {
       type = 'text',
 
@@ -136,8 +137,8 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       clipInRange: this._spec.clip ?? false,
       itemContent: {
         type,
-        offsetX: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
-        offsetY: transformOffset(itemContent.offsetX, this._relativeSeries.getRegion()),
+        offsetX: transformOffset(itemContent.offsetX, region),
+        offsetY: transformOffset(itemContent.offsetY, region),
         ...restItemContent, // Tips: 因为网站 demo 上已经透出了 imageStyle richTextStyle 的写法，为了兼容所以这个需要在后面覆盖
         style: transformStyle(itemContentStyle, this._markerData, this._markAttributeContext)
       },
@@ -204,6 +205,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         : data.latestData
       : seriesData;
     const { itemLine = {}, itemContent = {} } = this._spec;
+    const region = this._relativeSeries.getRegion();
     const { visible: itemLineVisible, line = {}, ...restItemLine } = itemLine;
     const itemLineAttrs =
       itemLineVisible !== false
@@ -238,6 +240,8 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       const attribute = this._markerComponent.attribute ?? {};
       const textStyle = (attribute.itemContent as any)?.textStyle ?? {};
       const specText = this._spec.itemContent.text?.text;
+      const offsetX = transformOffset(itemContent.offsetX, region);
+      const offsetY = transformOffset(itemContent.offsetY, region);
       this._markerComponent.setAttributes({
         position: point === undefined ? { x: null, y: null } : point, // setAttrs时merge时undefined会被忽略, 所以这里做转换
         itemContent: {
@@ -254,8 +258,8 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
               ? specText
               : textStyle.text
           },
-          offsetX: computeOffsetFromRegion(point, attribute.itemContent.offsetX, this._relativeSeries.getRegion()),
-          offsetY: computeOffsetFromRegion(point, attribute.itemContent.offsetY, this._relativeSeries.getRegion())
+          offsetX: computeOffsetFromRegion(point, offsetX, region),
+          offsetY: computeOffsetFromRegion(point, offsetY, region)
         } as any,
         itemLine: itemLineAttrs,
         limitRect,
