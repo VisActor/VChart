@@ -8,7 +8,7 @@ import {
   MarkLine as MarkLineComponent,
   registerMarkLineAnimate
 } from '@visactor/vrender-components';
-import { array, isValid, isValidNumber } from '@visactor/vutils';
+import { array, isFunction, isValid, isValidNumber } from '@visactor/vutils';
 import type { IDataPos, IMarkProcessOptions } from '../interface';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
@@ -28,7 +28,7 @@ export class CartesianMarkLine extends BaseMarkLine {
     markLine
   };
 
-  protected declare _markerComponent: MarkLineComponent;
+  declare protected _markerComponent: MarkLineComponent;
 
   protected _newMarkLineComponent(attr: MarkLineAttrs): MarkLineComponent {
     return new MarkLineComponent(attr);
@@ -79,7 +79,22 @@ export class CartesianMarkLine extends BaseMarkLine {
       const endRelativeSeries = this._endRelativeSeries;
 
       const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
-      const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
+      const { connectDirection } = this._spec as IStepMarkLineSpec;
+      let { expandDistance = 0 } = this._spec as IStepMarkLineSpec;
+      const { points, limitRect } = updateAttrs;
+      const coordinatePoints = array(points as IPoint[]).filter(Boolean);
+
+      if (isFunction(expandDistance)) {
+        const startRegion = startRelativeSeries?.getRegion?.();
+        const endRegion = endRelativeSeries?.getRegion?.();
+        expandDistance = expandDistance(this._markerData, {
+          ...this.getMarkAttributeContext(),
+          region: this._relativeSeries?.getRegion?.(),
+          startRegion,
+          endRegion,
+          coordinatePoints
+        });
+      }
 
       let expandDistanceValue: number;
       if (isPercent(expandDistance)) {
@@ -110,7 +125,7 @@ export class CartesianMarkLine extends BaseMarkLine {
       } else {
         expandDistanceValue = expandDistance as number;
       }
-      const { points, limitRect } = updateAttrs;
+
       if (!points || points.length < 2) {
         this._markerComponent?.setAttributes(updateAttrs);
         return;
