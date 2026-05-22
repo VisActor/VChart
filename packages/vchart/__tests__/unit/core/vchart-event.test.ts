@@ -1071,3 +1071,133 @@ describe('vchart event test', () => {
     }
   });
 });
+
+describe('discrete legend with custom data after updateSpec', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+
+  const data1 = [
+    { x: '周一', type: '早餐', y: 15 },
+    { x: '周一', type: '午餐', y: 25 },
+    { x: '周二', type: '早餐', y: 12 },
+    { x: '周二', type: '午餐', y: 30 }
+  ];
+
+  const data2 = [
+    { x: '周一', type: '早餐2', y: 15 },
+    { x: '周一', type: '午餐2', y: 25 },
+    { x: '周二', type: '早餐2', y: 12 },
+    { x: '周二', type: '午餐2', y: 30 },
+    { x: '周一', type: '饮料2', y: 22 },
+    { x: '周二', type: '饮料2', y: 43 }
+  ];
+
+  beforeEach(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+
+    const spec = {
+      type: 'common',
+      animation: false,
+      data: [
+        {
+          id: 'id0',
+          values: data1
+        }
+      ],
+      seriesField: 'type',
+      legends: [
+        {
+          orient: 'right',
+          visible: true,
+          data: (items: any[]) => items
+        }
+      ],
+      series: [
+        {
+          type: 'line',
+          id: 'line',
+          dataIndex: 0,
+          xField: ['x'],
+          yField: 'y'
+        }
+      ],
+      axes: [
+        { orient: 'left', seriesIndex: [0] },
+        { orient: 'bottom', label: { visible: true }, type: 'band' }
+      ]
+    } as any;
+
+    vchart = new VChart(spec, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+  });
+
+  afterEach(() => {
+    vchart.release();
+    removeDom(container);
+  });
+
+  it('should keep legend filtering working after updateSpecSync without remake', () => {
+    const nextSpec = {
+      ...vchart.getSpec(),
+      data: [
+        {
+          id: 'id0',
+          values: data2
+        }
+      ],
+      legends: [
+        {
+          orient: 'right',
+          visible: true,
+          data: (items: any[]) => items
+        }
+      ]
+    };
+
+    vchart.updateSpecSync(nextSpec, false, undefined, {
+      change: false,
+      reMake: false
+    });
+
+    const legend = vchart.getComponents().find(com => com.type === 'discreteLegend') as any;
+    const legendComponent = legend.getVRenderComponents()[0] as any;
+    const legendItem = legendComponent._itemsContainer.getChildren()[0];
+    const series = vchart.getChart()?.getAllSeries()[0];
+    const vrenderLegendClickSpy = jest.fn();
+
+    legendComponent.addEventListener('legendItemClick', vrenderLegendClickSpy);
+
+    expect(legend.getLegendDefaultData()).toEqual(['早餐2', '午餐2', '饮料2']);
+    expect(series?.getViewData()?.latestData.map((datum: any) => datum.type)).toEqual([
+      '早餐2',
+      '午餐2',
+      '早餐2',
+      '午餐2',
+      '饮料2',
+      '饮料2'
+    ]);
+
+    legendComponent._onClick({ target: legendItem });
+
+    expect(vrenderLegendClickSpy).toHaveBeenCalledTimes(1);
+    expect(vrenderLegendClickSpy.mock.calls[0]?.[0]?.detail?.currentSelected).toEqual(['午餐2', '饮料2']);
+    expect(legend.getSelectedData()).toEqual(['午餐2', '饮料2']);
+    expect(series?.getViewData()?.latestData.map((datum: any) => datum.type)).toEqual([
+      '午餐2',
+      '午餐2',
+      '饮料2',
+      '饮料2'
+    ]);
+  });
+});

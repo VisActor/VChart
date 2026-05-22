@@ -58,7 +58,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     return this._totalData?.getLatestData();
   }
 
-  protected declare _spec: T;
+  declare protected _spec: T;
 
   protected _leaderLineMark: IRuleMark = null;
   protected _stackLabelMark: ITextMark = null;
@@ -328,6 +328,18 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     );
   }
 
+  protected _isCategoryAxisInverse() {
+    return this._direction === Direction.horizontal
+      ? this._yAxisHelper?.isInverse?.()
+      : this._xAxisHelper?.isInverse?.();
+  }
+
+  protected _getLeaderLineCategoryPos(isStart: boolean, isDecrease: boolean) {
+    const inverse = !!this._isCategoryAxisInverse();
+    const normalPos = isStart ? (isDecrease ? 0 : 1) : isDecrease ? 1 : 0;
+    return inverse ? 1 - normalPos : normalPos;
+  }
+
   initMarkStyle(): void {
     super.initMarkStyle();
     const isDecrease = this._spec.calculationMode === 'decrease';
@@ -343,9 +355,9 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
               if (!datum.lastIndex) {
                 return 0;
               }
-              return this.totalPositionY(datum, 'lastIndex', isDecrease ? 0 : 1);
+              return this.totalPositionY(datum, 'lastIndex', this._getLeaderLineCategoryPos(true, isDecrease));
             },
-            y1: (datum: Datum) => this.totalPositionY(datum, 'index', isDecrease ? 1 : 0)
+            y1: (datum: Datum) => this.totalPositionY(datum, 'index', this._getLeaderLineCategoryPos(false, isDecrease))
           },
           'normal',
           AttributeLevel.Series
@@ -359,9 +371,10 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
               if (!datum.lastIndex) {
                 return 0;
               }
-              return this.totalPositionX(datum, 'lastIndex', isDecrease ? 0 : 1);
+              return this.totalPositionX(datum, 'lastIndex', this._getLeaderLineCategoryPos(true, isDecrease));
             },
-            x1: (datum: Datum) => this.totalPositionX(datum, 'index', isDecrease ? 1 : 0),
+            x1: (datum: Datum) =>
+              this.totalPositionX(datum, 'index', this._getLeaderLineCategoryPos(false, isDecrease)),
             y: (datum: Datum) => this.totalPositionY(datum, 'lastEnd', 0),
             y1: (datum: Datum) => this.totalPositionY(datum, datum.isTotal ? 'end' : 'start', 0)
           },

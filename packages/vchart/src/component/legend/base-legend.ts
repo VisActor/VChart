@@ -339,6 +339,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
 
   clear(): void {
     super.clear();
+    this._legendComponent = null;
     this._cacheAttrs = null;
     this._preSelectedData = null;
   }
