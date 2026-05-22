@@ -1,7 +1,8 @@
-import type { IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
+import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
+import type { SharedVRenderAppOption } from '../stage-app';
 export declare enum LayoutState {
     before = "before",
     layouting = "layouting",
@@ -42,6 +43,8 @@ export interface IRenderOption {
     viewBox?: IBoundsLike;
     canvasControled?: boolean;
     stage?: IStage;
+    app?: IApp;
+    sharedVRenderApp?: SharedVRenderAppOption;
     layer?: ILayer;
     beforeRender?: IStageParams['beforeRender'];
     afterRender?: IStageParams['afterRender'];

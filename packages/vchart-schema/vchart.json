@@ -29059,6 +29059,22 @@
       ],
       "type": "string"
     },
+    "IColor": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ILinearGradient"
+        },
+        {
+          "$ref": "#/definitions/IRadialGradient"
+        },
+        {
+          "$ref": "#/definitions/IConicalGradient"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
     "IColorKey": {
       "description": "语义化色值的色值索引",
       "properties": {
@@ -33783,6 +33799,44 @@
         },
         {
           "typeof": "function"
+        }
+      ]
+    },
+    "IDeferredStateConfig": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "frameBudget": {
+          "type": "number"
+        },
+        "maxGraphicsPerFrame": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "IDeferredStateContextConfig": {
+      "properties": {
+        "deferred": {
+          "$ref": "#/definitions/IDeferredStateConfig"
+        },
+        "localEnabled": {
+          "type": "boolean"
+        },
+        "priority": {
+          "type": "number"
+        }
+      },
+      "type": "object"
+    },
+    "IDeferredStateOwnerConfig": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/IDeferredStateConfig"
+        },
+        {
+          "$ref": "#/definitions/IDeferredStateContextConfig"
         }
       ]
     },
@@ -39324,6 +39378,9 @@
         "addUpdateLayoutTag": {
           "typeof": "function"
         },
+        "addUpdatePaintTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -39360,8 +39417,17 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "baseAttributes": {
+          "$ref": "#/definitions/Partial<IGlyphGraphicAttribute>"
+        },
         "bindDom": {
           "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
+        },
+        "boundSharedStateRevision": {
+          "type": "number"
+        },
+        "boundSharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<IGlyphGraphicAttribute>"
         },
         "childrenCount": {
           "type": "number"
@@ -39396,8 +39462,17 @@
         "detachShadow": {
           "typeof": "function"
         },
+        "detachStageForRelease": {
+          "typeof": "function"
+        },
         "dispatchEvent": {
           "typeof": "function"
+        },
+        "effectiveStates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "emit": {
           "typeof": "function"
@@ -39519,6 +39594,9 @@
         "insertIntoKeepIdx": {
           "typeof": "function"
         },
+        "invalidateResolver": {
+          "typeof": "function"
+        },
         "isAncestorsOf": {
           "typeof": "function"
         },
@@ -39542,6 +39620,12 @@
         },
         "layer": {
           "$ref": "#/definitions/ILayer"
+        },
+        "localFallbackCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>"
+        },
+        "localFallbackVersion": {
+          "type": "number"
         },
         "name": {
           "type": "string"
@@ -39613,6 +39697,9 @@
         "reApplyAnimationState": {
           "typeof": "function"
         },
+        "registeredActiveScopes": {
+          "$ref": "#/definitions/Set<SharedStateScope<IGlyphGraphicAttribute>>"
+        },
         "release": {
           "typeof": "function"
         },
@@ -39644,6 +39731,9 @@
         },
         "removeState": {
           "typeof": "function"
+        },
+        "resolvedStatePatch": {
+          "$ref": "#/definitions/Partial<IGlyphGraphicAttribute>"
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
@@ -39678,8 +39768,14 @@
         "setStage": {
           "typeof": "function"
         },
+        "setStates": {
+          "typeof": "function"
+        },
         "shadowRoot": {
           "$ref": "#/definitions/IShadowRoot"
+        },
+        "sharedStateDirty": {
+          "type": "boolean"
         },
         "shouldSelfChangeUpdateAABBBounds": {
           "typeof": "function"
@@ -39702,11 +39798,14 @@
         "stamp": {
           "type": "number"
         },
+        "stateMergeMode": {
+          "$ref": "#/definitions/StateMergeMode"
+        },
         "stateProxy": {
           "typeof": "function"
         },
         "states": {
-          "$ref": "#/definitions/Record<string,Partial<IGlyphGraphicAttribute>>"
+          "$ref": "#/definitions/StateDefinitionsInput<IGlyphGraphicAttribute>"
         },
         "stopAnimates": {
           "typeof": "function"
@@ -39761,6 +39860,7 @@
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
         "addUpdateLayoutTag",
+        "addUpdatePaintTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animates",
@@ -39779,6 +39879,7 @@
         "createPathProxy",
         "delete",
         "detachShadow",
+        "detachStageForRelease",
         "dispatchEvent",
         "emit",
         "find",
@@ -39812,6 +39913,7 @@
         "insertBefore",
         "insertInto",
         "insertIntoKeepIdx",
+        "invalidateResolver",
         "isAncestorsOf",
         "isChildOf",
         "isDescendantsOf",
@@ -39839,6 +39941,7 @@
         "setAttributes",
         "setMode",
         "setStage",
+        "setStates",
         "shouldSelfChangeUpdateAABBBounds",
         "shouldUpdateAABBBounds",
         "shouldUpdateGlobalMatrix",
@@ -39899,6 +40002,9 @@
         "addUpdateLayoutTag": {
           "typeof": "function"
         },
+        "addUpdatePaintTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -39935,8 +40041,17 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "baseAttributes": {
+          "$ref": "#/definitions/Partial<Partial<IGraphicAttribute>>"
+        },
         "bindDom": {
           "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
+        },
+        "boundSharedStateRevision": {
+          "type": "number"
+        },
+        "boundSharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<Partial<IGraphicAttribute>>"
         },
         "childrenCount": {
           "type": "number"
@@ -39971,8 +40086,17 @@
         "detachShadow": {
           "typeof": "function"
         },
+        "detachStageForRelease": {
+          "typeof": "function"
+        },
         "dispatchEvent": {
           "typeof": "function"
+        },
+        "effectiveStates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "emit": {
           "typeof": "function"
@@ -40094,6 +40218,9 @@
         "insertIntoKeepIdx": {
           "typeof": "function"
         },
+        "invalidateResolver": {
+          "typeof": "function"
+        },
         "isAncestorsOf": {
           "typeof": "function"
         },
@@ -40117,6 +40244,12 @@
         },
         "layer": {
           "$ref": "#/definitions/ILayer"
+        },
+        "localFallbackCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>"
+        },
+        "localFallbackVersion": {
+          "type": "number"
         },
         "name": {
           "type": "string"
@@ -40188,6 +40321,9 @@
         "reApplyAnimationState": {
           "typeof": "function"
         },
+        "registeredActiveScopes": {
+          "$ref": "#/definitions/Set<SharedStateScope<Partial<IGraphicAttribute>>>"
+        },
         "release": {
           "typeof": "function"
         },
@@ -40219,6 +40355,9 @@
         },
         "removeState": {
           "typeof": "function"
+        },
+        "resolvedStatePatch": {
+          "$ref": "#/definitions/Partial<Partial<IGraphicAttribute>>"
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
@@ -40253,8 +40392,14 @@
         "setStage": {
           "typeof": "function"
         },
+        "setStates": {
+          "typeof": "function"
+        },
         "shadowRoot": {
           "$ref": "#/definitions/IShadowRoot"
+        },
+        "sharedStateDirty": {
+          "type": "boolean"
         },
         "shouldSelfChangeUpdateAABBBounds": {
           "typeof": "function"
@@ -40277,11 +40422,14 @@
         "stamp": {
           "type": "number"
         },
+        "stateMergeMode": {
+          "$ref": "#/definitions/StateMergeMode"
+        },
         "stateProxy": {
           "typeof": "function"
         },
         "states": {
-          "$ref": "#/definitions/Record<string,Partial<Partial<IGraphicAttribute>>>"
+          "$ref": "#/definitions/StateDefinitionsInput<Partial<IGraphicAttribute>>"
         },
         "stopAnimates": {
           "typeof": "function"
@@ -40336,6 +40484,7 @@
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
         "addUpdateLayoutTag",
+        "addUpdatePaintTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animates",
@@ -40354,6 +40503,7 @@
         "createPathProxy",
         "delete",
         "detachShadow",
+        "detachStageForRelease",
         "dispatchEvent",
         "emit",
         "find",
@@ -40387,6 +40537,7 @@
         "insertBefore",
         "insertInto",
         "insertIntoKeepIdx",
+        "invalidateResolver",
         "isAncestorsOf",
         "isChildOf",
         "isDescendantsOf",
@@ -40414,6 +40565,7 @@
         "setAttributes",
         "setMode",
         "setStage",
+        "setStates",
         "shouldSelfChangeUpdateAABBBounds",
         "shouldUpdateAABBBounds",
         "shouldUpdateGlobalMatrix",
@@ -40474,6 +40626,9 @@
         "addUpdateLayoutTag": {
           "typeof": "function"
         },
+        "addUpdatePaintTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -40510,8 +40665,17 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "baseAttributes": {
+          "$ref": "#/definitions/Partial<any>"
+        },
         "bindDom": {
           "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
+        },
+        "boundSharedStateRevision": {
+          "type": "number"
+        },
+        "boundSharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<any>"
         },
         "childrenCount": {
           "type": "number"
@@ -40546,8 +40710,17 @@
         "detachShadow": {
           "typeof": "function"
         },
+        "detachStageForRelease": {
+          "typeof": "function"
+        },
         "dispatchEvent": {
           "typeof": "function"
+        },
+        "effectiveStates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "emit": {
           "typeof": "function"
@@ -40669,6 +40842,9 @@
         "insertIntoKeepIdx": {
           "typeof": "function"
         },
+        "invalidateResolver": {
+          "typeof": "function"
+        },
         "isAncestorsOf": {
           "typeof": "function"
         },
@@ -40692,6 +40868,12 @@
         },
         "layer": {
           "$ref": "#/definitions/ILayer"
+        },
+        "localFallbackCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<any>>"
+        },
+        "localFallbackVersion": {
+          "type": "number"
         },
         "name": {
           "type": "string"
@@ -40763,6 +40945,9 @@
         "reApplyAnimationState": {
           "typeof": "function"
         },
+        "registeredActiveScopes": {
+          "$ref": "#/definitions/Set<SharedStateScope<any>>"
+        },
         "release": {
           "typeof": "function"
         },
@@ -40794,6 +40979,9 @@
         },
         "removeState": {
           "typeof": "function"
+        },
+        "resolvedStatePatch": {
+          "$ref": "#/definitions/Partial<any>"
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
@@ -40828,8 +41016,14 @@
         "setStage": {
           "typeof": "function"
         },
+        "setStates": {
+          "typeof": "function"
+        },
         "shadowRoot": {
           "$ref": "#/definitions/IShadowRoot"
+        },
+        "sharedStateDirty": {
+          "type": "boolean"
         },
         "shouldSelfChangeUpdateAABBBounds": {
           "typeof": "function"
@@ -40852,11 +41046,14 @@
         "stamp": {
           "type": "number"
         },
+        "stateMergeMode": {
+          "$ref": "#/definitions/StateMergeMode"
+        },
         "stateProxy": {
           "typeof": "function"
         },
         "states": {
-          "$ref": "#/definitions/Record<string,Partial<any>>"
+          "$ref": "#/definitions/StateDefinitionsInput<any>"
         },
         "stopAnimates": {
           "typeof": "function"
@@ -40911,6 +41108,7 @@
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
         "addUpdateLayoutTag",
+        "addUpdatePaintTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animates",
@@ -40929,6 +41127,7 @@
         "createPathProxy",
         "delete",
         "detachShadow",
+        "detachStageForRelease",
         "dispatchEvent",
         "emit",
         "find",
@@ -40962,6 +41161,7 @@
         "insertBefore",
         "insertInto",
         "insertIntoKeepIdx",
+        "invalidateResolver",
         "isAncestorsOf",
         "isChildOf",
         "isDescendantsOf",
@@ -40989,6 +41189,7 @@
         "setAttributes",
         "setMode",
         "setStage",
+        "setStates",
         "shouldSelfChangeUpdateAABBBounds",
         "shouldUpdateAABBBounds",
         "shouldUpdateGlobalMatrix",
@@ -41210,6 +41411,9 @@
         "addUpdateLayoutTag": {
           "typeof": "function"
         },
+        "addUpdatePaintTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -41246,8 +41450,17 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "baseAttributes": {
+          "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
+        },
         "bindDom": {
           "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
+        },
+        "boundSharedStateRevision": {
+          "type": "number"
+        },
+        "boundSharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<IGroupGraphicAttribute>"
         },
         "childrenCount": {
           "type": "number"
@@ -41285,14 +41498,26 @@
         "createTheme": {
           "typeof": "function"
         },
+        "deferredStateConfig": {
+          "$ref": "#/definitions/IDeferredStateOwnerConfig"
+        },
         "delete": {
           "typeof": "function"
         },
         "detachShadow": {
           "typeof": "function"
         },
+        "detachStageForRelease": {
+          "typeof": "function"
+        },
         "dispatchEvent": {
           "typeof": "function"
+        },
+        "effectiveStates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "emit": {
           "typeof": "function"
@@ -41423,6 +41648,9 @@
         "insertIntoKeepIdx": {
           "typeof": "function"
         },
+        "invalidateResolver": {
+          "typeof": "function"
+        },
         "isAncestorsOf": {
           "typeof": "function"
         },
@@ -41446,6 +41674,12 @@
         },
         "layer": {
           "$ref": "#/definitions/ILayer"
+        },
+        "localFallbackCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>"
+        },
+        "localFallbackVersion": {
+          "type": "number"
         },
         "name": {
           "type": "string"
@@ -41517,6 +41751,9 @@
         "reApplyAnimationState": {
           "typeof": "function"
         },
+        "registeredActiveScopes": {
+          "$ref": "#/definitions/Set<SharedStateScope<IGroupGraphicAttribute>>"
+        },
         "release": {
           "typeof": "function"
         },
@@ -41548,6 +41785,9 @@
         },
         "removeState": {
           "typeof": "function"
+        },
+        "resolvedStatePatch": {
+          "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
@@ -41582,11 +41822,23 @@
         "setStage": {
           "typeof": "function"
         },
+        "setStates": {
+          "typeof": "function"
+        },
         "setTheme": {
           "typeof": "function"
         },
         "shadowRoot": {
           "$ref": "#/definitions/IShadowRoot"
+        },
+        "sharedStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Record<string,any>>"
+        },
+        "sharedStateDirty": {
+          "type": "boolean"
+        },
+        "sharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<Record<string,any>>"
         },
         "shouldSelfChangeUpdateAABBBounds": {
           "typeof": "function"
@@ -41612,11 +41864,14 @@
         "stamp": {
           "type": "number"
         },
+        "stateMergeMode": {
+          "$ref": "#/definitions/StateMergeMode"
+        },
         "stateProxy": {
           "typeof": "function"
         },
         "states": {
-          "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
+          "$ref": "#/definitions/StateDefinitionsInput<IGroupGraphicAttribute>"
         },
         "stopAnimates": {
           "typeof": "function"
@@ -41674,6 +41929,7 @@
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
         "addUpdateLayoutTag",
+        "addUpdatePaintTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animates",
@@ -41694,6 +41950,7 @@
         "createTheme",
         "delete",
         "detachShadow",
+        "detachStageForRelease",
         "dispatchEvent",
         "emit",
         "find",
@@ -41730,6 +41987,7 @@
         "insertBefore",
         "insertInto",
         "insertIntoKeepIdx",
+        "invalidateResolver",
         "isAncestorsOf",
         "isChildOf",
         "isDescendantsOf",
@@ -41757,6 +42015,7 @@
         "setAttributes",
         "setMode",
         "setStage",
+        "setStates",
         "setTheme",
         "shouldSelfChangeUpdateAABBBounds",
         "shouldUpdateAABBBounds",
@@ -45677,6 +45936,9 @@
         "addUpdateLayoutTag": {
           "typeof": "function"
         },
+        "addUpdatePaintTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -45719,11 +45981,20 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "baseAttributes": {
+          "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
+        },
         "bindDom": {
           "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
         },
         "blendMode": {
           "type": "string"
+        },
+        "boundSharedStateRevision": {
+          "type": "number"
+        },
+        "boundSharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<IGroupGraphicAttribute>"
         },
         "canvasId": {
           "type": "string"
@@ -45767,10 +46038,16 @@
         "createTheme": {
           "typeof": "function"
         },
+        "deferredStateConfig": {
+          "$ref": "#/definitions/IDeferredStateOwnerConfig"
+        },
         "delete": {
           "typeof": "function"
         },
         "detachShadow": {
+          "typeof": "function"
+        },
+        "detachStageForRelease": {
           "typeof": "function"
         },
         "dirtyBound": {
@@ -45784,6 +46061,12 @@
         },
         "drawTo": {
           "typeof": "function"
+        },
+        "effectiveStates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "emit": {
           "typeof": "function"
@@ -45923,6 +46206,9 @@
         "insertIntoKeepIdx": {
           "typeof": "function"
         },
+        "invalidateResolver": {
+          "typeof": "function"
+        },
         "isAncestorsOf": {
           "typeof": "function"
         },
@@ -45949,6 +46235,12 @@
         },
         "layerMode": {
           "$ref": "#/definitions/LayerMode"
+        },
+        "localFallbackCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>"
+        },
+        "localFallbackVersion": {
+          "type": "number"
         },
         "main": {
           "type": "boolean"
@@ -46036,6 +46328,9 @@
         "reApplyAnimationState": {
           "typeof": "function"
         },
+        "registeredActiveScopes": {
+          "$ref": "#/definitions/Set<SharedStateScope<IGroupGraphicAttribute>>"
+        },
         "release": {
           "typeof": "function"
         },
@@ -46080,6 +46375,9 @@
         "resizeView": {
           "typeof": "function"
         },
+        "resolvedStatePatch": {
+          "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
+        },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
         },
@@ -46116,6 +46414,9 @@
         "setStage": {
           "typeof": "function"
         },
+        "setStates": {
+          "typeof": "function"
+        },
         "setTheme": {
           "typeof": "function"
         },
@@ -46124,6 +46425,15 @@
         },
         "shadowRoot": {
           "$ref": "#/definitions/IShadowRoot"
+        },
+        "sharedStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Record<string,any>>"
+        },
+        "sharedStateDirty": {
+          "type": "boolean"
+        },
+        "sharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<Record<string,any>>"
         },
         "shouldSelfChangeUpdateAABBBounds": {
           "typeof": "function"
@@ -46152,11 +46462,14 @@
         "startAnimate": {
           "typeof": "function"
         },
+        "stateMergeMode": {
+          "$ref": "#/definitions/StateMergeMode"
+        },
         "stateProxy": {
           "typeof": "function"
         },
         "states": {
-          "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
+          "$ref": "#/definitions/StateDefinitionsInput<IGroupGraphicAttribute>"
         },
         "stopAnimates": {
           "typeof": "function"
@@ -46226,6 +46539,7 @@
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
         "addUpdateLayoutTag",
+        "addUpdatePaintTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "afterDraw",
@@ -46249,6 +46563,7 @@
         "createTheme",
         "delete",
         "detachShadow",
+        "detachStageForRelease",
         "dirtyBound",
         "dispatchEvent",
         "dpr",
@@ -46290,6 +46605,7 @@
         "insertBefore",
         "insertInto",
         "insertIntoKeepIdx",
+        "invalidateResolver",
         "isAncestorsOf",
         "isChildOf",
         "isDescendantsOf",
@@ -46329,6 +46645,7 @@
         "setDpr",
         "setMode",
         "setStage",
+        "setStates",
         "setTheme",
         "setToFrame",
         "shouldSelfChangeUpdateAABBBounds",
@@ -58024,6 +58341,9 @@
         "findPluginsByName": {
           "typeof": "function"
         },
+        "install": {
+          "typeof": "function"
+        },
         "register": {
           "typeof": "function"
         },
@@ -58034,6 +58354,9 @@
           "$ref": "#/definitions/IStage"
         },
         "unRegister": {
+          "typeof": "function"
+        },
+        "uninstall": {
           "typeof": "function"
         }
       },
@@ -69774,6 +70097,9 @@
         "addUpdateLayoutTag": {
           "typeof": "function"
         },
+        "addUpdatePaintTag": {
+          "typeof": "function"
+        },
         "addUpdatePositionTag": {
           "typeof": "function"
         },
@@ -69810,8 +70136,17 @@
         "backgroundImg": {
           "type": "boolean"
         },
+        "baseAttributes": {
+          "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
+        },
         "bindDom": {
           "$ref": "#/definitions/Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>"
+        },
+        "boundSharedStateRevision": {
+          "type": "number"
+        },
+        "boundSharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<IGroupGraphicAttribute>"
         },
         "childrenCount": {
           "type": "number"
@@ -69849,14 +70184,26 @@
         "createTheme": {
           "typeof": "function"
         },
+        "deferredStateConfig": {
+          "$ref": "#/definitions/IDeferredStateOwnerConfig"
+        },
         "delete": {
           "typeof": "function"
         },
         "detachShadow": {
           "typeof": "function"
         },
+        "detachStageForRelease": {
+          "typeof": "function"
+        },
         "dispatchEvent": {
           "typeof": "function"
+        },
+        "effectiveStates": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         },
         "emit": {
           "typeof": "function"
@@ -69987,6 +70334,9 @@
         "insertIntoKeepIdx": {
           "typeof": "function"
         },
+        "invalidateResolver": {
+          "typeof": "function"
+        },
         "isAncestorsOf": {
           "typeof": "function"
         },
@@ -70010,6 +70360,12 @@
         },
         "layer": {
           "$ref": "#/definitions/ILayer"
+        },
+        "localFallbackCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>"
+        },
+        "localFallbackVersion": {
+          "type": "number"
         },
         "name": {
           "type": "string"
@@ -70081,6 +70437,9 @@
         "reApplyAnimationState": {
           "typeof": "function"
         },
+        "registeredActiveScopes": {
+          "$ref": "#/definitions/Set<SharedStateScope<IGroupGraphicAttribute>>"
+        },
         "release": {
           "typeof": "function"
         },
@@ -70112,6 +70471,9 @@
         },
         "removeState": {
           "typeof": "function"
+        },
+        "resolvedStatePatch": {
+          "$ref": "#/definitions/Partial<IGroupGraphicAttribute>"
         },
         "resources": {
           "$ref": "#/definitions/Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>"
@@ -70146,6 +70508,9 @@
         "setStage": {
           "typeof": "function"
         },
+        "setStates": {
+          "typeof": "function"
+        },
         "setTheme": {
           "typeof": "function"
         },
@@ -70154,6 +70519,15 @@
         },
         "shadowRoot": {
           "$ref": "#/definitions/IShadowRoot"
+        },
+        "sharedStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Record<string,any>>"
+        },
+        "sharedStateDirty": {
+          "type": "boolean"
+        },
+        "sharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<Record<string,any>>"
         },
         "shouldSelfChangeUpdateAABBBounds": {
           "typeof": "function"
@@ -70179,11 +70553,14 @@
         "stamp": {
           "type": "number"
         },
+        "stateMergeMode": {
+          "$ref": "#/definitions/StateMergeMode"
+        },
         "stateProxy": {
           "typeof": "function"
         },
         "states": {
-          "$ref": "#/definitions/Record<string,Partial<IGroupGraphicAttribute>>"
+          "$ref": "#/definitions/StateDefinitionsInput<IGroupGraphicAttribute>"
         },
         "stopAnimates": {
           "typeof": "function"
@@ -70241,6 +70618,7 @@
         "addUpdateBoundTag",
         "addUpdateGlobalPositionTag",
         "addUpdateLayoutTag",
+        "addUpdatePaintTag",
         "addUpdatePositionTag",
         "addUpdateShapeAndBoundsTag",
         "animates",
@@ -70261,6 +70639,7 @@
         "createTheme",
         "delete",
         "detachShadow",
+        "detachStageForRelease",
         "dispatchEvent",
         "emit",
         "find",
@@ -70297,6 +70676,7 @@
         "insertBefore",
         "insertInto",
         "insertIntoKeepIdx",
+        "invalidateResolver",
         "isAncestorsOf",
         "isChildOf",
         "isDescendantsOf",
@@ -70324,6 +70704,7 @@
         "setAttributes",
         "setMode",
         "setStage",
+        "setStates",
         "setTheme",
         "shadowHost",
         "shouldSelfChangeUpdateAABBBounds",
@@ -70411,32 +70792,7 @@
           "type": "boolean"
         },
         "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "$ref": "#/definitions/IColor"
         },
         "camera": {
           "$ref": "#/definitions/ICamera"
@@ -70458,6 +70814,9 @@
         },
         "defaultLayer": {
           "$ref": "#/definitions/ILayer"
+        },
+        "deferredStateConfig": {
+          "$ref": "#/definitions/IDeferredStateOwnerConfig"
         },
         "delete": {
           "typeof": "function"
@@ -70553,6 +70912,9 @@
           "typeof": "function"
         },
         "getPluginsByName": {
+          "typeof": "function"
+        },
+        "getStatePerfSnapshot": {
           "typeof": "function"
         },
         "getTheme": {
@@ -70728,6 +71090,9 @@
         "renderToNewWindow": {
           "typeof": "function"
         },
+        "resetStatePerfSnapshot": {
+          "typeof": "function"
+        },
         "resize": {
           "typeof": "function"
         },
@@ -70744,6 +71109,12 @@
           "typeof": "function"
         },
         "resumeTriggerEvent": {
+          "typeof": "function"
+        },
+        "rootSharedStateScope": {
+          "$ref": "#/definitions/SharedStateScope<Record<string,any>>"
+        },
+        "scheduleStateBatch": {
           "typeof": "function"
         },
         "set3dOptions": {
@@ -70794,6 +71165,9 @@
         },
         "startAnimate": {
           "typeof": "function"
+        },
+        "statePerfConfig": {
+          "$ref": "#/definitions/IStatePerfConfig"
         },
         "stopAnimation": {
           "typeof": "function"
@@ -70879,6 +71253,7 @@
         "getLayer",
         "getPickerService",
         "getPluginsByName",
+        "getStatePerfSnapshot",
         "getTheme",
         "getTimeline",
         "graphicService",
@@ -70918,11 +71293,13 @@
         "renderService",
         "renderTo",
         "renderToNewWindow",
+        "resetStatePerfSnapshot",
         "resize",
         "resizeView",
         "resizeWindow",
         "resumeRender",
         "resumeTriggerEvent",
+        "scheduleStateBatch",
         "set3dOptions",
         "setAfterRender",
         "setAllDescendantsProps",
@@ -71549,6 +71926,20 @@
         "easing": {
           "$ref": "#/definitions/EasingType",
           "description": "状态动画的缓动函数类型"
+        }
+      },
+      "type": "object"
+    },
+    "IStatePerfConfig": {
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "maxEventRecords": {
+          "type": "number"
+        },
+        "recordEvents": {
+          "type": "boolean"
         }
       },
       "type": "object"
@@ -73442,8 +73833,14 @@
         "nextTheme": {
           "$ref": "#/definitions/IThemeSpec"
         },
+        "onStateDefinitionsChange": {
+          "typeof": "function"
+        },
         "setTheme": {
           "typeof": "function"
+        },
+        "stateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Record<string,any>>"
         },
         "userTheme": {
           "$ref": "#/definitions/IThemeSpec"
@@ -81907,7 +82304,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         },
         "size": {
@@ -81915,14 +82312,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12875",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         },
         "size": {
@@ -81930,14 +82327,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12875",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         },
         "size": {
@@ -81945,14 +82342,89 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string,CompiledStateDefinition<Record<string,any>>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Map<string,CompiledStateDefinition<any>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         },
         "size": {
@@ -81960,14 +82432,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12875",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         },
         "size": {
@@ -81975,14 +82447,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12875",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         },
         "size": {
@@ -81990,14 +82462,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12875",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         },
         "size": {
@@ -82005,7 +82477,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12875",
         "size"
       ],
       "type": "object"
@@ -96920,32 +97392,7 @@
           "type": "boolean"
         },
         "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "type": "string"
-            }
-          ]
+          "$ref": "#/definitions/IColor"
         },
         "beforeRender": {
           "typeof": "function"
@@ -103868,34 +104315,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12875"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12875"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12875": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12875"
       ],
       "type": "object"
     },
@@ -104442,18 +104889,6 @@
       "type": "object"
     },
     "Record<string,Omit<ITheme,\"name\"|\"type\"|\"description\">>": {
-      "type": "object"
-    },
-    "Record<string,Partial<IGlyphGraphicAttribute>>": {
-      "type": "object"
-    },
-    "Record<string,Partial<IGroupGraphicAttribute>>": {
-      "type": "object"
-    },
-    "Record<string,Partial<Partial<IGraphicAttribute>>>": {
-      "type": "object"
-    },
-    "Record<string,Partial<any>>": {
       "type": "object"
     },
     "Record<string,any>": {
@@ -117731,6 +118166,81 @@
       ],
       "type": "string"
     },
+    "Set<IGraphic<Partial<IGraphicAttribute>>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Set<SharedStateScope<IGlyphGraphicAttribute>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Set<SharedStateScope<IGroupGraphicAttribute>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Set<SharedStateScope<Partial<IGraphicAttribute>>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
+    "Set<SharedStateScope<any>>": {
+      "properties": {
+        "__@toStringTag@12875": {
+          "type": "string"
+        },
+        "size": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "__@toStringTag@12875",
+        "size"
+      ],
+      "type": "object"
+    },
     "ShadowRoot": {
       "properties": {
         "ATTRIBUTE_NODE": {
@@ -117955,6 +118465,271 @@
       ],
       "type": "string"
     },
+    "SharedStateScope<IGlyphGraphicAttribute>": {
+      "properties": {
+        "dirty": {
+          "type": "boolean"
+        },
+        "effectiveCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>"
+        },
+        "effectiveSourceDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<IGlyphGraphicAttribute>"
+        },
+        "localStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<IGlyphGraphicAttribute>"
+        },
+        "ownerGroup": {
+          "$ref": "#/definitions/IGroup"
+        },
+        "ownerKind": {
+          "enum": [
+            "group",
+            "root"
+          ],
+          "type": "string"
+        },
+        "ownerStage": {
+          "$ref": "#/definitions/IStage"
+        },
+        "parentRevisionAtBuild": {
+          "type": "number"
+        },
+        "parentScope": {
+          "$ref": "#/definitions/SharedStateScope<IGlyphGraphicAttribute>"
+        },
+        "revision": {
+          "type": "number"
+        },
+        "subtreeActiveDescendants": {
+          "$ref": "#/definitions/Set<IGraphic<Partial<IGraphicAttribute>>>"
+        },
+        "themeStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<IGlyphGraphicAttribute>"
+        }
+      },
+      "required": [
+        "dirty",
+        "effectiveCompiledDefinitions",
+        "effectiveSourceDefinitions",
+        "ownerKind",
+        "revision",
+        "subtreeActiveDescendants"
+      ],
+      "type": "object"
+    },
+    "SharedStateScope<IGroupGraphicAttribute>": {
+      "properties": {
+        "dirty": {
+          "type": "boolean"
+        },
+        "effectiveCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>"
+        },
+        "effectiveSourceDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<IGroupGraphicAttribute>"
+        },
+        "localStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<IGroupGraphicAttribute>"
+        },
+        "ownerGroup": {
+          "$ref": "#/definitions/IGroup"
+        },
+        "ownerKind": {
+          "enum": [
+            "group",
+            "root"
+          ],
+          "type": "string"
+        },
+        "ownerStage": {
+          "$ref": "#/definitions/IStage"
+        },
+        "parentRevisionAtBuild": {
+          "type": "number"
+        },
+        "parentScope": {
+          "$ref": "#/definitions/SharedStateScope<IGroupGraphicAttribute>"
+        },
+        "revision": {
+          "type": "number"
+        },
+        "subtreeActiveDescendants": {
+          "$ref": "#/definitions/Set<IGraphic<Partial<IGraphicAttribute>>>"
+        },
+        "themeStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<IGroupGraphicAttribute>"
+        }
+      },
+      "required": [
+        "dirty",
+        "effectiveCompiledDefinitions",
+        "effectiveSourceDefinitions",
+        "ownerKind",
+        "revision",
+        "subtreeActiveDescendants"
+      ],
+      "type": "object"
+    },
+    "SharedStateScope<Partial<IGraphicAttribute>>": {
+      "properties": {
+        "dirty": {
+          "type": "boolean"
+        },
+        "effectiveCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>"
+        },
+        "effectiveSourceDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Partial<IGraphicAttribute>>"
+        },
+        "localStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Partial<IGraphicAttribute>>"
+        },
+        "ownerGroup": {
+          "$ref": "#/definitions/IGroup"
+        },
+        "ownerKind": {
+          "enum": [
+            "group",
+            "root"
+          ],
+          "type": "string"
+        },
+        "ownerStage": {
+          "$ref": "#/definitions/IStage"
+        },
+        "parentRevisionAtBuild": {
+          "type": "number"
+        },
+        "parentScope": {
+          "$ref": "#/definitions/SharedStateScope<Partial<IGraphicAttribute>>"
+        },
+        "revision": {
+          "type": "number"
+        },
+        "subtreeActiveDescendants": {
+          "$ref": "#/definitions/Set<IGraphic<Partial<IGraphicAttribute>>>"
+        },
+        "themeStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Partial<IGraphicAttribute>>"
+        }
+      },
+      "required": [
+        "dirty",
+        "effectiveCompiledDefinitions",
+        "effectiveSourceDefinitions",
+        "ownerKind",
+        "revision",
+        "subtreeActiveDescendants"
+      ],
+      "type": "object"
+    },
+    "SharedStateScope<Record<string,any>>": {
+      "properties": {
+        "dirty": {
+          "type": "boolean"
+        },
+        "effectiveCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<Record<string,any>>>"
+        },
+        "effectiveSourceDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Record<string,any>>"
+        },
+        "localStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Record<string,any>>"
+        },
+        "ownerGroup": {
+          "$ref": "#/definitions/IGroup"
+        },
+        "ownerKind": {
+          "enum": [
+            "group",
+            "root"
+          ],
+          "type": "string"
+        },
+        "ownerStage": {
+          "$ref": "#/definitions/IStage"
+        },
+        "parentRevisionAtBuild": {
+          "type": "number"
+        },
+        "parentScope": {
+          "$ref": "#/definitions/SharedStateScope<Record<string,any>>"
+        },
+        "revision": {
+          "type": "number"
+        },
+        "subtreeActiveDescendants": {
+          "$ref": "#/definitions/Set<IGraphic<Partial<IGraphicAttribute>>>"
+        },
+        "themeStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<Record<string,any>>"
+        }
+      },
+      "required": [
+        "dirty",
+        "effectiveCompiledDefinitions",
+        "effectiveSourceDefinitions",
+        "ownerKind",
+        "revision",
+        "subtreeActiveDescendants"
+      ],
+      "type": "object"
+    },
+    "SharedStateScope<any>": {
+      "properties": {
+        "dirty": {
+          "type": "boolean"
+        },
+        "effectiveCompiledDefinitions": {
+          "$ref": "#/definitions/Map<string,CompiledStateDefinition<any>>"
+        },
+        "effectiveSourceDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<any>"
+        },
+        "localStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<any>"
+        },
+        "ownerGroup": {
+          "$ref": "#/definitions/IGroup"
+        },
+        "ownerKind": {
+          "enum": [
+            "group",
+            "root"
+          ],
+          "type": "string"
+        },
+        "ownerStage": {
+          "$ref": "#/definitions/IStage"
+        },
+        "parentRevisionAtBuild": {
+          "type": "number"
+        },
+        "parentScope": {
+          "$ref": "#/definitions/SharedStateScope<any>"
+        },
+        "revision": {
+          "type": "number"
+        },
+        "subtreeActiveDescendants": {
+          "$ref": "#/definitions/Set<IGraphic<Partial<IGraphicAttribute>>>"
+        },
+        "themeStateDefinitions": {
+          "$ref": "#/definitions/StateDefinitionsInput<any>"
+        }
+      },
+      "required": [
+        "dirty",
+        "effectiveCompiledDefinitions",
+        "effectiveSourceDefinitions",
+        "ownerKind",
+        "revision",
+        "subtreeActiveDescendants"
+      ],
+      "type": "object"
+    },
     "SheetParseOptions": {
       "properties": {
         "clone": {
@@ -118102,6 +118877,28 @@
         "speaking"
       ],
       "type": "object"
+    },
+    "StateDefinitionsInput<IGlyphGraphicAttribute>": {
+      "type": "object"
+    },
+    "StateDefinitionsInput<IGroupGraphicAttribute>": {
+      "type": "object"
+    },
+    "StateDefinitionsInput<Partial<IGraphicAttribute>>": {
+      "type": "object"
+    },
+    "StateDefinitionsInput<Record<string,any>>": {
+      "type": "object"
+    },
+    "StateDefinitionsInput<any>": {
+      "type": "object"
+    },
+    "StateMergeMode": {
+      "enum": [
+        "deep",
+        "shallow"
+      ],
+      "type": "string"
     },
     "Storage": {
       "additionalProperties": {},

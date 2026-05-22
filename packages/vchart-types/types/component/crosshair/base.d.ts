@@ -41,13 +41,10 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     protected _showDefaultCrosshair(): void;
     setAttrFromSpec(): void;
     created(): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
+    private _isComponentOnlySpecChange;
+    private _isFieldComponentOnlySpecChange;
+    private _isLineComponentOnlySpecChange;
     protected _initEvent(): void;
     private _registerEvent;
     private _eventOff;
