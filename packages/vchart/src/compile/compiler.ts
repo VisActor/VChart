@@ -23,7 +23,7 @@ import { log } from '../util/debug';
 import type { MarkAnimationSpec, TypeAnimationConfig } from '../animation/interface';
 import { AnimationStateEnum } from '../animation/interface';
 import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
-import { createStageFromApp, resolveVRenderApp } from './stage-app';
+import { createStageFromApp, getVRenderAppEnvParams, resolveVRenderApp } from './stage-app';
 
 type EventListener = {
   type: string;
@@ -131,17 +131,25 @@ export class Compiler implements ICompiler {
       autoPreventDefault,
       background
     } = this._option;
-    vglobal.setEnv(toRenderMode(mode), modeParams ?? {});
+    const appEnvParams = getVRenderAppEnvParams(mode, modeParams);
+    vglobal.setEnv(toRenderMode(mode), appEnvParams ?? {});
     const externalStage = this._option.stage;
     this._isExternalStage = !!externalStage;
     this._releaseVRenderAppRef = undefined;
     this._stage = externalStage;
 
     if (!this._stage) {
-      const resolvedApp = resolveVRenderApp(this._option.app, mode);
+      const resolvedApp = resolveVRenderApp({
+        app: this._option.app,
+        mode,
+        modeParams,
+        sharedVRenderApp: this._option.sharedVRenderApp
+      });
       this._releaseVRenderAppRef = resolvedApp.releaseAppRef;
 
       try {
+        // Canvas view binding is stage-scoped. Keep it out of app envParams so
+        // one app can safely host multiple VChart/VTable stages in Lynx pages.
         this._stage = createStageFromApp(resolvedApp.app, {
           background,
           width: this._width,

@@ -2,6 +2,7 @@ import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } f
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
+import type { SharedVRenderAppOption } from '../stage-app';
 
 /** 布局阶段 */
 export enum LayoutState {
@@ -81,7 +82,12 @@ export interface IRenderOption {
 
   gestureConfig?: GestureConfig;
   /**
-   * 渲染环境参数配置
+   * 渲染环境参数配置。
+   *
+   * app 级 envParams 只应放对整个 VRender app scope 都有效的环境能力；
+   * 具体 canvas name/id、width、height、dpr 会随 stage 创建参数传入。
+   * Lynx 新接入请优先使用 pixelRatio、lynx/runtime、canvasFactory 等全局能力，
+   * 不要把 domref/canvasIdLists/freeCanvasIdx 作为新主路径依赖。
    */
   modeParams?:
     | {
@@ -123,6 +129,13 @@ export interface IRenderOption {
    * VChart release 只释放自己创建的 stage，不释放该 app。
    */
   app?: IApp;
+  /**
+   * 使用 VRender 共享 app。必须提供明确的页面/容器/宿主 scope key；
+   * VChart 不会在缺少 key 时使用 VRender 默认 shared key，避免不同全局环境能力误共用。
+   *
+   * VChart 仍会为每个实例创建并释放自己的 stage。共享 app 由 VRender handle 引用计数释放。
+   */
+  sharedVRenderApp?: SharedVRenderAppOption;
   /**
    * 外部传入的 VRender layer
    */
