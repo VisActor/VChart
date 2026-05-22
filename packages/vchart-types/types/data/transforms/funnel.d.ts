@@ -1,6 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
+type FunnelOptionValue<T> = T | (() => T);
 export interface IFunnelOpt {
-    valueField: string;
+    valueField: FunnelOptionValue<string>;
     asTransformRatio: string;
     asReachRatio: string;
     asHeightRatio: string;
@@ -10,12 +11,12 @@ export interface IFunnelOpt {
     asCurrentValue: string;
     asLastValue: string;
     asNextValue: string;
-    isCone?: boolean;
-    heightVisual?: boolean;
-    range?: {
-        min: number;
-        max: number;
-    };
+    isCone?: FunnelOptionValue<boolean | undefined>;
+    heightVisual?: FunnelOptionValue<boolean | undefined>;
+    range?: FunnelOptionValue<{
+        min?: number;
+        max?: number;
+    } | undefined>;
 }
 export declare const funnel: (originData: Array<DataView>, op: IFunnelOpt) => {
     dataSet: import("@visactor/vdataset").DataSet;
@@ -43,4 +44,5 @@ export declare const funnel: (originData: Array<DataView>, op: IFunnelOpt) => {
 export interface IFunnelTransformOpt {
     asIsTransformLevel: string;
 }
-export declare const funnelTransform: (originData: Array<DataView>, op: IFunnelTransformOpt) => any;
+export declare const funnelTransform: (originData: Array<DataView>, op: IFunnelTransformOpt) => Record<string, unknown>[];
+export {};

@@ -2,12 +2,13 @@ import type { IIndicatorItemSpec } from './interface';
 export interface IIndicatorDatum {
     type: 'title' | 'content';
     index: number;
-    datum: any;
+    datum: unknown;
     spec: IIndicatorItemSpec;
 }
 export interface IIndicatorMapper {
     title: IIndicatorItemSpec;
     content: IIndicatorItemSpec[];
-    datum: () => any;
+    datum: () => unknown;
 }
-export declare const indicatorMapper: (data: Array<any>, op: IIndicatorMapper) => any[];
+export type IndicatorMapperOption = IIndicatorMapper | (() => IIndicatorMapper);
+export declare const indicatorMapper: (data: Array<unknown>, op: IndicatorMapperOption) => IIndicatorDatum[];
