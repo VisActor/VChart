@@ -28,7 +28,7 @@ Supported since `1.2.0` version, it is used to adjust the column spacing within 
 If the number of arrays in `barGapInGroup` is less than the number of grouping levels, the last value will be used for subsequent grouping spacing.
 
 - `number` type, representing pixel value
-- `string` type, percentage usage, such as '10%', this value is the bandWidth proportion of the scale corresponding to the last grouping field (because the columns are of equal width, the scale of the last layer of grouping is used)
+- `string` type, percentage usage, such as '10%', the value is the proportion of the actual column width (barWidth)
 
 #${prefix} barMinHeight(number)
 
