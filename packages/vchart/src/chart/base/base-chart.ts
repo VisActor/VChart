@@ -895,6 +895,21 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       .sort();
   }
 
+  private _isSeriesRelatedSpecKey(key: string) {
+    return !!this._specTransformer?.getSeriesRelatedSpecKeys()?.[key];
+  }
+
+  private _canChangeSpecKeysWithoutRemake(currentKeys: string[], nextKeys: string[]) {
+    const currentKeySet = new Set(currentKeys);
+    const nextKeySet = new Set(nextKeys);
+    const changedKeys = [
+      ...currentKeys.filter(key => !nextKeySet.has(key)),
+      ...nextKeys.filter(key => !currentKeySet.has(key))
+    ];
+
+    return changedKeys.length > 0 && changedKeys.every(key => this._isSeriesRelatedSpecKey(key));
+  }
+
   updateSpec(spec: T) {
     const result: IUpdateSpecResult = {
       change: false,
@@ -915,14 +930,15 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     const currentKeys = this._getSpecKeys(this._spec);
     const nextKeys = this._getSpecKeys(spec);
-    if (!isEqual(currentKeys, nextKeys)) {
+    if (!isEqual(currentKeys, nextKeys) && !this._canChangeSpecKeysWithoutRemake(currentKeys, nextKeys)) {
       result.reMake = true;
       this.setLayoutTag(true, null, false);
       return result;
     }
+    const specKeys = Array.from(new Set([...currentKeys, ...nextKeys])).sort();
     // spec key 的个数一致，但是数组长度不一致时。remake
-    for (let i = 0; i < currentKeys.length; i++) {
-      const key = currentKeys[i];
+    for (let i = 0; i < specKeys.length; i++) {
+      const key = specKeys[i];
       const currentSpec = (this._spec as any)[key];
       const nextSpec = (spec as any)[key];
       if (
@@ -936,13 +952,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       }
     }
     const oldSpec = this._spec;
-    const onlyMarkerComponentsRemoved = this._isOnlyMarkerComponentsRemoved(this._spec, spec, currentKeys);
-    const onlyComponentSpecsChanged = this._isOnlyComponentSpecsChanged(this._spec, spec, currentKeys);
-    const onlySeriesSpecsChanged = this._isOnlySeriesSpecsChanged(this._spec, spec, currentKeys);
+    const onlyMarkerComponentsRemoved = this._isOnlyMarkerComponentsRemoved(this._spec, spec, specKeys);
+    const onlyComponentSpecsChanged = this._isOnlyComponentSpecsChanged(this._spec, spec, specKeys);
+    const onlySeriesSpecsChanged = this._isOnlySeriesSpecsChanged(this._spec, spec, specKeys);
     const onlyComponentOrSeriesSpecsChanged =
       onlyComponentSpecsChanged || onlySeriesSpecsChanged
         ? true
-        : this._isOnlyComponentOrSeriesSpecsChanged(this._spec, spec, currentKeys);
+        : this._isOnlyComponentOrSeriesSpecsChanged(this._spec, spec, specKeys);
 
     this._spec = spec;
     if (onlyMarkerComponentsRemoved) {

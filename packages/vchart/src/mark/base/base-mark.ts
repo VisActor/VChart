@@ -1808,11 +1808,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         // TODO：如果要走入场、Enter动画，就不用设置值了，保存到diffAttrs中由入场动画自己去设置，因为入场动画可能会延迟执行，所以首帧不能直接设置属性
         // TODO 太麻烦了，会影响后续bounds等计算逻辑，还是首帧设置吧。。。
         g = this._createGraphic(finalAttrs) as IMarkGraphic;
-        // g = this._createGraphic(finalAttrs) as IMarkGraphic;
-        // 如果有动画，设置一下最终attribute
-        if (hasAnimation) {
-          g.setFinalAttributes?.(finalAttrs);
-        }
         g.context = mockGraphic.context;
         g.context.diffAttrs = finalAttrs;
         g.stateSort = this._stateSort;

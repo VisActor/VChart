@@ -138,19 +138,29 @@ const defaultSeriesMarkCompileOnlySubKeys: Record<string, true> = {
 const isSpecObject = (value: unknown): value is Record<string, unknown> =>
   isObject(value) && !isArray(value) && !isFunction(value);
 
+const normalizeSpecObject = (value: unknown): Record<string, unknown> | null => {
+  if (isSpecObject(value)) {
+    return value;
+  }
+  return isNil(value) ? {} : null;
+};
+
 const hasOnlyAllowedSubKeyChanges = (
   specValue: unknown,
   prevSpecValue: unknown,
   allowedSubKeys: Record<string, true>
 ) => {
-  if (!isSpecObject(specValue) || !isSpecObject(prevSpecValue)) {
+  const specObject = normalizeSpecObject(specValue);
+  const prevSpecObject = normalizeSpecObject(prevSpecValue);
+
+  if (!specObject || !prevSpecObject) {
     return false;
   }
 
   let changed = false;
-  const subKeys = Array.from(new Set([...Object.keys(prevSpecValue), ...Object.keys(specValue)]));
+  const subKeys = Array.from(new Set([...Object.keys(prevSpecObject), ...Object.keys(specObject)]));
   for (const subKey of subKeys) {
-    if (!isEqual(specValue[subKey], prevSpecValue[subKey])) {
+    if (!isEqual(specObject[subKey], prevSpecObject[subKey])) {
       if (!allowedSubKeys[subKey]) {
         return false;
       }

@@ -142,8 +142,7 @@ export class Compiler implements ICompiler {
       const resolvedApp = resolveVRenderApp({
         app: this._option.app,
         mode,
-        modeParams,
-        sharedVRenderApp: this._option.sharedVRenderApp
+        modeParams
       });
       this._releaseVRenderAppRef = resolvedApp.releaseAppRef;
 

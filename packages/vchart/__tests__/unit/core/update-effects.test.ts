@@ -453,6 +453,28 @@ const createTopLevelLineMarkStyleSpec = (stroke: string): ILineChartSpec => ({
   }
 });
 
+const createTopLevelLinePointVisibleSpec = (visible?: boolean): ILineChartSpec => ({
+  type: 'line',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1 },
+        { x: 'B', y: 2 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  ...(visible === undefined
+    ? null
+    : {
+        point: {
+          visible
+        }
+      })
+});
+
 const createTopLevelLineColorSpecifiedSpec = (specified?: Record<string, string>): ILineChartSpec => ({
   type: 'line',
   data: [
@@ -2505,6 +2527,14 @@ describe('vchart scoped update effects', () => {
           .find((mark: any) => mark.name === 'line') as any;
         expect(lineMark?.stateStyle?.normal?.stroke?.style).toBe('#f00');
       }
+    );
+  });
+
+  it('classifies top-level line point visible additions as series compile-only', () => {
+    expectSeriesCompileOnlySpecUpdate(
+      dom,
+      () => createTopLevelLinePointVisibleSpec(),
+      () => createTopLevelLinePointVisibleSpec(false)
     );
   });
 

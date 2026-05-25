@@ -30,6 +30,20 @@ const createMockApp = (id: string): MockApp => {
 const setupStageApp = (overrides: Record<string, unknown> = {}) => {
   jest.resetModules();
 
+  const sharedApps = new Map<string, MockApp>();
+  const acquireSharedVRenderApp = jest.fn(({ env, key = 'default' }: { env: string; key?: string }) => {
+    const sharedKey = `${env}:${String(key)}`;
+    const app = sharedApps.get(sharedKey) ?? createMockApp(`shared-${sharedKey}`);
+    sharedApps.set(sharedKey, app);
+
+    return {
+      app,
+      env,
+      key,
+      release: jest.fn()
+    };
+  });
+
   const factories = {
     createBrowserVRenderApp: jest.fn(() => createMockApp('browser')),
     createNodeVRenderApp: jest.fn(() => createMockApp('node')),
@@ -38,6 +52,7 @@ const setupStageApp = (overrides: Record<string, unknown> = {}) => {
     createWxVRenderApp: jest.fn(() => createMockApp('wx')),
     createLynxVRenderApp: jest.fn(() => createMockApp('lynx')),
     createHarmonyVRenderApp: jest.fn(() => createMockApp('harmony')),
+    acquireSharedVRenderApp,
     ...overrides
   };
 
@@ -81,13 +96,39 @@ describe('stage app lifecycle helpers', () => {
     });
   });
 
-  it('acquires a shared lynx app with sanitized envParams when an explicit shared key is configured', () => {
-    const sharedApp = createMockApp('shared-lynx');
+  it('keeps harmony app envParams scoped to global runtime capabilities', () => {
+    const { stageApp } = setupStageApp();
+    const canvasFactory = jest.fn();
+    const harmonyRuntime = { createCanvas: jest.fn() };
+    const runtime = { createOffscreenCanvas: jest.fn() };
+
+    expect(
+      stageApp.getVRenderAppEnvParams('harmony', {
+        domref: { width: 100, height: 80 },
+        canvasIdLists: ['chart', 'tooltip'],
+        freeCanvasIdx: 1,
+        tooltipCanvasId: 'tooltip',
+        force: true,
+        pixelRatio: 2,
+        harmony: harmonyRuntime,
+        runtime,
+        canvasFactory
+      })
+    ).toEqual({
+      pixelRatio: 2,
+      harmony: harmonyRuntime,
+      runtime,
+      canvasFactory
+    });
+  });
+
+  it('acquires the default shared lynx app with sanitized envParams', () => {
+    const sharedApp = createMockApp('shared-lynx-default');
     const releaseHandle = jest.fn();
     const acquireSharedVRenderApp = jest.fn(() => ({
       app: sharedApp,
       env: 'lynx',
-      key: 'page-1',
+      key: 'default',
       release: releaseHandle
     }));
     const { stageApp, factories } = setupStageApp({ acquireSharedVRenderApp });
@@ -100,14 +141,12 @@ describe('stage app lifecycle helpers', () => {
         freeCanvasIdx: 0,
         pixelRatio: 3,
         canvasFactory: jest.fn()
-      },
-      sharedVRenderApp: { key: 'page-1' }
+      }
     });
 
     expect(resolved.app).toBe(sharedApp);
     expect(acquireSharedVRenderApp).toHaveBeenCalledWith({
       env: 'lynx',
-      key: 'page-1',
       envParams: {
         pixelRatio: 3,
         canvasFactory: expect.any(Function)
@@ -121,7 +160,7 @@ describe('stage app lifecycle helpers', () => {
     expect(sharedApp.releaseMock).not.toHaveBeenCalled();
   });
 
-  it('creates an exclusive lynx app when no explicit shared key is provided', () => {
+  it('uses VRender shared app instead of creating an exclusive lynx app by default', () => {
     const { stageApp, factories } = setupStageApp();
 
     const resolved = stageApp.resolveVRenderApp({
@@ -134,18 +173,20 @@ describe('stage app lifecycle helpers', () => {
       }
     });
 
-    expect(factories.createLynxVRenderApp).toHaveBeenCalledWith({
+    expect(factories.acquireSharedVRenderApp).toHaveBeenCalledWith({
+      env: 'lynx',
       envParams: {
         pixelRatio: 2
       }
     });
+    expect(factories.createLynxVRenderApp).not.toHaveBeenCalled();
 
     resolved.releaseAppRef?.();
 
-    expect((resolved.app as MockApp).releaseMock).toHaveBeenCalledTimes(1);
+    expect((resolved.app as MockApp).releaseMock).not.toHaveBeenCalled();
   });
 
-  it('passes node app-scope envParams when creating the default node app', () => {
+  it('passes node app-scope envParams when acquiring the default shared app', () => {
     const { stageApp, factories } = setupStageApp();
     const nodeCanvasPackage = { createCanvas: jest.fn() };
 
@@ -154,14 +195,16 @@ describe('stage app lifecycle helpers', () => {
       modeParams: nodeCanvasPackage
     });
 
-    expect(factories.createNodeVRenderApp).toHaveBeenCalledWith({
+    expect(factories.acquireSharedVRenderApp).toHaveBeenCalledWith({
+      env: 'node',
       envParams: nodeCanvasPackage
     });
+    expect(factories.createNodeVRenderApp).not.toHaveBeenCalled();
 
     resolved.releaseAppRef?.();
   });
 
-  it('keeps shared app alive until the last shared handle is released while stages stay isolated', () => {
+  it('keeps default shared app ownership in VRender while stages stay isolated', () => {
     const sharedApp = createMockApp('shared-page-app');
     let refCount = 0;
     const acquireSharedVRenderApp = jest.fn(() => {
@@ -170,8 +213,8 @@ describe('stage app lifecycle helpers', () => {
 
       return {
         app: sharedApp,
-        env: 'lynx',
-        key: 'page-1',
+        env: 'browser',
+        key: 'default',
         release: () => {
           if (released) {
             return;
@@ -188,14 +231,10 @@ describe('stage app lifecycle helpers', () => {
     const { stageApp } = setupStageApp({ acquireSharedVRenderApp });
 
     const first = stageApp.resolveVRenderApp({
-      mode: 'lynx',
-      modeParams: { pixelRatio: 2 },
-      sharedVRenderApp: { key: 'page-1' }
+      mode: 'desktop-browser'
     });
     const second = stageApp.resolveVRenderApp({
-      mode: 'lynx',
-      modeParams: { pixelRatio: 2 },
-      sharedVRenderApp: { key: 'page-1' }
+      mode: 'desktop-browser'
     });
 
     const firstStage = stageApp.createStageFromApp(first.app, {
@@ -214,6 +253,9 @@ describe('stage app lifecycle helpers', () => {
     expect(first.app).toBe(sharedApp);
     expect(second.app).toBe(sharedApp);
     expect(firstStage).not.toBe(secondStage);
+    expect(acquireSharedVRenderApp).toHaveBeenCalledWith({
+      env: 'browser'
+    });
 
     firstStage.release();
     first.releaseAppRef?.();

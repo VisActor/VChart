@@ -1,8 +1,7 @@
 import { Stage, type Group, type IApp, type IArc, type Text } from '@visactor/vrender-core';
-import { createBrowserVRenderApp } from '@visactor/vrender';
+import { createBrowserVRenderApp, getSharedVRenderApp, releaseSharedVRenderApp } from '@visactor/vrender';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
-import { getDefaultVRenderApp } from '../../../src/compile/stage-app';
 import { registerBrowserEnv } from '../../../src/env';
 import { createDiv, createCanvas, removeDom } from '../../util/dom';
 import type { ICommonChartSpec } from '../../../src/chart/common';
@@ -809,6 +808,7 @@ describe('VChart', () => {
     };
 
     beforeEach(() => {
+      releaseSharedVRenderApp('browser');
       canvasDom = createCanvas();
       canvasDom.width = 200;
       canvasDom.height = 150;
@@ -827,6 +827,7 @@ describe('VChart', () => {
       if (externalApp && !externalApp.released) {
         rawExternalAppRelease?.();
       }
+      releaseSharedVRenderApp('browser');
       removeDom(canvasDom);
       externalStage = undefined;
       rawExternalStageRelease = undefined;
@@ -935,9 +936,7 @@ describe('VChart', () => {
       expect(releaseApp).not.toHaveBeenCalled();
     });
 
-    it('should reuse the fallback app while keeping internally created stages isolated', () => {
-      const fallbackApp = getDefaultVRenderApp('desktop-browser');
-      const createStage = jest.spyOn(fallbackApp, 'createStage');
+    it('should reuse the default VRender shared app while keeping internally created stages isolated', () => {
       const secondCanvasDom = createCanvas();
       secondCanvasDom.width = 200;
       secondCanvasDom.height = 150;
@@ -948,6 +947,10 @@ describe('VChart', () => {
       });
       charts.push(first);
       first.renderSync();
+
+      const fallbackApp = getSharedVRenderApp('browser');
+      expect(fallbackApp).toBeDefined();
+      const createStage = jest.spyOn(fallbackApp!, 'createStage');
 
       const second = new VChart(spec(6), {
         renderCanvas: secondCanvasDom,
@@ -962,27 +965,25 @@ describe('VChart', () => {
       const releaseSecondStage = jest.fn(() => rawSecondStageRelease());
       secondStage.release = releaseSecondStage as any;
 
-      expect(getDefaultVRenderApp('desktop-browser')).toBe(fallbackApp);
-      expect(createStage).toHaveBeenCalledTimes(2);
+      expect(getSharedVRenderApp('browser')).toBe(fallbackApp);
+      expect(createStage).toHaveBeenCalledTimes(1);
       expect(firstStage).not.toBe(secondStage);
 
       first.release();
 
       expect(releaseSecondStage).not.toHaveBeenCalled();
+      expect(getSharedVRenderApp('browser')).toBe(fallbackApp);
       expect(secondStage.window).toBeDefined();
       expect(secondStage.defaultLayer).toBeDefined();
 
       second.release();
 
       expect(releaseSecondStage).toHaveBeenCalledTimes(1);
+      expect(getSharedVRenderApp('browser')).toBeNull();
       removeDom(secondCanvasDom);
     });
 
-    it('should release the fallback app after the last internally owned stage is released', () => {
-      const fallbackApp = getDefaultVRenderApp('desktop-browser');
-      const rawFallbackAppRelease = fallbackApp.release.bind(fallbackApp);
-      const releaseFallbackApp = jest.fn(() => rawFallbackAppRelease());
-      fallbackApp.release = releaseFallbackApp as any;
+    it('should let VRender release the default shared app after the last internally owned stage is released', () => {
       const secondCanvasDom = createCanvas();
       secondCanvasDom.width = 200;
       secondCanvasDom.height = 150;
@@ -994,6 +995,9 @@ describe('VChart', () => {
       charts.push(first);
       first.renderSync();
 
+      const fallbackApp = getSharedVRenderApp('browser');
+      expect(fallbackApp).toBeDefined();
+
       const second = new VChart(spec(6), {
         renderCanvas: secondCanvasDom,
         animation: false
@@ -1003,12 +1007,13 @@ describe('VChart', () => {
 
       first.release();
 
-      expect(releaseFallbackApp).not.toHaveBeenCalled();
+      expect(getSharedVRenderApp('browser')).toBe(fallbackApp);
+      expect(fallbackApp?.released).toBe(false);
 
       second.release();
 
-      expect(releaseFallbackApp).toHaveBeenCalledTimes(1);
-      expect(getDefaultVRenderApp('desktop-browser')).not.toBe(fallbackApp);
+      expect(getSharedVRenderApp('browser')).toBeNull();
+      expect(fallbackApp?.released).toBe(true);
       removeDom(secondCanvasDom);
     });
 

@@ -2,7 +2,6 @@ import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } f
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
-import type { SharedVRenderAppOption } from '../stage-app';
 
 /** 布局阶段 */
 export enum LayoutState {
@@ -129,13 +128,6 @@ export interface IRenderOption {
    * VChart release 只释放自己创建的 stage，不释放该 app。
    */
   app?: IApp;
-  /**
-   * 使用 VRender 共享 app。必须提供明确的页面/容器/宿主 scope key；
-   * VChart 不会在缺少 key 时使用 VRender 默认 shared key，避免不同全局环境能力误共用。
-   *
-   * VChart 仍会为每个实例创建并释放自己的 stage。共享 app 由 VRender handle 引用计数释放。
-   */
-  sharedVRenderApp?: SharedVRenderAppOption;
   /**
    * 外部传入的 VRender layer
    */

@@ -126,6 +126,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     };
     this._setAnimationState(this._product as unknown as IMarkGraphic);
     const newAttrs = this._getAttrsFromConfig(style);
+    this._product.context.finalAttrs = newAttrs;
 
     // TODO: 需要优化，现在group mark 走了一些特殊逻辑
     if (this._product.context.diffState === DiffState.update) {
@@ -135,10 +136,6 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
       if (!this.hasAnimationByState(this._product.context.animationState)) {
         hasAnimation ? this._product.setAttributesAndPreventAnimate(diffAttrs) : this._product.setAttributes(diffAttrs);
-      }
-
-      if (hasAnimation) {
-        this._product.setFinalAttributes(newAttrs);
       }
     } else {
       this._product.setAttributes(newAttrs);
