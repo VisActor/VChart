@@ -659,7 +659,19 @@ export class VChart implements IVChart {
       this._updateAnimateState(true);
     }
 
+    const transformedByThemeUpdate =
+      option.transformSpec &&
+      (updateSpecResult as IUpdateSpecResult).changeTheme &&
+      (updateSpecResult as IUpdateSpecResult).reMake &&
+      (updateSpecResult as IUpdateSpecResult).reTransformSpec;
     this._reCompile(updateSpecResult as IUpdateSpecResult);
+    if (transformedByThemeUpdate) {
+      // _setCurrentTheme in _reCompile has already transformed a fresh copy of the original spec.
+      option = {
+        ...option,
+        transformSpec: false
+      };
+    }
     if (sync) {
       return this._renderSync(option);
     }

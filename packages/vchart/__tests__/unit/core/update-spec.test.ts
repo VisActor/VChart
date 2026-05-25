@@ -135,6 +135,112 @@ describe('vchart updateSpec test', () => {
   });
 });
 
+describe('vchart updateSpec of different chart type', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should keep band axis paddingOuter after remaking with chart type change', () => {
+    const theme = {
+      component: {
+        axisBand: {
+          trimPadding: true
+        }
+      }
+    };
+    const data = [
+      {
+        dim: '2026-01',
+        metric_id: '10516',
+        val: 87311428.1
+      }
+    ];
+    const spec = {
+      type: 'bar',
+      height: 280,
+      data: [
+        {
+          id: 'data',
+          values: data
+        }
+      ],
+      xField: 'val',
+      yField: ['dim', 'metric_id'],
+      direction: 'horizontal',
+      axes: [
+        {
+          orient: 'left',
+          paddingInner: 0.1,
+          paddingOuter: 0
+        },
+        {
+          orient: 'bottom'
+        }
+      ],
+      theme
+    };
+    const nextSpec = {
+      type: 'common',
+      height: 280,
+      data: [
+        {
+          id: 'data',
+          values: data
+        }
+      ],
+      series: [
+        {
+          type: 'bar',
+          dataId: 'data',
+          xField: ['dim', 'metric_id'],
+          yField: 'val'
+        }
+      ],
+      axes: [
+        {
+          orient: 'bottom',
+          paddingInner: 0.1,
+          paddingOuter: 0.5
+        },
+        {
+          orient: 'left'
+        }
+      ],
+      theme
+    };
+
+    vchart = new VChart(spec as any, {
+      dom,
+      animation: false
+    });
+    vchart.renderSync();
+    vchart.updateSpecSync(nextSpec as any);
+
+    const bottomAxis = vchart.getComponents().find((com: any) => com.type === 'cartesianAxis-band') as any;
+
+    expect(bottomAxis.getSpec().paddingOuter).toBe(0.5);
+    expect(bottomAxis.getScale().paddingOuter()).toBe(0.5);
+  });
+});
+
 describe('vchart updateSpec of same spec', () => {
   let container: HTMLElement;
   let dom: HTMLElement;

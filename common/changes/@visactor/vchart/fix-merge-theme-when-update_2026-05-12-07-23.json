@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: fix theme overwrite when change chartType in updateSpec\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
