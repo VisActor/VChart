@@ -82,7 +82,72 @@ Pie chart inner sector radius. The default value is 0.
 
 #${prefix} cornerRadius(number)
 
-Pie chart sector corner radius. The default value is 0.
+I. Value Description
+- `0`: No corner radius effect, sector edges remain sharp and angular
+- `0.1 - 0.3`: Slight corner radius effect, suitable for most business presentation scenarios
+- `0.4 - 0.7`: Pronounced corner radius effect, creates a more modern look
+- `0.8 - 1.0`: Maximum corner radius effect, sector edges become almost completely smooth
+
+II. Differences between cornerRadius and pie.style.cornerRadius
+1️⃣ Configuration Level Comparison
+
+| Config Item | cornerRadius | pie.style.cornerRadius |
+|------------|-------------|----------------------|
+| Position | Top-level chart config | Inside pie.style config object |
+| Syntax | `cornerRadius: number` | `cornerRadius: number \| Function` |
+
+2️⃣ Feature Comparison
+
+| Feature | cornerRadius | pie.style.cornerRadius |
+|---------|-------------|----------------------|
+| Data Type | Numbers only | Supports numbers and callback functions |
+| Scope | Global uniform | Can control each sector independently |
+| Data Access | Not supported | Can access current sector data |
+| Dynamic Calculation | Not supported | Supports data-driven calculation |
+| Priority | Low | High (overrides global config) |
+
+3️⃣ Application Scenarios
+
+① cornerRadius Suitable Scenarios
+- ✨ When all sectors need uniform corner radius
+- ✨ For simple and straightforward configuration
+- ✨ When performance is a priority
+
+② pie.style.cornerRadius Suitable Scenarios
+- 🎨 Need different corner radius based on data
+- 🎨 Need to highlight specific sectors
+- 🎨 Need interactive corner radius changes
+
+4️⃣ Performance Considerations
+
+① cornerRadius
+✅ Low computation overhead  
+✅ High rendering efficiency  
+✅ Suitable for large datasets
+
+② pie.style.cornerRadius
+⚠️ Callback functions increase computation  
+⚠️ Requires calculation for each sector  
+⚠️ Use cautiously with large datasets
+
+5️⃣ Usage Recommendations
+
+① General Scenarios
+- Prefer using `cornerRadius`
+- Use moderate values (0.1-0.3)
+- Balance visual effects and performance
+
+② Advanced Customization
+- Use `pie.style.cornerRadius` judiciously
+- Avoid overly complex callback logic
+- Be mindful of performance impact
+
+③ Mixed Usage
+- Use `cornerRadius` for base values
+- Use `pie.style.cornerRadius` for exceptions
+- Combine with `padAngle` for optimal visuals
+
+>💡 Tip: In practice, it's recommended to use cornerRadius for uniform corner effects and only use pie.style.cornerRadius when differentiated treatment is necessary.
 
 #${prefix} startAngle(number) = -90
 
