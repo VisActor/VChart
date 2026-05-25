@@ -23,8 +23,11 @@ export interface LinearAxisMixin {
   _spec: any;
   _nice: boolean;
   _zero: boolean;
+
+  _piecewise: { domain: number[]; ratio: number[] };
   /**
    * spec中申明的min,max
+   * @type {{ min?: number; max?: number }}
    */
   _domain: { min?: number; max?: number };
   /**
@@ -154,12 +157,16 @@ export class LinearAxisMixin {
 
   computeLinearDomain(data: { min: number; max: number; values: any[] }[]): number[] {
     let domain: number[] = [];
+    let minDomain: number;
+    let maxDomain: number;
 
+    const specPiecewise = (this._spec as any).piecewise;
+    // 优先使用 piecewise，如果有 piecewise 则不处理 breaks
+    const userSetBreaks = !specPiecewise && this._spec.breaks && this._spec.breaks.length;
+    let values: any[] = [];
+
+    // Calculate data min/max first
     if (data.length) {
-      const userSetBreaks = this._spec.breaks && this._spec.breaks.length;
-      let values: any[] = [];
-      let minDomain: number;
-      let maxDomain: number;
       data.forEach(d => {
         const { min, max } = d;
         minDomain = minDomain === undefined ? min : Math.min(minDomain, min as number);
@@ -168,49 +175,102 @@ export class LinearAxisMixin {
           values = values.concat(d.values);
         }
       });
+    } else {
+      minDomain = 0;
+      maxDomain = 0;
+    }
 
-      if (userSetBreaks) {
-        const breakRanges = [];
-        const breaks = [];
-        // 如果用户手动的手指了max，可以将break的最大值限制在用户设置的最大值范围内
-        const breakMaxLimit = isNil(this._domain.max) ? maxDomain : this._domain.max;
-        for (let index = 0; index < this._spec.breaks.length; index++) {
-          const { range } = this._spec.breaks[index];
-          if (range[0] <= range[1] && range[1] <= breakMaxLimit) {
-            breakRanges.push(range);
-            breaks.push(this._spec.breaks[index]);
+    let piecewise = specPiecewise;
+
+    if (userSetBreaks) {
+      const breakRanges = [];
+      const breaks = [];
+      // 如果用户手动的手指了max，可以将break的最大值限制在用户设置的最大值范围内
+      const breakMaxLimit = isNil(this._domain.max) ? maxDomain : this._domain.max;
+      for (let index = 0; index < this._spec.breaks.length; index++) {
+        const { range } = this._spec.breaks[index];
+        if (range[0] <= range[1] && range[1] <= breakMaxLimit) {
+          breakRanges.push(range);
+          breaks.push(this._spec.breaks[index]);
+        }
+      }
+      breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
+      if (breakRanges.length) {
+        const { domain: breakDomains, scope: breakScopes } = breakData(
+          values,
+          combineDomains(breakRanges),
+          this._spec.breaks[0].scopeType
+        );
+
+        domain = combineDomains(breakDomains);
+        this._break = {
+          domain: breakDomains,
+          scope: breakScopes,
+          breakDomains: breakRanges,
+          breaks
+        };
+
+        // convert breaks to piecewise
+        const customDomain: number[] = [];
+        const customRatio: number[] = [];
+        breakDomains.forEach((d, i) => {
+          if (i === 0) {
+            customDomain.push(d[0]);
+          } else {
+            const prevEnd = breakDomains[i - 1][1];
+            if (d[0] > prevEnd) {
+              customDomain.push(d[0]);
+              customRatio.push(0);
+            }
           }
-        }
-        breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
-        if (breakRanges.length) {
-          const { domain: breakDomains, scope: breakScopes } = breakData(
-            values,
-            combineDomains(breakRanges),
-            this._spec.breaks[0].scopeType
-          );
-
-          domain = combineDomains(breakDomains);
-          this._break = {
-            domain: breakDomains,
-            scope: breakScopes,
-            breakDomains: breakRanges,
-            breaks
-          };
-        } else {
-          domain = [minDomain, maxDomain];
-        }
+          customDomain.push(d[1]);
+          customRatio.push(breakScopes[i][1] - breakScopes[i][0]);
+        });
+        piecewise = {
+          domain: customDomain,
+          ratio: customRatio
+        };
       } else {
         domain = [minDomain, maxDomain];
       }
     } else {
-      // default value for linear axis
-      domain[0] = 0;
-      domain[1] = 0;
+      domain = [minDomain, maxDomain];
     }
     this.setSoftDomainMinMax(domain);
     this.expandDomain(domain);
     this.includeZero(domain);
     this.setDomainMinMax(domain);
+    let min = domain[0];
+    let max = domain[0];
+    domain.forEach(val => {
+      if (val < min) {
+        min = val;
+      }
+      if (val > max) {
+        max = val;
+      }
+    });
+    // 如果是 breaks，需要统一nice后的
+    if (userSetBreaks && piecewise?.domain) {
+      piecewise.domain[0] = domain[0];
+      this._break.domain[0][0] = domain[0];
+
+      this._break.domain[this._break.domain.length - 1][1] = domain[domain.length - 1];
+      piecewise.domain[piecewise.domain.length - 1] = domain[domain.length - 1];
+    }
+    if (piecewise?.domain?.length) {
+      // handle piecewise
+      const domainSet = new Set<number>();
+      domain.forEach(val => domainSet.add(val));
+
+      piecewise.domain.forEach((val: number) => {
+        if (val > min && val < max) {
+          domainSet.add(val);
+        }
+      });
+      domain = Array.from(domainSet).sort((a, b) => a - b);
+    }
+    this._piecewise = piecewise;
     return domain;
   }
 
@@ -242,9 +302,10 @@ export class LinearAxisMixin {
 
   protected niceDomain(domain: number[]) {
     const { min: userMin, max: userMax } = getLinearAxisSpecDomain(this._spec);
-    if (isValid(userMin) || isValid(userMax) || this._spec.type !== 'linear') {
+    if (isValid(userMin) || isValid(userMax) || this._spec.type !== 'linear' || (this._spec as any).piecewise) {
       // 如果用户设置了 min 或者 max 则按照用户设置的为准
       // 如果是非 linear 类型也不处理
+      // 如果有 piecewise 也不处理
       return domain;
     }
     if (Math.abs(minInArr(domain) - maxInArr(domain)) <= 1e-12) {
@@ -435,5 +496,36 @@ export class LinearAxisMixin {
 
   protected _clearRawDomain() {
     this._rawDomain = [];
+  }
+
+  parseNewScaleRange(newRange: number[]) {
+    if (this._piecewise?.domain?.length && this._scale) {
+      const piecewise = this._piecewise;
+      const domain = this._scale.domain();
+      if (domain.length > 2) {
+        const start = newRange[0];
+        const end = last(newRange);
+        const totalRange = end - start;
+        const resultRange = [start];
+        let currentPos = start;
+
+        const segmentWeights: number[] = piecewise.ratio; // .map(ratio => ratio * ratioCoefficient + ratioStart);
+        const totalWeight = segmentWeights.reduce((acc, cur) => acc + cur, 0);
+
+        if (totalWeight > 0) {
+          for (let i = 0; i < segmentWeights.length; i++) {
+            const weight = segmentWeights[i];
+            const segmentLen = totalRange * (weight / totalWeight);
+            currentPos += segmentLen;
+            resultRange.push(currentPos);
+          }
+        }
+
+        // Ensure last point is exactly end to avoid float errors
+        resultRange[resultRange.length - 1] = end;
+        newRange = resultRange;
+      }
+    }
+    return newRange;
   }
 }
