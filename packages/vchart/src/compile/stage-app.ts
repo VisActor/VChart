@@ -1,4 +1,4 @@
-import * as VRender from '@visactor/vrender';
+import { acquireSharedVRenderApp } from '@visactor/vrender/entries/shared';
 import type { IApp, IStage, IStageParams } from '@visactor/vrender-core';
 import { RenderModeEnum, type RenderMode } from '../typings/spec/common';
 
@@ -14,15 +14,6 @@ export type ResolvedVRenderApp = {
   app: IApp;
   releaseAppRef?: () => void;
 };
-
-type VRenderModule = typeof VRender & {
-  acquireSharedVRenderApp: (options: { env: VRenderAppEnv; envParams?: unknown }) => {
-    app: IApp;
-    release: () => void;
-  };
-};
-
-const vRenderModule = VRender as VRenderModule;
 
 export const getVRenderAppEnv = (mode?: RenderMode): VRenderAppEnv => {
   switch (mode) {
@@ -95,7 +86,7 @@ const normalizeResolveOptions = (
 };
 
 const acquireDefaultVRenderApp = (env: VRenderAppEnv, envParams?: unknown): ResolvedVRenderApp => {
-  const handle = vRenderModule.acquireSharedVRenderApp({
+  const handle = acquireSharedVRenderApp({
     env,
     ...(envParams === undefined ? {} : { envParams })
   });

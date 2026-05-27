@@ -16,7 +16,8 @@ import {
 import { MarkTypeEnum } from './interface/type';
 import { type IMarkCompileOption } from '../compile/mark';
 import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
-import { registerGroup, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerGroup } from '@visactor/vrender-kits/register/register-group';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { isNil } from '@visactor/vutils';
 import { traverseGroupMark } from '../compile/util';
 import { getDiffAttributesOfGraphic } from '../util/mark';

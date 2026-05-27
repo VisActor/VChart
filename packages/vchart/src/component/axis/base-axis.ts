@@ -1,6 +1,6 @@
 import type { IGroup } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components';
+import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components/axis/type';
 import type { IBandLikeScale, IBaseScale, IContinuousScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
@@ -47,9 +47,10 @@ import { DataView } from '@visactor/vdataset';
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
-import { AXIS_ELEMENT_NAME, GroupTransition } from '@visactor/vrender-components';
+import { GroupTransition } from '@visactor/vrender-components/axis/animate/group-transition';
+import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components/axis/constant';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-animate';
+import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-animate/custom/groupFade';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';

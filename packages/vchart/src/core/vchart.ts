@@ -97,8 +97,8 @@ import type {
 } from './interface';
 import { InstanceManager } from './instance-manager';
 import type { IAxis } from '../component/axis';
-import type { PopTipAttributes } from '@visactor/vrender-components';
-import { setPoptipTheme } from '@visactor/vrender-components';
+import type { PopTipAttributes } from '@visactor/vrender-components/poptip/type';
+import { setPoptipTheme } from '@visactor/vrender-components/poptip/register';
 import {
   calculateChartSize,
   isUpdateSpecResultComponentOnly,

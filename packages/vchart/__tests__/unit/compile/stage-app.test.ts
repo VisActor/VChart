@@ -57,6 +57,9 @@ const setupStageApp = (overrides: Record<string, unknown> = {}) => {
   };
 
   jest.doMock('@visactor/vrender', () => factories);
+  jest.doMock('@visactor/vrender/entries/shared', () => ({
+    acquireSharedVRenderApp: factories.acquireSharedVRenderApp
+  }));
 
   return {
     factories,
@@ -67,6 +70,7 @@ const setupStageApp = (overrides: Record<string, unknown> = {}) => {
 describe('stage app lifecycle helpers', () => {
   afterEach(() => {
     jest.dontMock('@visactor/vrender');
+    jest.dontMock('@visactor/vrender/entries/shared');
     jest.resetModules();
   });
 

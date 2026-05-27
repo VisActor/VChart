@@ -15,11 +15,11 @@ import { eachSeries } from '../../../util/model';
 import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { LegendItemDatum } from '@visactor/vrender-components';
+import type { LegendItemDatum } from '@visactor/vrender-components/legend/discrete/type';
 // eslint-disable-next-line no-duplicate-imports
-import { LegendEvent } from '@visactor/vrender-components';
+import { LegendEvent } from '@visactor/vrender-components/legend/constant';
 // eslint-disable-next-line no-duplicate-imports
-import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
+import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components/legend/discrete';
 import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete/discrete';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant/event';

@@ -37,6 +37,19 @@ module.exports = {
     'd3-dsv': path.resolve(__dirname, './node_modules/d3-dsv/dist/d3-dsv.min.js'),
     'd3-hexbin': path.resolve(__dirname, './node_modules/d3-hexbin/build/d3-hexbin.min.js'),
     'd3-hierarchy': path.resolve(__dirname, './node_modules/d3-hierarchy/dist/d3-hierarchy.min.js'),
+    '^@visactor/vrender$': path.resolve(__dirname, './node_modules/@visactor/vrender/cjs/index'),
+    '^@visactor/vrender/(.*)$': path.resolve(__dirname, './node_modules/@visactor/vrender/cjs/$1'),
+    '^@visactor/vrender-core$': path.resolve(__dirname, './node_modules/@visactor/vrender-core/cjs/index'),
+    '^@visactor/vrender-core/(.*)$': path.resolve(__dirname, './node_modules/@visactor/vrender-core/cjs/$1'),
+    '^@visactor/vrender-animate$': path.resolve(__dirname, './node_modules/@visactor/vrender-animate/cjs/index'),
+    '^@visactor/vrender-animate/(.*)$': path.resolve(__dirname, './node_modules/@visactor/vrender-animate/cjs/$1'),
+    '^@visactor/vrender-components$': path.resolve(__dirname, './node_modules/@visactor/vrender-components/cjs/index'),
+    '^@visactor/vrender-components/(.*)$': path.resolve(
+      __dirname,
+      './node_modules/@visactor/vrender-components/cjs/$1'
+    ),
+    '^@visactor/vrender-kits$': path.resolve(__dirname, './node_modules/@visactor/vrender-kits/cjs/index-node'),
+    '^@visactor/vrender-kits/(.*)$': path.resolve(__dirname, './node_modules/@visactor/vrender-kits/cjs/$1'),
     '@visactor/vutils-extension': path.resolve(__dirname, '../vutils-extension/src/index.ts')
   },
   setupFiles: ['./setup-mock.js']

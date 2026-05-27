@@ -29,8 +29,8 @@ import type { IChartSpecInfo } from '../../chart/interface';
 import type { Datum, IChartSpec } from '../../typings';
 import { LabelSpecTransformer } from './label-transformer';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
-import type { DataLabelAttrs } from '@visactor/vrender-components';
-import { DataLabel } from '@visactor/vrender-components';
+import type { DataLabelAttrs } from '@visactor/vrender-components/label';
+import { DataLabel } from '@visactor/vrender-components/label';
 
 export class Label<T extends IChartSpec = any> extends BaseLabelComponent<T> {
   static type = ComponentTypeEnum.label;

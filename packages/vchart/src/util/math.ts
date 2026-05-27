@@ -13,7 +13,7 @@ import {
   normalizeAngle,
   regressionLinear
 } from '@visactor/vutils';
-import { angleLabelOrientAttribute } from '@visactor/vrender-components';
+import { angleLabelOrientAttribute } from '@visactor/vrender-components/axis/util';
 export const isClose = isNumberClose;
 export { isGreater, isLess, normalizeAngle, angleLabelOrientAttribute };
 

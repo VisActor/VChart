@@ -1,7 +1,7 @@
 import { registerHtmlAttributePlugin, registerReactAttributePlugin } from '@visactor/vrender-core';
 
-import { registerAnimate as registerVRenderAnimate } from '@visactor/vrender-animate';
-import { DragNDrop, Gesture } from '@visactor/vrender-kits';
+import { registerAnimate as registerVRenderAnimate } from '@visactor/vrender-animate/register';
+import { DragNDrop, Gesture } from '@visactor/vrender-kits/event/extension';
 import { Factory } from '../core/factory';
 import { registerBuiltInAnimation, registerStageAnimation } from '../animation/config';
 

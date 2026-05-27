@@ -6,7 +6,8 @@ import VChart, {
   type ILineChartSpec,
   type IMark,
   type IMarkGraphic,
-  type ISeries
+  type ISeries,
+  type IWordCloudChartSpec
 } from '../../../src';
 import { createDiv, removeDom } from '../../util/dom';
 
@@ -129,6 +130,25 @@ const getPointGraphics = (chart: VChart) => {
   }
 
   return pointMark.getGraphics() as AnimatedGraphic[];
+};
+
+const getWordGraphics = (chart: VChart) => {
+  const model = chart.getChart() as IChart;
+  const wordCloudSeries = model.getAllSeries().find((series: ISeries) => series.type === 'wordCloud');
+
+  expect(wordCloudSeries).toBeDefined();
+  if (!wordCloudSeries) {
+    throw new Error('Expected wordCloud series to exist');
+  }
+
+  const wordMark = wordCloudSeries.getMarks().find((mark: IMark) => mark.name === 'word');
+
+  expect(wordMark).toBeDefined();
+  if (!wordMark) {
+    throw new Error('Expected word mark to exist');
+  }
+
+  return wordMark.getGraphics() as AnimatedGraphic[];
 };
 
 const walkGraphics = (root: TraversableGraphic, visitor: (graphic: TraversableGraphic) => void) => {
@@ -1212,6 +1232,41 @@ const createMarkerPresenceOnlyBarAnimationSpec = (withMarker: boolean): IBarChar
     data: createMarkerToggleBarAnimationSpec(true).data
   } as unknown as IBarChartSpec);
 
+const createWordCloudScaleInSpec = (): IWordCloudChartSpec =>
+  ({
+    type: 'wordCloud',
+    width: 800,
+    height: 600,
+    nameField: 'name',
+    valueField: 'value',
+    animationAppear: {
+      preset: 'scaleIn',
+      duration: 1000,
+      totalTime: 3000,
+      easing: 'linear'
+    },
+    word: {
+      style: {
+        scaleX: 1,
+        scaleY: 1
+      }
+    },
+    data: [
+      {
+        name: 'wordCloud',
+        values: [
+          { name: '数据', value: 30 },
+          { name: '可视化', value: 28 },
+          { name: '配置', value: 25 },
+          { name: '组件', value: 22 },
+          { name: '编辑器', value: 20 },
+          { name: '前端', value: 18 }
+        ]
+      }
+    ],
+    random: false
+  } as IWordCloudChartSpec);
+
 const hasRenderableBarGeometry = (graphic: AnimatedGraphic) => {
   const getAttr = (key: string) =>
     graphic.attribute?.[key] ?? graphic.baseAttributes?.[key] ?? getGraphicFinalAttribute(graphic)[key];
@@ -1227,6 +1282,43 @@ const hasRenderableBarGeometry = (graphic: AnimatedGraphic) => {
 };
 
 describe('manual ticker animation regressions', () => {
+  it('runs word cloud scaleIn appear from zero scale', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createWordCloudScaleInSpec(), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      const firstWord = getWordGraphics(chart).find(graphic => graphic.context?.graphicIndex === 0);
+
+      expect(firstWord).toBeDefined();
+      if (!firstWord) {
+        throw new Error('Expected the first word graphic to exist');
+      }
+
+      ticker.tickAt(500);
+
+      expect(firstWord.attribute.scaleX).toBeGreaterThan(0);
+      expect(firstWord.attribute.scaleX).toBeLessThan(1);
+      expect(firstWord.attribute.scaleY).toBeGreaterThan(0);
+      expect(firstWord.attribute.scaleY).toBeLessThan(1);
+
+      ticker.tickAt(4000);
+
+      expectClose(firstWord.attribute.scaleX ?? 1, 1);
+      expectClose(firstWord.attribute.scaleY ?? 1, 1);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
   it('keeps default bar appear starts out of static truth', () => {
     const { container, dom } = createChartContainer();
     const ticker = createManualTicker();

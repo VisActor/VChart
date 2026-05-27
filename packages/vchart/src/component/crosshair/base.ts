@@ -1,5 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import { Tag } from '@visactor/vrender-components';
+import { Tag } from '@visactor/vrender-components/tag';
 import type { IGraphic, INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean, isObject, array } from '@visactor/vutils';
