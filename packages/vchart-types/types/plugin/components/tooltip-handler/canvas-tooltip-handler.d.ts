@@ -1,9 +1,9 @@
 import { BaseTooltipHandler } from './base';
-import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
+import { Tooltip as TooltipComponent } from '@visactor/vrender-components/tooltip';
 import type { TooltipHandlerParams } from '../../../component/tooltip';
 import type { IComponentPluginService } from '../interface';
 import type { ITooltipActual } from '../../../typings';
-import type { IContainerSize } from '@visactor/vrender-components';
+import type { IContainerSize } from '@visactor/vrender-components/tooltip/type';
 import type { ITooltipAttributes } from './interface';
 export declare class CanvasTooltipHandler extends BaseTooltipHandler {
     static readonly type: string;

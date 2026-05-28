@@ -85,7 +85,7 @@ export interface IGrammarItem extends ICompilable {
     id: number;
     generateProductId: () => string;
     getProductId: () => string;
-    removeProduct: () => void;
+    removeProduct: (releaseDetach?: boolean) => void;
     setTransform: (transform: ITransformSpec[]) => void;
 }
 export type GrammarItemInitOption = ICompilableInitOption;

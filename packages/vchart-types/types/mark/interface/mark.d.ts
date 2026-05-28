@@ -6,6 +6,8 @@ import type { MarkType } from './type';
 export interface IComponentMark extends IMarkRaw<ICommonSpec> {
     getComponent: () => IGraphic;
     clearComponent: () => void;
+    releaseWithExitAnimation: () => boolean;
+    forceReleaseExitAnimation: () => void;
     setAttributeTransform: (t: (attrs: any) => any) => any;
 }
 export interface IGlyphMark<T extends ICommonSpec = ICommonSpec, C = any> extends IMarkRaw<T> {

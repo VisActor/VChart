@@ -8,7 +8,7 @@ import type { IComponentConstructor } from '../component/interface';
 import type { EventCallback, EventQuery, EventType, ExtendEventParam, IEvent } from '../event/interface';
 import type { IParserOptions, Transform } from '@visactor/vdataset';
 import { DataSet, DataView } from '@visactor/vdataset';
-import type { IStage } from '@visactor/vrender-core';
+import type { IGraphic, IStage } from '@visactor/vrender-core';
 import type { GeoSourceType } from '../typings/geo';
 import type { GeoSourceOption } from '../series/map/geo-source';
 import type { IMark, MarkConstructor } from '../mark/interface';
@@ -78,6 +78,7 @@ export declare class VChart implements IVChart {
     private _onError?;
     private _context;
     private _isReleased;
+    private _exitingVRenderComponents?;
     private _chartPlugin?;
     private _vChartPlugin?;
     private _onResize?;
@@ -110,6 +111,9 @@ export declare class VChart implements IVChart {
     protected _renderAsync(option?: IVChartRenderOption): Promise<IVChart>;
     private _updateAnimateState;
     release(): void;
+    _registerExitingVRenderComponent(component: IGraphic): void;
+    _unregisterExitingVRenderComponent(component: IGraphic): void;
+    private _forceReleaseExitingVRenderComponents;
     updateData(id: StringOrNumber, data: DataView | Datum[] | string, parserOptions?: IParserOptions, userUpdateOptions?: IUpdateDataResult): Promise<IVChart>;
     private _updateDataById;
     updateDataInBatches(list: {
