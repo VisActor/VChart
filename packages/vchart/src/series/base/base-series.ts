@@ -68,6 +68,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IMarkConfig, ISeriesMarkAttributeContext } from '../../compile/mark';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { Factory } from '../../core/factory';
 import {
   array,
   isEqual,
@@ -1060,6 +1061,18 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   getMarksWithoutRoot(): IMark[] {
     return this.getMarks().filter(m => !m.name?.includes('seriesGroup'));
   }
+  protected _getMarkSpecNamesForCompare(): string[] {
+    const names = new Set<string>();
+
+    this.getMarksWithoutRoot().forEach(mark => {
+      mark.name && names.add(mark.name);
+    });
+    Object.values(Factory.getSeriesMarkMap(this.type)).forEach(markInfo => {
+      markInfo?.name && names.add(markInfo.name);
+    });
+
+    return Array.from(names);
+  }
   getMarksInType(type: string | string[]): IMark[] {
     return this._marks.getMarksInType(type);
   }
@@ -1188,11 +1201,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
-    const changedMarkCompileOnlyKeys = this.getMarksWithoutRoot()
-      .map(m => m.name)
-      .filter(name =>
-        hasOnlyAllowedSubKeyChanges((spec as any)[name], (prevSpec as any)[name], defaultSeriesMarkCompileOnlySubKeys)
-      );
+    const changedMarkCompileOnlyKeys = this._getMarkSpecNamesForCompare().filter(name =>
+      hasOnlyAllowedSubKeyChanges((spec as any)[name], (prevSpec as any)[name], defaultSeriesMarkCompileOnlySubKeys)
+    );
     changedMarkCompileOnlyKeys.forEach(k => {
       ignores[k] = true;
     });

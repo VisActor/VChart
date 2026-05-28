@@ -475,6 +475,21 @@ const createTopLevelLinePointVisibleSpec = (visible?: boolean): ILineChartSpec =
       })
 });
 
+const createTopLevelLineHiddenPointStateFilterSpec = (filter?: (datum: unknown) => boolean): ILineChartSpec => ({
+  ...createTopLevelLinePointVisibleSpec(false),
+  point: {
+    visible: false,
+    state: {
+      custom: {
+        ...(filter ? { filter } : null),
+        style: {
+          visible: false
+        }
+      }
+    }
+  }
+});
+
 const createTopLevelLineColorSpecifiedSpec = (specified?: Record<string, string>): ILineChartSpec => ({
   type: 'line',
   data: [
@@ -2535,6 +2550,16 @@ describe('vchart scoped update effects', () => {
       dom,
       () => createTopLevelLinePointVisibleSpec(),
       () => createTopLevelLinePointVisibleSpec(false)
+    );
+  });
+
+  it('classifies hidden line point state filter updates as series compile-only', () => {
+    const beforeFilter = () => true;
+
+    expectSeriesCompileOnlySpecUpdate(
+      dom,
+      () => createTopLevelLineHiddenPointStateFilterSpec(beforeFilter),
+      () => createTopLevelLineHiddenPointStateFilterSpec()
     );
   });
 
