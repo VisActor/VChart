@@ -39,6 +39,7 @@ export const isPortrait = (spec: IStorylineSpec) => normalizeLayout(spec.layout)
 export const isClock = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'clock';
 export const isDome = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'dome';
 export const isBowl = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'bowl';
+export const isWing = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'wing';
 
 export const getThemeColor = (spec: IStorylineSpec) => spec.themeColor ?? DEFAULT_THEME_COLOR;
 

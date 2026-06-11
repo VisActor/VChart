@@ -1,12 +1,13 @@
 import { CommonChartSpecTransformer, type IExtensionGroupMarkSpec } from '@visactor/vchart';
 import type { IStorylineBlock, IStorylineSpec } from './interface';
-import { isBowl, isClock, isDome, isLandscape, isPortrait } from './layouts/common';
+import { isBowl, isClock, isDome, isLandscape, isPortrait, isWing } from './layouts/common';
 import { buildClockArcMark, buildClockBlockMark, buildClockCenterImageMark } from './layouts/clock';
 import { buildDefaultBlockMark, buildDefaultLineMark } from './layouts/default';
 import { buildLandscapeBlockMark, buildLandscapeConnectingCurve } from './layouts/landscape';
 import { buildPortraitAxisMark, buildPortraitBlockMark } from './layouts/portrait';
 import { buildDomeArcMark, buildDomeBlockMark, buildDomeCenterImageMark } from './layouts/dome';
 import { buildBowlArcMark, buildBowlBlockMark, buildBowlCenterImageMark } from './layouts/bowl';
+import { buildWingArcMark, buildWingBlockMark } from './layouts/wing';
 
 export class StorylineChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
@@ -28,33 +29,37 @@ export class StorylineChartSpecTransformer extends CommonChartSpecTransformer<an
 }
 
 /**
- * 图表默认 padding：所有 storyline 布局底部默认留 100px，
- * 给 dome 的 centerImage / 其它布局的引导线留出呼吸空间。
+ * 图表默认 padding：
+ * - dome 等大多数布局底部留 100px，给 centerImage / 引导线留呼吸空间；
+ * - bowl 是 dome 的上下镜像，centerImage 贴顶，所以默认顶部留 100px、底部 20px；
  * 用户在 spec.padding 中显式指定的值会被保留，仅在缺省时生效。
  */
 const applyDefaultPadding = (spec: any) => {
-  const DEFAULT_BOTTOM = 100;
-  const DEFAULT_OTHER = 20;
+  const LARGE = 100;
+  const SMALL = 20;
+  const bowl = isBowl(spec as IStorylineSpec);
+  const defaultTop = bowl ? LARGE : SMALL;
+  const defaultBottom = bowl ? SMALL : LARGE;
   const p = spec.padding;
   if (p === undefined || p === null) {
-    spec.padding = [DEFAULT_OTHER, DEFAULT_OTHER, DEFAULT_BOTTOM, DEFAULT_OTHER];
+    spec.padding = [defaultTop, SMALL, defaultBottom, SMALL];
     return;
   }
   if (typeof p === 'number') {
-    spec.padding = [p, p, Math.max(p, DEFAULT_BOTTOM), p];
+    spec.padding = bowl ? [Math.max(p, LARGE), p, p, p] : [p, p, Math.max(p, LARGE), p];
     return;
   }
   if (Array.isArray(p)) {
-    const [t = DEFAULT_OTHER, r = DEFAULT_OTHER, b, l = DEFAULT_OTHER] = p;
-    spec.padding = [t, r, b ?? DEFAULT_BOTTOM, l];
+    const [t, r = SMALL, b, l = SMALL] = p;
+    spec.padding = [t ?? defaultTop, r, b ?? defaultBottom, l];
     return;
   }
   if (typeof p === 'object') {
     spec.padding = {
-      top: p.top ?? DEFAULT_OTHER,
-      right: p.right ?? DEFAULT_OTHER,
-      bottom: p.bottom ?? DEFAULT_BOTTOM,
-      left: p.left ?? DEFAULT_OTHER
+      top: p.top ?? defaultTop,
+      right: p.right ?? SMALL,
+      bottom: p.bottom ?? defaultBottom,
+      left: p.left ?? SMALL
     };
   }
 };
@@ -89,6 +94,12 @@ const buildStorylineMarks = (spec: IStorylineSpec) => {
     const centerImageMark = buildClockCenterImageMark(spec);
     return [ringsMark, ...blockMarks, centerImageMark].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
+  // wing：椭圆弧脉络 + 弧线上的圆形 image + 左右交替排列的 title/content；
+  // 通过 layout.direction 控制翅膀朝向（'left' | 'right'）
+  if (isWing(spec)) {
+    const arcMark = buildWingArcMark(spec);
+    return [arcMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
+  }
   return [lineMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
 };
 
@@ -120,6 +131,9 @@ const buildBlockMark = (spec: IStorylineSpec, block: IStorylineBlock, index: num
   }
   if (isClock(spec)) {
     return buildClockBlockMark(spec, block, index);
+  }
+  if (isWing(spec)) {
+    return buildWingBlockMark(spec, block, index);
   }
 
   return buildDefaultBlockMark(spec, block, index);

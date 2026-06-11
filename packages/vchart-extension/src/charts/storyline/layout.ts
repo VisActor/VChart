@@ -164,12 +164,12 @@ const computeBlockPositions = (
     case 'dome':
       centers = arcCenters(count, inner, block, layout, 160, 20);
       break;
-    case 'left-wing':
-      centers = arcCenters(count, inner, block, layout, 250, 110);
+    case 'wing': {
+      const direction = layout.direction === 'right' ? 'right' : 'left';
+      const [s, e] = direction === 'right' ? [110, 250] : [-70, 70];
+      centers = arcCenters(count, inner, block, layout, s, e);
       break;
-    case 'right-wing':
-      centers = arcCenters(count, inner, block, layout, -70, 70);
-      break;
+    }
     case 'landscape':
     default:
       centers = lineCenters(

@@ -13,8 +13,7 @@ export type StorylineLayoutType =
   | 'clock'
   | 'bowl'
   | 'dome'
-  | 'left-wing'
-  | 'right-wing'
+  | 'wing'
   | 'landscape'
   | 'portrait'
   | 'up-ladder'
@@ -24,6 +23,7 @@ export type StorylineLayoutType =
 
 export type StorylineImagePosition = 'top' | 'left' | 'right' | 'bottom';
 export type StorylineLineType = 'line' | 'polyline' | 'curve';
+export type StorylineWingDirection = 'left' | 'right';
 
 export interface IStorylineBlock {
   id?: StringOrNumber;
@@ -51,6 +51,12 @@ export interface IStorylineLayoutOptions {
    * 对 circular/arc 布局生效，角度单位为度。
    */
   endAngle?: number;
+  /**
+   * 对 wing 布局生效，控制翅膀展开方向。
+   * - 'left'：圆心锚在画布左侧、弧凸向右展开（默认）；
+   * - 'right'：圆心锚在画布右侧、弧凸向左展开。
+   */
+  direction?: StorylineWingDirection;
 }
 
 export interface IStorylineBlockSpec {

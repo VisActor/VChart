@@ -31,8 +31,8 @@ const BOWL_TEXT_BOX_HEIGHT = 300;
 const BOWL_TITLE_TO_CONTENT_GAP = 4;
 // 引导线与 title/content 之间的水平间距
 const BOWL_TEXT_LEFT_PADDING = 20;
-const BOWL_CENTER_IMAGE_WIDTH_RATIO = 0.32;
-const BOWL_CENTER_IMAGE_HEIGHT_RATIO = 0.32;
+// centerImage 边长相对 inner 短边的比例（强制正方形，避免 cover 模式裁切图片）
+const BOWL_CENTER_IMAGE_SIZE_RATIO = 0.4;
 // 弧线最低点（视觉上的底点）距离 centerImage 底部的距离
 const BOWL_ARC_BOTTOM_GAP_FROM_CENTER_IMAGE = 300;
 
@@ -44,8 +44,10 @@ const getBowlCenterImageRect = (spec: IStorylineSpec, ctx: LayoutContext) => {
   const padding = normalizePadding(spec.block?.padding);
   const innerWidth = Math.max(width - padding.left - padding.right, 1);
   const innerHeight = Math.max(height - padding.top - padding.bottom, 1);
-  const w = Math.max(spec.centerImage?.width ?? innerWidth * BOWL_CENTER_IMAGE_WIDTH_RATIO, 80);
-  const h = Math.max(spec.centerImage?.height ?? innerHeight * BOWL_CENTER_IMAGE_HEIGHT_RATIO, 60);
+  // 取 inner 短边作为基准，使 rect 始终为正方形（cover 模式下不会裁切方形图片）
+  const baseSize = Math.min(innerWidth, innerHeight) * BOWL_CENTER_IMAGE_SIZE_RATIO;
+  const w = Math.max(spec.centerImage?.width ?? baseSize, 80);
+  const h = Math.max(spec.centerImage?.height ?? baseSize, 80);
   const cx = startX + padding.left + innerWidth / 2;
   // 紧贴顶部，仅保留 spec.block.padding.top 的留白
   const top = startY + padding.top;
@@ -214,21 +216,6 @@ export const buildBowlCenterImageMark = (spec: IStorylineSpec): IExtensionGroupM
           lineWidth: 2
         }
       } as ICustomMarkSpec<'symbol'>,
-      {
-        type: 'rect',
-        name: 'storyline-bowl-center-rect',
-        interactive: false,
-        style: {
-          x: (_d: unknown, ctx: LayoutContext) => getBowlCenterImageRect(spec, ctx).x,
-          y: (_d: unknown, ctx: LayoutContext) => getBowlCenterImageRect(spec, ctx).y,
-          width: (_d: unknown, ctx: LayoutContext) => getBowlCenterImageRect(spec, ctx).width,
-          height: (_d: unknown, ctx: LayoutContext) => getBowlCenterImageRect(spec, ctx).height,
-          cornerRadius: 12,
-          fill: '#ffffff',
-          stroke: themeColor,
-          lineWidth: 2
-        }
-      } as ICustomMarkSpec<'rect'>,
       hasImage
         ? ({
             type: 'image',
@@ -244,8 +231,25 @@ export const buildBowlCenterImageMark = (spec: IStorylineSpec): IExtensionGroupM
               cornerRadius: 12,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
-              imageMode: 'cover',
               imagePosition: 'center',
+              // 默认锚点设为 image 中心，让 scaleX/scaleY 从中心缩放
+              anchor: (_d: unknown, ctx: LayoutContext) => {
+                const r = getBowlCenterImageRect(spec, ctx);
+                return [r.x + r.width / 2, r.y + r.height / 2];
+              },
+              // 若用户在 style 里覆盖了 width/height，自动追加 dx/dy 让图片仍以 rect 中心为中心
+              dx: (_d: unknown, ctx: LayoutContext) => {
+                const r = getBowlCenterImageRect(spec, ctx);
+                const userWidth = (spec.centerImage?.style as { width?: number } | undefined)?.width;
+                const w = typeof userWidth === 'number' ? userWidth : r.width;
+                return (r.width - w) / 2;
+              },
+              dy: (_d: unknown, ctx: LayoutContext) => {
+                const r = getBowlCenterImageRect(spec, ctx);
+                const userHeight = (spec.centerImage?.style as { height?: number } | undefined)?.height;
+                const h = typeof userHeight === 'number' ? userHeight : r.height;
+                return (r.height - h) / 2;
+              },
               ...spec.centerImage?.style
             }
           } as ICustomMarkSpec<'image'>)

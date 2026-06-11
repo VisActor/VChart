@@ -12,8 +12,7 @@ const layouts: StorylineLayoutType[] = [
   'clock',
   'bowl',
   'dome',
-  'left-wing',
-  'right-wing'
+  'wing'
 ];
 
 const baseData = [
@@ -178,6 +177,46 @@ const createDomeSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   }
 });
 
+// bowl：dome 的上下镜像 —— centerImage 贴顶，弧线 + block 在下方
+const createBowlSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
+  type: 'storyline',
+  data: buildData(layout),
+  layout,
+  themeColor,
+  block: {
+    widthRatio: 0.28,
+    minWidth: 220,
+    maxWidth: 320,
+    height: 300,
+    padding: 12,
+    gap: 40,
+    style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
+  },
+  image: { position: 'left', gap: 12 },
+  title: commonTitle,
+  content: commonContent,
+  line: commonLine,
+  centerImage: {
+    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/center-image.png',
+    // width: 600,
+    // height: 600
+    // style: {
+    //   scaleX: 2.5,
+    //   scaleY: 2.5
+    //   // anchor: ['50%', '50%']
+    // }
+    style: {
+      width: 800,
+      height: 800,
+      _debug_bounds: true
+      // dx: -120,
+      // dy: -120
+      // imageScale: 2
+      // anchor: ['50%', '50%']
+    }
+  }
+});
+
 // clock：环绕式时间线，需要 centerImage 作为盘心
 const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
@@ -224,11 +263,53 @@ const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   line: commonLine
 });
 
+// wing：椭圆弧时间线（参考残奥历史信息图），通过 layout.direction 切换左/右翅膀
+const createWingSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
+  type: 'storyline',
+  padding: [40, 40, 40, 40],
+  data: buildData(layout),
+  layout: { type: 'wing', direction: 'left' },
+  themeColor,
+  block: {
+    widthRatio: 0.32,
+    minWidth: 280,
+    maxWidth: 360,
+    padding: 20,
+    style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
+  },
+  image: { width: 96, height: 96 },
+  title: {
+    style: {
+      fontSize: 22,
+      fontWeight: 800,
+      lineHeight: 28,
+      fill: themeColor
+    }
+  },
+  content: {
+    style: {
+      fontSize: 12,
+      lineHeight: 17,
+      fill: '#1f2430'
+    }
+  },
+  line: {
+    visible: true,
+    style: {
+      // 丝带起点窄、终点宽，模拟信息图主脉络
+      startWidth: 50,
+      endWidth: 350
+    } as any
+  }
+});
+
 const specBuilderByLayout: Partial<Record<StorylineLayoutType, (layout: StorylineLayoutType) => IStorylineSpec>> = {
   landscape: createLandscapeSpec,
   portrait: createPortraitSpec,
   clock: createClockSpec,
-  dome: createDomeSpec
+  bowl: createBowlSpec,
+  dome: createDomeSpec,
+  wing: createWingSpec
 };
 
 const createSpec = (layout: StorylineLayoutType): IStorylineSpec => {

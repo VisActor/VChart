@@ -147,6 +147,26 @@ export const buildClockCenterImageMark = (spec: IStorylineSpec): IExtensionGroup
               repeatY: 'no-repeat',
               imageMode: 'cover',
               imagePosition: 'center',
+              // 默认锚点设为 image 中心，让 scaleX/scaleY 从中心缩放
+              anchor: (_d: unknown, ctx: LayoutContext) => {
+                const g = getClockGeometry(spec, ctx);
+                return [g.cx, g.cy];
+              },
+              // 若用户在 style 里覆盖了 width/height，自动追加 dx/dy 让图片仍以 rect 中心为中心
+              dx: (_d: unknown, ctx: LayoutContext) => {
+                const g = getClockGeometry(spec, ctx);
+                const rectW = g.R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO * 2;
+                const userWidth = (spec.centerImage?.style as { width?: number } | undefined)?.width;
+                const w = typeof userWidth === 'number' ? userWidth : rectW;
+                return (rectW - w) / 2;
+              },
+              dy: (_d: unknown, ctx: LayoutContext) => {
+                const g = getClockGeometry(spec, ctx);
+                const rectH = g.R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO * 2;
+                const userHeight = (spec.centerImage?.style as { height?: number } | undefined)?.height;
+                const h = typeof userHeight === 'number' ? userHeight : rectH;
+                return (rectH - h) / 2;
+              },
               ...spec.centerImage?.style
             }
           } as ICustomMarkSpec<'image'>)
