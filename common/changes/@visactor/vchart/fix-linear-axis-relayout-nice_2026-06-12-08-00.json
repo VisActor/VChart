@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: re-nice the cartesian linear axis with the real plot-area length after layout when `tick.tickCount` is a function, so the length-based tick count and nice ceiling match the final plot area instead of the pre-layout chart viewRect",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "chendaxin.tk@bytedance.com"
+}

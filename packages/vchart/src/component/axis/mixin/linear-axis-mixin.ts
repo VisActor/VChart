@@ -36,6 +36,11 @@ export interface LinearAxisMixin {
   _softMaxValue?: number;
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
+  /**
+   * 上一次 setLinearScaleNice 计算 tickCount 时使用的轴长，
+   * 用于布局结束后判断是否需要用真实绘图区轴长重新 nice
+   */
+  _lastNiceAxisLength?: number;
   isSeriesDataEnable: any;
   computeDomain: any;
   collectData: (depth?: number, rawData?: boolean) => { min: number; max: number; values: any[] }[];
@@ -93,6 +98,9 @@ export class LinearAxisMixin {
         rangeSize = isX ? this._option.getChartViewRect().width : this._option.getChartViewRect().height;
       }
 
+      // 记录本次 nice 使用的轴长，供布局结束后判断是否需要用真实绘图区轴长重算
+      this._lastNiceAxisLength = rangeSize;
+
       // tickCount需要一致，不然会导致效果不一致, fix #2050
       tickCount = tick.tickCount({
         axisLength: rangeSize,
@@ -142,6 +150,33 @@ export class LinearAxisMixin {
       return this.setLogScaleNice();
     }
     return this.setLinearScaleNice();
+  }
+
+  /**
+   * scale.range 更新到真实绘图区长度后，若 tickCount 是依赖轴长的函数，用真实轴长重算 nice。
+   *
+   * setLinearScaleNice 在布局前被调用时（scale.range 仍是初始的 [0, 1]、rangeSize 为 1），
+   * 拿不到真实绘图区像素轴长，会回退用整块 chart viewRect 的宽/高估算 tickCount。viewRect
+   * 比扣掉标题/图例/对侧轴后的真实绘图区大，导致 tickCount 偏大 → 刻度偏密 → nice 天花板偏低，
+   * 且布局后不会再重算。这里在 range 更新到真实绘图区长度后重算一次，使 tickCount / nice 域与最终
+   * 绘图区一致。仅当 tickCount 为函数（依赖轴长）时生效，固定/默认 tickCount 不受影响；
+   * _lastNiceAxisLength 缓存避免轴长未变时（多次布局测量 / 多 pass）重复重算。
+   */
+  reTransformDomainByLayout() {
+    if (!this._nice || !isFunction(this._spec.tick?.tickCount)) {
+      return;
+    }
+    const range = this._scale.range();
+    const realLength = Math.abs(last(range) - range[0]);
+    // range 还没更新到真实绘图区（仍是初始 [0, 1]）时不处理
+    if (realLength <= 1) {
+      return;
+    }
+    // 已经用同样的轴长 nice 过则跳过，避免多次布局 pass 下重复重算
+    if (isValidNumber(this._lastNiceAxisLength) && Math.abs(this._lastNiceAxisLength - realLength) < 1) {
+      return;
+    }
+    this.updateScaleDomain();
   }
 
   dataToPosition(values: any[], cfg?: IAxisLocationCfg): number {
