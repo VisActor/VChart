@@ -46,8 +46,8 @@ const CLOCK_TEXT_GAP_FROM_LEAD = 8; // 引线到文字的间距 px
 const CLOCK_ORBIT_DASH = [4, 4];
 
 // ===== 文字 =====
-const CLOCK_TITLE_FONT_SIZE = 13;
-const CLOCK_TITLE_LINE_HEIGHT = 18;
+const CLOCK_TITLE_FONT_SIZE = 18;
+const CLOCK_TITLE_LINE_HEIGHT = 24;
 const CLOCK_CONTENT_FONT_SIZE = 11;
 const CLOCK_CONTENT_LINE_HEIGHT = 15;
 
@@ -141,8 +141,6 @@ export const buildClockCenterImageMark = (spec: IStorylineSpec): IExtensionGroup
               height: (_d: unknown, ctx: LayoutContext) =>
                 getClockGeometry(spec, ctx).R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO * 2,
               image: spec.centerImage?.image,
-              cornerRadius: (_d: unknown, ctx: LayoutContext) =>
-                getClockGeometry(spec, ctx).R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
               imageMode: 'cover',
@@ -321,13 +319,10 @@ export const buildClockBlockMark = (
             width: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter,
             height: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter,
             image: block.image,
-            cornerRadius: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter / 2,
             repeatX: 'no-repeat',
             repeatY: 'no-repeat',
             imageMode: 'cover',
-            imagePosition: 'center',
-            stroke: themeColor,
-            lineWidth: 2
+            imagePosition: 'center'
           }
         } as ICustomMarkSpec<'image'>)
       : ({
@@ -361,6 +356,9 @@ export const buildClockBlockMark = (
             lineHeight: CLOCK_TITLE_LINE_HEIGHT,
             fontWeight: 'bold',
             fill: themeColor,
+            stroke: '#fff',
+            lineWidth: 5,
+            lineJoin: 'round',
             textAlign: (_d: unknown, ctx: LayoutContext) =>
               getClockTextRect(spec, ctx, index).onLeft ? 'right' : 'left',
             textBaseline: 'top',

@@ -65,7 +65,7 @@ const getDefaultBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index:
   const imageHeight = spec.image?.height ?? DEFAULT_IMAGE_HEIGHT;
   const imageGap = spec.image?.gap ?? DEFAULT_IMAGE_GAP;
   const hasImage = !!spec.data?.[index]?.image;
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 14);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
   const titleHeight = spec.data?.[index]?.title ? titleLineHeight : 0;
   const blockWidth = block?.width ?? resolveBlockWidth(spec, 0);
@@ -113,7 +113,7 @@ export const buildDefaultBlockMark = (
 ): IExtensionGroupMarkSpec => {
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 14);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
 
   return {
@@ -158,7 +158,6 @@ export const buildDefaultBlockMark = (
               width: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.width,
               height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.height,
               image: block.image,
-              cornerRadius: 6,
               ...spec.image?.style
             }
           } as ICustomMarkSpec<'image'>)
@@ -179,6 +178,9 @@ export const buildDefaultBlockMark = (
               lineHeight: titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
+              stroke: '#fff',
+              lineWidth: 5,
+              lineJoin: 'round',
               textAlign: 'left',
               textBaseline: 'top',
               ...spec.title?.style

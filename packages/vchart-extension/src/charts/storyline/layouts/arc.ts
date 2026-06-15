@@ -15,75 +15,100 @@ import {
   withAlpha
 } from './common';
 
-// dome 布局：弧形排列 + 底部 centerImage
-// image 默认为圆形，DOME_BLOCK_IMAGE_SIZE 即圆的直径
-const DOME_BLOCK_IMAGE_SIZE = 140;
-const DOME_TEXT_GAP_FROM_IMAGE = 10;
-const DOME_TITLE_LINE_HEIGHT = 19;
-const DOME_CONTENT_LINE_HEIGHT = 17;
-const DOME_CONTENT_FONT_SIZE = 12;
-// title + content 区域总高度（默认 400px，溢出由富文本 heightLimit + ellipsis 自动截断）
-const DOME_TEXT_BOX_HEIGHT = 300;
-const DOME_TITLE_TO_CONTENT_GAP = 4;
+// arc 布局：弧形排列 + centerImage（穹顶 / 碗形二合一）
+// - direction = 'up'（默认）：穹顶 —— centerImage 贴底，弧线在 centerImage 上方
+// - direction = 'down'：碗形 —— centerImage 贴顶，弧线在 centerImage 下方
+// image 默认为圆形，ARC_BLOCK_IMAGE_SIZE 即圆的直径
+const ARC_BLOCK_IMAGE_SIZE = 140;
+const ARC_TEXT_GAP_FROM_IMAGE = 10;
+const ARC_TITLE_LINE_HEIGHT = 19;
+const ARC_CONTENT_LINE_HEIGHT = 17;
+const ARC_CONTENT_FONT_SIZE = 12;
+// title + content 区域总高度（默认 240px，溢出由富文本 heightLimit + ellipsis 自动截断）
+const ARC_TEXT_BOX_HEIGHT = 240;
+const ARC_TITLE_TO_CONTENT_GAP = 4;
 // 引导线与 title/content 之间的水平间距
-const DOME_TEXT_LEFT_PADDING = 20;
+const ARC_TEXT_LEFT_PADDING = 20;
+// title/content 区域的最小宽度，确保文字有足够展示空间，不受 image 宽度限制
+const ARC_TEXT_BOX_MIN_WIDTH = 200;
 // centerImage 边长相对 inner 短边的比例（强制正方形，避免 cover 模式裁切图片）
-const DOME_CENTER_IMAGE_SIZE_RATIO = 0.4;
-// 弧线最高点（视觉上的顶点）距离 centerImage 顶部的距离
-const DOME_ARC_TOP_GAP_FROM_CENTER_IMAGE = 300;
+const ARC_CENTER_IMAGE_SIZE_RATIO = 0.4;
+// 弧线最高/最低点距离 centerImage 顶部/底部的距离
+const ARC_GAP_FROM_CENTER_IMAGE = 200;
+
+const isDownArc = (spec: IStorylineSpec) => normalizeLayout(spec.layout).direction === 'down';
 
 /**
- * 计算 dome 布局 centerImage 的 box：水平居中、垂直贴底（位于 inner 区域底部）。
+ * 计算 arc 布局 centerImage 的 box：水平居中。
+ * - up（dome）：垂直贴底（位于 inner 区域底部）
+ * - down（bowl）：垂直贴顶（位于 inner 区域顶部）
  */
-const getDomeCenterImageRect = (spec: IStorylineSpec, ctx: LayoutContext) => {
+const getArcCenterImageRect = (spec: IStorylineSpec, ctx: LayoutContext) => {
   const { width, height, startX, startY } = getRegionGeometry(ctx);
   const padding = normalizePadding(spec.block?.padding);
   const innerWidth = Math.max(width - padding.left - padding.right, 1);
   const innerHeight = Math.max(height - padding.top - padding.bottom, 1);
   // 取 inner 短边作为基准，使 rect 始终为正方形（cover 模式下不会裁切方形图片）
-  const baseSize = Math.min(innerWidth, innerHeight) * DOME_CENTER_IMAGE_SIZE_RATIO;
+  const baseSize = Math.min(innerWidth, innerHeight) * ARC_CENTER_IMAGE_SIZE_RATIO;
   const w = Math.max(spec.centerImage?.width ?? baseSize, 80);
   const h = Math.max(spec.centerImage?.height ?? baseSize, 80);
   const cx = startX + padding.left + innerWidth / 2;
-  // 紧贴底部，仅保留 spec.block.padding.bottom 的留白
-  const top = startY + padding.top + innerHeight - h;
+  const isDown = isDownArc(spec);
+  const top = isDown
+    ? // bowl：紧贴顶部
+      startY + padding.top
+    : // dome：紧贴底部
+      startY + padding.top + innerHeight - h;
   return { x: cx - w / 2, y: top, width: w, height: h };
 };
 
 /**
- * 计算 dome 弧线的几何参数：
+ * 计算 arc 弧线的几何参数：
  * - cx / rx / startAngle / endAngle 与 layout.ts 中 arcCenters 一致；
- * - cy 与 ry 由两条对齐约束反推：
- *   1) 弧线起/终点 y == centerImage 底部
- *   2) 弧线最高点 y == centerImage 顶部 - DOME_ARC_TOP_GAP_FROM_CENTER_IMAGE
+ * - cy 与 ry 由两条对齐约束反推，使弧线起/终点 y 与 centerImage 端面对齐，
+ *   弧线极值点（顶点 / 底点）距离 centerImage 远端 ARC_GAP_FROM_CENTER_IMAGE。
  *
- * 解方程：
+ * up（dome）：startAngle = 200°、endAngle = 340°（弧线在 centerImage 上方）
  *   cy + ry * sin(startAngle) = centerImageBottom
  *   cy - ry                   = centerImageTop - GAP
  * → ry = (centerImageHeight + GAP) / (1 + sin(startAngle))
  *   cy = centerImageBottom - ry * sin(startAngle)
  *
- * 仅当 sin(startAngle) ∈ [-1, 0) 时（即 startAngle 在 (180°, 360°) 区间，碗形），
- * 该方程组有合理正解。
+ * down（bowl）：startAngle = 20°、endAngle = 160°（弧线在 centerImage 下方）
+ *   cy + ry * sin(startAngle) = centerImageTop
+ *   cy + ry                   = centerImageBottom + GAP
+ * → ry = (GAP + centerImageHeight) / (1 - sin(startAngle))
+ *   cy = centerImageTop - ry * sin(startAngle)
  */
-const getDomeArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext) => {
+const getArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext) => {
   const { width, startX } = getRegionGeometry(ctx);
   const blockPadding = normalizePadding(spec.block?.padding);
   const innerWidth = Math.max(width - blockPadding.left - blockPadding.right, 1);
   const blockWidth = resolveBlockWidth(spec, width);
   const layoutOpt = normalizeLayout(spec.layout);
-  const startAngle = layoutOpt.startAngle ?? 200;
-  const endAngle = layoutOpt.endAngle ?? 340;
+  const isDown = layoutOpt.direction === 'down';
+  // 默认弧线起止角与 layout.ts 中一致
+  const startAngle = layoutOpt.startAngle ?? (isDown ? 20 : 200);
+  const endAngle = layoutOpt.endAngle ?? (isDown ? 160 : 340);
   const ratio = layoutOpt.radiusRatio ?? 0.88;
   const rx = Math.max((innerWidth - blockWidth) / 2, 1) * ratio;
-  const centerRect = getDomeCenterImageRect(spec, ctx);
+  const centerRect = getArcCenterImageRect(spec, ctx);
   const centerTop = centerRect.y;
   const centerBottom = centerRect.y + centerRect.height;
   const sinStart = Math.sin((startAngle / 180) * Math.PI);
-  // sinStart 接近 -1 时 ry → ∞；这里限制下界以防 startAngle 配置异常
-  const denom = Math.max(1 + sinStart, 0.05);
-  const ry = (centerRect.height + DOME_ARC_TOP_GAP_FROM_CENTER_IMAGE) / denom;
-  const cy = centerBottom - ry * sinStart;
+  let cy: number;
+  let ry: number;
+  if (isDown) {
+    // bowl：sinStart 接近 1 时 ry → ∞；这里限制下界以防 startAngle 配置异常
+    const denom = Math.max(1 - sinStart, 0.05);
+    ry = (centerRect.height + ARC_GAP_FROM_CENTER_IMAGE) / denom;
+    cy = centerTop - ry * sinStart;
+  } else {
+    // dome：sinStart 接近 -1 时 ry → ∞
+    const denom = Math.max(1 + sinStart, 0.05);
+    ry = (centerRect.height + ARC_GAP_FROM_CENTER_IMAGE) / denom;
+    cy = centerBottom - ry * sinStart;
+  }
   return {
     cx: startX + blockPadding.left + innerWidth / 2,
     cy,
@@ -91,19 +116,18 @@ const getDomeArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext) => {
     ry,
     startAngle,
     endAngle,
-    // 调试/对齐用：上下两个对齐参考点
     centerTop,
     centerBottom
   };
 };
 
 /**
- * 在 do me 新弧线上按 index 采样 block 中心，与 arc 完全同步。
+ * 在 arc 弧线上按 index 采样 block 中心，与 arc 完全同步。
  * 同时让 block 沿弧线径向向外偏移 imageHeight/2，
  * 使 image 内边贴在弧线上，image + text 整体位于弧线外侧。
  */
-const getDomeBlockCenter = (spec: IStorylineSpec, ctx: LayoutContext, index: number): StorylinePoint => {
-  const arc = getDomeArcGeometry(spec, ctx);
+const getArcBlockCenter = (spec: IStorylineSpec, ctx: LayoutContext, index: number): StorylinePoint => {
+  const arc = getArcGeometry(spec, ctx);
   const count = spec.data?.length ?? 0;
   if (count <= 0) {
     return { x: arc.cx, y: arc.cy };
@@ -118,30 +142,29 @@ const getDomeBlockCenter = (spec: IStorylineSpec, ctx: LayoutContext, index: num
   const nLen = Math.hypot(nxRaw, nyRaw) || 1;
   const nx = nxRaw / nLen;
   const ny = nyRaw / nLen;
-  const imageHeight = spec.image?.height ?? DOME_BLOCK_IMAGE_SIZE;
+  const imageHeight = spec.image?.height ?? ARC_BLOCK_IMAGE_SIZE;
   const offset = imageHeight / 2;
   return { x: px + nx * offset, y: py + ny * offset };
 };
 
 /**
- * 贯穿所有 block 的半圆弧线 mark（path 通过沿椭圆采样实现，
- * 与 dome block 的弧形布局完全重合）
+ * 贯穿所有 block 的弧线 mark（path 通过沿椭圆采样实现，与 arc block 的弧形布局完全重合）
  *
  * 默认不展示，仅当用户在 spec.line.visible 显式置为 true 时才渲染。
  */
-export const buildDomeArcMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
+export const buildArcMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
   if (spec.line?.visible !== true) {
     return null;
   }
   const themeColor = getThemeColor(spec);
   return {
     type: 'group' as any,
-    name: 'storyline-dome-arc',
+    name: 'storyline-arc',
     zIndex: LayoutZIndex.Mark,
     children: [
       {
         type: 'path',
-        name: 'storyline-dome-arc-path',
+        name: 'storyline-arc-path',
         interactive: false,
         style: {
           stroke: themeColor,
@@ -150,7 +173,7 @@ export const buildDomeArcMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec 
           fill: 'transparent',
           fillOpacity: 0,
           path: (_d: unknown, ctx: LayoutContext) => {
-            const arc = getDomeArcGeometry(spec, ctx);
+            const arc = getArcGeometry(spec, ctx);
             const span = arc.endAngle - arc.startAngle;
             const samples = 64;
             const segments: string[] = [];
@@ -169,7 +192,7 @@ export const buildDomeArcMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec 
   };
 };
 
-export const buildDomeCenterImageMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
+export const buildArcCenterImageMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
   const visible = spec.centerImage?.visible !== false;
   if (!visible) {
     return null;
@@ -190,26 +213,24 @@ export const buildDomeCenterImageMark = (spec: IStorylineSpec): IExtensionGroupM
   };
   return {
     type: 'group' as any,
-    name: 'storyline-dome-center',
+    name: 'storyline-arc-center',
     zIndex: LayoutZIndex.Mark,
     children: [
-      // 默认 symbol：位于 centerImage 的位置，外径略大于 centerImage（填充渐变作为视觉底盘）
       {
         type: 'symbol',
-        name: 'storyline-dome-center-symbol',
+        name: 'storyline-arc-center-symbol',
         interactive: false,
         style: {
           x: (_d: unknown, ctx: LayoutContext) => {
-            const r = getDomeCenterImageRect(spec, ctx);
+            const r = getArcCenterImageRect(spec, ctx);
             return r.x + r.width / 2;
           },
           y: (_d: unknown, ctx: LayoutContext) => {
-            const r = getDomeCenterImageRect(spec, ctx);
+            const r = getArcCenterImageRect(spec, ctx);
             return r.y + r.height / 2;
           },
           size: (_d: unknown, ctx: LayoutContext) => {
-            const r = getDomeCenterImageRect(spec, ctx);
-            // symbol 直径略大于 centerImage 较短边，形成"圆形底盘"
+            const r = getArcCenterImageRect(spec, ctx);
             return Math.max(r.width, r.height) * 1.1;
           },
           symbolType: 'circle',
@@ -218,52 +239,36 @@ export const buildDomeCenterImageMark = (spec: IStorylineSpec): IExtensionGroupM
           lineWidth: 2
         }
       } as ICustomMarkSpec<'symbol'>,
-      {
-        type: 'rect',
-        name: 'storyline-dome-center-rect',
-        interactive: false,
-        style: {
-          x: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).x,
-          y: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).y,
-          width: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).width,
-          height: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).height,
-          cornerRadius: 12,
-          fill: '#ffffff',
-          stroke: themeColor,
-          lineWidth: 2
-        }
-      } as ICustomMarkSpec<'rect'>,
       hasImage
         ? ({
             type: 'image',
-            name: 'storyline-dome-center-image',
+            name: 'storyline-arc-center-image',
             interactive: false,
             ...spec.centerImage,
             style: {
-              x: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).x,
-              y: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).y,
-              width: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).width,
-              height: (_d: unknown, ctx: LayoutContext) => getDomeCenterImageRect(spec, ctx).height,
+              x: (_d: unknown, ctx: LayoutContext) => getArcCenterImageRect(spec, ctx).x,
+              y: (_d: unknown, ctx: LayoutContext) => getArcCenterImageRect(spec, ctx).y,
+              width: (_d: unknown, ctx: LayoutContext) => getArcCenterImageRect(spec, ctx).width,
+              height: (_d: unknown, ctx: LayoutContext) => getArcCenterImageRect(spec, ctx).height,
               image: spec.centerImage?.image,
-              cornerRadius: 12,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
               imageMode: 'cover',
               imagePosition: 'center',
               // 默认锚点设为 image 中心，让 scaleX/scaleY 从中心缩放
               anchor: (_d: unknown, ctx: LayoutContext) => {
-                const r = getDomeCenterImageRect(spec, ctx);
+                const r = getArcCenterImageRect(spec, ctx);
                 return [r.x + r.width / 2, r.y + r.height / 2];
               },
               // 若用户在 style 里覆盖了 width/height，自动追加 dx/dy 让图片仍以 rect 中心为中心
               dx: (_d: unknown, ctx: LayoutContext) => {
-                const r = getDomeCenterImageRect(spec, ctx);
+                const r = getArcCenterImageRect(spec, ctx);
                 const userWidth = (spec.centerImage?.style as { width?: number } | undefined)?.width;
                 const w = typeof userWidth === 'number' ? userWidth : r.width;
                 return (r.width - w) / 2;
               },
               dy: (_d: unknown, ctx: LayoutContext) => {
-                const r = getDomeCenterImageRect(spec, ctx);
+                const r = getArcCenterImageRect(spec, ctx);
                 const userHeight = (spec.centerImage?.style as { height?: number } | undefined)?.height;
                 const h = typeof userHeight === 'number' ? userHeight : r.height;
                 return (r.height - h) / 2;
@@ -276,32 +281,37 @@ export const buildDomeCenterImageMark = (spec: IStorylineSpec): IExtensionGroupM
   };
 };
 
-const getDomeBlockMetrics = (spec: IStorylineSpec) => {
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 14);
+const getArcBlockMetrics = (spec: IStorylineSpec) => {
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number(
-    (spec.title?.style as any)?.lineHeight ?? Math.max(DOME_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
+    (spec.title?.style as any)?.lineHeight ?? Math.max(ARC_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
-  const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? DOME_CONTENT_FONT_SIZE);
-  const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? DOME_CONTENT_LINE_HEIGHT);
-  const titleToContentGap = DOME_TITLE_TO_CONTENT_GAP;
-  // text 区域总高度固定为 DOME_TEXT_BOX_HEIGHT，content 占除 title 与间距外的全部高度
-  const textHeight = DOME_TEXT_BOX_HEIGHT;
+  const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? ARC_CONTENT_FONT_SIZE);
+  const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? ARC_CONTENT_LINE_HEIGHT);
+  const titleToContentGap = ARC_TITLE_TO_CONTENT_GAP;
+  // text 区域总高度固定为 ARC_TEXT_BOX_HEIGHT，content 占除 title 与间距外的全部高度
+  const textHeight = ARC_TEXT_BOX_HEIGHT;
   const contentHeight = Math.max(textHeight - titleLineHeight - titleToContentGap, contentLineHeight);
 
-  const imageWidth = spec.image?.width ?? DOME_BLOCK_IMAGE_SIZE;
-  const imageHeight = spec.image?.height ?? DOME_BLOCK_IMAGE_SIZE;
+  const imageWidth = spec.image?.width ?? ARC_BLOCK_IMAGE_SIZE;
+  const imageHeight = spec.image?.height ?? ARC_BLOCK_IMAGE_SIZE;
 
-  // image 位于 block 中心下半部分，title/content 在 image 上方
+  const isDown = isDownArc(spec);
+
+  // image 位于 block 中心，title/content：
+  // - up（dome）：在 image 上方；
+  // - down（bowl）：在 image 下方
   const imageBox = {
     x: -imageWidth / 2,
     y: -imageHeight / 2,
     width: imageWidth,
     height: imageHeight
   };
+  const textBoxWidth = Math.max(imageWidth - ARC_TEXT_LEFT_PADDING, ARC_TEXT_BOX_MIN_WIDTH);
   const textBox = {
-    x: -imageWidth / 2 + DOME_TEXT_LEFT_PADDING,
-    y: imageBox.y - DOME_TEXT_GAP_FROM_IMAGE - textHeight,
-    width: imageWidth - DOME_TEXT_LEFT_PADDING,
+    x: -imageWidth / 2 + ARC_TEXT_LEFT_PADDING,
+    y: isDown ? imageBox.y + imageHeight + ARC_TEXT_GAP_FROM_IMAGE : imageBox.y - ARC_TEXT_GAP_FROM_IMAGE - textHeight,
+    width: textBoxWidth,
     height: textHeight
   };
   const contentBox = {
@@ -317,11 +327,12 @@ const getDomeBlockMetrics = (spec: IStorylineSpec) => {
     contentLineHeight,
     imageBox,
     textBox,
-    contentBox
+    contentBox,
+    isDown
   };
 };
 
-export const buildDomeBlockMark = (
+export const buildArcBlockMark = (
   spec: IStorylineSpec,
   block: IStorylineBlock,
   index: number
@@ -329,7 +340,15 @@ export const buildDomeBlockMark = (
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
   const themeColor = getThemeColor(spec);
-  const metrics = getDomeBlockMetrics(spec);
+  const metrics = getArcBlockMetrics(spec);
+
+  // 引导线 rect：贯穿 image 端面 → text 远端
+  // - up（dome）：从 textBox.y 到 imageBox.y（text 在 image 上方）
+  // - down（bowl）：从 imageBox 底端 到 textBox 底端（text 在 image 下方）
+  const connectorY = metrics.isDown ? metrics.imageBox.y + metrics.imageBox.height : metrics.textBox.y;
+  const connectorHeight = metrics.isDown
+    ? Math.max(metrics.textBox.y + metrics.textBox.height - (metrics.imageBox.y + metrics.imageBox.height), 0)
+    : Math.max(metrics.imageBox.y - metrics.textBox.y, 0);
 
   return {
     type: 'group' as any,
@@ -337,20 +356,20 @@ export const buildDomeBlockMark = (
     name: `storyline-block-${index}`,
     zIndex: LayoutZIndex.Mark + 1,
     style: {
-      x: (_d: unknown, ctx: LayoutContext) => getDomeBlockCenter(spec, ctx, index).x,
-      y: (_d: unknown, ctx: LayoutContext) => getDomeBlockCenter(spec, ctx, index).y
+      x: (_d: unknown, ctx: LayoutContext) => getArcBlockCenter(spec, ctx, index).x,
+      y: (_d: unknown, ctx: LayoutContext) => getArcBlockCenter(spec, ctx, index).y
     },
     children: [
-      // title / content 左侧的垂直引导线（贯穿 text + image 顶部，与文字保持 padding）
+      // title / content 左侧的垂直引导线
       {
         type: 'rect',
         name: `storyline-block-connector-${index}`,
         interactive: false,
         style: {
           x: metrics.imageBox.x,
-          y: metrics.textBox.y,
+          y: connectorY,
           width: 2,
-          height: Math.max(metrics.imageBox.y - metrics.textBox.y, 0),
+          height: connectorHeight,
           fill: themeColor,
           fillOpacity: 0.6
         }
@@ -367,14 +386,10 @@ export const buildDomeBlockMark = (
               width: metrics.imageBox.width,
               height: metrics.imageBox.height,
               image: block.image,
-              // 圆形裁剪：cornerRadius = min(w,h) / 2
-              cornerRadius: Math.min(metrics.imageBox.width, metrics.imageBox.height) / 2,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
               imageMode: 'cover',
               imagePosition: 'center',
-              stroke: themeColor,
-              lineWidth: 2,
               ...spec.image?.style
             }
           } as ICustomMarkSpec<'image'>)
@@ -408,6 +423,9 @@ export const buildDomeBlockMark = (
               lineHeight: metrics.titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
+              stroke: '#fff',
+              lineWidth: 5,
+              lineJoin: 'round',
               textAlign: 'left',
               textBaseline: 'top',
               ...spec.title?.style
@@ -429,8 +447,8 @@ export const buildDomeBlockMark = (
               maxLineWidth: metrics.contentBox.width,
               heightLimit: metrics.contentBox.height,
               text: buildRichContent(contentText, spec),
-              fontSize: DOME_CONTENT_FONT_SIZE,
-              lineHeight: DOME_CONTENT_LINE_HEIGHT,
+              fontSize: ARC_CONTENT_FONT_SIZE,
+              lineHeight: ARC_CONTENT_LINE_HEIGHT,
               textAlign: 'left',
               textBaseline: 'top',
               wordBreak: 'break-word',

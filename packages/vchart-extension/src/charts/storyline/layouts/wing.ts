@@ -23,8 +23,8 @@ import {
 // - 左右交替（弧线左侧 / 右侧）让节点错落
 const WING_BLOCK_IMAGE_SIZE = 96;
 const WING_TEXT_GAP_FROM_IMAGE = 14;
-const WING_TITLE_LINE_HEIGHT = 26;
-const WING_TITLE_FONT_SIZE = 20;
+const WING_TITLE_LINE_HEIGHT = 30;
+const WING_TITLE_FONT_SIZE = 22;
 const WING_CONTENT_LINE_HEIGHT = 17;
 const WING_CONTENT_FONT_SIZE = 12;
 // title + content 区域宽度
@@ -216,6 +216,8 @@ export const buildWingBlockMark = (
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
   const themeColor = getThemeColor(spec);
   const metrics = getWingBlockMetrics(spec, index);
+  // image 背后的装饰图元（halo）默认不展示
+  const showBackground = spec.image?.showBackground === true;
 
   return {
     type: 'group' as any,
@@ -227,20 +229,22 @@ export const buildWingBlockMark = (
       y: (_d: unknown, ctx: LayoutContext) => getWingBlockCenter(spec, ctx, index).y
     },
     children: [
-      {
-        type: 'symbol',
-        name: `storyline-block-image-halo-${index}`,
-        interactive: false,
-        style: {
-          x: 0,
-          y: 0,
-          size: Math.max(metrics.imageBox.width, metrics.imageBox.height) + 12,
-          symbolType: 'circle',
-          fill: withAlpha(themeColor, 0.18),
-          stroke: themeColor,
-          lineWidth: 1.5
-        }
-      } as ICustomMarkSpec<'symbol'>,
+      showBackground
+        ? ({
+            type: 'symbol',
+            name: `storyline-block-image-halo-${index}`,
+            interactive: false,
+            style: {
+              x: 0,
+              y: 0,
+              size: Math.max(metrics.imageBox.width, metrics.imageBox.height) + 12,
+              symbolType: 'circle',
+              fill: withAlpha(themeColor, 0.18),
+              stroke: themeColor,
+              lineWidth: 1.5
+            }
+          } as ICustomMarkSpec<'symbol'>)
+        : null,
       hasImage
         ? ({
             type: 'image',
@@ -253,13 +257,10 @@ export const buildWingBlockMark = (
               width: metrics.imageBox.width,
               height: metrics.imageBox.height,
               image: block.image,
-              cornerRadius: Math.min(metrics.imageBox.width, metrics.imageBox.height) / 2,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
               imageMode: 'cover',
               imagePosition: 'center',
-              stroke: '#ffffff',
-              lineWidth: 3,
               ...spec.image?.style
             }
           } as ICustomMarkSpec<'image'>)
@@ -294,6 +295,9 @@ export const buildWingBlockMark = (
               lineHeight: metrics.titleLineHeight,
               fontWeight: 'bold',
               fill: themeColor,
+              stroke: '#fff',
+              lineWidth: 5,
+              lineJoin: 'round',
               textAlign: metrics.onLeft ? 'right' : 'left',
               textBaseline: 'top',
               ...spec.title?.style

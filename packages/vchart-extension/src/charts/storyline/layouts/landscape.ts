@@ -107,7 +107,7 @@ export const buildLandscapeConnectingCurve = (spec: IStorylineSpec): IExtensionG
  */
 const getLandscapeMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeight: number, index: number) => {
   const padding = normalizePadding(spec.block?.padding ?? 12);
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 14);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number(
     (spec.title?.style as any)?.lineHeight ?? Math.max(LANDSCAPE_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
@@ -198,7 +198,7 @@ export const buildLandscapeBlockMark = (
 ): IExtensionGroupMarkSpec => {
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 14);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
 
   const getMetrics = (ctx: LayoutContext) => {
@@ -265,7 +265,6 @@ export const buildLandscapeBlockMark = (
               width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
               image: block.image,
-              cornerRadius: 8,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
               imageMode: 'cover',
@@ -312,6 +311,9 @@ export const buildLandscapeBlockMark = (
               lineHeight: titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
+              stroke: '#fff',
+              lineWidth: 5,
+              lineJoin: 'round',
               textAlign: 'left',
               textBaseline: 'top',
               ...spec.title?.style

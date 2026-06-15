@@ -37,9 +37,9 @@ export const DEFAULT_THEME_COLOR = '#e8543d';
 export const isLandscape = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'landscape';
 export const isPortrait = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'portrait';
 export const isClock = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'clock';
-export const isDome = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'dome';
-export const isBowl = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'bowl';
+export const isArc = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'arc';
 export const isWing = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'wing';
+export const isLadder = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'ladder';
 
 export const getThemeColor = (spec: IStorylineSpec) => spec.themeColor ?? DEFAULT_THEME_COLOR;
 

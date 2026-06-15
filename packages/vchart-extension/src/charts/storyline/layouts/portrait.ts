@@ -19,9 +19,9 @@ const PORTRAIT_AXIS_PADDING = 50; // 中轴上下两端的留白
 const PORTRAIT_IMAGE_WIDTH = 180;
 const PORTRAIT_IMAGE_HEIGHT = 110;
 const PORTRAIT_IMAGE_GAP_FROM_AXIS = 24; // image 与中轴之间的水平间距
-const PORTRAIT_SHADOW_OFFSET_X = 36;
-const PORTRAIT_SHADOW_OFFSET_Y = 20;
-const PORTRAIT_SHADOW_SCALE = 1.12;
+const PORTRAIT_SHADOW_OFFSET_X = 24; // subImage 相对主 image 的水平错位量
+const PORTRAIT_SHADOW_OFFSET_Y = 16; // subImage 相对主 image 的垂直错位量
+const PORTRAIT_SHADOW_SCALE = 1; // subImage 与主 image 同尺寸，仅做错位偏移
 const PORTRAIT_TEXT_GAP_FROM_IMAGE = 8;
 const PORTRAIT_CONTENT_LINES = 3;
 const PORTRAIT_TITLE_LINE_HEIGHT = 19;
@@ -89,7 +89,7 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
 };
 
 const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, _blockHeight: number, index: number) => {
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 14);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number(
     (spec.title?.style as any)?.lineHeight ?? Math.max(PORTRAIT_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
@@ -154,11 +154,14 @@ export const buildPortraitBlockMark = (
   index: number
 ): IExtensionGroupMarkSpec => {
   const hasImage = !!block.image;
+  const hasSubImage = !!block.subImage;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 14);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number(
     (spec.title?.style as any)?.lineHeight ?? Math.max(PORTRAIT_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
+  // image 背后的装饰图元（错位 shadow image + mask）默认不展示
+  const showBackground = spec.image?.showBackground === true;
 
   const getMetrics = (ctx: LayoutContext) => {
     const lb = getLayout(spec, ctx).blocks[index];
@@ -185,7 +188,7 @@ export const buildPortraitBlockMark = (
       }
     },
     children: [
-      hasImage
+      hasSubImage && showBackground
         ? ({
             type: 'image',
             name: `storyline-block-shadow-image-${index}`,
@@ -195,41 +198,13 @@ export const buildPortraitBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).shadowBox.y,
               width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).shadowBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).shadowBox.height,
-              image: block.image,
-              cornerRadius: 8,
+              image: block.subImage,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
               imageMode: 'cover',
               imagePosition: 'center'
             }
           } as ICustomMarkSpec<'image'>)
-        : null,
-      hasImage
-        ? ({
-            type: 'rect',
-            name: `storyline-block-shadow-mask-${index}`,
-            interactive: false,
-            style: {
-              x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).shadowBox.x,
-              y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).shadowBox.y,
-              width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).shadowBox.width,
-              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).shadowBox.height,
-              cornerRadius: 8,
-              stroke: false,
-              lineWidth: 0,
-              fill: {
-                gradient: 'linear',
-                x0: 0,
-                y0: 0,
-                x1: 0,
-                y1: 1,
-                stops: [
-                  { offset: 0, color: withAlpha(themeColor, 0.2) },
-                  { offset: 1, color: withAlpha(themeColor, 1) }
-                ]
-              }
-            }
-          } as ICustomMarkSpec<'rect'>)
         : null,
       {
         type: 'rect',
@@ -259,7 +234,6 @@ export const buildPortraitBlockMark = (
               width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
               image: block.image,
-              cornerRadius: 8,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
               imageMode: 'cover',
@@ -283,6 +257,9 @@ export const buildPortraitBlockMark = (
               lineHeight: titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
+              stroke: '#fff',
+              lineWidth: 5,
+              lineJoin: 'round',
               textAlign: 'left',
               textBaseline: 'top',
               ...spec.title?.style
