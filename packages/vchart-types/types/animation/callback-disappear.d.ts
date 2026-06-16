@@ -1,4 +1,4 @@
-import { AStageAnimate } from '@visactor/vrender-animate';
+import { AStageAnimate } from '@visactor/vrender-animate/custom/custom-animate';
 import { EasingType } from '@visactor/vrender-core';
 export declare class CallbackDisappearAnimate extends AStageAnimate<any> {
     protected currentAnimationRatio: number;

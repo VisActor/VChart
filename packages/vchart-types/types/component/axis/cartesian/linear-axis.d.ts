@@ -4,7 +4,7 @@ import { CartesianAxis } from './axis';
 import type { IAxisHelper, ICartesianAxisCommonTheme, ICartesianLinearAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface/type';
 import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
-import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
+import type { ICartesianTickDataOpt } from '@visactor/vrender-components/axis/type';
 export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec> extends Pick<LinearAxisMixin, 'setExtraAttrFromSpec' | 'computeLinearDomain' | 'valueToPosition' | 'setScaleNice' | '_domain' | 'transformScaleDomain' | 'setExtendDomain' | '_break'>, CartesianAxis<T> {
 }
 export declare class CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICartesianLinearAxisSpec> extends CartesianAxis<T> {
