@@ -453,7 +453,7 @@ export class VChart implements IVChart {
     // 设置全局字体
     this._setFontFamilyTheme(this.getTheme('fontFamily') as string);
     this._initDataSet(this._option.dataSet);
-    this._autoSize = isTrueBrowseEnv ? (spec.autoFit ?? this._option.autoFit ?? true) : false;
+    this._autoSize = isTrueBrowseEnv ? spec.autoFit ?? this._option.autoFit ?? true : false;
     this._bindResizeEvent();
     this._bindViewEvent();
     this._initChartPlugin();
@@ -676,6 +676,8 @@ export class VChart implements IVChart {
   }
 
   protected _reCompile(updateResult: IUpdateSpecResult, morphConfig?: IMorphConfig) {
+    const shouldRestoreUserEvents = updateResult.reMake && !!this._chart;
+
     if (updateResult.reMake) {
       this._releaseData();
       this._initDataSet();
@@ -702,7 +704,9 @@ export class VChart implements IVChart {
       // chart 内部事件 模块自己必须删除
       // 内部模块删除事件时，调用了event Dispatcher.release() 导致用户事件被一起删除
       // 外部事件现在需要重新添加
-      this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+      if (shouldRestoreUserEvents) {
+        this._userEvents.forEach(e => this._event?.on(e.eType as any, e.query as any, e.handler as any));
+      }
     } else if (updateResult.reCompile) {
       // recompile
       // 清除之前的所有 compile 内容
@@ -1477,8 +1481,8 @@ export class VChart implements IVChart {
           isObject(specTheme) && specTheme.type
             ? specTheme.type
             : isObject(optionTheme) && optionTheme.type
-              ? optionTheme.type
-              : this._currentThemeName
+            ? optionTheme.type
+            : this._currentThemeName
         ),
         getThemeObject(optionTheme),
         getThemeObject(specTheme)
@@ -1512,7 +1516,7 @@ export class VChart implements IVChart {
     }
 
     const lasAutoSize = this._autoSize;
-    this._autoSize = isTrueBrowser(this._option.mode) ? (this._spec.autoFit ?? this._option.autoFit ?? true) : false;
+    this._autoSize = isTrueBrowser(this._option.mode) ? this._spec.autoFit ?? this._option.autoFit ?? true : false;
     if (this._autoSize !== lasAutoSize) {
       resize = true;
     }
