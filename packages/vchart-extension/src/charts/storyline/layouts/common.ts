@@ -24,7 +24,7 @@ export type LayoutContext = {
 // ===== 通用默认值 =====
 
 export const DEFAULT_BLOCK_WIDTH = 180;
-export const DEFAULT_BLOCK_HEIGHT = 112;
+export const DEFAULT_BLOCK_HEIGHT = 400;
 export const DEFAULT_BLOCK_WIDTH_RATIO = 0.24;
 export const DEFAULT_BLOCK_GAP = 36;
 export const DEFAULT_IMAGE_WIDTH = 48;
@@ -131,7 +131,7 @@ export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLa
     if (count > 0) {
       const padding = normalizePadding(spec.block?.padding);
       const innerHeight = Math.max(height - padding.top - padding.bottom, 1);
-      blockHeight = Math.max(160, Math.floor(innerHeight / count));
+      blockHeight = Math.max(DEFAULT_BLOCK_HEIGHT, Math.floor(innerHeight / count));
     }
   }
   const result = computeStorylineLayout(spec.data ?? [], {

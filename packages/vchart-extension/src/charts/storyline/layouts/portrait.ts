@@ -88,19 +88,23 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
   };
 };
 
-const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, _blockHeight: number, index: number) => {
+const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeight: number, index: number) => {
   const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number(
     (spec.title?.style as any)?.lineHeight ?? Math.max(PORTRAIT_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
   const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? PORTRAIT_CONTENT_FONT_SIZE);
   const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? PORTRAIT_CONTENT_LINE_HEIGHT);
-  const contentHeight = PORTRAIT_CONTENT_LINES * contentLineHeight;
   const titleToContentGap = PORTRAIT_TITLE_TO_CONTENT_GAP;
-  const textHeight = titleLineHeight + titleToContentGap + contentHeight;
 
   const imageWidth = spec.image?.width ?? PORTRAIT_IMAGE_WIDTH;
   const imageHeight = spec.image?.height ?? PORTRAIT_IMAGE_HEIGHT;
+  const minContentHeight = PORTRAIT_CONTENT_LINES * contentLineHeight;
+  const contentHeight = Math.max(
+    minContentHeight,
+    blockHeight - imageHeight / 2 - PORTRAIT_TEXT_GAP_FROM_IMAGE - titleLineHeight - titleToContentGap
+  );
+  const textHeight = titleLineHeight + titleToContentGap + contentHeight;
 
   const onLeft = index % 2 === 0;
 

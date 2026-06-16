@@ -181,7 +181,7 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   padding: [20, 20, 50, 20],
   layout: 'clock',
   themeColor: '#C8102E',
-  background: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
+  // background: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
   data: [
     {
       id: 'uruguay-1930',
@@ -190,14 +190,14 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '1930年7月，国际足联首届世界杯在乌拉圭蒙得维的亚开幕，仅有十三支球队参赛。' +
         '东道主乌拉圭借助世纪球场坐镇，决赛中以4比2逆转近邻阿根廷，捧起了雷米特金杯。' +
         '乌拉圭队队长纳萨齐高举奖杯的画面，从此奠定了世界杯作为全球足球最高荣誉的象征意义。',
-      image: 'assets/node-uruguay-1930.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'brazil-1958',
       title: '贝利天才登场',
       content:
         '1958年瑞典世界杯成为足球新王登基的舞台。年仅十七岁的贝利首次代表巴西出战，在四分之一决赛对威尔士贡献关键进球，半决赛对法国上演帽子戏法，决赛对东道主瑞典再度梅开二度，帮助巴西首夺世界杯冠军。',
-      image: 'assets/node-brazil-1958.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1958.png'
     },
     {
       id: 'mexico-1986',
@@ -206,7 +206,7 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '1986年墨西哥世界杯由马拉多纳一人定义。四分之一决赛对英格兰，' +
         '他先用左手将球送入网窝制造『上帝之手』，紧接着又从中圈带球连过五人攻入世纪进球，' +
         '让阿根廷在马岛战争阴影下挣得舆论高地。半决赛对比利时再献两粒精彩入球，最终阿根廷3比2夺冠。',
-      image: 'assets/node-mexico-1986.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1986.png'
     },
     {
       id: 'france-1998',
@@ -215,14 +215,14 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '1998年法国世界杯由东道主自己谱写童话。决赛在圣丹尼新落成的法兰西大球场进行，' +
         '齐达内两次起跳头槌破门，将卫冕冠军巴西打懵，最终法国3比0大胜首夺世界杯。' +
         '比赛终场哨响时，香榭丽舍大街涌入百万球迷，蓝白红的海洋与齐达内剪影一同映在凯旋门上。',
-      image: 'assets/node-france-1998.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1998.png'
     },
     {
       id: 'germany-2014',
       title: '战车碾过马拉卡纳',
       content:
         '2014年巴西世界杯德国队成为最大赢家。半决赛德国在贝洛奥里藏特7比1血洗东道主巴西，决赛在传奇的马拉卡纳球场进行，加时赛第113分钟，戈策胸停凌空抽射打进绝杀，德国时隔24年再夺世界杯。',
-      image: 'assets/node-germany-2014.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-2014.png'
     },
     {
       id: 'qatar-2022',
@@ -279,12 +279,13 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
     }
   },
   centerImage: {
-    // image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
-    width: 360,
-    height: 360,
+    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
+    width: 300,
+    height: 300,
     style: {
-      width: 360,
-      height: 360
+      width: 300,
+      height: 300,
+      cornerRadius: 150
     }
   }
 });
@@ -300,7 +301,7 @@ const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
     widthRatio: 0.28,
     minWidth: 220,
     maxWidth: 320,
-    height: 132,
+    height: 192,
     padding: 12,
     gap: 40,
     style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
@@ -355,23 +356,111 @@ const createWingSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
 // 通过 layout.direction（'up' | 'down'）控制对角线方向
 const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
-  data: buildData(layout),
-  layout: { type: 'ladder', direction: 'up', headline: 'bauhaus' },
-  themeColor,
+  width: 1600,
+  height: 500,
+  padding: 20,
+  layout: { type: 'ladder', direction: 'up', headline: 'ladder' },
+  themeColor: '#C8102E',
+  background: 'transparent',
+  data: [
+    {
+      id: 'uruguay-1930',
+      title: '首届世界杯诞生',
+      content:
+        '1930年7月，国际足联首届世界杯在乌拉圭蒙得维的亚开幕，仅有十三支球队参赛。' +
+        '东道主乌拉圭坐镇世纪球场，决赛中以4比2逆转近邻阿根廷，捧起了雷米特金杯。',
+      image: 'assets/node-uruguay-1930.png'
+    },
+    {
+      id: 'brazil-1958',
+      title: '贝利天才登场',
+      content:
+        '1958年瑞典世界杯成为足球新王登基的舞台。年仅十七岁的贝利首次代表巴西出战，' +
+        '在四分之一决赛对威尔士贡献关键进球，半决赛对法国上演帽子戏法，' +
+        '决赛对东道主瑞典再度梅开二度，帮助巴西首夺世界杯冠军。',
+      image: 'assets/node-brazil-1958.png'
+    },
+    {
+      id: 'mexico-1986',
+      title: '马拉多纳神迹',
+      content:
+        '1986年墨西哥世界杯由马拉多纳一人定义。四分之一决赛对英格兰，' +
+        '他先用左手将球送入网窝制造『上帝之手』，紧接着又从中圈带球连过五人攻入世纪进球，' +
+        '让阿根廷在马岛战争阴影下挣得舆论高地。',
+      image: 'assets/node-mexico-1986.png'
+    },
+    {
+      id: 'france-1998',
+      title: '齐祖之夜法兰西',
+      content:
+        '1998年法国世界杯由东道主自己谱写童话。决赛在圣丹尼新落成的法兰西大球场进行，' +
+        '齐达内两次起跳头槌破门，将卫冕冠军巴西打懵，最终法国3比0大胜首夺世界杯。',
+      image: 'assets/node-france-1998.png'
+    },
+    {
+      id: 'germany-2014',
+      title: '战车碾过马拉卡纳',
+      content:
+        '2014年巴西世界杯德国队成为最大赢家。半决赛德国在贝洛奥里藏特7比1血洗东道主巴西，' +
+        '决赛在传奇的马拉卡纳球场进行，加时赛第113分钟，戈策胸停凌空抽射打进绝杀，' +
+        '德国时隔24年再夺世界杯。',
+      image: 'assets/node-germany-2014.png'
+    },
+    {
+      id: 'qatar-2022',
+      title: '梅西终圆封王梦',
+      content:
+        '2022年卡塔尔世界杯成为首届在中东和北半球冬季举行的世界杯。决赛在卢赛尔体育场进行，' +
+        '阿根廷与法国上演被誉为史上最经典的对决。梅西梅开二度，' +
+        '姆巴佩则上演世界杯决赛六十五年来首个帽子戏法，常规及加时赛战成3比3。' +
+        '点球大战中阿根廷4比2取胜。',
+      image: 'assets/node-qatar-2022.png'
+    }
+  ],
   block: {
-    widthRatio: 0.26,
-    minWidth: 200,
-    maxWidth: 280,
-    height: 132,
+    widthRatio: 0.28,
+    minWidth: 220,
+    maxWidth: 320,
+    height: 192,
     padding: 12,
-    gap: 24,
-    style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
+    gap: 40,
+    style: {
+      fill: 'rgba(255,255,255,0.92)',
+      stroke: 'rgba(200,16,46,0.18)',
+      lineWidth: 1,
+      cornerRadius: 8
+    }
   },
-  image: { position: 'left', gap: 12 },
-  title: commonTitle,
-  content: commonContent,
-  // headline 已是视觉轴，关闭 block 间默认连线
-  line: { visible: false }
+  image: {
+    position: 'left',
+    gap: 12
+  },
+  title: {
+    style: {
+      fontSize: 14,
+      fontWeight: 700,
+      fill: '#1f2533',
+      fontFamily: '"Times New Roman", Times, "Songti SC", "SimSun", serif'
+    }
+  },
+  content: {
+    style: {
+      fontSize: 12,
+      lineHeight: 17,
+      fill: '#596579',
+      fontFamily: '"Songti SC", "STSong", "SimSun", serif'
+    }
+  },
+  line: {
+    type: 'line',
+    showArrow: true,
+    style: {
+      lineWidth: 1.5,
+      lineCap: 'round',
+      lineJoin: 'round',
+      lineDash: [6, 5]
+    }
+  }
 });
 
 const specBuilderByLayout: Partial<Record<StorylineLayoutType, (layout: StorylineLayoutType) => IStorylineSpec>> = {

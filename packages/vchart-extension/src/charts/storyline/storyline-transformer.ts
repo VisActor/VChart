@@ -10,6 +10,7 @@ import {
   normalizeLayout,
   resolveBlockWidth,
   DEFAULT_BLOCK_WIDTH,
+  DEFAULT_BLOCK_HEIGHT,
   DEFAULT_IMAGE_GAP
 } from './layouts/common';
 import { buildClockArcMark, buildClockBlockMark, buildClockCenterImageMark } from './layouts/clock';
@@ -78,8 +79,11 @@ const applyDefaultPadding = (spec: any) => {
     if (!ladder) {
       return 0;
     }
-    const blockHeight = (spec as IStorylineSpec).block?.height ?? 132;
-    return Math.round(blockHeight * 3);
+    const blockHeight = (spec as IStorylineSpec).block?.height ?? DEFAULT_BLOCK_HEIGHT;
+    const chartHeight = (spec as IStorylineSpec).height;
+    const heightCap =
+      typeof chartHeight === 'number' && chartHeight > 0 ? Math.max(SMALL, Math.round(chartHeight * 0.18)) : Infinity;
+    return Math.round(Math.min(blockHeight * 3, heightCap));
   })();
   // arc up（dome）: 底部贴 centerImage（LARGE），顶部留给 textBox（TEXT_RESERVE）
   // arc down（bowl）: 顶部贴 centerImage（LARGE），底部留给 textBox（TEXT_RESERVE）
