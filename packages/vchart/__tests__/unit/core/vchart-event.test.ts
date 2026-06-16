@@ -1,4 +1,3 @@
-import { FederatedEvent } from '@visactor/vrender-core';
 import VChart, {
   type BaseEventParams,
   type IBarChartSpec,
@@ -31,6 +30,11 @@ const getSharedStateDefinitions = (mark: IMark) =>
 
 type VChartWithUpdateSpec = {
   _updateSpec: (spec: ILineChartSpec, forceMerge: boolean) => IUpdateSpecResult;
+};
+
+type StageEventListener = {
+  fn: (event: unknown) => void;
+  context?: unknown;
 };
 
 type CrosshairStateForTest = {
@@ -204,12 +208,28 @@ describe('vchart event test', () => {
   it('should fire pointerdown event once after updateSpecSync()', () => {
     const pointDowmSpy = jest.fn();
     const stage = vchart.getStage();
-    const e = new FederatedEvent((stage as any).eventSystem.manager);
+    const getPointerdownListeners = (): StageEventListener[] => {
+      const listeners = (stage as any)._events?.pointerdown;
+      if (!listeners) {
+        return [];
+      }
+      return 'fn' in listeners ? [listeners] : listeners;
+    };
+    const emitPointerdown = () => {
+      const event = {
+        type: 'pointerdown',
+        target: stage,
+        defaultPrevented: false,
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn()
+      };
+      getPointerdownListeners().forEach(listener => listener.fn.call(listener.context, event));
+    };
 
-    e.type = 'pointerdown';
     vchart.on('pointerdown', pointDowmSpy);
+    expect(getPointerdownListeners()).toHaveLength(1);
 
-    stage.dispatchEvent(e);
+    emitPointerdown();
 
     expect(pointDowmSpy).toBeCalledTimes(1);
 
@@ -218,7 +238,8 @@ describe('vchart event test', () => {
       stack: 'percent'
     });
 
-    stage.dispatchEvent(e);
+    expect(getPointerdownListeners()).toHaveLength(1);
+    emitPointerdown();
     expect(pointDowmSpy).toBeCalledTimes(2);
   });
 

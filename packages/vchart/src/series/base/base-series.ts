@@ -1260,7 +1260,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   _updateSpecData() {
     if (this._rawData && this._spec.data && !(this._spec.data instanceof DataView)) {
-      updateDataViewInData(this._rawData, this._spec.data, true);
+      updateDataViewInData(this._rawData, this._spec.data, false);
     }
   }
 
