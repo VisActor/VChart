@@ -7,6 +7,37 @@ import { getRollupOptions } from './rollup.config';
 import { getDefaultConfig } from './config';
 
 describe('rollup config', () => {
+  it('passes the resolved entry to nodeResolveOptions', () => {
+    const projectRoot = path.resolve(__dirname, '../..');
+    const entry = path.resolve(projectRoot, 'src/index.ts');
+    const seenEntries: string[] = [];
+    const config = {
+      ...getDefaultConfig(),
+      nodeResolveOptions: (resolvedEntry: string) => {
+        seenEntries.push(resolvedEntry);
+        return {
+          exportConditions: ['browser']
+        };
+      }
+    };
+
+    getRollupOptions(
+      projectRoot,
+      entry,
+      {
+        name: '@test/pkg',
+        version: '0.0.0'
+      },
+      {
+        presets: [],
+        plugins: []
+      },
+      config
+    );
+
+    expect(seenEntries).toEqual([entry]);
+  });
+
   it('does not disable declaration emit while composite is enabled', async () => {
     const projectRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'bundler-rollup-'));
     fs.ensureDirSync(path.join(projectRoot, 'src'));

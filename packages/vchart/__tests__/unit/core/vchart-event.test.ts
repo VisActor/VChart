@@ -16,7 +16,6 @@ import { createDiv, removeDom } from '../../util/dom';
 type StateGraphic = IMarkGraphic & {
   attribute: Record<string, unknown>;
   resolvedStatePatch?: Record<string, unknown>;
-  stateProxy?: (stateName: string, states: string[]) => Record<string, unknown>;
 };
 
 type SharedStateDefinitions = Record<
@@ -548,7 +547,6 @@ describe('vchart event test', () => {
       expect(sharedStateDefinitions?.hover?.resolver).toBeUndefined();
       expect(sharedStateDefinitions?.selected?.patch).toEqual({ stroke: '#111827', lineWidth: 4 });
       expect(sharedStateDefinitions?.selected?.resolver).toBeUndefined();
-      expect(barGraphic.stateProxy).toBeFalsy();
 
       chart.getEvent().emit('pointerover', { item: barGraphic } as unknown as BaseEventParams);
 
@@ -860,7 +858,6 @@ describe('vchart event test', () => {
       expect(sharedStateDefinitions?.hover?.resolver).toBeUndefined();
       expect(sharedStateDefinitions?.selected?.patch?.lineWidth).toBe(5);
       expect(sharedStateDefinitions?.selected?.resolver).toBeUndefined();
-      expect(lineGraphic.stateProxy).toBeFalsy();
 
       chart.getEvent().emit('pointerover', { item: lineGraphic } as unknown as BaseEventParams);
       expect(lineGraphic.hasState('hover')).toBe(true);
@@ -948,7 +945,6 @@ describe('vchart event test', () => {
       expect(sharedStateDefinitions?.hover?.resolver).toBeUndefined();
       expect(sharedStateDefinitions?.selected?.patch?.fontSize).toBe(24);
       expect(sharedStateDefinitions?.selected?.resolver).toBeUndefined();
-      expect(textGraphic.stateProxy).toBeFalsy();
 
       textGraphic.useStates(['hover']);
       expect(textGraphic.hasState('hover')).toBe(true);

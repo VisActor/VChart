@@ -80,7 +80,6 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
 
   protected _setStateOfGraphic = (g: IMarkGraphic) => {
     g.clearStates();
-    g.stateProxy = null;
 
     if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
       g.glyphStateProxy = (stateName: string, nexStates: string[]) => {

@@ -554,8 +554,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
   protected _sharedStateDefinitionRefId = 0;
 
-  protected _dynamicSharedStateNames = new Set<string>();
-
   /** by _unCompileChannel, some channel need add default channel to make sure update available */
   _extensionChannel: {
     [key: string | number | symbol]: string[];
@@ -1358,7 +1356,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       g.context.reusing = true;
       // 停止所有动画，
       // TODO：属性可能回不去了（如果enter和exit不是一个动画），所以在encode阶段要获取finalAttribute，设置上去
-      (g as any).animates && (g as any).animates.forEach((a: any) => a.stop());
+      g.stopAnimates();
       // force element to stop exit animation if it is reentered
       // todo animaiton
       // const animators = this.animate?.getElementAnimators(element, DiffState.exit);
@@ -1568,8 +1566,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   };
 
   protected _setStateOfGraphic = (g: IMarkGraphic, hasAnimation?: boolean) => {
-    g.stateProxy = null;
-
     const targetStates =
       g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update
         ? g.context.states
@@ -1647,7 +1643,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     );
 
     if (!stateNames.length) {
-      this._dynamicSharedStateNames.clear();
       if (this._product.sharedStateDefinitions !== undefined) {
         this._product.sharedStateDefinitions = undefined;
       }
@@ -1663,7 +1658,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
 
     const sharedStateDefinitions: StateDefinitionsInput<Record<string, unknown>> = {};
     const cacheKeys: string[] = [];
-    const dynamicSharedStateNames = new Set<string>();
 
     stateNames.forEach(stateName => {
       const encoder = this._encoderOfState[stateName];
@@ -1695,7 +1689,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
 
       if (dynamicKeys.length) {
-        dynamicSharedStateNames.add(stateName);
         definition.declaredAffectedKeys = dynamicKeys;
         definition.resolver = ({ graphic }: StateResolveContext<Record<string, unknown>>) =>
           this._runEncoderOfGraphic(dynamicEncoder, graphic as IMarkGraphic);
@@ -1720,7 +1713,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     });
 
     if (!cacheKeys.length) {
-      this._dynamicSharedStateNames.clear();
       if (this._product.sharedStateDefinitions !== undefined) {
         this._product.sharedStateDefinitions = undefined;
       }
@@ -1728,7 +1720,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
 
     const cacheKey = cacheKeys.sort().join('||');
-    this._dynamicSharedStateNames = dynamicSharedStateNames;
     if (cacheKey === this._sharedStateDefinitionsCacheKey && this._sharedStateDefinitionsCache) {
       if (this._product.sharedStateDefinitions !== this._sharedStateDefinitionsCache) {
         this._product.sharedStateDefinitions = this._sharedStateDefinitionsCache;
@@ -1761,12 +1752,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   }
 
   protected _excludeStateControlledDiffAttrs(g: IMarkGraphic, diffAttrs: Record<string, any>) {
-    if (!diffAttrs || !Object.keys(diffAttrs).length) {
+    if (!diffAttrs || !Object.keys(diffAttrs).length || !g.resolvedStatePatch) {
       return diffAttrs;
     }
 
     let nextDiffAttrs: Record<string, any>;
-    const excludeKey = (key: string) => {
+    Object.keys(g.resolvedStatePatch).forEach(key => {
       if (!(key in diffAttrs)) {
         return;
       }
@@ -1774,18 +1765,6 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         nextDiffAttrs = { ...diffAttrs };
       }
       delete nextDiffAttrs[key];
-    };
-
-    if (g.resolvedStatePatch) {
-      Object.keys(g.resolvedStatePatch).forEach(excludeKey);
-    }
-
-    g.context.states?.forEach(stateName => {
-      const encoder = this._encoderOfState?.[stateName];
-
-      if (encoder) {
-        Object.keys(encoder).forEach(excludeKey);
-      }
     });
 
     return nextDiffAttrs ?? diffAttrs;

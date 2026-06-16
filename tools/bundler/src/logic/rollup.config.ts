@@ -1,6 +1,7 @@
 import type { RollupOptions, Plugin } from 'rollup';
 import type { RawPackageJson } from './package';
 import type { BabelPlugins } from './babel.config';
+import type { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
 // import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel';
 
 import resolve from '@rollup/plugin-node-resolve';
@@ -27,6 +28,13 @@ function getExternal(
   return Object.keys(rawPackageJson.peerDependencies || {});
 }
 
+function getNodeResolveOptions(entry: string, config: Config): RollupNodeResolveOptions {
+  if (typeof config.nodeResolveOptions === 'function') {
+    return config.nodeResolveOptions(entry, config) ?? {};
+  }
+  return config.nodeResolveOptions ?? {};
+}
+
 export function getRollupOptions(
   projectRoot: string,
   entry: string,
@@ -39,7 +47,7 @@ export function getRollupOptions(
     external: getExternal(rawPackageJson, config.external),
     ...config.rollupOptions,
     plugins: [
-      resolve(),
+      resolve(getNodeResolveOptions(entry, config)),
       commonjs(),
       babel({ ...babelPlugins, babelHelpers: 'bundled' }),
       replace({ ...config.envs, preventAssignment: true }),

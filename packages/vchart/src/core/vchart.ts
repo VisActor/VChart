@@ -666,7 +666,7 @@ export class VChart implements IVChart {
       this._updateAnimateState(true);
     }
 
-    this._reCompile(updateSpecResult as IUpdateSpecResult);
+    this._reCompile(updateSpecResult as IUpdateSpecResult, option.morphConfig);
     if (isUpdateSpecResultLocalOnly(updateSpecResult as IUpdateSpecResult)) {
       return this as unknown as IVChart;
     }
@@ -681,7 +681,7 @@ export class VChart implements IVChart {
     if (!updateSpecResult) {
       return false;
     }
-    this._reCompile(updateSpecResult);
+    this._reCompile(updateSpecResult, option.morphConfig);
     return this._beforeRender(option);
   }
 
@@ -707,8 +707,9 @@ export class VChart implements IVChart {
     }
 
     if (updateResult.reMake) {
-      // 如果不需要动画，那么释放item，避免元素残留
-      this._compiler?.releaseGrammar(true);
+      const cacheGrammarForMorph = this.isAnimationEnable() && morphConfig?.morph !== false;
+      // morph 需要保留上一轮 simple mark product，后续 compiler.compile 会统一 diff 并释放未使用的旧 product。
+      this._compiler?.releaseGrammar(!cacheGrammarForMorph);
     } else if (updateResult.reCompile) {
       // recompile
       // 清除之前的所有 compile 内容

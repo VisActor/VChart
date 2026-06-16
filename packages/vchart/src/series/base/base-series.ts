@@ -1466,16 +1466,22 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
         m.setGroupKey(groupKey);
       }
 
+      const markCanMorph = config.morph ?? false;
+      const defaultMorphKeyIndex =
+        this.getMarks().filter(mark => mark.type === MarkTypeEnum.group || mark.getMarkConfig().morph).length +
+        (markCanMorph ? 1 : 0);
+      const morphKey =
+        spec.morph?.morphKey || (markCanMorph ? `${this.getSpecIndex()}_${defaultMorphKeyIndex}` : undefined);
       const markConfig: IMarkConfig = {
         ...config,
         progressiveStep: (spec as IMarkProgressiveConfig).progressiveStep,
         progressiveThreshold: (spec as IMarkProgressiveConfig).progressiveThreshold,
         large: (spec as IMarkProgressiveConfig).large,
         largeThreshold: (spec as IMarkProgressiveConfig).largeThreshold,
-        morph: config.morph ?? false,
+        morph: markCanMorph,
         useSequentialAnimation: (spec as any).useSequentialAnimation,
         support3d: config.support3d ?? (spec.support3d || !!(spec as any).zField),
-        morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
+        morphKey,
         morphElementKey: spec.morph?.morphElementKey ?? config.morphElementKey
       };
 
