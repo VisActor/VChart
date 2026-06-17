@@ -12,7 +12,8 @@ const baseData = [
     title: 'Discover',
     content:
       'Collect the first signal and frame the story. Capture every relevant detail from the source material ' +
-      'so the audience can reconstruct the same context the author had when starting the analysis.',
+      'so the audience can reconstruct the same context the author had when starting the analysis.' +
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
     subImage: SUB_IMAGE_URL
   },
@@ -21,7 +22,8 @@ const baseData = [
     title: 'Group',
     content:
       'Arrange related facts into a compact block, removing duplicates and aligning each fragment ' +
-      'to the central theme so readers can scan supporting evidence at a glance without losing context.',
+      'to the central theme so readers can scan supporting evidence at a glance without losing context.' +
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
     subImage: SUB_IMAGE_URL
   },
@@ -30,7 +32,8 @@ const baseData = [
     title: 'Connect',
     content:
       'Draw the reading path between blocks. Use repeating motifs, parallel sentence structures ' +
-      'and visual cues to establish a continuous flow that walks the reader from premise to conclusion.',
+      'and visual cues to establish a continuous flow that walks the reader from premise to conclusion.' +
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
     subImage: SUB_IMAGE_URL
   },
@@ -39,7 +42,8 @@ const baseData = [
     title: 'Emphasize',
     content:
       'Use image, title, and copy as one visual unit. Highlight the most important facts with typography ' +
-      'weight, color contrast or motion so the eye instinctively returns to them while scanning.',
+      'weight, color contrast or motion so the eye instinctively returns to them while scanning.' +
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
     subImage: SUB_IMAGE_URL
   },
@@ -48,7 +52,8 @@ const baseData = [
     title: 'Resolve',
     content:
       'End with a clear takeaway. Summarize the lesson, point out the next decision the audience ' +
-      'should make and remove any ambiguity so the story closes with a satisfying, actionable conclusion.',
+      'should make and remove any ambiguity so the story closes with a satisfying, actionable conclusion.' +
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
     image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
     subImage: SUB_IMAGE_URL
   }
@@ -66,11 +71,14 @@ const buildData = (layout: StorylineLayoutType) => {
   const count = randomCountByLayout[layout];
   return Array.from({ length: count }, (_, index) => {
     const seed = baseData[index % baseData.length];
+    // portrait 布局：附加 marker 时间节点（2012、2013…）以便沿中轴纵向展示
+    const marker = layout === 'portrait' ? String(2012 + index) : undefined;
     return {
       ...seed,
       id: `${layout}-${index}-${seed.id}`,
       title: `${seed.title} ${index + 1}`,
-      content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`]
+      content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`],
+      ...(marker ? { marker } : {})
     };
   });
 };
@@ -78,17 +86,17 @@ const buildData = (layout: StorylineLayoutType) => {
 // 通用 title / content 样式（所有布局共享）
 const commonTitle: IStorylineSpec['title'] = {
   style: {
-    fontSize: 14,
-    fill: '#1f2533',
-    fontWeight: 700
+    // fontSize: 14,
+    // fill: '#1f2533',
+    // fontWeight: 700
   }
 };
 
 const commonContent: IStorylineSpec['content'] = {
   style: {
-    fontSize: 12,
-    lineHeight: 17,
-    fill: '#596579'
+    // fontSize: 12,
+    // lineHeight: 17,
+    // fill: '#596579'
   }
 };
 
@@ -105,69 +113,41 @@ const commonLine: IStorylineSpec['line'] = {
 
 const themeColor = 'rgb(228,154,56)';
 
+const WIDTH = 1920;
+const HEIGHT = 1080;
+
 // landscape：图片错落 + 贯穿曲线，block 含上下两个卡片，垂直空间更大
 const createLandscapeSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   padding: 20,
+  width: WIDTH,
+  height: HEIGHT,
   data: buildData(layout),
   layout,
   themeColor,
-  block: {
-    widthRatio: 0.22,
-    minWidth: 200,
-    maxWidth: 260,
-    height: 260,
-    padding: 12,
-    gap: 40,
-    style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
-  },
-  image: { gap: 0 },
-  title: commonTitle,
-  content: commonContent,
   line: commonLine
 });
 
-// portrait：上下预留 50px，中轴贯穿，block.height 由 transformer 自适应
+// portrait：默认 block.height = regionHeight / count，imageHeight = blockHeight * 0.4，
+// contentHeight = blockHeight * 0.6；底部 padding 默认 = contentHeight，由 transformer 自动应用。
 const createPortraitSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
-  padding: [50, 20, 50, 20],
+  height: WIDTH,
+  width: HEIGHT,
   data: buildData(layout),
   layout,
-  themeColor,
-  block: {
-    widthRatio: 0.28,
-    minWidth: 220,
-    maxWidth: 320,
-    padding: 12,
-    gap: 40,
-    style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
-  },
-  image: { gap: 0, showBackground: true },
-  title: commonTitle,
-  content: commonContent,
-  line: commonLine
+  themeColor
 });
 
 // arc：弧形布局，通过 direction 切换 dome（'up'）/ bowl（'down'）
 const createArcSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   padding: [50, 20, 100, 20],
+  width: WIDTH,
+  height: HEIGHT,
   data: buildData(layout),
-  layout: { type: 'arc', direction: 'down' },
+  layout: { type: 'arc', direction: 'up' },
   themeColor,
-  block: {
-    widthRatio: 0.28,
-    minWidth: 220,
-    maxWidth: 320,
-    height: 300,
-    padding: 12,
-    gap: 40,
-    style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
-  },
-  image: { position: 'left', gap: 12 },
-  title: commonTitle,
-  content: commonContent,
-  line: commonLine,
   centerImage: {
     image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
   }
@@ -176,11 +156,11 @@ const createArcSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
 // clock：环绕式时间线，需要 centerImage 作为盘心
 const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
-  width: 1600,
-  height: 700,
+  height: HEIGHT,
+  width: WIDTH,
   padding: [20, 20, 50, 20],
   layout: 'clock',
-  themeColor: '#C8102E',
+  themeColor,
   // background: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
   data: [
     {
@@ -197,7 +177,7 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
       title: '贝利天才登场',
       content:
         '1958年瑞典世界杯成为足球新王登基的舞台。年仅十七岁的贝利首次代表巴西出战，在四分之一决赛对威尔士贡献关键进球，半决赛对法国上演帽子戏法，决赛对东道主瑞典再度梅开二度，帮助巴西首夺世界杯冠军。',
-      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1958.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'mexico-1986',
@@ -206,7 +186,7 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '1986年墨西哥世界杯由马拉多纳一人定义。四分之一决赛对英格兰，' +
         '他先用左手将球送入网窝制造『上帝之手』，紧接着又从中圈带球连过五人攻入世纪进球，' +
         '让阿根廷在马岛战争阴影下挣得舆论高地。半决赛对比利时再献两粒精彩入球，最终阿根廷3比2夺冠。',
-      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1986.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'france-1998',
@@ -215,14 +195,14 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '1998年法国世界杯由东道主自己谱写童话。决赛在圣丹尼新落成的法兰西大球场进行，' +
         '齐达内两次起跳头槌破门，将卫冕冠军巴西打懵，最终法国3比0大胜首夺世界杯。' +
         '比赛终场哨响时，香榭丽舍大街涌入百万球迷，蓝白红的海洋与齐达内剪影一同映在凯旋门上。',
-      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1998.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'germany-2014',
       title: '战车碾过马拉卡纳',
       content:
         '2014年巴西世界杯德国队成为最大赢家。半决赛德国在贝洛奥里藏特7比1血洗东道主巴西，决赛在传奇的马拉卡纳球场进行，加时赛第113分钟，戈策胸停凌空抽射打进绝杀，德国时隔24年再夺世界杯。',
-      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-2014.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'qatar-2022',
@@ -235,62 +215,18 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
       image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     }
   ],
-  block: {
-    widthRatio: 0.28,
-    minWidth: 220,
-    maxWidth: 320,
-    height: 300,
-    padding: 12,
-    gap: 40,
-    style: {
-      fill: 'rgba(255,255,255,0.92)',
-      stroke: 'rgba(200,16,46,0.2)',
-      lineWidth: 1,
-      cornerRadius: 8
-    }
-  },
-  image: {
-    gap: 12,
-    width: 300,
-    height: 300
-  },
-  title: {
-    style: {
-      fontSize: 15,
-      fontWeight: 800,
-      fill: '#C8102E'
-    }
-  },
-  content: {
-    style: {
-      fontSize: 12,
-      lineHeight: 17,
-      fill: '#4a4a4a'
-    }
-  },
-  line: {
-    type: 'line',
-    showArrow: true,
-    style: {
-      lineWidth: 2,
-      lineCap: 'round',
-      lineJoin: 'round',
-      lineDash: [8, 4]
-    }
-  },
   centerImage: {
-    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
-    width: 300,
-    height: 300,
-    style: {
-      width: 300,
-      height: 300,
-      cornerRadius: 150
-    }
+    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
+    // width: 300,
+    // height: 300,
+    // style: {
+    //   width: 300,
+    //   height: 300,
+    //   cornerRadius: 150
+    // }
   }
 });
 
-// 默认 / ladder / spiral 等布局共用一份 spec
 const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   padding: 20,
@@ -316,40 +252,11 @@ const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
 const createWingSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   padding: [40, 40, 40, 40],
+  height: WIDTH,
+  width: HEIGHT,
   data: buildData(layout),
   layout: { type: 'wing', direction: 'right' },
-  themeColor,
-  block: {
-    widthRatio: 0.32,
-    minWidth: 280,
-    maxWidth: 360,
-    padding: 20,
-    style: { fill: '#ffffff', stroke: '#d8deea', lineWidth: 1, cornerRadius: 8 }
-  },
-  image: { width: 96, height: 96 },
-  title: {
-    style: {
-      fontSize: 22,
-      fontWeight: 800,
-      lineHeight: 28,
-      fill: themeColor
-    }
-  },
-  content: {
-    style: {
-      fontSize: 12,
-      lineHeight: 17,
-      fill: '#1f2430'
-    }
-  },
-  line: {
-    visible: true,
-    style: {
-      // 丝带起点窄、终点宽，模拟信息图主脉络
-      startWidth: 50,
-      endWidth: 350
-    } as any
-  }
+  themeColor
 });
 
 // ladder：参考 Bauhaus 信息图 —— 中央倾斜大字 headline + 两侧错落 block
@@ -357,7 +264,7 @@ const createWingSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
 const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   width: 1600,
-  height: 500,
+  height: 900,
   padding: 20,
   layout: { type: 'ladder', direction: 'up', headline: 'ladder' },
   themeColor: '#C8102E',
@@ -369,7 +276,7 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
       content:
         '1930年7月，国际足联首届世界杯在乌拉圭蒙得维的亚开幕，仅有十三支球队参赛。' +
         '东道主乌拉圭坐镇世纪球场，决赛中以4比2逆转近邻阿根廷，捧起了雷米特金杯。',
-      image: 'assets/node-uruguay-1930.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'brazil-1958',
@@ -378,7 +285,7 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '1958年瑞典世界杯成为足球新王登基的舞台。年仅十七岁的贝利首次代表巴西出战，' +
         '在四分之一决赛对威尔士贡献关键进球，半决赛对法国上演帽子戏法，' +
         '决赛对东道主瑞典再度梅开二度，帮助巴西首夺世界杯冠军。',
-      image: 'assets/node-brazil-1958.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'mexico-1986',
@@ -387,7 +294,7 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '1986年墨西哥世界杯由马拉多纳一人定义。四分之一决赛对英格兰，' +
         '他先用左手将球送入网窝制造『上帝之手』，紧接着又从中圈带球连过五人攻入世纪进球，' +
         '让阿根廷在马岛战争阴影下挣得舆论高地。',
-      image: 'assets/node-mexico-1986.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'france-1998',
@@ -395,7 +302,7 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
       content:
         '1998年法国世界杯由东道主自己谱写童话。决赛在圣丹尼新落成的法兰西大球场进行，' +
         '齐达内两次起跳头槌破门，将卫冕冠军巴西打懵，最终法国3比0大胜首夺世界杯。',
-      image: 'assets/node-france-1998.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'germany-2014',
@@ -404,7 +311,7 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '2014年巴西世界杯德国队成为最大赢家。半决赛德国在贝洛奥里藏特7比1血洗东道主巴西，' +
         '决赛在传奇的马拉卡纳球场进行，加时赛第113分钟，戈策胸停凌空抽射打进绝杀，' +
         '德国时隔24年再夺世界杯。',
-      image: 'assets/node-germany-2014.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     },
     {
       id: 'qatar-2022',
@@ -414,53 +321,9 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '阿根廷与法国上演被誉为史上最经典的对决。梅西梅开二度，' +
         '姆巴佩则上演世界杯决赛六十五年来首个帽子戏法，常规及加时赛战成3比3。' +
         '点球大战中阿根廷4比2取胜。',
-      image: 'assets/node-qatar-2022.png'
+      image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     }
-  ],
-  block: {
-    widthRatio: 0.28,
-    minWidth: 220,
-    maxWidth: 320,
-    height: 192,
-    padding: 12,
-    gap: 40,
-    style: {
-      fill: 'rgba(255,255,255,0.92)',
-      stroke: 'rgba(200,16,46,0.18)',
-      lineWidth: 1,
-      cornerRadius: 8
-    }
-  },
-  image: {
-    position: 'left',
-    gap: 12
-  },
-  title: {
-    style: {
-      fontSize: 14,
-      fontWeight: 700,
-      fill: '#1f2533',
-      fontFamily: '"Times New Roman", Times, "Songti SC", "SimSun", serif'
-    }
-  },
-  content: {
-    style: {
-      fontSize: 12,
-      lineHeight: 17,
-      fill: '#596579',
-      fontFamily: '"Songti SC", "STSong", "SimSun", serif'
-    }
-  },
-  line: {
-    type: 'line',
-    showArrow: true,
-    style: {
-      lineWidth: 1.5,
-      lineCap: 'round',
-      lineJoin: 'round',
-      lineDash: [6, 5]
-    }
-  }
+  ]
 });
 
 const specBuilderByLayout: Partial<Record<StorylineLayoutType, (layout: StorylineLayoutType) => IStorylineSpec>> = {
@@ -513,7 +376,7 @@ const run = () => {
     window.vchart = cs;
   };
 
-  select.value = layouts[2];
+  select.value = 'clock';
   render(select.value as StorylineLayoutType);
 
   select.addEventListener('change', () => {

@@ -14,20 +14,29 @@ import {
 } from './common';
 
 // portrait 布局：中轴 rect + 左右交替的 image + image 下方 title/content
-const PORTRAIT_AXIS_WIDTH = 64;
+// 中轴默认加宽，便于在轴上叠放 block.marker 时间节点文字（纵向逐字排列）
+const PORTRAIT_AXIS_WIDTH = 96;
 const PORTRAIT_AXIS_PADDING = 50; // 中轴上下两端的留白
-const PORTRAIT_IMAGE_WIDTH = 180;
-const PORTRAIT_IMAGE_HEIGHT = 110;
+// marker 时间节点文字的默认样式（fontSize 30、白色字、贴轴对应一侧边缘）
+const PORTRAIT_MARKER_FONT_SIZE = 40;
+const PORTRAIT_MARKER_LINE_HEIGHT = 28;
+const PORTRAIT_MARKER_AXIS_PADDING = 6; // marker 距离轴边缘的水平内边距
+// image 默认尺寸的占比规则（基于 region 平均槽位）：
+// - image 高度  = slotHeight * 0.6
+// - content 高度 = slotHeight * (0.6 + 0.4)
+// 其中 slotHeight = regionHeight / (blockCount + 1)，由 getLayout 计算。
+export const PORTRAIT_IMAGE_HEIGHT_RATIO = 0.6;
+export const PORTRAIT_CONTENT_HEIGHT_RATIO = 1;
 const PORTRAIT_IMAGE_GAP_FROM_AXIS = 24; // image 与中轴之间的水平间距
 const PORTRAIT_SHADOW_OFFSET_X = 24; // subImage 相对主 image 的水平错位量
 const PORTRAIT_SHADOW_OFFSET_Y = 16; // subImage 相对主 image 的垂直错位量
 const PORTRAIT_SHADOW_SCALE = 1; // subImage 与主 image 同尺寸，仅做错位偏移
-const PORTRAIT_TEXT_GAP_FROM_IMAGE = 8;
-const PORTRAIT_CONTENT_LINES = 3;
-const PORTRAIT_TITLE_LINE_HEIGHT = 19;
-const PORTRAIT_CONTENT_LINE_HEIGHT = 18;
-const PORTRAIT_CONTENT_FONT_SIZE = 12;
-const PORTRAIT_TITLE_TO_CONTENT_GAP = 4;
+export const PORTRAIT_TEXT_GAP_FROM_IMAGE = 8;
+export const PORTRAIT_CONTENT_LINES = 3;
+export const PORTRAIT_TITLE_LINE_HEIGHT = 34;
+export const PORTRAIT_CONTENT_LINE_HEIGHT = 26;
+const PORTRAIT_CONTENT_FONT_SIZE = 18;
+export const PORTRAIT_TITLE_TO_CONTENT_GAP = 4;
 
 /**
  * 获取 portrait 布局的中轴 rect 尺寸：宽度固定，高度贯穿首/尾 block 中心。
@@ -64,6 +73,67 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
       { offset: 1, color: withAlpha(themeColor, 1) }
     ]
   };
+  // marker 时间节点文字：垂直方向逐字排列（每字符换行）
+  const markerFontSize = Number((spec.marker?.style as any)?.fontSize ?? PORTRAIT_MARKER_FONT_SIZE);
+  const markerLineHeight = Number((spec.marker?.style as any)?.lineHeight ?? PORTRAIT_MARKER_LINE_HEIGHT);
+  const markerVisible = spec.marker?.visible !== false;
+  // 把 "2012" 拆成 "2\n0\n1\n2"，由 text mark 的多行文本能力实现纵向排列
+  const splitVertical = (text: string) => text.split('').join('\n');
+
+  const markerMarks = markerVisible
+    ? (spec.data ?? [])
+        .map((block, index) => {
+          if (!block.marker) {
+            return null;
+          }
+          // image 在 block 左侧时（index 偶数），marker 贴轴左边缘 + 左对齐；
+          // image 在 block 右侧时（index 奇数），marker 贴轴右边缘 + 右对齐。
+          const onLeft = index % 2 === 0;
+          const axisHalf = PORTRAIT_AXIS_WIDTH / 2;
+          const markerOffsetX = onLeft
+            ? -axisHalf + PORTRAIT_MARKER_AXIS_PADDING
+            : axisHalf - PORTRAIT_MARKER_AXIS_PADDING;
+          const markerTextAlign: 'left' | 'right' = onLeft ? 'left' : 'right';
+          return {
+            type: 'text',
+            textType: 'rich',
+            name: `storyline-portrait-marker-${index}`,
+            interactive: false,
+            ...spec.marker,
+            style: {
+              x: (_d: unknown, ctx: LayoutContext) => {
+                const lb = getLayout(spec, ctx).blocks[index];
+                return (lb?.center?.x ?? 0) + markerOffsetX;
+              },
+              y: (_d: unknown, ctx: LayoutContext) => {
+                const lb = getLayout(spec, ctx).blocks[index];
+                return lb?.center?.y ?? 0;
+              },
+              text: {
+                type: 'rich',
+                text: block.marker.split('').map((char, i, arr) => ({
+                  text: char + (i < arr.length - 1 ? '\n' : ''),
+                  fontSize: markerFontSize,
+                  lineHeight: markerLineHeight,
+                  fill: '#fff',
+                  align: markerTextAlign
+                }))
+              },
+              fontWeight: 'bold',
+              lineJoin: 'round',
+              shadowColor: 'rgba(0, 0, 0, 0.3)',
+              shadowBlur: 8,
+              shadowOffsetX: 0,
+              shadowOffsetY: 5,
+              textAlign: markerTextAlign,
+              textBaseline: 'middle',
+              ...(spec.marker?.style as any)
+            }
+          } as ICustomMarkSpec<'text'>;
+        })
+        .filter(Boolean)
+    : [];
+
   return {
     type: 'group' as any,
     name: 'storyline-portrait-axis',
@@ -83,13 +153,14 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
           width: (_d: unknown, ctx: LayoutContext) => getPortraitAxisRect(spec, ctx).width,
           height: (_d: unknown, ctx: LayoutContext) => getPortraitAxisRect(spec, ctx).height
         }
-      } as ICustomMarkSpec<'rect'>
+      } as ICustomMarkSpec<'rect'>,
+      ...(markerMarks as ICustomMarkSpec<any>[])
     ]
   };
 };
 
 const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeight: number, index: number) => {
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
   const titleLineHeight = Number(
     (spec.title?.style as any)?.lineHeight ?? Math.max(PORTRAIT_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
@@ -97,13 +168,14 @@ const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeigh
   const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? PORTRAIT_CONTENT_LINE_HEIGHT);
   const titleToContentGap = PORTRAIT_TITLE_TO_CONTENT_GAP;
 
-  const imageWidth = spec.image?.width ?? PORTRAIT_IMAGE_WIDTH;
-  const imageHeight = spec.image?.height ?? PORTRAIT_IMAGE_HEIGHT;
+  // 默认 image 高度 = blockHeight * 0.4（blockHeight = regionHeight / count，由 getLayout 计算）；
+  // 默认 image 宽度 = blockWidth，让 image 横向自适应单个 block 槽位宽度
+  const imageWidth = spec.image?.width ?? Math.max(blockWidth, 80);
+  const imageHeight = spec.image?.height ?? Math.round(blockHeight * PORTRAIT_IMAGE_HEIGHT_RATIO);
   const minContentHeight = PORTRAIT_CONTENT_LINES * contentLineHeight;
-  const contentHeight = Math.max(
-    minContentHeight,
-    blockHeight - imageHeight / 2 - PORTRAIT_TEXT_GAP_FROM_IMAGE - titleLineHeight - titleToContentGap
-  );
+  // 默认 content 高度 = blockHeight * 0.4
+  const contentHeight = Math.max(minContentHeight, Math.round(blockHeight * PORTRAIT_CONTENT_HEIGHT_RATIO));
+
   const textHeight = titleLineHeight + titleToContentGap + contentHeight;
 
   const onLeft = index % 2 === 0;
@@ -160,12 +232,10 @@ export const buildPortraitBlockMark = (
   const hasImage = !!block.image;
   const hasSubImage = !!block.subImage;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
   const titleLineHeight = Number(
     (spec.title?.style as any)?.lineHeight ?? Math.max(PORTRAIT_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
-  // image 背后的装饰图元（错位 shadow image + mask）默认不展示
-  const showBackground = spec.image?.showBackground === true;
 
   const getMetrics = (ctx: LayoutContext) => {
     const lb = getLayout(spec, ctx).blocks[index];
@@ -192,7 +262,7 @@ export const buildPortraitBlockMark = (
       }
     },
     children: [
-      hasSubImage && showBackground
+      hasSubImage
         ? ({
             type: 'image',
             name: `storyline-block-shadow-image-${index}`,
@@ -210,22 +280,24 @@ export const buildPortraitBlockMark = (
             }
           } as ICustomMarkSpec<'image'>)
         : null,
-      {
-        type: 'rect',
-        name: `storyline-block-image-bg-${index}`,
-        interactive: false,
-        style: {
-          x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.x,
-          y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.y,
-          width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
-          height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
-          cornerRadius: 8,
-          fill: '#ffffff',
-          stroke: themeColor,
-          lineWidth: 2,
-          ...blockStyle
-        }
-      } as ICustomMarkSpec<'rect'>,
+      spec.image?.showBackground === true
+        ? ({
+            type: 'rect',
+            name: `storyline-block-image-bg-${index}`,
+            interactive: false,
+            style: {
+              x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.x,
+              y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.y,
+              width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
+              cornerRadius: 8,
+              fill: '#ffffff',
+              stroke: themeColor,
+              lineWidth: 2,
+              ...blockStyle
+            }
+          } as ICustomMarkSpec<'rect'>)
+        : null,
       hasImage
         ? ({
             type: 'image',
@@ -284,9 +356,11 @@ export const buildPortraitBlockMark = (
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.width,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
-              text: buildRichContent(contentText, spec),
-              fontSize: PORTRAIT_CONTENT_FONT_SIZE,
-              lineHeight: PORTRAIT_CONTENT_LINE_HEIGHT,
+              text: buildRichContent(contentText, spec, {
+                fontSize: PORTRAIT_CONTENT_FONT_SIZE,
+                lineHeight: PORTRAIT_CONTENT_LINE_HEIGHT,
+                fill: '#596173'
+              }),
               textAlign: 'left',
               textBaseline: 'top',
               wordBreak: 'break-word',

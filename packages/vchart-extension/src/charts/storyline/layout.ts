@@ -55,7 +55,9 @@ export interface StorylineComputeOptions {
 const DEFAULT_LAYOUT: StorylineLayoutType = 'landscape';
 const DEFAULT_PADDING = 24;
 
-export const normalizePadding = (padding?: number | [number, number, number, number]): StorylinePadding => {
+export const normalizePadding = (
+  padding?: number | [number, number, number, number] | { top?: number; right?: number; bottom?: number; left?: number }
+): StorylinePadding => {
   if (Array.isArray(padding)) {
     return {
       top: padding[0] ?? 0,
@@ -64,7 +66,15 @@ export const normalizePadding = (padding?: number | [number, number, number, num
       left: padding[3] ?? 0
     };
   }
-  const value = padding ?? DEFAULT_PADDING;
+  if (padding && typeof padding === 'object' && 'top' in padding) {
+    return {
+      top: (padding as { top?: number }).top ?? 0,
+      right: (padding as { right?: number }).right ?? 0,
+      bottom: (padding as { bottom?: number }).bottom ?? 0,
+      left: (padding as { left?: number }).left ?? 0
+    };
+  }
+  const value = (padding as number | undefined) ?? DEFAULT_PADDING;
   return { top: value, right: value, bottom: value, left: value };
 };
 

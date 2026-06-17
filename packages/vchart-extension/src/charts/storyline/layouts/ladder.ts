@@ -46,11 +46,11 @@ const LADDER_DIAGONAL_LINE_WIDTH = 2;
 const LADDER_DIAGONAL_DASH = [12, 8];
 
 // ladder 中 block 的默认视觉参数（比通用默认值更大，符合 Bauhaus 信息图风格）
-const LADDER_BLOCK_IMAGE_SIZE = 96;
+const LADDER_BLOCK_IMAGE_SIZE = 100;
 const LADDER_TITLE_FONT_SIZE = 28;
-const LADDER_TITLE_LINE_HEIGHT = 36;
-const LADDER_CONTENT_FONT_SIZE = 16;
-const LADDER_CONTENT_LINE_HEIGHT = 24;
+const LADDER_TITLE_LINE_HEIGHT = 26;
+const LADDER_CONTENT_FONT_SIZE = 18;
+const LADDER_CONTENT_LINE_HEIGHT = 26;
 
 const isDownLadder = (spec: IStorylineSpec) => normalizeLayout(spec.layout).direction === 'down';
 
@@ -347,10 +347,12 @@ export const buildLadderBlockMark = (
               x: (_d: unknown, ctx: LayoutContext) => getTitleX(ctx),
               y: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).contentBox.y,
               width: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
-              text: buildRichContent(contentText, spec),
+              text: buildRichContent(contentText, spec, {
+                fontSize: LADDER_CONTENT_FONT_SIZE,
+                lineHeight: LADDER_CONTENT_LINE_HEIGHT,
+                align: align as 'left' | 'right'
+              }),
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
-              fontSize: LADDER_CONTENT_FONT_SIZE,
-              lineHeight: LADDER_CONTENT_LINE_HEIGHT,
               heightLimit: (_d: unknown, ctx: LayoutContext) =>
                 getLadderBlockMetrics(spec, ctx, index).contentBox.height,
               textBaseline: 'top',

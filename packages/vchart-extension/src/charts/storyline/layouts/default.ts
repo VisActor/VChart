@@ -128,24 +128,26 @@ export const buildDefaultBlockMark = (
       height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).block.height
     },
     children: [
-      {
-        type: 'rect',
-        name: `storyline-block-bg-${index}`,
-        interactive: false,
-        style: {
-          x: 0,
-          y: 0,
-          width: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).block.width,
-          height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).block.height,
-          cornerRadius: 8,
-          fill: '#ffffff',
-          stroke: '#d7dce5',
-          lineWidth: 1,
-          shadowBlur: 6,
-          shadowColor: 'rgba(0, 0, 0, 0.08)',
-          ...spec.block?.style
-        }
-      },
+      spec.block?.showBackground === true
+        ? ({
+            type: 'rect',
+            name: `storyline-block-bg-${index}`,
+            interactive: false,
+            style: {
+              x: 0,
+              y: 0,
+              width: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).block.width,
+              height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).block.height,
+              cornerRadius: 8,
+              fill: '#ffffff',
+              stroke: '#d7dce5',
+              lineWidth: 1,
+              shadowBlur: 6,
+              shadowColor: 'rgba(0, 0, 0, 0.08)',
+              ...spec.block?.style
+            }
+          } as ICustomMarkSpec<'rect'>)
+        : null,
       hasImage
         ? ({
             type: 'image',
@@ -198,11 +200,13 @@ export const buildDefaultBlockMark = (
               x: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).textBox.x,
               y: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).contentBox.y,
               width: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).textBox.width,
-              text: buildRichContent(contentText, spec),
+              text: buildRichContent(contentText, spec, {
+                fontSize: 18,
+                lineHeight: 26,
+                fill: '#596173'
+              }),
               maxLineWidth: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).textBox.width,
-              fontSize: 12,
-              lineHeight: 18,
               heightLimit: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).contentBox.height,
               textAlign: 'left',

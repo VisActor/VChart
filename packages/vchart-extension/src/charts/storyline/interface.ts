@@ -24,10 +24,15 @@ export interface IStorylineBlock {
   image?: string | HTMLImageElement | HTMLCanvasElement;
   /**
    * 绘制在主 image 背后的装饰图（如 portrait 布局的错位 shadow image）。
-   * 仅在对应布局的 image.showBackground 为 true 时生效。
    * 若未配置，则不会绘制装饰 image。
    */
   subImage?: string | HTMLImageElement | HTMLCanvasElement;
+  /**
+   * 时间节点文本（如 "2012"）。
+   * 仅 portrait 布局生效：在中轴 rect 上沿每个 block 的 center.y 处纵向绘制。
+   * 配合 spec.marker 控制样式与显隐。
+   */
+  marker?: string;
   datum?: unknown;
 }
 
@@ -85,13 +90,10 @@ export interface IStorylineImageSpec extends IMarkSpec<IImageMarkSpec> {
   position?: StorylineImagePosition;
   gap?: number;
   /**
-   * 是否展示 image 背后的装饰图元（halo / shadow / 背景 rect 等）。
-   * 不同布局对应的装饰图元不同：
-   * - wing: 圆形 halo symbol
-   * - portrait: 错位 shadow image + mask
-   * - clock: 楔形/圆形背景 rect
-   * - dome / bowl / landscape: image-bg（无图时的占位 rect 不受此开关影响）
+   * 是否展示 image 背后的白色背景 rect（白底 + 主题色描边）。
+   * portrait / landscape / wing 等布局支持。
    * 默认 false（不展示）。
+   * 注：不影响 subImage（错位装饰图元的显隐。
    */
   showBackground?: boolean;
 }
@@ -124,5 +126,10 @@ export interface IStorylineSpec extends Omit<IChartSpec, 'type' | 'data' | 'seri
   image?: IStorylineImageSpec;
   centerImage?: IStorylineCenterImageSpec;
   line?: IStorylineLineSpec;
+  /**
+   * 时间节点文本配置（仅 portrait 布局生效）。
+   * 当 spec.data[i].marker 有值时，在中轴 rect 上沿垂直方向绘制每个 block 的时间节点文本。
+   */
+  marker?: IMarkSpec<ITextMarkSpec>;
   themeColor?: string;
 }

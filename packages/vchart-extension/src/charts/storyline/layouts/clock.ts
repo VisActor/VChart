@@ -32,24 +32,24 @@ import {
  */
 
 // ===== 半径配置（按可用半径的比例划分各圈层）=====
-const CLOCK_CENTER_RADIUS_RATIO = 0.5; // 中心圆半径
-const CLOCK_CENTER_IMAGE_INSET_RATIO = 0.86; // centerImage 相对中心圆的尺寸比例（留出环形空隙）
-const CLOCK_ORBIT_RATIO = 0.58; // 虚线轨道半径
-const CLOCK_DOT_RATIO = 0.58; // 圆形小图（dot）中心所在半径（与轨道重合）
-const CLOCK_TEXT_INNER_RATIO = 0.7; // block 文字段起始半径
-const CLOCK_TEXT_MAX_WIDTH = 200; // 文字段最大宽度，避免靠近正上/正下的 block 占满整个画布半宽
+const CLOCK_CENTER_RADIUS_RATIO = 0.6; // 中心圆半径（更大）
+const CLOCK_CENTER_IMAGE_INSET_RATIO = 0.9; // centerImage 相对中心圆的尺寸比例（留出环形空隙）
+const CLOCK_ORBIT_RATIO = 0.68; // 虚线轨道半径
+const CLOCK_DOT_RATIO = 0.68; // 圆形小图（dot）中心所在半径（与轨道重合）
+const CLOCK_TEXT_INNER_RATIO = 0.92; // block 文字段起始半径（距离圆心更远）
+const CLOCK_TEXT_MAX_WIDTH = 280; // 文字段最大宽度
 
 // ===== 元素尺寸 =====
-const CLOCK_DOT_DIAMETER_RATIO = 0.24; // dot 直径相对 R
+const CLOCK_DOT_DIAMETER_RATIO = 0.32; // dot 直径相对 R（更大）
 const CLOCK_LEAD_LINE_GAP = 6; // dot 到引线起点的间距 px
 const CLOCK_TEXT_GAP_FROM_LEAD = 8; // 引线到文字的间距 px
 const CLOCK_ORBIT_DASH = [4, 4];
 
 // ===== 文字 =====
-const CLOCK_TITLE_FONT_SIZE = 18;
-const CLOCK_TITLE_LINE_HEIGHT = 24;
-const CLOCK_CONTENT_FONT_SIZE = 11;
-const CLOCK_CONTENT_LINE_HEIGHT = 15;
+const CLOCK_TITLE_FONT_SIZE = 22;
+const CLOCK_TITLE_LINE_HEIGHT = 28;
+const CLOCK_CONTENT_FONT_SIZE = 16;
+const CLOCK_CONTENT_LINE_HEIGHT = 22;
 
 // ===== 几何 =====
 
@@ -68,7 +68,15 @@ const getClockGeometry = (spec: IStorylineSpec, ctx: LayoutContext): ClockGeomet
   const innerHeight = Math.max(height - padding.top - padding.bottom, 1);
   const cx = startX + padding.left + innerWidth / 2;
   const cy = startY + padding.top + innerHeight / 2;
-  const R = Math.max(Math.min(innerWidth, innerHeight) / 2, 1);
+  // R 需要预留 text 向外延伸的空间：
+  // - title 在 anchor 朝向圆心一侧（不占用外圈空间）
+  // - content 在 anchor 远离圆心一侧，需要预留 content 的高度
+  // - 水平方向：text 从 0.92R 向外延伸 CLOCK_TEXT_MAX_WIDTH
+  const textReserveX = CLOCK_TEXT_MAX_WIDTH;
+  const textReserveY = 4 + CLOCK_CONTENT_LINE_HEIGHT * 4;
+  const rMaxX = (innerWidth / 2 - textReserveX) / CLOCK_TEXT_INNER_RATIO;
+  const rMaxY = (innerHeight / 2 - textReserveY) / CLOCK_TEXT_INNER_RATIO;
+  const R = Math.max(Math.min(rMaxX, rMaxY), 1);
   const count = spec.data?.length ?? 0;
   const step = count > 0 ? (Math.PI * 2) / count : 0;
   return { cx, cy, R, count, step };
@@ -145,6 +153,8 @@ export const buildClockCenterImageMark = (spec: IStorylineSpec): IExtensionGroup
               repeatY: 'no-repeat',
               imageMode: 'cover',
               imagePosition: 'center',
+              cornerRadius: (_d: unknown, ctx: LayoutContext) =>
+                getClockGeometry(spec, ctx).R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO,
               // 默认锚点设为 image 中心，让 scaleX/scaleY 从中心缩放
               anchor: (_d: unknown, ctx: LayoutContext) => {
                 const g = getClockGeometry(spec, ctx);
@@ -322,7 +332,8 @@ export const buildClockBlockMark = (
             repeatX: 'no-repeat',
             repeatY: 'no-repeat',
             imageMode: 'cover',
-            imagePosition: 'center'
+            imagePosition: 'center',
+            cornerRadius: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter / 2
           }
         } as ICustomMarkSpec<'image'>)
       : ({

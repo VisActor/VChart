@@ -21,11 +21,11 @@ const LANDSCAPE_DETACHED_GAP = 64;
 const LANDSCAPE_CONNECTOR_ARROW_SIZE = 9;
 const LANDSCAPE_CONNECTOR_X_RATIO = 0.2; // 引导线 x 位于 image 左侧 20% 处
 const LANDSCAPE_TEXT_GAP_FROM_CONNECTOR = 12; // 文字距离引导线的水平间距
-// content 区固定为 4 行，整体 textHeight = titleLineHeight + titleGap + contentLines * contentLineHeight
-const LANDSCAPE_CONTENT_LINES = 4;
-const LANDSCAPE_TITLE_LINE_HEIGHT = 19;
-const LANDSCAPE_CONTENT_LINE_HEIGHT = 18;
-const LANDSCAPE_CONTENT_FONT_SIZE = 12;
+// content 区固定为 10 行，整体 textHeight = titleLineHeight + titleGap + contentLines * contentLineHeight
+const LANDSCAPE_CONTENT_LINES = 10;
+const LANDSCAPE_TITLE_LINE_HEIGHT = 34;
+const LANDSCAPE_CONTENT_LINE_HEIGHT = 26;
+const LANDSCAPE_CONTENT_FONT_SIZE = 18;
 const LANDSCAPE_TITLE_TO_CONTENT_GAP = 4;
 
 /**
@@ -107,7 +107,7 @@ export const buildLandscapeConnectingCurve = (spec: IStorylineSpec): IExtensionG
  */
 const getLandscapeMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeight: number, index: number) => {
   const padding = normalizePadding(spec.block?.padding ?? 12);
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
   const titleLineHeight = Number(
     (spec.title?.style as any)?.lineHeight ?? Math.max(LANDSCAPE_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
   );
@@ -119,7 +119,11 @@ const getLandscapeMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeig
     titleLineHeight + padding.top + padding.bottom
   );
   const connectorGap = LANDSCAPE_DETACHED_GAP;
-  const contentHeight = LANDSCAPE_CONTENT_LINES * contentLineHeight;
+  // landscape：content 默认高度 = 图表高度 / 2，没有传 spec.height 时回退到固定行数
+  const canvasHeight = spec.height as number | undefined;
+  const contentHeight = canvasHeight
+    ? Math.max(contentLineHeight * 2, Math.round(canvasHeight / 4))
+    : LANDSCAPE_CONTENT_LINES * contentLineHeight;
   const titleToContentGap = LANDSCAPE_TITLE_TO_CONTENT_GAP;
   const textHeight = titleLineHeight + titleToContentGap + contentHeight;
 
@@ -198,7 +202,7 @@ export const buildLandscapeBlockMark = (
 ): IExtensionGroupMarkSpec => {
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
+  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
   const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
 
   const getMetrics = (ctx: LayoutContext) => {
@@ -230,7 +234,8 @@ export const buildLandscapeBlockMark = (
         const m = getMetrics(ctx);
         const cy = lb?.center?.y ?? (lb?.y ?? 0) + (lb?.height ?? 0) / 2;
         const blockH = lb?.height ?? spec.block?.height ?? DEFAULT_BLOCK_HEIGHT;
-        const stagger = (index % 2 === 0 ? -1 : 1) * blockH * 0.1;
+        // text 在上方时 group 往下偏移，text 在下方时 group 往上偏移
+        const stagger = m.textOnTop ? blockH * 0.1 : -blockH * 0.1;
         return cy - m.imageBox.height / 2 + stagger;
       },
       width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).blockWidth,
@@ -334,9 +339,11 @@ export const buildLandscapeBlockMark = (
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.width,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
-              text: buildRichContent(contentText, spec),
-              fontSize: LANDSCAPE_CONTENT_FONT_SIZE,
-              lineHeight: LANDSCAPE_CONTENT_LINE_HEIGHT,
+              text: buildRichContent(contentText, spec, {
+                fontSize: LANDSCAPE_CONTENT_FONT_SIZE,
+                lineHeight: LANDSCAPE_CONTENT_LINE_HEIGHT,
+                fill: '#596173'
+              }),
               textAlign: 'left',
               textBaseline: 'top',
               wordBreak: 'break-word',

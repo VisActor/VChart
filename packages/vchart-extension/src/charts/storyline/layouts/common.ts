@@ -90,14 +90,14 @@ export const resolveBlockWidth = (spec: IStorylineSpec, viewWidth: number) => {
 
 // ===== 容器几何信息（chart region rect）=====
 
-export const getRegionGeometry = (ctx: LayoutContext) => {
+export const getRegionGeometry = (ctx: LayoutContext, spec?: { width?: number; height?: number }) => {
   const region = ctx.chart?.getAllRegions?.()?.[0];
   const regionRect = region?.getLayoutRect?.();
   const regionStart = region?.getLayoutStartPoint?.();
   const chartRect = ctx.chart?.getLayoutRect?.();
   const bounds = ctx.getLayoutBounds?.();
-  const width = Math.max(regionRect?.width ?? chartRect?.width ?? bounds?.width?.() ?? 0, 1);
-  const height = Math.max(regionRect?.height ?? chartRect?.height ?? bounds?.height?.() ?? 0, 1);
+  const width = Math.max(regionRect?.width ?? chartRect?.width ?? bounds?.width?.() ?? spec?.width ?? 0, 1);
+  const height = Math.max(regionRect?.height ?? chartRect?.height ?? bounds?.height?.() ?? spec?.height ?? 0, 1);
   return {
     width,
     height,
@@ -109,9 +109,9 @@ export const getRegionGeometry = (ctx: LayoutContext) => {
 // ===== 布局计算（layout.ts 的封装，附加 startX/startY 平移）=====
 
 export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLayoutResult => {
-  const { width, height, startX, startY } = getRegionGeometry(ctx);
+  const { width, height, startX, startY } = getRegionGeometry(ctx, spec);
   let blockWidth = resolveBlockWidth(spec, width);
-  let blockHeight = spec.block?.height ?? DEFAULT_BLOCK_HEIGHT;
+  let blockHeight = spec.block?.height ?? (isLandscape(spec) ? 320 : DEFAULT_BLOCK_HEIGHT);
   // landscape：图片间距固定 40，根据 block 数量自适应单个 image 宽度
   if (isLandscape(spec) && !spec.block?.width) {
     const count = spec.data?.length ?? 0;
@@ -125,13 +125,16 @@ export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLa
       blockWidth = Math.max(LANDSCAPE_IMAGE_MIN_WIDTH, Math.floor(adaptive));
     }
   }
-  // portrait：每个 block 在垂直方向需要容纳 image + text，整体根据 viewBox 高度均分
+  // portrait：每个 block 在垂直方向需要容纳 image + text，整体根据 region 高度均分
+  // blockHeight = regionHeight / (count + 1)（即每个 block 的"槽位"高度），后续 portrait.ts 中：
+  //   imageHeight  = blockHeight * 0.6
+  //   contentHeight = blockHeight
   if (isPortrait(spec) && !spec.block?.height) {
     const count = spec.data?.length ?? 0;
     if (count > 0) {
-      const padding = normalizePadding(spec.block?.padding);
+      const padding = normalizePadding(spec.layout?.padding ?? spec.block?.padding);
       const innerHeight = Math.max(height - padding.top - padding.bottom, 1);
-      blockHeight = Math.max(DEFAULT_BLOCK_HEIGHT, Math.floor(innerHeight / count));
+      blockHeight = Math.max(120, Math.floor(innerHeight / (count + 1)));
     }
   }
   const result = computeStorylineLayout(spec.data ?? [], {
@@ -170,21 +173,27 @@ export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLa
 
 // ===== 文本 / 图像通用工具 =====
 
-export const buildRichContent = (contentText: string[], spec: IStorylineSpec) => {
-  const fontSize = Number((spec.content?.style as any)?.fontSize ?? 12);
-  const lineHeight = Number((spec.content?.style as any)?.lineHeight ?? 18);
-  const fill = (spec.content?.style as any)?.fill ?? '#596173';
+export const buildRichContent = (
+  contentText: string[],
+  spec: IStorylineSpec,
+  overrides?: { fontSize?: number; lineHeight?: number; fill?: string; align?: 'left' | 'center' | 'right' }
+) => {
+  const fontSize = Number(overrides?.fontSize ?? (spec.content?.style as any)?.fontSize ?? 18);
+  const lineHeight = Number(overrides?.lineHeight ?? (spec.content?.style as any)?.lineHeight ?? 26);
+  const fill = overrides?.fill ?? (spec.content?.style as any)?.fill ?? '#596173';
+  const align = overrides?.align ?? 'left';
 
   return {
     type: 'rich' as const,
-    text: contentText.reduce<{ text: string; fontSize: number; lineHeight: number; fill: string }[]>(
+    text: contentText.reduce<{ text: string; fontSize: number; lineHeight: number; fill: string; align: string }[]>(
       (result, paragraph, index) => {
         const suffix = index === contentText.length - 1 ? '' : '\n';
         result.push({
           text: `${paragraph}${suffix}`,
           fontSize,
           lineHeight,
-          fill
+          fill,
+          align
         });
         return result;
       },
