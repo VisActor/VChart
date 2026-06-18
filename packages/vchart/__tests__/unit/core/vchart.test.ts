@@ -9,6 +9,8 @@ import type { IAreaSeriesSpec } from '../../../src/series/area/interface';
 import type { IPoint } from '../../../src/typings';
 import { polarToCartesian } from '@visactor/vutils';
 import type { IMarkGraphic } from '../../../src/mark/interface';
+import type { BaseEventParams } from '../../../src/event/interface';
+import type { IChartSpec } from '../../../src/typings/spec/common';
 
 describe('VChart', () => {
   describe('render and update', () => {
@@ -230,6 +232,46 @@ describe('VChart', () => {
       vchart.updateData('areaData', data);
       vchart.renderSync();
       expect(vchart.getChart()?.getAllSeries()[0].getRawData()?.latestData.length).toBe(data.length);
+    });
+
+    it('does not duplicate user event registered before updateSpec initializes chart', () => {
+      const spec: IBarChartSpec = {
+        type: 'bar',
+        direction: 'horizontal',
+        data: [
+          {
+            id: 'barData',
+            values: [
+              { cat: '类目一', value: 80 },
+              { cat: '类目二', value: 52 }
+            ]
+          }
+        ],
+        yField: 'cat',
+        xField: 'value'
+      };
+      const eventSpy = jest.fn();
+      const emptySpec: IChartSpec = { type: '' };
+      const eventParams: BaseEventParams = {
+        source: 'chart',
+        model: { type: 'bar' } as unknown as BaseEventParams['model'],
+        event: {
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn()
+        } as unknown as BaseEventParams['event'],
+        item: null as unknown as BaseEventParams['item'],
+        datum: null as unknown as BaseEventParams['datum']
+      };
+
+      vchart = new VChart(emptySpec, {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      vchart.on('click', { source: 'chart', level: 'model' }, eventSpy);
+      vchart.updateSpecSync(spec);
+      vchart.event.emit('click', eventParams, 'model');
+
+      expect(eventSpy).toBeCalledTimes(1);
     });
 
     it('updateViewBox', async () => {
