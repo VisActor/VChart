@@ -60,17 +60,21 @@ Whether to reverse the ordering of the legend items, the default is not.
 
 The overall maximum width of the legend, which determines whether horizontally laid out legends (with an orientation attribute of `'left'` | `'right'`) are automatically line-breaking.
 
-### maxCol(number)
+### maxCol(number|Function)
 
 Effective only when `orient` is `'left'` | `'right'`, indicates the maximum number of columns for the legend item, the legend item beyond the maximum number of columns will be hidden.
+
+Since version `2.0.23`, a callback `(ctx) => number` is also supported, evaluated during layout so the column count can adapt to the space allocated to the legend (it is re-evaluated on every layout pass, so it also updates automatically on resize). The callback receives `ctx` as `{ rect, orient, id }`: `rect` is the layout size allocated to the legend `{ width, height }` (no position), `orient` is the legend's resolved orientation (defaults to `'left'` when `orient` is unset), and `id` is the legend id.
 
 ### maxHeight(number)
 
 The maximum height of the legend as a whole, which determines whether vertically laid out legends (with an orientation attribute of `'top'` | `'bottom'`) are automatically line-breaking.
 
-### maxRow(number)
+### maxRow(number|Function)
 
 Effective only when `orient` is `'top'` | `'bottom'`, indicates the maximum number of rows for the legend item, the legend item beyond the maximum number of rows will be hidden.
+
+Since version `2.0.23`, a callback `(ctx) => number` is also supported, evaluated during layout so the row count can adapt to the space allocated to the legend (it is re-evaluated on every layout pass, so it also updates automatically on resize). The callback receives `ctx` as `{ rect, orient, id }`: `rect` is the layout size allocated to the legend `{ width, height }` (no position), `orient` is the legend's resolved orientation (defaults to `'left'` when `orient` is unset), and `id` is the legend id.
 
 ### lazyload(boolean)
 

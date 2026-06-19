@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { cloneDeep, isEmpty, isValid } from '@visactor/vutils';
-import { isPercent } from '../../../util/space';
+import { cloneDeep, isEmpty, isFunction, isValid } from '@visactor/vutils';
+import { isPercent, isValidOrient } from '../../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
 import type { IDiscreteLegendSpec, ILegendScrollbar, IPager } from './interface';
 import type { ILayoutRect } from '../../../typings/layout';
+import type { IOrientType } from '../../../typings/space';
 
-export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect) {
+export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect, layoutOrient?: IOrientType) {
   const {
     title: titleSpec = {},
     item: itemSpec = {},
@@ -44,6 +45,22 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
   background = cloneDeep(background);
 
   const attrs: any = restSpec;
+
+  // `maxRow` / `maxCol` may be a callback, evaluated here during layout against the legend's
+  // available `rect` so the row / column count can adapt to the space (e.g. allow more rows on
+  // a tall-and-narrow legend). The callback receives the layout context and returns a number.
+  // Use the layout-resolved orient (falling back to the spec orient default rule) so the callback
+  // sees the orient the legend actually lays out with, not the raw `spec.orient` which is
+  // `undefined` when the user omits it.
+  if (isFunction(attrs.maxRow) || isFunction(attrs.maxCol)) {
+    const resolvedOrient = isValidOrient(layoutOrient) ? layoutOrient : isValidOrient(orient) ? orient : 'left';
+    if (isFunction(attrs.maxRow)) {
+      attrs.maxRow = attrs.maxRow({ rect, orient: resolvedOrient, id });
+    }
+    if (isFunction(attrs.maxCol)) {
+      attrs.maxCol = attrs.maxCol({ rect, orient: resolvedOrient, id });
+    }
+  }
 
   // transform title
   if (title.visible) {

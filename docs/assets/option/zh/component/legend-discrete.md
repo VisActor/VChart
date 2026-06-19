@@ -60,17 +60,21 @@
 
 图例整体的最大宽度，决定水平布局的图例（orient 属性为 `'left'` | `'right'`）是否自动换行。
 
-### maxCol(number)
+### maxCol(number|Function)
 
 仅当 `orient` 为 `'left'` | `'right'` 时生效，表示图例项的最大列数，超出最大列数的图例项会被隐藏。
+
+自 `2.0.23` 版本开始支持传入回调 `(ctx) => number`，在布局阶段根据图例分配到的空间动态计算列数（会在每次布局时重新求值，因此 resize 时也会自动更新）。回调入参 `ctx` 为 `{ rect, orient, id }`：`rect` 为图例分配到的布局尺寸 `{ width, height }`（不含位置），`orient` 为图例解析后的方位（未配置 `orient` 时默认 `'left'`），`id` 为图例 id。
 
 ### maxHeight(number)
 
 图例整体的最大高度，决定垂直布局的图例（orient 属性为 `'top'` | `'bottom'`）是否自动换行。
 
-### maxRow(number)
+### maxRow(number|Function)
 
 仅当 `orient` 为 `'top'` | `'bottom'` 时生效，表示图例项的最大行数，超出最大行数的图例项会被隐藏。
+
+自 `2.0.23` 版本开始支持传入回调 `(ctx) => number`，在布局阶段根据图例分配到的空间动态计算行数（会在每次布局时重新求值，因此 resize 时也会自动更新）。回调入参 `ctx` 为 `{ rect, orient, id }`：`rect` 为图例分配到的布局尺寸 `{ width, height }`（不含位置），`orient` 为图例解析后的方位（未配置 `orient` 时默认 `'left'`），`id` 为图例 id。
 
 ### lazyload(boolean)
 
