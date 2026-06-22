@@ -25,7 +25,7 @@ import { brush } from '../../theme/builtin/common/component/brush';
 import { isReverse, statePointToData } from '../data-zoom/util';
 import type { CartesianAxis } from '../axis/cartesian';
 import type { IRenderOption } from '../../compile/interface';
-import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
+import { addGraphicState, removeGraphicState, setGraphicStates } from '../../util/graphic-state';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
@@ -503,6 +503,11 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   /*** end: event dispatch ***/
 
   /** start: set mark state ***/
+  private _setBrushState(graphic: IMarkGraphic, state: typeof IN_BRUSH_STATE | typeof OUT_BRUSH_STATE) {
+    const currentStates = (graphic.currentStates ?? []) as string[];
+    setGraphicStates(graphic, [...currentStates.filter(s => s !== IN_BRUSH_STATE && s !== OUT_BRUSH_STATE), state]);
+  }
+
   private _reconfigItem(operateMask: IPolygon, region: IRegion) {
     if (!operateMask?.globalTransMatrix || !operateMask?.attribute?.points) {
       return;
@@ -541,15 +546,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // now: 不在当前brush中
         const isBrushContainItem = this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem);
         if (this._outOfBrushElementsMap?.[elementKey] && isBrushContainItem) {
-          addGraphicState(graphicItem, IN_BRUSH_STATE, true);
+          this._setBrushState(graphicItem, IN_BRUSH_STATE);
           if (!this._inBrushElementsMap[operateMask?.name]) {
             this._inBrushElementsMap[operateMask?.name] = {};
           }
           this._inBrushElementsMap[operateMask?.name][elementKey] = graphicItem;
           delete this._outOfBrushElementsMap[elementKey];
         } else if (this._inBrushElementsMap?.[operateMask?.name]?.[elementKey] && !isBrushContainItem) {
-          removeGraphicState(graphicItem, IN_BRUSH_STATE);
-          addGraphicState(graphicItem, OUT_BRUSH_STATE, true);
+          this._setBrushState(graphicItem, OUT_BRUSH_STATE);
           this._outOfBrushElementsMap[elementKey] = graphicItem;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
@@ -619,7 +623,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
               this._linkedOutOfBrushElementsMap?.[elementKey] &&
               this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem)
             ) {
-              addGraphicState(graphicItem, IN_BRUSH_STATE, true);
+              this._setBrushState(graphicItem, IN_BRUSH_STATE);
               if (!this._linkedInBrushElementsMap[operateMask?.name]) {
                 this._linkedInBrushElementsMap[operateMask?.name] = {};
               }
@@ -629,8 +633,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
               this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
               !this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem)
             ) {
-              removeGraphicState(graphicItem, IN_BRUSH_STATE);
-              addGraphicState(graphicItem, OUT_BRUSH_STATE, true);
+              this._setBrushState(graphicItem, OUT_BRUSH_STATE);
               this._linkedOutOfBrushElementsMap[elementKey] = graphicItem;
             }
           });

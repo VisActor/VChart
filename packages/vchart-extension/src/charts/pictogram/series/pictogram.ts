@@ -215,7 +215,8 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   }
 
   initMarkStyle() {
-    const { root, viewBoxRect } = this._parsedSvgResult;
+    const { root } = this._parsedSvgResult;
+    const svgViewportRect = this._getSvgViewportRect();
     const elements = this._mapViewData.getDataView().latestData as SVGParserResult['elements'];
     if (root) {
       this.setMarkStyle(
@@ -232,11 +233,11 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         'normal',
         AttributeLevel.Built_In
       );
-      if (viewBoxRect) {
+      if (svgViewportRect) {
         // fill should be true or content will be invisible
         this._pictogramMark.setMarkConfig({
           clip: true,
-          clipPath: [createRect({ ...viewBoxRect, fill: true }) as any]
+          clipPath: [createRect({ ...svgViewportRect, fill: true }) as any]
         });
       }
     }
@@ -340,8 +341,28 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
       : new Matrix();
   }
 
-  private _getSvgRootBounds(rootMatrix: Matrix) {
+  private _getSvgViewportRect() {
     const viewBoxRect = this._parsedSvgResult?.viewBoxRect;
+
+    if (viewBoxRect) {
+      return viewBoxRect;
+    }
+
+    const { width, height } = this._parsedSvgResult ?? {};
+    if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+      return null;
+    }
+
+    return {
+      x: 0,
+      y: 0,
+      width,
+      height
+    };
+  }
+
+  private _getSvgRootBounds(rootMatrix: Matrix) {
+    const viewBoxRect = this._getSvgViewportRect();
 
     if (!viewBoxRect) {
       return null;

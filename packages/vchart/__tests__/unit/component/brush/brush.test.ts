@@ -147,4 +147,92 @@ describe('brush component', () => {
 
     expect(brushEndValue?.inBrushData).toContainEqual(selectedGraphic.context.data[0]);
   });
+
+  test('should remove outOfBrush state from selected bar graphics', () => {
+    vchart = new VChartConstructor(
+      {
+        type: 'bar',
+        xField: ['230922161103013', '20001'],
+        yField: ['10002'],
+        direction: 'vertical',
+        sortDataByAxis: true,
+        seriesField: '20001',
+        padding: 0,
+        data: [
+          {
+            id: 'data',
+            values: [
+              {
+                '10002': '3384905',
+                '20001': '家具-行 ID',
+                '230922161103013': '公司'
+              },
+              {
+                '10002': '1903622.758113861',
+                '20001': '家具-销售额',
+                '230922161103013': '公司'
+              },
+              {
+                '10002': '1818217',
+                '20001': '技术-行 ID',
+                '230922161103013': '小型企业'
+              },
+              {
+                '10002': '1011620.4553604126',
+                '20001': '技术-销售额',
+                '230922161103013': '小型企业'
+              }
+            ]
+          }
+        ],
+        stackInverse: true,
+        brush: {
+          inBrush: {
+            fillOpacity: 0,
+            stroke: '#58595B',
+            lineWidth: 1,
+            colorAlpha: 1
+          },
+          outOfBrush: {
+            colorAlpha: 0.2,
+            fillOpacity: 0.3,
+            strokeWidth: 0.3
+          }
+        }
+      } as ConstructorParameters<typeof VChartConstructor>[0],
+      {
+        renderCanvas: canvasDom,
+        animation: false
+      }
+    );
+    vchart.renderSync();
+
+    const series = vchart.getChart()?.getAllSeries()[0] as unknown as TestSeries;
+    const selectedGraphic = series
+      .getActiveMarks()
+      .flatMap(mark => mark.getGraphics())
+      .find((graphic: IGraphic) => graphic.type === 'rect') as GraphicWithDatum;
+    expect(selectedGraphic).toBeDefined();
+
+    const { x1, x2, y1, y2 } = selectedGraphic.globalAABBBounds;
+    const operateMask = createPolygon({
+      points: [
+        { x: x1 - 2, y: y1 - 2 },
+        { x: x2 + 2, y: y1 - 2 },
+        { x: x2 + 2, y: y2 + 2 },
+        { x: x1 - 2, y: y2 + 2 }
+      ]
+    });
+    operateMask.name = 'brush-test';
+
+    const brushModel = vchart.getComponents().find(component => component.type === 'brush') as unknown as BrushModel;
+    const brushComponent = brushModel.getVRenderComponents()[0];
+    brushComponent._dispatchEvent('brushActive', { operateMask, event: {} });
+    brushComponent._dispatchEvent('drawEnd', { operateMask, event: {} });
+
+    expect(selectedGraphic.currentStates).toContain('inBrush');
+    expect(selectedGraphic.currentStates).not.toContain('outOfBrush');
+    expect(selectedGraphic.attribute.fillOpacity).toBe(1);
+    expect(selectedGraphic.attribute.stroke).toBe('#58595B');
+  });
 });
