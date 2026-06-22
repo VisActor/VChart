@@ -88,6 +88,7 @@ module.exports = {
       './node_modules/@visactor/vrender-components/cjs/$1'
     ),
     '^@visactor/vrender-kits/(.*)$': path.resolve(__dirname, './node_modules/@visactor/vrender-kits/cjs/$1'),
+    '^@visactor/vchart$': path.resolve(__dirname, './src/index.ts'),
     '@visactor/vutils-extension': path.resolve(__dirname, '../vutils-extension/src/index.ts')
   },
   setupFiles: ['./setup-mock.js']

@@ -10,6 +10,29 @@ import { registerGlyph, registerShadowRoot } from '@visactor/vrender-kits';
 import type { IMarkGraphic } from './interface/common';
 import { DiffState } from './interface/enum';
 import { merge } from '@visactor/vutils';
+
+const GLYPH_INHERITED_STYLE_ATTRIBUTES = new Set([
+  'fill',
+  'fillOpacity',
+  'stroke',
+  'strokeOpacity',
+  'opacity',
+  'lineWidth',
+  'lineDash',
+  'lineDashOffset',
+  'lineCap',
+  'lineJoin',
+  'miterLimit',
+  'shadowBlur',
+  'shadowColor',
+  'shadowOffsetX',
+  'shadowOffsetY',
+  'visible',
+  'pickable',
+  'cursor'
+]);
+const GLYPH_STATE_ATTRIBUTE_UPDATE_TYPE = 2;
+
 export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
   extends BaseMark<T>
   implements IGlyphMark<T, Cfg>
@@ -48,6 +71,46 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
 
   protected _channelEncoder: Record<string, (channelValue: any) => Record<string, any>>;
 
+  private _getInheritedStyleAttrs(attributes: any) {
+    let inheritedStyleAttrs: any = null;
+
+    Object.keys(attributes).forEach(channel => {
+      if (GLYPH_INHERITED_STYLE_ATTRIBUTES.has(channel)) {
+        inheritedStyleAttrs = inheritedStyleAttrs ?? {};
+        inheritedStyleAttrs[channel] = attributes[channel];
+      }
+    });
+
+    return inheritedStyleAttrs;
+  }
+
+  private _getInheritedStyleAttrsMap(glyph: IGlyph, attributes: any) {
+    const inheritedStyleAttrs = this._getInheritedStyleAttrs(attributes);
+
+    if (!inheritedStyleAttrs) {
+      return null;
+    }
+
+    return glyph.getSubGraphic().reduce((map, subGraphic) => {
+      if (subGraphic) {
+        map[subGraphic.name] = inheritedStyleAttrs;
+      }
+      return map;
+    }, {} as Record<string, any>);
+  }
+
+  private _syncInheritedStyleAttrs(glyph: IGlyph, attributes: any) {
+    const inheritedStyleAttrs = this._getInheritedStyleAttrs(attributes);
+
+    if (!inheritedStyleAttrs) {
+      return;
+    }
+
+    glyph.getSubGraphic().forEach(subGraphic => {
+      subGraphic?.setAttributes(inheritedStyleAttrs);
+    });
+  }
+
   private _onGlyphAttributeUpdate(glyph: IGlyph) {
     return (newAttributes: any) => {
       const positionChannels = this.getPositionChannels();
@@ -64,6 +127,11 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
             subAttrsMap = subAttrsMap ? merge(subAttrsMap, channelAttrsMap) : channelAttrsMap;
           }
         });
+      }
+
+      const inheritedStyleAttrsMap = this._getInheritedStyleAttrsMap(glyph, newAttributes);
+      if (inheritedStyleAttrsMap) {
+        subAttrsMap = subAttrsMap ? merge(inheritedStyleAttrsMap, subAttrsMap) : inheritedStyleAttrsMap;
       }
 
       if (subAttrsMap) {
@@ -107,6 +175,11 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
   protected _createGraphic(attrs: IGlyphGraphicAttribute = {}): IGraphic {
     const glyph = createGlyph(attrs);
     glyph.onBeforeAttributeUpdate = this._onGlyphAttributeUpdate(glyph);
+    glyph.addEventListener('afterAttributeUpdate', (event: any) => {
+      if (event?.detail?.type === GLYPH_STATE_ATTRIBUTE_UPDATE_TYPE) {
+        this._syncInheritedStyleAttrs(glyph, glyph.attribute);
+      }
+    });
     const subMarks = this._subMarks;
 
     if (subMarks) {

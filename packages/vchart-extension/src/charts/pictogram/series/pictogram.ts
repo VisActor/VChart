@@ -56,10 +56,15 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   private _labelMark: ITextMark;
 
   private _idToMark: Map<string, IMark> = new Map();
+  private _lastFitLayoutRect: { width: number; height: number } | null = null;
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
+    const lastSvg = this.svg;
     this.svg = this._spec.svg;
+    if (lastSvg && lastSvg !== this.svg) {
+      this._lastFitLayoutRect = null;
+    }
     this._nameField = this._spec.nameField;
     this._valueField = this._spec.valueField;
 
@@ -391,6 +396,9 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
   updateSVGSize() {
     const { width: regionWidth, height: regionHeight } = this.getLayoutRect();
+    if (this._lastFitLayoutRect?.width === regionWidth && this._lastFitLayoutRect?.height === regionHeight) {
+      return;
+    }
     const regionCenterX = regionWidth / 2;
     const regionCenterY = regionHeight / 2;
     const root = this.getPictogramRootGraphic();
@@ -409,6 +417,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
       root.scale(scale, scale, { x: rootCenterX, y: rootCenterY });
       root.translate(regionCenterX - rootCenterX, regionCenterY - rootCenterY);
+      this._lastFitLayoutRect = { width: regionWidth, height: regionHeight };
     }
   }
 
@@ -481,6 +490,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
   release(): void {
     this._parsedSvgResult = null;
+    this._lastFitLayoutRect = null;
     this._idToMark.clear();
     this._idToMark = null;
   }

@@ -116,5 +116,7 @@ describe('sankey emphasis state', () => {
     expect(mark).toBe(linkMark);
     expect(other.currentStates).toContain('blur');
     expect(other.attribute.fillOpacity).toBe(0.05);
+    expect(other.getSubGraphic()[0].attribute.fillOpacity).toBe(0.05);
+    expect(other.getSubGraphic()[1].attribute.fillOpacity).toBe(0.05);
   });
 });
