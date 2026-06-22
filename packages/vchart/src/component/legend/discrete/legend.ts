@@ -236,6 +236,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
       return {
         label: datum.key,
+        datum: datum.datum,
         shape: {
           symbolType: datum.style('symbolType') ?? datum.shapeType ?? 'circle',
           fillOpacity: isValidNumber(fillOpacity) ? fillOpacity : 1,

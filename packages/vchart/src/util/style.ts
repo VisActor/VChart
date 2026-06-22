@@ -2,6 +2,38 @@ import { degreeToRadian, isEmpty, isFunction } from '@visactor/vutils';
 import type { Datum } from '../typings';
 import type { LegendItemDatum } from '@visactor/vrender-components';
 
+function getComponentStyleCallbackItem(item: LegendItemDatum) {
+  const rawDatum = (item as any)?.datum;
+  return rawDatum && typeof rawDatum === 'object' ? { ...rawDatum, ...item } : item;
+}
+
+function hasFunctionStyleValue(style: any) {
+  return !isFunction(style) && !isEmpty(style) && Object.keys(style).some(key => isFunction(style[key]));
+}
+
+function transformComponentStyleValue(
+  style: any,
+  item: LegendItemDatum,
+  isSelected: boolean,
+  index: number,
+  allItems: LegendItemDatum[]
+) {
+  const callbackItem = getComponentStyleCallbackItem(item);
+  if (isFunction(style)) {
+    return transformToGraphic(style(callbackItem, isSelected, index, allItems));
+  }
+  if (hasFunctionStyleValue(style)) {
+    const nextStyle = { ...style };
+    Object.keys(nextStyle).forEach(key => {
+      if (isFunction(nextStyle[key])) {
+        nextStyle[key] = nextStyle[key](callbackItem, isSelected, index, allItems);
+      }
+    });
+    return transformToGraphic(nextStyle);
+  }
+  return transformToGraphic(style);
+}
+
 /**
  * 针对一些可以配置状态样式的属性的转换函数，结构如下：
  * { style: {}, state: { hover: {} } }
@@ -15,7 +47,10 @@ export function transformComponentStyle(cfg: any = {}) {
 
   if (isFunction(cfg.style)) {
     newConfig.style = (item: LegendItemDatum, isSelected: boolean, index: number, allItems: LegendItemDatum[]) =>
-      transformToGraphic(cfg.style(item, isSelected, index, allItems));
+      transformComponentStyleValue(cfg.style, item, isSelected, index, allItems);
+  } else if (hasFunctionStyleValue(cfg.style)) {
+    newConfig.style = (item: LegendItemDatum, isSelected: boolean, index: number, allItems: LegendItemDatum[]) =>
+      transformComponentStyleValue(cfg.style, item, isSelected, index, allItems);
   } else if (!isEmpty(cfg.style)) {
     newConfig.style = transformToGraphic(cfg.style);
   }
@@ -25,7 +60,10 @@ export function transformComponentStyle(cfg: any = {}) {
     Object.keys(cfg.state).forEach(key => {
       if (isFunction(cfg.state[key])) {
         newStateStyle[key] = (item: LegendItemDatum, isSelected: boolean, index: number, allItems: LegendItemDatum[]) =>
-          transformToGraphic(cfg.state[key](item, isSelected, index, allItems));
+          transformComponentStyleValue(cfg.state[key], item, isSelected, index, allItems);
+      } else if (hasFunctionStyleValue(cfg.state[key])) {
+        newStateStyle[key] = (item: LegendItemDatum, isSelected: boolean, index: number, allItems: LegendItemDatum[]) =>
+          transformComponentStyleValue(cfg.state[key], item, isSelected, index, allItems);
       } else if (!isEmpty(cfg.state[key])) {
         newStateStyle[key] = transformToGraphic(cfg.state[key]);
       }

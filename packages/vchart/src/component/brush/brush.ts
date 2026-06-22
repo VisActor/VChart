@@ -355,6 +355,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
+      if (updateElementsState) {
+        this._handleBrushChange(region, e);
+      }
       if (this._spec?.onBrushEnd) {
         // 如果onBrushEnd返回true，则清空brush， 并抛出clear事件
         if (this._spec.onBrushEnd(e) === true) {
@@ -381,6 +384,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
+      if (updateElementsState) {
+        this._handleBrushChange(region, e);
+      }
       const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
       if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || updateElementsState) {
         this._setAxisAndDataZoom(operateMask, region);

@@ -1356,13 +1356,24 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _getSeriesInfo(field: string, keys: string[]) {
     const defaultShapeType = this.getDefaultShapeType();
+    const rawData = this.getRawData()?.latestData as Datum[] | undefined;
+    const rawDatumMap = new Map<any, Datum>();
+    rawData?.forEach(datum => {
+      const key = this.getSeriesFieldValue(datum, field);
+      if (!rawDatumMap.has(key)) {
+        rawDatumMap.set(key, datum);
+      }
+    });
+
     return keys.map(key => {
+      const datum = rawDatumMap.get(key) ?? {
+        [field]: key
+      };
       return {
         key,
         originalKey: key,
-        style: this.getSeriesStyle({
-          [field]: key
-        }),
+        datum,
+        style: this.getSeriesStyle(datum),
         shapeType: defaultShapeType
       } as ISeriesSeriesInfo;
     });
