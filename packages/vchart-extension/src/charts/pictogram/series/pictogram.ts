@@ -25,7 +25,6 @@ import type {
 } from '@visactor/vchart';
 import {
   AttributeLevel,
-  ChartEvent,
   CompilableData,
   Factory,
   GeoSeries,
@@ -56,15 +55,10 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   private _labelMark: ITextMark;
 
   private _idToMark: Map<string, IMark> = new Map();
-  private _lastFitLayoutRect: { width: number; height: number } | null = null;
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
-    const lastSvg = this.svg;
     this.svg = this._spec.svg;
-    if (lastSvg && lastSvg !== this.svg) {
-      this._lastFitLayoutRect = null;
-    }
     this._nameField = this._spec.nameField;
     this._valueField = this._spec.valueField;
 
@@ -230,16 +224,14 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
         'normal',
         AttributeLevel.Built_In
       );
-      if (root.transform) {
-        this.setMarkStyle(
-          this._pictogramMark,
-          {
-            postMatrix: () => root.transform
-          },
-          'normal',
-          AttributeLevel.Built_In
-        );
-      }
+      this.setMarkStyle(
+        this._pictogramMark,
+        {
+          postMatrix: () => this._getFittedSvgRootMatrix()
+        },
+        'normal',
+        AttributeLevel.Built_In
+      );
       if (viewBoxRect) {
         // fill should be true or content will be invisible
         this._pictogramMark.setMarkConfig({
@@ -341,6 +333,74 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     return this._pictogramMark.getProduct();
   }
 
+  private _getSvgRootMatrix() {
+    const transform = this._parsedSvgResult?.root?.transform as IMatrix;
+    return transform
+      ? new Matrix(transform.a, transform.b, transform.c, transform.d, transform.e, transform.f)
+      : new Matrix();
+  }
+
+  private _getSvgRootBounds(rootMatrix: Matrix) {
+    const viewBoxRect = this._parsedSvgResult?.viewBoxRect;
+
+    if (!viewBoxRect) {
+      return null;
+    }
+
+    const bounds = new Bounds().setValue(
+      viewBoxRect.x,
+      viewBoxRect.y,
+      viewBoxRect.x + viewBoxRect.width,
+      viewBoxRect.y + viewBoxRect.height
+    );
+    bounds.transformWithMatrix(rootMatrix);
+
+    return bounds;
+  }
+
+  private _appendMatrixScale(matrix: Matrix, scale: number, center: IPointLike) {
+    const nextMatrix = new Matrix();
+
+    nextMatrix.translate(center.x, center.y);
+    nextMatrix.scale(scale, scale);
+    nextMatrix.translate(-center.x, -center.y);
+    nextMatrix.multiply(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
+
+    return nextMatrix;
+  }
+
+  private _appendMatrixTranslate(matrix: Matrix, dx: number, dy: number) {
+    const nextMatrix = new Matrix();
+
+    nextMatrix.translate(dx, dy);
+    nextMatrix.multiply(matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f);
+
+    return nextMatrix;
+  }
+
+  private _getFittedSvgRootMatrix() {
+    const rootMatrix = this._getSvgRootMatrix();
+    const bounds = this._getSvgRootBounds(rootMatrix);
+
+    if (!bounds) {
+      return rootMatrix;
+    }
+
+    const width = bounds.width();
+    const height = bounds.height();
+    if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+      return rootMatrix;
+    }
+
+    const { width: regionWidth, height: regionHeight } = this.getLayoutRect();
+    const rootCenterX = (bounds.x1 + bounds.x2) / 2;
+    const rootCenterY = (bounds.y1 + bounds.y2) / 2;
+    const scale = Math.min(regionWidth / width, regionHeight / height);
+    const scaledMatrix = this._appendMatrixScale(rootMatrix, scale, { x: rootCenterX, y: rootCenterY });
+
+    return this._appendMatrixTranslate(scaledMatrix, regionWidth / 2 - rootCenterX, regionHeight / 2 - rootCenterY);
+  }
+
   initData() {
     super.initData();
     const parsedSvg = svgSourceMap.get(this.svg);
@@ -395,37 +455,15 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   }
 
   updateSVGSize() {
-    const { width: regionWidth, height: regionHeight } = this.getLayoutRect();
-    if (this._lastFitLayoutRect?.width === regionWidth && this._lastFitLayoutRect?.height === regionHeight) {
-      return;
-    }
-    const regionCenterX = regionWidth / 2;
-    const regionCenterY = regionHeight / 2;
     const root = this.getPictogramRootGraphic();
     if (root) {
-      const bounds = root.AABBBounds;
-      const { x1, x2, y1, y2 } = root.AABBBounds;
-      const width = bounds.width();
-      const height = bounds.height();
-
-      const rootCenterX = (x1 + x2) / 2;
-      const rootCenterY = (y1 + y2) / 2;
-
-      const scaleX = regionWidth / width;
-      const scaleY = regionHeight / height;
-      const scale = Math.min(scaleX, scaleY);
-
-      root.scale(scale, scale, { x: rootCenterX, y: rootCenterY });
-      root.translate(regionCenterX - rootCenterX, regionCenterY - rootCenterY);
-      this._lastFitLayoutRect = { width: regionWidth, height: regionHeight };
+      root.setAttributes({ postMatrix: this._getFittedSvgRootMatrix() });
     }
   }
 
   protected initEvent(): void {
     super.initEvent();
     this._mapViewData.getDataView()?.target.addListener('change', this.mapViewDataUpdate.bind(this));
-    // 必须在有 vrender mark 的时机后更新
-    this.event.on(ChartEvent.afterMarkLayoutEnd, this.updateSVGSize.bind(this));
   }
 
   handleZoom(e: ZoomEventParam) {
@@ -490,7 +528,6 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
 
   release(): void {
     this._parsedSvgResult = null;
-    this._lastFitLayoutRect = null;
     this._idToMark.clear();
     this._idToMark = null;
   }
