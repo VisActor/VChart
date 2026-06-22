@@ -270,7 +270,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _shouldComputeTickData() {
     // 当轴被展示、或者强制要求计算 data 时再计算 data
-    return this._specVisible && (this.getVisible() || this._spec.forceInitTick || this._hideWhenEmpty);
+    return this.getVisible() || this._spec.forceInitTick || (this._specVisible && this._hideWhenEmpty);
   }
 
   protected _onTickDataChange = (tickData?: ICompilableData) => {
