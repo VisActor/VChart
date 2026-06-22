@@ -10,6 +10,7 @@ import {
   getThemeColor,
   normalizeLayout,
   omitImageLayoutSpec,
+  shouldShowImageBackground,
   withAlpha
 } from './common';
 
@@ -269,8 +270,8 @@ export const buildWingBlockMark = (
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
   const themeColor = getThemeColor(spec);
-  // image 背后的装饰图元（halo）默认不展示
-  const showBackground = spec.image?.showBackground === true;
+  // image 背后的装饰图元（halo）
+  const showBackground = shouldShowImageBackground(spec);
 
   return {
     type: 'group' as any,

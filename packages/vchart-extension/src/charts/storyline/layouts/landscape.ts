@@ -12,7 +12,8 @@ import {
   getThemeColor,
   normalizePadding,
   omitImageLayoutSpec,
-  resolveBlockWidth
+  resolveBlockWidth,
+  shouldShowImageBackground
 } from './common';
 
 // landscape 布局下，image rect 与 text rect 分离展示
@@ -242,22 +243,24 @@ export const buildLandscapeBlockMark = (
       height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).groupHeight
     },
     children: [
-      {
-        type: 'rect',
-        name: `storyline-block-image-bg-${index}`,
-        interactive: false,
-        style: {
-          x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.x,
-          y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.y,
-          width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
-          height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
-          cornerRadius: 8,
-          fill: '#ffffff',
-          stroke: themeColor,
-          lineWidth: 2,
-          ...blockStyle
-        }
-      } as ICustomMarkSpec<'rect'>,
+      shouldShowImageBackground(spec)
+        ? ({
+            type: 'rect',
+            name: `storyline-block-image-bg-${index}`,
+            interactive: false,
+            style: {
+              x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.x,
+              y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.y,
+              width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
+              cornerRadius: 8,
+              fill: '#ffffff',
+              stroke: themeColor,
+              lineWidth: 2,
+              ...blockStyle
+            }
+          } as ICustomMarkSpec<'rect'>)
+        : null,
       hasImage
         ? ({
             type: 'image',

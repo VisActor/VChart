@@ -15,6 +15,7 @@ import {
   normalizePadding,
   omitImageLayoutSpec,
   resolveBlockWidth,
+  shouldShowImageBackground,
   withAlpha
 } from './common';
 
@@ -256,6 +257,8 @@ export const buildLadderBlockMark = (
       Math.round(titleFontSize * (LADDER_TITLE_LINE_HEIGHT / LADDER_TITLE_FONT_SIZE))
   );
   const showBackground = spec.block?.showBackground === true;
+  const showImageBackground = shouldShowImageBackground(spec);
+  const themeColor = getThemeColor(spec);
 
   // textAlign='right' 时 x 锚点取 textBox 右端，否则取左端
   const getTitleX = (ctx: LayoutContext) => {
@@ -291,6 +294,24 @@ export const buildLadderBlockMark = (
               lineWidth: 1,
               shadowBlur: 6,
               shadowColor: 'rgba(0, 0, 0, 0.08)',
+              ...spec.block?.style
+            }
+          } as ICustomMarkSpec<'rect'>)
+        : null,
+      showImageBackground
+        ? ({
+            type: 'rect',
+            name: `storyline-block-image-bg-${index}`,
+            interactive: false,
+            style: {
+              x: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).imageBox.x,
+              y: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).imageBox.y,
+              width: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).imageBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).imageBox.height,
+              cornerRadius: 8,
+              fill: '#ffffff',
+              stroke: themeColor,
+              lineWidth: 2,
               ...spec.block?.style
             }
           } as ICustomMarkSpec<'rect'>)

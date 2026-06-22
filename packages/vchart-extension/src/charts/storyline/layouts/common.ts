@@ -43,6 +43,9 @@ export const isLadder = (spec: IStorylineSpec) => normalizeLayout(spec.layout).t
 
 export const getThemeColor = (spec: IStorylineSpec) => spec.themeColor ?? DEFAULT_THEME_COLOR;
 
+export const shouldShowImageBackground = (spec: IStorylineSpec) =>
+  spec.image?.showBackground ?? !(isPortrait(spec) || isLandscape(spec));
+
 // ===== 颜色工具 =====
 
 /**

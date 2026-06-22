@@ -11,6 +11,7 @@ import {
   normalizeLayout,
   omitImageLayoutSpec,
   resolveBlockWidth,
+  shouldShowImageBackground,
   withAlpha
 } from './common';
 
@@ -467,8 +468,8 @@ export const buildArcBlockMark = (
               lineWidth: 2
             }
           } as ICustomMarkSpec<'symbol'>),
-      // 圆形 image 的外层装饰环（默认不展示，仅当 spec.image.showBackground === true 时渲染）
-      spec.image?.showBackground === true
+      // 圆形 image 的外层装饰环
+      shouldShowImageBackground(spec)
         ? ({
             type: 'symbol',
             name: `storyline-block-image-halo-${index}`,

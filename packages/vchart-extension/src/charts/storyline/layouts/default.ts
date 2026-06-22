@@ -13,9 +13,11 @@ import {
   getImageBox,
   getLayout,
   getTextBox,
+  getThemeColor,
   normalizePadding,
   omitImageLayoutSpec,
-  resolveBlockWidth
+  resolveBlockWidth,
+  shouldShowImageBackground
 } from './common';
 
 /**
@@ -115,6 +117,7 @@ export const buildDefaultBlockMark = (
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
   const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
   const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
+  const themeColor = getThemeColor(spec);
 
   return {
     type: 'group' as any,
@@ -144,6 +147,24 @@ export const buildDefaultBlockMark = (
               lineWidth: 1,
               shadowBlur: 6,
               shadowColor: 'rgba(0, 0, 0, 0.08)',
+              ...spec.block?.style
+            }
+          } as ICustomMarkSpec<'rect'>)
+        : null,
+      shouldShowImageBackground(spec)
+        ? ({
+            type: 'rect',
+            name: `storyline-block-image-bg-${index}`,
+            interactive: false,
+            style: {
+              x: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.x,
+              y: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.y,
+              width: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.width,
+              height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.height,
+              cornerRadius: 8,
+              fill: '#ffffff',
+              stroke: themeColor,
+              lineWidth: 2,
               ...spec.block?.style
             }
           } as ICustomMarkSpec<'rect'>)

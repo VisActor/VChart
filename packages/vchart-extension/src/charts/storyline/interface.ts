@@ -91,8 +91,8 @@ export interface IStorylineImageSpec extends IMarkSpec<IImageMarkSpec> {
   gap?: number;
   /**
    * 是否展示 image 背后的白色背景 rect（白底 + 主题色描边）。
-   * portrait / landscape / wing 等布局支持。
-   * 默认 false（不展示）。
+   * 所有布局支持。
+   * portrait / landscape 默认 false（不展示），其他布局默认 true（展示）。
    * 注：不影响 subImage（错位装饰图元的显隐。
    */
   showBackground?: boolean;

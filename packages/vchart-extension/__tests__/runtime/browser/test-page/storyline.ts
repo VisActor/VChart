@@ -125,7 +125,10 @@ const createLandscapeSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   data: buildData(layout),
   layout,
   themeColor,
-  line: commonLine
+  line: commonLine,
+  image: {
+    showBackground: false
+  }
 });
 
 // portrait：默认 block.height = regionHeight / count，imageHeight = blockHeight * 0.4，

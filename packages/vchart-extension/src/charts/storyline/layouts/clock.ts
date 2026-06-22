@@ -8,6 +8,7 @@ import {
   getRegionGeometry,
   getThemeColor,
   normalizePadding,
+  shouldShowImageBackground,
   withAlpha
 } from './common';
 
@@ -289,6 +290,7 @@ export const buildClockBlockMark = (
 ): IExtensionGroupMarkSpec => {
   const hasImage = !!block.image;
   const themeColor = getThemeColor(spec);
+  const showImageBackground = shouldShowImageBackground(spec);
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
 
   const leadPath = (_d: unknown, ctx: LayoutContext) => {
@@ -311,6 +313,22 @@ export const buildClockBlockMark = (
         fillOpacity: 0
       }
     } as ICustomMarkSpec<'path'>,
+    showImageBackground
+      ? ({
+          type: 'symbol',
+          name: `storyline-clock-dot-bg-${index}`,
+          interactive: false,
+          style: {
+            x: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).x,
+            y: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).y,
+            size: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter + 10,
+            symbolType: 'circle',
+            fill: '#ffffff',
+            stroke: themeColor,
+            lineWidth: 2
+          }
+        } as ICustomMarkSpec<'symbol'>)
+      : null,
     // 圆形小图（dot）：压在轨道上，作为时间锚点
     hasImage
       ? ({

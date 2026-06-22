@@ -10,6 +10,7 @@ import {
   getThemeColor,
   omitImageLayoutSpec,
   resolveBlockWidth,
+  shouldShowImageBackground,
   withAlpha
 } from './common';
 
@@ -280,7 +281,7 @@ export const buildPortraitBlockMark = (
             }
           } as ICustomMarkSpec<'image'>)
         : null,
-      spec.image?.showBackground === true
+      shouldShowImageBackground(spec)
         ? ({
             type: 'rect',
             name: `storyline-block-image-bg-${index}`,
