@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "feat: support function type for `maxRow` / `maxCol` of the discrete legend, evaluated during layout against the legend's allocated rect, so the row / column count can adapt to the available space",
+      "type": "minor",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "chendaxin.tk@bytedance.com"
+}
