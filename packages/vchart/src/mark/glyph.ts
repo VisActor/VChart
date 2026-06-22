@@ -93,7 +93,7 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
 
     return glyph.getSubGraphic().reduce((map, subGraphic) => {
       if (subGraphic) {
-        map[subGraphic.name] = inheritedStyleAttrs;
+        map[subGraphic.name] = { ...inheritedStyleAttrs };
       }
       return map;
     }, {} as Record<string, any>);
@@ -107,7 +107,7 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
     }
 
     glyph.getSubGraphic().forEach(subGraphic => {
-      subGraphic?.setAttributes(inheritedStyleAttrs);
+      subGraphic?.setAttributes({ ...inheritedStyleAttrs });
     });
   }
 
