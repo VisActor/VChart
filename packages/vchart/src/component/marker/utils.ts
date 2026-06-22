@@ -42,6 +42,12 @@ type FullBandTemp = {
   };
 };
 
+type CartesianCoordinateDatum = {
+  x: StringOrNumber[] | StringOrNumber | null;
+  y: StringOrNumber[] | StringOrNumber | null;
+  getRefRelativeSeries?: () => ICartesianSeries;
+};
+
 function isNeedExtendDomain(domain: number[], datum: number, autoRange: boolean) {
   if (!autoRange) {
     return false;
@@ -432,6 +438,36 @@ export function geoLayout(data: DataView, relativeSeries: IMarkerSupportSeries) 
   return lines;
 }
 
+function getCartesianCoordinateRefSeries(datum: CartesianCoordinateDatum, relativeSeries: IMarkerSupportSeries) {
+  return (datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries) as ICartesianSeries;
+}
+
+function extendCartesianCoordinateDomain(
+  datum: CartesianCoordinateDatum,
+  refRelativeSeries: ICartesianSeries,
+  autoRange: boolean,
+  autoRangeExtendDomainKeyPrefix?: string
+) {
+  const xDomain = refRelativeSeries.getXAxisHelper().getScale(0).domain();
+  const yDomain = refRelativeSeries.getYAxisHelper().getScale(0).domain();
+  const xValue = array(datum.x);
+  const yValue = array(datum.y);
+
+  xValue.length === 1 &&
+    isNumber(xValue[0]) &&
+    isNeedExtendDomain(xDomain, xValue[0], autoRange) &&
+    refRelativeSeries
+      .getXAxisHelper()
+      ?.setExtendDomain?.(getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'xAxis'), xValue[0] as number);
+
+  yValue.length === 1 &&
+    isNumber(yValue[0]) &&
+    isNeedExtendDomain(yDomain, yValue[0], autoRange) &&
+    refRelativeSeries
+      .getYAxisHelper()
+      ?.setExtendDomain?.(getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'yAxis'), yValue[0] as number);
+}
+
 export function cartesianCoordinateLayout(
   data: DataView,
   relativeSeries: IMarkerSupportSeries,
@@ -443,67 +479,47 @@ export function cartesianCoordinateLayout(
   const dataPoints =
     data.latestData[0] && data.latestData[0].latestData ? data.latestData[0].latestData : data.latestData;
   const isArrayCoordinatesOffset = isArray(coordinatesOffset);
-  dataPoints.forEach(
-    (
-      datum: {
-        x: StringOrNumber[] | StringOrNumber | null;
-        y: StringOrNumber[] | StringOrNumber | null;
-        getRefRelativeSeries?: () => ICartesianSeries;
-      },
-      index: number
-    ) => {
-      const refRelativeSeries = (
-        datum?.getRefRelativeSeries ? datum.getRefRelativeSeries() : relativeSeries
-      ) as ICartesianSeries;
-      const regionStart = refRelativeSeries.getRegion();
-      const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
 
-      const { width: regionWidth, height: regionHeight } = regionStart.getLayoutRect();
+  if (autoRange) {
+    dataPoints.forEach((datum: CartesianCoordinateDatum) => {
+      extendCartesianCoordinateDomain(
+        datum,
+        getCartesianCoordinateRefSeries(datum, relativeSeries),
+        autoRange,
+        autoRangeExtendDomainKeyPrefix
+      );
+    });
+  }
 
-      let offsetX = 0;
-      let offsetY = 0;
-      if (coordinatesOffset) {
-        const currentCoordinatesOffset = isArrayCoordinatesOffset ? coordinatesOffset[index] : coordinatesOffset;
-        const x = currentCoordinatesOffset.x;
-        const y = currentCoordinatesOffset.y;
-        if (x) {
-          offsetX = isPercent(x) ? (Number(x.substring(0, x.length - 1)) * regionWidth) / 100 : (x as number);
-        }
-        if (y) {
-          offsetY = isPercent(y) ? (Number(y.substring(0, y.length - 1)) * regionHeight) / 100 : (y as number);
-        }
+  dataPoints.forEach((datum: CartesianCoordinateDatum, index: number) => {
+    const refRelativeSeries = getCartesianCoordinateRefSeries(datum, relativeSeries);
+    const regionStart = refRelativeSeries.getRegion();
+    const regionStartLayoutStartPoint = regionStart.getLayoutStartPoint();
+
+    const { width: regionWidth, height: regionHeight } = regionStart.getLayoutRect();
+
+    let offsetX = 0;
+    let offsetY = 0;
+    if (coordinatesOffset) {
+      const currentCoordinatesOffset = isArrayCoordinatesOffset ? coordinatesOffset[index] : coordinatesOffset;
+      const x = currentCoordinatesOffset.x;
+      const y = currentCoordinatesOffset.y;
+      if (x) {
+        offsetX = isPercent(x) ? (Number(x.substring(0, x.length - 1)) * regionWidth) / 100 : (x as number);
       }
-
-      const xDomain = refRelativeSeries.getXAxisHelper().getScale(0).domain();
-      const yDomain = refRelativeSeries.getYAxisHelper().getScale(0).domain();
-      const xValue = array(datum.x);
-      const yValue = array(datum.y);
-
-      xValue.length === 1 &&
-        isNumber(xValue[0]) &&
-        isNeedExtendDomain(xDomain, xValue[0], autoRange) &&
-        refRelativeSeries
-          .getXAxisHelper()
-          ?.setExtendDomain?.(
-            getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'xAxis'),
-            xValue[0] as number
-          );
-
-      yValue.length === 1 &&
-        isNumber(yValue[0]) &&
-        isNeedExtendDomain(yDomain, yValue[0], autoRange) &&
-        refRelativeSeries
-          .getYAxisHelper()
-          ?.setExtendDomain?.(
-            getAutoRangeExtendDomainKey(autoRangeExtendDomainKeyPrefix, 'yAxis'),
-            yValue[0] as number
-          );
-      points.push({
-        x: convertDatumToValue(refRelativeSeries.getXAxisHelper(), xValue) + regionStartLayoutStartPoint.x + offsetX,
-        y: convertDatumToValue(refRelativeSeries.getYAxisHelper(), yValue) + regionStartLayoutStartPoint.y + offsetY
-      });
+      if (y) {
+        offsetY = isPercent(y) ? (Number(y.substring(0, y.length - 1)) * regionHeight) / 100 : (y as number);
+      }
     }
-  );
+
+    const xValue = array(datum.x);
+    const yValue = array(datum.y);
+
+    points.push({
+      x: convertDatumToValue(refRelativeSeries.getXAxisHelper(), xValue) + regionStartLayoutStartPoint.x + offsetX,
+      y: convertDatumToValue(refRelativeSeries.getYAxisHelper(), yValue) + regionStartLayoutStartPoint.y + offsetY
+    });
+  });
   return points;
 }
 
