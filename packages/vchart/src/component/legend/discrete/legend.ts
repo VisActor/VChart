@@ -182,7 +182,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       layout,
       items: this._getLegendItems(),
       zIndex: this.layoutZIndex,
-      ...getLegendAttributes(this._spec, rect),
+      ...getLegendAttributes(this._spec, rect, this.layoutOrient),
       // maxWidth 和 maxHeight 已经在布局模块处理了，所以 rect 的优先级最高
       maxWidth: rect.width,
       maxHeight: rect.height
