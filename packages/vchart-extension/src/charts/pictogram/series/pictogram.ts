@@ -6,7 +6,14 @@ import {
   PICTOGRAM_SERIES_TYPE,
   PictogramSeriesMark
 } from './constant';
-import { getSVGSource, registerSVGSource, svgSourceMap, unregisterSVGSource } from './svg-source';
+import {
+  SVG_VIEWPORT_RECT_KEY,
+  getSVGSource,
+  registerSVGSource,
+  svgSourceMap,
+  unregisterSVGSource,
+  type SVGParserResultWithViewport
+} from './svg-source';
 import { PictogramSeriesSpecTransformer } from './pictogram-transformer';
 import type { IMatrix, IPoint, IPointLike, GraphicEventType } from '@visactor/vchart';
 import { Bounds, Matrix, isValid, merge } from '@visactor/vchart';
@@ -51,7 +58,7 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
   svg!: string;
 
   protected _pictogramMark: IGroupMark;
-  protected _parsedSvgResult: SVGParserResult;
+  protected _parsedSvgResult: SVGParserResultWithViewport;
   private _labelMark: ITextMark;
 
   private _idToMark: Map<string, IMark> = new Map();
@@ -349,16 +356,16 @@ export class PictogramSeries<T extends IPictogramSeriesSpec = IPictogramSeriesSp
     }
 
     const { width, height } = this._parsedSvgResult ?? {};
-    if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
-      return null;
+    if (Number.isFinite(width) && Number.isFinite(height) && width > 0 && height > 0) {
+      return {
+        x: 0,
+        y: 0,
+        width,
+        height
+      };
     }
 
-    return {
-      x: 0,
-      y: 0,
-      width,
-      height
-    };
+    return this._parsedSvgResult?.[SVG_VIEWPORT_RECT_KEY] ?? null;
   }
 
   private _getSvgRootBounds(rootMatrix: Matrix) {

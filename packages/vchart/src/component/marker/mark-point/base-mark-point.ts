@@ -18,6 +18,23 @@ import { LayoutZIndex } from '../../../constant/layout';
 import type { IGroup } from '@visactor/vrender-core';
 import type { IMarkerLabelSpec, IMarkerLabelWithoutRefSpec } from '../interface';
 
+const isRichTextStyle = (style: any) => style?.type === 'rich';
+
+const normalizeRichTextStyle = (style: any) => {
+  if (!style) {
+    return style;
+  }
+  const { type: _type, text, textConfig, ...restStyle } = style;
+  const normalizedStyle = {
+    ...restStyle
+  };
+  const richTextConfig = isValid(textConfig) ? textConfig : text;
+  if (isValid(richTextConfig)) {
+    (normalizedStyle as any).textConfig = richTextConfig;
+  }
+  return normalizedStyle;
+};
+
 export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implements IMarkPoint {
   static specKey = 'markPoint';
   specKey = 'markPoint';
@@ -64,25 +81,37 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
 
     let itemContentState = null;
     let itemContentStyle = null;
+    let itemContentType = type;
     let defaultStyle = {};
 
     if (type === 'text') {
       itemContentState = label?.state ?? state;
-      defaultStyle = {
-        dx: 0,
-        dy: 0
-      };
-      itemContentStyle = transformLabelAttributes(
-        {
-          ...label,
-          style: merge(
-            defaultStyle,
-            label?.style ?? label?.textStyle ?? textStyle ?? (style as Pick<IMarkerLabelSpec, 'style'>)
-          )
-        },
-        this._markerData,
-        this._markAttributeContext
-      );
+      const labelStyle = label?.style ?? label?.textStyle ?? textStyle ?? (style as Pick<IMarkerLabelSpec, 'style'>);
+      if (isRichTextStyle(labelStyle)) {
+        itemContentType = 'richText';
+        defaultStyle = {
+          width: 100,
+          height: 100
+        };
+        itemContentStyle = transformStyle(
+          merge(defaultStyle, normalizeRichTextStyle(labelStyle)),
+          this._markerData,
+          this._markAttributeContext
+        );
+      } else {
+        defaultStyle = {
+          dx: 0,
+          dy: 0
+        };
+        itemContentStyle = transformLabelAttributes(
+          {
+            ...label,
+            style: merge(defaultStyle, labelStyle)
+          },
+          this._markerData,
+          this._markAttributeContext
+        );
+      }
     } else if ((type as any) === 'richText') {
       itemContentState = richText?.state ?? state;
       defaultStyle = {
@@ -136,7 +165,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       position: { x: 0, y: 0 },
       clipInRange: this._spec.clip ?? false,
       itemContent: {
-        type,
+        type: itemContentType,
         offsetX: transformOffset(itemContent.offsetX, region),
         offsetY: transformOffset(itemContent.offsetY, region),
         ...restItemContent, // Tips: 因为网站 demo 上已经透出了 imageStyle richTextStyle 的写法，为了兼容所以这个需要在后面覆盖

@@ -1,11 +1,47 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { cloneDeep, isEmpty, isValid } from '@visactor/vutils';
+import { cloneDeep, isEmpty, isFunction, isValid } from '@visactor/vutils';
 import { isPercent } from '../../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
 import type { IDiscreteLegendSpec, ILegendScrollbar, IPager } from './interface';
 import type { ILayoutRect } from '../../../typings/layout';
+
+function normalizeLegendShapeTextureStyle(style: any) {
+  if (!isValid(style?.texture)) {
+    return style;
+  }
+
+  return {
+    ...style,
+    texturePadding: isValid(style.texturePadding) ? style.texturePadding : 1,
+    textureSize: isValid(style.textureSize) ? style.textureSize : 4
+  };
+}
+
+function normalizeLegendShapeTextureConfig(shape: any) {
+  const normalizeStyle = (style: any) => normalizeLegendShapeTextureStyle(style);
+
+  if (isFunction(shape.style)) {
+    const style = shape.style;
+    shape.style = (...args: any[]) => normalizeStyle(style(...args));
+  } else if (!isEmpty(shape.style)) {
+    shape.style = normalizeStyle(shape.style);
+  }
+
+  if (!isEmpty(shape.state)) {
+    Object.keys(shape.state).forEach(key => {
+      if (isFunction(shape.state[key])) {
+        const stateStyle = shape.state[key];
+        shape.state[key] = (...args: any[]) => normalizeStyle(stateStyle(...args));
+      } else if (!isEmpty(shape.state[key])) {
+        shape.state[key] = normalizeStyle(shape.state[key]);
+      }
+    });
+  }
+
+  return shape;
+}
 
 export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect) {
   const {
@@ -57,7 +93,7 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
     transformToGraphic(item.focusIconStyle);
   }
   if (item.shape) {
-    item.shape = transformComponentStyle(item.shape);
+    item.shape = normalizeLegendShapeTextureConfig(transformComponentStyle(item.shape));
   }
   if (item.label) {
     item.label = transformComponentStyle(item.label);

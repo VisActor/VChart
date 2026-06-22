@@ -48,6 +48,39 @@ const createPieTextureSpec = () => {
   };
 };
 
+const createPieLegendShapeTextureSpec = () => {
+  const data = [
+    { type: 'oxygen', value: '46.60', texture: 'circle' },
+    { type: 'other', value: '53.40' }
+  ];
+
+  return {
+    type: 'pie',
+    data: [
+      {
+        id: 'id0',
+        values: data
+      }
+    ],
+    valueField: 'value',
+    categoryField: 'type',
+    legends: {
+      visible: true,
+      orient: 'top',
+      select: false,
+      item: {
+        shape: {
+          style: {
+            symbolType: 'circle',
+            texture: (datum: { texture: string }) => datum.texture
+          }
+        }
+      }
+    },
+    animation: false
+  };
+};
+
 describe('pie chart test', () => {
   let container: HTMLElement;
   let dom: HTMLElement;
@@ -82,6 +115,32 @@ describe('pie chart test', () => {
 
       expect(firstItem?.datum?.texture).toBe('circle');
       expect(shapeStyle(firstItem, true, 0, legendComponent.attribute.items).texture).toBe('circle');
+    } finally {
+      chart.release();
+    }
+  });
+
+  test('should render legend shape texture callback with default pattern size', () => {
+    const chart = new VChart(createPieLegendShapeTextureSpec() as any, {
+      dom,
+      animation: false
+    });
+
+    try {
+      expect(() => chart.renderSync()).not.toThrow();
+
+      const legendModel = chart.getComponents().find(component => component.type === 'discreteLegend') as any;
+      const legendComponent = legendModel?.getVRenderComponents?.()[0];
+      const items = legendComponent.attribute.items;
+      const shapeStyle = legendComponent.attribute.item.shape.style;
+
+      expect(shapeStyle(items[0], true, 0, items)).toEqual(
+        expect.objectContaining({
+          texture: 'circle',
+          texturePadding: 1,
+          textureSize: 4
+        })
+      );
     } finally {
       chart.release();
     }
