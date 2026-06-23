@@ -1,9 +1,12 @@
 import { default as VChartConstructor } from '../../../../src/vchart-simple';
+import { default as FullVChartConstructor } from '../../../../src';
 import { createCanvas, removeDom } from '../../../util/dom';
 
 describe('poptip simple register', () => {
   let canvasDom: HTMLCanvasElement;
+  let fullEntryCanvasDom: HTMLCanvasElement | undefined;
   let vchart: InstanceType<typeof VChartConstructor> | undefined;
+  let fullEntryVChart: InstanceType<typeof FullVChartConstructor> | undefined;
 
   beforeEach(() => {
     canvasDom = createCanvas();
@@ -17,10 +20,16 @@ describe('poptip simple register', () => {
   afterEach(() => {
     removeDom(canvasDom);
     vchart?.release();
+    if (fullEntryCanvasDom) {
+      removeDom(fullEntryCanvasDom);
+    }
+    fullEntryVChart?.release();
+    fullEntryCanvasDom = undefined;
+    fullEntryVChart = undefined;
   });
 
-  test('should not install poptipForText by default in simple entry', () => {
-    vchart = new VChartConstructor(
+  const createSimpleChart = () =>
+    new VChartConstructor(
       {
         type: 'area',
         data: {
@@ -52,6 +61,42 @@ describe('poptip simple register', () => {
         animation: false
       }
     );
+
+  const createFullEntryChart = () => {
+    fullEntryCanvasDom = createCanvas();
+    fullEntryCanvasDom.style.position = 'relative';
+    fullEntryCanvasDom.style.width = '500px';
+    fullEntryCanvasDom.style.height = '500px';
+    fullEntryCanvasDom.width = 500;
+    fullEntryCanvasDom.height = 500;
+
+    return new FullVChartConstructor(
+      {
+        type: 'bar',
+        data: { values: [{ x: 'A', y: 1 }] },
+        xField: 'x',
+        yField: 'y',
+        animation: false
+      },
+      {
+        renderCanvas: fullEntryCanvasDom,
+        animation: false
+      }
+    );
+  };
+
+  test('should not install poptipForText by default in simple entry', () => {
+    vchart = createSimpleChart();
+    vchart.renderSync();
+
+    expect(vchart.getStage().pluginService.findPluginsByName('poptipForText').length).toBe(0);
+  });
+
+  test('should not install poptipForText in simple entry after a full entry chart stays active', () => {
+    fullEntryVChart = createFullEntryChart();
+    fullEntryVChart.renderSync();
+
+    vchart = createSimpleChart();
     vchart.renderSync();
 
     expect(vchart.getStage().pluginService.findPluginsByName('poptipForText').length).toBe(0);
