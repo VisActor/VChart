@@ -60,4 +60,44 @@ describe('MarkPoint Style', () => {
     expect(textStyle.fontSize).toBe(20);
     expect(textStyle.fill).toBe('red');
   });
+
+  it('should transform rich textStyle to richText item content', () => {
+    const richText = [
+      {
+        text: 'RICHTEXT',
+        fontWeight: 'bold',
+        fontSize: 25,
+        fill: '#3f51b5'
+      },
+      {
+        text: '替代方案',
+        fontStyle: 'italic',
+        textDecoration: 'underline',
+        fill: '#3f51b5'
+      }
+    ];
+    const spec = {
+      itemContent: {
+        textStyle: {
+          type: 'rich',
+          text: richText
+        }
+      },
+      itemLine: {}
+    };
+
+    const ctx: any = {
+      getChart: () => ({
+        getTheme: () => ({})
+      })
+    };
+
+    const markPoint = new TestMarkPoint(spec as any, ctx);
+    const component = markPoint.getMarkerComponent() as any;
+    const itemContent = component.attribute.itemContent;
+
+    expect(itemContent.type).toBe('richText');
+    expect(itemContent.style.textConfig).toEqual(richText);
+    expect(itemContent.style.text).toBeUndefined();
+  });
 });

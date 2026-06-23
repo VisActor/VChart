@@ -24,6 +24,16 @@ import type { CartesianAxis } from '../../axis/cartesian';
 const SCROLLBAR_EVENT = 'scrollDrag';
 const SCROLLBAR_END_EVENT = 'scrollUp';
 
+const SCROLL_BAR_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  width: true,
+  height: true,
+  rail: true,
+  slider: true,
+  round: true,
+  innerPadding: true,
+  minSliderSize: true
+};
+
 export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.scrollBar;
   type = ComponentTypeEnum.scrollBar;
@@ -90,6 +100,10 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
     }
   }
   /*** end: init event and event dispatch ***/
+
+  protected _getComponentOnlySpecKeys() {
+    return SCROLL_BAR_COMPONENT_ONLY_CHANGE_KEYS;
+  }
 
   /*** start: component lifecycle ***/
 

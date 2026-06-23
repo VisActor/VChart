@@ -7,6 +7,7 @@ import { Factory } from '../../core/factory';
 import type { GraphicEventType } from '@visactor/vrender-core';
 import { TRIGGER_TYPE_ENUM } from './enum';
 import type { BaseEventParams } from '../../event/interface';
+import { removeGraphicState } from '../../util/graphic-state';
 
 const defaultOptions: Partial<IElementHighlightOptions> = {
   highlightState: STATE_VALUE_ENUM.STATE_HIGHLIGHT,
@@ -128,7 +129,7 @@ export class ElementHighlight
   reset(markGraphic: IMarkGraphic, e?: BaseEventParams) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
-        markGraphic.removeState([this.options.highlightState, this.options.blurState]);
+        removeGraphicState(markGraphic, [this.options.highlightState, this.options.blurState]);
       }
     } else {
       this.resetAll(e);

@@ -15,6 +15,14 @@ import { CompilableData } from '../../compile/data/compilable-data';
 import type { ILegend, ILegendCommonSpec } from './interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
 
+const LEGEND_COMPONENT_ONLY_CHANGE_KEYS: Record<string, true> = {
+  position: true,
+  item: true,
+  title: true,
+  pager: true,
+  background: true
+};
+
 export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseComponent<T> implements ILegend {
   layoutType: ILayoutType = 'normal';
   layoutZIndex: number = LayoutZIndex.Legend;
@@ -117,14 +125,41 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (result.reMake) {
+      return result;
+    }
     if (spec?.orient !== prevSpec?.orient) {
       result.reMake = true;
       return result;
     }
-    if (!isEqual(prevSpec, spec)) {
+    if (specChanged && !result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+      return result;
+    }
+    if (specChanged) {
       result.reCompile = true;
     }
     return result;
+  }
+
+  private _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const prevSpecRecord = prevSpec as unknown as Record<string, unknown>;
+    const specRecord = spec as unknown as Record<string, unknown>;
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpecRecord?.[key], specRecord?.[key]) || LEGEND_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   protected abstract _initLegendData(): DataView;

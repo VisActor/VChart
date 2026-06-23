@@ -28,6 +28,23 @@ import { dataZoom } from '../../../theme/builtin/common/component/data-zoom';
 import { isReverse, statePointToData } from '../util';
 import { LayoutModel } from '../../../model/layout-model';
 
+const DATA_ZOOM_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  width: true,
+  height: true,
+  showDetail: true,
+  middleHandler: true,
+  background: true,
+  startHandler: true,
+  endHandler: true,
+  startText: true,
+  endText: true,
+  dragMask: true,
+  selectedBackground: true,
+  backgroundChart: true,
+  selectedBackgroundChart: true,
+  showBackgroundChart: true
+};
+
 export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilterBaseComponent<T> {
   static type = ComponentTypeEnum.dataZoom;
   static readonly transformerConstructor = DataZoomSpecTransformer as any;
@@ -149,6 +166,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this._isReverseCache = isReverse(axis, this._isHorizontal);
       this.effect.onZoomChange();
     }
+  }
+
+  protected _getComponentOnlySpecKeys() {
+    return DATA_ZOOM_COMPONENT_ONLY_CHANGE_KEYS;
   }
 
   clear(): void {

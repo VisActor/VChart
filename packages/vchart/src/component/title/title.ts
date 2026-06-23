@@ -63,6 +63,7 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
    */
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
+    const specChanged = !isEqual(prevSpec, spec);
 
     if (prevSpec?.orient !== spec?.orient || (prevSpec as any)?.visible !== (spec as any).visible) {
       // title 组件切换visible会影响布局，所以需要重新remake
@@ -71,6 +72,14 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
 
     result.change = true;
     result.reRender = true;
+    if (specChanged && !result.reMake) {
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
     return result;
   }
 

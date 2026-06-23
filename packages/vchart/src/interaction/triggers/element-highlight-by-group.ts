@@ -5,6 +5,7 @@ import type { IMarkGraphic } from '../../mark/interface';
 import { isNil } from '@visactor/vutils';
 import type { BaseEventParams } from '../../core';
 import { highlightDefaultOptions } from './util';
+import { removeGraphicState } from '../../util/graphic-state';
 
 const type = 'element-highlight-by-group';
 
@@ -84,7 +85,7 @@ export class ElementHighlightByGroup
         const { interaction } = this.options;
         const statedGraphics = interaction.getStatedGraphics(this);
 
-        g.removeState([this.options.highlightState, this.options.blurState]);
+        removeGraphicState(g, [this.options.highlightState, this.options.blurState]);
 
         interaction.setStatedGraphics(
           this,

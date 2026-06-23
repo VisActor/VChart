@@ -13,6 +13,7 @@ export class GaugeChartSpecTransformer<
   protected _getDefaultSeriesSpec(spec: T): any {
     const series = super._getDefaultSeriesSpec(spec);
 
+    this._addSeriesRelatedSpecKeys(['pin', 'pinBackground', 'pointer']);
     series.radiusField = spec.radiusField;
     series.pin = spec.pin;
     series.pinBackground = spec.pinBackground;

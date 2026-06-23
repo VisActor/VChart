@@ -8,8 +8,10 @@ import { MarkTypeEnum } from './interface/type';
 import { registerLineOrAreaAnimation } from '../animation/config';
 import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
 import { createLine } from '@visactor/vrender-core';
-import { registerLine, registerShadowRoot } from '@visactor/vrender-kits';
-import { registerLineDataLabel, registerSymbolDataLabel } from '@visactor/vrender-components';
+import { registerLine } from '@visactor/vrender-kits/register/register-line';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
+import { registerLineDataLabel } from '@visactor/vrender-components/label/line';
+import { registerSymbolDataLabel } from '@visactor/vrender-components/label/symbol';
 
 export class LineMark extends BaseLineMark<ILineMarkSpec> implements ILineMark {
   static readonly type = MarkTypeEnum.line;

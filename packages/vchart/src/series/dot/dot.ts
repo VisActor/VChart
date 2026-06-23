@@ -27,6 +27,18 @@ import { TransformLevel } from '../../data/initialize';
 import { AttributeLevel } from '../../constant/attribute';
 import { dot } from '../../theme/builtin/common/series/dot';
 
+const DOT_SERIES_COMPILE_ONLY_KEYS: Record<'highLightSeriesGroup' | 'titleField' | 'subTitleField', true> = {
+  highLightSeriesGroup: true,
+  titleField: true,
+  subTitleField: true
+};
+
+const DOT_SERIES_COMPILE_ONLY_SUB_KEYS: Record<'grid', Record<'background', true>> = {
+  grid: {
+    background: true
+  }
+};
+
 export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.dot;
   type = SeriesTypeEnum.dot;
@@ -92,6 +104,21 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     if (isValid(gridBackground)) {
       this._gridBackground = gridBackground;
     }
+  }
+
+  protected _getSpecUpdatePolicy() {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...DOT_SERIES_COMPILE_ONLY_KEYS
+      },
+      compileOnlySubKeys: {
+        ...policy.compileOnlySubKeys,
+        ...DOT_SERIES_COMPILE_ONLY_SUB_KEYS
+      }
+    };
   }
 
   /**

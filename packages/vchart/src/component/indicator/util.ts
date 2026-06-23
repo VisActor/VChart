@@ -1,22 +1,24 @@
-import { array } from '@visactor/vutils';
+import { array, isFunction } from '@visactor/vutils';
 import type { IIndicatorItemSpec } from './interface';
 
 export interface IIndicatorDatum {
   type: 'title' | 'content';
   index: number;
-  datum: any;
+  datum: unknown;
   spec: IIndicatorItemSpec;
 }
 
 export interface IIndicatorMapper {
   title: IIndicatorItemSpec;
   content: IIndicatorItemSpec[];
-  datum: () => any;
+  datum: () => unknown;
 }
 
-export const indicatorMapper = (data: Array<any>, op: IIndicatorMapper) => {
-  const { datum, title, content } = op;
-  const mappedData: Array<any> = [];
+export type IndicatorMapperOption = IIndicatorMapper | (() => IIndicatorMapper);
+
+export const indicatorMapper = (data: Array<unknown>, op: IndicatorMapperOption) => {
+  const { datum, title, content } = isFunction(op) ? op() : op;
+  const mappedData: IIndicatorDatum[] = [];
   const datumResult = datum.call(null);
   if (title.visible) {
     mappedData.push({

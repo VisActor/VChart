@@ -10,8 +10,9 @@ import { MarkTypeEnum } from './interface/type';
 import { registerArcAnimation } from '../animation/config';
 import { polarToCartesian } from '@visactor/vutils';
 import { createArc } from '@visactor/vrender-core';
-import { registerArcDataLabel } from '@visactor/vrender-components';
-import { registerArc, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerArcDataLabel } from '@visactor/vrender-components/label';
+import { registerArc } from '@visactor/vrender-kits/register/register-arc';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 
 export class BaseArcMark<T extends IArcMarkSpec> extends BaseMark<T> implements IMarkRaw<T> {
   readonly type: string = ArcMark.type;

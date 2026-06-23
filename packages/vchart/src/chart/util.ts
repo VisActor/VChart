@@ -6,7 +6,7 @@ import { array, isMiniAppLikeMode, isTrueBrowser, isValid } from '../util';
 import { mergeSpec } from '@visactor/vutils-extension';
 import type { ICartesianChartSpec } from './cartesian/interface';
 import type { IChartOption } from './interface/common';
-import type { IUpdateSpecResult } from '../model/interface';
+import type { IUpdateSpecEffects, IUpdateSpecResult } from '../model/interface';
 import { vglobal } from '@visactor/vrender-core';
 
 export function setDefaultCrosshairForCartesianChart(spec: ICartesianChartSpec) {
@@ -79,8 +79,113 @@ export function calculateChartSize(
   };
 }
 
+const UPDATE_SPEC_EFFECT_KEYS: (keyof IUpdateSpecEffects)[] = [
+  'remake',
+  'compile',
+  'render',
+  'layout',
+  'data',
+  'scaleDomain',
+  'series',
+  'component',
+  'animation',
+  'localOnly'
+];
+
+function mergeUpdateSpecEffects(target: IUpdateSpecResult, ...sources: IUpdateSpecResult[]) {
+  sources.forEach(source => {
+    const sourceEffects = source?.effects;
+
+    if (!sourceEffects) {
+      return;
+    }
+    if (!target.effects) {
+      target.effects = {};
+    }
+    const targetEffects = target.effects;
+
+    UPDATE_SPEC_EFFECT_KEYS.forEach(key => {
+      if (sourceEffects[key]) {
+        targetEffects[key] = targetEffects[key] || sourceEffects[key];
+      }
+    });
+  });
+}
+
+export function normalizeUpdateSpecEffects(result: IUpdateSpecResult): IUpdateSpecEffects {
+  const effects = result.effects ?? (result.effects = {});
+
+  if (result.reMake) {
+    effects.remake = true;
+    effects.compile = true;
+    effects.data = true;
+    effects.scaleDomain = true;
+    effects.layout = true;
+    effects.render = true;
+  }
+  if (result.reCompile) {
+    effects.compile = true;
+    effects.layout = true;
+    effects.render = true;
+  }
+  if (result.reRender) {
+    effects.render = true;
+  }
+  if (result.reSize) {
+    effects.layout = true;
+    effects.render = true;
+  }
+
+  return effects;
+}
+
+export function isUpdateSpecResultLocalOnly(result: IUpdateSpecResult): boolean {
+  const effects = result.effects;
+
+  return (
+    !!effects?.localOnly &&
+    !result.reMake &&
+    !result.reCompile &&
+    !result.reRender &&
+    !result.reSize &&
+    !effects.remake &&
+    !effects.compile &&
+    !effects.render &&
+    !effects.layout &&
+    !effects.data &&
+    !effects.scaleDomain &&
+    !effects.series &&
+    !result.reTransformSpec &&
+    !result.reAnimate &&
+    !result.changeTheme &&
+    !result.changeBackground
+  );
+}
+
+export function isUpdateSpecResultComponentOnly(result: IUpdateSpecResult): boolean {
+  const effects = result.effects;
+
+  return (
+    !!effects?.component &&
+    !result.reMake &&
+    !result.reCompile &&
+    !result.reSize &&
+    !effects.remake &&
+    !effects.compile &&
+    !effects.data &&
+    !effects.scaleDomain &&
+    !effects.series &&
+    !effects.animation &&
+    !result.reTransformSpec &&
+    !result.reAnimate &&
+    !result.changeTheme &&
+    !result.changeBackground
+  );
+}
+
 export function mergeUpdateResult(target: IUpdateSpecResult, ...sources: IUpdateSpecResult[]) {
-  const merge = (key: keyof IUpdateSpecResult) => sources.reduce((value, cur) => value || cur?.[key], target[key]);
+  type UpdateSpecResultFlag = Exclude<keyof IUpdateSpecResult, 'effects'>;
+  const merge = (key: UpdateSpecResultFlag) => sources.reduce((value, cur) => value || cur?.[key], target[key]);
 
   Object.assign(target, {
     change: merge('change'),
@@ -92,6 +197,7 @@ export function mergeUpdateResult(target: IUpdateSpecResult, ...sources: IUpdate
     changeTheme: merge('changeTheme'),
     changeBackground: merge('changeBackground')
   } as Required<IUpdateSpecResult>);
+  mergeUpdateSpecEffects(target, ...sources);
   return target;
 }
 

@@ -4,9 +4,10 @@ import { BaseMark } from './base/base-mark';
 import type { IComponentMark, IMarkOption, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import type { IGraphic, IGroupGraphicAttribute } from '@visactor/vrender-core';
+import type { IGraphic, IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
 import { isNil } from '@visactor/vutils';
 import { HOOK_EVENT } from '../constant/event';
+import { releaseVRenderComponent, releaseVRenderComponentSync } from '../component/base/release-vrender-component';
 
 export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMark {
   static readonly type = MarkTypeEnum.component;
@@ -14,6 +15,8 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
 
   private _componentType: string;
   private _component: IGraphic;
+  private _exitingComponent?: IGraphic;
+  private _exitingProduct?: IGroup;
   private _mode: '2d' | '3d';
 
   constructor(name: string, option: IMarkOption) {
@@ -31,14 +34,102 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
   getComponent() {
     return this._component;
   }
-  clearComponent() {
-    if (this._component) {
-      if (this._component.parent) {
-        this._component.parent.removeChild(this._component);
-      }
 
-      this._component = null;
+  private _clearExitingComponent(component: IGraphic) {
+    if (this._exitingComponent === component) {
+      this._unregisterExitingComponent(component);
+      this._exitingComponent = undefined;
+      this._exitingProduct = undefined;
     }
+  }
+
+  private _removeProductAfterExit(component: IGraphic, product: IGroup) {
+    if (product.parent) {
+      product.parent.removeChild(product, true);
+    }
+    if (this._product === product) {
+      this._product = null;
+      this._compiledProductId = null;
+    }
+    this._clearExitingComponent(component);
+  }
+
+  private _registerExitingComponent(component: IGraphic) {
+    (this.model as any)?.getOption?.()?.globalInstance?._registerExitingVRenderComponent?.(component);
+  }
+
+  private _unregisterExitingComponent(component: IGraphic) {
+    (this.model as any)?.getOption?.()?.globalInstance?._unregisterExitingVRenderComponent?.(component);
+  }
+
+  private _releaseComponentWithExitAnimation(component: IGraphic, releaseProduct: boolean) {
+    const product = this._product;
+
+    if (!component || (this.model as any)?._shouldReleaseVRenderComponentsImmediately?.()) {
+      return false;
+    }
+
+    const releasedWithExit = releaseVRenderComponent(component, {
+      enableExitAnimation: true,
+      removeFromParent: true,
+      onComplete: () => {
+        if (releaseProduct && product) {
+          this._removeProductAfterExit(component, product);
+        } else {
+          this._clearExitingComponent(component);
+        }
+      }
+    });
+
+    if (releasedWithExit) {
+      this._exitingComponent = component;
+      this._exitingProduct = releaseProduct ? product : undefined;
+      this._registerExitingComponent(component);
+    }
+
+    return releasedWithExit;
+  }
+
+  clearComponent() {
+    const component = this._component;
+
+    if (!component) {
+      return;
+    }
+
+    if ((this.model as any)?._shouldReleaseVRenderComponentsImmediately?.()) {
+      releaseVRenderComponentSync(component);
+    } else {
+      this._releaseComponentWithExitAnimation(component, false);
+    }
+
+    this._component = null;
+  }
+
+  releaseWithExitAnimation() {
+    const component = this._component;
+
+    if (!this._releaseComponentWithExitAnimation(component, true)) {
+      return false;
+    }
+
+    this._component = null;
+    this._exitingComponent = component;
+    return true;
+  }
+
+  forceReleaseExitAnimation() {
+    if (!this._exitingComponent) {
+      return;
+    }
+
+    releaseVRenderComponentSync(this._exitingComponent);
+    this._unregisterExitingComponent(this._exitingComponent);
+    if (this._exitingProduct?.parent) {
+      this._exitingProduct.parent.removeChild(this._exitingProduct, true);
+    }
+    this._exitingComponent = undefined;
+    this._exitingProduct = undefined;
   }
 
   protected _getAttrsFromConfig(attrs: IGroupGraphicAttribute = {}) {
@@ -117,8 +208,28 @@ export class ComponentMark extends BaseMark<ICommonSpec> implements IComponentMa
   }
 
   release() {
+    if ((this.model as any)?._shouldReleaseVRenderComponentsImmediately?.()) {
+      this.forceReleaseExitAnimation();
+      super.release();
+      this.removeProduct(true);
+      return;
+    }
+
+    if (this._exitingComponent) {
+      if (!this._releaseComponentWithExitAnimation(this._exitingComponent, true)) {
+        this.removeProduct(true);
+      }
+      super.release();
+      return;
+    }
+
+    if (this.releaseWithExitAnimation()) {
+      super.release();
+      return;
+    }
+
     super.release();
-    this.removeProduct();
+    this.removeProduct(true);
   }
 }
 
