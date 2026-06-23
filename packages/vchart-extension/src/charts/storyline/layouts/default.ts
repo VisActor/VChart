@@ -10,13 +10,15 @@ import {
   DEFAULT_IMAGE_HEIGHT,
   DEFAULT_IMAGE_GAP,
   buildRichContent,
+  getImageBackgroundStyle,
   getImageBox,
   getLayout,
   getTextBox,
-  getThemeColor,
   normalizePadding,
   omitImageLayoutSpec,
   resolveBlockWidth,
+  resolveAdaptiveLineHeight,
+  resolveTitleFontSize,
   shouldShowImageBackground
 } from './common';
 
@@ -67,9 +69,6 @@ const getDefaultBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index:
   const imageHeight = spec.image?.height ?? DEFAULT_IMAGE_HEIGHT;
   const imageGap = spec.image?.gap ?? DEFAULT_IMAGE_GAP;
   const hasImage = !!spec.data?.[index]?.image;
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
-  const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
-  const titleHeight = spec.data?.[index]?.title ? titleLineHeight : 0;
   const blockWidth = block?.width ?? resolveBlockWidth(spec, 0);
   const blockHeight = block?.height ?? spec.block?.height ?? DEFAULT_BLOCK_HEIGHT;
   const imageBox = getImageBox(
@@ -92,6 +91,9 @@ const getDefaultBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index:
     imageGap,
     hasImage
   );
+  const titleFontSize = resolveTitleFontSize(spec, ctx, spec.data?.[index]?.title, textBox.width, 18, [8, 28]);
+  const titleLineHeight = resolveAdaptiveLineHeight(titleFontSize, spec.title?.style as any, Math.round(18 * 1.35));
+  const titleHeight = spec.data?.[index]?.title ? titleLineHeight : 0;
   const contentGap = spec.data?.[index]?.title ? 8 : 0;
 
   return {
@@ -99,6 +101,8 @@ const getDefaultBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index:
       width: blockWidth,
       height: blockHeight
     },
+    titleFontSize,
+    titleLineHeight,
     imageBox,
     textBox,
     contentBox: {
@@ -115,9 +119,6 @@ export const buildDefaultBlockMark = (
 ): IExtensionGroupMarkSpec => {
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 18);
-  const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
-  const themeColor = getThemeColor(spec);
 
   return {
     type: 'group' as any,
@@ -162,9 +163,7 @@ export const buildDefaultBlockMark = (
               width: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.width,
               height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).imageBox.height,
               cornerRadius: 8,
-              fill: '#ffffff',
-              stroke: themeColor,
-              lineWidth: 2,
+              ...getImageBackgroundStyle(spec),
               ...spec.block?.style
             }
           } as ICustomMarkSpec<'rect'>)
@@ -197,8 +196,9 @@ export const buildDefaultBlockMark = (
               text: block.title,
               maxLineWidth: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).textBox.width,
-              fontSize: titleFontSize,
-              lineHeight: titleLineHeight,
+              fontSize: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).titleFontSize,
+              lineHeight: (_datum: unknown, ctx: LayoutContext) =>
+                getDefaultBlockMetrics(spec, ctx, index).titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
               stroke: '#fff',

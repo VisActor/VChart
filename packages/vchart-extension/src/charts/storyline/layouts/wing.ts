@@ -6,12 +6,16 @@ import {
   type LayoutContext,
   type StorylinePoint,
   buildRichContent,
+  getImageBackgroundStyle,
+  getChartGeometry,
   getRegionGeometry,
   getThemeColor,
+  getTitleImageSize,
   normalizeLayout,
   omitImageLayoutSpec,
-  shouldShowImageBackground,
-  withAlpha
+  resolveAdaptiveLineHeight,
+  resolveTitleFontSize,
+  shouldShowImageBackground
 } from './common';
 
 // wing 布局：参考残奥时间线信息图
@@ -32,9 +36,11 @@ const WING_TEXT_BOX_WIDTH = 240;
 // title + content 区域总高度
 const WING_TEXT_BOX_HEIGHT = 110;
 const WING_TITLE_TO_CONTENT_GAP = 4;
+const WING_TITLE_IMAGE_WIDTH_RATIO = 0.6;
+const WING_TITLE_IMAGE_MAX_WIDTH = 820;
 
 const getWingDirection = (spec: IStorylineSpec): StorylineWingDirection => {
-  return normalizeLayout(spec.layout).direction ?? 'left';
+  return normalizeLayout(spec.layout).direction === 'right' ? 'right' : 'left';
 };
 
 /**
@@ -160,14 +166,75 @@ export const buildWingArcMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec 
   };
 };
 
+export const buildWingTitleImageMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
+  if (!spec.titleImage?.image || spec.titleImage.visible === false) {
+    return null;
+  }
+  return {
+    type: 'group' as any,
+    name: 'storyline-wing-title-image',
+    zIndex: LayoutZIndex.Mark + 8,
+    children: [
+      {
+        type: 'image',
+        name: 'storyline-wing-title-image-node',
+        interactive: false,
+        ...spec.titleImage,
+        style: {
+          x: (_d: unknown, ctx: LayoutContext) => {
+            const { width, height, startX } = getChartGeometry(ctx, spec);
+            const size = getTitleImageSize(spec, width, height, {
+              widthRatio: WING_TITLE_IMAGE_WIDTH_RATIO,
+              maxWidth: WING_TITLE_IMAGE_MAX_WIDTH
+            });
+            return getWingDirection(spec) === 'right' ? startX : startX + width - size.width;
+          },
+          y: (_d: unknown, ctx: LayoutContext) => {
+            return getChartGeometry(ctx, spec).startY + 12;
+          },
+          width: (_d: unknown, ctx: LayoutContext) => {
+            const { width, height } = getChartGeometry(ctx, spec);
+            return getTitleImageSize(spec, width, height, {
+              widthRatio: WING_TITLE_IMAGE_WIDTH_RATIO,
+              maxWidth: WING_TITLE_IMAGE_MAX_WIDTH
+            }).width;
+          },
+          height: (_d: unknown, ctx: LayoutContext) => {
+            const { width, height } = getChartGeometry(ctx, spec);
+            return getTitleImageSize(spec, width, height, {
+              widthRatio: WING_TITLE_IMAGE_WIDTH_RATIO,
+              maxWidth: WING_TITLE_IMAGE_MAX_WIDTH
+            }).height;
+          },
+          image: spec.titleImage.image,
+          repeatX: 'no-repeat',
+          repeatY: 'no-repeat',
+          imageMode: 'contain',
+          imagePosition: 'center',
+          ...spec.titleImage.style
+        }
+      } as ICustomMarkSpec<'image'>
+    ]
+  };
+};
+
 // text box 与 image 的水平间距（image 左边缘到 text box 右边缘的距离）
 const WING_TEXT_IMAGE_GAP = 120;
 
 const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: number) => {
-  const titleFontSize = Number((spec.title?.style as Record<string, unknown>)?.fontSize ?? WING_TITLE_FONT_SIZE);
-  const titleLineHeight = Number(
-    (spec.title?.style as Record<string, unknown>)?.lineHeight ??
-      Math.max(WING_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.3))
+  const titleFontSize = resolveTitleFontSize(
+    spec,
+    ctx,
+    spec.data?.[index]?.title,
+    WING_TEXT_BOX_WIDTH,
+    WING_TITLE_FONT_SIZE,
+    [8, 30]
+  );
+  const titleLineHeight = resolveAdaptiveLineHeight(
+    titleFontSize,
+    spec.title?.style as Record<string, unknown> | undefined,
+    WING_TITLE_LINE_HEIGHT,
+    1.3
   );
   const contentFontSize = Number((spec.content?.style as Record<string, unknown>)?.fontSize ?? WING_CONTENT_FONT_SIZE);
   const contentLineHeight = Number(
@@ -312,8 +379,7 @@ export const buildWingBlockMark = (
                   getWingBlockMetrics(spec, ctx, index).imageBox.height
                 ) + 12,
               symbolType: 'circle',
-              fill: withAlpha(themeColor, 0.18),
-              stroke: themeColor,
+              ...getImageBackgroundStyle(spec),
               lineWidth: 1.5
             }
           } as ICustomMarkSpec<'symbol'>)
@@ -337,7 +403,7 @@ export const buildWingBlockMark = (
               image: block.image,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
-              imageMode: 'cover',
+              imageMode: 'contain',
               imagePosition: 'center',
               ...spec.image?.style
             }
@@ -356,9 +422,7 @@ export const buildWingBlockMark = (
                   getWingBlockMetrics(spec, ctx, index).imageBox.width,
                   getWingBlockMetrics(spec, ctx, index).imageBox.height
                 ) / 2,
-              fill: '#ffffff',
-              stroke: themeColor,
-              lineWidth: 2
+              ...getImageBackgroundStyle(spec)
             }
           } as ICustomMarkSpec<'rect'>),
       block.title

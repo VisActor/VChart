@@ -6,10 +6,13 @@ import {
   type LayoutContext,
   DEFAULT_BLOCK_HEIGHT,
   buildRichContent,
+  getImageBackgroundStyle,
   getLayout,
-  getThemeColor,
   omitImageLayoutSpec,
+  resolveAdaptiveLineHeight,
+  resolveMarkerFontSize,
   resolveBlockWidth,
+  resolveTitleFontSize,
   shouldShowImageBackground,
   withAlpha
 } from './common';
@@ -17,7 +20,7 @@ import {
 // portrait 布局：中轴 rect + 左右交替的 image + image 下方 title/content
 // 中轴默认加宽，便于在轴上叠放 block.marker 时间节点文字（纵向逐字排列）
 const PORTRAIT_AXIS_WIDTH = 96;
-const PORTRAIT_AXIS_PADDING = 50; // 中轴上下两端的留白
+const PORTRAIT_AXIS_PADDING = 120; // 中轴上下两端的留白
 // marker 时间节点文字的默认样式（fontSize 30、白色字、贴轴对应一侧边缘）
 const PORTRAIT_MARKER_FONT_SIZE = 40;
 const PORTRAIT_MARKER_LINE_HEIGHT = 28;
@@ -27,7 +30,7 @@ const PORTRAIT_MARKER_AXIS_PADDING = 6; // marker 距离轴边缘的水平内边
 // - content 高度 = slotHeight * (0.6 + 0.4)
 // 其中 slotHeight = regionHeight / (blockCount + 1)，由 getLayout 计算。
 export const PORTRAIT_IMAGE_HEIGHT_RATIO = 0.6;
-export const PORTRAIT_CONTENT_HEIGHT_RATIO = 1;
+export const PORTRAIT_CONTENT_HEIGHT_RATIO = 1.25;
 const PORTRAIT_IMAGE_GAP_FROM_AXIS = 24; // image 与中轴之间的水平间距
 const PORTRAIT_SHADOW_OFFSET_X = 24; // subImage 相对主 image 的水平错位量
 const PORTRAIT_SHADOW_OFFSET_Y = 16; // subImage 相对主 image 的垂直错位量
@@ -39,29 +42,8 @@ export const PORTRAIT_CONTENT_LINE_HEIGHT = 26;
 const PORTRAIT_CONTENT_FONT_SIZE = 18;
 export const PORTRAIT_TITLE_TO_CONTENT_GAP = 4;
 
-/**
- * 获取 portrait 布局的中轴 rect 尺寸：宽度固定，高度贯穿首/尾 block 中心。
- */
-const getPortraitAxisRect = (spec: IStorylineSpec, ctx: LayoutContext) => {
-  const blocks = getLayout(spec, ctx).blocks;
-  if (!blocks.length) {
-    return { x: 0, y: 0, width: 0, height: 0 };
-  }
-  const firstCy = blocks[0].center.y;
-  const lastCy = blocks[blocks.length - 1].center.y;
-  const top = Math.min(firstCy, lastCy);
-  const bottom = Math.max(firstCy, lastCy);
-  const cx = blocks[0].center.x;
-  return {
-    x: cx - PORTRAIT_AXIS_WIDTH / 2,
-    y: top - PORTRAIT_AXIS_PADDING,
-    width: PORTRAIT_AXIS_WIDTH,
-    height: bottom - top + PORTRAIT_AXIS_PADDING * 2
-  };
-};
-
 export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec => {
-  const themeColor = getThemeColor(spec);
+  const themeColor = spec.themeColor ?? '#e8543d';
   const lineStyle = spec.line?.style ?? {};
   const defaultFill = {
     gradient: 'linear',
@@ -75,11 +57,7 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
     ]
   };
   // marker 时间节点文字：垂直方向逐字排列（每字符换行）
-  const markerFontSize = Number((spec.marker?.style as any)?.fontSize ?? PORTRAIT_MARKER_FONT_SIZE);
-  const markerLineHeight = Number((spec.marker?.style as any)?.lineHeight ?? PORTRAIT_MARKER_LINE_HEIGHT);
   const markerVisible = spec.marker?.visible !== false;
-  // 把 "2012" 拆成 "2\n0\n1\n2"，由 text mark 的多行文本能力实现纵向排列
-  const splitVertical = (text: string) => text.split('').join('\n');
 
   const markerMarks = markerVisible
     ? (spec.data ?? [])
@@ -110,15 +88,31 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
                 const lb = getLayout(spec, ctx).blocks[index];
                 return lb?.center?.y ?? 0;
               },
-              text: {
-                type: 'rich',
-                text: block.marker.split('').map((char, i, arr) => ({
-                  text: char + (i < arr.length - 1 ? '\n' : ''),
-                  fontSize: markerFontSize,
-                  lineHeight: markerLineHeight,
-                  fill: '#fff',
-                  align: markerTextAlign
-                }))
+              text: (_d: unknown, ctx: LayoutContext) => {
+                const axis = getPortraitAxisRect(spec, ctx);
+                const markerFontSize = resolveMarkerFontSize(
+                  spec,
+                  ctx,
+                  block.marker,
+                  axis.height / Math.max(spec.data?.length ?? 1, 1),
+                  PORTRAIT_MARKER_FONT_SIZE
+                );
+                const markerLineHeight = resolveAdaptiveLineHeight(
+                  markerFontSize,
+                  spec.marker?.style as any,
+                  PORTRAIT_MARKER_LINE_HEIGHT,
+                  0.9
+                );
+                return {
+                  type: 'rich',
+                  text: block.marker.split('').map((char, i, arr) => ({
+                    text: char + (i < arr.length - 1 ? '\n' : ''),
+                    fontSize: markerFontSize,
+                    lineHeight: markerLineHeight,
+                    fill: '#fff',
+                    align: markerTextAlign
+                  }))
+                };
               },
               fontWeight: 'bold',
               lineJoin: 'round',
@@ -160,11 +154,13 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
   };
 };
 
-const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeight: number, index: number) => {
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
-  const titleLineHeight = Number(
-    (spec.title?.style as any)?.lineHeight ?? Math.max(PORTRAIT_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
-  );
+const getPortraitMetrics = (
+  spec: IStorylineSpec,
+  blockWidth: number,
+  blockHeight: number,
+  index: number,
+  ctx: LayoutContext
+) => {
   const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? PORTRAIT_CONTENT_FONT_SIZE);
   const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? PORTRAIT_CONTENT_LINE_HEIGHT);
   const titleToContentGap = PORTRAIT_TITLE_TO_CONTENT_GAP;
@@ -173,6 +169,12 @@ const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeigh
   // 默认 image 宽度 = blockWidth，让 image 横向自适应单个 block 槽位宽度
   const imageWidth = spec.image?.width ?? Math.max(blockWidth, 80);
   const imageHeight = spec.image?.height ?? Math.round(blockHeight * PORTRAIT_IMAGE_HEIGHT_RATIO);
+  const titleFontSize = resolveTitleFontSize(spec, ctx, spec.data?.[index]?.title, imageWidth, 26, [8, 34]);
+  const titleLineHeight = resolveAdaptiveLineHeight(
+    titleFontSize,
+    spec.title?.style as any,
+    PORTRAIT_TITLE_LINE_HEIGHT
+  );
   const minContentHeight = PORTRAIT_CONTENT_LINES * contentLineHeight;
   // 默认 content 高度 = blockHeight * 0.4
   const contentHeight = Math.max(minContentHeight, Math.round(blockHeight * PORTRAIT_CONTENT_HEIGHT_RATIO));
@@ -225,6 +227,37 @@ const getPortraitMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeigh
   };
 };
 
+/**
+ * 获取 portrait 布局的中轴 rect 尺寸：宽度固定，高度覆盖首尾 block 的完整内容范围。
+ */
+const getPortraitAxisRect = (spec: IStorylineSpec, ctx: LayoutContext) => {
+  const blocks = getLayout(spec, ctx).blocks;
+  if (!blocks.length) {
+    return { x: 0, y: 0, width: 0, height: 0 };
+  }
+  let top = Number.POSITIVE_INFINITY;
+  let bottom = Number.NEGATIVE_INFINITY;
+  blocks.forEach((block, index) => {
+    const metrics = getPortraitMetrics(spec, block.width, block.height, index, ctx);
+    const localTop = Math.min(metrics.imageBox.y, metrics.shadowBox.y, metrics.textBox.y, metrics.contentBox.y);
+    const localBottom = Math.max(
+      metrics.imageBox.y + metrics.imageBox.height,
+      metrics.shadowBox.y + metrics.shadowBox.height,
+      metrics.textBox.y + metrics.textBox.height,
+      metrics.contentBox.y + metrics.contentBox.height
+    );
+    top = Math.min(top, block.center.y + localTop);
+    bottom = Math.max(bottom, block.center.y + localBottom);
+  });
+  const cx = blocks[0].center.x;
+  return {
+    x: cx - PORTRAIT_AXIS_WIDTH / 2,
+    y: top - PORTRAIT_AXIS_PADDING,
+    width: PORTRAIT_AXIS_WIDTH,
+    height: bottom - top + PORTRAIT_AXIS_PADDING * 2
+  };
+};
+
 export const buildPortraitBlockMark = (
   spec: IStorylineSpec,
   block: IStorylineBlock,
@@ -233,18 +266,13 @@ export const buildPortraitBlockMark = (
   const hasImage = !!block.image;
   const hasSubImage = !!block.subImage;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
-  const titleLineHeight = Number(
-    (spec.title?.style as any)?.lineHeight ?? Math.max(PORTRAIT_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
-  );
 
   const getMetrics = (ctx: LayoutContext) => {
     const lb = getLayout(spec, ctx).blocks[index];
     const w = lb?.width ?? resolveBlockWidth(spec, 0);
     const h = lb?.height ?? spec.block?.height ?? DEFAULT_BLOCK_HEIGHT;
-    return getPortraitMetrics(spec, w, h, index);
+    return getPortraitMetrics(spec, w, h, index, ctx);
   };
-  const themeColor = getThemeColor(spec);
   const blockStyle = spec.block?.style ?? {};
 
   return {
@@ -276,7 +304,7 @@ export const buildPortraitBlockMark = (
               image: block.subImage,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
-              imageMode: 'cover',
+              imageMode: 'contain',
               imagePosition: 'center'
             }
           } as ICustomMarkSpec<'image'>)
@@ -292,9 +320,7 @@ export const buildPortraitBlockMark = (
               width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
               cornerRadius: 8,
-              fill: '#ffffff',
-              stroke: themeColor,
-              lineWidth: 2,
+              ...getImageBackgroundStyle(spec),
               ...blockStyle
             }
           } as ICustomMarkSpec<'rect'>)
@@ -313,7 +339,7 @@ export const buildPortraitBlockMark = (
               image: block.image,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
-              imageMode: 'cover',
+              imageMode: 'contain',
               imagePosition: 'center',
               ...spec.image?.style
             }
@@ -330,8 +356,8 @@ export const buildPortraitBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
-              fontSize: titleFontSize,
-              lineHeight: titleLineHeight,
+              fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleFontSize,
+              lineHeight: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
               stroke: '#fff',

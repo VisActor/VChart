@@ -6,6 +6,7 @@ import {
   DEFAULT_BLOCK_HEIGHT,
   DEFAULT_IMAGE_GAP,
   buildRichContent,
+  getImageBackgroundStyle,
   getImageBox,
   getLayout,
   getRegionGeometry,
@@ -14,7 +15,9 @@ import {
   normalizeLayout,
   normalizePadding,
   omitImageLayoutSpec,
+  resolveAdaptiveLineHeight,
   resolveBlockWidth,
+  resolveTitleFontSize,
   shouldShowImageBackground,
   withAlpha
 } from './common';
@@ -193,14 +196,6 @@ const getLadderBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: 
   const imageHeight = spec.image?.height ?? LADDER_BLOCK_IMAGE_SIZE;
   const imageGap = spec.image?.gap ?? DEFAULT_IMAGE_GAP;
   const hasImage = !!spec.data?.[index]?.image;
-  const titleFontSize = Number(
-    (spec.title?.style as { fontSize?: number } | undefined)?.fontSize ?? LADDER_TITLE_FONT_SIZE
-  );
-  const titleLineHeight = Number(
-    (spec.title?.style as { lineHeight?: number } | undefined)?.lineHeight ??
-      Math.round(titleFontSize * (LADDER_TITLE_LINE_HEIGHT / LADDER_TITLE_FONT_SIZE))
-  );
-  const titleHeight = spec.data?.[index]?.title ? titleLineHeight : 0;
   const blockWidth = block?.width ?? resolveBlockWidth(spec, 0);
   const blockHeight = block?.height ?? spec.block?.height ?? DEFAULT_BLOCK_HEIGHT;
   const imageBox = getImageBox(
@@ -223,9 +218,26 @@ const getLadderBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: 
     imageGap,
     hasImage
   );
+  const titleFontSize = resolveTitleFontSize(
+    spec,
+    ctx,
+    spec.data?.[index]?.title,
+    textBox.width,
+    LADDER_TITLE_FONT_SIZE,
+    [8, 34]
+  );
+  const titleLineHeight = resolveAdaptiveLineHeight(
+    titleFontSize,
+    spec.title?.style as any,
+    LADDER_TITLE_LINE_HEIGHT,
+    LADDER_TITLE_LINE_HEIGHT / LADDER_TITLE_FONT_SIZE
+  );
+  const titleHeight = spec.data?.[index]?.title ? titleLineHeight : 0;
   const contentGap = spec.data?.[index]?.title ? 8 : 0;
   return {
     block: { width: blockWidth, height: blockHeight },
+    titleFontSize,
+    titleLineHeight,
     imageBox,
     textBox,
     contentBox: {
@@ -249,16 +261,8 @@ export const buildLadderBlockMark = (
   const onLeft = isOnLeft(index);
   const align = onLeft ? 'right' : 'left';
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number(
-    (spec.title?.style as { fontSize?: number } | undefined)?.fontSize ?? LADDER_TITLE_FONT_SIZE
-  );
-  const titleLineHeight = Number(
-    (spec.title?.style as { lineHeight?: number } | undefined)?.lineHeight ??
-      Math.round(titleFontSize * (LADDER_TITLE_LINE_HEIGHT / LADDER_TITLE_FONT_SIZE))
-  );
   const showBackground = spec.block?.showBackground === true;
   const showImageBackground = shouldShowImageBackground(spec);
-  const themeColor = getThemeColor(spec);
 
   // textAlign='right' 时 x 锚点取 textBox 右端，否则取左端
   const getTitleX = (ctx: LayoutContext) => {
@@ -309,9 +313,7 @@ export const buildLadderBlockMark = (
               width: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).imageBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).imageBox.height,
               cornerRadius: 8,
-              fill: '#ffffff',
-              stroke: themeColor,
-              lineWidth: 2,
+              ...getImageBackgroundStyle(spec),
               ...spec.block?.style
             }
           } as ICustomMarkSpec<'rect'>)
@@ -343,8 +345,8 @@ export const buildLadderBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
-              fontSize: titleFontSize,
-              lineHeight: titleLineHeight,
+              fontSize: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).titleFontSize,
+              lineHeight: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
               stroke: '#fff',

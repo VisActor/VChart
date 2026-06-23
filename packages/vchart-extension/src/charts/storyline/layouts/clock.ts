@@ -5,9 +5,13 @@ import {
   type ICustomMarkSpec,
   type LayoutContext,
   buildRichContent,
+  getImageBackgroundStyle,
   getRegionGeometry,
   getThemeColor,
   normalizePadding,
+  omitImageLayoutSpec,
+  resolveAdaptiveLineHeight,
+  resolveTitleFontSize,
   shouldShowImageBackground,
   withAlpha
 } from './common';
@@ -21,20 +25,20 @@ import {
  *                      │                                                 │
  *           ●●●        │           ┌───── 虚线轨道圆环 ─────┐            │
  *      圆形 dot ──────引线──────┤                          │
- *                      │           │     ◎ centerImage     │
+ *                      │           │     ◎ titleImage      │
  *                      │           │     （大圆人像）      │
  *                      │           └───────────────────────┘
  *                      └─────────────────────────────────────────────┘
  *
- * - centerImage：圆形大图，位于版面中心
- * - 虚线轨道：紧贴 centerImage 外侧的圆环，提供时间线的视觉骨架
+ * - titleImage：可选中心图，位于版面中心
+ * - 虚线轨道：紧贴中心区域外侧的圆环，提供时间线的视觉骨架
  * - 每个 block 由 1 个圆形小图（dot）压在轨道上，外加一段从 dot 引出的 title + content 文字
  * - block 沿轨道环绕分布（默认 360°）；左半圆 block 文字 right-align，右半圆 block 文字 left-align
  */
 
 // ===== 半径配置（按可用半径的比例划分各圈层）=====
 const CLOCK_CENTER_RADIUS_RATIO = 0.6; // 中心圆半径（更大）
-const CLOCK_CENTER_IMAGE_INSET_RATIO = 0.9; // centerImage 相对中心圆的尺寸比例（留出环形空隙）
+const CLOCK_CENTER_IMAGE_INSET_RATIO = 0.9; // titleImage 相对中心圆的尺寸比例（留出环形空隙）
 const CLOCK_ORBIT_RATIO = 0.68; // 虚线轨道半径
 const CLOCK_DOT_RATIO = 0.68; // 圆形小图（dot）中心所在半径（与轨道重合）
 const CLOCK_TEXT_INNER_RATIO = 0.92; // block 文字段起始半径（距离圆心更远）
@@ -103,18 +107,18 @@ const isOnLeftHalf = (angle: number) => Math.cos(angle) < 0;
 
 // ===== 中心圆 =====
 
-export const buildClockCenterImageMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
-  if (spec.centerImage?.visible === false) {
+export const buildClockTitleImageMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
+  if (spec.titleImage?.visible === false) {
     return null;
   }
   const themeColor = getThemeColor(spec);
-  const hasImage = !!spec.centerImage?.image;
+  const hasImage = !!spec.titleImage?.image;
   return {
     type: 'group' as any,
     name: 'storyline-clock-center',
     zIndex: LayoutZIndex.Mark + 2,
     children: [
-      // centerImage 背后的高亮光晕（主题色透明色，营造"焦点"效果）
+      // titleImage 背后的高亮光晕（主题色透明色，营造"焦点"效果）
       {
         type: 'symbol',
         name: 'storyline-clock-center-halo',
@@ -149,10 +153,10 @@ export const buildClockCenterImageMark = (spec: IStorylineSpec): IExtensionGroup
                 getClockGeometry(spec, ctx).R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO * 2,
               height: (_d: unknown, ctx: LayoutContext) =>
                 getClockGeometry(spec, ctx).R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO * 2,
-              image: spec.centerImage?.image,
+              image: spec.titleImage?.image,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
-              imageMode: 'cover',
+              imageMode: 'contain',
               imagePosition: 'center',
               cornerRadius: (_d: unknown, ctx: LayoutContext) =>
                 getClockGeometry(spec, ctx).R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO,
@@ -165,18 +169,18 @@ export const buildClockCenterImageMark = (spec: IStorylineSpec): IExtensionGroup
               dx: (_d: unknown, ctx: LayoutContext) => {
                 const g = getClockGeometry(spec, ctx);
                 const rectW = g.R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO * 2;
-                const userWidth = (spec.centerImage?.style as { width?: number } | undefined)?.width;
+                const userWidth = (spec.titleImage?.style as { width?: number } | undefined)?.width;
                 const w = typeof userWidth === 'number' ? userWidth : rectW;
                 return (rectW - w) / 2;
               },
               dy: (_d: unknown, ctx: LayoutContext) => {
                 const g = getClockGeometry(spec, ctx);
                 const rectH = g.R * CLOCK_CENTER_RADIUS_RATIO * CLOCK_CENTER_IMAGE_INSET_RATIO * 2;
-                const userHeight = (spec.centerImage?.style as { height?: number } | undefined)?.height;
+                const userHeight = (spec.titleImage?.style as { height?: number } | undefined)?.height;
                 const h = typeof userHeight === 'number' ? userHeight : rectH;
                 return (rectH - h) / 2;
               },
-              ...spec.centerImage?.style
+              ...spec.titleImage?.style
             }
           } as ICustomMarkSpec<'image'>)
         : ({
@@ -200,7 +204,7 @@ export const buildClockCenterImageMark = (spec: IStorylineSpec): IExtensionGroup
 // ===== 虚线轨道 =====
 
 /**
- * 紧贴 centerImage 外侧的虚线圆环轨道。
+ * 紧贴中心区域外侧的虚线圆环轨道。
  */
 export const buildClockArcMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {
   const themeColor = getThemeColor(spec);
@@ -292,6 +296,17 @@ export const buildClockBlockMark = (
   const themeColor = getThemeColor(spec);
   const showImageBackground = shouldShowImageBackground(spec);
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
+  const getTitleFontSize = (ctx: LayoutContext) =>
+    resolveTitleFontSize(
+      spec,
+      ctx,
+      block.title,
+      getClockTextRect(spec, ctx, index).width,
+      CLOCK_TITLE_FONT_SIZE,
+      [8, 30]
+    );
+  const getTitleLineHeight = (ctx: LayoutContext) =>
+    resolveAdaptiveLineHeight(getTitleFontSize(ctx), spec.title?.style as any, CLOCK_TITLE_LINE_HEIGHT, 1.28);
 
   const leadPath = (_d: unknown, ctx: LayoutContext) => {
     const { start, end } = getClockLeadLine(spec, ctx, index);
@@ -323,9 +338,7 @@ export const buildClockBlockMark = (
             y: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).y,
             size: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter + 10,
             symbolType: 'circle',
-            fill: '#ffffff',
-            stroke: themeColor,
-            lineWidth: 2
+            ...getImageBackgroundStyle(spec)
           }
         } as ICustomMarkSpec<'symbol'>)
       : null,
@@ -335,6 +348,7 @@ export const buildClockBlockMark = (
           type: 'image',
           name: `storyline-clock-dot-${index}`,
           interactive: false,
+          ...omitImageLayoutSpec(spec.image),
           style: {
             x: (_d: unknown, ctx: LayoutContext) => {
               const dot = getClockDotCenter(spec, ctx, index);
@@ -349,9 +363,10 @@ export const buildClockBlockMark = (
             image: block.image,
             repeatX: 'no-repeat',
             repeatY: 'no-repeat',
-            imageMode: 'cover',
+            imageMode: 'contain',
             imagePosition: 'center',
-            cornerRadius: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter / 2
+            cornerRadius: (_d: unknown, ctx: LayoutContext) => getClockDotCenter(spec, ctx, index).diameter / 2,
+            ...spec.image?.style
           }
         } as ICustomMarkSpec<'image'>)
       : ({
@@ -378,11 +393,11 @@ export const buildClockBlockMark = (
           style: {
             x: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).x,
             y: (_d: unknown, ctx: LayoutContext) =>
-              getClockTextRect(spec, ctx, index).anchorY - CLOCK_TITLE_LINE_HEIGHT,
+              getClockTextRect(spec, ctx, index).anchorY - getTitleLineHeight(ctx),
             text: block.title,
             maxLineWidth: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).width,
-            fontSize: CLOCK_TITLE_FONT_SIZE,
-            lineHeight: CLOCK_TITLE_LINE_HEIGHT,
+            fontSize: (_d: unknown, ctx: LayoutContext) => getTitleFontSize(ctx),
+            lineHeight: (_d: unknown, ctx: LayoutContext) => getTitleLineHeight(ctx),
             fontWeight: 'bold',
             fill: themeColor,
             stroke: '#fff',

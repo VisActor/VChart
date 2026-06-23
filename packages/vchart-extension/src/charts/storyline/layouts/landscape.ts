@@ -8,11 +8,14 @@ import {
   DEFAULT_BLOCK_HEIGHT,
   buildRichContent,
   buildSmoothCurvePath,
+  getImageBackgroundStyle,
   getLayout,
   getThemeColor,
   normalizePadding,
   omitImageLayoutSpec,
+  resolveAdaptiveLineHeight,
   resolveBlockWidth,
+  resolveTitleFontSize,
   shouldShowImageBackground
 } from './common';
 
@@ -106,11 +109,19 @@ export const buildLandscapeConnectingCurve = (spec: IStorylineSpec): IExtensionG
  * landscape 布局下，每个 block 拆分为 image rect 与 text rect 两个独立卡片，
  * 中间用主题色虚线箭头连接；title+content 在 image 上方/下方交替错落摆放。
  */
-const getLandscapeMetrics = (spec: IStorylineSpec, blockWidth: number, blockHeight: number, index: number) => {
+const getLandscapeMetrics = (
+  spec: IStorylineSpec,
+  blockWidth: number,
+  blockHeight: number,
+  index: number,
+  ctx: LayoutContext
+) => {
   const padding = normalizePadding(spec.block?.padding ?? 12);
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
-  const titleLineHeight = Number(
-    (spec.title?.style as any)?.lineHeight ?? Math.max(LANDSCAPE_TITLE_LINE_HEIGHT, Math.round(titleFontSize * 1.35))
+  const titleFontSize = resolveTitleFontSize(spec, ctx, spec.data?.[index]?.title, blockWidth, 26, [8, 34]);
+  const titleLineHeight = resolveAdaptiveLineHeight(
+    titleFontSize,
+    spec.title?.style as any,
+    LANDSCAPE_TITLE_LINE_HEIGHT
   );
   const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? LANDSCAPE_CONTENT_FONT_SIZE);
   const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? LANDSCAPE_CONTENT_LINE_HEIGHT);
@@ -203,14 +214,12 @@ export const buildLandscapeBlockMark = (
 ): IExtensionGroupMarkSpec => {
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
-  const titleFontSize = Number((spec.title?.style as any)?.fontSize ?? 26);
-  const titleLineHeight = Number((spec.title?.style as any)?.lineHeight ?? Math.round(titleFontSize * 1.35));
 
   const getMetrics = (ctx: LayoutContext) => {
     const layoutBlock = getLayout(spec, ctx).blocks[index];
     const w = layoutBlock?.width ?? resolveBlockWidth(spec, 0);
     const h = layoutBlock?.height ?? spec.block?.height ?? DEFAULT_BLOCK_HEIGHT;
-    return getLandscapeMetrics(spec, w, h, index);
+    return getLandscapeMetrics(spec, w, h, index, ctx);
   };
 
   const blockStyle = spec.block?.style ?? {};
@@ -254,9 +263,7 @@ export const buildLandscapeBlockMark = (
               width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
               cornerRadius: 8,
-              fill: '#ffffff',
-              stroke: themeColor,
-              lineWidth: 2,
+              ...getImageBackgroundStyle(spec),
               ...blockStyle
             }
           } as ICustomMarkSpec<'rect'>)
@@ -275,7 +282,7 @@ export const buildLandscapeBlockMark = (
               image: block.image,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
-              imageMode: 'cover',
+              imageMode: 'contain',
               imagePosition: 'center',
               ...spec.image?.style
             }
@@ -315,8 +322,8 @@ export const buildLandscapeBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
-              fontSize: titleFontSize,
-              lineHeight: titleLineHeight,
+              fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleFontSize,
+              lineHeight: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
               stroke: '#fff',

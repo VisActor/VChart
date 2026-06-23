@@ -5,6 +5,7 @@ import type { IStorylineSpec, StorylineLayoutType } from '../../../../src/charts
 const layouts: StorylineLayoutType[] = ['landscape', 'portrait', 'ladder', 'spiral', 'clock', 'arc', 'wing'];
 
 const SUB_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-2022.png';
+const TITLE_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/title-world-cap.png';
 
 const baseData = [
   {
@@ -112,6 +113,9 @@ const commonLine: IStorylineSpec['line'] = {
 };
 
 const themeColor = 'rgb(228,154,56)';
+const titleImage: IStorylineSpec['titleImage'] = {
+  image: TITLE_IMAGE_URL
+};
 
 const WIDTH = 1920;
 const HEIGHT = 1080;
@@ -124,6 +128,7 @@ const createLandscapeSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   height: HEIGHT,
   data: buildData(layout),
   layout,
+  titleImage,
   themeColor,
   line: commonLine,
   image: {
@@ -139,6 +144,7 @@ const createPortraitSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   width: HEIGHT,
   data: buildData(layout),
   layout,
+  titleImage,
   themeColor
 });
 
@@ -149,20 +155,19 @@ const createArcSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   width: WIDTH,
   height: HEIGHT,
   data: buildData(layout),
-  layout: { type: 'arc', direction: 'up' },
-  themeColor,
-  centerImage: {
-    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
-  }
+  layout: { type: 'arc', direction: 'down' },
+  titleImage,
+  themeColor
 });
 
-// clock：环绕式时间线，需要 centerImage 作为盘心
+// clock：环绕式时间线
 const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   height: HEIGHT,
   width: WIDTH,
   padding: [20, 20, 50, 20],
   layout: 'clock',
+  titleImage,
   themeColor,
   // background: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png',
   data: [
@@ -217,17 +222,7 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
         '点球大战中阿根廷4比2取胜。',
       image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
     }
-  ],
-  centerImage: {
-    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-1930.png'
-    // width: 300,
-    // height: 300,
-    // style: {
-    //   width: 300,
-    //   height: 300,
-    //   cornerRadius: 150
-    // }
-  }
+  ]
 });
 
 const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
@@ -235,6 +230,7 @@ const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   padding: 20,
   data: buildData(layout),
   layout,
+  titleImage,
   themeColor,
   block: {
     widthRatio: 0.28,
@@ -258,7 +254,8 @@ const createWingSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   height: WIDTH,
   width: HEIGHT,
   data: buildData(layout),
-  layout: { type: 'wing', direction: 'right' },
+  layout: { type: 'wing', direction: 'left' },
+  titleImage,
   themeColor
 });
 
@@ -269,7 +266,7 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   width: 1600,
   height: 900,
   padding: 20,
-  layout: { type: 'ladder', direction: 'up', headline: 'ladder' },
+  layout: { type: 'ladder', direction: 'down', headline: 'ladder' },
   themeColor: '#C8102E',
   background: 'transparent',
   data: [

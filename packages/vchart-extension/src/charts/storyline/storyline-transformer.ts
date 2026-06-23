@@ -10,9 +10,11 @@ import {
   normalizeLayout,
   resolveBlockWidth,
   DEFAULT_BLOCK_WIDTH,
-  DEFAULT_IMAGE_GAP
+  DEFAULT_IMAGE_GAP,
+  buildTopTitleImageMark,
+  getTitleImageReservedHeight
 } from './layouts/common';
-import { buildClockArcMark, buildClockBlockMark, buildClockCenterImageMark } from './layouts/clock';
+import { buildClockArcMark, buildClockBlockMark } from './layouts/clock';
 import { buildDefaultBlockMark, buildDefaultLineMark } from './layouts/default';
 import { buildLandscapeBlockMark, buildLandscapeConnectingCurve } from './layouts/landscape';
 import {
@@ -21,8 +23,8 @@ import {
   PORTRAIT_CONTENT_HEIGHT_RATIO,
   PORTRAIT_IMAGE_HEIGHT_RATIO
 } from './layouts/portrait';
-import { buildArcBlockMark, buildArcCenterImageMark, buildArcMark } from './layouts/arc';
-import { buildWingArcMark, buildWingBlockMark } from './layouts/wing';
+import { buildArcBlockMark, buildArcMark, buildArcTitleImageMark } from './layouts/arc';
+import { buildWingArcMark, buildWingBlockMark, buildWingTitleImageMark } from './layouts/wing';
 import { buildLadderBlockMark, buildLadderDiagonalMark, buildLadderHeadlineMark } from './layouts/ladder';
 
 export class StorylineChartSpecTransformer extends CommonChartSpecTransformer<any> {
@@ -46,12 +48,12 @@ export class StorylineChartSpecTransformer extends CommonChartSpecTransformer<an
 
 /**
  * 图表默认 padding：
- * - arc up（dome 穹顶）：centerImage 贴底 + textBox 在弧线上方，所以默认底部留 100px、顶部留 280px 给 textBox + 弧线呼吸空间；
- * - arc down（bowl 碗形）：centerImage 贴顶 + textBox 在弧线下方，所以默认顶部留 100px、底部留 280px 给 textBox + 弧线呼吸空间；
+ * - arc up（dome 穹顶）：titleImage 贴底 + textBox 在弧线上方，所以默认底部留 100px、顶部留 280px 给 textBox + 弧线呼吸空间；
+ * - arc down（bowl 碗形）：titleImage 贴顶 + textBox 在弧线下方，所以默认顶部留 100px、底部留 280px 给 textBox + 弧线呼吸空间；
  * - portrait：textBox 在 image 下方，最后一个 block 的 content 容易超出 region。底部 padding 默认 = 单个 block 的 content 高度
  *   （即 regionHeight / count * 0.6），保证最后一个 block 有完整的 content 展示空间；
  * - ladder：四周默认留出 content 文本宽度，避免 block 沿对角线"挤"到画布边缘；
- * 用户在 spec.padding 中显式指定的值会被保留，仅在缺省时生效。
+ * 用户在 spec.padding 中显式指定的值会被保留；顶部 titleImage 会额外保证最小 top padding，避免覆盖 region 内容。
  */
 const applyDefaultPadding = (spec: any) => {
   const LARGE = 100;
@@ -65,6 +67,21 @@ const applyDefaultPadding = (spec: any) => {
   const ladder = isLadder(spec as IStorylineSpec);
   const wing = isWing(spec as IStorylineSpec);
   const clock = isClock(spec as IStorylineSpec);
+  const topTitleImageReserve = (() => {
+    if (
+      arc ||
+      ladder ||
+      !(spec as IStorylineSpec).titleImage?.image ||
+      (spec as IStorylineSpec).titleImage?.visible === false
+    ) {
+      return 0;
+    }
+    return getTitleImageReservedHeight(
+      spec as IStorylineSpec,
+      Number((spec as IStorylineSpec).width ?? 1000),
+      Number((spec as IStorylineSpec).height ?? 600)
+    );
+  })();
   // clock 辐射式布局：底部和顶部 blocks 的文字会向外延伸，需要在四周围留空间
   // portrait 底部 padding：精准预留最后一个 block 的 content 展示空间。
   // portrait 几何（layouts/portrait.ts）：
@@ -133,7 +150,10 @@ const applyDefaultPadding = (spec: any) => {
   // portrait: 底部留给最后一个 block 的 content
   // ladder: 四周均为 content 宽度
   // 其它：保持原默认 [SMALL, SMALL, LARGE, SMALL]
-  const defaultTop = clock ? 40 : ladder ? ladderVerticalPadding : arcDown ? 0 : arcUp ? TEXT_RESERVE : SMALL;
+  const defaultTop = Math.max(
+    topTitleImageReserve,
+    clock ? 40 : ladder ? ladderVerticalPadding : arcDown ? 0 : arcUp ? TEXT_RESERVE : SMALL
+  );
   const defaultBottom = clock
     ? 60
     : portrait
@@ -165,14 +185,18 @@ const applyDefaultPadding = (spec: any) => {
     spec.padding = [defaultTop, defaultRight, defaultBottom, defaultLeft];
     return;
   }
+  if (typeof p === 'number') {
+    spec.padding = [Math.max(p, topTitleImageReserve), p, p, p];
+    return;
+  }
   if (Array.isArray(p)) {
     const [t, r = defaultRight, b, l = defaultLeft] = p;
-    spec.padding = [t ?? defaultTop, r, b ?? defaultBottom, l];
+    spec.padding = [Math.max(t ?? defaultTop, topTitleImageReserve), r, b ?? defaultBottom, l];
     return;
   }
   if (typeof p === 'object') {
     spec.padding = {
-      top: p.top ?? defaultTop,
+      top: Math.max(p.top ?? defaultTop, topTitleImageReserve),
       right: p.right ?? defaultRight,
       bottom: p.bottom ?? defaultBottom,
       left: p.left ?? defaultLeft
@@ -183,33 +207,34 @@ const applyDefaultPadding = (spec: any) => {
 const buildStorylineMarks = (spec: IStorylineSpec) => {
   const lineMark = buildLineMark(spec);
   const blockMarks = (spec.data ?? []).map((block, index) => buildBlockMark(spec, block, index));
+  const titleImageMark = buildTopTitleImageMark(spec);
   // landscape：连接曲线绘制在所有 block 之上，避免被 image 遮挡
   if (isLandscape(spec)) {
-    return [...blockMarks, lineMark].filter(Boolean) as IExtensionGroupMarkSpec[];
+    return [titleImageMark, ...blockMarks, lineMark].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
   // portrait：lineMark 是中轴 rect，作为底层背景先绘制
   if (isPortrait(spec)) {
-    return [lineMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
+    return [lineMark, titleImageMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
-  // arc：先绘制 centerImage（最底层视觉锚点），再绘制贯穿 block 的弧线，最后绘制 block；
-  // arc 不绘制 block 之间默认的连接线。direction = 'up' 时 centerImage 贴底（穹顶），
-  // direction = 'down' 时 centerImage 贴顶（碗形）
+  // arc：先绘制 titleImage（视觉锚点），再绘制贯穿 block 的弧线，最后绘制 block；
+  // arc 不绘制 block 之间默认的连接线。direction = 'up' 时 titleImage 贴底（穹顶），
+  // direction = 'down' 时 titleImage 贴顶（碗形）
   if (isArc(spec)) {
-    const centerImageMark = buildArcCenterImageMark(spec);
+    const arcTitleImageMark = buildArcTitleImageMark(spec);
     const arcMark = buildArcMark(spec);
-    return [centerImageMark, arcMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
+    return [arcTitleImageMark, arcMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
-  // clock：辐射式信息盘 —— 圆环骨架 + 径向分隔线 → centerImage（盘心）→ blocks（楔形 + 外圈文字）
+  // clock：辐射式信息盘 —— 圆环骨架 + 径向分隔线 + blocks（楔形 + 外圈文字）
   if (isClock(spec)) {
     const ringsMark = buildClockArcMark(spec);
-    const centerImageMark = buildClockCenterImageMark(spec);
-    return [ringsMark, ...blockMarks, centerImageMark].filter(Boolean) as IExtensionGroupMarkSpec[];
+    return [titleImageMark, ringsMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
   // wing：椭圆弧脉络 + 弧线上的圆形 image + 左右交替排列的 title/content；
   // 通过 layout.direction 控制翅膀朝向（'left' | 'right'）
   if (isWing(spec)) {
     const arcMark = buildWingArcMark(spec);
-    return [arcMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
+    const wingTitleImageMark = buildWingTitleImageMark(spec);
+    return [arcMark, wingTitleImageMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
   // ladder：参考 Bauhaus 信息图 —— 对角线 + 沿对角线倾斜的 headline 大字 + 两侧错落 block
   if (isLadder(spec)) {
@@ -217,7 +242,7 @@ const buildStorylineMarks = (spec: IStorylineSpec) => {
     const headlineMark = buildLadderHeadlineMark(spec);
     return [diagonalMark, headlineMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
-  return [lineMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
+  return [titleImageMark, lineMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
 };
 
 const buildLineMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec | null => {

@@ -1,4 +1,4 @@
-import type { ICustomMarkSpec } from '@visactor/vchart';
+import { LayoutZIndex, type ICustomMarkSpec } from '@visactor/vchart';
 import type { IStorylineBlock, IStorylineSpec, StorylineImagePosition } from '../interface';
 import {
   computeStorylineLayout,
@@ -31,6 +31,11 @@ export const DEFAULT_IMAGE_WIDTH = 48;
 export const DEFAULT_IMAGE_HEIGHT = 48;
 export const DEFAULT_IMAGE_GAP = 10;
 export const DEFAULT_THEME_COLOR = '#e8543d';
+const DEFAULT_TITLE_IMAGE_WIDTH_RATIO = 0.52;
+const DEFAULT_TITLE_IMAGE_MAX_WIDTH = 720;
+const DEFAULT_TITLE_IMAGE_HEIGHT_RATIO = 0.36;
+const DEFAULT_TITLE_IMAGE_TOP = 12;
+const DEFAULT_TITLE_IMAGE_BOTTOM = 24;
 
 // ===== 布局判定 =====
 
@@ -45,6 +50,228 @@ export const getThemeColor = (spec: IStorylineSpec) => spec.themeColor ?? DEFAUL
 
 export const shouldShowImageBackground = (spec: IStorylineSpec) =>
   spec.image?.showBackground ?? !(isPortrait(spec) || isLandscape(spec));
+
+// ===== 默认样式工具 =====
+
+const TITLE_FONT_SCALE_ID = 'storylineTitleFontSize';
+const MARKER_FONT_SCALE_ID = 'storylineMarkerFontSize';
+
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+const getTextWeight = (text?: string) => {
+  if (!text) {
+    return 4;
+  }
+  return Math.max(
+    Array.from(text).reduce((sum, char) => {
+      if (char.trim().length === 0) {
+        return sum + 0.32;
+      }
+      return sum + (char.charCodeAt(0) > 255 ? 1.05 : 0.62);
+    }, 0),
+    1
+  );
+};
+
+const getScaleRange = (spec: IStorylineSpec, scaleId: string, fallback: [number, number]) => {
+  const scales = (spec as { scales?: { id?: string; type?: string; range?: unknown }[] }).scales;
+  const range = scales?.find(scale => scale.id === scaleId || scale.type === scaleId)?.range;
+  if (Array.isArray(range) && range.length >= 2 && typeof range[0] === 'number' && typeof range[1] === 'number') {
+    return [Math.min(range[0], range[1]), Math.max(range[0], range[1])] as [number, number];
+  }
+  return fallback;
+};
+
+const getSpecGeometry = (spec: IStorylineSpec, ctx?: LayoutContext) => {
+  if (ctx) {
+    return getRegionGeometry(ctx, spec);
+  }
+  return {
+    width: Math.max(Number(spec.width ?? 0), 1),
+    height: Math.max(Number(spec.height ?? 0), 1),
+    startX: 0,
+    startY: 0
+  };
+};
+
+const resolveAdaptiveFontSize = (
+  spec: IStorylineSpec,
+  ctx: LayoutContext | undefined,
+  text: string | undefined,
+  options: {
+    style?: Record<string, unknown>;
+    scaleId: string;
+    fallback: number;
+    range: [number, number];
+    canvasRatio: number;
+    boxWidth?: number;
+    boxHeight?: number;
+  }
+) => {
+  const configuredFontSize = options.style?.fontSize;
+  if (configuredFontSize != null) {
+    return Number(configuredFontSize);
+  }
+  const [minFontSize, maxFontSize] = getScaleRange(spec, options.scaleId, options.range);
+  const { width, height } = getSpecGeometry(spec, ctx);
+  const textWeight = getTextWeight(text);
+  const canvasSize = Math.sqrt(width * height) * options.canvasRatio;
+  const lengthFactor = Math.sqrt(8 / Math.max(textWeight, 4));
+  const adaptiveSize = width <= 1 && height <= 1 ? options.fallback : canvasSize * lengthFactor;
+  const boxWidthLimit =
+    options.boxWidth && options.boxWidth > 0 ? (options.boxWidth / textWeight) * 0.96 : Number.POSITIVE_INFINITY;
+  const boxHeightLimit =
+    options.boxHeight && options.boxHeight > 0 ? options.boxHeight / Math.max(textWeight, 1) : Number.POSITIVE_INFINITY;
+  return Math.floor(clamp(Math.min(adaptiveSize, boxWidthLimit, boxHeightLimit), minFontSize, maxFontSize));
+};
+
+export const resolveAdaptiveLineHeight = (
+  fontSize: number,
+  style: Record<string, unknown> | undefined,
+  fallback: number,
+  ratio = 1.35
+) => Number(style?.lineHeight ?? Math.round((Number.isFinite(fontSize) ? fontSize : fallback) * ratio));
+
+export const resolveTitleFontSize = (
+  spec: IStorylineSpec,
+  ctx: LayoutContext | undefined,
+  title: string | undefined,
+  boxWidth: number | undefined,
+  fallback: number,
+  range: [number, number] = [16, 34]
+) =>
+  resolveAdaptiveFontSize(spec, ctx, title, {
+    style: spec.title?.style as Record<string, unknown> | undefined,
+    scaleId: TITLE_FONT_SCALE_ID,
+    fallback,
+    range,
+    canvasRatio: 0.038,
+    boxWidth
+  });
+
+export const resolveMarkerFontSize = (
+  spec: IStorylineSpec,
+  ctx: LayoutContext,
+  marker: string | undefined,
+  boxHeight: number | undefined,
+  fallback: number,
+  range: [number, number] = [18, 46]
+) =>
+  resolveAdaptiveFontSize(spec, ctx, marker, {
+    style: spec.marker?.style as Record<string, unknown> | undefined,
+    scaleId: MARKER_FONT_SCALE_ID,
+    fallback,
+    range,
+    canvasRatio: 0.052,
+    boxHeight
+  });
+
+export const getImageBackgroundStyle = (spec: IStorylineSpec) => {
+  const themeColor = getThemeColor(spec);
+  return {
+    fill: {
+      gradient: 'linear',
+      x0: 0,
+      y0: 0,
+      x1: 1,
+      y1: 1,
+      stops: [
+        { offset: 0, color: '#ffffff' },
+        { offset: 0.58, color: withAlpha(themeColor, 0.12) },
+        { offset: 1, color: withAlpha(themeColor, 0.32) }
+      ]
+    },
+    stroke: withAlpha(themeColor, 0.78),
+    lineWidth: 2,
+    shadowColor: withAlpha(themeColor, 0.18),
+    shadowBlur: 10,
+    shadowOffsetX: 0,
+    shadowOffsetY: 4
+  };
+};
+
+export const getTitleImageSize = (
+  spec: IStorylineSpec,
+  width: number,
+  height: number,
+  options?: { widthRatio?: number; maxWidth?: number; heightRatio?: number }
+) => {
+  const defaultWidth = Math.min(
+    Math.max(width * (options?.widthRatio ?? DEFAULT_TITLE_IMAGE_WIDTH_RATIO), 1),
+    options?.maxWidth ?? DEFAULT_TITLE_IMAGE_MAX_WIDTH
+  );
+  const imageWidth = Math.max(Number(spec.titleImage?.width ?? defaultWidth), 1);
+  const imageHeight = Math.max(
+    Number(
+      spec.titleImage?.height ??
+        Math.min(height, imageWidth * (options?.heightRatio ?? DEFAULT_TITLE_IMAGE_HEIGHT_RATIO))
+    ),
+    1
+  );
+  return { width: imageWidth, height: imageHeight };
+};
+
+export const getTitleImageReservedHeight = (
+  spec: IStorylineSpec,
+  width: number,
+  height: number,
+  options?: { y?: number; widthRatio?: number; maxWidth?: number; heightRatio?: number; bottom?: number }
+) => {
+  if (!spec.titleImage?.image || spec.titleImage.visible === false) {
+    return 0;
+  }
+  const size = getTitleImageSize(spec, width, height, options);
+  return Math.ceil(
+    (options?.y ?? DEFAULT_TITLE_IMAGE_TOP) + size.height + (options?.bottom ?? DEFAULT_TITLE_IMAGE_BOTTOM)
+  );
+};
+
+export const getChartGeometry = (ctx: LayoutContext, spec?: { width?: number; height?: number }) => {
+  const chartRect = ctx.chart?.getLayoutRect?.();
+  const bounds = ctx.getLayoutBounds?.();
+  const width = Math.max(chartRect?.width ?? bounds?.width?.() ?? spec?.width ?? 0, 1);
+  const height = Math.max(chartRect?.height ?? bounds?.height?.() ?? spec?.height ?? 0, 1);
+  return { width, height, startX: 0, startY: 0 };
+};
+
+export const buildTopTitleImageMark = (
+  spec: IStorylineSpec,
+  options?: { y?: number; widthRatio?: number; maxWidth?: number; heightRatio?: number }
+): ICustomMarkSpec<'image'> | null => {
+  if (!spec.titleImage?.image || spec.titleImage.visible === false) {
+    return null;
+  }
+  return {
+    type: 'image',
+    name: 'storyline-title-image',
+    interactive: false,
+    zIndex: LayoutZIndex.Mark + 8,
+    ...spec.titleImage,
+    style: {
+      x: (_d: unknown, ctx: LayoutContext) => {
+        const { width, height, startX } = getChartGeometry(ctx, spec);
+        const size = getTitleImageSize(spec, width, height, options);
+        return startX + (width - size.width) / 2;
+      },
+      y: (_d: unknown, ctx: LayoutContext) =>
+        getChartGeometry(ctx, spec).startY + (options?.y ?? DEFAULT_TITLE_IMAGE_TOP),
+      width: (_d: unknown, ctx: LayoutContext) => {
+        const { width, height } = getChartGeometry(ctx, spec);
+        return getTitleImageSize(spec, width, height, options).width;
+      },
+      height: (_d: unknown, ctx: LayoutContext) => {
+        const { width, height } = getChartGeometry(ctx, spec);
+        return getTitleImageSize(spec, width, height, options).height;
+      },
+      image: spec.titleImage.image,
+      repeatX: 'no-repeat',
+      repeatY: 'no-repeat',
+      imageMode: 'contain',
+      imagePosition: 'center',
+      ...spec.titleImage.style
+    }
+  } as ICustomMarkSpec<'image'>;
+};
 
 // ===== 颜色工具 =====
 
@@ -135,7 +362,8 @@ export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLa
   if (isPortrait(spec) && !spec.block?.height) {
     const count = spec.data?.length ?? 0;
     if (count > 0) {
-      const padding = normalizePadding(spec.layout?.padding ?? spec.block?.padding);
+      const layoutPadding = typeof spec.layout === 'object' ? spec.layout.padding : undefined;
+      const padding = normalizePadding(layoutPadding ?? spec.block?.padding);
       const innerHeight = Math.max(height - padding.top - padding.bottom, 1);
       blockHeight = Math.max(120, Math.floor(innerHeight / (count + 1)));
     }
