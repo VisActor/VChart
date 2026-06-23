@@ -89,10 +89,16 @@ export function getBarRegressionLineConfig(config: Omit<BarRegressionLineSpec, '
 
 export function appendBarRegressionLineConfig(chartSpec: ISpec, spec?: BarRegressionLineSpec) {
   if (!spec) {
+    const seriesSpecs: any[] = Array.isArray(chartSpec.series)
+      ? chartSpec.series
+      : chartSpec.series
+      ? [chartSpec.series]
+      : [];
+
     spec =
       get(chartSpec, REGRESSION_LINE) ??
       get(
-        chartSpec.series?.find(s => s.type === SeriesTypeEnum.bar),
+        seriesSpecs.find((s: any) => s.type === SeriesTypeEnum.bar),
         REGRESSION_LINE
       );
   }
