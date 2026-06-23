@@ -2,6 +2,8 @@ import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec } from '../../../typ
 import type { DiscreteLegendAttrs, LegendItemDatum, LegendItem, LegendPagerAttributes, LegendScrollbarAttributes } from '@visactor/vrender-components';
 import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
 import type { IFormatMethod, StringOrNumber } from '../../../typings';
+import type { ILayoutRect } from '../../../typings/layout';
+import type { IOrientType } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGlobalScale } from '../../../scale/interface';
 import type { ComponentThemeWithDirection } from '../../interface';
@@ -62,6 +64,12 @@ export type ILegendScrollbar = {
     railStyle?: Omit<Partial<NoVisibleMarkStyle<IRectMarkSpec>>, 'width' | 'height'>;
     sliderStyle?: Omit<Partial<NoVisibleMarkStyle<IRectMarkSpec>>, 'width' | 'height'>;
 } & Omit<LegendScrollbarAttributes, 'railStyle' | 'sliderStyle'>;
+export interface IDiscreteLegendArrangeContext {
+    rect: ILayoutRect;
+    orient: IOrientType;
+    id?: StringOrNumber;
+}
+export type DiscreteLegendArrangeCount = number | ((ctx: IDiscreteLegendArrangeContext) => number);
 export type IDiscreteLegendSpec = ILegendCommonSpec & {
     type?: 'discrete';
     data?: (data: LegendItemDatum[], colorScale: IBaseScale, globalScale: IGlobalScale) => LegendItemDatum[];
@@ -71,6 +79,8 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
     scaleName?: string;
     field?: string;
     defaultSelected?: string[];
-} & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
+    maxRow?: DiscreteLegendArrangeCount;
+    maxCol?: DiscreteLegendArrangeCount;
+} & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager' | 'maxRow' | 'maxCol'>;
 export type IDiscreteLegendCommonTheme = Omit<IDiscreteLegendSpec, 'type' | 'data' | 'regionIndex' | 'regionId' | 'seriesIndex' | 'seriesId' | 'id' | 'defaultSelected'>;
 export type IDiscreteLegendTheme = ComponentThemeWithDirection<IDiscreteLegendCommonTheme>;

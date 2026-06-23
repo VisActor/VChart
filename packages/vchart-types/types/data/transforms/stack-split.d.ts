@@ -3,4 +3,5 @@ import type { DataView } from '@visactor/vdataset';
 export interface IStackOption {
     fields: string[];
 }
-export declare const stackSplit: (data: Array<DataView>, op: IStackOption) => ISeriesStackDataNode;
+export type StackOption = IStackOption | (() => IStackOption);
+export declare const stackSplit: (data: Array<DataView>, op: StackOption) => ISeriesStackDataNode;

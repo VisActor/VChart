@@ -31,6 +31,18 @@ export declare class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extend
     setHighLightSeriesGroup(field: string): void;
     protected _gridBackground?: IFillMarkSpec;
     setGridBackground(gridBackground: IFillMarkSpec): void;
+    protected _getSpecUpdatePolicy(): {
+        compileOnlyKeys: {
+            highLightSeriesGroup: true;
+            titleField: true;
+            subTitleField: true;
+        };
+        compileOnlySubKeys: {
+            grid: Record<"background", true>;
+        };
+        dataRelatedKeys?: Record<string, true>;
+        seriesOnlyKeys?: Record<string, true>;
+    };
     initData(): void;
     getStatisticFields(): {
         key: string;

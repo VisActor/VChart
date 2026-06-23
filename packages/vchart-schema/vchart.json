@@ -9029,6 +9029,17 @@
       ],
       "type": "string"
     },
+    "DiscreteLegendArrangeCount": {
+      "anyOf": [
+        {
+          "typeof": "function"
+        },
+        {
+          "type": "number"
+        }
+      ],
+      "description": "The max row / col count of a discrete legend. Either a fixed number, or a callback that returns a\nnumber, evaluated during layout against {@link IDiscreteLegendArrangeContext}."
+    },
     "Document": {
       "properties": {
         "ATTRIBUTE_NODE": {
@@ -20379,8 +20390,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -22636,8 +22646,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -24443,8 +24452,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -27119,8 +27127,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -27525,8 +27532,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -28342,8 +28348,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -29551,8 +29556,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -31508,8 +31512,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -34351,7 +34354,9 @@
           "type": "number"
         },
         "maxCol": {
-          "type": "number"
+          "$ref": "#/definitions/DiscreteLegendArrangeCount",
+          "description": "The maximum number of columns displayed (for vertical legend). Besides a fixed number, a\ncallback `(ctx) => number` is also supported (see {@link maxRow}).",
+          "since": "2.0.23"
         },
         "maxHeight": {
           "anyOf": [
@@ -34382,7 +34387,9 @@
           "description": "模块的布局最大高度"
         },
         "maxRow": {
-          "type": "number"
+          "$ref": "#/definitions/DiscreteLegendArrangeCount",
+          "description": "The maximum number of rows displayed (for horizontal legend). Besides a fixed number, a\ncallback `(ctx) => number` is also supported, which is evaluated during layout so the row\ncount can adapt to the space allocated to the legend.",
+          "since": "2.0.23"
         },
         "maxWidth": {
           "anyOf": [
@@ -34951,10 +34958,9 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"item\"|\"pager\">"
+          "$ref": "#/definitions/Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"item\"|\"pager\"|\"maxRow\"|\"maxCol\">"
         }
-      ],
-      "description": "spec"
+      ]
     },
     "IDiscreteLegendTheme": {
       "allOf": [
@@ -36424,8 +36430,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -37685,8 +37690,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -42341,8 +42345,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -43879,8 +43882,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -46816,8 +46818,7 @@
     "ILegendSpec": {
       "anyOf": [
         {
-          "$ref": "#/definitions/IDiscreteLegendSpec",
-          "description": "spec"
+          "$ref": "#/definitions/IDiscreteLegendSpec"
         },
         {
           "$ref": "#/definitions/IColorLegendSpec"
@@ -47083,8 +47084,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -49099,8 +49099,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -50108,8 +50107,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -51520,8 +51518,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -57229,8 +57226,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -60194,8 +60190,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -61221,8 +61216,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -62795,8 +62789,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -65125,8 +65118,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -66399,8 +66391,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -67437,8 +67428,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -69369,8 +69359,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -72212,8 +72201,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -75732,8 +75720,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -79421,8 +79408,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -81393,8 +81379,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -82203,7 +82188,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82211,14 +82196,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82226,14 +82211,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82241,14 +82226,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82256,14 +82241,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82271,14 +82256,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82286,14 +82271,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Record<string,any>>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82301,14 +82286,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<any>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82316,14 +82301,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82331,14 +82316,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82346,14 +82331,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82361,14 +82346,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -82376,7 +82361,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
@@ -82817,7 +82802,7 @@
       ],
       "type": "object"
     },
-    "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"item\"|\"pager\">": {
+    "Omit<DiscreteLegendAttrs,\"title\"|\"layout\"|\"items\"|\"item\"|\"pager\"|\"maxRow\"|\"maxCol\">": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -83250,13 +83235,7 @@
         "lineWidth": {
           "type": "number"
         },
-        "maxCol": {
-          "type": "number"
-        },
         "maxHeight": {
-          "type": "number"
-        },
-        "maxRow": {
           "type": "number"
         },
         "maxWidth": {
@@ -99756,8 +99735,7 @@
         "legends": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IDiscreteLegendSpec",
-              "description": "spec"
+              "$ref": "#/definitions/IDiscreteLegendSpec"
             },
             {
               "$ref": "#/definitions/IColorLegendSpec"
@@ -104217,34 +104195,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12807"
+        "__@toStringTag@12805"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12807"
+        "__@toStringTag@12805"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12807"
+        "__@toStringTag@12805"
       ],
       "type": "object"
     },
@@ -118074,7 +118052,7 @@
     },
     "Set<IGraphic<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -118082,14 +118060,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -118097,14 +118075,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -118112,14 +118090,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -118127,14 +118105,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<any>>": {
       "properties": {
-        "__@toStringTag@12807": {
+        "__@toStringTag@12805": {
           "type": "string"
         },
         "size": {
@@ -118142,7 +118120,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12807",
+        "__@toStringTag@12805",
         "size"
       ],
       "type": "object"

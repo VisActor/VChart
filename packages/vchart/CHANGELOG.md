@@ -1,13 +1,32 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Mon, 13 Apr 2026 12:57:51 GMT and should not be manually modified.
+This log was last generated on Tue, 23 Jun 2026 08:17:08 GMT and should not be manually modified.
+
+## 2.1.0
+Tue, 23 Jun 2026 08:17:08 GMT
+
+### Minor changes
+
+- feat: support function type for `maxRow` / `maxCol` of the discrete legend, evaluated during layout against the legend's allocated rect, so the row / column count can adapt to the available space
+
+### Patches
+
+- fix: preserve discrete legend filtering after updateSpec when `legends.data` is a callback (Issue #4566)
+- fix: re-nice the cartesian linear axis with the real plot-area length after layout when `tick.tickCount` is a function, so the length-based tick count and nice ceiling match the final plot area instead of the pre-layout chart viewRect
+- refactor: introduce scoped updateSpec effects to make chart, component, series, data, layout, render, and animation update ranges explicit; local component updates such as marker exit, title text, legend appearance, axis appearance, mark style, field, label, animation, and layout-related series changes now avoid unnecessary chart remake/recompile paths when the existing chart model can be updated in place
+- refactor: align VChart with the VRender 1.1.0 app-scoped runtime, state resolver, and animation contracts while keeping standard VChart spec usage compatible; consolidate mark shared-state handling, glyph sub-graphic state isolation, word-cloud scaleIn initialization, and interaction-state behavior for Sankey, brush, legend textures, marker rich text, and circular progress tick masks
+
+### Updates
+
+- update changes for 009-fix-map-roam-pointer-drag: This plan fixes a map roam drag bug where mobile browsers lose stable vertical dragging after supportsTouchEvents is forced to false
+- feat: markLine expandDistancesupport callback. close#4568
+- fix: waterfall lead line bug. fix#4580
+- fix: vchart relayout api not work bug. fix#4537
+- fix: label not follow when drag. fix#4547
+- fix: prcoess render error. fix#4578
 
 ## 2.0.21
 Mon, 13 Apr 2026 12:57:51 GMT
-This log was last generated on Mon, 13 Apr 2026 12:34:47 GMT and should not be manually modified.
-
-## 2.0.21
-Mon, 13 Apr 2026 12:34:47 GMT
 
 ### Patches
 
