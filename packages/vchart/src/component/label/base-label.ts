@@ -52,7 +52,17 @@ export abstract class BaseLabelComponent<T = any> extends BaseComponent<T> {
     const result = super._compareSpec(spec, prevSpec);
     result.reRender = true;
     if (!isEqual(prevSpec, spec)) {
-      result.reMake = true;
+      result.change = true;
+      if (!result.reMake && !result.reCompile) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          layout: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
 
     return result;

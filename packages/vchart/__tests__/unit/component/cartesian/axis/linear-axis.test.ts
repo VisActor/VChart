@@ -440,6 +440,22 @@ test('extend', () => {
     expect(scale.domain()).toEqual([0, 1200]);
   }
 
+  {
+    const linearAxis = CartesianAxis.createComponent(
+      {
+        type: getCartesianAxisInfo(config).componentName,
+        spec: config
+      },
+      ctx
+    ) as CartesianLinearAxis;
+    linearAxis.created();
+    linearAxis.setExtendDomain('test', 1100);
+    linearAxis.setExtendDomain('test', 700);
+    expect(linearAxis.getScale().domain()).toEqual([0, 1000]);
+    linearAxis.setExtendDomain('test', undefined);
+    expect(linearAxis.getScale().domain()).toEqual([0, 1000]);
+  }
+
   /**
    * `range` is the highest priority, which will be the direct result for scale.domain.
    * `extend` will not affect domain.
@@ -670,4 +686,60 @@ test('dynamic tickCount with wilkson', () => {
     .getLatestData()
     .map((tick: any) => tick.value);
   expect(tickValues).toEqual([0, 25, 50, 75, 100]);
+});
+
+test('re-nice value axis with the real plot-area length on updateScaleRange when tickCount is a function', () => {
+  // 数据域 [0, 700]（collectData 是 protected，用 `as any` 绕过类型检查）
+  jest.spyOn(CartesianAxis.prototype as any, 'collectData').mockImplementation(() => [{ min: 0, max: 700 }]);
+
+  // tickCount 依赖轴长（轴越长刻度越多），记录每次拿到的 axisLength
+  const seenAxisLength: number[] = [];
+  let spec = getAxisSpec({
+    orient: 'left',
+    tick: {
+      tickMode: 'd3',
+      tickCount: ({ axisLength }: { axisLength: number }) => {
+        seenAxisLength.push(axisLength);
+        return Math.max(2, Math.round(axisLength / 100));
+      }
+    }
+  });
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme: getTheme,
+    mode: 'desktop-browser'
+  });
+  spec = transformer.transformSpec(spec, {}).spec;
+  const linearAxis = CartesianAxis.createComponent(
+    {
+      type: getCartesianAxisInfo(spec).componentName,
+      spec
+    },
+    ctx
+  ) as any;
+
+  linearAxis.created();
+  linearAxis.init({});
+
+  // 布局前：scale.range 仍是 [0, 1]，setLinearScaleNice 回退用整块 chart viewRect 高度(500)
+  linearAxis.updateScaleDomain();
+  expect(seenAxisLength).toContain(500);
+  // viewRect 高度 500 → tickCount 5 → nice 域 [0, 700]
+  expect(linearAxis.getScale().domain()).toEqual([0, 700]);
+
+  // 模拟布局：让 updateScaleRange 解析出真实绘图区轴长 200（远小于 viewRect 的 500），
+  // 走真正的修复入口 updateScaleRange()，而不是直接调内部的 reTransformDomainByLayout()——
+  // 这样一旦 updateScaleRange() 覆盖被移除，本用例就会失败。
+  seenAxisLength.length = 0;
+  jest.spyOn(linearAxis, 'getNewScaleRange').mockReturnValue([200, 0]);
+  linearAxis.updateScaleRange();
+
+  // updateScaleRange 内部用真实轴长 200 重算，而不是布局前回退的 viewRect 500
+  expect(seenAxisLength).toContain(200);
+  expect(seenAxisLength).not.toContain(500);
+  // 真实轴更短 → tickCount 2 → nice 天花板抬到 [0, 1000]
+  expect(linearAxis.getScale().domain()).toEqual([0, 1000]);
+
+  // 恢复全局 collectData mock，避免影响其他用例
+  jest.spyOn(CartesianAxis.prototype as any, 'collectData').mockImplementation(() => [{ min: 569, max: 901 }]);
 });

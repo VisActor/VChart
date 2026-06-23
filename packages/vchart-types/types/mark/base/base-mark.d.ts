@@ -5,7 +5,7 @@ import { MarkTypeEnum } from '../interface';
 import type { IMarkRaw, IMarkStateStyle, IMarkStyle, IMark, IMarkOption, StyleConvert, MarkInputStyle, GroupedData, IAttrs, IMarkGraphic, ProgressiveContext, IProgressiveTransformResult, MarkType, AnimationStateValues } from '../interface';
 import type { ICompilableMark, IMarkCompileOption, IMarkConfig, IMarkStateManager, StateValueType } from '../../compile/mark/interface';
 import type { ICompilableInitOption } from '../../compile/interface';
-import type { IGroupGraphicAttribute, IGroup, IGraphic } from '@visactor/vrender-core';
+import type { IGroupGraphicAttribute, IGroup, IGraphic, StateDefinitionsInput } from '@visactor/vrender-core';
 import { GrammarItem } from '../../compile/grammar-item';
 import type { IModel } from '../../model/interface';
 import type { ICompilableData } from '../../compile/data/interface';
@@ -74,7 +74,7 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     stopAnimationByState(state?: string): void;
     pauseAnimationByState(state?: string): void;
     resumeAnimationByState(state?: string): void;
-    removeProduct(): void;
+    removeProduct(releaseDetach?: boolean): void;
     release(): void;
     protected _simpleStyle: T;
     setSimpleStyle(s: T): void;
@@ -82,6 +82,10 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     protected _option: IMarkOption;
     protected _attributeContext: IModelMarkAttributeContext;
     protected _encoderOfState: Record<string, Record<string, (datum: Datum) => any>>;
+    protected _sharedStateDefinitionsCacheKey?: string;
+    protected _sharedStateDefinitionsCache?: StateDefinitionsInput<Record<string, unknown>>;
+    protected _sharedStateDefinitionRefIds: WeakMap<object, number>;
+    protected _sharedStateDefinitionRefId: number;
     _extensionChannel: {
         [key: string | number | symbol]: string[];
     };
@@ -155,8 +159,14 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     protected _getEncoderOfStyle: (stateName: string, style: Partial<IAttrs<T>>) => Record<string, (datum: Datum) => any>;
     protected _setGraphicFromMarkConfig: (g: IMarkGraphic) => void;
     protected _setStateOfGraphic: (g: IMarkGraphic, hasAnimation?: boolean) => void;
+    protected _getSharedStateDefinitionRefId(value: unknown): string;
+    protected _getSharedStateDefinitionValueKey(value: unknown): string;
+    protected _isStaticSharedStateAttribute(stateName: string, key: string): boolean;
+    protected _applySharedStateDefinitions(): void;
     protected _addProgressiveGraphic(parent: IGroup, g: IMarkGraphic): void;
     protected _runEncoder(graphics: IMarkGraphic[], noGroupEncode?: boolean): void;
+    protected _excludeStateControlledDiffAttrs(g: IMarkGraphic, diffAttrs: Record<string, any>): Record<string, any>;
+    protected _hasDiffAttrs(g: IMarkGraphic): boolean;
     protected _runApplyGraphic(graphics: IMarkGraphic[]): void;
     protected _updateEncoderByState(): void;
     protected _runState(graphics: IMarkGraphic[]): void;

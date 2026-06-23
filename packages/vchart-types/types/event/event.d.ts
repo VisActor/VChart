@@ -4,6 +4,7 @@ export declare class Event implements IEvent {
     private _eventDispatcher;
     private _mode;
     private _composedEventMap;
+    private _eventHandlerMap;
     getComposedEventMap(): Map<EventCallback<EventParams>, {
         eventType: string;
         event: IComposedEvent;
@@ -20,4 +21,7 @@ export declare class Event implements IEvent {
     }): this;
     allow<Evt extends EventType>(eType: Evt): this;
     release(): void;
+    private _addEventHandler;
+    private _getEventHandler;
+    private _removeEventHandler;
 }

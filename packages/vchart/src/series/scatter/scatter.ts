@@ -4,6 +4,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { IScatterSeriesSpec, ScatterAppearPreset } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, Matrix } from '@visactor/vutils';
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
@@ -28,6 +29,11 @@ import { ScatterSeriesSpecTransformer } from './scatter-transformer';
 import { getGroupAnimationParams } from '../util/utils';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { scatter } from '../../theme/builtin/common/series/scatter';
+import type { IGraphic } from '@visactor/vrender-core';
+
+const SCATTER_SERIES_DATA_RELATED_KEYS: Record<'sizeField', true> = {
+  sizeField: true
+};
 
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
@@ -47,6 +53,17 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   private _shapeField: string;
 
   protected _invalidType: IScatterInvalidType = 'zero';
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...SCATTER_SERIES_DATA_RELATED_KEYS
+      }
+    };
+  }
 
   setAttrFromSpec() {
     super.setAttrFromSpec();
@@ -350,51 +367,82 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   /**
    * 处理缩放
    */
-  handleZoom(e: any) {
-    this.getMarksWithoutRoot().forEach(mark => {
-      if (!mark) {
-        return;
-      }
-      const graphics = mark.getGraphics();
+  private _updateSymbolGraphicPosition() {
+    const graphics = this._symbolMark?.getGraphics();
 
-      if (!graphics || !graphics.length) {
-        return;
-      }
-
-      graphics.forEach((graphicItem: IMarkGraphic, i: number) => {
-        const datum = graphicItem?.context?.data?.[0];
-        const newPosition = this.dataToPosition(datum);
-        if (newPosition && graphicItem) {
-          graphicItem.translateTo(newPosition.x, newPosition.y);
-        }
-      });
-    });
-
-    const labelComponent = this._labelMark?.getComponent();
-
-    if (labelComponent?.renderInner) {
-      labelComponent.renderInner();
-    }
-    const vgrammarLabel = labelComponent?.getComponent?.();
-    if (vgrammarLabel?.evaluate) {
-      (vgrammarLabel as any).evaluate(null, null);
+    if (!graphics || !graphics.length) {
+      return;
     }
 
-    // 标签跟随地图
-    const labelGroup = labelComponent?.getProduct?.();
-    if (labelGroup && e?.scale && e?.scaleCenter) {
-      if (!labelGroup.attribute?.postMatrix) {
-        labelGroup.setAttributes({
-          postMatrix: new Matrix()
+    graphics.forEach((graphicItem: IMarkGraphic) => {
+      const datum = graphicItem?.context?.data?.[0];
+      const newPosition = this.dataToPosition(datum);
+      if (newPosition && graphicItem) {
+        (graphicItem as unknown as IGraphic).setAttributes({
+          x: newPosition.x,
+          y: newPosition.y
         });
       }
-      labelGroup.scale(e.scale, e.scale, e.scaleCenter);
+    });
+  }
+
+  private _ensureLabelGraphicPostMatrix() {
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+
+    if (labelGraphic && !labelGraphic.attribute.postMatrix) {
+      labelGraphic.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+
+    return labelGraphic;
+  }
+
+  handleZoom(e: any) {
+    const { scale, scaleCenter } = e;
+    if (scale === 1) {
+      return;
+    }
+
+    this._updateSymbolGraphicPosition();
+
+    const labelGraphic = this._ensureLabelGraphicPostMatrix();
+
+    if (labelGraphic) {
+      labelGraphic.scale(scale, scale, scaleCenter);
     }
   }
 
   handlePan(e: any) {
-    // TODO 现在处理好像一模一样
-    this.handleZoom(e);
+    const { delta } = e;
+    if (delta?.[0] === 0 && delta?.[1] === 0) {
+      return;
+    }
+
+    this._updateSymbolGraphicPosition();
+
+    const labelGraphic = this._ensureLabelGraphicPostMatrix();
+
+    if (labelGraphic) {
+      labelGraphic.translate(delta[0], delta[1]);
+    }
+  }
+
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
+    this._updateSymbolGraphicPosition();
+
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+    if (labelGraphic?.attribute.postMatrix) {
+      labelGraphic.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+
+    const vgrammarLabel = this._labelMark?.getComponent();
+    if (vgrammarLabel) {
+      vgrammarLabel.renderInner();
+    }
   }
 
   getDefaultShapeType() {

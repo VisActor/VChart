@@ -8,7 +8,7 @@ import {
   loadWxEnv,
   loadTTEnv,
   loadHarmonyEnv
-} from '@visactor/vrender-kits';
+} from '@visactor/vrender-kits/env';
 import { container } from '@visactor/vrender-core';
 
 /**

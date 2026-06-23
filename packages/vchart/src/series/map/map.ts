@@ -90,17 +90,17 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       .transform({ type: 'copyDataView', options: { deep: true }, level: TransformLevel.copyDataView })
       .transform({
         type: 'map',
-        options: {
+        options: () => ({
           nameMap: this._nameMap,
           nameProperty: this._nameProperty
-        }
+        })
       })
       .transform({
         type: 'lookup',
         options: {
           from: () => this._data?.getLatestData(),
           key: DEFAULT_MAP_LOOK_UP_KEY,
-          fields: this._nameField,
+          fields: () => this._nameField,
           set: (feature: FeatureData, datum: Datum) => {
             if (datum) {
               Object.keys(datum).forEach(key => {
@@ -252,24 +252,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.scale(scale, scale, scaleCenter);
     }
-    const labelComponent = this._labelMark?.getComponent();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
-    if (labelComponent?.renderInner) {
-      labelComponent.renderInner();
-    }
-    const vgrammarLabel = labelComponent?.getComponent?.();
-    if (vgrammarLabel?.evaluate) {
-      (vgrammarLabel as any).evaluate(null, null);
-    }
-    // 标签跟随地图
-    const labelGroup = labelComponent?.getProduct?.();
-    if (labelGroup && scale && scaleCenter) {
-      if (!labelGroup.attribute?.postMatrix) {
-        labelGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      labelGroup.scale(scale, scale, scaleCenter);
+    if (vgrammarLabel) {
+      vgrammarLabel.renderInner();
     }
   }
 
@@ -287,24 +273,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       }
       pathGroup.translate(delta[0], delta[1]);
     }
-    const labelComponent = this._labelMark?.getComponent();
+    const vgrammarLabel = this._labelMark?.getComponent();
 
-    if (labelComponent?.renderInner) {
-      labelComponent.renderInner();
-    }
-    const vgrammarLabel = labelComponent?.getComponent?.();
-    if (vgrammarLabel?.evaluate) {
-      (vgrammarLabel as any).evaluate(null, null);
-    }
-    // 标签跟随地图
-    const labelGroup = labelComponent?.getProduct?.();
-    if (labelGroup && delta) {
-      if (!labelGroup.attribute?.postMatrix) {
-        labelGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      labelGroup.translate(delta[0], delta[1]);
+    if (vgrammarLabel) {
+      vgrammarLabel.renderInner();
     }
   }
 

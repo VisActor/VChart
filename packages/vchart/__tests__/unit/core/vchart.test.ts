@@ -1,12 +1,16 @@
-import type { Group, IArc, Text } from '@visactor/vrender-core';
+import { Stage, type Group, type IApp, type IArc, type Text } from '@visactor/vrender-core';
+import { createBrowserVRenderApp, getSharedVRenderApp, releaseSharedVRenderApp } from '@visactor/vrender';
 import type { IBarChartSpec } from '../../../src';
 import { default as VChart } from '../../../src';
+import { registerBrowserEnv } from '../../../src/env';
 import { createDiv, createCanvas, removeDom } from '../../util/dom';
 import type { ICommonChartSpec } from '../../../src/chart/common';
 import type { IAreaSeriesSpec } from '../../../src/series/area/interface';
 import type { IPoint } from '../../../src/typings';
 import { polarToCartesian } from '@visactor/vutils';
 import type { IMarkGraphic } from '../../../src/mark/interface';
+import type { BaseEventParams } from '../../../src/event/interface';
+import type { IChartSpec } from '../../../src/typings/spec/common';
 
 describe('VChart', () => {
   describe('render and update', () => {
@@ -230,6 +234,46 @@ describe('VChart', () => {
       expect(vchart.getChart()?.getAllSeries()[0].getRawData()?.latestData.length).toBe(data.length);
     });
 
+    it('does not duplicate user event registered before updateSpec initializes chart', () => {
+      const spec: IBarChartSpec = {
+        type: 'bar',
+        direction: 'horizontal',
+        data: [
+          {
+            id: 'barData',
+            values: [
+              { cat: '类目一', value: 80 },
+              { cat: '类目二', value: 52 }
+            ]
+          }
+        ],
+        yField: 'cat',
+        xField: 'value'
+      };
+      const eventSpy = jest.fn();
+      const emptySpec: IChartSpec = { type: '' };
+      const eventParams: BaseEventParams = {
+        source: 'chart',
+        model: { type: 'bar' } as unknown as BaseEventParams['model'],
+        event: {
+          stopPropagation: jest.fn(),
+          preventDefault: jest.fn()
+        } as unknown as BaseEventParams['event'],
+        item: null as unknown as BaseEventParams['item'],
+        datum: null as unknown as BaseEventParams['datum']
+      };
+
+      vchart = new VChart(emptySpec, {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      vchart.on('click', { source: 'chart', level: 'model' }, eventSpy);
+      vchart.updateSpecSync(spec);
+      vchart.event.emit('click', eventParams, 'model');
+
+      expect(eventSpy).toBeCalledTimes(1);
+    });
+
     it('updateViewBox', async () => {
       const spec: ICommonChartSpec = {
         type: 'common',
@@ -298,6 +342,46 @@ describe('VChart', () => {
       expect((labels.children[2] as Text).attribute.text).toBe(800);
       expect((labels.children[3] as Text).attribute.fillOpacity).toBe(1);
       expect((labels.children[3] as Text).attribute.text).toBe(1200);
+    });
+
+    it('reLayout', () => {
+      const spec: IBarChartSpec = {
+        type: 'bar',
+        width: 200,
+        height: 150,
+        data: [
+          {
+            id: 'data',
+            values: [
+              { x: 'Mon', y: 100 },
+              { x: 'Tue', y: 66 }
+            ]
+          }
+        ],
+        xField: 'x',
+        yField: 'y',
+        axes: [{ orient: 'bottom', type: 'band' }, { orient: 'left' }]
+      };
+
+      vchart = new VChart(spec, {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      vchart.renderSync();
+
+      const chart = vchart.getChart();
+      const compiler = vchart.getCompiler();
+      const resetLayoutItemTagSpy = jest.spyOn(chart, 'resetLayoutItemTag');
+      const setLayoutTagSpy = jest.spyOn(chart, 'setLayoutTag');
+      const renderSpy = jest.spyOn(compiler, 'render');
+      const onEvaluateEndSpy = jest.spyOn(chart, 'onEvaluateEnd');
+
+      vchart.reLayout();
+
+      expect(resetLayoutItemTagSpy).toHaveBeenCalledTimes(1);
+      expect(setLayoutTagSpy).toHaveBeenCalledWith(true, null, false);
+      expect(renderSpy).toHaveBeenCalledTimes(1);
+      expect(onEvaluateEndSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -468,7 +552,7 @@ describe('VChart', () => {
       expect(value1).toBe(mark.attribute.x);
 
       const value2 = vchart.convertValueToPosition(0, { axisId: 'left' });
-      expect(value2).toBe(394);
+      expect(value2).toBe(vchart.getChart()!.getAllSeries()[0].getRegion().getLayoutRect().height);
     });
 
     it('should convert correctly in funnel chart', () => {
@@ -717,6 +801,279 @@ describe('VChart', () => {
       axis = vchart.getComponents().find(com => com.layout?.layoutOrient === 'right') as any;
 
       expect(axis.getScale().domain()).toEqual([-52, 30]);
+    });
+  });
+
+  describe('external stage ownership', () => {
+    let canvasDom: HTMLCanvasElement;
+    let charts: VChart[];
+    let externalStage: Stage | undefined;
+    let rawExternalStageRelease: (() => void) | undefined;
+    let externalApp: IApp | undefined;
+    let rawExternalAppRelease: (() => void) | undefined;
+
+    const spec = (valueOffset: number = 0): IBarChartSpec => ({
+      type: 'bar',
+      width: 200,
+      height: 150,
+      data: [
+        {
+          id: 'data',
+          values: [
+            { x: 'A', y: 12 + valueOffset },
+            { x: 'B', y: 18 + valueOffset }
+          ]
+        }
+      ],
+      xField: 'x',
+      yField: 'y',
+      animation: false
+    });
+
+    const createExternalStage = () => {
+      registerBrowserEnv();
+      externalStage = new Stage({
+        width: 200,
+        height: 150,
+        canvas: canvasDom,
+        autoRender: true,
+        disableDirtyBounds: true
+      });
+      rawExternalStageRelease = externalStage.release.bind(externalStage);
+      return externalStage;
+    };
+
+    const createExternalApp = () => {
+      externalApp = createBrowserVRenderApp();
+      rawExternalAppRelease = externalApp.release.bind(externalApp);
+      return externalApp;
+    };
+
+    beforeEach(() => {
+      releaseSharedVRenderApp('browser');
+      canvasDom = createCanvas();
+      canvasDom.width = 200;
+      canvasDom.height = 150;
+      charts = [];
+    });
+
+    afterEach(() => {
+      charts.forEach(chart => {
+        if (!(chart as any)._isReleased) {
+          chart.release();
+        }
+      });
+      if (externalStage && (externalStage as any).releaseStatus !== 'released') {
+        rawExternalStageRelease?.();
+      }
+      if (externalApp && !externalApp.released) {
+        rawExternalAppRelease?.();
+      }
+      releaseSharedVRenderApp('browser');
+      removeDom(canvasDom);
+      externalStage = undefined;
+      rawExternalStageRelease = undefined;
+      externalApp = undefined;
+      rawExternalAppRelease = undefined;
+    });
+
+    it('should not release an externally owned stage and should remove chart-owned root group', () => {
+      const stage = createExternalStage();
+      const releaseStage = jest.fn(() => rawExternalStageRelease?.());
+      stage.release = releaseStage as any;
+
+      const chart = new VChart(spec(), {
+        stage: stage as any,
+        animation: false
+      });
+      charts.push(chart);
+      chart.renderSync();
+
+      const rootGroup = stage.defaultLayer.find(node => node.name === 'root', false);
+      expect(rootGroup).toBeDefined();
+      const barMark = (chart.getChart() as any).getAllSeries()[0].getMarks()[0];
+      const barProduct = barMark.getProduct();
+      const removeBarProduct = jest.spyOn(barProduct.parent, 'removeChild');
+      const removeRootGroup = jest.spyOn(stage.defaultLayer, 'removeChild');
+
+      chart.release();
+
+      expect(removeBarProduct).toHaveBeenCalledWith(barProduct, true);
+      expect(removeRootGroup).toHaveBeenCalledWith(rootGroup, true);
+      expect(releaseStage).not.toHaveBeenCalled();
+      expect(stage.window).toBeDefined();
+      expect(stage.defaultLayer).toBeDefined();
+      expect(stage.defaultLayer.find(node => node === rootGroup, false)).toBeFalsy();
+    });
+
+    it('should allow a second VChart instance to reuse the same external stage', () => {
+      const stage = createExternalStage();
+      const releaseStage = jest.fn(() => rawExternalStageRelease?.());
+      stage.release = releaseStage as any;
+
+      const first = new VChart(spec(), {
+        stage: stage as any,
+        animation: false
+      });
+      charts.push(first);
+      first.renderSync();
+      first.updateSpecSync(spec(3));
+      first.release();
+
+      expect(releaseStage).not.toHaveBeenCalled();
+
+      const second = new VChart(spec(6), {
+        stage: stage as any,
+        animation: false
+      });
+      charts.push(second);
+      second.renderSync();
+      second.release();
+
+      expect(releaseStage).not.toHaveBeenCalled();
+    });
+
+    it('should still release an internally created stage', () => {
+      const chart = new VChart(spec(), {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      charts.push(chart);
+      chart.renderSync();
+
+      const stage = chart.getStage() as unknown as Stage;
+      const rawRelease = stage.release.bind(stage);
+      const releaseStage = jest.fn(() => rawRelease());
+      stage.release = releaseStage as any;
+
+      chart.release();
+
+      expect(releaseStage).toHaveBeenCalledTimes(1);
+    });
+
+    it('should use an external app to create an internally owned stage without releasing the app', () => {
+      const app = createExternalApp();
+      const createStage = jest.spyOn(app, 'createStage');
+      const releaseApp = jest.fn(() => rawExternalAppRelease?.());
+      app.release = releaseApp as any;
+
+      const chart = new VChart(spec(), {
+        app,
+        renderCanvas: canvasDom,
+        animation: false
+      } as any);
+      charts.push(chart);
+      chart.renderSync();
+
+      expect(createStage).toHaveBeenCalledTimes(1);
+
+      const stage = chart.getStage() as unknown as Stage;
+      const rawRelease = stage.release.bind(stage);
+      const releaseStage = jest.fn(() => rawRelease());
+      stage.release = releaseStage as any;
+
+      chart.release();
+
+      expect(releaseStage).toHaveBeenCalledTimes(1);
+      expect(releaseApp).not.toHaveBeenCalled();
+    });
+
+    it('should reuse the default VRender shared app while keeping internally created stages isolated', () => {
+      const secondCanvasDom = createCanvas();
+      secondCanvasDom.width = 200;
+      secondCanvasDom.height = 150;
+
+      const first = new VChart(spec(), {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      charts.push(first);
+      first.renderSync();
+
+      const fallbackApp = getSharedVRenderApp('browser');
+      expect(fallbackApp).toBeDefined();
+      const createStage = jest.spyOn(fallbackApp!, 'createStage');
+
+      const second = new VChart(spec(6), {
+        renderCanvas: secondCanvasDom,
+        animation: false
+      });
+      charts.push(second);
+      second.renderSync();
+
+      const firstStage = first.getStage() as unknown as Stage;
+      const secondStage = second.getStage() as unknown as Stage;
+      const rawSecondStageRelease = secondStage.release.bind(secondStage);
+      const releaseSecondStage = jest.fn(() => rawSecondStageRelease());
+      secondStage.release = releaseSecondStage as any;
+
+      expect(getSharedVRenderApp('browser')).toBe(fallbackApp);
+      expect(createStage).toHaveBeenCalledTimes(1);
+      expect(firstStage).not.toBe(secondStage);
+
+      first.release();
+
+      expect(releaseSecondStage).not.toHaveBeenCalled();
+      expect(getSharedVRenderApp('browser')).toBe(fallbackApp);
+      expect(secondStage.window).toBeDefined();
+      expect(secondStage.defaultLayer).toBeDefined();
+
+      second.release();
+
+      expect(releaseSecondStage).toHaveBeenCalledTimes(1);
+      expect(getSharedVRenderApp('browser')).toBeNull();
+      removeDom(secondCanvasDom);
+    });
+
+    it('should let VRender release the default shared app after the last internally owned stage is released', () => {
+      const secondCanvasDom = createCanvas();
+      secondCanvasDom.width = 200;
+      secondCanvasDom.height = 150;
+
+      const first = new VChart(spec(), {
+        renderCanvas: canvasDom,
+        animation: false
+      });
+      charts.push(first);
+      first.renderSync();
+
+      const fallbackApp = getSharedVRenderApp('browser');
+      expect(fallbackApp).toBeDefined();
+
+      const second = new VChart(spec(6), {
+        renderCanvas: secondCanvasDom,
+        animation: false
+      });
+      charts.push(second);
+      second.renderSync();
+
+      first.release();
+
+      expect(getSharedVRenderApp('browser')).toBe(fallbackApp);
+      expect(fallbackApp?.released).toBe(false);
+
+      second.release();
+
+      expect(getSharedVRenderApp('browser')).toBeNull();
+      expect(fallbackApp?.released).toBe(true);
+      removeDom(secondCanvasDom);
+    });
+
+    it('should keep the default dom render path working with fallback app stage creation', () => {
+      const dom = createDiv();
+      const chart = new VChart(spec(), {
+        dom,
+        animation: false
+      });
+      charts.push(chart);
+
+      chart.renderSync();
+      chart.updateSpecSync(spec(9));
+
+      expect(chart.getStage()).toBeDefined();
+
+      chart.release();
+      removeDom(dom);
     });
   });
 });

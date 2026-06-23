@@ -7,6 +7,11 @@ export class ColorOrdinalScale extends OrdinalScale {
   /** range（可能为渐进式色板） */
   protected _range: Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>;
 
+  setSpecified(value?: Record<string, unknown>): this {
+    this._specified = value ? { ...value } : {};
+    return this;
+  }
+
   range(value?: Array<ColorSchemeItem> | ProgressiveDataScheme<ColorSchemeItem>): this | any {
     if (!value) {
       return super.range();

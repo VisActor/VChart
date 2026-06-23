@@ -1,8 +1,10 @@
 import type { DataView } from '@visactor/vdataset';
-import { isValidNumber } from '@visactor/vutils';
+import { isFunction, isValidNumber } from '@visactor/vutils';
+
+type FunnelOptionValue<T> = T | (() => T);
 
 export interface IFunnelOpt {
-  valueField: string;
+  valueField: FunnelOptionValue<string>;
   /** 转化率（当前层到下一层的比例） **/
   asTransformRatio: string;
   /** 到达率 （上一层到当前层的比例）*/
@@ -23,13 +25,15 @@ export interface IFunnelOpt {
   asNextValue: string;
 
   /** 最底层漏斗是否为锥形 */
-  isCone?: boolean;
+  isCone?: FunnelOptionValue<boolean | undefined>;
   /** 高度是否进行数据映射 **/
-  heightVisual?: boolean;
+  heightVisual?: FunnelOptionValue<boolean | undefined>;
 
   /** 数值范围 */
-  range?: { min: number; max: number };
+  range?: FunnelOptionValue<{ min?: number; max?: number } | undefined>;
 }
+
+const resolveOptionValue = <T>(option: FunnelOptionValue<T>) => (isFunction(option) ? option() : option);
 
 export const funnel = (originData: Array<DataView>, op: IFunnelOpt) => {
   const data = originData.map(datum => ({ ...datum }));
@@ -37,7 +41,6 @@ export const funnel = (originData: Array<DataView>, op: IFunnelOpt) => {
     return data;
   }
   const {
-    valueField,
     asTransformRatio,
     asReachRatio,
     asHeightRatio,
@@ -47,10 +50,11 @@ export const funnel = (originData: Array<DataView>, op: IFunnelOpt) => {
     asLastValue,
     asCurrentValue,
     asNextValue,
-    heightVisual = false,
-    isCone = true,
-    range
   } = op;
+  const valueField = resolveOptionValue(op.valueField);
+  const heightVisual = resolveOptionValue(op.heightVisual) ?? false;
+  const isCone = resolveOptionValue(op.isCone) ?? true;
+  const range = resolveOptionValue(op.range);
 
   const max = data.reduce((m, d) => Math.max(m, Number.parseFloat(d[valueField]) || -Infinity), -Infinity);
   const min = data.reduce((m, d) => Math.min(m, Number.parseFloat(d[valueField]) || Infinity), Infinity);
@@ -85,12 +89,14 @@ export interface IFunnelTransformOpt {
 }
 
 export const funnelTransform = (originData: Array<DataView>, op: IFunnelTransformOpt) => {
-  const data = originData[0]?.latestData?.map((datum: any) => ({ ...datum }));
+  const data: Array<Record<string, unknown>> | undefined = originData[0]?.latestData?.map(
+    (datum: Record<string, unknown>) => ({ ...datum })
+  );
   if (!data || data.length === 0) {
     return data;
   }
   data.shift();
-  data.forEach((d: any) => {
+  data.forEach(d => {
     d[op.asIsTransformLevel] = true;
   });
   return data;

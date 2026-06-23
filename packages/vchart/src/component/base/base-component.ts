@@ -13,6 +13,11 @@ import type { IComponentSpec } from './interface';
 import { LayoutModel } from '../../model/layout-model';
 import { BaseComponentSpecTransformer } from './base-component-transformer';
 import type { IModelSpecInfo } from '../../model/interface';
+import {
+  collectVRenderComponents,
+  releaseVRenderComponent,
+  releaseVRenderComponentSync
+} from './release-vrender-component';
 
 export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends LayoutModel<T> implements IComponent {
   static transformerConstructor = BaseComponentSpecTransformer;
@@ -37,6 +42,8 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
   }
 
   protected _container: IGroup;
+  private _exitingVRenderComponents?: Set<IGraphic>;
+  private _forceReleaseVRenderComponents: boolean = false;
 
   created() {
     super.created();
@@ -91,12 +98,68 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     return result;
   }
 
+  beforeRelease() {
+    super.beforeRelease();
+    this._forceReleaseVRenderComponents = true;
+    this._forceReleaseExitingVRenderComponents();
+  }
+
   release() {
-    super.release();
+    if (this._shouldReleaseVRenderComponentsImmediately()) {
+      this._forceReleaseExitingVRenderComponents();
+    }
     this.clear();
+    super.release();
 
     this.pluginService?.releaseAll();
     this.pluginService = null;
+  }
+
+  protected _shouldReleaseVRenderComponentsImmediately() {
+    return this._forceReleaseVRenderComponents;
+  }
+
+  protected _forceReleaseExitingVRenderComponents() {
+    if (!this._exitingVRenderComponents?.size) {
+      return;
+    }
+
+    this._exitingVRenderComponents.forEach(component => {
+      releaseVRenderComponentSync(component);
+      (this._option?.globalInstance as any)?._unregisterExitingVRenderComponent?.(component);
+    });
+    this._exitingVRenderComponents.clear();
+  }
+
+  protected _releaseVRenderComponent(component: IGraphic) {
+    const forceRelease = this._shouldReleaseVRenderComponentsImmediately();
+
+    if (!forceRelease) {
+      const exitingComponents = collectVRenderComponents(component);
+      const releasedWithExit = releaseVRenderComponent(component, {
+        enableExitAnimation: true,
+        removeFromParent: true,
+        onComplete: () => {
+          exitingComponents.forEach(exitingComponent => {
+            this._exitingVRenderComponents?.delete(exitingComponent);
+            (this._option?.globalInstance as any)?._unregisterExitingVRenderComponent?.(exitingComponent);
+          });
+        }
+      });
+
+      if (releasedWithExit) {
+        this._exitingVRenderComponents = this._exitingVRenderComponents ?? new Set();
+        exitingComponents.forEach(exitingComponent => {
+          this._exitingVRenderComponents.add(exitingComponent);
+          (this._option?.globalInstance as any)?._registerExitingVRenderComponent?.(exitingComponent);
+        });
+        return;
+      }
+
+      return;
+    }
+
+    releaseVRenderComponentSync(component);
   }
 
   clear() {
@@ -104,9 +167,7 @@ export class BaseComponent<T extends IComponentSpec = IComponentSpec> extends La
     if (components && components.length) {
       components.forEach(c => {
         if (c) {
-          c.release(true);
-          this.getContainer()?.removeChild(c as unknown as INode);
-          c = null;
+          this._releaseVRenderComponent(c);
         }
       });
     }

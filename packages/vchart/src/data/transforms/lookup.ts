@@ -6,40 +6,46 @@ export interface ILookUpOpt {
   from: () => object[];
   key: string;
   // 暂时不支持Multi-field lookup
-  fields: string;
+  fields: string | (() => string);
   values?: string[];
   as?: string[];
-  default?: any;
-  set?: (A: Datum, B: Datum) => void;
+  default?: unknown;
+  set?: (A: Datum, B?: Datum) => void;
 }
 
+const resolveOptionValue = <T>(option: T | (() => T)) => (isFunction(option) ? option() : option);
+
 export const lookup = (data: Array<DataView>, opt: ILookUpOpt) => {
-  if (!opt.from || !opt.from()) {
+  const fromData = opt.from?.();
+  if (!fromData) {
     return data;
   }
 
-  const fields = opt.fields;
+  const fields = resolveOptionValue(opt.fields);
   const key = opt.key;
   const values = opt.values;
   const defaultValue = opt.default;
   const as = opt.as || [fields];
-  const index = opt.from().reduce(function (map: Map<string, object>, obj) {
+  const index = (fromData as Array<Record<string, unknown>>).reduce(function (
+    map: Map<string, Record<string, unknown>>,
+    obj
+  ) {
     if (obj[fields]) {
-      map.set(obj[fields], obj);
+      map.set(`${obj[fields]}`, obj);
     }
     return map;
-  }, new Map<string, object>());
+  }, new Map<string, Record<string, unknown>>());
 
-  let set: (d: any) => void;
+  let set: (d: Record<string, unknown>) => void;
   if (isFunction(opt.set)) {
-    set = function (d: any) {
-      const v = (index as Map<string, object>).get(d[key]);
-      opt.set(d, v);
+    set = function (d: Record<string, unknown>) {
+      const v = index.get(`${d[key]}`);
+      opt.set(d as Datum, v as Datum);
     };
   } else if (values) {
     const m = values.length;
-    set = function (d: any) {
-      const v = (index as Map<string, object>).get(d[key]);
+    set = function (d: Record<string, unknown>) {
+      const v = index.get(`${d[key]}`);
       if (isNil(v)) {
         for (let i = 0; i < m; ++i) {
           d[as[i]] = defaultValue;
@@ -51,8 +57,8 @@ export const lookup = (data: Array<DataView>, opt: ILookUpOpt) => {
       }
     };
   } else {
-    set = function (d: any) {
-      const v = (index as Map<string, object>).get(d[key]);
+    set = function (d: Record<string, unknown>) {
+      const v = index.get(`${d[key]}`);
       d[as[0]] = isValid(v) ? v : defaultValue;
     };
   }
@@ -60,8 +66,8 @@ export const lookup = (data: Array<DataView>, opt: ILookUpOpt) => {
   if (data.length === 0) {
     return [];
   }
-  return data.map(d => {
+  return (data as unknown as Array<Record<string, unknown>>).map(d => {
     set(d);
     return d;
-  });
+  }) as unknown as Array<DataView>;
 };

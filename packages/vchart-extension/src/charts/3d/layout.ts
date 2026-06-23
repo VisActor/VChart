@@ -1,6 +1,7 @@
-import type { IAxis, IBaseLayout, IChart, ILayoutItem, IOffset, IRect, LayoutSideType } from '@visactor/vchart';
+import type { IAxis, IBaseLayout, IChart, ILayoutItem, IOffset, LayoutSideType } from '@visactor/vchart';
 import { Factory, isXAxis, isYAxis, Layout } from '@visactor/vchart';
 import type { IBoundsLike } from '@visactor/vchart';
+import type { IRect } from '@visactor/vchart/src/typings/space';
 
 export class Layout3d extends Layout implements IBaseLayout {
   declare recomputeWidth: boolean;

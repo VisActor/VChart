@@ -75,6 +75,28 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     this._visible = this._spec.visible ?? true;
   }
 
+  _compareSpec(spec: IPlayer, prevSpec: IPlayer) {
+    const result = super._compareSpec(spec, prevSpec);
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (prevSpec?.type !== spec?.type) {
+      result.reMake = true;
+      return result;
+    }
+    if (specChanged && !result.reMake && !result.reCompile) {
+      result.change = true;
+      result.reRender = true;
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
+
+    return result;
+  }
+
   /**
    * 计算组件位置(布局的左上角起点)
    * @param pos

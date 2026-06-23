@@ -1,4 +1,4 @@
-import type { IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
+import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
@@ -81,7 +81,12 @@ export interface IRenderOption {
 
   gestureConfig?: GestureConfig;
   /**
-   * 渲染环境参数配置
+   * 渲染环境参数配置。
+   *
+   * app 级 envParams 只应放对整个 VRender app scope 都有效的环境能力；
+   * 具体 canvas name/id、width、height、dpr 会随 stage 创建参数传入。
+   * Lynx 新接入请优先使用 pixelRatio、lynx/runtime、canvasFactory 等全局能力，
+   * 不要把 domref/canvasIdLists/freeCanvasIdx 作为新主路径依赖。
    */
   modeParams?:
     | {
@@ -114,9 +119,15 @@ export interface IRenderOption {
    */
   canvasControled?: boolean;
   /**
-   * 外部传入的 VRender stage
+   * 外部传入的 VRender stage。普通用户仍应优先使用 dom/renderCanvas；
+   * 显式传入 stage 时，stage ownership 属于外部，VChart release 不会释放该 stage。
    */
   stage?: IStage;
+  /**
+   * 外部传入的 VRender app。VChart 可使用它创建内部 stage，但 app ownership 属于外部，
+   * VChart release 只释放自己创建的 stage，不释放该 app。
+   */
+  app?: IApp;
   /**
    * 外部传入的 VRender layer
    */

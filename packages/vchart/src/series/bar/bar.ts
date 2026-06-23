@@ -3,6 +3,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
@@ -48,6 +49,23 @@ import { bar } from '../../theme/builtin/common/series/bar';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
 
+type BarSeriesCompileOnlyKey =
+  | 'barWidth'
+  | 'barMinWidth'
+  | 'barMaxWidth'
+  | 'barGapInGroup'
+  | 'barMinHeight'
+  | 'stackCornerRadius';
+
+const BAR_SERIES_COMPILE_ONLY_KEYS: Record<BarSeriesCompileOnlyKey, true> = {
+  barWidth: true,
+  barMinWidth: true,
+  barMaxWidth: true,
+  barGapInGroup: true,
+  barMinHeight: true,
+  stackCornerRadius: true
+};
+
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
   type: string = SeriesTypeEnum.bar;
@@ -64,6 +82,17 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barBackgroundMark!: IRectMark;
 
   protected _barBackgroundViewData: ICompilableData;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...BAR_SERIES_COMPILE_ONLY_KEYS
+      }
+    };
+  }
 
   initMark(): void {
     this._initBarBackgroundMark();
@@ -105,6 +134,22 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
     }
+
+    this.initRectMarkStyle();
+  }
+
+  protected initRectMarkStyle() {
+    if (!this._barMark) {
+      return;
+    }
+
+    const bandAxisHelper = this.direction === Direction.vertical ? this._xAxisHelper : this._yAxisHelper;
+    const scale = bandAxisHelper?.getScale?.(0);
+    if (!scale) {
+      return;
+    }
+
+    scale.type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
   }
 
   initLabelMarkStyle(textMark: ITextMark) {
@@ -256,11 +301,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   init(option: IModelInitOption): void {
     super.init(option);
-    if (this.direction === 'vertical') {
-      this._xAxisHelper?.getScale(0).type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
-    } else {
-      this._yAxisHelper?.getScale(0).type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
-    }
+    this.initRectMarkStyle();
   }
 
   private _shouldDoPreCalculate() {
@@ -489,6 +530,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   protected _initStackBarMarkStyle() {
     if (!this._spec.stackCornerRadius) {
+      const markConfig = this._barMark.getMarkConfig();
+
+      if (markConfig.clip || !isNil(markConfig.clipPath)) {
+        this._barMark.setMarkConfig({
+          clip: false,
+          clipPath: []
+        });
+      }
       return;
     }
 

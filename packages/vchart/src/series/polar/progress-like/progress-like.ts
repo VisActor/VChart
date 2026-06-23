@@ -11,6 +11,21 @@ import type { IPolarAxis, IPolarAxisSpec } from '../../../component/axis';
 import { createArc, createRect } from '@visactor/vrender-core';
 import type { SeriesMarkMap } from '../../interface';
 import { progressLikeSeriesMark } from './constant';
+import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
+
+const PROGRESS_LIKE_SERIES_COMPILE_ONLY_KEYS: Record<
+  'radius' | 'outerRadius' | 'innerRadius' | 'startAngle' | 'endAngle' | 'centerX' | 'centerY' | 'clamp',
+  true
+> = {
+  radius: true,
+  outerRadius: true,
+  innerRadius: true,
+  startAngle: true,
+  endAngle: true,
+  centerX: true,
+  centerY: true,
+  clamp: true
+};
 
 export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
   static readonly mark: SeriesMarkMap = progressLikeSeriesMark;
@@ -19,6 +34,17 @@ export abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> exte
   protected _endAngle: number;
 
   protected _arcGroupMark: IGroupMark | null = null;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...PROGRESS_LIKE_SERIES_COMPILE_ONLY_KEYS
+      }
+    };
+  }
 
   setAttrFromSpec(): void {
     super.setAttrFromSpec();

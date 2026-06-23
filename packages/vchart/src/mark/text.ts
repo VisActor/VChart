@@ -5,7 +5,9 @@ import type { IMarkGraphic, IMarkOption, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
 import type { ITextMark, ITextSpec } from './interface/mark';
-import { registerRichtext, registerShadowRoot, registerText } from '@visactor/vrender-kits';
+import { registerRichtext } from '@visactor/vrender-kits/register/register-richtext';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
+import { registerText } from '@visactor/vrender-kits/register/register-text';
 import type { IGraphic, IRichTextGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
 import { createRichText, createText } from '@visactor/vrender-core';
 import { isObject, isValid } from '@visactor/vutils';

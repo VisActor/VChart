@@ -8,13 +8,15 @@ export class RadarChartSpecTransformer<
 > extends RoseLikeChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: any): any {
     const series = super._getDefaultSeriesSpec(spec);
+    const areaTheme = this._option.getTheme?.('series', 'radar', 'area');
+    this._addSeriesRelatedSpecKeys(['line', 'point', 'area']);
     series.line = spec.line;
     series.point = spec.point;
     series.stack = spec.stack;
     series.percent = spec.percent;
     series.area = mergeSpec(
       {
-        visible: false
+        visible: areaTheme?.visible ?? false
       },
       spec.area
     );

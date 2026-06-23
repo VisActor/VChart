@@ -6,8 +6,9 @@ import type { IMarkGraphic, IMarkStyle, ISymbolMark } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import type { ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { createSymbol } from '@visactor/vrender-core';
-import { registerShadowRoot, registerSymbol } from '@visactor/vrender-kits';
-import { registerSymbolDataLabel } from '@visactor/vrender-components';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
+import { registerSymbol } from '@visactor/vrender-kits/register/register-symbol';
+import { registerSymbolDataLabel } from '@visactor/vrender-components/label/symbol';
 import { isNil } from '@visactor/vutils';
 
 export class SymbolMark extends BaseMark<ISymbolMarkSpec> implements ISymbolMark {

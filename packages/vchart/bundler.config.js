@@ -67,6 +67,14 @@ const esEntries = bundle_analyze_mode || IGNORE_ENTRIES ? [] : ['index-harmony',
 const umdEntries = Object.keys(crossEnvs)
   .map(env => crossEnvs[env].input)
   .filter((input, index, arr) => arr.indexOf(input, 0) === index);
+
+const multiEnvRuntimeEntries = new Set(['index-lark', 'index-wx', 'index-wx-simple', ...esEntries]);
+
+function isBrowserRuntimeEntry(entry) {
+  const entryName = path.basename(entry, path.extname(entry));
+  return !multiEnvRuntimeEntries.has(entryName);
+}
+
 /**
  * @type {import('@internal/bundler').Config}
  */
@@ -90,6 +98,12 @@ module.exports = {
   rollupOptions: {
     plugins
   },
+  nodeResolveOptions: entry =>
+    isBrowserRuntimeEntry(entry)
+      ? {
+          exportConditions: ['browser']
+        }
+      : {},
   globals: {
     // '@visactor/vrender': 'VRender'
   },

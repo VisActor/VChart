@@ -75,6 +75,24 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     this._regions = this._option.getRegionsInUserIdOrIndex(array(this._spec.regionId), array(this._spec.regionIndex));
   }
 
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (specChanged && !result.reMake && !result.reCompile) {
+      result.change = true;
+      result.reRender = true;
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
+
+    return result;
+  }
+
   // event
   protected initEvent() {
     if (this._option.disableTriggerEvent) {
@@ -127,11 +145,11 @@ export class Indicator<T extends IIndicatorSpec> extends BaseComponent<T> implem
     const displayData = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     displayData.transform({
       type: 'indicatorFilter',
-      options: {
+      options: () => ({
         title: this._title,
         content: this._content,
         datum: () => this._activeDatum
-      }
+      })
     });
 
     displayData.target.addListener('change', this.updateDatum.bind(this));

@@ -1,7 +1,7 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { IPoint } from '../typings';
 import { isNumberClose, isGreater, isLess, normalizeAngle } from '@visactor/vutils';
-import { angleLabelOrientAttribute } from '@visactor/vrender-components';
+import { angleLabelOrientAttribute } from '@visactor/vrender-components/axis/util';
 export declare const isClose: typeof isNumberClose;
 export { isGreater, isLess, normalizeAngle, angleLabelOrientAttribute };
 export declare function normalizeStartEndAngle(start: number | null, end: number | null): {

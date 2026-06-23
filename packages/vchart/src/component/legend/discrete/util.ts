@@ -1,13 +1,50 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { cloneDeep, isEmpty, isValid } from '@visactor/vutils';
-import { isPercent } from '../../../util/space';
+import { cloneDeep, isEmpty, isFunction, isValid } from '@visactor/vutils';
+import { isPercent, isValidOrient } from '../../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
 import type { IDiscreteLegendSpec, ILegendScrollbar, IPager } from './interface';
 import type { ILayoutRect } from '../../../typings/layout';
+import type { IOrientType } from '../../../typings/space';
 
-export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect) {
+function normalizeLegendShapeTextureStyle(style: any) {
+  if (!isValid(style?.texture)) {
+    return style;
+  }
+
+  return {
+    ...style,
+    texturePadding: isValid(style.texturePadding) ? style.texturePadding : 1,
+    textureSize: isValid(style.textureSize) ? style.textureSize : 4
+  };
+}
+
+function normalizeLegendShapeTextureConfig(shape: any) {
+  const normalizeStyle = (style: any) => normalizeLegendShapeTextureStyle(style);
+
+  if (isFunction(shape.style)) {
+    const style = shape.style;
+    shape.style = (...args: any[]) => normalizeStyle(style(...args));
+  } else if (!isEmpty(shape.style)) {
+    shape.style = normalizeStyle(shape.style);
+  }
+
+  if (!isEmpty(shape.state)) {
+    Object.keys(shape.state).forEach(key => {
+      if (isFunction(shape.state[key])) {
+        const stateStyle = shape.state[key];
+        shape.state[key] = (...args: any[]) => normalizeStyle(stateStyle(...args));
+      } else if (!isEmpty(shape.state[key])) {
+        shape.state[key] = normalizeStyle(shape.state[key]);
+      }
+    });
+  }
+
+  return shape;
+}
+
+export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect, layoutOrient?: IOrientType) {
   const {
     title: titleSpec = {},
     item: itemSpec = {},
@@ -45,6 +82,22 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
 
   const attrs: any = restSpec;
 
+  // `maxRow` / `maxCol` may be a callback, evaluated here during layout against the legend's
+  // available `rect` so the row / column count can adapt to the space (e.g. allow more rows on
+  // a tall-and-narrow legend). The callback receives the layout context and returns a number.
+  // Use the layout-resolved orient (falling back to the spec orient default rule) so the callback
+  // sees the orient the legend actually lays out with, not the raw `spec.orient` which is
+  // `undefined` when the user omits it.
+  if (isFunction(attrs.maxRow) || isFunction(attrs.maxCol)) {
+    const resolvedOrient = isValidOrient(layoutOrient) ? layoutOrient : isValidOrient(orient) ? orient : 'left';
+    if (isFunction(attrs.maxRow)) {
+      attrs.maxRow = attrs.maxRow({ rect, orient: resolvedOrient, id });
+    }
+    if (isFunction(attrs.maxCol)) {
+      attrs.maxCol = attrs.maxCol({ rect, orient: resolvedOrient, id });
+    }
+  }
+
   // transform title
   if (title.visible) {
     attrs.title = transformLegendTitleAttributes(title);
@@ -57,7 +110,7 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
     transformToGraphic(item.focusIconStyle);
   }
   if (item.shape) {
-    item.shape = transformComponentStyle(item.shape);
+    item.shape = normalizeLegendShapeTextureConfig(transformComponentStyle(item.shape));
   }
   if (item.label) {
     item.label = transformComponentStyle(item.label);

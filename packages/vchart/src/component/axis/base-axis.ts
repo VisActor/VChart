@@ -1,6 +1,6 @@
 import type { IGroup } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components';
+import type { ITickDataOpt, AxisItem } from '@visactor/vrender-components/axis/type';
 import type { IBandLikeScale, IBaseScale, IContinuousScale } from '@visactor/vscale';
 // eslint-disable-next-line no-duplicate-imports
 import { isContinuous } from '@visactor/vscale';
@@ -47,9 +47,10 @@ import { DataView } from '@visactor/vdataset';
 import { registerComponentMark } from '../../mark/component';
 import { Factory } from '../../core/factory';
 // eslint-disable-next-line no-duplicate-imports
-import { AXIS_ELEMENT_NAME, GroupTransition } from '@visactor/vrender-components';
+import { GroupTransition } from '@visactor/vrender-components/axis/animate/group-transition';
+import { AXIS_ELEMENT_NAME } from '@visactor/vrender-components/axis/constant';
 // eslint-disable-next-line no-duplicate-imports
-import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-animate';
+import { GroupFadeOut, GroupFadeIn } from '@visactor/vrender-animate/custom/groupFade';
 import { scaleParser } from '../../data/parser/scale';
 import { registerDataSetInstanceParser } from '../../data/register';
 import { getFormatFunction } from '../util';
@@ -57,6 +58,20 @@ import type { IComponentMark } from '../../mark/interface/mark';
 import type { ICompilableMark } from '../../compile/mark';
 import type { ICompilableData } from './../../compile/data/interface';
 import { transformFunctionAttribute } from '../../util/spec/transform';
+
+const AXIS_COMPONENT_ONLY_CHANGE_KEYS: Record<string, true> = {
+  grid: true,
+  subGrid: true,
+  tick: true,
+  subTick: true,
+  label: true,
+  domainLine: true,
+  title: true,
+  maxWidth: true,
+  minWidth: true,
+  maxHeight: true,
+  minHeight: true
+};
 
 export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, any> = any> // FIXME: 补充公共类型，去掉 Record<string, any>
   extends BaseComponent<T>
@@ -255,7 +270,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
 
   protected _shouldComputeTickData() {
     // 当轴被展示、或者强制要求计算 data 时再计算 data
-    return this._specVisible && (this.getVisible() || this._spec.forceInitTick || this._hideWhenEmpty);
+    return this.getVisible() || this._spec.forceInitTick || (this._specVisible && this._hideWhenEmpty);
   }
 
   protected _onTickDataChange = (tickData?: ICompilableData) => {
@@ -512,6 +527,7 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     if (result.reMake) {
       return result;
     }
+    const specChanged = !isEqual(prevSpec, spec);
 
     result.reRender = true;
     /**
@@ -522,11 +538,32 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
       return result;
     }
 
-    result.reMake = ['grid', 'subGrid', 'tick', 'subTick', 'label', 'domainLine', 'title'].some(k => {
-      return prevSpec?.[k]?.visible !== spec?.[k]?.visible;
-    });
+    if (spec?.grid?.visible === true && prevSpec?.grid?.visible !== true && !this._gridMark) {
+      result.reMake = true;
+      return result;
+    }
+
+    if (specChanged && !result.reMake && this._isComponentOnlySpecChange(spec, prevSpec)) {
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
 
     return result;
+  }
+
+  private _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || AXIS_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   protected _getAxisAttributes() {
