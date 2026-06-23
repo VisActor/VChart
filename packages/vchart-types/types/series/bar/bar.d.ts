@@ -1,5 +1,6 @@
 import type { IBaseScale } from '@visactor/vscale';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import type { Datum, DirectionType } from '../../typings';
 import type { IBarSeriesSpec, IBarSeriesTheme } from './interface';
@@ -24,9 +25,11 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _barMark: IRectMark;
     protected _barBackgroundMark: IRectMark;
     protected _barBackgroundViewData: ICompilableData;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     initMark(): void;
     protected _initBarBackgroundMark(): void;
     initMarkStyle(): void;
+    protected initRectMarkStyle(): void;
     initLabelMarkStyle(textMark: ITextMark): void;
     protected initTooltip(): void;
     protected _statisticViewData(): void;
