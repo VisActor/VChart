@@ -5,7 +5,9 @@ import {
   type ICustomMarkSpec,
   type LayoutContext,
   type StorylinePoint,
-  buildRichContent,
+  BLOCK_TITLE_MAX_LINES,
+  buildPlainContent,
+  getBlockTitleHeight,
   getImageBackgroundStyle,
   getRegionGeometry,
   getThemeColor,
@@ -30,9 +32,9 @@ const ARC_BLOCK_IMAGE_HALO_PADDING = 6;
 const ARC_TEXT_GAP_FROM_IMAGE = 10;
 const ARC_TITLE_FONT_SIZE = 32;
 const ARC_TITLE_LINE_HEIGHT = 34;
-const ARC_CONTENT_LINE_HEIGHT = 26;
-const ARC_CONTENT_FONT_SIZE = 20;
-// title + content 区域总高度（默认 240px，溢出由富文本 heightLimit + ellipsis 自动截断）
+const ARC_CONTENT_LINE_HEIGHT = 24;
+const ARC_CONTENT_FONT_SIZE = 18;
+// title + content 区域总高度（默认 240px，溢出由 heightLimit + ellipsis 自动截断）
 const ARC_TEXT_BOX_HEIGHT = 240;
 const ARC_TITLE_TO_CONTENT_GAP = 4;
 // 引导线与 title/content 之间的水平间距
@@ -45,8 +47,20 @@ const ARC_TITLE_IMAGE_MAX_WIDTH = 900;
 const ARC_TITLE_IMAGE_HEIGHT_RATIO = 0.34;
 // 弧线最高/最低点距离 titleImage 顶部/底部的距离
 const ARC_GAP_FROM_TITLE_IMAGE = 200;
+const ARC_FIT_MARGIN = 8;
 
 const isDownArc = (spec: IStorylineSpec) => normalizeLayout(spec.layout).direction === 'down';
+
+type ArcGeometry = {
+  cx: number;
+  cy: number;
+  rx: number;
+  ry: number;
+  startAngle: number;
+  endAngle: number;
+  centerTop: number;
+  centerBottom: number;
+};
 
 /**
  * 计算 arc 布局 titleImage 的 box：水平居中。
@@ -84,7 +98,7 @@ const getArcTitleImageRect = (spec: IStorylineSpec, ctx: LayoutContext) => {
  * → ry = (GAP + titleImageHeight) / (1 - sin(startAngle))
  *   cy = titleImageTop - ry * sin(startAngle)
  */
-const getArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext) => {
+const getBaseArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext): ArcGeometry => {
   const { width, startX } = getRegionGeometry(ctx);
   // width 已经是 VChart 减去 spec.padding 后的 region 宽度
   const innerWidth = Math.max(width, 1);
@@ -130,8 +144,7 @@ const getArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext) => {
  * 同时让 block 沿弧线径向向外偏移 imageHeight/2，
  * 使 image 内边贴在弧线上，image + text 整体位于弧线外侧。
  */
-const getArcBlockCenter = (spec: IStorylineSpec, ctx: LayoutContext, index: number): StorylinePoint => {
-  const arc = getArcGeometry(spec, ctx);
+const getArcBlockCenterByGeometry = (spec: IStorylineSpec, arc: ArcGeometry, index: number): StorylinePoint => {
   const count = spec.data?.length ?? 0;
   if (count <= 0) {
     return { x: arc.cx, y: arc.cy };
@@ -150,6 +163,90 @@ const getArcBlockCenter = (spec: IStorylineSpec, ctx: LayoutContext, index: numb
   const offset = imageHeight / 2;
   return { x: px + nx * offset, y: py + ny * offset };
 };
+
+const getArcBlockBounds = (spec: IStorylineSpec, arc: ArcGeometry, index: number) => {
+  const center = getArcBlockCenterByGeometry(spec, arc, index);
+  const metrics = getArcBlockMetrics(spec, index);
+  const halo = shouldShowImageBackground(spec) ? ARC_BLOCK_IMAGE_HALO_PADDING + ARC_BLOCK_IMAGE_BORDER : 0;
+  const minX = Math.min(metrics.imageBox.x - halo, metrics.textBox.x, metrics.contentBox.x);
+  const maxX = Math.max(
+    metrics.imageBox.x + metrics.imageBox.width + halo,
+    metrics.textBox.x + metrics.textBox.width,
+    metrics.contentBox.x + metrics.contentBox.width
+  );
+  const minY = Math.min(metrics.imageBox.y - halo, metrics.textBox.y, metrics.contentBox.y);
+  const maxY = Math.max(
+    metrics.imageBox.y + metrics.imageBox.height + halo,
+    metrics.textBox.y + metrics.textBox.height,
+    metrics.contentBox.y + metrics.contentBox.height
+  );
+  return {
+    left: center.x + minX,
+    right: center.x + maxX,
+    top: center.y + minY,
+    bottom: center.y + maxY
+  };
+};
+
+const getArcBlocksBounds = (spec: IStorylineSpec, arc: ArcGeometry) => {
+  const count = spec.data?.length ?? 0;
+  if (!count) {
+    return { left: arc.cx, right: arc.cx, top: arc.cy, bottom: arc.cy };
+  }
+  return Array.from({ length: count }, (_, index) => getArcBlockBounds(spec, arc, index)).reduce(
+    (bounds, blockBounds) => ({
+      left: Math.min(bounds.left, blockBounds.left),
+      right: Math.max(bounds.right, blockBounds.right),
+      top: Math.min(bounds.top, blockBounds.top),
+      bottom: Math.max(bounds.bottom, blockBounds.bottom)
+    }),
+    {
+      left: Number.POSITIVE_INFINITY,
+      right: Number.NEGATIVE_INFINITY,
+      top: Number.POSITIVE_INFINITY,
+      bottom: Number.NEGATIVE_INFINITY
+    }
+  );
+};
+
+const getArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext): ArcGeometry => {
+  const arc = getBaseArcGeometry(spec, ctx);
+  const region = getRegionGeometry(ctx);
+  const bounds = getArcBlocksBounds(spec, arc);
+  const fit = {
+    left: region.startX + ARC_FIT_MARGIN,
+    right: region.startX + region.width - ARC_FIT_MARGIN,
+    top: region.startY + ARC_FIT_MARGIN,
+    bottom: region.startY + region.height - ARC_FIT_MARGIN
+  };
+  let shiftX = 0;
+  let shiftY = 0;
+  const boundsWidth = bounds.right - bounds.left;
+  const boundsHeight = bounds.bottom - bounds.top;
+  const fitWidth = fit.right - fit.left;
+  const fitHeight = fit.bottom - fit.top;
+
+  if (boundsWidth > fitWidth) {
+    shiftX = (fit.left + fit.right - bounds.left - bounds.right) / 2;
+  } else if (bounds.left < fit.left) {
+    shiftX = fit.left - bounds.left;
+  } else if (bounds.right > fit.right) {
+    shiftX = fit.right - bounds.right;
+  }
+
+  if (boundsHeight > fitHeight) {
+    shiftY = (fit.top + fit.bottom - bounds.top - bounds.bottom) / 2;
+  } else if (bounds.top < fit.top) {
+    shiftY = fit.top - bounds.top;
+  } else if (bounds.bottom > fit.bottom) {
+    shiftY = fit.bottom - bounds.bottom;
+  }
+
+  return shiftX || shiftY ? { ...arc, cx: arc.cx + shiftX, cy: arc.cy + shiftY } : arc;
+};
+
+const getArcBlockCenter = (spec: IStorylineSpec, ctx: LayoutContext, index: number): StorylinePoint =>
+  getArcBlockCenterByGeometry(spec, getArcGeometry(spec, ctx), index);
 
 /**
  * 贯穿所有 block 的弧线 mark（path 通过沿椭圆采样实现，与 arc block 的弧形布局完全重合）
@@ -265,9 +362,10 @@ const getArcBlockMetrics = (spec: IStorylineSpec, index: number = 0) => {
     [8, 40]
   );
   const titleLineHeight = resolveAdaptiveLineHeight(titleFontSize, spec.title?.style as any, ARC_TITLE_LINE_HEIGHT);
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
   // text 区域总高度固定为 ARC_TEXT_BOX_HEIGHT，content 占除 title 与间距外的全部高度
   const textHeight = ARC_TEXT_BOX_HEIGHT;
-  const contentHeight = Math.max(textHeight - titleLineHeight - titleToContentGap, contentLineHeight);
+  const contentHeight = Math.max(textHeight - titleHeight - titleToContentGap, contentLineHeight);
 
   // 前 1/2 为左侧（奇数 count 时中间块也算左侧），右侧为后 1/2；
   // 左侧 title/content 右对齐（贴引导线），右侧 title/content 左对齐（贴引导线）
@@ -293,7 +391,7 @@ const getArcBlockMetrics = (spec: IStorylineSpec, index: number = 0) => {
   };
   const contentBox = {
     x: textBox.x,
-    y: textBox.y + titleLineHeight + titleToContentGap,
+    y: textBox.y + titleHeight + titleToContentGap,
     width: textBox.width,
     height: contentHeight
   };
@@ -419,6 +517,9 @@ export const buildArcBlockMark = (
               y: metrics.textBox.y,
               text: block.title,
               maxLineWidth: metrics.textBox.width,
+              height: metrics.titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              heightLimit: metrics.titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: metrics.titleFontSize,
               lineHeight: metrics.titleLineHeight,
               fontWeight: 'bold',
@@ -428,6 +529,9 @@ export const buildArcBlockMark = (
               lineJoin: 'round',
               textAlign: metrics.textAlign,
               textBaseline: 'top',
+              whiteSpace: 'normal',
+              wordBreak: 'break-word',
+              ellipsis: '...',
               ...spec.title?.style
             }
           } as ICustomMarkSpec<'text'>)
@@ -439,7 +543,6 @@ export const buildArcBlockMark = (
             interactive: false,
             zIndex: LayoutZIndex.Mark + 4,
             ...spec.content,
-            textType: 'rich',
             style: {
               x: metrics.contentBox.x,
               y: metrics.contentBox.y,
@@ -447,14 +550,12 @@ export const buildArcBlockMark = (
               height: metrics.contentBox.height,
               maxLineWidth: metrics.contentBox.width,
               heightLimit: metrics.contentBox.height,
-              text: buildRichContent(contentText, spec, {
-                fontSize: metrics.contentFontSize,
-                lineHeight: metrics.contentLineHeight,
-                fill: '#596173',
-                align: metrics.textAlign
-              }),
+              text: buildPlainContent(contentText),
+              fontSize: metrics.contentFontSize,
+              lineHeight: metrics.contentLineHeight,
               textAlign: metrics.textAlign,
               textBaseline: 'top',
+              whiteSpace: 'normal',
               wordBreak: 'break-word',
               ellipsis: '...',
               fill: '#596173',

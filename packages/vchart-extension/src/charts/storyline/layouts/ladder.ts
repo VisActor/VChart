@@ -5,7 +5,9 @@ import {
   type LayoutContext,
   DEFAULT_BLOCK_HEIGHT,
   DEFAULT_IMAGE_GAP,
-  buildRichContent,
+  BLOCK_TITLE_MAX_LINES,
+  buildPlainContent,
+  getBlockTitleHeight,
   getImageBackgroundStyle,
   getImageBox,
   getLayout,
@@ -53,8 +55,8 @@ const LADDER_DIAGONAL_DASH = [12, 8];
 const LADDER_BLOCK_IMAGE_SIZE = 100;
 const LADDER_TITLE_FONT_SIZE = 28;
 const LADDER_TITLE_LINE_HEIGHT = 26;
-const LADDER_CONTENT_FONT_SIZE = 18;
-const LADDER_CONTENT_LINE_HEIGHT = 26;
+const LADDER_CONTENT_FONT_SIZE = 16;
+const LADDER_CONTENT_LINE_HEIGHT = 23;
 
 const isDownLadder = (spec: IStorylineSpec) => normalizeLayout(spec.layout).direction === 'down';
 
@@ -232,7 +234,7 @@ const getLadderBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: 
     LADDER_TITLE_LINE_HEIGHT,
     LADDER_TITLE_LINE_HEIGHT / LADDER_TITLE_FONT_SIZE
   );
-  const titleHeight = spec.data?.[index]?.title ? titleLineHeight : 0;
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
   const contentGap = spec.data?.[index]?.title ? 8 : 0;
   return {
     block: { width: blockWidth, height: blockHeight },
@@ -345,6 +347,11 @@ export const buildLadderBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
+              height: (_d: unknown, ctx: LayoutContext) =>
+                getLadderBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              heightLimit: (_d: unknown, ctx: LayoutContext) =>
+                getLadderBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).titleFontSize,
               lineHeight: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).titleLineHeight,
               fontWeight: 'bold',
@@ -353,6 +360,9 @@ export const buildLadderBlockMark = (
               lineWidth: 5,
               lineJoin: 'round',
               textBaseline: 'top',
+              whiteSpace: 'normal',
+              wordBreak: 'break-word',
+              ellipsis: '...',
               ...spec.title?.style,
               // 由于 ladder 强制按对角线左右镜像，textAlign 不允许被外层 spec.title.style 覆盖
               textAlign: align
@@ -365,20 +375,19 @@ export const buildLadderBlockMark = (
             name: `storyline-block-content-${index}`,
             interactive: false,
             ...spec.content,
-            textType: 'rich',
             style: {
               x: (_d: unknown, ctx: LayoutContext) => getTitleX(ctx),
               y: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).contentBox.y,
               width: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
-              text: buildRichContent(contentText, spec, {
-                fontSize: LADDER_CONTENT_FONT_SIZE,
-                lineHeight: LADDER_CONTENT_LINE_HEIGHT,
-                align: align as 'left' | 'right'
-              }),
+              height: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).contentBox.height,
+              text: buildPlainContent(contentText),
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
               heightLimit: (_d: unknown, ctx: LayoutContext) =>
                 getLadderBlockMetrics(spec, ctx, index).contentBox.height,
+              fontSize: LADDER_CONTENT_FONT_SIZE,
+              lineHeight: LADDER_CONTENT_LINE_HEIGHT,
               textBaseline: 'top',
+              whiteSpace: 'normal',
               wordBreak: 'break-word',
               ellipsis: '...',
               fill: '#596173',

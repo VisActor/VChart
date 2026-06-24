@@ -9,7 +9,9 @@ import {
   DEFAULT_IMAGE_WIDTH,
   DEFAULT_IMAGE_HEIGHT,
   DEFAULT_IMAGE_GAP,
-  buildRichContent,
+  BLOCK_TITLE_MAX_LINES,
+  buildPlainContent,
+  getBlockTitleHeight,
   getImageBackgroundStyle,
   getImageBox,
   getLayout,
@@ -93,7 +95,7 @@ const getDefaultBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index:
   );
   const titleFontSize = resolveTitleFontSize(spec, ctx, spec.data?.[index]?.title, textBox.width, 18, [8, 28]);
   const titleLineHeight = resolveAdaptiveLineHeight(titleFontSize, spec.title?.style as any, Math.round(18 * 1.35));
-  const titleHeight = spec.data?.[index]?.title ? titleLineHeight : 0;
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
   const contentGap = spec.data?.[index]?.title ? 8 : 0;
 
   return {
@@ -196,6 +198,11 @@ export const buildDefaultBlockMark = (
               text: block.title,
               maxLineWidth: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).textBox.width,
+              height: (_datum: unknown, ctx: LayoutContext) =>
+                getDefaultBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              heightLimit: (_datum: unknown, ctx: LayoutContext) =>
+                getDefaultBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).titleFontSize,
               lineHeight: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).titleLineHeight,
@@ -206,6 +213,9 @@ export const buildDefaultBlockMark = (
               lineJoin: 'round',
               textAlign: 'left',
               textBaseline: 'top',
+              whiteSpace: 'normal',
+              wordBreak: 'break-word',
+              ellipsis: '...',
               ...spec.title?.style
             }
           } as ICustomMarkSpec<'text'>)
@@ -216,22 +226,22 @@ export const buildDefaultBlockMark = (
             name: `storyline-block-content-${index}`,
             interactive: false,
             ...spec.content,
-            textType: 'rich',
             style: {
               x: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).textBox.x,
               y: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).contentBox.y,
               width: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).textBox.width,
-              text: buildRichContent(contentText, spec, {
-                fontSize: 18,
-                lineHeight: 26,
-                fill: '#596173'
-              }),
+              height: (_datum: unknown, ctx: LayoutContext) =>
+                getDefaultBlockMetrics(spec, ctx, index).contentBox.height,
+              text: buildPlainContent(contentText),
               maxLineWidth: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).textBox.width,
               heightLimit: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).contentBox.height,
+              fontSize: 16,
+              lineHeight: 23,
               textAlign: 'left',
               textBaseline: 'top',
+              whiteSpace: 'normal',
               wordBreak: 'break-word',
               ellipsis: '...',
               fill: '#596173',

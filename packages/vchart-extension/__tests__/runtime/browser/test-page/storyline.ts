@@ -151,11 +151,11 @@ const createPortraitSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
 // arc：弧形布局，通过 direction 切换 dome（'up'）/ bowl（'down'）
 const createArcSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
-  padding: [50, 20, 100, 20],
+  // padding: 0,
   width: WIDTH,
   height: HEIGHT,
   data: buildData(layout),
-  layout: { type: 'arc', direction: 'down' },
+  layout: { type: 'arc', direction: 'up' },
   titleImage,
   themeColor
 });
@@ -165,7 +165,7 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   height: HEIGHT,
   width: WIDTH,
-  padding: [20, 20, 50, 20],
+  // padding: [20, 20, 50, 20],
   layout: 'clock',
   titleImage,
   themeColor,
@@ -227,7 +227,7 @@ const createClockSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
 
 const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
-  padding: 20,
+  // padding: 20,
   data: buildData(layout),
   layout,
   titleImage,
@@ -250,7 +250,7 @@ const createDefaultSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
 // wing：椭圆弧时间线（参考残奥历史信息图），通过 layout.direction 切换左/右翅膀
 const createWingSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
-  padding: [40, 40, 40, 40],
+  // padding: [40, 40, 40, 40],
   height: WIDTH,
   width: HEIGHT,
   data: buildData(layout),
@@ -265,7 +265,7 @@ const createLadderSpec = (layout: StorylineLayoutType): IStorylineSpec => ({
   type: 'storyline',
   width: 1600,
   height: 900,
-  padding: 20,
+  // padding: 20,
   layout: { type: 'ladder', direction: 'down', headline: 'ladder' },
   themeColor: '#C8102E',
   background: 'transparent',
@@ -376,7 +376,7 @@ const run = () => {
     window.vchart = cs;
   };
 
-  select.value = 'clock';
+  select.value = 'arc';
   render(select.value as StorylineLayoutType);
 
   select.addEventListener('change', () => {

@@ -5,7 +5,9 @@ import {
   type ICustomMarkSpec,
   type LayoutContext,
   DEFAULT_BLOCK_HEIGHT,
-  buildRichContent,
+  BLOCK_TITLE_MAX_LINES,
+  buildPlainContent,
+  getBlockTitleHeight,
   getImageBackgroundStyle,
   getLayout,
   omitImageLayoutSpec,
@@ -22,8 +24,8 @@ import {
 const PORTRAIT_AXIS_WIDTH = 96;
 const PORTRAIT_AXIS_PADDING = 120; // 中轴上下两端的留白
 // marker 时间节点文字的默认样式（fontSize 30、白色字、贴轴对应一侧边缘）
-const PORTRAIT_MARKER_FONT_SIZE = 40;
-const PORTRAIT_MARKER_LINE_HEIGHT = 28;
+const PORTRAIT_MARKER_FONT_SIZE = 34;
+const PORTRAIT_MARKER_LINE_HEIGHT = 24;
 const PORTRAIT_MARKER_AXIS_PADDING = 6; // marker 距离轴边缘的水平内边距
 // image 默认尺寸的占比规则（基于 region 平均槽位）：
 // - image 高度  = slotHeight * 0.6
@@ -38,8 +40,8 @@ const PORTRAIT_SHADOW_SCALE = 1; // subImage 与主 image 同尺寸，仅做错�
 export const PORTRAIT_TEXT_GAP_FROM_IMAGE = 8;
 export const PORTRAIT_CONTENT_LINES = 3;
 export const PORTRAIT_TITLE_LINE_HEIGHT = 34;
-export const PORTRAIT_CONTENT_LINE_HEIGHT = 26;
-const PORTRAIT_CONTENT_FONT_SIZE = 18;
+export const PORTRAIT_CONTENT_LINE_HEIGHT = 23;
+const PORTRAIT_CONTENT_FONT_SIZE = 16;
 export const PORTRAIT_TITLE_TO_CONTENT_GAP = 4;
 
 export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec => {
@@ -95,7 +97,8 @@ export const buildPortraitAxisMark = (spec: IStorylineSpec): IExtensionGroupMark
                   ctx,
                   block.marker,
                   axis.height / Math.max(spec.data?.length ?? 1, 1),
-                  PORTRAIT_MARKER_FONT_SIZE
+                  PORTRAIT_MARKER_FONT_SIZE,
+                  [16, 38]
                 );
                 const markerLineHeight = resolveAdaptiveLineHeight(
                   markerFontSize,
@@ -175,11 +178,12 @@ const getPortraitMetrics = (
     spec.title?.style as any,
     PORTRAIT_TITLE_LINE_HEIGHT
   );
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
   const minContentHeight = PORTRAIT_CONTENT_LINES * contentLineHeight;
   // 默认 content 高度 = blockHeight * 0.4
   const contentHeight = Math.max(minContentHeight, Math.round(blockHeight * PORTRAIT_CONTENT_HEIGHT_RATIO));
 
-  const textHeight = titleLineHeight + titleToContentGap + contentHeight;
+  const textHeight = titleHeight + titleToContentGap + contentHeight;
 
   const onLeft = index % 2 === 0;
 
@@ -195,7 +199,7 @@ const getPortraitMetrics = (
 
   const contentBox = {
     x: textX,
-    y: textY + titleLineHeight + titleToContentGap,
+    y: textY + titleHeight + titleToContentGap,
     width: textWidth,
     height: contentHeight
   };
@@ -356,6 +360,9 @@ export const buildPortraitBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleFontSize,
               lineHeight: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight,
               fontWeight: 'bold',
@@ -365,6 +372,9 @@ export const buildPortraitBlockMark = (
               lineJoin: 'round',
               textAlign: 'left',
               textBaseline: 'top',
+              whiteSpace: 'normal',
+              wordBreak: 'break-word',
+              ellipsis: '...',
               ...spec.title?.style
             }
           } as ICustomMarkSpec<'text'>)
@@ -375,7 +385,6 @@ export const buildPortraitBlockMark = (
             name: `storyline-block-content-${index}`,
             interactive: false,
             ...spec.content,
-            textType: 'rich',
             style: {
               x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.x,
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.y,
@@ -383,13 +392,12 @@ export const buildPortraitBlockMark = (
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.width,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
-              text: buildRichContent(contentText, spec, {
-                fontSize: PORTRAIT_CONTENT_FONT_SIZE,
-                lineHeight: PORTRAIT_CONTENT_LINE_HEIGHT,
-                fill: '#596173'
-              }),
+              text: buildPlainContent(contentText),
+              fontSize: PORTRAIT_CONTENT_FONT_SIZE,
+              lineHeight: PORTRAIT_CONTENT_LINE_HEIGHT,
               textAlign: 'left',
               textBaseline: 'top',
+              whiteSpace: 'normal',
               wordBreak: 'break-word',
               ellipsis: '...',
               fill: '#596173',

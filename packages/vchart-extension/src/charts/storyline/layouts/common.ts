@@ -31,6 +31,7 @@ export const DEFAULT_IMAGE_WIDTH = 48;
 export const DEFAULT_IMAGE_HEIGHT = 48;
 export const DEFAULT_IMAGE_GAP = 10;
 export const DEFAULT_THEME_COLOR = '#e8543d';
+export const BLOCK_TITLE_MAX_LINES = 2;
 const DEFAULT_TITLE_IMAGE_WIDTH_RATIO = 0.52;
 const DEFAULT_TITLE_IMAGE_MAX_WIDTH = 720;
 const DEFAULT_TITLE_IMAGE_HEIGHT_RATIO = 0.36;
@@ -119,7 +120,9 @@ const resolveAdaptiveFontSize = (
   const lengthFactor = Math.sqrt(8 / Math.max(textWeight, 4));
   const adaptiveSize = width <= 1 && height <= 1 ? options.fallback : canvasSize * lengthFactor;
   const boxWidthLimit =
-    options.boxWidth && options.boxWidth > 0 ? (options.boxWidth / textWeight) * 0.96 : Number.POSITIVE_INFINITY;
+    options.boxWidth && options.boxWidth > 0
+      ? ((options.boxWidth * BLOCK_TITLE_MAX_LINES) / textWeight) * 0.96
+      : Number.POSITIVE_INFINITY;
   const boxHeightLimit =
     options.boxHeight && options.boxHeight > 0 ? options.boxHeight / Math.max(textWeight, 1) : Number.POSITIVE_INFINITY;
   return Math.floor(clamp(Math.min(adaptiveSize, boxWidthLimit, boxHeightLimit), minFontSize, maxFontSize));
@@ -404,34 +407,10 @@ export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLa
 
 // ===== 文本 / 图像通用工具 =====
 
-export const buildRichContent = (
-  contentText: string[],
-  spec: IStorylineSpec,
-  overrides?: { fontSize?: number; lineHeight?: number; fill?: string; align?: 'left' | 'center' | 'right' }
-) => {
-  const fontSize = Number(overrides?.fontSize ?? (spec.content?.style as any)?.fontSize ?? 18);
-  const lineHeight = Number(overrides?.lineHeight ?? (spec.content?.style as any)?.lineHeight ?? 26);
-  const fill = overrides?.fill ?? (spec.content?.style as any)?.fill ?? '#596173';
-  const align = overrides?.align ?? 'left';
+export const buildPlainContent = (contentText: string[]) => contentText.join('\n');
 
-  return {
-    type: 'rich' as const,
-    text: contentText.reduce<{ text: string; fontSize: number; lineHeight: number; fill: string; align: string }[]>(
-      (result, paragraph, index) => {
-        const suffix = index === contentText.length - 1 ? '' : '\n';
-        result.push({
-          text: `${paragraph}${suffix}`,
-          fontSize,
-          lineHeight,
-          fill,
-          align
-        });
-        return result;
-      },
-      []
-    )
-  };
-};
+export const getBlockTitleHeight = (lineHeight: number, title?: string) =>
+  title ? lineHeight * BLOCK_TITLE_MAX_LINES : 0;
 
 export const omitImageLayoutSpec = (imageSpec: IStorylineSpec['image']) => {
   if (!imageSpec) {

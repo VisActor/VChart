@@ -6,10 +6,13 @@ import {
   type LayoutContext,
   type StorylinePoint,
   DEFAULT_BLOCK_HEIGHT,
-  buildRichContent,
+  BLOCK_TITLE_MAX_LINES,
+  buildPlainContent,
   buildSmoothCurvePath,
+  getBlockTitleHeight,
   getImageBackgroundStyle,
   getLayout,
+  getRegionGeometry,
   getThemeColor,
   normalizePadding,
   omitImageLayoutSpec,
@@ -28,8 +31,8 @@ const LANDSCAPE_TEXT_GAP_FROM_CONNECTOR = 12; // 文字距离引导线的水平�
 // content 区固定为 10 行，整体 textHeight = titleLineHeight + titleGap + contentLines * contentLineHeight
 const LANDSCAPE_CONTENT_LINES = 10;
 const LANDSCAPE_TITLE_LINE_HEIGHT = 34;
-const LANDSCAPE_CONTENT_LINE_HEIGHT = 26;
-const LANDSCAPE_CONTENT_FONT_SIZE = 18;
+const LANDSCAPE_CONTENT_LINE_HEIGHT = 23;
+const LANDSCAPE_CONTENT_FONT_SIZE = 16;
 const LANDSCAPE_TITLE_TO_CONTENT_GAP = 4;
 
 /**
@@ -123,6 +126,7 @@ const getLandscapeMetrics = (
     spec.title?.style as any,
     LANDSCAPE_TITLE_LINE_HEIGHT
   );
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
   const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? LANDSCAPE_CONTENT_FONT_SIZE);
   const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? LANDSCAPE_CONTENT_LINE_HEIGHT);
 
@@ -137,7 +141,7 @@ const getLandscapeMetrics = (
     ? Math.max(contentLineHeight * 2, Math.round(canvasHeight / 4))
     : LANDSCAPE_CONTENT_LINES * contentLineHeight;
   const titleToContentGap = LANDSCAPE_TITLE_TO_CONTENT_GAP;
-  const textHeight = titleLineHeight + titleToContentGap + contentHeight;
+  const textHeight = titleHeight + titleToContentGap + contentHeight;
 
   const textOnTop = index % 2 === 0;
 
@@ -151,19 +155,21 @@ const getLandscapeMetrics = (
   const imageX = 0;
   const connectorX = imageX + blockWidth * LANDSCAPE_CONNECTOR_X_RATIO;
   const textX = connectorX + LANDSCAPE_TEXT_GAP_FROM_CONNECTOR;
-  const textWidth = Math.max(blockWidth - (textX - imageX), 0);
+  const { width: regionWidth } = getRegionGeometry(ctx, spec);
+  const blockCount = Math.max(spec.data?.length ?? 1, 1);
+  const textWidth = Math.max(regionWidth / blockCount, 1);
 
   if (textOnTop) {
     const imageY = 0;
     const textY = imageY - connectorGap - textHeight;
     const connectorY1 = imageY;
-    const connectorY2 = textY + titleLineHeight / 2;
+    const connectorY2 = textY + Math.max(titleHeight, titleLineHeight) / 2;
 
     imageBox = { x: imageX, y: imageY, width: blockWidth, height: imageHeight };
     textBox = { x: textX, y: textY, width: textWidth, height: textHeight };
     contentBox = {
       x: textX,
-      y: textY + titleLineHeight + titleToContentGap,
+      y: textY + titleHeight + titleToContentGap,
       width: textWidth,
       height: contentHeight
     };
@@ -180,7 +186,7 @@ const getLandscapeMetrics = (
     textBox = { x: textX, y: textY, width: textWidth, height: textHeight };
     contentBox = {
       x: textX,
-      y: textY + titleLineHeight + titleToContentGap,
+      y: textY + titleHeight + titleToContentGap,
       width: textWidth,
       height: contentHeight
     };
@@ -196,7 +202,7 @@ const getLandscapeMetrics = (
     contentFontSize,
     contentLineHeight,
     contentHeight,
-    blockWidth,
+    blockWidth: Math.max(blockWidth, textX + textWidth),
     imageBox,
     textBox,
     contentBox,
@@ -322,6 +328,9 @@ export const buildLandscapeBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleFontSize,
               lineHeight: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight,
               fontWeight: 'bold',
@@ -331,6 +340,9 @@ export const buildLandscapeBlockMark = (
               lineJoin: 'round',
               textAlign: 'left',
               textBaseline: 'top',
+              whiteSpace: 'normal',
+              wordBreak: 'break-word',
+              ellipsis: '...',
               ...spec.title?.style
             }
           } as ICustomMarkSpec<'text'>)
@@ -341,7 +353,6 @@ export const buildLandscapeBlockMark = (
             name: `storyline-block-content-${index}`,
             interactive: false,
             ...spec.content,
-            textType: 'rich',
             style: {
               x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.x,
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.y,
@@ -349,13 +360,12 @@ export const buildLandscapeBlockMark = (
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.width,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
-              text: buildRichContent(contentText, spec, {
-                fontSize: LANDSCAPE_CONTENT_FONT_SIZE,
-                lineHeight: LANDSCAPE_CONTENT_LINE_HEIGHT,
-                fill: '#596173'
-              }),
+              text: buildPlainContent(contentText),
+              fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentFontSize,
+              lineHeight: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentLineHeight,
               textAlign: 'left',
               textBaseline: 'top',
+              whiteSpace: 'normal',
               wordBreak: 'break-word',
               ellipsis: '...',
               fill: '#596173',

@@ -5,7 +5,9 @@ import {
   type ICustomMarkSpec,
   type LayoutContext,
   type StorylinePoint,
-  buildRichContent,
+  BLOCK_TITLE_MAX_LINES,
+  buildPlainContent,
+  getBlockTitleHeight,
   getImageBackgroundStyle,
   getChartGeometry,
   getRegionGeometry,
@@ -236,6 +238,7 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
     WING_TITLE_LINE_HEIGHT,
     1.3
   );
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
   const contentFontSize = Number((spec.content?.style as Record<string, unknown>)?.fontSize ?? WING_CONTENT_FONT_SIZE);
   const contentLineHeight = Number(
     (spec.content?.style as Record<string, unknown>)?.lineHeight ?? WING_CONTENT_LINE_HEIGHT
@@ -277,7 +280,7 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
     textBox = { x: textX, y: textY, width: textWidth, height: textHeight };
     contentBox = {
       x: textX,
-      y: textY + titleLineHeight + titleToContentGap,
+      y: textY + titleHeight + titleToContentGap,
       width: textWidth,
       height: contentHeight
     };
@@ -298,7 +301,7 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
     textBox = { x: textX, y: textY, width: textWidth, height: textHeight };
     contentBox = {
       x: textX,
-      y: textY + titleLineHeight + titleToContentGap,
+      y: textY + titleHeight + titleToContentGap,
       width: textWidth,
       height: contentHeight
     };
@@ -443,6 +446,11 @@ export const buildWingBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.width,
+              height: (_d: unknown, ctx: LayoutContext) =>
+                getWingBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              heightLimit: (_d: unknown, ctx: LayoutContext) =>
+                getWingBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).titleFontSize,
               lineHeight: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).titleLineHeight,
               fontWeight: 'bold',
@@ -458,6 +466,9 @@ export const buildWingBlockMark = (
                 return m.onLeft ? 'right' : 'left';
               },
               textBaseline: 'top',
+              whiteSpace: 'normal',
+              wordBreak: 'break-word',
+              ellipsis: '...',
               ...spec.title?.style
             }
           } as ICustomMarkSpec<'text'>)
@@ -469,7 +480,6 @@ export const buildWingBlockMark = (
             interactive: false,
             zIndex: LayoutZIndex.Mark + 10,
             ...spec.content,
-            textType: 'rich',
             style: {
               x: (_d: unknown, ctx: LayoutContext) => {
                 const m = getWingBlockMetrics(spec, ctx, index);
@@ -483,7 +493,7 @@ export const buildWingBlockMark = (
               height: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).contentBox.height,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).contentBox.width,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).contentBox.height,
-              text: buildRichContent(contentText, spec),
+              text: buildPlainContent(contentText),
               fontSize: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).contentFontSize,
               lineHeight: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).contentLineHeight,
               textAlign: (_d: unknown, ctx: LayoutContext) => {
@@ -494,6 +504,7 @@ export const buildWingBlockMark = (
                 return m.onLeft ? 'right' : 'left';
               },
               textBaseline: 'top',
+              whiteSpace: 'normal',
               wordBreak: 'break-word',
               ellipsis: '...',
               fill: '#1f2430',

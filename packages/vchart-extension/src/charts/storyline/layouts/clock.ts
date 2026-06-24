@@ -4,7 +4,8 @@ import type { IStorylineBlock, IStorylineSpec } from '../interface';
 import {
   type ICustomMarkSpec,
   type LayoutContext,
-  buildRichContent,
+  BLOCK_TITLE_MAX_LINES,
+  buildPlainContent,
   getImageBackgroundStyle,
   getRegionGeometry,
   getThemeColor,
@@ -53,8 +54,9 @@ const CLOCK_ORBIT_DASH = [4, 4];
 // ===== 文字 =====
 const CLOCK_TITLE_FONT_SIZE = 22;
 const CLOCK_TITLE_LINE_HEIGHT = 28;
-const CLOCK_CONTENT_FONT_SIZE = 16;
-const CLOCK_CONTENT_LINE_HEIGHT = 22;
+const CLOCK_CONTENT_FONT_SIZE = 14;
+const CLOCK_CONTENT_LINE_HEIGHT = 20;
+const CLOCK_CONTENT_LINES = 4;
 
 // ===== 几何 =====
 
@@ -78,7 +80,7 @@ const getClockGeometry = (spec: IStorylineSpec, ctx: LayoutContext): ClockGeomet
   // - content 在 anchor 远离圆心一侧，需要预留 content 的高度
   // - 水平方向：text 从 0.92R 向外延伸 CLOCK_TEXT_MAX_WIDTH
   const textReserveX = CLOCK_TEXT_MAX_WIDTH;
-  const textReserveY = 4 + CLOCK_CONTENT_LINE_HEIGHT * 4;
+  const textReserveY = 4 + CLOCK_CONTENT_LINE_HEIGHT * CLOCK_CONTENT_LINES;
   const rMaxX = (innerWidth / 2 - textReserveX) / CLOCK_TEXT_INNER_RATIO;
   const rMaxY = (innerHeight / 2 - textReserveY) / CLOCK_TEXT_INNER_RATIO;
   const R = Math.max(Math.min(rMaxX, rMaxY), 1);
@@ -383,7 +385,7 @@ export const buildClockBlockMark = (
             lineWidth: 1.5
           }
         } as ICustomMarkSpec<'symbol'>),
-    // title：文字段的第一行
+    // title：最多两行
     block.title
       ? ({
           type: 'text',
@@ -393,9 +395,12 @@ export const buildClockBlockMark = (
           style: {
             x: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).x,
             y: (_d: unknown, ctx: LayoutContext) =>
-              getClockTextRect(spec, ctx, index).anchorY - getTitleLineHeight(ctx),
+              getClockTextRect(spec, ctx, index).anchorY - getTitleLineHeight(ctx) * BLOCK_TITLE_MAX_LINES,
             text: block.title,
             maxLineWidth: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).width,
+            height: (_d: unknown, ctx: LayoutContext) => getTitleLineHeight(ctx) * BLOCK_TITLE_MAX_LINES,
+            heightLimit: (_d: unknown, ctx: LayoutContext) => getTitleLineHeight(ctx) * BLOCK_TITLE_MAX_LINES,
+            lineClamp: BLOCK_TITLE_MAX_LINES,
             fontSize: (_d: unknown, ctx: LayoutContext) => getTitleFontSize(ctx),
             lineHeight: (_d: unknown, ctx: LayoutContext) => getTitleLineHeight(ctx),
             fontWeight: 'bold',
@@ -406,30 +411,35 @@ export const buildClockBlockMark = (
             textAlign: (_d: unknown, ctx: LayoutContext) =>
               getClockTextRect(spec, ctx, index).onLeft ? 'right' : 'left',
             textBaseline: 'top',
+            whiteSpace: 'normal',
+            wordBreak: 'break-word',
+            ellipsis: '...',
             ...spec.title?.style
           }
         } as ICustomMarkSpec<'text'>)
       : null,
-    // content：富文本，title 下方
+    // content：普通文本，title 下方
     contentText.length
       ? ({
           type: 'text',
           name: `storyline-clock-content-${index}`,
           interactive: false,
           ...spec.content,
-          textType: 'rich',
           style: {
             x: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).x,
             y: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).anchorY + 4,
             width: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).width,
+            height: CLOCK_CONTENT_LINE_HEIGHT * CLOCK_CONTENT_LINES,
             maxLineWidth: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).width,
-            text: buildRichContent(contentText, spec),
+            heightLimit: CLOCK_CONTENT_LINE_HEIGHT * CLOCK_CONTENT_LINES,
+            text: buildPlainContent(contentText),
             fontSize: CLOCK_CONTENT_FONT_SIZE,
             lineHeight: CLOCK_CONTENT_LINE_HEIGHT,
             fill: '#3a3f4d',
             textAlign: (_d: unknown, ctx: LayoutContext) =>
               getClockTextRect(spec, ctx, index).onLeft ? 'right' : 'left',
             textBaseline: 'top',
+            whiteSpace: 'normal',
             wordBreak: 'break-word',
             ...spec.content?.style
           }
