@@ -978,6 +978,9 @@ export class VChart implements IVChart {
     parserOptions?: IParserOptions,
     userUpdateOptions?: IUpdateDataResult
   ) {
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     this._reSetRenderState();
     if (isNil(this._dataSet)) {
       return this as unknown as IVChart;
@@ -1010,6 +1013,9 @@ export class VChart implements IVChart {
     reRender: boolean = true,
     userUpdateOptions?: IUpdateSpecResult
   ) {
+    if (this._isReleased) {
+      return this as unknown as IVChart;
+    }
     this._reSetRenderState();
     if (this._chart) {
       this._chart.updateFullData(data);
@@ -1127,6 +1133,9 @@ export class VChart implements IVChart {
     forceMerge: boolean = false,
     userUpdateOptions?: IUpdateSpecResult
   ): IUpdateSpecResult | undefined => {
+    if (this._isReleased) {
+      return undefined;
+    }
     this._reSetRenderState();
 
     const lastSpec = this._spec;
@@ -2330,6 +2339,9 @@ export class VChart implements IVChart {
   }
 
   private _reSetRenderState() {
+    if (this._isReleased || !this._compiler) {
+      return;
+    }
     this._renderState = RenderStateEnum.render;
     this.getStage()?.eventSystem?.resumeTriggerEvent();
   }

@@ -1,6 +1,11 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Tue, 23 Jun 2026 08:17:08 GMT and should not be manually modified.
+This log was last generated on Thu, 25 Jun 2026 03:26:39 GMT and should not be manually modified.
+
+## 2.1.1
+Thu, 25 Jun 2026 03:26:39 GMT
+
+_Version update only_
 
 ## 2.1.0
 Tue, 23 Jun 2026 08:17:08 GMT
