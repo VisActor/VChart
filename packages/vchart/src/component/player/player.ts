@@ -328,7 +328,11 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   };
 
   changePlayerIndex(index: number) {
-    const spec = this._specs[index];
+    const spec = this._specs?.[index];
+
+    if (!spec || !this._option?.globalInstance) {
+      return;
+    }
 
     this._option.globalInstance.updateFullData((spec as any).data);
 
@@ -342,7 +346,7 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
   }
   autoPlayCallback = () => {
-    if (this._spec?.auto) {
+    if (this._spec?.auto && this._playerComponent) {
       this._playerComponent.pause();
       this._playerComponent.play();
     }
@@ -442,8 +446,13 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     });
   };
   release(): void {
+    this._playerComponent?.pause?.();
     // 自动播放
-    this._option.globalInstance.off(ChartEvent.rendered, this.autoPlayCallback);
+    this._option?.globalInstance?.off(ChartEvent.rendered, this.autoPlayCallback);
+    super.release();
+    this._playerComponent = null as unknown as DiscretePlayer | ContinuousPlayer;
+    this._cacheAttrs = null as unknown as ContinuousPlayerAttributes | DiscretePlayerAttributes;
+    this._specs = [];
   }
 }
 
