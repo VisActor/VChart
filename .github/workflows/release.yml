@@ -1,17 +1,20 @@
 name: Release CI
 
 on:
+  workflow_dispatch:
   push:
     branches:
-      - 'release/[0-9]+\.[0-9]+\.[0-9]+'
-      - 'hotfix/[0-9]+\.[0-9]+\.[0-9]+'
-      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-alpha\.[0-9]+'
-      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-beta\.[0-9]+'
-      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-rc\.[0-9]+'
-      - 'pre-release/[0-9]+\.[0-9]+\.[0-9]+-hotfix\.[0-9]+'
+      - 'release/**'
+      - 'hotfix/**'
+      - 'pre-release/**'
 
 jobs:
   release:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      startsWith(github.ref_name, 'release/') ||
+      startsWith(github.ref_name, 'hotfix/') ||
+      startsWith(github.ref_name, 'pre-release/')
     runs-on: macos-latest
     permissions:
       id-token: write # OIDC for npm publish (single entry)
@@ -36,6 +39,35 @@ jobs:
         run: |
           git config user.name ${{ github.actor }}
           git config user.email ${{ github.actor }}@users.noreply.github.com
+
+      - name: Validate release branch name
+        run: |
+          set -euo pipefail
+          case "${GITHUB_REF_NAME}" in
+            release/*)
+              [[ "${GITHUB_REF_NAME}" =~ ^release/[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+                echo "Invalid release branch: ${GITHUB_REF_NAME}"
+                exit 1
+              }
+              ;;
+            hotfix/*)
+              [[ "${GITHUB_REF_NAME}" =~ ^hotfix/[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+                echo "Invalid hotfix branch: ${GITHUB_REF_NAME}"
+                exit 1
+              }
+              ;;
+            pre-release/*)
+              [[ "${GITHUB_REF_NAME}" =~ ^pre-release/[0-9]+\.[0-9]+\.[0-9]+-(alpha|beta|rc|hotfix)\.[0-9]+$ ]] || {
+                echo "Invalid pre-release branch: ${GITHUB_REF_NAME}"
+                exit 1
+              }
+              ;;
+            *)
+              echo "Unsupported release branch: ${GITHUB_REF_NAME}"
+              echo "For workflow_dispatch recovery, choose a release/*, hotfix/*, or pre-release/* branch in the Run workflow branch selector."
+              exit 1
+              ;;
+          esac
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -328,8 +360,53 @@ jobs:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --only @visactor/wx-vchart
 
-      - name: Publish to npm (release)
+      - name: Check npm version (release)
         if: startsWith(github.ref_name, 'release/')
+        id: npm_version_release
+        env:
+          PACKAGE_VERSION: ${{ steps.semver_release.outputs.main }}
+        run: |
+          set -euo pipefail
+          package_names=()
+          while IFS= read -r package_name; do
+            [ -n "$package_name" ] && package_names+=("$package_name")
+          done < <(node <<'NODE'
+          const fs = require('fs');
+          const rush = JSON.parse(fs.readFileSync('rush.json', 'utf8'));
+          for (const project of rush.projects) {
+            if (project.shouldPublish) {
+              console.log(project.packageName);
+            }
+          }
+          NODE
+          )
+
+          existing=()
+          missing=()
+          for package_name in "${package_names[@]}"; do
+            if npm view "${package_name}@${PACKAGE_VERSION}" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+              existing+=("${package_name}")
+            else
+              missing+=("${package_name}")
+            fi
+          done
+
+          if [ "${#missing[@]}" -eq 0 ]; then
+            echo "All packages already have version ${PACKAGE_VERSION} on npm, skip publish."
+            echo "skip_publish=true" >> "$GITHUB_OUTPUT"
+          elif [ "${#existing[@]}" -eq 0 ]; then
+            echo "No package has version ${PACKAGE_VERSION} on npm, continue publish."
+            echo "skip_publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Partial npm publish detected for ${PACKAGE_VERSION}."
+            echo "Existing packages: ${existing[*]}"
+            echo "Missing packages: ${missing[*]}"
+            echo "Stop before publish to avoid masking a partial release."
+            exit 1
+          fi
+
+      - name: Publish to npm (release)
+        if: startsWith(github.ref_name, 'release/') && steps.npm_version_release.outputs.skip_publish != 'true'
         run: node common/scripts/install-run-rush.js publish --publish --include-all --tag latest
 
       - name: Update shrinkwrap
@@ -349,6 +426,9 @@ jobs:
           if git diff --quiet; then
             echo 'No changes to commit for release branch.'
           else
+            rm -rf .changelog
+            find docs/assets/changelog -name '*.bak' -delete
+            find packages/harmony_vchart/library -name '*.bak' -delete
             git add .
             git commit -m "build: release version ${{ steps.package_version_release.outputs.current_version }} [skip ci]" -n
             git push --no-verify origin ${{ github.ref_name }}
@@ -396,8 +476,53 @@ jobs:
         if: startsWith(github.ref_name, 'hotfix/')
         run: node common/scripts/apply-release-version.js 'none' ${{ steps.semver_hotfix.outputs.main }}
 
-      - name: Publish to npm (hotfix)
+      - name: Check npm version (hotfix)
         if: startsWith(github.ref_name, 'hotfix/')
+        id: npm_version_hotfix
+        env:
+          PACKAGE_VERSION: ${{ steps.semver_hotfix.outputs.main }}
+        run: |
+          set -euo pipefail
+          package_names=()
+          while IFS= read -r package_name; do
+            [ -n "$package_name" ] && package_names+=("$package_name")
+          done < <(node <<'NODE'
+          const fs = require('fs');
+          const rush = JSON.parse(fs.readFileSync('rush.json', 'utf8'));
+          for (const project of rush.projects) {
+            if (project.shouldPublish) {
+              console.log(project.packageName);
+            }
+          }
+          NODE
+          )
+
+          existing=()
+          missing=()
+          for package_name in "${package_names[@]}"; do
+            if npm view "${package_name}@${PACKAGE_VERSION}" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+              existing+=("${package_name}")
+            else
+              missing+=("${package_name}")
+            fi
+          done
+
+          if [ "${#missing[@]}" -eq 0 ]; then
+            echo "All packages already have version ${PACKAGE_VERSION} on npm, skip publish."
+            echo "skip_publish=true" >> "$GITHUB_OUTPUT"
+          elif [ "${#existing[@]}" -eq 0 ]; then
+            echo "No package has version ${PACKAGE_VERSION} on npm, continue publish."
+            echo "skip_publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Partial npm publish detected for ${PACKAGE_VERSION}."
+            echo "Existing packages: ${existing[*]}"
+            echo "Missing packages: ${missing[*]}"
+            echo "Stop before publish to avoid masking a partial release."
+            exit 1
+          fi
+
+      - name: Publish to npm (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/') && steps.npm_version_hotfix.outputs.skip_publish != 'true'
         run: node common/scripts/install-run-rush.js publish --publish --include-all --tag hotfix
 
       - name: Get npm version (hotfix)
@@ -433,8 +558,53 @@ jobs:
         if: startsWith(github.ref_name, 'pre-release/')
         run: node common/scripts/apply-release-version.js ${{ steps.semver_prerelease.outputs.pre_release_name }} ${{ steps.semver_prerelease.outputs.main }}
 
-      - name: Publish to npm (pre-release)
+      - name: Check npm version (pre-release)
         if: startsWith(github.ref_name, 'pre-release/')
+        id: npm_version_prerelease
+        env:
+          PACKAGE_VERSION: ${{ steps.semver_prerelease.outputs.full }}
+        run: |
+          set -euo pipefail
+          package_names=()
+          while IFS= read -r package_name; do
+            [ -n "$package_name" ] && package_names+=("$package_name")
+          done < <(node <<'NODE'
+          const fs = require('fs');
+          const rush = JSON.parse(fs.readFileSync('rush.json', 'utf8'));
+          for (const project of rush.projects) {
+            if (project.shouldPublish) {
+              console.log(project.packageName);
+            }
+          }
+          NODE
+          )
+
+          existing=()
+          missing=()
+          for package_name in "${package_names[@]}"; do
+            if npm view "${package_name}@${PACKAGE_VERSION}" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+              existing+=("${package_name}")
+            else
+              missing+=("${package_name}")
+            fi
+          done
+
+          if [ "${#missing[@]}" -eq 0 ]; then
+            echo "All packages already have version ${PACKAGE_VERSION} on npm, skip publish."
+            echo "skip_publish=true" >> "$GITHUB_OUTPUT"
+          elif [ "${#existing[@]}" -eq 0 ]; then
+            echo "No package has version ${PACKAGE_VERSION} on npm, continue publish."
+            echo "skip_publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Partial npm publish detected for ${PACKAGE_VERSION}."
+            echo "Existing packages: ${existing[*]}"
+            echo "Missing packages: ${missing[*]}"
+            echo "Stop before publish to avoid masking a partial release."
+            exit 1
+          fi
+
+      - name: Publish to npm (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/') && steps.npm_version_prerelease.outputs.skip_publish != 'true'
         run: node common/scripts/install-run-rush.js publish --publish --include-all --tag ${{ steps.semver_prerelease.outputs.pre_release_type }}
 
       - name: Get npm version (pre-release)
