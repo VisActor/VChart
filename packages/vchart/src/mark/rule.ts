@@ -4,7 +4,8 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkGraphic, IMarkStyle, IRuleMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerLine, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerLine } from '@visactor/vrender-kits/register/register-line';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
 import { createLine } from '@visactor/vrender-core';
 
