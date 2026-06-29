@@ -13,7 +13,6 @@
       "@visactor/vrender-components/*": ["./node_modules/@visactor/vrender-components/es/*"],
       "@visactor/vrender-kits": ["./node_modules/@visactor/vrender-kits/es/index"],
       "@visactor/vrender-kits/*": ["./node_modules/@visactor/vrender-kits/es/*"],
-      "@visactor/vchart": ["./src/index.ts"],
       "@visactor/vutils-extension": ["../vutils-extension/src"]
     }
   },
