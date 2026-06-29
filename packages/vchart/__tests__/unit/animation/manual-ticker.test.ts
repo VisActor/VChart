@@ -219,6 +219,52 @@ const getGraphicDatum = (graphic: AnimatedGraphic) => {
 
 const getStateDatum = (datum: any) => (Array.isArray(datum) ? datum[0] : datum);
 
+const createCustomGroupSpec = (x: number): IBarChartSpec =>
+  ({
+    type: 'bar',
+    data: [
+      {
+        id: 'data',
+        values: [{ x: 'A', y: 1 }]
+      }
+    ],
+    xField: 'x',
+    yField: 'y',
+    animation: true,
+    customMark: [
+      {
+        type: 'group',
+        name: 'customGroup',
+        animation: true,
+        animationUpdate: false,
+        style: {
+          x,
+          y: 20,
+          width: 40,
+          height: 30
+        }
+      }
+    ]
+  } as unknown as IBarChartSpec);
+
+const getCustomGroupGraphic = (chart: VChart) => {
+  const mark = (chart.getChart() as any).getAllMarks().find((m: IMark) => m.name === 'customGroup');
+
+  expect(mark).toBeDefined();
+  if (!mark) {
+    throw new Error('Expected custom group mark to exist');
+  }
+
+  const group = mark.getGraphics?.()[0] as AnimatedGraphic;
+
+  expect(group).toBeDefined();
+  if (!group) {
+    throw new Error('Expected custom group graphic to exist');
+  }
+
+  return group;
+};
+
 const getBarGraphicByDatum = (chart: VChart, predicate: (datum: any) => boolean) => {
   const bar = getBarGraphics(chart).find(graphic => predicate(getGraphicDatum(graphic)));
 
@@ -1353,6 +1399,34 @@ const hasRenderableBarGeometry = (graphic: AnimatedGraphic) => {
 };
 
 describe('manual ticker animation regressions', () => {
+  it('keeps custom group final attributes after a prevented update animation', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createCustomGroupSpec(20), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      chart.updateSpecSync(createCustomGroupSpec(80));
+
+      const group = getCustomGroupGraphic(chart);
+
+      expectClose(group.attribute.x, 80);
+      expectClose(group.baseAttributes?.x, 80);
+      expectClose(getGraphicFinalAttribute(group).x, 80);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
   it('keeps pie arc angles stable after legend filtering and hover state changes', () => {
     const { container, dom } = createChartContainer();
     const ticker = createManualTicker();
