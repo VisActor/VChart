@@ -234,12 +234,13 @@ const getLadderBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: 
     LADDER_TITLE_LINE_HEIGHT,
     LADDER_TITLE_LINE_HEIGHT / LADDER_TITLE_FONT_SIZE
   );
-  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title, textBox.width, titleFontSize);
   const contentGap = spec.data?.[index]?.title ? 8 : 0;
   return {
     block: { width: blockWidth, height: blockHeight },
     titleFontSize,
     titleLineHeight,
+    titleHeight,
     imageBox,
     textBox,
     contentBox: {
@@ -347,8 +348,7 @@ export const buildLadderBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
-              height: (_d: unknown, ctx: LayoutContext) =>
-                getLadderBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              height: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) =>
                 getLadderBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,

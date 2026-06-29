@@ -238,7 +238,12 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
     WING_TITLE_LINE_HEIGHT,
     1.3
   );
-  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
+  const titleHeight = getBlockTitleHeight(
+    titleLineHeight,
+    spec.data?.[index]?.title,
+    WING_TEXT_BOX_WIDTH,
+    titleFontSize
+  );
   const contentFontSize = Number((spec.content?.style as Record<string, unknown>)?.fontSize ?? WING_CONTENT_FONT_SIZE);
   const contentLineHeight = Number(
     (spec.content?.style as Record<string, unknown>)?.lineHeight ?? WING_CONTENT_LINE_HEIGHT
@@ -323,6 +328,7 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
     verticalAlign,
     titleFontSize,
     titleLineHeight,
+    titleHeight,
     contentFontSize,
     contentLineHeight,
     imageBox,
@@ -446,8 +452,7 @@ export const buildWingBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.width,
-              height: (_d: unknown, ctx: LayoutContext) =>
-                getWingBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              height: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) =>
                 getWingBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,

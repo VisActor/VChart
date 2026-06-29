@@ -40,7 +40,9 @@ const ARC_TITLE_TO_CONTENT_GAP = 4;
 // 引导线与 title/content 之间的水平间距
 const ARC_TEXT_PADDING = 20;
 // title/content 区域的最小宽度，确保文字有足够展示空间，不受 image 宽度限制
-const ARC_TEXT_BOX_MIN_WIDTH = 240;
+const ARC_TEXT_BOX_MIN_WIDTH = 96;
+const ARC_TEXT_BOX_ABSOLUTE_MIN_WIDTH = 64;
+const ARC_TEXT_BOX_MAX_WIDTH = 260;
 // titleImage 默认尺寸
 const ARC_TITLE_IMAGE_WIDTH_RATIO = 0.68;
 const ARC_TITLE_IMAGE_MAX_WIDTH = 900;
@@ -48,6 +50,8 @@ const ARC_TITLE_IMAGE_HEIGHT_RATIO = 0.34;
 // 弧线最高/最低点距离 titleImage 顶部/底部的距离
 const ARC_GAP_FROM_TITLE_IMAGE = 200;
 const ARC_FIT_MARGIN = 8;
+
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 const isDownArc = (spec: IStorylineSpec) => normalizeLayout(spec.layout).direction === 'down';
 
@@ -144,7 +148,12 @@ const getBaseArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext): ArcGeomet
  * 同时让 block 沿弧线径向向外偏移 imageHeight/2，
  * 使 image 内边贴在弧线上，image + text 整体位于弧线外侧。
  */
-const getArcBlockCenterByGeometry = (spec: IStorylineSpec, arc: ArcGeometry, index: number): StorylinePoint => {
+const getArcBlockCenterByGeometry = (
+  spec: IStorylineSpec,
+  arc: ArcGeometry,
+  index: number,
+  ctx?: LayoutContext
+): StorylinePoint => {
   const count = spec.data?.length ?? 0;
   if (count <= 0) {
     return { x: arc.cx, y: arc.cy };
@@ -159,14 +168,14 @@ const getArcBlockCenterByGeometry = (spec: IStorylineSpec, arc: ArcGeometry, ind
   const nLen = Math.hypot(nxRaw, nyRaw) || 1;
   const nx = nxRaw / nLen;
   const ny = nyRaw / nLen;
-  const imageHeight = spec.image?.height ?? ARC_BLOCK_IMAGE_SIZE;
+  const imageHeight = getArcBlockMetrics(spec, index, ctx).imageBox.height;
   const offset = imageHeight / 2;
   return { x: px + nx * offset, y: py + ny * offset };
 };
 
-const getArcBlockBounds = (spec: IStorylineSpec, arc: ArcGeometry, index: number) => {
-  const center = getArcBlockCenterByGeometry(spec, arc, index);
-  const metrics = getArcBlockMetrics(spec, index);
+const getArcBlockBounds = (spec: IStorylineSpec, arc: ArcGeometry, index: number, ctx: LayoutContext) => {
+  const center = getArcBlockCenterByGeometry(spec, arc, index, ctx);
+  const metrics = getArcBlockMetrics(spec, index, ctx);
   const halo = shouldShowImageBackground(spec) ? ARC_BLOCK_IMAGE_HALO_PADDING + ARC_BLOCK_IMAGE_BORDER : 0;
   const minX = Math.min(metrics.imageBox.x - halo, metrics.textBox.x, metrics.contentBox.x);
   const maxX = Math.max(
@@ -188,12 +197,12 @@ const getArcBlockBounds = (spec: IStorylineSpec, arc: ArcGeometry, index: number
   };
 };
 
-const getArcBlocksBounds = (spec: IStorylineSpec, arc: ArcGeometry) => {
+const getArcBlocksBounds = (spec: IStorylineSpec, arc: ArcGeometry, ctx: LayoutContext) => {
   const count = spec.data?.length ?? 0;
   if (!count) {
     return { left: arc.cx, right: arc.cx, top: arc.cy, bottom: arc.cy };
   }
-  return Array.from({ length: count }, (_, index) => getArcBlockBounds(spec, arc, index)).reduce(
+  return Array.from({ length: count }, (_, index) => getArcBlockBounds(spec, arc, index, ctx)).reduce(
     (bounds, blockBounds) => ({
       left: Math.min(bounds.left, blockBounds.left),
       right: Math.max(bounds.right, blockBounds.right),
@@ -212,7 +221,7 @@ const getArcBlocksBounds = (spec: IStorylineSpec, arc: ArcGeometry) => {
 const getArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext): ArcGeometry => {
   const arc = getBaseArcGeometry(spec, ctx);
   const region = getRegionGeometry(ctx);
-  const bounds = getArcBlocksBounds(spec, arc);
+  const bounds = getArcBlocksBounds(spec, arc, ctx);
   const fit = {
     left: region.startX + ARC_FIT_MARGIN,
     right: region.startX + region.width - ARC_FIT_MARGIN,
@@ -246,7 +255,7 @@ const getArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext): ArcGeometry =
 };
 
 const getArcBlockCenter = (spec: IStorylineSpec, ctx: LayoutContext, index: number): StorylinePoint =>
-  getArcBlockCenterByGeometry(spec, getArcGeometry(spec, ctx), index);
+  getArcBlockCenterByGeometry(spec, getArcGeometry(spec, ctx), index, ctx);
 
 /**
  * 贯穿所有 block 的弧线 mark（path 通过沿椭圆采样实现，与 arc block 的弧形布局完全重合）
@@ -332,39 +341,65 @@ export const buildArcTitleImageMark = (spec: IStorylineSpec): IExtensionGroupMar
   };
 };
 
-const getArcBlockMetrics = (spec: IStorylineSpec, index: number = 0) => {
-  const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? ARC_CONTENT_FONT_SIZE);
-  const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? ARC_CONTENT_LINE_HEIGHT);
+const getArcBlockMetrics = (spec: IStorylineSpec, index: number = 0, ctx?: LayoutContext) => {
+  const region = ctx ? getRegionGeometry(ctx, spec) : undefined;
+  const count = Math.max(spec.data?.length ?? 0, 1);
+  const regionWidth = Math.max(
+    region?.width ?? Number((spec.width as number | undefined) ?? ARC_BLOCK_IMAGE_SIZE * count),
+    1
+  );
+  const regionHeight = Math.max(
+    region?.height ?? Number((spec.height as number | undefined) ?? ARC_TEXT_BOX_HEIGHT),
+    1
+  );
+  const slotWidth = regionWidth / (count + 1);
+  const imageScale = clamp(
+    Math.min(regionWidth / Math.max(count * ARC_BLOCK_IMAGE_SIZE * 0.92, 1), regionHeight / 620),
+    0.42,
+    1
+  );
+  const textScale = clamp(Math.min(slotWidth / 180, imageScale), 0.48, 1);
+  const styleContent = spec.content?.style as Record<string, unknown> | undefined;
+  const contentFontSize = Number(styleContent?.fontSize ?? Math.round(ARC_CONTENT_FONT_SIZE * textScale));
+  const contentLineHeight = Number(
+    styleContent?.lineHeight ?? Math.round(Math.max(contentFontSize * 1.35, ARC_CONTENT_LINE_HEIGHT * textScale))
+  );
   const titleToContentGap = ARC_TITLE_TO_CONTENT_GAP;
 
   // 强制 image 为正方形（直径），保证圆形裁切有效
-  const imageDiameter = Math.max(spec.image?.width ?? ARC_BLOCK_IMAGE_SIZE, spec.image?.height ?? ARC_BLOCK_IMAGE_SIZE);
+  const configuredImageDiameter = Math.max(
+    spec.image?.width ?? ARC_BLOCK_IMAGE_SIZE,
+    spec.image?.height ?? ARC_BLOCK_IMAGE_SIZE
+  );
+  const imageDiameter = Math.round(clamp(configuredImageDiameter * imageScale, 64, configuredImageDiameter));
   const imageWidth = imageDiameter;
   const imageHeight = imageDiameter;
 
   const isDown = isDownArc(spec);
 
   // content 默认宽度 = 图表宽度 / （block 数量 + 1），让内容沿弧线均匀分布；
-  // 用户可通过 spec.block?.width 覆盖；同时保留一个下限避免极端情况下不可见。
-  const count = Math.max(spec.data?.length ?? 0, 1);
-  const canvasWidth = Number((spec.width as number | undefined) ?? imageWidth * count);
-  const defaultTextWidth = Math.round(canvasWidth / (count + 1));
-  const textBoxWidth = Math.max(
-    Number((spec.block as { width?: number } | undefined)?.width ?? defaultTextWidth),
-    ARC_TEXT_BOX_MIN_WIDTH
+  // 用户可通过 spec.block?.width 设置上限；窄宽度下仍会根据槽宽收缩，避免相邻 block 互相覆盖。
+  const configuredTextWidth = Number((spec.block as { width?: number } | undefined)?.width ?? ARC_TEXT_BOX_MAX_WIDTH);
+  const defaultTextWidth = Math.round(slotWidth * 0.96);
+  const minTextWidth = Math.min(
+    ARC_TEXT_BOX_MIN_WIDTH,
+    Math.max(Math.round(slotWidth * 0.72), ARC_TEXT_BOX_ABSOLUTE_MIN_WIDTH)
+  );
+  const textBoxWidth = Math.round(
+    clamp(Math.min(configuredTextWidth, defaultTextWidth), minTextWidth, ARC_TEXT_BOX_MAX_WIDTH)
   );
   const titleFontSize = resolveTitleFontSize(
     spec,
-    undefined,
+    ctx,
     spec.data?.[index]?.title,
     textBoxWidth,
-    ARC_TITLE_FONT_SIZE,
-    [8, 40]
+    Math.round(ARC_TITLE_FONT_SIZE * textScale),
+    [10, 40]
   );
   const titleLineHeight = resolveAdaptiveLineHeight(titleFontSize, spec.title?.style as any, ARC_TITLE_LINE_HEIGHT);
-  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title, textBoxWidth, titleFontSize);
   // text 区域总高度固定为 ARC_TEXT_BOX_HEIGHT，content 占除 title 与间距外的全部高度
-  const textHeight = ARC_TEXT_BOX_HEIGHT;
+  const textHeight = Math.round(clamp(ARC_TEXT_BOX_HEIGHT * textScale, 88, ARC_TEXT_BOX_HEIGHT));
   const contentHeight = Math.max(textHeight - titleHeight - titleToContentGap, contentLineHeight);
 
   // 前 1/2 为左侧（奇数 count 时中间块也算左侧），右侧为后 1/2；
@@ -382,7 +417,9 @@ const getArcBlockMetrics = (spec: IStorylineSpec, index: number = 0) => {
   // 左侧：text 右对齐，text 右边缘与引导线（x=0）保持 ARC_TEXT_PADDING 距离
   // 右侧：text 左对齐，text 左边缘与引导线（x=0）保持 ARC_TEXT_PADDING 距离
   // 引导线 rect 固定 center 在 x=0（[-1, 1]）
-  const textBoxX = isLeftSide ? -ARC_TEXT_PADDING : ARC_TEXT_PADDING;
+  const textPadding = Math.round(ARC_TEXT_PADDING * textScale);
+  const textBoxX = isLeftSide ? -textPadding - textBoxWidth : textPadding;
+  const textAnchorX = isLeftSide ? -textPadding : textPadding;
   const textBox = {
     x: textBoxX,
     y: isDown ? imageBox.y + imageHeight + ARC_TEXT_GAP_FROM_IMAGE : imageBox.y - ARC_TEXT_GAP_FROM_IMAGE - textHeight,
@@ -404,7 +441,8 @@ const getArcBlockMetrics = (spec: IStorylineSpec, index: number = 0) => {
     textBox,
     contentBox,
     isDown,
-    textAlign
+    textAlign,
+    textAnchorX
   };
 };
 
@@ -416,17 +454,18 @@ export const buildArcBlockMark = (
   const hasImage = !!block.image;
   const contentText = Array.isArray(block.content) ? block.content : block.content ? [block.content] : [];
   const themeColor = getThemeColor(spec);
-  const metrics = getArcBlockMetrics(spec, index);
-
-  // 引导线 rect：从 image 圆心（group x=0）垂直连接到 text 近端边缘
-  // - up（dome）：从 image 顶部（imageBox.y）向上到 textBox 顶部（textBox.y）
-  // - down（bowl）：从 image 底部（imageBox.y + imageBox.height）向下到 textBox 底部（textBox.y + textBox.height）
-  const connectorY = metrics.isDown ? metrics.imageBox.y + metrics.imageBox.height : metrics.textBox.y;
-  const connectorHeight = metrics.isDown
-    ? Math.max(metrics.textBox.y + metrics.textBox.height - (metrics.imageBox.y + metrics.imageBox.height), 0)
-    : Math.max(metrics.imageBox.y - metrics.textBox.y, 0);
-  // 引导线宽度固定为 2，center 对齐 x=0
-  const connectorX = -1;
+  const getMetrics = (ctx: LayoutContext) => getArcBlockMetrics(spec, index, ctx);
+  const getConnectorBox = (ctx: LayoutContext) => {
+    const metrics = getMetrics(ctx);
+    return {
+      x: -1,
+      y: metrics.isDown ? metrics.imageBox.y + metrics.imageBox.height : metrics.textBox.y,
+      width: 2,
+      height: metrics.isDown
+        ? Math.max(metrics.textBox.y + metrics.textBox.height - (metrics.imageBox.y + metrics.imageBox.height), 0)
+        : Math.max(metrics.imageBox.y - metrics.textBox.y, 0)
+    };
+  };
 
   return {
     type: 'group' as any,
@@ -445,10 +484,10 @@ export const buildArcBlockMark = (
         interactive: false,
         zIndex: LayoutZIndex.Mark + 2,
         style: {
-          x: connectorX,
-          y: connectorY,
-          width: 2,
-          height: connectorHeight,
+          x: (_d: unknown, ctx: LayoutContext) => getConnectorBox(ctx).x,
+          y: (_d: unknown, ctx: LayoutContext) => getConnectorBox(ctx).y,
+          width: (_d: unknown, ctx: LayoutContext) => getConnectorBox(ctx).width,
+          height: (_d: unknown, ctx: LayoutContext) => getConnectorBox(ctx).height,
           fill: themeColor,
           fillOpacity: 0.6
         }
@@ -461,11 +500,12 @@ export const buildArcBlockMark = (
             zIndex: LayoutZIndex.Mark + 3,
             ...omitImageLayoutSpec(spec.image),
             style: {
-              x: metrics.imageBox.x,
-              y: metrics.imageBox.y,
-              width: metrics.imageBox.width,
-              height: metrics.imageBox.height,
-              cornerRadius: Math.min(metrics.imageBox.width, metrics.imageBox.height) / 2,
+              x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.x,
+              y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.y,
+              width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).imageBox.height,
+              cornerRadius: (_d: unknown, ctx: LayoutContext) =>
+                Math.min(getMetrics(ctx).imageBox.width, getMetrics(ctx).imageBox.height) / 2,
               image: block.image,
               repeatX: 'no-repeat',
               repeatY: 'no-repeat',
@@ -482,7 +522,8 @@ export const buildArcBlockMark = (
             style: {
               x: 0,
               y: 0,
-              size: Math.min(metrics.imageBox.width, metrics.imageBox.height),
+              size: (_d: unknown, ctx: LayoutContext) =>
+                Math.min(getMetrics(ctx).imageBox.width, getMetrics(ctx).imageBox.height),
               symbolType: 'circle',
               ...getImageBackgroundStyle(spec)
             }
@@ -497,7 +538,9 @@ export const buildArcBlockMark = (
             style: {
               x: 0,
               y: 0,
-              size: Math.min(metrics.imageBox.width, metrics.imageBox.height) + ARC_BLOCK_IMAGE_HALO_PADDING * 2,
+              size: (_d: unknown, ctx: LayoutContext) =>
+                Math.min(getMetrics(ctx).imageBox.width, getMetrics(ctx).imageBox.height) +
+                ARC_BLOCK_IMAGE_HALO_PADDING * 2,
               symbolType: 'circle',
               fill: 'transparent',
               stroke: withAlpha(themeColor, 0.82),
@@ -513,21 +556,21 @@ export const buildArcBlockMark = (
             zIndex: LayoutZIndex.Mark + 5,
             ...spec.title,
             style: {
-              x: metrics.textBox.x,
-              y: metrics.textBox.y,
+              x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textAnchorX,
+              y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
-              maxLineWidth: metrics.textBox.width,
-              height: metrics.titleLineHeight * BLOCK_TITLE_MAX_LINES,
-              heightLimit: metrics.titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,
-              fontSize: metrics.titleFontSize,
-              lineHeight: metrics.titleLineHeight,
+              fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleFontSize,
+              lineHeight: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight,
               fontWeight: 'bold',
               fill: '#1f2430',
               stroke: '#fff',
               lineWidth: 5,
               lineJoin: 'round',
-              textAlign: metrics.textAlign,
+              textAlign: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textAlign,
               textBaseline: 'top',
               whiteSpace: 'normal',
               wordBreak: 'break-word',
@@ -544,16 +587,16 @@ export const buildArcBlockMark = (
             zIndex: LayoutZIndex.Mark + 4,
             ...spec.content,
             style: {
-              x: metrics.contentBox.x,
-              y: metrics.contentBox.y,
-              width: metrics.contentBox.width,
-              height: metrics.contentBox.height,
-              maxLineWidth: metrics.contentBox.width,
-              heightLimit: metrics.contentBox.height,
+              x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textAnchorX,
+              y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.y,
+              width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.width,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
+              maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.width,
+              heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentBox.height,
               text: buildPlainContent(contentText),
-              fontSize: metrics.contentFontSize,
-              lineHeight: metrics.contentLineHeight,
-              textAlign: metrics.textAlign,
+              fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentFontSize,
+              lineHeight: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).contentLineHeight,
+              textAlign: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textAlign,
               textBaseline: 'top',
               whiteSpace: 'normal',
               wordBreak: 'break-word',

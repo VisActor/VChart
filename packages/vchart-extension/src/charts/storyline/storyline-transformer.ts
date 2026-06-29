@@ -161,7 +161,7 @@ const applyDefaultPadding = (spec: any) => {
       : wing
         ? 300
         : arcUp
-          ? 0
+          ? 100
           : arcDown
             ? TEXT_RESERVE
             : LARGE;

@@ -178,7 +178,7 @@ const getPortraitMetrics = (
     spec.title?.style as any,
     PORTRAIT_TITLE_LINE_HEIGHT
   );
-  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title, imageWidth, titleFontSize);
   const minContentHeight = PORTRAIT_CONTENT_LINES * contentLineHeight;
   // 默认 content 高度 = blockHeight * 0.4
   const contentHeight = Math.max(minContentHeight, Math.round(blockHeight * PORTRAIT_CONTENT_HEIGHT_RATIO));
@@ -221,6 +221,7 @@ const getPortraitMetrics = (
     onLeft,
     titleFontSize,
     titleLineHeight,
+    titleHeight,
     contentFontSize,
     contentLineHeight,
     blockWidth,
@@ -360,7 +361,7 @@ export const buildPortraitBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
-              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleFontSize,

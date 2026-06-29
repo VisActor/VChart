@@ -409,8 +409,23 @@ export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLa
 
 export const buildPlainContent = (contentText: string[]) => contentText.join('\n');
 
-export const getBlockTitleHeight = (lineHeight: number, title?: string) =>
-  title ? lineHeight * BLOCK_TITLE_MAX_LINES : 0;
+export const getBlockTitleLineCount = (
+  title: string | undefined,
+  boxWidth: number | undefined,
+  fontSize: number | undefined
+) => {
+  if (!title) {
+    return 0;
+  }
+  if (!boxWidth || boxWidth <= 0 || !fontSize || fontSize <= 0) {
+    return 1;
+  }
+  const estimatedWidth = getTextWeight(title) * fontSize;
+  return Math.max(1, Math.min(BLOCK_TITLE_MAX_LINES, Math.ceil(estimatedWidth / Math.max(boxWidth * 0.96, 1))));
+};
+
+export const getBlockTitleHeight = (lineHeight: number, title?: string, boxWidth?: number, fontSize?: number) =>
+  lineHeight * getBlockTitleLineCount(title, boxWidth, fontSize);
 
 export const omitImageLayoutSpec = (imageSpec: IStorylineSpec['image']) => {
   if (!imageSpec) {

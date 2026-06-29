@@ -95,7 +95,7 @@ const getDefaultBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index:
   );
   const titleFontSize = resolveTitleFontSize(spec, ctx, spec.data?.[index]?.title, textBox.width, 18, [8, 28]);
   const titleLineHeight = resolveAdaptiveLineHeight(titleFontSize, spec.title?.style as any, Math.round(18 * 1.35));
-  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title, textBox.width, titleFontSize);
   const contentGap = spec.data?.[index]?.title ? 8 : 0;
 
   return {
@@ -105,6 +105,7 @@ const getDefaultBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index:
     },
     titleFontSize,
     titleLineHeight,
+    titleHeight,
     imageBox,
     textBox,
     contentBox: {
@@ -198,8 +199,7 @@ export const buildDefaultBlockMark = (
               text: block.title,
               maxLineWidth: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).textBox.width,
-              height: (_datum: unknown, ctx: LayoutContext) =>
-                getDefaultBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).titleHeight,
               heightLimit: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,

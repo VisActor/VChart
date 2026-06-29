@@ -24,16 +24,17 @@ import {
 
 // landscape 布局下，image rect 与 text rect 分离展示
 const LANDSCAPE_IMAGE_HEIGHT_RATIO = 0.42;
-const LANDSCAPE_DETACHED_GAP = 64;
+const LANDSCAPE_CONNECTOR_GAP = 8;
 const LANDSCAPE_CONNECTOR_ARROW_SIZE = 9;
 const LANDSCAPE_CONNECTOR_X_RATIO = 0.2; // 引导线 x 位于 image 左侧 20% 处
 const LANDSCAPE_TEXT_GAP_FROM_CONNECTOR = 12; // 文字距离引导线的水平间距
-// content 区固定为 10 行，整体 textHeight = titleLineHeight + titleGap + contentLines * contentLineHeight
-const LANDSCAPE_CONTENT_LINES = 10;
 const LANDSCAPE_TITLE_LINE_HEIGHT = 34;
 const LANDSCAPE_CONTENT_LINE_HEIGHT = 23;
 const LANDSCAPE_CONTENT_FONT_SIZE = 16;
 const LANDSCAPE_TITLE_TO_CONTENT_GAP = 4;
+const LANDSCAPE_BODY_MARGIN = 8;
+const LANDSCAPE_IMAGE_BAND_RATIO = 0.28;
+const LANDSCAPE_IMAGE_BAND_MAX_RATIO = 0.42;
 
 /**
  * 计算第 index 个 block 在 landscape 布局下的 image 中心点（含 stagger 错落偏移）。
@@ -43,11 +44,11 @@ const getLandscapeImageCenter = (spec: IStorylineSpec, ctx: LayoutContext, index
   if (!lb) {
     return null;
   }
-  const cx = lb.center?.x ?? lb.x + lb.width / 2;
-  const cy = lb.center?.y ?? lb.y + lb.height / 2;
-  // 与 buildLandscapeBlockMark 中 group y 的 stagger 偏移保持一致
-  const stagger = (index % 2 === 0 ? -1 : 1) * lb.height * 0.1;
-  return { x: cx, y: cy + stagger };
+  const m = getLandscapeMetrics(spec, lb.width, lb.height, index, ctx);
+  return {
+    x: lb.x + m.imageBox.x + m.imageBox.width / 2,
+    y: m.bodyOriginY + m.imageBox.y + m.imageBox.height / 2
+  };
 };
 
 /**
@@ -126,21 +127,23 @@ const getLandscapeMetrics = (
     spec.title?.style as any,
     LANDSCAPE_TITLE_LINE_HEIGHT
   );
-  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title);
   const contentFontSize = Number((spec.content?.style as any)?.fontSize ?? LANDSCAPE_CONTENT_FONT_SIZE);
   const contentLineHeight = Number((spec.content?.style as any)?.lineHeight ?? LANDSCAPE_CONTENT_LINE_HEIGHT);
+  const { width: regionWidth } = getRegionGeometry(ctx, spec);
+  const blockCount = Math.max(spec.data?.length ?? 1, 1);
+  const textWidth = Math.max(regionWidth / blockCount, 1);
+  const titleHeight = getBlockTitleHeight(titleLineHeight, spec.data?.[index]?.title, textWidth, titleFontSize);
 
-  const imageHeight = Math.max(
+  const rawImageHeight = Math.max(
     spec.image?.height ?? Math.round(blockHeight * LANDSCAPE_IMAGE_HEIGHT_RATIO),
     titleLineHeight + padding.top + padding.bottom
   );
-  const connectorGap = LANDSCAPE_DETACHED_GAP;
-  // landscape：content 默认高度 = 图表高度 / 2，没有传 spec.height 时回退到固定行数
-  const canvasHeight = spec.height as number | undefined;
-  const contentHeight = canvasHeight
-    ? Math.max(contentLineHeight * 2, Math.round(canvasHeight / 4))
-    : LANDSCAPE_CONTENT_LINES * contentLineHeight;
   const titleToContentGap = LANDSCAPE_TITLE_TO_CONTENT_GAP;
+  const minTextBandHeight = titleHeight + titleToContentGap + contentLineHeight * 2;
+  const body = getLandscapeBodyGeometry(ctx, spec, rawImageHeight, blockHeight, minTextBandHeight);
+  const imageHeight = body.imageHeight;
+  const textBandHeight = body.textBandHeight;
+  const contentHeight = Math.max(0, textBandHeight - titleHeight - titleToContentGap);
   const textHeight = titleHeight + titleToContentGap + contentHeight;
 
   const textOnTop = index % 2 === 0;
@@ -155,14 +158,12 @@ const getLandscapeMetrics = (
   const imageX = 0;
   const connectorX = imageX + blockWidth * LANDSCAPE_CONNECTOR_X_RATIO;
   const textX = connectorX + LANDSCAPE_TEXT_GAP_FROM_CONNECTOR;
-  const { width: regionWidth } = getRegionGeometry(ctx, spec);
-  const blockCount = Math.max(spec.data?.length ?? 1, 1);
-  const textWidth = Math.max(regionWidth / blockCount, 1);
+  const waveOffset = (textOnTop ? -1 : 1) * body.waveAmplitude;
+  const imageY = body.imageBandTop + body.imageBandHeight / 2 + waveOffset - imageHeight / 2;
 
   if (textOnTop) {
-    const imageY = 0;
-    const textY = imageY - connectorGap - textHeight;
-    const connectorY1 = imageY;
+    const textY = body.upperTextTop;
+    const connectorY1 = Math.max(imageY - LANDSCAPE_CONNECTOR_GAP, body.upperTextTop);
     const connectorY2 = textY + Math.max(titleHeight, titleLineHeight) / 2;
 
     imageBox = { x: imageX, y: imageY, width: blockWidth, height: imageHeight };
@@ -174,12 +175,11 @@ const getLandscapeMetrics = (
       height: contentHeight
     };
     connector = { x1: connectorX, y1: connectorY1, x2: connectorX, y2: connectorY2 };
-    groupTop = textY;
-    groupHeight = imageHeight - groupTop;
+    groupTop = 0;
+    groupHeight = body.height;
   } else {
-    const imageY = 0;
-    const textY = imageY + imageHeight + connectorGap;
-    const connectorY1 = imageY + imageHeight;
+    const textY = body.lowerTextTop;
+    const connectorY1 = Math.min(imageY + imageHeight + LANDSCAPE_CONNECTOR_GAP, body.height);
     const connectorY2 = textY + textHeight;
 
     imageBox = { x: imageX, y: imageY, width: blockWidth, height: imageHeight };
@@ -191,17 +191,20 @@ const getLandscapeMetrics = (
       height: contentHeight
     };
     connector = { x1: connectorX, y1: connectorY1, x2: connectorX, y2: connectorY2 };
-    groupTop = imageY;
-    groupHeight = textY + textHeight - imageY;
+    groupTop = 0;
+    groupHeight = body.height;
   }
 
   return {
     padding,
     titleFontSize,
     titleLineHeight,
+    titleHeight,
     contentFontSize,
     contentLineHeight,
     contentHeight,
+    minTextBandHeight,
+    bodyOriginY: body.originY,
     blockWidth: Math.max(blockWidth, textX + textWidth),
     imageBox,
     textBox,
@@ -210,6 +213,39 @@ const getLandscapeMetrics = (
     textOnTop,
     groupTop,
     groupHeight
+  };
+};
+
+const getLandscapeBodyGeometry = (
+  ctx: LayoutContext,
+  spec: IStorylineSpec,
+  rawImageHeight: number,
+  blockHeight: number,
+  minTextBandHeight: number
+) => {
+  const region = getRegionGeometry(ctx, spec);
+  const margin = Math.min(LANDSCAPE_BODY_MARGIN, Math.max(region.height * 0.04, 0));
+  const height = Math.max(region.height - margin * 2, 1);
+  const textBandReserve = Math.min(minTextBandHeight, Math.max((height - 48) / 2, 0));
+  const maxImageBandHeight = Math.max(height - textBandReserve * 2, height * 0.18);
+  const imageBandHeight = Math.min(
+    Math.max(rawImageHeight + 24, height * LANDSCAPE_IMAGE_BAND_RATIO),
+    Math.max(1, Math.min(maxImageBandHeight, height * LANDSCAPE_IMAGE_BAND_MAX_RATIO))
+  );
+  const imageHeight = Math.min(rawImageHeight, Math.max(imageBandHeight - 16, 1));
+  const textBandHeight = Math.max((height - imageBandHeight) / 2, 1);
+  const imageBandTop = textBandHeight;
+
+  return {
+    originY: region.startY + margin,
+    height,
+    textBandHeight,
+    imageBandTop,
+    imageBandHeight,
+    imageHeight,
+    upperTextTop: 0,
+    lowerTextTop: imageBandTop + imageBandHeight,
+    waveAmplitude: Math.min(imageBandHeight * 0.18, blockHeight * 0.1)
   };
 };
 
@@ -246,13 +282,8 @@ export const buildLandscapeBlockMark = (
         return lb?.x ?? 0;
       },
       y: (_d: unknown, ctx: LayoutContext) => {
-        const lb = getLayout(spec, ctx).blocks[index];
         const m = getMetrics(ctx);
-        const cy = lb?.center?.y ?? (lb?.y ?? 0) + (lb?.height ?? 0) / 2;
-        const blockH = lb?.height ?? spec.block?.height ?? DEFAULT_BLOCK_HEIGHT;
-        // text 在上方时 group 往下偏移，text 在下方时 group 往上偏移
-        const stagger = m.textOnTop ? blockH * 0.1 : -blockH * 0.1;
-        return cy - m.imageBox.height / 2 + stagger;
+        return m.bodyOriginY;
       },
       width: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).blockWidth,
       height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).groupHeight
@@ -328,7 +359,7 @@ export const buildLandscapeBlockMark = (
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
               maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
-              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
+              height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,
               fontSize: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleFontSize,

@@ -6,6 +6,7 @@ import {
   type LayoutContext,
   BLOCK_TITLE_MAX_LINES,
   buildPlainContent,
+  getBlockTitleHeight,
   getImageBackgroundStyle,
   getRegionGeometry,
   getThemeColor,
@@ -309,6 +310,13 @@ export const buildClockBlockMark = (
     );
   const getTitleLineHeight = (ctx: LayoutContext) =>
     resolveAdaptiveLineHeight(getTitleFontSize(ctx), spec.title?.style as any, CLOCK_TITLE_LINE_HEIGHT, 1.28);
+  const getTitleHeight = (ctx: LayoutContext) =>
+    getBlockTitleHeight(
+      getTitleLineHeight(ctx),
+      block.title,
+      getClockTextRect(spec, ctx, index).width,
+      getTitleFontSize(ctx)
+    );
 
   const leadPath = (_d: unknown, ctx: LayoutContext) => {
     const { start, end } = getClockLeadLine(spec, ctx, index);
@@ -394,11 +402,10 @@ export const buildClockBlockMark = (
           ...spec.title,
           style: {
             x: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).x,
-            y: (_d: unknown, ctx: LayoutContext) =>
-              getClockTextRect(spec, ctx, index).anchorY - getTitleLineHeight(ctx) * BLOCK_TITLE_MAX_LINES,
+            y: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).anchorY - getTitleHeight(ctx),
             text: block.title,
             maxLineWidth: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).width,
-            height: (_d: unknown, ctx: LayoutContext) => getTitleLineHeight(ctx) * BLOCK_TITLE_MAX_LINES,
+            height: (_d: unknown, ctx: LayoutContext) => getTitleHeight(ctx),
             heightLimit: (_d: unknown, ctx: LayoutContext) => getTitleLineHeight(ctx) * BLOCK_TITLE_MAX_LINES,
             lineClamp: BLOCK_TITLE_MAX_LINES,
             fontSize: (_d: unknown, ctx: LayoutContext) => getTitleFontSize(ctx),
