@@ -1774,6 +1774,21 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return !!g.context.diffAttrs && Object.keys(g.context.diffAttrs).length > 0;
   }
 
+  protected _commitPreventedAnimationStaticAttrs(g: IMarkGraphic, attrs: Record<string, any>) {
+    if (!attrs || !Object.keys(attrs).length) {
+      return;
+    }
+
+    const graphic = g as any;
+    graphic.setFinalAttributes?.(attrs);
+
+    if (graphic._commitAnimationStaticAttributes) {
+      graphic._commitAnimationStaticAttributes(attrs);
+    } else {
+      graphic.commitInternalBaseAttributes?.(attrs);
+    }
+  }
+
   protected _runApplyGraphic(graphics: IMarkGraphic[]) {
     const hasAnimation = this.hasAnimation();
 
@@ -1821,7 +1836,12 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           g.context.reusing = false;
         } else if (!hasStateAnimation) {
           // 不是正在被复用的属性，也不需要走动画，那就设置属性
-          hasAnimation ? g.setAttributesAndPreventAnimate(diffAttrs) : g.setAttributes(diffAttrs);
+          if (hasAnimation) {
+            g.setAttributesAndPreventAnimate(diffAttrs);
+            this._commitPreventedAnimationStaticAttrs(g, diffAttrs);
+          } else {
+            g.setAttributes(diffAttrs);
+          }
         }
 
         // 恢复visible: true时，需要将graphic重新添加到product中
