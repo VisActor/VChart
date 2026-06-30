@@ -404,7 +404,6 @@ export const buildClockBlockMark = (
             x: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).x,
             y: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).anchorY - getTitleHeight(ctx),
             text: block.title,
-            maxLineWidth: (_d: unknown, ctx: LayoutContext) => getClockTextRect(spec, ctx, index).width,
             height: (_d: unknown, ctx: LayoutContext) => getTitleHeight(ctx),
             heightLimit: (_d: unknown, ctx: LayoutContext) => getTitleLineHeight(ctx) * BLOCK_TITLE_MAX_LINES,
             lineClamp: BLOCK_TITLE_MAX_LINES,

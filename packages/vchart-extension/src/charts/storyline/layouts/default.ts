@@ -197,8 +197,6 @@ export const buildDefaultBlockMark = (
               x: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).textBox.x,
               y: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
-              maxLineWidth: (_datum: unknown, ctx: LayoutContext) =>
-                getDefaultBlockMetrics(spec, ctx, index).textBox.width,
               height: (_datum: unknown, ctx: LayoutContext) => getDefaultBlockMetrics(spec, ctx, index).titleHeight,
               heightLimit: (_datum: unknown, ctx: LayoutContext) =>
                 getDefaultBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,

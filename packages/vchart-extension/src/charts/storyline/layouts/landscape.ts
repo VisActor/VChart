@@ -358,7 +358,6 @@ export const buildLandscapeBlockMark = (
               x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.x,
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
-              maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,

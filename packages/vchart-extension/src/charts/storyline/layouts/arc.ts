@@ -559,7 +559,6 @@ export const buildArcBlockMark = (
               x: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textAnchorX,
               y: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.y,
               text: block.title,
-              maxLineWidth: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).textBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               heightLimit: (_d: unknown, ctx: LayoutContext) => getMetrics(ctx).titleLineHeight * BLOCK_TITLE_MAX_LINES,
               lineClamp: BLOCK_TITLE_MAX_LINES,

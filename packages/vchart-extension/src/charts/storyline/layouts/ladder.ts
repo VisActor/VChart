@@ -347,7 +347,6 @@ export const buildLadderBlockMark = (
               x: (_d: unknown, ctx: LayoutContext) => getTitleX(ctx),
               y: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
-              maxLineWidth: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).textBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getLadderBlockMetrics(spec, ctx, index).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) =>
                 getLadderBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,

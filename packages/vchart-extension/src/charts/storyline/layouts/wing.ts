@@ -451,7 +451,6 @@ export const buildWingBlockMark = (
               },
               y: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.y,
               text: block.title,
-              maxLineWidth: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.width,
               height: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) =>
                 getWingBlockMetrics(spec, ctx, index).titleLineHeight * BLOCK_TITLE_MAX_LINES,
