@@ -3,14 +3,10 @@ import type { IStorylineBlock, IStorylineSpec } from './interface';
 import {
   isArc,
   isClock,
-  isLadder,
   isLandscape,
   isPortrait,
   isWing,
   normalizeLayout,
-  resolveBlockWidth,
-  DEFAULT_BLOCK_WIDTH,
-  DEFAULT_IMAGE_GAP,
   buildTopTitleImageMark,
   getTitleImageReservedHeight
 } from './layouts/common';
@@ -25,7 +21,6 @@ import {
 } from './layouts/portrait';
 import { buildArcBlockMark, buildArcMark, buildArcTitleImageMark } from './layouts/arc';
 import { buildWingArcMark, buildWingBlockMark, buildWingTitleImageMark } from './layouts/wing';
-import { buildLadderBlockMark, buildLadderDiagonalMark, buildLadderHeadlineMark } from './layouts/ladder';
 
 export class StorylineChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
@@ -52,7 +47,6 @@ export class StorylineChartSpecTransformer extends CommonChartSpecTransformer<an
  * - arc down（bowl 碗形）：titleImage 贴顶 + textBox 在弧线下方，所以默认顶部留 100px、底部留 280px 给 textBox + 弧线呼吸空间；
  * - portrait：textBox 在 image 下方，最后一个 block 的 content 容易超出 region。底部 padding 默认 = 单个 block 的 content 高度
  *   （即 regionHeight / count * 0.6），保证最后一个 block 有完整的 content 展示空间；
- * - ladder：四周默认留出 content 文本宽度，避免 block 沿对角线"挤"到画布边缘；
  * 用户在 spec.padding 中显式指定的值会被保留；顶部 titleImage 会额外保证最小 top padding，避免覆盖 region 内容。
  */
 const applyDefaultPadding = (spec: any) => {
@@ -64,16 +58,10 @@ const applyDefaultPadding = (spec: any) => {
   const arcDown = arc && normalizeLayout((spec as IStorylineSpec).layout).direction === 'down';
   const arcUp = arc && !arcDown;
   const portrait = isPortrait(spec as IStorylineSpec);
-  const ladder = isLadder(spec as IStorylineSpec);
   const wing = isWing(spec as IStorylineSpec);
   const clock = isClock(spec as IStorylineSpec);
   const topTitleImageReserve = (() => {
-    if (
-      arc ||
-      ladder ||
-      !(spec as IStorylineSpec).titleImage?.image ||
-      (spec as IStorylineSpec).titleImage?.visible === false
-    ) {
+    if (arc || !(spec as IStorylineSpec).titleImage?.image || (spec as IStorylineSpec).titleImage?.visible === false) {
       return 0;
     }
     return getTitleImageReservedHeight(
@@ -116,55 +104,22 @@ const applyDefaultPadding = (spec: any) => {
       Math.round(imageHeight / 2 + textGap + titleLineHeight + titleToContentGap + contentHeight + breath)
     );
   })();
-  // ladder：
-  // - 左右 padding ≈ block content 宽度 × 2（保证两端 block 沿对角线水平有呼吸）
-  // - 上下 padding ≈ block 高度 × 3（保证两端 block 沿对角线垂直留出充足画布留白）
-  // 由于 transformSpec 阶段还无法获取真实 viewWidth，这里直接用 spec 中的估值。
-  // 同时限制 padding 不超过 canvas 对应维度的 30%，否则 inner 区域会被挤压到不可见。
-  const ladderHorizontalPadding = (() => {
-    if (!ladder) {
-      return 0;
-    }
-    const blockWidth = (spec as IStorylineSpec).block?.minWidth ?? resolveBlockWidth(spec as IStorylineSpec, 0);
-    const imageWidth = (spec as IStorylineSpec).image?.width ?? 96; // UP_LADDER_BLOCK_IMAGE_SIZE
-    const imageGap = (spec as IStorylineSpec).image?.gap ?? DEFAULT_IMAGE_GAP;
-    const innerPadding = 12 * 2; // up-ladder 默认 block padding 12，左右共 24
-    const contentWidth = Math.max(blockWidth - imageWidth - imageGap - innerPadding, DEFAULT_BLOCK_WIDTH * 0.5);
-    const ideal = Math.round(contentWidth * 2);
-    const canvasWidth = (spec as IStorylineSpec).width as number | undefined;
-    const cap = canvasWidth ? Math.floor(canvasWidth * 0.3) : ideal;
-    return Math.min(ideal, cap);
-  })();
-  const ladderVerticalPadding = (() => {
-    if (!ladder) {
-      return 0;
-    }
-    const blockHeight = (spec as IStorylineSpec).block?.height ?? 132;
-    const ideal = Math.round(blockHeight * 3);
-    const canvasHeight = (spec as IStorylineSpec).height as number | undefined;
-    const cap = canvasHeight ? Math.floor(canvasHeight * 0.3) : ideal;
-    return Math.min(ideal, cap);
-  })();
   // arc up（dome）: 顶部留给 textBox，底部紧贴（不要额外 padding）
   // arc down（bowl）: 底部留给 textBox，顶部紧贴（不要额外 padding）
   // portrait: 底部留给最后一个 block 的 content
-  // ladder: 四周均为 content 宽度
   // 其它：保持原默认 [SMALL, SMALL, LARGE, SMALL]
-  const defaultTop = Math.max(
-    topTitleImageReserve,
-    clock ? 40 : ladder ? ladderVerticalPadding : arcDown ? 0 : arcUp ? TEXT_RESERVE : SMALL
-  );
+  const defaultTop = Math.max(topTitleImageReserve, clock ? 40 : arcDown ? 0 : arcUp ? TEXT_RESERVE : SMALL);
   const defaultBottom = clock
     ? 60
     : portrait
-      ? portraitBottomReserve
-      : wing
-        ? 300
-        : arcUp
-          ? 100
-          : arcDown
-            ? TEXT_RESERVE
-            : LARGE;
+    ? portraitBottomReserve
+    : wing
+    ? 300
+    : arcUp
+    ? 100
+    : arcDown
+    ? TEXT_RESERVE
+    : LARGE;
   // arc：左右 padding = content 宽度（canvasWidth / (count + 1)），保证内容沿弧线均匀分布
   const arcHorizontalPadding = (() => {
     if (!arc) {
@@ -177,8 +132,8 @@ const applyDefaultPadding = (spec: any) => {
     }
     return Math.round(canvasWidth / (count + 1));
   })();
-  const defaultLeft = clock ? 40 : ladder ? ladderHorizontalPadding : arcHorizontalPadding;
-  const defaultRight = clock ? 40 : ladder ? ladderHorizontalPadding : arcHorizontalPadding;
+  const defaultLeft = clock ? 40 : arcHorizontalPadding;
+  const defaultRight = clock ? 40 : arcHorizontalPadding;
 
   const p = spec.padding;
   if (p == null) {
@@ -236,12 +191,6 @@ const buildStorylineMarks = (spec: IStorylineSpec) => {
     const wingTitleImageMark = buildWingTitleImageMark(spec);
     return [arcMark, wingTitleImageMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
   }
-  // ladder：参考 Bauhaus 信息图 —— 对角线 + 沿对角线倾斜的 headline 大字 + 两侧错落 block
-  if (isLadder(spec)) {
-    const diagonalMark = buildLadderDiagonalMark(spec);
-    const headlineMark = buildLadderHeadlineMark(spec);
-    return [diagonalMark, headlineMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
-  }
   return [titleImageMark, lineMark, ...blockMarks].filter(Boolean) as IExtensionGroupMarkSpec[];
 };
 
@@ -274,9 +223,5 @@ const buildBlockMark = (spec: IStorylineSpec, block: IStorylineBlock, index: num
   if (isWing(spec)) {
     return buildWingBlockMark(spec, block, index);
   }
-  if (isLadder(spec)) {
-    return buildLadderBlockMark(spec, block, index);
-  }
-
   return buildDefaultBlockMark(spec, block, index);
 };

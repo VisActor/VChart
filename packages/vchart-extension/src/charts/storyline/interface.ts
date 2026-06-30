@@ -12,7 +12,7 @@ import type {
 /**
  * Storyline 图表支持的布局类型。
  */
-export type StorylineLayoutType = 'clock' | 'arc' | 'wing' | 'landscape' | 'portrait' | 'ladder' | 'spiral';
+export type StorylineLayoutType = 'clock' | 'arc' | 'wing' | 'landscape' | 'portrait';
 
 /**
  * block 内图片相对文本内容的摆放位置。
@@ -26,10 +26,6 @@ export type StorylineLineType = 'line' | 'polyline' | 'curve';
  * wing 布局的展开方向。
  */
 export type StorylineWingDirection = 'left' | 'right';
-/**
- * ladder 布局的对角线方向。
- */
-export type StorylineLadderDirection = 'up' | 'down';
 /**
  * arc 布局的弧形方向。
  */
@@ -99,15 +95,9 @@ export interface IStorylineLayoutOptions {
   /**
    * 方向控制：
    * - wing 布局：'left' | 'right'，圆心锚位置；
-   * - ladder 布局：'up' | 'down'，'up' 表示左下→右上对角线（默认），'down' 表示左上→右下对角线；
    * - arc 布局：'up' | 'down'，'up' 表示穹顶（titleImage 贴底，弧线在上方），'down' 表示碗形（titleImage 贴顶，弧线在下方）。
    */
-  direction?: StorylineWingDirection | StorylineLadderDirection | StorylineArcDirection;
-  /**
-   * 对 ladder 布局生效：贯穿画布的倾斜大字 headline。
-   * 缺省时使用占位文本。倾斜方向自动跟随对角线。
-   */
-  headline?: string;
+  direction?: StorylineWingDirection | StorylineArcDirection;
 }
 
 /**
@@ -144,7 +134,7 @@ export interface IStorylineBlockSpec {
   gap?: number;
   /**
    * 是否展示 block 背后的卡片背景 rect（白底 + 描边 + 阴影）。
-   * 仅 ladder 等少数布局支持，默认 false（不展示）。
+   * 默认 false（不展示）。
    */
   showBackground?: boolean;
   /**

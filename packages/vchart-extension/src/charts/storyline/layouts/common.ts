@@ -26,7 +26,6 @@ export type LayoutContext = {
 export const DEFAULT_BLOCK_WIDTH = 180;
 export const DEFAULT_BLOCK_HEIGHT = 400;
 export const DEFAULT_BLOCK_WIDTH_RATIO = 0.24;
-export const DEFAULT_BLOCK_GAP = 36;
 export const DEFAULT_IMAGE_WIDTH = 48;
 export const DEFAULT_IMAGE_HEIGHT = 48;
 export const DEFAULT_IMAGE_GAP = 10;
@@ -45,7 +44,6 @@ export const isPortrait = (spec: IStorylineSpec) => normalizeLayout(spec.layout)
 export const isClock = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'clock';
 export const isArc = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'arc';
 export const isWing = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'wing';
-export const isLadder = (spec: IStorylineSpec) => normalizeLayout(spec.layout).type === 'ladder';
 
 export const getThemeColor = (spec: IStorylineSpec) => spec.themeColor ?? DEFAULT_THEME_COLOR;
 
@@ -378,7 +376,6 @@ export const getLayout = (spec: IStorylineSpec, ctx: LayoutContext): StorylineLa
       width: blockWidth,
       height: blockHeight
     },
-    gap: spec.block?.gap ?? DEFAULT_BLOCK_GAP,
     padding: spec.block?.padding,
     lineDistance: spec.line?.distance
   });

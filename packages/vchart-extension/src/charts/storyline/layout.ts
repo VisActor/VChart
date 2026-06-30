@@ -47,7 +47,6 @@ export interface StorylineComputeOptions {
   layout: StorylineLayoutType | IStorylineLayoutOptions | undefined;
   viewBox: StorylineSize;
   block: StorylineSize;
-  gap?: number;
   padding?: number | [number, number, number, number];
   lineDistance?: number;
 }
@@ -94,9 +93,8 @@ export const computeStorylineLayout = (
 ): StorylineLayoutResult => {
   const layout = normalizeLayout(options.layout);
   const padding = normalizePadding(layout.padding ?? options.padding);
-  const gap = options.gap ?? 40;
   const lineDistance = options.lineDistance ?? 8;
-  const blocks = computeBlockPositions(data, layout, options.viewBox, options.block, padding, gap);
+  const blocks = computeBlockPositions(data, layout, options.viewBox, options.block, padding);
   const circleGuide =
     layout.type === 'clock' ? computeClockCircleGuide(options.viewBox, options.block, padding, layout) : undefined;
   return {
@@ -111,8 +109,7 @@ const computeBlockPositions = (
   layout: IStorylineLayoutOptions,
   viewBox: StorylineSize,
   block: StorylineSize,
-  padding: StorylinePadding,
-  gap: number
+  padding: StorylinePadding
 ): StorylineBlockPosition[] => {
   const count = data.length;
   if (!count) {
@@ -140,42 +137,6 @@ const computeBlockPositions = (
         center.x,
         inner.y + inner.height - block.height / 2
       );
-      break;
-    case 'ladder': {
-      // 沿对角线均匀采样 anchor 点，偶/奇 index 沿对角线"法向"做左/右偏移。
-      // direction = 'up' (默认)：左下 → 右上；direction = 'down'：左上 → 右下。
-      const isDown = layout.direction === 'down';
-      const x0 = inner.x + block.width / 2;
-      const x1 = inner.x + inner.width - block.width / 2;
-      const yTop = inner.y + block.height / 2;
-      const yBot = inner.y + inner.height - block.height / 2;
-      const y0 = isDown ? yTop : yBot;
-      const y1 = isDown ? yBot : yTop;
-      const anchors = lineCenters(count, x0, y0, x1, y1);
-      // 对角线方向向量
-      const dx = x1 - x0;
-      const dy = y1 - y0;
-      const len = Math.hypot(dx, dy) || 1;
-      // 法向单位向量
-      const nx = -dy / len;
-      const ny = dx / len;
-      // 偏移量：与 headline fontSize 联动 —— 与 ladder.ts 中保持同一公式
-      // headline fontSize = clamp(innerHeight * 0.42, 80, 240)
-      // 偏移量 = headline fontSize * 1.2，让 block 与 headline 大字之间留出充足留白
-      const headlineFontSize = Math.max(80, Math.min(240, Math.round(inner.height * 0.42)));
-      const offset = headlineFontSize * 1.2;
-      centers = anchors.map((p, i) => {
-        // 偶数 index → 法向 +；奇数 index → 法向 -
-        const sign = i % 2 === 0 ? 1 : -1;
-        return {
-          x: p.x + nx * offset * sign,
-          y: p.y + ny * offset * sign
-        };
-      });
-      break;
-    }
-    case 'spiral':
-      centers = alternatingVerticalCenters(count, inner, block, gap);
       break;
     case 'clock':
       centers = circularCenters(count, viewBox, block, padding, layout);
@@ -230,27 +191,6 @@ const lineCenters = (count: number, x0: number, y0: number, x1: number, y1: numb
       y: y0 + (y1 - y0) * t
     };
   });
-};
-
-const alternatingVerticalCenters = (
-  count: number,
-  inner: { x: number; y: number; width: number; height: number },
-  block: StorylineSize,
-  gap: number
-) => {
-  const baseX = inner.x + inner.width / 2;
-  const offset = Math.min(Math.max(block.width * 0.65 + gap / 2, 0), Math.max((inner.width - block.width) / 2, 0));
-  const points = lineCenters(
-    count,
-    baseX,
-    inner.y + block.height / 2,
-    baseX,
-    inner.y + inner.height - block.height / 2
-  );
-  return points.map((point, index) => ({
-    x: point.x + (index % 2 === 0 ? -offset : offset),
-    y: point.y
-  }));
 };
 
 const circularCenters = (
