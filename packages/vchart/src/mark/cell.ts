@@ -3,7 +3,8 @@ import type { ICellMarkSpec } from '../typings';
 import type { ICellMark, IMarkGraphic, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerShadowRoot, registerSymbol } from '@visactor/vrender-kits';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
+import { registerSymbol } from '@visactor/vrender-kits/register/register-symbol';
 import { registerSymbolDataLabel } from '@visactor/vrender-components';
 import type { IGraphic, ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { createSymbol } from '@visactor/vrender-core';

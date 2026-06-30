@@ -3,7 +3,7 @@ import { ClipAngleAnimate, AnimateExecutor } from '@visactor/vrender-animate';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
-import { registerArc } from '@visactor/vrender-kits';
+import { registerArc } from '@visactor/vrender-kits/register/register-arc';
 import type { IRadarAnimationParams, RadarAppearPreset } from './interface';
 import type { IAnimationTypeConfig, MarkAnimationSpec } from '../../animation/interface';
 import type { Datum } from '../../typings/common';

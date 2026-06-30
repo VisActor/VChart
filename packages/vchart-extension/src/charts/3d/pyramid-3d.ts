@@ -1,7 +1,11 @@
-import { registerPyramid3d, registerShadowRoot, createPyramid3d } from '@visactor/vchart';
+import { createPyramid3d } from '@visactor/vrender-core';
+import { registerPyramid3d } from '@visactor/vrender-kits/register/register-pyramid3d';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
+import { registerPolygonAnimation } from '@visactor/vchart/esm/animation/config';
+import { Factory } from '@visactor/vchart/esm/core/factory';
+import { BasePolygonMark } from '@visactor/vchart/esm/mark/polygon/base-polygon';
 import type { IPyramid3dMark, IPyramid3dMarkSpec } from './interface';
 import { MarkType3dEnum } from './enum';
-import { BasePolygonMark, Factory, registerPolygonAnimation } from '@visactor/vchart';
 
 export class Pyramid3dMark extends BasePolygonMark<IPyramid3dMarkSpec> implements IPyramid3dMark {
   static readonly type = MarkType3dEnum.pyramid3d;
