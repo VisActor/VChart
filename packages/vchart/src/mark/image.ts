@@ -4,7 +4,8 @@ import { BaseMark } from './base/base-mark';
 import type { IImageMark, IMarkStyle, MarkConstructor } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerImage, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerImage } from '@visactor/vrender-kits/register/register-image';
+import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { createImage } from '@visactor/vrender-core';
 
 export class ImageMark extends BaseMark<IImageMarkSpec> implements IImageMark {

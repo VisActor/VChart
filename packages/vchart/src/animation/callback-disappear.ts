@@ -1,5 +1,5 @@
 import { AStageAnimate } from '@visactor/vrender-animate/custom/custom-animate';
-import { EasingType } from '@visactor/vrender-core';
+import type { EasingType } from '@visactor/vrender-core';
 
 /**
  * 特效动画基类，提取公共的WebGL和Canvas 2D操作

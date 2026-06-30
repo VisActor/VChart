@@ -1,7 +1,11 @@
-import type { IAxis, IBaseLayout, IChart, ILayoutItem, IOffset, LayoutSideType } from '@visactor/vchart';
-import { Factory, isXAxis, isYAxis, Layout } from '@visactor/vchart';
-import type { IBoundsLike } from '@visactor/vchart';
-import type { IRect } from '@visactor/vchart/src/typings/space';
+import type { IBoundsLike } from '@visactor/vutils';
+import type { IChart } from '@visactor/vchart/esm/chart/interface/chart';
+import { isXAxis, isYAxis } from '@visactor/vchart/esm/component/axis/cartesian/util/common';
+import type { IAxis } from '@visactor/vchart/esm/component/axis/interface/common';
+import { Factory } from '@visactor/vchart/esm/core/factory';
+import { Layout, type IOffset, type LayoutSideType } from '@visactor/vchart/esm/layout/base-layout';
+import type { IBaseLayout, ILayoutItem } from '@visactor/vchart/esm/layout/interface';
+import type { IRect } from '@visactor/vchart/esm/typings/space';
 
 export class Layout3d extends Layout implements IBaseLayout {
   declare recomputeWidth: boolean;
