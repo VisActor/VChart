@@ -25,7 +25,6 @@ import {
 // landscape 布局下，image rect 与 text rect 分离展示
 const LANDSCAPE_IMAGE_HEIGHT_RATIO = 0.42;
 const LANDSCAPE_CONNECTOR_GAP = 8;
-const LANDSCAPE_CONNECTOR_ARROW_SIZE = 9;
 const LANDSCAPE_CONNECTOR_X_RATIO = 0.2; // 引导线 x 位于 image 左侧 20% 处
 const LANDSCAPE_TEXT_GAP_FROM_CONNECTOR = 12; // 文字距离引导线的水平间距
 const LANDSCAPE_TITLE_LINE_HEIGHT = 34;
@@ -333,18 +332,13 @@ export const buildLandscapeBlockMark = (
           stroke: connectorStroke,
           lineWidth: connectorLineWidth,
           lineDash: connectorDash,
-          fill: connectorStroke,
+          fill: false,
           path: (_d: unknown, ctx: LayoutContext) => {
             const m = getMetrics(ctx);
-            const tipSize = LANDSCAPE_CONNECTOR_ARROW_SIZE;
             const x = m.connector.x1;
             const y0 = m.connector.y1;
             const y1 = m.connector.y2;
-            const tipDir = y1 < y0 ? -1 : 1;
-            const baseY = y1 - tipDir * tipSize;
-            const dashLine = `M ${x} ${y0} L ${x} ${baseY}`;
-            const triangle = `M ${x - tipSize / 2} ${baseY} L ${x + tipSize / 2} ${baseY} L ${x} ${y1} Z`;
-            return `${dashLine} ${triangle}`;
+            return `M ${x} ${y0} L ${x} ${y1}`;
           }
         }
       } as ICustomMarkSpec<'path'>,
