@@ -40,9 +40,40 @@ const WING_TEXT_BOX_HEIGHT = 110;
 const WING_TITLE_TO_CONTENT_GAP = 4;
 const WING_TITLE_IMAGE_WIDTH_RATIO = 0.6;
 const WING_TITLE_IMAGE_MAX_WIDTH = 820;
+const WING_DEFAULT_PATH_END_WIDTH = 350;
+const WING_IMAGE_MIN_SCALE = 0.52;
+const WING_IMAGE_MAX_SCALE = 1.2;
+const WING_BOTTOM_TEXT_IMAGE_GAP_RATIO = 1.35;
+
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
 const getWingDirection = (spec: IStorylineSpec): StorylineWingDirection => {
   return normalizeLayout(spec.layout).direction === 'right' ? 'right' : 'left';
+};
+
+const getWingPathWidthRange = (spec: IStorylineSpec) => {
+  const lineStyle = (spec.line?.style ?? {}) as Record<string, unknown>;
+  const startWidth = Math.max(Number(lineStyle.startWidth ?? 50), 0.5);
+  const endWidth = Math.max(
+    Number(lineStyle.endWidth ?? lineStyle.lineWidth ?? WING_DEFAULT_PATH_END_WIDTH),
+    startWidth
+  );
+  return { startWidth, endWidth };
+};
+
+const getWingBlockPathRatio = (spec: IStorylineSpec, index: number) => {
+  const count = spec.data?.length ?? 0;
+  if (count <= 1) {
+    return 0.5;
+  }
+  return index / (count - 1);
+};
+
+const getWingBlockImageScale = (spec: IStorylineSpec, index: number) => {
+  const { startWidth, endWidth } = getWingPathWidthRange(spec);
+  const startScale = clamp(startWidth / WING_DEFAULT_PATH_END_WIDTH, WING_IMAGE_MIN_SCALE, WING_IMAGE_MAX_SCALE);
+  const endScale = clamp(endWidth / WING_DEFAULT_PATH_END_WIDTH, WING_IMAGE_MIN_SCALE, WING_IMAGE_MAX_SCALE);
+  return startScale + (endScale - startScale) * getWingBlockPathRatio(spec, index);
 };
 
 /**
@@ -98,6 +129,23 @@ const isTextOnLeft = (spec: IStorylineSpec, index: number) => {
   return direction === 'right' ? index % 2 === 1 : index % 2 === 0;
 };
 
+const isWingBottomBlock = (spec: IStorylineSpec, ctx: LayoutContext, index: number) => {
+  const count = spec.data?.length ?? 0;
+  if (count <= 0) {
+    return false;
+  }
+  let bottomIndex = 0;
+  let bottomY = Number.NEGATIVE_INFINITY;
+  for (let i = 0; i < count; i++) {
+    const center = getWingBlockCenter(spec, ctx, i);
+    if (center.y > bottomY) {
+      bottomY = center.y;
+      bottomIndex = i;
+    }
+  }
+  return index === bottomIndex;
+};
+
 /**
  * 主脉络曲线 mark：贯穿所有 block 的椭圆弧。
  * 用变宽的 filled path 模拟"丝带"——起点窄、终点宽，与信息图视觉一致。
@@ -109,8 +157,7 @@ export const buildWingArcMark = (spec: IStorylineSpec): IExtensionGroupMarkSpec 
   }
   const themeColor = getThemeColor(spec);
   const lineStyle = (spec.line?.style ?? {}) as Record<string, unknown>;
-  const startWidth = Math.max(Number(lineStyle.startWidth ?? 50), 0.5);
-  const endWidth = Math.max(Number(lineStyle.endWidth ?? lineStyle.lineWidth ?? 350), startWidth);
+  const { startWidth, endWidth } = getWingPathWidthRange(spec);
   return {
     type: 'group' as any,
     name: 'storyline-wing-arc',
@@ -252,8 +299,9 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
   const textHeight = WING_TEXT_BOX_HEIGHT;
   const contentHeight = 100000;
 
-  const imageWidth = Number(spec.image?.width ?? WING_BLOCK_IMAGE_SIZE);
-  const imageHeight = Number(spec.image?.height ?? WING_BLOCK_IMAGE_SIZE);
+  const imageScale = getWingBlockImageScale(spec, index);
+  const imageWidth = Math.round(Number(spec.image?.width ?? WING_BLOCK_IMAGE_SIZE) * imageScale);
+  const imageHeight = Math.round(Number(spec.image?.height ?? WING_BLOCK_IMAGE_SIZE) * imageScale);
   const imageBox = {
     x: -imageWidth / 2,
     y: -imageHeight / 2,
@@ -269,7 +317,8 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
   // - direction='left' → 第一个 block
   const isSpecialBelow =
     (direction === 'right' && count > 0 && index === count - 1) || (direction === 'left' && index === 0);
-  const isVerticalLayout = isSpecialBelow;
+  const isBottomAbove = isWingBottomBlock(spec, ctx, index);
+  const isVerticalLayout = isBottomAbove || isSpecialBelow;
 
   const textWidth = WING_TEXT_BOX_WIDTH;
   let textBox;
@@ -278,7 +327,28 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
   let onLeft;
   let verticalAlign; // 'below' | 'above' | null
 
-  if (isVerticalLayout) {
+  if (isBottomAbove) {
+    // 最下面的 block：text 在 image 上方，水平居中，并给更大的 y 方向间距。
+    const bottomTextImageGap = Math.round(WING_TEXT_IMAGE_GAP * WING_BOTTOM_TEXT_IMAGE_GAP_RATIO);
+    const textX = -textWidth / 2;
+    const textY = -imageHeight / 2 - bottomTextImageGap - textHeight;
+    textBox = { x: textX, y: textY, width: textWidth, height: textHeight };
+    contentBox = {
+      x: textX,
+      y: textY + titleHeight + titleToContentGap,
+      width: textWidth,
+      height: contentHeight
+    };
+    // 垂直引导线：从 text 底部到 image 顶部
+    connectorBox = {
+      x: -1,
+      y: textY + textHeight,
+      width: 2,
+      height: bottomTextImageGap
+    };
+    onLeft = false;
+    verticalAlign = 'above';
+  } else if (isVerticalLayout) {
     // 垂直布局：text 在 image 下方，水平居中
     const textX = -textWidth / 2;
     const textY = imageHeight / 2 + WING_TEXT_IMAGE_GAP;
