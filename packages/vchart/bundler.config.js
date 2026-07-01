@@ -69,10 +69,31 @@ const umdEntries = Object.keys(crossEnvs)
   .filter((input, index, arr) => arr.indexOf(input, 0) === index);
 
 const multiEnvRuntimeEntries = new Set(['index-lark', 'index-wx', 'index-wx-simple', ...esEntries]);
+const factoryRegistryExternalId = '@visactor/vchart/esm/core/factory-registry';
 
 function isBrowserRuntimeEntry(entry) {
   const entryName = path.basename(entry, path.extname(entry));
   return !multiEnvRuntimeEntries.has(entryName);
+}
+
+function externalizeFactoryRegistryForEsTotal() {
+  return {
+    name: 'externalize-vchart-factory-registry',
+    resolveId(source, importer) {
+      if (
+        source === './factory-registry' &&
+        importer &&
+        path.normalize(importer).endsWith(path.normalize('src/core/factory.ts'))
+      ) {
+        return {
+          id: factoryRegistryExternalId,
+          external: true
+        };
+      }
+
+      return null;
+    }
+  };
 }
 
 /**
@@ -97,6 +118,9 @@ module.exports = {
   },
   rollupOptions: {
     plugins
+  },
+  esTotalRollupOptions: {
+    prePlugins: [externalizeFactoryRegistryForEsTotal()]
   },
   nodeResolveOptions: entry =>
     isBrowserRuntimeEntry(entry)
