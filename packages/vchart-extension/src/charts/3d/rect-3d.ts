@@ -1,4 +1,4 @@
-import { createRect3d } from '@visactor/vrender-core';
+import { createRect3d } from './graphic-creator';
 import { registerRect3d } from '@visactor/vrender-kits/register/register-rect3d';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { registerRectAnimation } from '@visactor/vchart/esm/animation/config';

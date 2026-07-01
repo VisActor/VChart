@@ -7,7 +7,7 @@ import { MarkTypeEnum } from '../interface/type';
 import { registerPolygonAnimation } from '../../animation/config';
 import { registerPolygon } from '@visactor/vrender-kits/register/register-polygon';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
-import { createPolygon } from '@visactor/vrender-core';
+import { createPolygon } from '../../vrender-bridge';
 
 export class PolygonMark extends BasePolygonMark<IPolygonMarkSpec> implements IPolygonMark {
   static readonly type = MarkTypeEnum.polygon;

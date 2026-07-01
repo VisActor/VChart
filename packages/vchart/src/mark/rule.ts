@@ -7,7 +7,7 @@ import { MarkTypeEnum } from './interface/type';
 import { registerLine } from '@visactor/vrender-kits/register/register-line';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
-import { createLine } from '@visactor/vrender-core';
+import { createLine } from '../vrender-bridge';
 
 export class RuleMark extends BaseMark<IRuleMarkSpec> implements IRuleMark {
   static readonly type = MarkTypeEnum.rule;

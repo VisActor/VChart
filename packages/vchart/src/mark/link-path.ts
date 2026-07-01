@@ -5,7 +5,7 @@ import type { ILinkPathConfig, ILinkPathMark, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { GlyphMark, registerGlyphMark } from './glyph';
 import type { IGlyph, IPathGraphicAttribute } from '@visactor/vrender-core';
-import { createPath } from '@visactor/vrender-core';
+import { createPath } from '../vrender-bridge';
 import { registerPath } from '@visactor/vrender-kits/register/register-path';
 import type { Datum } from '../typings/common';
 

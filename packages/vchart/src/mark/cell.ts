@@ -7,7 +7,7 @@ import { registerShadowRoot } from '@visactor/vrender-kits/register/register-sha
 import { registerSymbol } from '@visactor/vrender-kits/register/register-symbol';
 import { registerSymbolDataLabel } from '@visactor/vrender-components';
 import type { IGraphic, ISymbolGraphicAttribute } from '@visactor/vrender-core';
-import { createSymbol } from '@visactor/vrender-core';
+import { createSymbol } from '../vrender-bridge';
 import { isNil } from '@visactor/vutils';
 import { BaseMark } from './base';
 

@@ -6,7 +6,7 @@ import type { IImageMark, IMarkStyle, MarkConstructor } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { registerImage } from '@visactor/vrender-kits/register/register-image';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
-import { createImage } from '@visactor/vrender-core';
+import { createImage } from '../vrender-bridge';
 
 export class ImageMark extends BaseMark<IImageMarkSpec> implements IImageMark {
   static readonly type = MarkTypeEnum.image;

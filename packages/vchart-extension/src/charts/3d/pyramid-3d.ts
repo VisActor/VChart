@@ -1,4 +1,4 @@
-import { createPyramid3d } from '@visactor/vrender-core';
+import { createPyramid3d } from './graphic-creator';
 import { registerPyramid3d } from '@visactor/vrender-kits/register/register-pyramid3d';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { registerPolygonAnimation } from '@visactor/vchart/esm/animation/config';

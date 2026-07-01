@@ -9,7 +9,7 @@ import type { IArcMark, IMarkOption, IMarkRaw, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { registerArcAnimation } from '../animation/config';
 import { polarToCartesian } from '@visactor/vutils';
-import { createArc } from '@visactor/vrender-core';
+import { createArc } from '../vrender-bridge';
 import { registerArcDataLabel } from '@visactor/vrender-components/label';
 import { registerArc } from '@visactor/vrender-kits/register/register-arc';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';

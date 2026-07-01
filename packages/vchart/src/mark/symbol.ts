@@ -5,7 +5,7 @@ import type { IMarkGraphic, IMarkStyle, ISymbolMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import type { ISymbolGraphicAttribute } from '@visactor/vrender-core';
-import { createSymbol } from '@visactor/vrender-core';
+import { createSymbol } from '../vrender-bridge';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { registerSymbol } from '@visactor/vrender-kits/register/register-symbol';
 import { registerSymbolDataLabel } from '@visactor/vrender-components/label/symbol';

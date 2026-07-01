@@ -38,16 +38,14 @@ export * from './compile/data/compilable-data';
 export * from './animation';
 export * from './interaction';
 
+export { createImage, createPath, graphicCreator } from './vrender-bridge';
+export { createArc3d, createPyramid3d, createRect3d } from './vrender-bridge';
 export {
-  createImage,
-  createPath,
-  createArc3d,
-  createPyramid3d,
-  createRect3d,
   registerDirectionalLight,
   registerOrthoCamera,
-  registerViewTransform3dPlugin,
-  graphicCreator,
+  registerViewTransform3dPlugin
+} from '@visactor/vrender-core/plugin/3d';
+export {
   type IGraphic,
   type IGlyph,
   type IGroup,
@@ -69,7 +67,9 @@ export {
   type ISymbolGraphicAttribute
 } from '@visactor/vrender-core';
 
-export { ACustomAnimate, AnimateExecutor, RotateBySphereAnimate } from '@visactor/vrender-animate';
+export { ACustomAnimate } from '@visactor/vrender-animate/custom/custom-animate';
+export { AnimateExecutor } from '@visactor/vrender-animate/executor/animate-executor';
+export { RotateBySphereAnimate } from '@visactor/vrender-animate/custom/sphere';
 
 // vrender-components
 export {
