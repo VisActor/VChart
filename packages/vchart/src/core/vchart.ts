@@ -30,7 +30,7 @@ import type { IParserOptions, IFields, Transform } from '@visactor/vdataset';
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
 import type { IGraphic, IStage, Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { vglobal } from '@visactor/vrender-core';
+import { vglobal } from '../vrender-bridge';
 import { isString, isValid, isNil, array, specTransform, functionTransform, removeUndefined } from '../util';
 import { createID } from '../util/id';
 import { convertPoint } from '../util/space';

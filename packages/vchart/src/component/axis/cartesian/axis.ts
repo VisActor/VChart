@@ -47,7 +47,7 @@ import type { DataSet } from '@visactor/vdataset';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic, IText } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
-import { createText } from '@visactor/vrender-core';
+import { createText } from '../../../vrender-bridge';
 import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
 import { getCombinedSizeOfRegions } from '../../../util/region';
 

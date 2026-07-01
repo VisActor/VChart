@@ -46,7 +46,7 @@ export interface IFactoryRegistry {
   formatter?: (text: string | number | string[] | number[], datum: any, formatter: string | string[]) => any;
 }
 
-export const factoryRegistry: IFactoryRegistry = {
+const createFactoryRegistry = (): IFactoryRegistry => ({
   charts: {},
   series: {},
   components: {},
@@ -77,4 +77,13 @@ export const factoryRegistry: IFactoryRegistry = {
   composedEventMap: {},
   tooltipProcessors: {},
   formatter: undefined
+});
+
+const factoryRegistryVersion = typeof __VERSION__ === 'undefined' ? 'unknown' : __VERSION__;
+const factoryRegistryKey = Symbol.for(`@visactor/vchart/factory-registry@${factoryRegistryVersion}`);
+const globalFactoryRegistry = globalThis as typeof globalThis & {
+  [factoryRegistryKey]?: IFactoryRegistry;
 };
+
+export const factoryRegistry: IFactoryRegistry =
+  globalFactoryRegistry[factoryRegistryKey] ?? (globalFactoryRegistry[factoryRegistryKey] = createFactoryRegistry());
