@@ -136,7 +136,12 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
       this._product.context.diffAttrs = diffAttrs;
 
       if (!this.hasAnimationByState(this._product.context.animationState)) {
-        hasAnimation ? this._product.setAttributesAndPreventAnimate(diffAttrs) : this._product.setAttributes(diffAttrs);
+        if (hasAnimation) {
+          this._product.setAttributesAndPreventAnimate(diffAttrs);
+          this._commitPreventedAnimationStaticAttrs(this._product as unknown as IMarkGraphic, diffAttrs);
+        } else {
+          this._product.setAttributes(diffAttrs);
+        }
       }
     } else {
       this._product.setAttributes(newAttrs);

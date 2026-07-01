@@ -6,7 +6,7 @@ import { MarkTypeEnum } from './interface/type';
 import { GlyphMark, registerGlyphMark } from './glyph';
 import type { IGlyph, IPathGraphicAttribute } from '@visactor/vrender-core';
 import { createPath } from '@visactor/vrender-core';
-import { registerPath } from '@visactor/vrender-kits';
+import { registerPath } from '@visactor/vrender-kits/register/register-path';
 import type { Datum } from '../typings/common';
 
 export const getHorizontalPath = (options: ILinkPathMarkSpec, ratio?: number) => {

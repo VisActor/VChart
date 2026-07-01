@@ -6,6 +6,7 @@ import VChart, {
   type ILineChartSpec,
   type IMark,
   type IMarkGraphic,
+  type IPieChartSpec,
   type ISeries,
   type IWordCloudChartSpec
 } from '../../../src';
@@ -218,6 +219,52 @@ const getGraphicDatum = (graphic: AnimatedGraphic) => {
 
 const getStateDatum = (datum: any) => (Array.isArray(datum) ? datum[0] : datum);
 
+const createCustomGroupSpec = (x: number): IBarChartSpec =>
+  ({
+    type: 'bar',
+    data: [
+      {
+        id: 'data',
+        values: [{ x: 'A', y: 1 }]
+      }
+    ],
+    xField: 'x',
+    yField: 'y',
+    animation: true,
+    customMark: [
+      {
+        type: 'group',
+        name: 'customGroup',
+        animation: true,
+        animationUpdate: false,
+        style: {
+          x,
+          y: 20,
+          width: 40,
+          height: 30
+        }
+      }
+    ]
+  } as unknown as IBarChartSpec);
+
+const getCustomGroupGraphic = (chart: VChart) => {
+  const mark = (chart.getChart() as any).getAllMarks().find((m: IMark) => m.name === 'customGroup');
+
+  expect(mark).toBeDefined();
+  if (!mark) {
+    throw new Error('Expected custom group mark to exist');
+  }
+
+  const group = mark.getGraphics?.()[0] as AnimatedGraphic;
+
+  expect(group).toBeDefined();
+  if (!group) {
+    throw new Error('Expected custom group graphic to exist');
+  }
+
+  return group;
+};
+
 const getBarGraphicByDatum = (chart: VChart, predicate: (datum: any) => boolean) => {
   const bar = getBarGraphics(chart).find(graphic => predicate(getGraphicDatum(graphic)));
 
@@ -307,6 +354,25 @@ const getBarClipPathRects = (chart: VChart) =>
   );
 
 const getBarClipPathGraphics = (chart: VChart) => (getBarMarkProduct(chart).attribute.path ?? []) as AnimatedGraphic[];
+
+const getPieGraphics = (chart: VChart) => {
+  const model = chart.getChart() as IChart;
+  const pieSeries = model.getAllSeries().find((series: ISeries) => series.type === 'pie');
+
+  expect(pieSeries).toBeDefined();
+  if (!pieSeries) {
+    throw new Error('Expected pie series to exist');
+  }
+
+  const pieMark = pieSeries.getMarks().find((mark: IMark) => mark.name === 'pie');
+
+  expect(pieMark).toBeDefined();
+  if (!pieMark) {
+    throw new Error('Expected pie mark to exist');
+  }
+
+  return pieMark.getGraphics() as AnimatedGraphic[];
+};
 
 const clickLegendItem = (chart: VChart, index: number) => {
   const legendModel = chart.getComponents().find((component: any) => component.type === 'discreteLegend') as any;
@@ -468,6 +534,57 @@ const createSeriesChangeDocBarSpec = (mode: 'grouped' | 'single') => {
     }
   } as unknown as IBarChartSpec;
 };
+
+const createPieLegendFilterSpec = (): IPieChartSpec =>
+  ({
+    type: 'pie',
+    width: 500,
+    height: 500,
+    padding: 0,
+    data: [
+      {
+        id: 'id0',
+        values: [
+          { group: '0', value: 455, labelValue: '455', dataIndex: 0, seriesIndex: 0, name: '满意' },
+          { group: '0', value: 655, labelValue: '655', dataIndex: 1, seriesIndex: 0, name: '一般' },
+          { group: '0', value: 160, labelValue: '160', dataIndex: 2, seriesIndex: 0, name: '差评' }
+        ]
+      }
+    ],
+    categoryField: 'dataIndex',
+    valueField: 'value',
+    startAngle: -90,
+    endAngle: -90,
+    animation: true,
+    animationAppear: {
+      duration: APPEAR_DURATION,
+      easing: 'linear'
+    },
+    animationUpdate: false,
+    animationEnter: false,
+    animationExit: false,
+    animationDisappear: false,
+    legends: {
+      orient: 'bottom',
+      position: 'middle',
+      visible: true,
+      allowAllCanceled: false,
+      item: {
+        visible: true
+      }
+    },
+    pie: {
+      state: {
+        hover: {
+          outerRadius: 1.06
+        }
+      },
+      style: {
+        cursor: 'pointer',
+        lineWidth: 2
+      }
+    }
+  } as unknown as IPieChartSpec);
 
 const createLineGrowthSpec = (values: Array<{ time: string; value: number }>) =>
   ({
@@ -1282,6 +1399,89 @@ const hasRenderableBarGeometry = (graphic: AnimatedGraphic) => {
 };
 
 describe('manual ticker animation regressions', () => {
+  it('keeps custom group final attributes after a prevented update animation', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createCustomGroupSpec(20), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      chart.updateSpecSync(createCustomGroupSpec(80));
+
+      const group = getCustomGroupGraphic(chart);
+
+      expectClose(group.attribute.x, 80);
+      expectClose(group.baseAttributes?.x, 80);
+      expectClose(getGraphicFinalAttribute(group).x, 80);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('keeps pie arc angles stable after legend filtering and hover state changes', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createPieLegendFilterSpec(), {
+      dom,
+      ticker,
+      animation: true
+    });
+
+    chart.renderSync();
+
+    try {
+      ticker.tickAt(APPEAR_DURATION + 50);
+
+      chart.setLegendSelectedDataByIndex(0, [0, 1]);
+      chart.renderSync();
+
+      const updateStart = ticker.getTime();
+      ticker.tickAt(updateStart + UPDATE_DURATION + 50);
+
+      const secondPie = getPieGraphics(chart).find(graphic => graphic.context.data[0]?.dataIndex === 1);
+      const expectedStartAngle = -Math.PI / 2 + (Math.PI * 2 * 455) / (455 + 655);
+      const expectedEndAngle = -Math.PI / 2 + Math.PI * 2;
+
+      expect(secondPie).toBeDefined();
+      if (!secondPie) {
+        throw new Error('Expected second pie graphic to exist');
+      }
+
+      expectClose(secondPie.attribute.startAngle, expectedStartAngle);
+      expectClose(secondPie.attribute.endAngle, expectedEndAngle);
+      expectClose(secondPie.baseAttributes?.startAngle, expectedStartAngle);
+      expectClose(secondPie.baseAttributes?.endAngle, expectedEndAngle);
+      expectClose(getGraphicFinalAttribute(secondPie).startAngle, expectedStartAngle);
+      expectClose(getGraphicFinalAttribute(secondPie).endAngle, expectedEndAngle);
+
+      secondPie.useStates(['hover']);
+      expectClose(secondPie.attribute.startAngle, expectedStartAngle);
+      expectClose(secondPie.attribute.endAngle, expectedEndAngle);
+
+      ticker.tickAt(ticker.getTime() + UPDATE_DURATION + 50);
+
+      expectClose(secondPie.attribute.startAngle, expectedStartAngle);
+      expectClose(secondPie.attribute.endAngle, expectedEndAngle);
+      expectClose(secondPie.baseAttributes?.startAngle, expectedStartAngle);
+      expectClose(secondPie.baseAttributes?.endAngle, expectedEndAngle);
+      expectClose(getGraphicFinalAttribute(secondPie).startAngle, expectedStartAngle);
+      expectClose(getGraphicFinalAttribute(secondPie).endAngle, expectedEndAngle);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
   it('runs word cloud scaleIn appear from zero scale', () => {
     const { container, dom } = createChartContainer();
     const ticker = createManualTicker();

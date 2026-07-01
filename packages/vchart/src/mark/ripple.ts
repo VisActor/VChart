@@ -7,7 +7,7 @@ import { GlyphMark, registerGlyphMark } from './glyph';
 import type { Datum } from '../typings/common';
 import { createSymbol, type IGlyph, type ISymbolGraphicAttribute } from '@visactor/vrender-core';
 import { clamp } from '@visactor/vutils';
-import { registerSymbol } from '@visactor/vrender-kits';
+import { registerSymbol } from '@visactor/vrender-kits/register/register-symbol';
 
 export class RippleMark extends GlyphMark<IRippleMarkSpec> implements IRippleMark {
   static readonly type = MarkTypeEnum.ripple;

@@ -81,14 +81,12 @@ export {
 } from '@visactor/vrender-components';
 
 // vrender-kits
-export {
-  registerLine,
-  registerRect,
-  registerArc3d,
-  registerPyramid3d,
-  registerRect3d,
-  registerShadowRoot
-} from '@visactor/vrender-kits';
+export { registerLine } from '@visactor/vrender-kits/register/register-line';
+export { registerRect } from '@visactor/vrender-kits/register/register-rect';
+export { registerArc3d } from '@visactor/vrender-kits/register/register-arc3d';
+export { registerPyramid3d } from '@visactor/vrender-kits/register/register-pyramid3d';
+export { registerRect3d } from '@visactor/vrender-kits/register/register-rect3d';
+export { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 
 // vlayouts
 export * from '@visactor/vlayouts';

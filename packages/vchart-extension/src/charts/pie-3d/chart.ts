@@ -1,5 +1,7 @@
-import type { AdaptiveSpec } from '@visactor/vchart';
-import { BasePieChart, Factory, registerMarkTooltipProcessor } from '@visactor/vchart';
+import { Factory } from '@visactor/vchart/esm/core/factory';
+import type { AdaptiveSpec } from '@visactor/vchart/esm/typings/spec/common';
+import { BasePieChart } from '@visactor/vchart/esm/chart/pie/base/base';
+import { registerMarkTooltipProcessor } from '@visactor/vchart/esm/component/tooltip/processor/mark-tooltip';
 import type { IPie3dChartSpec } from './interface';
 import { ChartType3dEnum, SeriesType3dEnum } from '../3d/enum';
 import { register3DPlugin } from '../3d/plugin';

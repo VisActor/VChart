@@ -7,7 +7,8 @@ import { createLine, createRect, type IGlyph, type ILineGraphicAttribute } from 
 import { GlyphMark, registerGlyphMark } from './glyph';
 import type { Datum } from '../typings/common';
 import { isValidNumber } from '@visactor/vutils';
-import { registerLine, registerRect } from '@visactor/vrender-kits';
+import { registerLine } from '@visactor/vrender-kits/register/register-line';
+import { registerRect } from '@visactor/vrender-kits/register/register-rect';
 
 const BAR_BOX_PLOT_CHANNELS = [
   'x',
