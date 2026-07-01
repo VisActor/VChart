@@ -37,11 +37,11 @@ importers:
         specifier: 1.2.4-alpha.5
         version: 1.2.4-alpha.5
       '@visactor/vrender':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-kits':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vtable':
         specifier: 1.19.0-alpha.0
         version: 1.19.0-alpha.0
@@ -203,11 +203,11 @@ importers:
         specifier: workspace:2.1.1
         version: link:../vchart
       '@visactor/vrender-core':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-kits':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -294,11 +294,11 @@ importers:
         specifier: workspace:2.1.1
         version: link:../vchart-extension
       '@visactor/vrender-core':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-kits':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -529,20 +529,20 @@ importers:
         specifier: ~1.0.23
         version: 1.0.23
       '@visactor/vrender':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-animate':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-components':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-core':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-kits':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vscale':
         specifier: ~1.0.23
         version: 1.0.23
@@ -695,17 +695,17 @@ importers:
         specifier: ~1.0.23
         version: 1.0.23
       '@visactor/vrender-animate':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-components':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-core':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-kits':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -1263,14 +1263,14 @@ importers:
         specifier: workspace:2.1.1
         version: link:../../packages/vchart
       '@visactor/vrender':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-core':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vrender-kits':
-        specifier: ~1.1.3
-        version: 1.1.3
+        specifier: ~1.1.4-alpha.0
+        version: 1.1.4-alpha.0
       '@visactor/vutils':
         specifier: ~1.0.23
         version: 1.0.23
@@ -2942,8 +2942,8 @@ packages:
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
 
-  '@types/vinyl-fs@3.0.7':
-    resolution: {integrity: sha512-ojGFhBnh5pj5Crf2yBOk3rjJXUX2U4W9z6tZ7hn6pUbQa/J8KH8NrXem0POYVQWI3ifnx4T65DPktuWfxc3iiA==}
+  '@types/vinyl-fs@3.0.8':
+    resolution: {integrity: sha512-L36QEbDQVv5zaPawqqjrpOOR03BIK3iQ4wa2Rrk376CER8Vbu0Ao8XPNhjM14anStU28solakJLThY7GPp40Jw==}
 
   '@types/vinyl@2.0.7':
     resolution: {integrity: sha512-4UqPv+2567NhMQuMLdKAyK4yzrfCqwaTt6bLhHEs8PFcxbHILsrxaY63n4wgE/BRLDWDQeI+WcTmkXKExh9hQg==}
@@ -3079,29 +3079,29 @@ packages:
   '@visactor/vrender-animate@1.0.0-alpha.18':
     resolution: {integrity: sha512-9kTtvp1ef+1t+AtUiza6A7qBQP7SmvOu3/ILGrqs/HGdZVj1XGjbYvD/X/zwKJ3LEb7gGV5fa8x95e4czTvRSA==}
 
-  '@visactor/vrender-animate@1.1.3':
-    resolution: {integrity: sha512-uqm0ihI+0dIGxMvvoDUbK6a1ifSTIXWjJmyLYOO3vldcmtvzbokaDk44h3RT9l+NwwswxO6TtTRykmBZZ6Ql+Q==}
+  '@visactor/vrender-animate@1.1.4-alpha.0':
+    resolution: {integrity: sha512-mH3oakgjy/5JDUJDipJpCKeHSDHkFI207WBtyTPj8OwfGREkS3lKKkaGdghxuNw5RFKo6Rtck0yexfzbLAziLA==}
 
   '@visactor/vrender-components@1.0.0-alpha.18':
     resolution: {integrity: sha512-7Euq+ZfswL74n2pgkaqZSsPxoSa5SPIGyXatN1eUrdzM2Z0kX6U0RcJg01fctvRs4op6WhcecRLqGvnHcBeb9Q==}
 
-  '@visactor/vrender-components@1.1.3':
-    resolution: {integrity: sha512-l5O9sUXF99V3b4t2swfgD91VxdmPB/t5SQGz/cMl7nyecuBU6IK0kVDzp1OC3G35nxYxCGp3S1IHT6Qk8K+Ndw==}
+  '@visactor/vrender-components@1.1.4-alpha.0':
+    resolution: {integrity: sha512-A/flffMUj02oEYfss7diSI4CIVtwgQ2Vn2RQOP8eWG3XmPk/jGayUiOribLSH2vHUePK1SqbdBmTrdvmWeO8GQ==}
 
   '@visactor/vrender-core@1.0.0-alpha.18':
     resolution: {integrity: sha512-0ihtNvCyNkOsWPFgRqowHzq0IcQgS2Wl/nPpKbVtxWKveenwlhA+ZKoQvam6VJyBY7jeNe1pROy0mJMDyVAJQw==}
 
-  '@visactor/vrender-core@1.1.3':
-    resolution: {integrity: sha512-6vsx0J5wX/QHfBk8cJ9o2/QVoodUYyjYCWJR+SuSLzldWXsV6+e1Lyrh2lFmwZvdSzz69FlwSMYcQ5i/IZ6OVQ==}
+  '@visactor/vrender-core@1.1.4-alpha.0':
+    resolution: {integrity: sha512-d+U+B1LHNMxLw31iCKFAkOAv/vP8taQuLb+XIA/AgH8eI5nVZdu6m8tjRqoNXWUnlyZRD+bnEL61Faspy/sQyA==}
 
   '@visactor/vrender-kits@1.0.0-alpha.18':
     resolution: {integrity: sha512-Tvolkq+4G8qiPFZo0Aj8M//Yr6jR2h8FNkFEyWM9gbQbEiTkjpmHAJOYnoSsaPtPrcMSlG4EhJSFDk6ymANHVg==}
 
-  '@visactor/vrender-kits@1.1.3':
-    resolution: {integrity: sha512-Nw+JjBhtNQLUYZCs8KBpf5CHNM2FzrKFsNPTzry5+Qphj4hfpbGr0CsUeIZuVkwRRYEYAgqycINxdZEPsPvpgA==}
+  '@visactor/vrender-kits@1.1.4-alpha.0':
+    resolution: {integrity: sha512-4tMU9OYby2BQVxKQQPuInDpJp1Q9eQKNifKP/RHLSHRwyfRNIt8SBhvzeYWn9hspV8Vf66Sb/b4B3y1iabXK5g==}
 
-  '@visactor/vrender@1.1.3':
-    resolution: {integrity: sha512-Ccu8erRCvDtHdSN5+VQqGUOSg7Cw37FqiQ6RlkZGzVi47DjOqgUy7AVW9r9lPm8ogDb/z5oAQStgIoFm3Nyeng==}
+  '@visactor/vrender@1.1.4-alpha.0':
+    resolution: {integrity: sha512-e9dhFsbbwvifM8UqemV12KL8Ba/eWICV+xjOm0Inv18hkbVXXY8qOhuwe8DS6zavCumgOmJoQN/TU6Fra4+kFA==}
 
   '@visactor/vscale@0.18.18':
     resolution: {integrity: sha512-iRG4kv+5Fv4KX3AxEfV95XU3I6OmF0QizyAhqHxKa7L1MaT+MRvDDk5zHWf1E8gialLbL2xDe3GnT6g/4u5jhA==}
@@ -4362,8 +4362,8 @@ packages:
   camelize@1.0.1:
     resolution: {integrity: sha512-dU+Tx2fsypxTgtLoE36npi3UqcjSSMNYfkqgmoEhtZrraP5VWq0K7FkWVTYa8eMPtnU/G2txVsfdCJTn9uzpuQ==}
 
-  caniuse-lite@1.0.30001799:
-    resolution: {integrity: sha512-hG1bReV+OUU+MOqK4t/ZWI0tZOyz3rqS9XuhOUz1cIcbwBKjOyJEJuw9ER5JuNyqxNk8u/JUVbGibBOL1yrjFw==}
+  caniuse-lite@1.0.30001800:
+    resolution: {integrity: sha512-MMHtuAz9Ys840zAY5F4k6fV5GaivZ9sPk+nz0mY+GYVzRBnYkN0mpqkSR92oWRQ19yQWo4HvBV/FnC16AJX8MA==}
 
   canvas@2.11.2:
     resolution: {integrity: sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==}
@@ -5439,8 +5439,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.381:
-    resolution: {integrity: sha512-n9Wa6yB+vDsGuA8AKbl/0z7HbvWqt5jxIdvr1IUicd0ryPrk7/xzwqLv8D9AbbvZ6avVNtXYLTfmgFHkwkyelg==}
+  electron-to-chromium@1.5.384:
+    resolution: {integrity: sha512-g6KAKY1vkYsADvSPWvdJsuYT0ixdcu6lUtD9P/wJKGBEDlZVXh2AX42j1mPqqaQPDluWjara9ziQ7xqAeXCt5A==}
 
   electron@11.5.0:
     resolution: {integrity: sha512-WjNDd6lGpxyiNjE3LhnFCAk/D9GIj1rU3GSDealVShhkkkPR3Vh4q8ErXGDl1OAO/faomVa10KoFPUN/pLbNxg==}
@@ -10695,8 +10695,8 @@ packages:
   simple-get@3.1.1:
     resolution: {integrity: sha512-CQ5LTKGfCpvE1K0n2us+kuMPbk/q0EKl82s4aheV9oXjFEz6W/Y7oQFVJuU6QG77hRT4Ghb5RURteF5vnWjupA==}
 
-  simple-statistics@7.9.1:
-    resolution: {integrity: sha512-F2KqbV8mNYuARZdIuKtqv8Ax0s5KLKy9kEsaAFnKJxkTU+ZjmBae5ssp6mtPqpAj+D29OITOSbm9aiSkEPo1cA==}
+  simple-statistics@7.9.2:
+    resolution: {integrity: sha512-UpGdisgfSP4/I1epPL93cOlEodV6Nz6T4D3uEVuwAoIdzBv0LxaCuOU1nDTe08jM4v+aPkO7ZyAHDPVSiC72IQ==}
 
   simple-swizzle@0.2.4:
     resolution: {integrity: sha512-nAu1WFPQSMNr2Zn9PGSZK9AGn4t/y97lEm+MXTtUDwfP0ksAIX4nO+6ruD9Jwut4C49SB1Ws+fbXsm/yScWOHw==}
@@ -14643,7 +14643,7 @@ snapshots:
   '@types/gulp@4.0.10':
     dependencies:
       '@types/undertaker': 1.2.8
-      '@types/vinyl-fs': 3.0.7
+      '@types/vinyl-fs': 3.0.8
       chokidar: 3.6.0
 
   '@types/highlightjs@9.12.6': {}
@@ -14792,7 +14792,7 @@ snapshots:
 
   '@types/unist@2.0.11': {}
 
-  '@types/vinyl-fs@3.0.7':
+  '@types/vinyl-fs@3.0.8':
     dependencies:
       '@types/glob-stream': 8.0.3
       '@types/node': 20.14.10
@@ -14973,7 +14973,7 @@ snapshots:
       path-browserify: 1.0.1
       pbf: 3.3.0
       point-at-length: 1.1.0
-      simple-statistics: 7.9.1
+      simple-statistics: 7.9.2
       simplify-geojson: 1.0.5
       topojson-client: 3.1.0
 
@@ -14993,7 +14993,7 @@ snapshots:
       path-browserify: 1.0.1
       pbf: 3.3.0
       point-at-length: 1.1.0
-      simple-statistics: 7.9.1
+      simple-statistics: 7.9.2
       simplify-geojson: 1.0.5
       topojson-client: 3.1.0
 
@@ -15013,7 +15013,7 @@ snapshots:
       path-browserify: 1.0.1
       pbf: 3.3.0
       point-at-length: 1.1.0
-      simple-statistics: 7.9.1
+      simple-statistics: 7.9.2
       simplify-geojson: 1.0.5
       topojson-client: 3.1.0
 
@@ -15047,9 +15047,9 @@ snapshots:
       '@visactor/vrender-core': 1.0.0-alpha.18
       '@visactor/vutils': 1.0.4
 
-  '@visactor/vrender-animate@1.1.3':
+  '@visactor/vrender-animate@1.1.4-alpha.0':
     dependencies:
-      '@visactor/vrender-core': 1.1.3
+      '@visactor/vrender-core': 1.1.4-alpha.0
       '@visactor/vutils': 1.0.23
 
   '@visactor/vrender-components@1.0.0-alpha.18':
@@ -15060,11 +15060,11 @@ snapshots:
       '@visactor/vscale': 1.0.4
       '@visactor/vutils': 1.0.4
 
-  '@visactor/vrender-components@1.1.3':
+  '@visactor/vrender-components@1.1.4-alpha.0':
     dependencies:
-      '@visactor/vrender-animate': 1.1.3
-      '@visactor/vrender-core': 1.1.3
-      '@visactor/vrender-kits': 1.1.3
+      '@visactor/vrender-animate': 1.1.4-alpha.0
+      '@visactor/vrender-core': 1.1.4-alpha.0
+      '@visactor/vrender-kits': 1.1.4-alpha.0
       '@visactor/vscale': 1.0.23
       '@visactor/vutils': 1.0.23
 
@@ -15073,7 +15073,7 @@ snapshots:
       '@visactor/vutils': 1.0.4
       color-convert: 2.0.1
 
-  '@visactor/vrender-core@1.1.3':
+  '@visactor/vrender-core@1.1.4-alpha.0':
     dependencies:
       '@visactor/vutils': 1.0.23
       color-convert: 2.0.1
@@ -15087,21 +15087,21 @@ snapshots:
       lottie-web: 5.13.0
       roughjs: 4.5.2
 
-  '@visactor/vrender-kits@1.1.3':
+  '@visactor/vrender-kits@1.1.4-alpha.0':
     dependencies:
       '@resvg/resvg-js': 2.4.1
-      '@visactor/vrender-core': 1.1.3
+      '@visactor/vrender-core': 1.1.4-alpha.0
       '@visactor/vutils': 1.0.23
       gifuct-js: 2.1.2
       lottie-web: 5.13.0
       roughjs: 4.6.6
 
-  '@visactor/vrender@1.1.3':
+  '@visactor/vrender@1.1.4-alpha.0':
     dependencies:
-      '@visactor/vrender-animate': 1.1.3
-      '@visactor/vrender-components': 1.1.3
-      '@visactor/vrender-core': 1.1.3
-      '@visactor/vrender-kits': 1.1.3
+      '@visactor/vrender-animate': 1.1.4-alpha.0
+      '@visactor/vrender-components': 1.1.4-alpha.0
+      '@visactor/vrender-core': 1.1.4-alpha.0
+      '@visactor/vrender-kits': 1.1.4-alpha.0
 
   '@visactor/vscale@0.18.18':
     dependencies:
@@ -15887,7 +15887,7 @@ snapshots:
   autoprefixer@10.4.13(postcss@8.4.21):
     dependencies:
       browserslist: 4.28.4
-      caniuse-lite: 1.0.30001799
+      caniuse-lite: 1.0.30001800
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.1.1
@@ -15897,7 +15897,7 @@ snapshots:
   autoprefixer@8.6.5:
     dependencies:
       browserslist: 3.2.8
-      caniuse-lite: 1.0.30001799
+      caniuse-lite: 1.0.30001800
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       postcss: 6.0.23
@@ -15906,7 +15906,7 @@ snapshots:
   autoprefixer@9.7.4:
     dependencies:
       browserslist: 4.28.4
-      caniuse-lite: 1.0.30001799
+      caniuse-lite: 1.0.30001800
       chalk: 2.4.2
       normalize-range: 0.1.2
       num2fraction: 1.2.2
@@ -15916,7 +15916,7 @@ snapshots:
   autoprefixer@9.8.8:
     dependencies:
       browserslist: 4.28.4
-      caniuse-lite: 1.0.30001799
+      caniuse-lite: 1.0.30001800
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -16593,14 +16593,14 @@ snapshots:
 
   browserslist@3.2.8:
     dependencies:
-      caniuse-lite: 1.0.30001799
-      electron-to-chromium: 1.5.381
+      caniuse-lite: 1.0.30001800
+      electron-to-chromium: 1.5.384
 
   browserslist@4.28.4:
     dependencies:
       baseline-browser-mapping: 2.10.40
-      caniuse-lite: 1.0.30001799
-      electron-to-chromium: 1.5.381
+      caniuse-lite: 1.0.30001800
+      electron-to-chromium: 1.5.384
       node-releases: 2.0.50
       update-browserslist-db: 1.2.3(browserslist@4.28.4)
 
@@ -16815,7 +16815,7 @@ snapshots:
 
   camelize@1.0.1: {}
 
-  caniuse-lite@1.0.30001799: {}
+  caniuse-lite@1.0.30001800: {}
 
   canvas@2.11.2(encoding@0.1.13):
     dependencies:
@@ -18089,7 +18089,7 @@ snapshots:
     dependencies:
       jake: 10.9.4
 
-  electron-to-chromium@1.5.381: {}
+  electron-to-chromium@1.5.384: {}
 
   electron@11.5.0:
     dependencies:
@@ -24895,7 +24895,7 @@ snapshots:
       once: 1.4.0
       simple-concat: 1.0.1
 
-  simple-statistics@7.9.1: {}
+  simple-statistics@7.9.2: {}
 
   simple-swizzle@0.2.4:
     dependencies:

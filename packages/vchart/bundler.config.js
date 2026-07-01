@@ -82,7 +82,7 @@ function externalizeFactoryRegistryForEsTotal() {
     name: 'externalize-vchart-factory-registry',
     resolveId(source, importer) {
       if (
-        source === './factory-registry' &&
+        (source === './factory-registry' || source === factoryRegistryExternalId) &&
         importer &&
         path.normalize(importer).endsWith(path.normalize('src/core/factory.ts'))
       ) {
