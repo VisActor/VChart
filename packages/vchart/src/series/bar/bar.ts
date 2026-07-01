@@ -39,7 +39,7 @@ import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
 import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
-import { createRect } from '@visactor/vrender-core';
+import { createRect } from '../../vrender-bridge';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';

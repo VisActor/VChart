@@ -1,6 +1,6 @@
 import { registerArc3d } from '@visactor/vrender-kits/register/register-arc3d';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
-import { createArc3d } from '@visactor/vrender-core';
+import { createArc3d } from './graphic-creator';
 import { registerArcAnimation } from '@visactor/vchart/esm/animation/config';
 import { Factory } from '@visactor/vchart/esm/core/factory';
 import { BaseArcMark } from '@visactor/vchart/esm/mark/arc';

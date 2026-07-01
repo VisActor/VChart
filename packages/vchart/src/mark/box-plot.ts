@@ -3,7 +3,8 @@ import type { BoxPlotShaftShape, IBoxPlotMarkSpec } from '../typings/visual';
 import type { IBoxPlotMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { createLine, createRect, type IGlyph, type ILineGraphicAttribute } from '@visactor/vrender-core';
+import type { IGlyph, ILineGraphicAttribute } from '@visactor/vrender-core';
+import { createLine, createRect } from '../vrender-bridge';
 import { GlyphMark, registerGlyphMark } from './glyph';
 import type { Datum } from '../typings/common';
 import { isValidNumber } from '@visactor/vutils';

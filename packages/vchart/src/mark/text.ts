@@ -9,7 +9,7 @@ import { registerRichtext } from '@visactor/vrender-kits/register/register-richt
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { registerText } from '@visactor/vrender-kits/register/register-text';
 import type { IGraphic, IRichTextGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
-import { createRichText, createText } from '@visactor/vrender-core';
+import { createRichText, createText } from '../vrender-bridge';
 import { isObject, isValid } from '@visactor/vutils';
 
 export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMark {

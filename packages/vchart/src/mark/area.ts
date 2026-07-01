@@ -9,7 +9,7 @@ import { registerArea } from '@visactor/vrender-kits/register/register-area';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { registerLineDataLabel } from '@visactor/vrender-components/label/line';
 import { registerSymbolDataLabel } from '@visactor/vrender-components/label/symbol';
-import { createArea } from '@visactor/vrender-core';
+import { createArea } from '../vrender-bridge';
 
 const AREA_SEGMENT_ATTRIBUTES = [
   ...LINE_SEGMENT_ATTRIBUTES,

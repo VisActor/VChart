@@ -6,7 +6,7 @@ import type { IMarkStyle, IPathMark } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { registerPath } from '@visactor/vrender-kits/register/register-path';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
-import { createPath } from '@visactor/vrender-core';
+import { createPath } from '../vrender-bridge';
 
 export class PathMark extends BaseMark<IPathMarkSpec> implements IPathMark {
   static readonly type = MarkTypeEnum.path;

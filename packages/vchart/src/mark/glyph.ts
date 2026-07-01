@@ -1,7 +1,7 @@
 import type { ICommonSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
 import type { IGlyph, IGlyphGraphicAttribute, IGraphic } from '@visactor/vrender-core';
-import { createGlyph } from '@visactor/vrender-core';
+import { createGlyph } from '../vrender-bridge';
 import type { IGlyphMark } from './interface/mark';
 import type { MarkType } from './interface/type';
 import { Factory } from '../core/factory';

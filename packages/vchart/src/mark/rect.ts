@@ -8,7 +8,7 @@ import { registerRectAnimation } from '../animation/config';
 import { registerRect } from '@visactor/vrender-kits/register/register-rect';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { registerRectDataLabel } from '@visactor/vrender-components/label';
-import { createRect } from '@visactor/vrender-core';
+import { createRect } from '../vrender-bridge';
 
 export class RectMark extends BaseMark<IRectMarkSpec> implements IRectMark {
   static readonly type = MarkTypeEnum.rect;

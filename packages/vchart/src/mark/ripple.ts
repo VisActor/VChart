@@ -5,7 +5,8 @@ import type { IMarkStyle, IRippleMark } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { GlyphMark, registerGlyphMark } from './glyph';
 import type { Datum } from '../typings/common';
-import { createSymbol, type IGlyph, type ISymbolGraphicAttribute } from '@visactor/vrender-core';
+import type { IGlyph, ISymbolGraphicAttribute } from '@visactor/vrender-core';
+import { createSymbol } from '../vrender-bridge';
 import { clamp } from '@visactor/vutils';
 import { registerSymbol } from '@visactor/vrender-kits/register/register-symbol';
 

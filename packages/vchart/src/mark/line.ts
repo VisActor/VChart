@@ -7,7 +7,7 @@ import type { ILineMark, IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import { registerLineOrAreaAnimation } from '../animation/config';
 import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
-import { createLine } from '@visactor/vrender-core';
+import { createLine } from '../vrender-bridge';
 import { registerLine } from '@visactor/vrender-kits/register/register-line';
 import { registerShadowRoot } from '@visactor/vrender-kits/register/register-shadowRoot';
 import { registerLineDataLabel } from '@visactor/vrender-components/label/line';
