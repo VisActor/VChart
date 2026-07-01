@@ -70,6 +70,7 @@ const umdEntries = Object.keys(crossEnvs)
 
 const multiEnvRuntimeEntries = new Set(['index-lark', 'index-wx', 'index-wx-simple', ...esEntries]);
 const factoryRegistryExternalId = '@visactor/vchart/esm/core/factory-registry';
+const vrenderExternalRE = /^@visactor\/vrender(?:-[^/]+)?(?:\/.*)?$/;
 
 function isBrowserRuntimeEntry(entry) {
   const entryName = path.basename(entry, path.extname(entry));
@@ -120,6 +121,7 @@ module.exports = {
     plugins
   },
   esTotalRollupOptions: {
+    external: id => vrenderExternalRE.test(id),
     prePlugins: [externalizeFactoryRegistryForEsTotal()]
   },
   nodeResolveOptions: entry =>

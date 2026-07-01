@@ -37,10 +37,10 @@ importers:
         specifier: 1.2.4-alpha.5
         version: 1.2.4-alpha.5
       '@visactor/vrender':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-kits':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vtable':
         specifier: 1.19.0-alpha.0
@@ -203,10 +203,10 @@ importers:
         specifier: workspace:2.1.1
         version: link:../vchart
       '@visactor/vrender-core':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-kits':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vutils':
         specifier: ~1.0.23
@@ -294,10 +294,10 @@ importers:
         specifier: workspace:2.1.1
         version: link:../vchart-extension
       '@visactor/vrender-core':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-kits':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vutils':
         specifier: ~1.0.23
@@ -529,19 +529,19 @@ importers:
         specifier: ~1.0.23
         version: 1.0.23
       '@visactor/vrender':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-animate':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-components':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-core':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-kits':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vscale':
         specifier: ~1.0.23
@@ -695,16 +695,16 @@ importers:
         specifier: ~1.0.23
         version: 1.0.23
       '@visactor/vrender-animate':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-components':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-core':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-kits':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vutils':
         specifier: ~1.0.23
@@ -1263,13 +1263,13 @@ importers:
         specifier: workspace:2.1.1
         version: link:../../packages/vchart
       '@visactor/vrender':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-core':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vrender-kits':
-        specifier: ^1.1.3
+        specifier: ~1.1.3
         version: 1.1.3
       '@visactor/vutils':
         specifier: ~1.0.23
