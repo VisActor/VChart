@@ -1,5 +1,4 @@
 import * as path from 'path';
-import localConf from './vite.config.local';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
@@ -7,7 +6,7 @@ import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 export default {
   server: {
     host: '0.0.0.0',
-    port: localConf.port || 3000,
+    port: 3000,
     https: !!process.env.HTTPS,
     open: true
   },
