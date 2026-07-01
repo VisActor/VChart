@@ -1,0 +1,11 @@
+import { createArc, createArea, createGlyph, createGraphic, createGroup, createImage, createLine, createPath, createPolygon, createRect, createRichText, createSymbol, createText, graphicCreator } from '@visactor/vrender-core/graphic/creator';
+import { vglobal } from '@visactor/vrender-core/global';
+import { CustomPath2D } from '@visactor/vrender-core/path';
+import { registerHtmlAttributePlugin, registerReactAttributePlugin } from '@visactor/vrender-core/plugin/attribute';
+import { registerAnimate as registerVRenderAnimate } from '@visactor/vrender-animate/register';
+import type { IArc3d, IArc3dGraphicAttribute, IPyramid3d, IPyramid3dGraphicAttribute, IRect3d, IRect3dGraphicAttribute, IStage } from '@visactor/vrender-core';
+export { createArc, createArea, createGlyph, createGraphic, createGroup, createImage, createLine, createPath, createPolygon, createRect, createRichText, createSymbol, createText, graphicCreator, CustomPath2D, registerHtmlAttributePlugin, registerReactAttributePlugin, registerVRenderAnimate, vglobal };
+export declare const createArc3d: (attributes: IArc3dGraphicAttribute) => IArc3d;
+export declare const createPyramid3d: (attributes: IPyramid3dGraphicAttribute) => IPyramid3d;
+export declare const createRect3d: (attributes: IRect3dGraphicAttribute) => IRect3d;
+export declare const waitForAllSubLayers: (stage: IStage) => Promise<null[]>;
