@@ -60,11 +60,7 @@ export const funnel = (originData: Array<DataView>, op: IFunnelOpt) => {
     const value = Number.parseFloat(d[valueField]);
     return isValidNumber(value) ? Math.max(m, value) : m;
   }, -Infinity);
-  const min = data.reduce((m, d) => {
-    const value = Number.parseFloat(d[valueField]);
-    return isValidNumber(value) ? Math.min(m, value) : m;
-  }, Infinity);
-  const rangeMin = range?.min ?? min;
+  const rangeMin = range?.min ?? 0;
   const rangeMax = range?.max ?? max;
   const getValueRatio = (value: number) => {
     if (!isValidNumber(value) || !isValidNumber(rangeMin) || !isValidNumber(rangeMax)) {
