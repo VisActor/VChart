@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: stabilize BytePack ESM VRender registration paths and preserve seriesStyle after theme updates",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "openai@example.com"
+}
