@@ -9,7 +9,7 @@ import type { IBoundsLike } from '@visactor/vutils';
 import { array, isArray, isObject, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import { createGroup, vglobal, waitForAllSubLayers } from '@visactor/vrender-core';
+import { createGroup, vglobal, waitForAllSubLayers } from '../vrender-bridge';
 import type { IColor, IEventTarget, IGroup, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
