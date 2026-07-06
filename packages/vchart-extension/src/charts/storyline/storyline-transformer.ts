@@ -52,6 +52,9 @@ export class StorylineChartSpecTransformer extends CommonChartSpecTransformer<an
 const applyDefaultPadding = (spec: any) => {
   const LARGE = 100;
   const SMALL = 20;
+  const WING_BASE_PADDING = 40;
+  const WING_DIRECTION_PADDING = 100;
+  const WING_TITLE_IMAGE_BOTTOM = 4;
   // 给 textBox（240px）+ 一定呼吸空间，避免内容超出画布
   const TEXT_RESERVE = 280;
   const arc = isArc(spec as IStorylineSpec);
@@ -59,6 +62,11 @@ const applyDefaultPadding = (spec: any) => {
   const arcUp = arc && !arcDown;
   const portrait = isPortrait(spec as IStorylineSpec);
   const wing = isWing(spec as IStorylineSpec);
+  const wingDirection = wing ? normalizeLayout((spec as IStorylineSpec).layout).direction : undefined;
+  const wingLeft = wing && wingDirection !== 'right';
+  const wingRight = wing && wingDirection === 'right';
+  const wingTopPadding = wingRight ? WING_DIRECTION_PADDING : WING_BASE_PADDING;
+  const wingBottomPadding = wingLeft ? WING_DIRECTION_PADDING : WING_BASE_PADDING;
   const clock = isClock(spec as IStorylineSpec);
   const topTitleImageReserve = (() => {
     if (arc || !(spec as IStorylineSpec).titleImage?.image || (spec as IStorylineSpec).titleImage?.visible === false) {
@@ -67,7 +75,8 @@ const applyDefaultPadding = (spec: any) => {
     return getTitleImageReservedHeight(
       spec as IStorylineSpec,
       Number((spec as IStorylineSpec).width ?? 1000),
-      Number((spec as IStorylineSpec).height ?? 600)
+      Number((spec as IStorylineSpec).height ?? 600),
+      wing ? { bottom: WING_TITLE_IMAGE_BOTTOM } : undefined
     );
   })();
   // clock 辐射式布局：底部和顶部 blocks 的文字会向外延伸，需要在四周围留空间
@@ -107,19 +116,23 @@ const applyDefaultPadding = (spec: any) => {
   // arc up（dome）: 顶部留给 textBox，底部紧贴（不要额外 padding）
   // arc down（bowl）: 底部留给 textBox，顶部紧贴（不要额外 padding）
   // portrait: 底部留给最后一个 block 的 content
+  // wing：direction='left' 时底部多留一点；direction='right' 时顶部多留一点。
   // 其它：保持原默认 [SMALL, SMALL, LARGE, SMALL]
-  const defaultTop = Math.max(topTitleImageReserve, clock ? 40 : arcDown ? 0 : arcUp ? TEXT_RESERVE : SMALL);
+  const defaultTop = Math.max(
+    topTitleImageReserve,
+    clock ? 40 : wing ? wingTopPadding : arcDown ? 0 : arcUp ? TEXT_RESERVE : SMALL
+  );
   const defaultBottom = clock
     ? 60
     : portrait
-    ? portraitBottomReserve
-    : wing
-    ? 300
-    : arcUp
-    ? 100
-    : arcDown
-    ? TEXT_RESERVE
-    : LARGE;
+      ? portraitBottomReserve
+      : wing
+        ? wingBottomPadding
+        : arcUp
+          ? 100
+          : arcDown
+            ? TEXT_RESERVE
+            : LARGE;
   // arc：左右 padding = content 宽度（canvasWidth / (count + 1)），保证内容沿弧线均匀分布
   const arcHorizontalPadding = (() => {
     if (!arc) {

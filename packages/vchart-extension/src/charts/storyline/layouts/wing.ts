@@ -1,5 +1,5 @@
 import type { IExtensionGroupMarkSpec } from '@visactor/vchart';
-import { LayoutZIndex } from '@visactor/vchart';
+import { LayoutZIndex, measureText } from '@visactor/vchart';
 import type { IStorylineBlock, IStorylineSpec, StorylineWingDirection } from '../interface';
 import {
   type ICustomMarkSpec,
@@ -7,7 +7,6 @@ import {
   type StorylinePoint,
   BLOCK_TITLE_MAX_LINES,
   buildPlainContent,
-  getBlockTitleHeight,
   getImageBackgroundStyle,
   getChartGeometry,
   getRegionGeometry,
@@ -16,7 +15,6 @@ import {
   normalizeLayout,
   omitImageLayoutSpec,
   resolveAdaptiveLineHeight,
-  resolveTitleFontSize,
   shouldShowImageBackground
 } from './common';
 
@@ -31,10 +29,15 @@ const WING_BLOCK_IMAGE_SIZE = 160;
 const WING_TEXT_GAP_FROM_IMAGE = 14;
 const WING_TITLE_LINE_HEIGHT = 30;
 const WING_TITLE_FONT_SIZE = 22;
+const WING_TITLE_MIN_FONT_SIZE = 14;
+const WING_TITLE_MAX_FONT_SIZE = 30;
 const WING_CONTENT_LINE_HEIGHT = 17;
 const WING_CONTENT_FONT_SIZE = 12;
 // title + content 区域宽度
 const WING_TEXT_BOX_WIDTH = 240;
+const WING_TEXT_BOX_MIN_WIDTH = 240;
+const WING_TEXT_BOX_MAX_WIDTH = 360;
+const WING_TEXT_BOX_WIDTH_RATIO = 0.24;
 // title + content 区域总高度
 const WING_TEXT_BOX_HEIGHT = 110;
 const WING_TITLE_TO_CONTENT_GAP = 4;
@@ -44,6 +47,7 @@ const WING_DEFAULT_PATH_END_WIDTH = 350;
 const WING_IMAGE_MIN_SCALE = 0.52;
 const WING_IMAGE_MAX_SCALE = 1.2;
 const WING_BOTTOM_TEXT_IMAGE_GAP_RATIO = 1.35;
+const WING_PATH_EDGE_GAP = 8;
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
 
@@ -76,6 +80,73 @@ const getWingBlockImageScale = (spec: IStorylineSpec, index: number) => {
   return startScale + (endScale - startScale) * getWingBlockPathRatio(spec, index);
 };
 
+const getConfiguredTextBoxWidth = (spec: IStorylineSpec) => {
+  const style = spec.title?.style as Record<string, unknown> | undefined;
+  const width = Number(style?.width ?? style?.maxLineWidth ?? WING_TEXT_BOX_WIDTH);
+  return Number.isFinite(width) && width > 0 ? width : WING_TEXT_BOX_WIDTH;
+};
+
+const getWingTextBoxWidth = (spec: IStorylineSpec, ctx: LayoutContext) => {
+  const { width } = getRegionGeometry(ctx, spec);
+  const configuredWidth = getConfiguredTextBoxWidth(spec);
+  const adaptiveWidth = Math.max(configuredWidth, Math.round(width * WING_TEXT_BOX_WIDTH_RATIO));
+  return clamp(adaptiveWidth, WING_TEXT_BOX_MIN_WIDTH, WING_TEXT_BOX_MAX_WIDTH);
+};
+
+const estimateTextWidth = (text: string, fontSize: number) =>
+  Array.from(text).reduce((sum, char) => {
+    if (char.trim().length === 0) {
+      return sum + fontSize * 0.32;
+    }
+    return sum + fontSize * (char.charCodeAt(0) > 255 ? 1.05 : 0.62);
+  }, 0);
+
+const measureWingTitleWidth = (title: string | undefined, fontSize: number, style: Record<string, unknown>) => {
+  if (!title) {
+    return 0;
+  }
+  try {
+    const size = measureText(title, {
+      fontSize,
+      fontFamily: style.fontFamily as string | undefined,
+      fontWeight: (style.fontWeight as any) ?? 'bold'
+    });
+    return Number.isFinite(size.width) && size.width > 0 ? size.width : estimateTextWidth(title, fontSize);
+  } catch (_err) {
+    return estimateTextWidth(title, fontSize);
+  }
+};
+
+const getMeasuredTitleLineCount = (
+  title: string | undefined,
+  fontSize: number,
+  textWidth: number,
+  style: Record<string, unknown>
+) => {
+  if (!title) {
+    return 0;
+  }
+  const measuredWidth = measureWingTitleWidth(title, fontSize, style);
+  return Math.max(1, Math.min(BLOCK_TITLE_MAX_LINES, Math.ceil(measuredWidth / Math.max(textWidth * 0.96, 1))));
+};
+
+const resolveWingTitleFontSize = (spec: IStorylineSpec, index: number, textWidth: number) => {
+  const style = (spec.title?.style ?? {}) as Record<string, unknown>;
+  const configuredFontSize = style.fontSize;
+  if (configuredFontSize != null) {
+    return Number(configuredFontSize);
+  }
+  const title = spec.data?.[index]?.title;
+  const measuredWidth = measureWingTitleWidth(title, WING_TITLE_FONT_SIZE, style);
+  if (!measuredWidth) {
+    return WING_TITLE_FONT_SIZE;
+  }
+  const widthLimit = textWidth * BLOCK_TITLE_MAX_LINES * 0.96;
+  const measuredPerFont = measuredWidth / WING_TITLE_FONT_SIZE;
+  const fittedFontSize = Math.floor(widthLimit / Math.max(measuredPerFont, 1));
+  return clamp(fittedFontSize, WING_TITLE_MIN_FONT_SIZE, WING_TITLE_MAX_FONT_SIZE);
+};
+
 /**
  * 计算 wing 弧线的几何参数：
  * - direction='left'：圆心位于 inner 左侧，采样区间 -70°→70°（cos>0），弧线点位于圆心右侧；
@@ -94,11 +165,16 @@ const getWingArcGeometry = (spec: IStorylineSpec, ctx: LayoutContext) => {
   const startAngle = layoutOpt.startAngle ?? defaultStart;
   const endAngle = layoutOpt.endAngle ?? defaultEnd;
   const ratio = layoutOpt.radiusRatio ?? 0.92;
-  const ry = (innerHeight / 2) * ratio;
+  const { startWidth, endWidth } = getWingPathWidthRange(spec);
+  const topPathWidth = direction === 'right' ? endWidth : startWidth;
+  const pathTopInset = Math.min(Math.max(innerHeight / 2 - 1, 0), Math.ceil(topPathWidth / 2 + WING_PATH_EDGE_GAP));
+  const arcHeight = Math.max(innerHeight - pathTopInset, 1);
+  const ry = (arcHeight / 2) * ratio;
   const rx = innerWidth * 0.6 * ratio;
+  const topSin = Math.min(Math.sin((startAngle / 180) * Math.PI), Math.sin((endAngle / 180) * Math.PI), 0);
   // direction='right'：圆心锚在 region 右侧，弧线点在左侧；direction='left'：圆心锚在左侧
   const cx = direction === 'right' ? startX + innerWidth - rx * 0.1 : startX + rx * 0.1;
-  const cy = startY + innerHeight / 2;
+  const cy = startY + pathTopInset - topSin * ry;
   return { cx, cy, rx, ry, startAngle, endAngle };
 };
 
@@ -225,11 +301,55 @@ export const buildWingTitleImageMark = (spec: IStorylineSpec): IExtensionGroupMa
     zIndex: LayoutZIndex.Mark + 8,
     children: [
       {
+        type: 'rect',
+        name: 'storyline-wing-title-image-node',
+        interactive: false,
+        ...spec.titleImage,
+        _debug_bounds: true,
+        style: {
+          _debug_bounds: true,
+          x: (_d: unknown, ctx: LayoutContext) => {
+            const { width, height, startX } = getChartGeometry(ctx, spec);
+            const size = getTitleImageSize(spec, width, height, {
+              widthRatio: WING_TITLE_IMAGE_WIDTH_RATIO,
+              maxWidth: WING_TITLE_IMAGE_MAX_WIDTH
+            });
+            return getWingDirection(spec) === 'right' ? startX : startX + width - size.width;
+          },
+          fill: 'red',
+          y: (_d: unknown, ctx: LayoutContext) => {
+            return getChartGeometry(ctx, spec).startY + 12;
+          },
+          width: (_d: unknown, ctx: LayoutContext) => {
+            const { width, height } = getChartGeometry(ctx, spec);
+            return getTitleImageSize(spec, width, height, {
+              widthRatio: WING_TITLE_IMAGE_WIDTH_RATIO,
+              maxWidth: WING_TITLE_IMAGE_MAX_WIDTH
+            }).width;
+          },
+          height: (_d: unknown, ctx: LayoutContext) => {
+            const { width, height } = getChartGeometry(ctx, spec);
+            return getTitleImageSize(spec, width, height, {
+              widthRatio: WING_TITLE_IMAGE_WIDTH_RATIO,
+              maxWidth: WING_TITLE_IMAGE_MAX_WIDTH
+            }).height;
+          },
+          image: spec.titleImage.image,
+          repeatX: 'no-repeat',
+          repeatY: 'no-repeat',
+          imageMode: 'contain',
+          imagePosition: 'center',
+          ...spec.titleImage.style
+        }
+      } as ICustomMarkSpec<'rect'>,
+      {
         type: 'image',
         name: 'storyline-wing-title-image-node',
         interactive: false,
         ...spec.titleImage,
+        _debug_bounds: true,
         style: {
+          _debug_bounds: true,
           x: (_d: unknown, ctx: LayoutContext) => {
             const { width, height, startX } = getChartGeometry(ctx, spec);
             const size = getTitleImageSize(spec, width, height, {
@@ -271,26 +391,12 @@ export const buildWingTitleImageMark = (spec: IStorylineSpec): IExtensionGroupMa
 const WING_TEXT_IMAGE_GAP = 120;
 
 const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: number) => {
-  const titleFontSize = resolveTitleFontSize(
-    spec,
-    ctx,
-    spec.data?.[index]?.title,
-    WING_TEXT_BOX_WIDTH,
-    WING_TITLE_FONT_SIZE,
-    [8, 30]
-  );
-  const titleLineHeight = resolveAdaptiveLineHeight(
-    titleFontSize,
-    spec.title?.style as Record<string, unknown> | undefined,
-    WING_TITLE_LINE_HEIGHT,
-    1.3
-  );
-  const titleHeight = getBlockTitleHeight(
-    titleLineHeight,
-    spec.data?.[index]?.title,
-    WING_TEXT_BOX_WIDTH,
-    titleFontSize
-  );
+  const textWidth = getWingTextBoxWidth(spec, ctx);
+  const titleStyle = (spec.title?.style ?? {}) as Record<string, unknown>;
+  const titleFontSize = resolveWingTitleFontSize(spec, index, textWidth);
+  const titleLineHeight = resolveAdaptiveLineHeight(titleFontSize, titleStyle, WING_TITLE_LINE_HEIGHT, 1.3);
+  const titleHeight =
+    titleLineHeight * getMeasuredTitleLineCount(spec.data?.[index]?.title, titleFontSize, textWidth, titleStyle);
   const contentFontSize = Number((spec.content?.style as Record<string, unknown>)?.fontSize ?? WING_CONTENT_FONT_SIZE);
   const contentLineHeight = Number(
     (spec.content?.style as Record<string, unknown>)?.lineHeight ?? WING_CONTENT_LINE_HEIGHT
@@ -320,7 +426,6 @@ const getWingBlockMetrics = (spec: IStorylineSpec, ctx: LayoutContext, index: nu
   const isBottomAbove = isWingBottomBlock(spec, ctx, index);
   const isVerticalLayout = isBottomAbove || isSpecialBelow;
 
-  const textWidth = WING_TEXT_BOX_WIDTH;
   let textBox;
   let contentBox;
   let connectorBox;
@@ -520,6 +625,8 @@ export const buildWingBlockMark = (
                 return m.onLeft ? m.textBox.x + m.textBox.width : m.textBox.x;
               },
               y: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.y,
+              width: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.width,
+              maxLineWidth: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).textBox.width,
               text: block.title,
               height: (_d: unknown, ctx: LayoutContext) => getWingBlockMetrics(spec, ctx, index).titleHeight,
               heightLimit: (_d: unknown, ctx: LayoutContext) =>
