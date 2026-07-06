@@ -47,6 +47,8 @@ export declare class Compiler implements ICompiler {
     updateLayoutTag(): void;
     protected handleLayoutEnd: () => void;
     protected handleStageRender: () => void;
+    private _isGeoRegionRoamDragEnabled;
+    private _shouldDisableCanvasTouchAction;
     private _setCanvasStyle;
     compile(ctx: {
         chart: IChart;
