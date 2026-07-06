@@ -9,7 +9,7 @@ import type { IRegionConstructor } from '../region/interface';
 import type { ILayoutConstructor } from '../layout/interface';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
 import type { IComponentPluginConstructor } from '../plugin/components/interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IApp, IGraphic } from '@visactor/vrender-core';
 import type { GrammarTransformOption, IStageEventPlugin, VRenderComponentOptions } from './interface';
 import type { MarkAnimationSpec } from '../animation/interface';
 import type { ITriggerConstructor } from '../interaction/interface/trigger';
@@ -43,6 +43,7 @@ export interface IFactoryRegistry {
   interactionTriggers: Record<string, ITriggerConstructor>;
   composedEventMap: Record<string, IComposedEventConstructor>;
   tooltipProcessors: Record<string, ITooltipProcessorConstructor>;
+  runtimePluginInstallers: Record<string, (app?: IApp) => void>;
   formatter?: (text: string | number | string[] | number[], datum: any, formatter: string | string[]) => any;
 }
 
@@ -76,6 +77,7 @@ const createFactoryRegistry = (): IFactoryRegistry => ({
   interactionTriggers: {},
   composedEventMap: {},
   tooltipProcessors: {},
+  runtimePluginInstallers: {},
   formatter: undefined
 });
 

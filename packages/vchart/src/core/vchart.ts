@@ -28,7 +28,7 @@ import type {
 import type { IParserOptions, IFields, Transform } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { DataSet, dataViewParser, DataView } from '@visactor/vdataset';
-import type { IGraphic, IStage, Stage } from '@visactor/vrender-core';
+import type { IApp, IGraphic, IStage, Stage } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { vglobal } from '../vrender-bridge';
 import { isString, isValid, isNil, array, specTransform, functionTransform, removeUndefined } from '../util';
@@ -420,8 +420,14 @@ export class VChart implements IVChart {
     this._updateCurrentTheme();
     this._currentSize = this.getCurrentSize();
     const pluginList: string[] = [];
+    const runtimePluginInstallers: ((app?: IApp) => void)[] = [];
 
     if (poptip !== false) {
+      const poptipInstaller = Factory.getRuntimePluginInstaller('poptipForText');
+      if (poptipInstaller) {
+        poptipInstaller();
+        runtimePluginInstallers.push(poptipInstaller);
+      }
       pluginList.push('poptipForText');
     }
 
@@ -446,6 +452,7 @@ export class VChart implements IVChart {
         mode: this._option.mode,
         stage,
         pluginList,
+        runtimePluginInstallers,
         ...restOptions,
         background: this._getBackground(),
         onError: this._onError

@@ -145,7 +145,7 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
     };
   }
 
-  protected _setStateOfGraphic = (g: IMarkGraphic) => {
+  protected _setStateOfGraphic = (g: IMarkGraphic, hasAnimation?: boolean) => {
     g.clearStates();
 
     if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
@@ -167,18 +167,20 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
         return glyphAttrs;
       };
 
-      g.useStates(g.context.states);
+      g.useStates(g.context.states, hasAnimation);
     }
   };
 
   protected _createGraphic(attrs: IGlyphGraphicAttribute = {}): IGraphic {
     const glyph = createGlyph(attrs);
     glyph.onBeforeAttributeUpdate = this._onGlyphAttributeUpdate(glyph);
-    glyph.addEventListener('afterAttributeUpdate', (event: any) => {
-      if (event?.detail?.type === GLYPH_STATE_ATTRIBUTE_UPDATE_TYPE) {
+    const onAttributeUpdate = glyph.onAttributeUpdate.bind(glyph);
+    glyph.onAttributeUpdate = (context: any) => {
+      onAttributeUpdate(context);
+      if (context?.type === GLYPH_STATE_ATTRIBUTE_UPDATE_TYPE) {
         this._syncInheritedStyleAttrs(glyph, glyph.attribute);
       }
-    });
+    };
     const subMarks = this._subMarks;
 
     if (subMarks) {

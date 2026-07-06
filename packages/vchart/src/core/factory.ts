@@ -16,7 +16,7 @@ import type { Transform, Parser } from '@visactor/vdataset';
 import type { ILayoutConstructor } from '../layout/interface';
 import type { IChartPluginConstructor } from '../plugin/chart/interface';
 import type { IComponentPluginConstructor } from '../plugin/components/interface';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { IApp, IGraphic } from '@visactor/vrender-core';
 import type { GrammarTransformOption, IStageEventPlugin, VRenderComponentOptions } from './interface';
 import type { MarkAnimationSpec } from '../animation/interface';
 import type { IBaseTriggerOptions, ITriggerConstructor } from '../interaction/interface/trigger';
@@ -335,5 +335,16 @@ export class Factory {
       return null;
     }
     return new Cror(tooltip);
+  };
+
+  private static _runtimePluginInstallers: Record<string, (app?: IApp) => void> =
+    factoryRegistry.runtimePluginInstallers;
+
+  static registerRuntimePluginInstaller = (type: string, installer: (app?: IApp) => void) => {
+    Factory._runtimePluginInstallers[type] = installer;
+  };
+
+  static getRuntimePluginInstaller = (type: string) => {
+    return Factory._runtimePluginInstallers[type];
   };
 }
