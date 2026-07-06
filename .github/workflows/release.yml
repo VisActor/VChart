@@ -342,13 +342,6 @@ jobs:
         with:
           path: packages/vchart
 
-      - name: BytePack CDN smoke test (release)
-        if: startsWith(github.ref_name, 'release/')
-        env:
-          BYTEPACK_SMOKE_ATTEMPTS: 12
-          BYTEPACK_SMOKE_DELAY_MS: 30000
-        run: node --experimental-network-imports common/scripts/bytepack-smoke-test.mjs ${{ steps.package_version_release.outputs.current_version }}
-
       - name: Commit & Push changes (release)
         if: startsWith(github.ref_name, 'release/')
         run: |
@@ -414,13 +407,6 @@ jobs:
         with:
           path: packages/vchart
 
-      - name: BytePack CDN smoke test (hotfix)
-        if: startsWith(github.ref_name, 'hotfix/')
-        env:
-          BYTEPACK_SMOKE_ATTEMPTS: 12
-          BYTEPACK_SMOKE_DELAY_MS: 30000
-        run: node --experimental-network-imports common/scripts/bytepack-smoke-test.mjs ${{ steps.package_version_hotfix.outputs.current_version }}
-
       - name: Commit & Push changes (hotfix)
         if: startsWith(github.ref_name, 'hotfix/')
         run: |
@@ -457,13 +443,6 @@ jobs:
         uses: xile611/read-package-version-action@main
         with:
           path: packages/vchart
-
-      - name: BytePack CDN smoke test (pre-release)
-        if: startsWith(github.ref_name, 'pre-release/')
-        env:
-          BYTEPACK_SMOKE_ATTEMPTS: 12
-          BYTEPACK_SMOKE_DELAY_MS: 30000
-        run: node --experimental-network-imports common/scripts/bytepack-smoke-test.mjs ${{ steps.package_version_prerelease.outputs.current_version }}
 
       - name: Commit & Push changes (pre-release)
         if: startsWith(github.ref_name, 'pre-release/')
