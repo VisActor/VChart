@@ -53,6 +53,9 @@ export class Interaction implements IInteraction {
     }
 
     if (!newStatedGraphics || !newStatedGraphics.length) {
+      if (prevStatedGraphics && prevStatedGraphics.length) {
+        this.clearAllStatesOfTrigger(trigger, state, reverseState);
+      }
       return [];
     }
     if (state && reverseState) {
