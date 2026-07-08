@@ -31,6 +31,10 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
             exit 0
           fi
+          if [[ ! "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid post-release version: ${VERSION}"
+            exit 1
+          fi
           echo "Using version: ${VERSION}"
           echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
           echo "skip=false" >> "$GITHUB_OUTPUT"
@@ -68,9 +72,16 @@ jobs:
           TAG="v${VERSION}"
           TAG_EXISTS="false"
           RELEASE_EXISTS="false"
+          git fetch origin main:refs/remotes/origin/main --depth=1
+          MAIN_SHA="$(git rev-parse origin/main)"
 
           if git rev-parse "refs/tags/${TAG}" >/dev/null 2>&1; then
             echo "Tag ${TAG} already exists."
+            TAG_SHA="$(git rev-list -n 1 "${TAG}")"
+            if [ "${TAG_SHA}" != "${MAIN_SHA}" ]; then
+              echo "Existing tag ${TAG} points to ${TAG_SHA}, expected origin/main ${MAIN_SHA}."
+              exit 1
+            fi
             TAG_EXISTS="true"
           fi
 

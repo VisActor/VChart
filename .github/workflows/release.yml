@@ -120,8 +120,54 @@ jobs:
           semver_string: ${{ github.ref_name }}
           semver_pattern: '^release/(.*)$'
 
-      - name: update nextBump (release)
+      - name: Check version-policy version (release)
         if: startsWith(github.ref_name, 'release/')
+        id: release_version_policy
+        env:
+          RELEASE_VERSION: ${{ steps.semver_release.outputs.full }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const policies = JSON.parse(fs.readFileSync('common/config/rush/version-policies.json', 'utf8'));
+          const policyVersion = policies[0] && policies[0].version;
+          const releaseVersion = process.env.RELEASE_VERSION;
+
+          const parseVersion = version => String(version).split('-')[0].split('.').map(Number);
+          const compareVersion = (a, b) => {
+            const av = parseVersion(a);
+            const bv = parseVersion(b);
+            for (let i = 0; i < Math.max(av.length, bv.length); i++) {
+              const diff = (av[i] || 0) - (bv[i] || 0);
+              if (diff !== 0) {
+                return diff;
+              }
+            }
+            return 0;
+          };
+
+          if (!releaseVersion || !policyVersion) {
+            console.error('Missing release version or version-policy version.', { releaseVersion, policyVersion });
+            process.exit(1);
+          }
+
+          const result = compareVersion(releaseVersion, policyVersion);
+          if (result < 0) {
+            console.error(`Release version ${releaseVersion} is lower than version-policy version ${policyVersion}.`);
+            process.exit(1);
+          }
+
+          const shouldSkip = result === 0 ? 'true' : 'false';
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `skip_next_bump=${shouldSkip}\n`);
+          console.log(
+            result === 0
+              ? `Release version ${releaseVersion} equals version-policy version ${policyVersion}, skip nextBump update.`
+              : `Release version ${releaseVersion} is greater than version-policy version ${policyVersion}, update nextBump.`
+          );
+          NODE
+
+      - name: update nextBump (release)
+        if: startsWith(github.ref_name, 'release/') && steps.release_version_policy.outputs.skip_next_bump != 'true'
         uses: xile611/set-next-bump-of-rush@main
         with:
           release_version: ${{ steps.semver_release.outputs.full }}
@@ -315,6 +361,24 @@ jobs:
           else
             echo "Missing harmony changelog block, skip."
           fi
+
+      - name: Reset version-policy base version (release)
+        if: startsWith(github.ref_name, 'release/')
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const packageJson = JSON.parse(fs.readFileSync('packages/vchart/package.json', 'utf8'));
+          const policiesPath = 'common/config/rush/version-policies.json';
+          const policies = JSON.parse(fs.readFileSync(policiesPath, 'utf8'));
+
+          if (!policies[0]) {
+            throw new Error('Missing version policy.');
+          }
+
+          policies[0].version = packageJson.version;
+          fs.writeFileSync(policiesPath, JSON.stringify(policies));
+          NODE
 
       - name: Generate rush version (release)
         if: startsWith(github.ref_name, 'release/')

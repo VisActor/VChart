@@ -58,6 +58,16 @@ function assertFallbackGhToken(step, context) {
   assert(step && step.env && step.env.GH_TOKEN === '${{ secrets.CREATE_TAG_RELEASE_TOKEN || github.token }}', `${context} must use PAT fallback GH_TOKEN`);
 }
 
+function assertStepIfIncludes(step, expected, context) {
+  assert(step, `${context} step must exist`);
+  assert(typeof step.if === 'string' && step.if.includes(expected), `${context} if must include ${expected}`);
+}
+
+function assertRunIncludes(step, expected, context) {
+  assert(step && typeof step.run === 'string', `${context} step must exist`);
+  assert(step.run.includes(expected), `${context} must include ${expected}`);
+}
+
 function run() {
   const release = loadWorkflow('release.yml');
   const postRelease = loadWorkflow('post-release.yml');
@@ -92,9 +102,33 @@ function run() {
   assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (release)'), 'release npm check');
   assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (hotfix)'), 'hotfix npm check');
   assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (pre-release)'), 'pre-release npm check');
-  assert(
-    release.content.includes("steps.npm_version_release.outputs.skip_publish != 'true'"),
-    'release.yml stable publish must skip when npm already has the version'
+  assertStepIfIncludes(
+    getStep(release, 'release', 'Publish to npm (release)'),
+    "steps.npm_version_release.outputs.skip_publish != 'true'",
+    'release.yml stable publish'
+  );
+  assertStepIfIncludes(
+    getStep(release, 'release', 'Publish to npm (hotfix)'),
+    "steps.npm_version_hotfix.outputs.skip_publish != 'true'",
+    'release.yml hotfix publish'
+  );
+  assertStepIfIncludes(
+    getStep(release, 'release', 'Publish to npm (pre-release)'),
+    "steps.npm_version_prerelease.outputs.skip_publish != 'true'",
+    'release.yml pre-release publish'
+  );
+  const releasePolicyStep = getStep(release, 'release', 'Check version-policy version (release)');
+  assertRunIncludes(releasePolicyStep, "common/config/rush/version-policies.json", 'release.yml version-policy check');
+  assertRunIncludes(releasePolicyStep, 'skip_next_bump', 'release.yml version-policy check');
+  assertStepIfIncludes(
+    getStep(release, 'release', 'update nextBump (release)'),
+    "steps.release_version_policy.outputs.skip_next_bump != 'true'",
+    'release.yml update nextBump'
+  );
+  assertRunIncludes(
+    getStep(release, 'release', 'Reset version-policy base version (release)'),
+    "packages/vchart/package.json",
+    'release.yml reset version-policy base'
   );
   assert(
     release.content.includes('rm -rf .changelog') && release.content.includes("find docs/assets/changelog -name '*.bak' -delete"),
@@ -108,6 +142,11 @@ function run() {
     postRelease.content.includes('PAYLOAD_VERSION') && postRelease.content.includes('INPUT_VERSION'),
     'post-release.yml must read version from repository_dispatch payload or workflow_dispatch input'
   );
+  assertRunIncludes(
+    getStep(postRelease, 'post_release', 'Read version from event payload or workflow_dispatch input'),
+    '^[0-9]+\\.[0-9]+\\.[0-9]+$',
+    'post-release.yml version input validation'
+  );
   getSteps(postRelease, 'post_release')
     .filter(step => step.env && Object.prototype.hasOwnProperty.call(step.env, 'GH_TOKEN'))
     .forEach(step => assertFallbackGhToken(step, `post-release ${step.name}`));
@@ -118,6 +157,10 @@ function run() {
       postRelease.content.includes('Create missing tag and GitHub Release'),
     'post-release.yml must allow release creation when the tag already exists'
   );
+  const postReleaseExistStep = getStep(postRelease, 'post_release', 'Check existing tag and release');
+  assertRunIncludes(postReleaseExistStep, 'MAIN_SHA="$(git rev-parse origin/main)"', 'post-release.yml existing tag check');
+  assertRunIncludes(postReleaseExistStep, 'TAG_SHA="$(git rev-list -n 1 "${TAG}")"', 'post-release.yml existing tag check');
+  assertRunIncludes(postReleaseExistStep, 'Existing tag ${TAG} points to', 'post-release.yml existing tag check');
 
   const syncOn = getOn(syncMain);
   assert(hasOwn(syncOn, 'workflow_dispatch'), 'sync-main-to-develop.yml must support workflow_dispatch recovery');
@@ -129,6 +172,11 @@ function run() {
   const syncCheckout = getStep(syncMain, 'sync_main_to_develop', 'Checkout');
   assert(syncCheckout && syncCheckout.with && syncCheckout.with.ref === 'main', 'sync-main-to-develop.yml must checkout main explicitly');
   assertFallbackGhToken(getStep(syncMain, 'sync_main_to_develop', 'Configure git remote for workflow-created branches'), 'sync-main remote setup');
+  assertRunIncludes(
+    getStep(syncMain, 'sync_main_to_develop', 'Compute sync branch name and check existence'),
+    '^[0-9]+\\.[0-9]+\\.[0-9]+$',
+    'sync-main-to-develop.yml version validation'
+  );
   const syncPrStep = getStep(syncMain, 'sync_main_to_develop', 'Create Pull Request to develop');
   assertFallbackGhToken(syncPrStep, 'sync-main PR creation');
   assert(!syncPrStep.if, 'sync-main PR creation must run even when the sync branch already exists');
@@ -138,6 +186,16 @@ function run() {
   assert(
     developDispatch.content.includes('PAYLOAD_VERSION') || developDispatch.content.includes('INPUT_VERSION'),
     'develop-synced-dispatch.yml must support an explicit dispatch version'
+  );
+  assertRunIncludes(
+    getStep(developDispatch, 'dispatch_develop_synced', 'Resolve version from input or sync branch'),
+    '^[0-9]+\\.[0-9]+\\.[0-9]+$',
+    'develop-synced-dispatch.yml version validation'
+  );
+  assertRunIncludes(
+    getStep(developDispatch, 'dispatch_develop_synced', 'Send repository_dispatch develop-synced'),
+    'JSON.stringify',
+    'develop-synced-dispatch.yml dispatch payload'
   );
   assert(developDispatch.content.includes('--fail-with-body'), 'develop-synced-dispatch.yml dispatch curl must fail on HTTP errors');
   assertFallbackGhToken(getStep(developDispatch, 'dispatch_develop_synced', 'Send repository_dispatch develop-synced'), 'develop-synced dispatch');
