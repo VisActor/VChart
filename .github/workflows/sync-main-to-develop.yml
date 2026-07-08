@@ -50,7 +50,7 @@ jobs:
 
       - name: Configure git remote for workflow-created branches
         env:
-          GH_TOKEN: ${{ secrets.CREATE_TAG_RELEASE_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
@@ -134,7 +134,7 @@ jobs:
 
       - name: Create Pull Request to develop
         env:
-          GH_TOKEN: ${{ secrets.CREATE_TAG_RELEASE_TOKEN || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
           BRANCH="${{ steps.sync_branch.outputs.sync_branch }}"
