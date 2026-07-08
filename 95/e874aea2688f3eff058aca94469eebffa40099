@@ -1,0 +1,23 @@
+.github/workflows/sync-main-to-develop.yml
+  s_7b969178c6d884::t_007c3d6657a310 10-12,22-26
+common/scripts/verify-release-workflows.js
+  s_7b969178c6d884::t_9b4a10d5053d34 167-170,173-175
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "95e874aea2688f3eff058aca94469eebffa40099",
+  "prompts": {},
+  "sessions": {
+    "s_7b969178c6d884": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f3a9e-4c32-7592-b305-feaa96ae7987",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
