@@ -60,7 +60,8 @@ export interface IFunnelSeriesSpec extends ISeriesSpec, IAnimationSpec<FunnelMar
    */
   gap?: number;
   /**
-   * 指定数据项的最大值和最小值
+   * 指定数值映射范围，range.min 映射到 minSize，range.max 映射到 maxSize。
+   * range.min 默认为 0，range.max 默认为数据最大值。
    */
   range?: {
     min?: number;
