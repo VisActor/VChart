@@ -1,0 +1,23 @@
+packages/vchart/__tests__/unit/chart/bar.test.ts
+  s_edb4acd9d26202::t_c6ec25032dfb13 88-89,93,100-102,106,112,118,121,123-163,182-183,216,219-223,227,234-245
+packages/vchart/src/series/bar/bar.ts
+  s_edb4acd9d26202::t_a7aceb76717783 69-80,95,811-819,823,836-917,942-943,1025,1073
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "b7adc1e6e87f3d32925ae04677bae59a75a5c3fc",
+  "prompts": {},
+  "sessions": {
+    "s_edb4acd9d26202": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f40a3-78f2-7a92-8e6c-79b3476068d5",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
