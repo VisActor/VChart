@@ -66,18 +66,6 @@ const BAR_SERIES_COMPILE_ONLY_KEYS: Record<BarSeriesCompileOnlyKey, true> = {
   stackCornerRadius: true
 };
 
-type LinearBarBandWidthCache = {
-  scale: IBaseScale;
-  field: string;
-  data: Datum[];
-  dataLength: number;
-  domainStart: number;
-  domainEnd: number;
-  rangeStart: number;
-  rangeEnd: number;
-  bandWidth: number;
-};
-
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
   type: string = SeriesTypeEnum.bar;
@@ -92,7 +80,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _bandPosition = 0;
   protected _barMark!: IRectMark;
   protected _barBackgroundMark!: IRectMark;
-  protected _linearBarBandWidthCache?: LinearBarBandWidthCache;
 
   protected _barBackgroundViewData: ICompilableData;
 
@@ -105,6 +92,27 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         ...BAR_SERIES_COMPILE_ONLY_KEYS
       }
     };
+  }
+
+  getStatisticFields() {
+    const fields = super.getStatisticFields();
+    const positionAxisHelper = this.direction === Direction.horizontal ? this.getYAxisHelper() : this.getXAxisHelper();
+    const positionFields = this.direction === Direction.horizontal ? this._fieldY : this._fieldX;
+    const positionScale = positionAxisHelper?.getScale?.(0);
+
+    if (positionScale && isContinuous(positionScale.type)) {
+      positionFields.forEach(field => {
+        const fieldStatistics = fields.find(entry => entry.key === field);
+        if (fieldStatistics) {
+          if (!fieldStatistics.operations.includes('values')) {
+            fieldStatistics.operations.push('values');
+          }
+        } else {
+          fields.push({ key: field, operations: ['values'] });
+        }
+      });
+    }
+    return fields;
   }
 
   initMark(): void {
@@ -813,14 +821,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       typeof this._spec.barWidth === 'number' &&
       typeof this._spec.barMinWidth !== 'string' &&
       typeof this._spec.barMaxWidth !== 'string';
-    const axisBandWidth = axisHelper.getBandwidth?.(depth - 1);
-    const linearBandWidth =
-      isNil(axisBandWidth) && !useFixedWidth ? this._getLinearBarBandWidth(axisHelper) : undefined;
-    const bandWidth = axisBandWidth ?? linearBandWidth ?? DefaultBandWidth;
+    const axisBandWidth = useFixedWidth ? undefined : axisHelper.getBandwidth?.(depth - 1);
+    const bandWidth = axisBandWidth ?? DefaultBandWidth;
 
     const hasBarMinWidth = isValid(this._spec.barMinWidth);
     const hasBarMaxWidth = isValid(this._spec.barMaxWidth);
-    let width = isNil(linearBandWidth) || hasBarWidth ? bandWidth : bandWidth * 0.5;
+    let width = axisHelper.isContinuous && !isNil(axisBandWidth) && !hasBarWidth ? bandWidth * 0.5 : bandWidth;
     if (hasBarWidth) {
       width = getActualNumValue(this._spec.barWidth, bandWidth);
     }
@@ -831,88 +837,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
       width = Math.min(width, getActualNumValue(this._spec.barMaxWidth, bandWidth));
     }
     return width;
-  }
-
-  protected _getLinearBarBandWidth(axisHelper: IAxisHelper) {
-    const scale = axisHelper.getScale?.(0);
-    const field = this.direction === Direction.horizontal ? this._fieldY[0] : this._fieldX[0];
-    const data = this.getViewData()?.latestData as Datum[];
-    const domain = scale?.domain?.() as number[];
-    const range = scale?.range?.() as number[];
-    const domainStart = +domain?.[0];
-    const domainEnd = +domain?.[domain.length - 1];
-    const rangeStart = +range?.[0];
-    const rangeEnd = +range?.[range.length - 1];
-
-    if (
-      !axisHelper.isContinuous ||
-      !field ||
-      !data?.length ||
-      !Number.isFinite(domainStart) ||
-      !Number.isFinite(domainEnd) ||
-      !Number.isFinite(rangeStart) ||
-      !Number.isFinite(rangeEnd) ||
-      domainStart === domainEnd
-    ) {
-      return undefined;
-    }
-
-    const cache = this._linearBarBandWidthCache;
-    if (
-      cache &&
-      cache.scale === scale &&
-      cache.field === field &&
-      cache.data === data &&
-      cache.dataLength === data.length &&
-      cache.domainStart === domainStart &&
-      cache.domainEnd === domainEnd &&
-      cache.rangeStart === rangeStart &&
-      cache.rangeEnd === rangeEnd
-    ) {
-      return cache.bandWidth;
-    }
-
-    const valueSet = new Set<number>();
-    data.forEach(datum => {
-      const value = +datum[field];
-      if (Number.isFinite(value)) {
-        valueSet.add(value);
-      }
-    });
-    const values = Array.from(valueSet).sort((a, b) => a - b);
-    if (values.length < 2) {
-      return undefined;
-    }
-
-    let minStep = Infinity;
-    let lastValue = values[0];
-    for (let i = 1; i < values.length; i++) {
-      const value = values[i];
-      const step = value - lastValue;
-      if (step > 0 && step < minStep) {
-        minStep = step;
-      }
-      lastValue = value;
-    }
-
-    const domainSpan = domainEnd - domainStart;
-    const rangeSpan = rangeEnd - rangeStart;
-    const bandWidth = minStep < Infinity ? Math.abs((rangeSpan / domainSpan) * minStep) : undefined;
-    if (!Number.isFinite(bandWidth)) {
-      return undefined;
-    }
-    this._linearBarBandWidthCache = {
-      scale,
-      field,
-      data,
-      dataLength: data.length,
-      domainStart,
-      domainEnd,
-      rangeStart,
-      rangeEnd,
-      bandWidth
-    };
-    return bandWidth;
   }
 
   protected _getPosition(direction: DirectionType, datum: Datum, scaleDepth?: number, mark?: SeriesMarkNameEnum) {
@@ -939,8 +863,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const depthFromSpec = this._groups ? this._groups.fields.length : 1;
     const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
 
-    const bandWidth =
-      axisHelper.getBandwidth?.(depth - 1) ?? this._getLinearBarBandWidth(axisHelper) ?? DefaultBandWidth;
+    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
     const size = depth === depthFromSpec ? (this._barMark.getAttribute(sizeAttribute, datum) as number) : bandWidth;
 
     if (depth > 1 && isValid(this._spec.barGapInGroup)) {
@@ -966,7 +889,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         }
       }
 
-      const center = scale.scale(datum[groupFields[0]]) + axisHelper.getBandwidth(0) / 2;
+      const center = scale.scale(datum[groupFields[0]]) + (axisHelper.getBandwidth(0) ?? bandWidth) / 2;
       return center - totalWidth / 2 + offSet;
     }
 
@@ -1022,7 +945,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   onDataUpdate(): void {
     super.onDataUpdate();
-    this._linearBarBandWidthCache = undefined;
 
     const region = this.getRegion();
     // @ts-ignore
@@ -1070,7 +992,6 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   viewDataUpdate(d: DataView): void {
     super.viewDataUpdate(d);
-    this._linearBarBandWidthCache = undefined;
     this._barBackgroundViewData?.getDataView()?.reRunAllTransform();
     this._barBackgroundViewData?.updateData();
   }
