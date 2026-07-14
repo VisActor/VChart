@@ -11,7 +11,8 @@ const directTheme: ITheme = {
       bar: {
         style: {
           fill: datum => (datum.value < 0 ? '#f53f3f' : '#00b42a'),
-          fillOpacity: datum => (Math.abs(datum.value) >= 50 ? 1 : 0.65)
+          fillOpacity: datum => (Math.abs(datum.value) >= 50 ? 1 : 0.65),
+          cornerRadius: datum => (datum.value > 0 ? [4, 4, 0, 0] : [0, 0, 4, 4])
         },
         state: {
           hover: {
@@ -28,13 +29,13 @@ VChart.ThemeManager.registerTheme(directThemeName, directTheme);
 // 方式二：注册函数，主题中引用函数名
 const registeredThemeName = 'local-theme-function-registered'; // 注册函数的主题名
 const registeredFillName = 'local.theme.barFill'; // 函数名
-VChart.registerFunction(registeredFillName, datum => (datum.value < 0 ? '#ff7d00' : '#165dff'));
+VChart.registerFunction(registeredFillName, datum => (datum.value > 0 ? [4, 4, 0, 0] : [0, 0, 4, 4]));
 const registeredTheme: ITheme = {
   series: {
     bar: {
       bar: {
         style: {
-          fill: registeredFillName
+          cornerRadius: registeredFillName
         },
         state: {
           hover: {
