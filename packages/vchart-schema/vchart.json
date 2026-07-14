@@ -21217,363 +21217,6 @@
       ],
       "type": "object"
     },
-    "IAreaMarkSpec": {
-      "properties": {
-        "alpha": {
-          "description": "x方向的旋转角度",
-          "type": "number"
-        },
-        "anchor": {
-          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "anchor3d": {
-          "description": "3d的锚点位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "angle": {
-          "description": "图形的旋转角度",
-          "type": "number"
-        },
-        "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的背景色，支持纯色、image元素、canvas元素"
-        },
-        "backgroundClip": {
-          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
-          "type": "boolean"
-        },
-        "backgroundCornerRadius": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "背景圆角半径"
-        },
-        "backgroundFit": {
-          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
-          "type": "boolean"
-        },
-        "backgroundKeepAspectRatio": {
-          "description": "是否保持背景图的宽高比",
-          "type": "boolean"
-        },
-        "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
-          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
-        },
-        "backgroundOffsetX": {
-          "description": "背景图偏移，只在no-repeat的时候生效",
-          "type": "number"
-        },
-        "backgroundOffsetY": {
-          "description": "背景图偏移，只在no-repeat的时候生效",
-          "type": "number"
-        },
-        "backgroundOpacity": {
-          "description": "背景透明度",
-          "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
-          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
-          "since": "2.0.21"
-        },
-        "backgroundScale": {
-          "description": "背景图缩放，只在no-repeat的时候生效",
-          "type": "number"
-        },
-        "beta": {
-          "description": "y方向的旋转角度",
-          "type": "number"
-        },
-        "boundsMode": {
-          "description": "bounds的计算模式",
-          "enum": [
-            "accurate",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "cursor": {
-          "$ref": "#/definitions/Cursor_1",
-          "description": "设置图形的鼠标样式"
-        },
-        "curveType": {
-          "$ref": "#/definitions/InterpolateType",
-          "description": "取消的差值类型，默认为线性插值，也就是普通的折线"
-        },
-        "defined": {
-          "description": "设置点是否有效，也就是是否合法",
-          "type": "boolean"
-        },
-        "fill": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IColorKey"
-            },
-            {
-              "$ref": "#/definitions/IGradientLinear"
-            },
-            {
-              "$ref": "#/definitions/IGradientRadial"
-            },
-            {
-              "$ref": "#/definitions/IGradientConical"
-            },
-            {
-              "$ref": "#/definitions/IVisualScale"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IVisualSpecStyle<unknown,string>"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的填充颜色"
-        },
-        "fillOpacity": {
-          "description": "填充的透明度",
-          "type": "number"
-        },
-        "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>",
-          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
-          "since": "1.10.0"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "内边框，内描边，描边位于图形内侧"
-        },
-        "lineDash": {
-          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度",
-          "items": {
-            "type": "number"
-          },
-          "type": "array"
-        },
-        "lineDashOffset": {
-          "description": "设置虚线偏移量的属性",
-          "type": "number"
-        },
-        "lineWidth": {
-          "description": "图形的描边宽度",
-          "type": "number"
-        },
-        "opacity": {
-          "description": "图形的透明度，既影响描边也影响填充",
-          "type": "number"
-        },
-        "orient": {
-          "description": "面积图元的方向，\nhorizontal - 水平方向\nvertical - 垂直方向",
-          "enum": [
-            "horizontal",
-            "vertical"
-          ],
-          "type": "string"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "外边框，外描边，描边位于图形外侧"
-        },
-        "pickMode": {
-          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式",
-          "enum": [
-            "accurate",
-            "custom",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "pickStrokeBuffer": {
-          "default": 0,
-          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
-          "since": "1.7.3",
-          "type": "number"
-        },
-        "scaleCenter": {
-          "description": "图形缩放中心",
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
-          "type": "array"
-        },
-        "scaleX": {
-          "description": "x方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "scaleY": {
-          "description": "y方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "shadowBlur": {
-          "description": "图形模糊效果程度",
-          "type": "number"
-        },
-        "shadowColor": {
-          "description": "图形的阴影颜色",
-          "type": "string"
-        },
-        "shadowOffsetX": {
-          "description": "阴影水平偏移距离",
-          "type": "number"
-        },
-        "shadowOffsetY": {
-          "description": "阴影垂直偏移距离",
-          "type": "number"
-        },
-        "stroke": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IColorKey"
-            },
-            {
-              "$ref": "#/definitions/IGradientLinear"
-            },
-            {
-              "$ref": "#/definitions/IGradientRadial"
-            },
-            {
-              "$ref": "#/definitions/IGradientConical"
-            },
-            {
-              "items": {
-                "type": [
-                  "number",
-                  "boolean"
-                ]
-              },
-              "type": "array"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
-        },
-        "strokeOpacity": {
-          "description": "描边透明度",
-          "type": "number"
-        },
-        "texture": {
-          "description": "纹理的类型",
-          "type": "string"
-        },
-        "textureColor": {
-          "description": "纹理的颜色",
-          "type": "string"
-        },
-        "texturePadding": {
-          "description": "纹理之间空隙的大小",
-          "type": "number"
-        },
-        "textureSize": {
-          "description": "纹理单元的大小",
-          "type": "number"
-        },
-        "visible": {
-          "description": "图形是否可见",
-          "type": "boolean"
-        },
-        "x": {
-          "description": "图形的x坐标",
-          "type": "number"
-        },
-        "x1": {
-          "description": "面积的x1值",
-          "type": "number"
-        },
-        "y": {
-          "description": "图形的y坐标",
-          "type": "number"
-        },
-        "y1": {
-          "description": "面积的y1值",
-          "type": "number"
-        },
-        "z": {
-          "description": "图形的z坐标，仅适用于3D图表",
-          "type": "number"
-        },
-        "zIndex": {
-          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "IAreaSegment": {
       "properties": {
         "background": {
@@ -25265,317 +24908,6 @@
       "required": [
         "type"
       ],
-      "type": "object"
-    },
-    "IBoxPlotMarkSpec": {
-      "properties": {
-        "alpha": {
-          "description": "x方向的旋转角度",
-          "type": "number"
-        },
-        "anchor": {
-          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "anchor3d": {
-          "description": "3d的锚点位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "angle": {
-          "description": "图形的旋转角度",
-          "type": "number"
-        },
-        "beta": {
-          "description": "y方向的旋转角度",
-          "type": "number"
-        },
-        "boundsMode": {
-          "description": "bounds的计算模式",
-          "enum": [
-            "accurate",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "boxCornerRadius": {
-          "description": "箱体的圆角半径\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 cornerRadius 属性",
-          "since": "2.0.11",
-          "type": "number"
-        },
-        "boxHeight": {
-          "description": "箱体的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "boxStroke": {
-          "description": "箱体的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 stroke 属性",
-          "since": "2.0.11",
-          "type": "string"
-        },
-        "boxWidth": {
-          "default": 30,
-          "description": "箱体的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的尺寸\n支持像素值或百分比字符串（相对于分组宽度）",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "cursor": {
-          "$ref": "#/definitions/Cursor_1",
-          "description": "设置图形的鼠标样式"
-        },
-        "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>",
-          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
-          "since": "1.10.0"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "内边框，内描边，描边位于图形内侧"
-        },
-        "lineDash": {
-          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度",
-          "items": {
-            "type": "number"
-          },
-          "type": "array"
-        },
-        "lineDashOffset": {
-          "description": "设置虚线偏移量的属性",
-          "type": "number"
-        },
-        "lineWidth": {
-          "default": 2,
-          "description": "箱线图的描边宽度\n在 shaftShape = 'line' / 'filled-line' 模式下影响所有线条的宽度\n在 shaftShape = 'bar' 模式下，minMaxBox 和 q1q3Box 的 lineWidth 会被强制设为 0",
-          "type": "number"
-        },
-        "max": {
-          "typeof": "function"
-        },
-        "median": {
-          "typeof": "function"
-        },
-        "medianStroke": {
-          "description": "中位数线的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 median 子图元的 stroke 属性",
-          "since": "2.0.11",
-          "type": "string"
-        },
-        "min": {
-          "typeof": "function"
-        },
-        "minMaxFillOpacity": {
-          "description": "最小-最大值矩形的填充透明度\n仅在 shaftShape = 'bar' 模式下生效，控制 minMaxBox 子图元的 fillOpacity",
-          "type": "number"
-        },
-        "minMaxHeight": {
-          "description": "最小-最大值矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "minMaxWidth": {
-          "description": "最小-最大值矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 minMaxBox 子图元的尺寸",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "opacity": {
-          "description": "图形的透明度，既影响描边也影响填充",
-          "type": "number"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "外边框，外描边，描边位于图形外侧"
-        },
-        "pickMode": {
-          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式",
-          "enum": [
-            "accurate",
-            "custom",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "pickStrokeBuffer": {
-          "default": 0,
-          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
-          "since": "1.7.3",
-          "type": "number"
-        },
-        "q1": {
-          "typeof": "function"
-        },
-        "q1q3Height": {
-          "description": "Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "q1q3Width": {
-          "description": "Q1-Q3 四分位数矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 q1q3Box 子图元的尺寸",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "q3": {
-          "typeof": "function"
-        },
-        "ruleHeight": {
-          "description": "最大/最小值须线端点的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "ruleWidth": {
-          "description": "最大/最小值须线端点的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "scaleCenter": {
-          "description": "图形缩放中心",
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
-          "type": "array"
-        },
-        "scaleX": {
-          "description": "x方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "scaleY": {
-          "description": "y方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "shaftShape": {
-          "$ref": "#/definitions/BoxPlotShaftShape",
-          "default": "'line'",
-          "description": "中轴线（须线）的绘制形状\n- 'line': 标准线条形式，绘制 shaft（连接线）、box（箱体）、max/min/median（线条）五个子图元\n- 'bar': 柱状形式，绘制 minMaxBox（最小-最大值矩形）、q1q3Box（Q1-Q3矩形）、median（中位数线）三个子图元\n- 'filled-line': 填充线条形式"
-        },
-        "shaftWidth": {
-          "default": 20,
-          "description": "最大/最小值须线的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 max/min 子图元的线条长度\n支持像素值或百分比字符串",
-          "type": [
-            "string",
-            "number"
-          ]
-        },
-        "stroke": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IColorKey"
-            },
-            {
-              "$ref": "#/definitions/IGradientLinear"
-            },
-            {
-              "$ref": "#/definitions/IGradientRadial"
-            },
-            {
-              "$ref": "#/definitions/IGradientConical"
-            },
-            {
-              "items": {
-                "type": [
-                  "number",
-                  "boolean"
-                ]
-              },
-              "type": "array"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
-        },
-        "strokeOpacity": {
-          "description": "描边透明度",
-          "type": "number"
-        },
-        "texture": {
-          "description": "纹理的类型",
-          "type": "string"
-        },
-        "textureColor": {
-          "description": "纹理的颜色",
-          "type": "string"
-        },
-        "texturePadding": {
-          "description": "纹理之间空隙的大小",
-          "type": "number"
-        },
-        "textureSize": {
-          "description": "纹理单元的大小",
-          "type": "number"
-        },
-        "visible": {
-          "description": "图形是否可见",
-          "type": "boolean"
-        },
-        "x": {
-          "description": "图形的x坐标",
-          "type": "number"
-        },
-        "y": {
-          "description": "图形的y坐标",
-          "type": "number"
-        },
-        "z": {
-          "description": "图形的z坐标，仅适用于3D图表",
-          "type": "number"
-        },
-        "zIndex": {
-          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染",
-          "type": "number"
-        }
-      },
       "type": "object"
     },
     "IBoxPlotSeriesSpec": {
@@ -50580,216 +49912,6 @@
       ],
       "type": "object"
     },
-    "ILiquidMarkSpec": {
-      "properties": {
-        "alpha": {
-          "description": "x方向的旋转角度",
-          "type": "number"
-        },
-        "anchor": {
-          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "anchor3d": {
-          "description": "3d的锚点位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "angle": {
-          "description": "图形的旋转角度",
-          "type": "number"
-        },
-        "beta": {
-          "description": "y方向的旋转角度",
-          "type": "number"
-        },
-        "boundsMode": {
-          "description": "bounds的计算模式",
-          "enum": [
-            "accurate",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "cursor": {
-          "$ref": "#/definitions/Cursor_1",
-          "description": "设置图形的鼠标样式"
-        },
-        "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>",
-          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
-          "since": "1.10.0"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "内边框，内描边，描边位于图形内侧"
-        },
-        "lineDash": {
-          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度",
-          "items": {
-            "type": "number"
-          },
-          "type": "array"
-        },
-        "lineDashOffset": {
-          "description": "设置虚线偏移量的属性",
-          "type": "number"
-        },
-        "lineWidth": {
-          "description": "图形的描边宽度",
-          "type": "number"
-        },
-        "opacity": {
-          "description": "图形的透明度，既影响描边也影响填充",
-          "type": "number"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "外边框，外描边，描边位于图形外侧"
-        },
-        "pickMode": {
-          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式",
-          "enum": [
-            "accurate",
-            "custom",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "pickStrokeBuffer": {
-          "default": 0,
-          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
-          "since": "1.7.3",
-          "type": "number"
-        },
-        "scaleCenter": {
-          "description": "图形缩放中心",
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
-          "type": "array"
-        },
-        "scaleX": {
-          "description": "x方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "scaleY": {
-          "description": "y方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "stroke": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IColorKey"
-            },
-            {
-              "$ref": "#/definitions/IGradientLinear"
-            },
-            {
-              "$ref": "#/definitions/IGradientRadial"
-            },
-            {
-              "$ref": "#/definitions/IGradientConical"
-            },
-            {
-              "items": {
-                "type": [
-                  "number",
-                  "boolean"
-                ]
-              },
-              "type": "array"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
-        },
-        "strokeOpacity": {
-          "description": "描边透明度",
-          "type": "number"
-        },
-        "texture": {
-          "description": "纹理的类型",
-          "type": "string"
-        },
-        "textureColor": {
-          "description": "纹理的颜色",
-          "type": "string"
-        },
-        "texturePadding": {
-          "description": "纹理之间空隙的大小",
-          "type": "number"
-        },
-        "textureSize": {
-          "description": "纹理单元的大小",
-          "type": "number"
-        },
-        "visible": {
-          "description": "图形是否可见",
-          "type": "boolean"
-        },
-        "wave": {
-          "description": "波浪的变化状态，范围为 [0, 1]",
-          "type": "number"
-        },
-        "x": {
-          "description": "图形的x坐标",
-          "type": "number"
-        },
-        "y": {
-          "description": "图形的y坐标",
-          "type": "number"
-        },
-        "z": {
-          "description": "图形的z坐标，仅适用于3D图表",
-          "type": "number"
-        },
-        "zIndex": {
-          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染",
-          "type": "number"
-        }
-      },
-      "type": "object"
-    },
     "ILiquidPaddingSpec": {
       "anyOf": [
         {
@@ -55024,215 +54146,215 @@
       ],
       "type": "object"
     },
-    "IMarkStateTheme<IArcMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/IArcMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/IArcMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/IArcMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/IArcMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/IArcMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<IAreaMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/IAreaMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/IAreaMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/IAreaMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/IAreaMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/IAreaMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<IBoxPlotMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/IBoxPlotMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/IBoxPlotMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/IBoxPlotMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/IBoxPlotMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/IBoxPlotMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<ILineMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/ILineMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/ILineMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/ILineMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/ILineMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/ILineMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<ILiquidMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/ILiquidMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/ILiquidMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/ILiquidMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/ILiquidMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/ILiquidMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<IPathMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/IPathMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/IPathMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/IPathMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/IPathMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/IPathMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<IPolygonMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/IPolygonMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/IPolygonMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/IPolygonMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/IPolygonMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/IPolygonMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<IRectMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/IRectMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/IRectMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/IRectMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/IRectMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/IRectMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<IRectMarkSpec|IPathMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>|Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>>": {
       "properties": {
         "hover": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IRectMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>"
             },
             {
-              "$ref": "#/definitions/IPathMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>"
             }
           ],
           "description": "图元在 hover 状态下的主题样式设置"
@@ -55240,10 +54362,10 @@
         "hover_reverse": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IRectMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>"
             },
             {
-              "$ref": "#/definitions/IPathMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>"
             }
           ],
           "description": "图元在 未被hover 状态下的主题样式设置"
@@ -55251,10 +54373,10 @@
         "normal": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IRectMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>"
             },
             {
-              "$ref": "#/definitions/IPathMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>"
             }
           ],
           "description": "图元在正常状态下的主题样式设置"
@@ -55262,10 +54384,10 @@
         "selected": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IRectMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>"
             },
             {
-              "$ref": "#/definitions/IPathMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>"
             }
           ],
           "description": "图元在 选中状态下的主题样式设置"
@@ -55273,10 +54395,10 @@
         "selected_reverse": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IRectMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>"
             },
             {
-              "$ref": "#/definitions/IPathMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>"
             }
           ],
           "description": "图元在 未被选中 状态下的主题样式设置"
@@ -55284,82 +54406,82 @@
       },
       "type": "object"
     },
-    "IMarkStateTheme<IRuleMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/IRuleMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/IRuleMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/IRuleMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/IRuleMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/IRuleMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<ISymbolMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/ISymbolMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/ISymbolMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/ISymbolMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/ISymbolMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/ISymbolMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<ITextMarkSpec>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>>": {
       "properties": {
         "hover": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
       "type": "object"
     },
-    "IMarkStateTheme<Omit<IPathMarkSpec,\"smoothScale\">>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<Omit<IPathMarkSpec,\"smoothScale\">>>>": {
       "properties": {
         "hover": {
           "additionalProperties": false,
@@ -55404,21 +54526,26 @@
       },
       "type": "object"
     },
-    "IMarkStateTheme<any>": {
+    "IMarkStateTheme<Partial<ConvertToMarkStyleSpec<any>>>": {
       "properties": {
         "hover": {
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<any>>",
           "description": "图元在 hover 状态下的主题样式设置"
         },
         "hover_reverse": {
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<any>>",
           "description": "图元在 未被hover 状态下的主题样式设置"
         },
         "normal": {
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<any>>",
           "description": "图元在正常状态下的主题样式设置"
         },
         "selected": {
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<any>>",
           "description": "图元在 选中状态下的主题样式设置"
         },
         "selected_reverse": {
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<any>>",
           "description": "图元在 未被选中 状态下的主题样式设置"
         }
       },
@@ -56298,346 +55425,6 @@
       "required": [
         "type"
       ],
-      "type": "object"
-    },
-    "IPathMarkSpec": {
-      "properties": {
-        "alpha": {
-          "description": "x方向的旋转角度",
-          "type": "number"
-        },
-        "anchor": {
-          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "anchor3d": {
-          "description": "3d的锚点位置",
-          "items": [
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "type": "array"
-        },
-        "angle": {
-          "description": "图形的旋转角度",
-          "type": "number"
-        },
-        "background": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/HTMLCanvasElement"
-            },
-            {
-              "$ref": "#/definitions/HTMLImageElement"
-            },
-            {
-              "$ref": "#/definitions/ILinearGradient"
-            },
-            {
-              "$ref": "#/definitions/IRadialGradient"
-            },
-            {
-              "$ref": "#/definitions/IConicalGradient"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的背景色，支持纯色、image元素、canvas元素"
-        },
-        "backgroundClip": {
-          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部",
-          "type": "boolean"
-        },
-        "backgroundCornerRadius": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "number"
-              },
-              "type": "array"
-            },
-            {
-              "type": "number"
-            }
-          ],
-          "description": "背景圆角半径"
-        },
-        "backgroundFit": {
-          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效",
-          "type": "boolean"
-        },
-        "backgroundKeepAspectRatio": {
-          "description": "是否保持背景图的宽高比",
-          "type": "boolean"
-        },
-        "backgroundMode": {
-          "$ref": "#/definitions/BackgroundMode_1",
-          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
-        },
-        "backgroundOffsetX": {
-          "description": "背景图偏移，只在no-repeat的时候生效",
-          "type": "number"
-        },
-        "backgroundOffsetY": {
-          "description": "背景图偏移，只在no-repeat的时候生效",
-          "type": "number"
-        },
-        "backgroundOpacity": {
-          "description": "背景透明度",
-          "type": "number"
-        },
-        "backgroundPosition": {
-          "$ref": "#/definitions/BackgroundPosition_1",
-          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
-          "since": "2.0.21"
-        },
-        "backgroundScale": {
-          "description": "背景图缩放，只在no-repeat的时候生效",
-          "type": "number"
-        },
-        "beta": {
-          "description": "y方向的旋转角度",
-          "type": "number"
-        },
-        "boundsMode": {
-          "description": "bounds的计算模式",
-          "enum": [
-            "accurate",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "cursor": {
-          "$ref": "#/definitions/Cursor_1",
-          "description": "设置图形的鼠标样式"
-        },
-        "fill": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IColorKey"
-            },
-            {
-              "$ref": "#/definitions/IGradientLinear"
-            },
-            {
-              "$ref": "#/definitions/IGradientRadial"
-            },
-            {
-              "$ref": "#/definitions/IGradientConical"
-            },
-            {
-              "$ref": "#/definitions/IVisualScale"
-            },
-            {
-              "typeof": "function"
-            },
-            {
-              "$ref": "#/definitions/IVisualSpecStyle<unknown,string>"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的填充颜色"
-        },
-        "fillOpacity": {
-          "description": "填充的透明度",
-          "type": "number"
-        },
-        "html": {
-          "$ref": "#/definitions/Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>",
-          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
-          "since": "1.10.0"
-        },
-        "innerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "内边框，内描边，描边位于图形内侧"
-        },
-        "lineDash": {
-          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度",
-          "items": {
-            "type": "number"
-          },
-          "type": "array"
-        },
-        "lineDashOffset": {
-          "description": "设置虚线偏移量的属性",
-          "type": "number"
-        },
-        "lineWidth": {
-          "description": "图形的描边宽度",
-          "type": "number"
-        },
-        "opacity": {
-          "description": "图形的透明度，既影响描边也影响填充",
-          "type": "number"
-        },
-        "outerBorder": {
-          "$ref": "#/definitions/IBorder",
-          "description": "外边框，外描边，描边位于图形外侧"
-        },
-        "path": {
-          "type": "string"
-        },
-        "pickMode": {
-          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式",
-          "enum": [
-            "accurate",
-            "custom",
-            "imprecise"
-          ],
-          "type": "string"
-        },
-        "pickStrokeBuffer": {
-          "default": 0,
-          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
-          "since": "1.7.3",
-          "type": "number"
-        },
-        "scaleCenter": {
-          "description": "图形缩放中心",
-          "items": [
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            },
-            {
-              "type": [
-                "string",
-                "number"
-              ]
-            }
-          ],
-          "maxItems": 2,
-          "minItems": 2,
-          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心",
-          "type": "array"
-        },
-        "scaleX": {
-          "description": "x方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "scaleY": {
-          "description": "y方向的缩放比例，默认为1，即不进行缩放",
-          "type": "number"
-        },
-        "shadowBlur": {
-          "description": "图形模糊效果程度",
-          "type": "number"
-        },
-        "shadowColor": {
-          "description": "图形的阴影颜色",
-          "type": "string"
-        },
-        "shadowOffsetX": {
-          "description": "阴影水平偏移距离",
-          "type": "number"
-        },
-        "shadowOffsetY": {
-          "description": "阴影垂直偏移距离",
-          "type": "number"
-        },
-        "smoothScale": {
-          "description": "平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要",
-          "type": "boolean"
-        },
-        "stroke": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IColorKey"
-            },
-            {
-              "$ref": "#/definitions/IGradientLinear"
-            },
-            {
-              "$ref": "#/definitions/IGradientRadial"
-            },
-            {
-              "$ref": "#/definitions/IGradientConical"
-            },
-            {
-              "items": {
-                "type": [
-                  "number",
-                  "boolean"
-                ]
-              },
-              "type": "array"
-            },
-            {
-              "const": false,
-              "type": "boolean"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
-        },
-        "strokeOpacity": {
-          "description": "描边透明度",
-          "type": "number"
-        },
-        "texture": {
-          "description": "纹理的类型",
-          "type": "string"
-        },
-        "textureColor": {
-          "description": "纹理的颜色",
-          "type": "string"
-        },
-        "texturePadding": {
-          "description": "纹理之间空隙的大小",
-          "type": "number"
-        },
-        "textureSize": {
-          "description": "纹理单元的大小",
-          "type": "number"
-        },
-        "visible": {
-          "description": "图形是否可见",
-          "type": "boolean"
-        },
-        "x": {
-          "description": "图形的x坐标",
-          "type": "number"
-        },
-        "y": {
-          "description": "图形的y坐标",
-          "type": "number"
-        },
-        "z": {
-          "description": "图形的z坐标，仅适用于3D图表",
-          "type": "number"
-        },
-        "zIndex": {
-          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染",
-          "type": "number"
-        }
-      },
       "type": "object"
     },
     "IPieChartSpec": {
@@ -81907,7 +80694,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         },
         "size": {
@@ -81915,14 +80702,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12651",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         },
         "size": {
@@ -81930,14 +80717,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12651",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         },
         "size": {
@@ -81945,14 +80732,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12651",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         },
         "size": {
@@ -81960,14 +80747,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12651",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         },
         "size": {
@@ -81975,14 +80762,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12651",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         },
         "size": {
@@ -81990,14 +80777,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12651",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         },
         "size": {
@@ -82005,7 +80792,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12647",
+        "__@toStringTag@12651",
         "size"
       ],
       "type": "object"
@@ -85913,7 +84700,7 @@
           "type": "boolean"
         },
         "style": {
-          "$ref": "#/definitions/IArcMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -88087,6 +86874,2406 @@
           "type": "boolean"
         }
       },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "autoCapConical": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "arc 在 roundCap 打开且应用环形渐变时是否对 cap 部分生效"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cap": {
+          "$ref": "#/definitions/VisualType<boolean|[boolean,boolean]>",
+          "description": "arc 的 roundCap 属性，即圆角是否伸出 startAngle 和 endAngle 之外"
+        },
+        "centerOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "arc的中心点偏移距离，一般是通过在交互状态下设置这个属性来实现将扇区移出中心的一个效果"
+        },
+        "cornerRadius": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "圆角"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "endAngle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "圆弧的结束角度"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "innerPadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "内边距"
+        },
+        "innerRadius": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "内径，既内半径"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "outerPadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "外边距"
+        },
+        "outerRadius": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "外径，既外半径"
+        },
+        "padAngle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "间隙角度；间隔角度会转换为一个在两个相邻的弧之间的确定的线性距离，定义为 padRadius * | padAngle |\n这个距离在弧的开始和结束处都是相等的；\n间隔角度通常只应用于环形扇区（即当内半径大于 0）"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "startAngle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "圆弧的开始角度"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "curveType": {
+          "$ref": "#/definitions/VisualType<InterpolateType>",
+          "description": "取消的差值类型，默认为线性插值，也就是普通的折线"
+        },
+        "defined": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "设置点是否有效，也就是是否合法"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "orient": {
+          "$ref": "#/definitions/VisualType<\"horizontal\"|\"vertical\">",
+          "description": "面积图元的方向，\nhorizontal - 水平方向\nvertical - 垂直方向"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "x1": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "面积的x1值"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "y1": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "面积的y1值"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "boxCornerRadius": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "箱体的圆角半径\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 cornerRadius 属性",
+          "since": "2.0.11"
+        },
+        "boxHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "箱体的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
+        },
+        "boxStroke": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "箱体的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的 stroke 属性",
+          "since": "2.0.11"
+        },
+        "boxWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "default": 30,
+          "description": "箱体的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 box 子图元的尺寸\n支持像素值或百分比字符串（相对于分组宽度）"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 2,
+          "description": "箱线图的描边宽度\n在 shaftShape = 'line' / 'filled-line' 模式下影响所有线条的宽度\n在 shaftShape = 'bar' 模式下，minMaxBox 和 q1q3Box 的 lineWidth 会被强制设为 0"
+        },
+        "max": {
+          "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_4",
+          "description": "最大值（箱线图的上限）\n用于计算箱线图的上端须线位置"
+        },
+        "median": {
+          "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_2",
+          "description": "中位数（Q2，50%分位数）\n在箱体中绘制中位数线"
+        },
+        "medianStroke": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "中位数线的描边颜色\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 median 子图元的 stroke 属性",
+          "since": "2.0.11"
+        },
+        "min": {
+          "$ref": "#/definitions/VisualType<(datum:Datum)=>number>",
+          "description": "最小值（箱线图的下限）\n用于计算箱线图的下端须线位置"
+        },
+        "minMaxFillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "最小-最大值矩形的填充透明度\n仅在 shaftShape = 'bar' 模式下生效，控制 minMaxBox 子图元的 fillOpacity"
+        },
+        "minMaxHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最小-最大值矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用"
+        },
+        "minMaxWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最小-最大值矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 minMaxBox 子图元的尺寸"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "q1": {
+          "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_1",
+          "description": "第一四分位数（Q1，25%分位数）\n用于确定箱体的下边界"
+        },
+        "q1q3Height": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'bar' 模式下使用"
+        },
+        "q1q3Width": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "Q1-Q3 四分位数矩形的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'bar' 模式下，控制 q1q3Box 子图元的尺寸"
+        },
+        "q3": {
+          "$ref": "#/definitions/VisualType<(datum:Datum)=>number>_3",
+          "description": "第三四分位数（Q3，75%分位数）\n用于确定箱体的上边界"
+        },
+        "ruleHeight": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最大/最小值须线端点的高度（垂直箱线图）或宽度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
+        },
+        "ruleWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "description": "最大/最小值须线端点的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下使用"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shaftShape": {
+          "$ref": "#/definitions/VisualType<BoxPlotShaftShape>",
+          "default": "'line'",
+          "description": "中轴线（须线）的绘制形状\n- 'line': 标准线条形式，绘制 shaft（连接线）、box（箱体）、max/min/median（线条）五个子图元\n- 'bar': 柱状形式，绘制 minMaxBox（最小-最大值矩形）、q1q3Box（Q1-Q3矩形）、median（中位数线）三个子图元\n- 'filled-line': 填充线条形式"
+        },
+        "shaftWidth": {
+          "$ref": "#/definitions/VisualType<string|number>",
+          "default": 20,
+          "description": "最大/最小值须线的宽度（垂直箱线图）或高度（水平箱线图）\n在 shaftShape = 'line' / 'filled-line' 模式下，控制 max/min 子图元的线条长度\n支持像素值或百分比字符串"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "curveType": {
+          "$ref": "#/definitions/VisualType<InterpolateType>",
+          "description": "取消的差值类型，默认为线性插值，也就是普通的折线"
+        },
+        "defined": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "设置点是否有效，也就是是否合法"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineCap": {
+          "$ref": "#/definitions/VisualType<LineStrokeCap>",
+          "description": "指定如何绘制每一条线段末端的属性。有 3 个可能的值，分别是：'butt', 'round' and 'square'。默认值是 butt。"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineJoin": {
+          "$ref": "#/definitions/VisualType<LineStrokeJoin>",
+          "description": "用来设置 2 个长度不为 0 的相连部分（线段、圆弧、曲线）如何连接在一起的属性（长度为 0 的变形部分，其指定的末端和控制点在同一位置，会被忽略）。此属性有 3 个值： 'round', 'bevel' and 'miter'。默认值是 'miter'"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "miterLimit": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置斜接面限制比例的属性。当获取属性值时，会返回当前的值（默认值是 10.0 ）。当给属性赋值时，0、负数、 Infinity 和 NaN 都会被忽略；除此之外都会被赋予一个新值。"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeBoundsBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "stroke 的有界缓冲区"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "wave": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "波浪的变化状态，范围为 [0, 1]"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "path": {
+          "$ref": "#/definitions/VisualType<string>"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "smoothScale": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "平滑缩放，不然会发生跳变，在地图交互场景需要配置为true；常规path缩放不需要"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "圆角配置，支持数组配置，数组的顺序同组成 polygon 的顺序对应"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "points": {
+          "$ref": "#/definitions/VisualType<IPoint[]>",
+          "description": "顶点坐标"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "圆角配置。\n1. 如果传入数值，则统一为四个角设置圆角\n2. 如果传入数组，则分别为 [上左, 上右, 下右, 下左]"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "height": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "高度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "width": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "宽度"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "x1": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向终点坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "y1": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向终点坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "curveType": {
+          "$ref": "#/definitions/VisualType<InterpolateType>",
+          "description": "取消的差值类型，默认为线性插值，也就是普通的折线"
+        },
+        "defined": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "设置点是否有效，也就是是否合法"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineCap": {
+          "$ref": "#/definitions/VisualType<LineStrokeCap>",
+          "description": "指定如何绘制每一条线段末端的属性。有 3 个可能的值，分别是：'butt', 'round' and 'square'。默认值是 butt。"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineJoin": {
+          "$ref": "#/definitions/VisualType<LineStrokeJoin>",
+          "description": "用来设置 2 个长度不为 0 的相连部分（线段、圆弧、曲线）如何连接在一起的属性（长度为 0 的变形部分，其指定的末端和控制点在同一位置，会被忽略）。此属性有 3 个值： 'round', 'bevel' and 'miter'。默认值是 'miter'"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "miterLimit": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置斜接面限制比例的属性。当获取属性值时，会返回当前的值（默认值是 10.0 ）。当给属性赋值时，0、负数、 Infinity 和 NaN 都会被忽略；除此之外都会被赋予一个新值。"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeBoundsBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "stroke 的有界缓冲区"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "x1": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "终点x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "y1": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "终点y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "dx": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的偏移量"
+        },
+        "dy": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的偏移量"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "shape": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "对外声明使用shape，vrender图形属性对应的是shape"
+        },
+        "size": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "大小，相当于外接圆的半径"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "symbolType": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "标记的类型\nFIXME:  vrender Symbol接收的图形属性，暂时都申明一下"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>": {
+      "properties": {
+        "alpha": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的旋转角度"
+        },
+        "anchor": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "基于AABB的锚点位置，用于简单的定位某些path的位置"
+        },
+        "anchor3d": {
+          "$ref": "#/definitions/VisualType<[number,number]>",
+          "description": "3d的锚点位置"
+        },
+        "angle": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的旋转角度"
+        },
+        "background": {
+          "$ref": "#/definitions/VisualType<HTMLCanvasElement|HTMLImageElement|IColor>",
+          "description": "图形的背景色，支持纯色、image元素、canvas元素"
+        },
+        "backgroundClip": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "背景图是否裁切，是否调用clip避免绘制到图元外部"
+        },
+        "backgroundCornerRadius": {
+          "$ref": "#/definitions/VisualType<number|number[]>",
+          "description": "背景圆角半径"
+        },
+        "backgroundFit": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否正好填充，只在repeat-x或者repeat-y以及no-repeat的时候生效"
+        },
+        "backgroundKeepAspectRatio": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "是否保持背景图的宽高比"
+        },
+        "backgroundMode": {
+          "$ref": "#/definitions/VisualType<BackgroundMode>",
+          "description": "背景图绘制模式（与具体图元有关）。\n原有平铺模式为：`repeat` / `repeat-x` / `repeat-y` / `no-repeat`；\n自 `2.0.21` 版本开始，支持 `no-repeat-cover` / `no-repeat-contain` /\n`no-repeat-fill` / `no-repeat-auto` 这几个 `no-repeat` 下的尺寸简写。"
+        },
+        "backgroundOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图偏移，只在no-repeat的时候生效"
+        },
+        "backgroundOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景透明度"
+        },
+        "backgroundPosition": {
+          "$ref": "#/definitions/VisualType<BackgroundPosition>",
+          "description": "背景图锚定位置，语义类似 CSS `background-position`。\n仅在图片背景且最终为 `no-repeat` 时生效。",
+          "since": "2.0.21"
+        },
+        "backgroundScale": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "背景图缩放，只在no-repeat的时候生效"
+        },
+        "beta": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的旋转角度"
+        },
+        "boundsMode": {
+          "$ref": "#/definitions/VisualType<\"accurate\"|\"imprecise\">",
+          "description": "bounds的计算模式"
+        },
+        "cursor": {
+          "$ref": "#/definitions/VisualType<Cursor>",
+          "description": "设置图形的鼠标样式"
+        },
+        "direction": {
+          "$ref": "#/definitions/VisualType<\"horizontal\"|\"vertical\">",
+          "default": "'horizontal'",
+          "description": "文本的排布方向，如果需要文本纵向排布，可以配置为 'vertical'"
+        },
+        "dx": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x 方向偏移"
+        },
+        "dy": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y 方向偏移"
+        },
+        "ellipsis": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "文字超出 maxLineWidth 后的省略符"
+        },
+        "fill": {
+          "$ref": "#/definitions/VisualType<false|IColorKey|IGradient|VisualType<string>>",
+          "description": "图形的填充颜色"
+        },
+        "fillOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "填充的透明度"
+        },
+        "fontFamily": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "字体"
+        },
+        "fontSize": {
+          "$ref": "#/definitions/VisualType<number|ITokenKey<any>>",
+          "description": "字号"
+        },
+        "fontStyle": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "字体样式，是否为斜体等"
+        },
+        "fontWeight": {
+          "$ref": "#/definitions/VisualType<FontWeight>",
+          "description": "字重"
+        },
+        "heightLimit": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "高度限制控制显示内容及省略号"
+        },
+        "html": {
+          "$ref": "#/definitions/VisualType<Partial<{dom:string|HTMLElement;}&SimpleDomStyleOptions&CommonDomOptions>>",
+          "description": "html 浮层，会将配置的html相关内容，绝对定位到图元的位置",
+          "since": "1.10.0"
+        },
+        "innerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "内边框，内描边，描边位于图形内侧"
+        },
+        "lineClamp": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "按照行数限制显示内容及省略号"
+        },
+        "lineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "给描边配置虚线模式。它使用一组值来指定描述模式的线和间隙的交替长度"
+        },
+        "lineDashOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置虚线偏移量的属性"
+        },
+        "lineHeight": {
+          "$ref": "#/definitions/VisualType<string|number|ITokenKey<any>>",
+          "description": "行高（1.3.1 版本新增字符串类型表示比例值，如\"150%\"）",
+          "since": "1.3.1"
+        },
+        "lineThrough": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "中划线"
+        },
+        "lineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的描边宽度"
+        },
+        "maxLineWidth": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "文字的最大长度"
+        },
+        "opacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的透明度，既影响描边也影响填充"
+        },
+        "outerBorder": {
+          "$ref": "#/definitions/VisualType<IBorder>",
+          "description": "外边框，外描边，描边位于图形外侧"
+        },
+        "pickMode": {
+          "$ref": "#/definitions/VisualType<\"custom\"|\"accurate\"|\"imprecise\">",
+          "description": "选择模式，精确模式，粗糙模式（包围盒模式），自定义模式"
+        },
+        "pickStrokeBuffer": {
+          "$ref": "#/definitions/VisualType<number>",
+          "default": 0,
+          "description": "用于扩展描边的拾取范围，为 0 就是默认线宽，正数就加宽，负数就减宽",
+          "since": "1.7.3"
+        },
+        "poptip": {
+          "$ref": "#/definitions/VisualType<PopTipAttributes>",
+          "description": "poptip 相关配置"
+        },
+        "scaleCenter": {
+          "$ref": "#/definitions/VisualType<[string|number,string|number]>",
+          "description": "图形缩放中心",
+          "since": "1.4.0\n可以配置固定坐标，例如 [100, 100]；或者百分比坐标，例如 ['50%', '50%']，代表以图元中心为缩放中心"
+        },
+        "scaleX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "x方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "scaleY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "y方向的缩放比例，默认为1，即不进行缩放"
+        },
+        "shadowBlur": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形模糊效果程度"
+        },
+        "shadowColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "图形的阴影颜色"
+        },
+        "shadowOffsetX": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影水平偏移距离"
+        },
+        "shadowOffsetY": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "阴影垂直偏移距离"
+        },
+        "stroke": {
+          "$ref": "#/definitions/VisualType<string|false|IColorKey|IGradient|(number|boolean)[]>",
+          "description": "图形的描边颜色。\n支持使用 'rgb(255,255,255)'，'rgba(255,255,255,1)'，'#fff' 等方式设置为纯色，也支持设置为渐变色描边"
+        },
+        "strokeOpacity": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "描边透明度"
+        },
+        "suffixPosition": {
+          "$ref": "#/definitions/VisualType<\"end\"|\"start\"|\"middle\">",
+          "default": "'end'",
+          "description": "文本省略的位置，默认尾部省略\n1. 'start' 文字首部省略\n2. 'middle' 文本中间省略\n3. 'end' 文本尾部省略",
+          "since": "1.7.3"
+        },
+        "text": {
+          "$ref": "#/definitions/VisualType<string|number|string[]|number[]>",
+          "description": "文字内容"
+        },
+        "textAlign": {
+          "$ref": "#/definitions/VisualType<TextAlignType>",
+          "description": "文字水平方向的对齐方式"
+        },
+        "textBaseline": {
+          "$ref": "#/definitions/VisualType<TextBaselineType>",
+          "description": "文字竖直方向的对齐方式"
+        },
+        "texture": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的类型"
+        },
+        "textureColor": {
+          "$ref": "#/definitions/VisualType<string>",
+          "description": "纹理的颜色"
+        },
+        "texturePadding": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理之间空隙的大小"
+        },
+        "textureSize": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "纹理单元的大小"
+        },
+        "underline": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "下划线"
+        },
+        "underlineDash": {
+          "$ref": "#/definitions/VisualType<number[]>",
+          "description": "下划线的虚线样式"
+        },
+        "underlineOffset": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "下划线的虚线偏移量"
+        },
+        "visible": {
+          "$ref": "#/definitions/VisualType<boolean>",
+          "description": "图形是否可见"
+        },
+        "whiteSpace": {
+          "$ref": "#/definitions/VisualType<\"normal\"|\"no-wrap\">",
+          "description": "设置如何处理空白字符"
+        },
+        "wordBreak": {
+          "$ref": "#/definitions/VisualType<\"break-word\"|\"break-all\"|\"keep-all\">"
+        },
+        "x": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的x坐标"
+        },
+        "y": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的y坐标"
+        },
+        "z": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "图形的z坐标，仅适用于3D图表"
+        },
+        "zIndex": {
+          "$ref": "#/definitions/VisualType<number>",
+          "description": "设置图形的层级，主意这个是相对层级，图形引擎绘制的时候，会对相同group下的所有图形根据zIndex进行排序，然后从小到大进行渲染"
+        }
+      },
+      "type": "object"
+    },
+    "Partial<ConvertToMarkStyleSpec<any>>": {
       "type": "object"
     },
     "Partial<IArcGraphicAttribute>": {
@@ -93880,11 +95067,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IArcMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IArcMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IArcMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -93901,11 +95088,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IAreaMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IAreaMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IAreaMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -93922,11 +95109,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IBoxPlotMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IBoxPlotMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IBoxPlotMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -93943,11 +95130,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<ILineMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ILineMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILineMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -93964,11 +95151,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<ILiquidMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ILiquidMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ILiquidMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -93993,11 +95180,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IPathMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IPathMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94018,11 +95205,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IPathMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IPathMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94039,11 +95226,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IPolygonMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IPolygonMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPolygonMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94060,11 +95247,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IRectMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IRectMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94111,16 +95298,16 @@
           "type": "number"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IRectMarkSpec|IPathMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>|Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
           "anyOf": [
             {
-              "$ref": "#/definitions/IRectMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRectMarkSpec>>"
             },
             {
-              "$ref": "#/definitions/IPathMarkSpec"
+              "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IPathMarkSpec>>"
             }
           ],
           "description": "默认样式设置"
@@ -94150,11 +95337,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<IRuleMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/IRuleMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<IRuleMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94171,11 +95358,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<ISymbolMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ISymbolMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ISymbolMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94198,11 +95385,11 @@
           "$ref": "#/definitions/IWaterfallStackLabelPosition"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<ITextMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94227,11 +95414,11 @@
           "type": "string"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<ITextMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94261,11 +95448,11 @@
           ]
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<ITextMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94282,11 +95469,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<ITextMarkSpec>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
-          "$ref": "#/definitions/ITextMarkSpec",
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<ITextMarkSpec>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -94303,7 +95490,7 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<Omit<IPathMarkSpec,\"smoothScale\">>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<Omit<IPathMarkSpec,\"smoothScale\">>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
@@ -94328,10 +95515,11 @@
           "type": "boolean"
         },
         "state": {
-          "$ref": "#/definitions/IMarkStateTheme<any>",
+          "$ref": "#/definitions/IMarkStateTheme<Partial<ConvertToMarkStyleSpec<any>>>",
           "description": "不同状态下的样式配置"
         },
         "style": {
+          "$ref": "#/definitions/Partial<ConvertToMarkStyleSpec<any>>",
           "description": "默认样式设置"
         },
         "visible": {
@@ -103868,34 +105056,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12651"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12651"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12647": {
+        "__@toStringTag@12651": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12647"
+        "__@toStringTag@12651"
       ],
       "type": "object"
     },

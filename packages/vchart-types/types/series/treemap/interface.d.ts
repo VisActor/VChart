@@ -31,7 +31,7 @@ export interface ITreemapSeriesSpec extends Omit<ISeriesSpec, 'data'>, IAnimatio
         padding?: TreemapOptions['labelPadding'];
     };
 }
-export interface ITreemapSeriesTheme extends ICartesianSeriesTheme {
+export interface ITreemapSeriesTheme extends Omit<ICartesianSeriesTheme, 'label'> {
     gapWidth?: TreemapOptions['padding'];
     nodePadding?: TreemapOptions['padding'];
     [SeriesMarkNameEnum.leaf]?: Partial<IMarkTheme<IRectMarkSpec>>;
