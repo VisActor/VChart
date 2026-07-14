@@ -2235,6 +2235,9 @@ export class VChart implements IVChart {
           this._currentTheme.colorScheme,
           this._currentTheme.token
         )[key];
+        if (this.getFunctionList()?.length) {
+          theme = functionTransform(theme, this);
+        }
       }
     });
 
