@@ -7,6 +7,7 @@ import type {
   IPathMarkSpec,
   IPolygonMarkSpec,
   IRuleMarkSpec,
+  ISymbolMarkSpec,
   ITextMarkSpec,
   IPercent,
   IComposedTextMarkSpec,
@@ -161,4 +162,16 @@ export interface IFunnelSeriesTheme {
     line?: Partial<IMarkTheme<IRuleMarkSpec>>;
   };
   [SeriesMarkNameEnum.transformLabel]?: Partial<IMarkTheme<ITextMarkSpec>>;
+  /**
+   * Style of the conversion-rate arrow (used by the `conversionFunnel` extension chart)
+   * @since 2.1.4
+   */
+  conversionArrow?: {
+    /** Style of the arrow leader line */
+    line?: Partial<IMarkTheme<IPolygonMarkSpec>>;
+    /** Style of the arrow head symbol */
+    symbol?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+    /** Style of the arrow label text */
+    text?: Partial<IMarkTheme<ITextMarkSpec>>;
+  };
 }
