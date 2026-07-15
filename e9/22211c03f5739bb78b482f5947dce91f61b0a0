@@ -1,0 +1,23 @@
+packages/vchart/__tests__/unit/core/update-effects.test.ts
+  s_d3ab9f18fda0b2::t_872ee9a01e5fd0 43,56-64,274-296,1318-1366,2281-2303
+packages/vchart/src/mark/component.ts
+  s_d3ab9f18fda0b2::t_3c5cf0be21ea75 193-195
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "e922211c03f5739bb78b482f5947dce91f61b0a0",
+  "prompts": {},
+  "sessions": {
+    "s_d3ab9f18fda0b2": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f4185-392a-7553-bb4f-a6d6df79c4a6",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
