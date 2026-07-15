@@ -26,6 +26,10 @@ export declare class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extend
     protected _barBackgroundMark: IRectMark;
     protected _barBackgroundViewData: ICompilableData;
     protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
+    getStatisticFields(): {
+        key: string;
+        operations: import("../../data/transforms/interface").StatisticOperations;
+    }[];
     initMark(): void;
     protected _initBarBackgroundMark(): void;
     initMarkStyle(): void;
