@@ -1,0 +1,31 @@
+packages/vchart-types/types/component/marker/interface.d.ts
+  s_325226c11a2133::t_c75d045d2e719f 104
+packages/vchart-types/types/component/marker/mark-point/base-mark-point.d.ts
+  s_325226c11a2133::t_54799c18354872 4,12-15
+packages/vchart/__tests__/runtime/browser/test-page/mark-point-target-symbol-hover.ts
+  s_325226c11a2133::t_d371de8402a5bd 1-110
+packages/vchart/__tests__/unit/component/marker/mark-point/mark-point-style.test.ts
+  s_325226c11a2133::t_73d875da0204e2 103-162
+packages/vchart/src/component/marker/interface.ts
+  s_325226c11a2133::t_f97c4b7fddf8c2 387-393
+packages/vchart/src/component/marker/mark-point/base-mark-point.ts
+  s_325226c11a2133::t_3fcbca044f4c14 14,18-20,49-102
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "857a48ceaa738b472fde21a63dbb9d43eca3ed1e",
+  "prompts": {},
+  "sessions": {
+    "s_325226c11a2133": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f642b-4548-75d0-9f65-b1bbaae59d1e",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
