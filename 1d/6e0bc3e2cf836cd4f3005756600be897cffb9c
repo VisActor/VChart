@@ -1,0 +1,21 @@
+common/changes/@visactor/vchart/feat-mark-point-dimension-hover-state_2026-07-16-08-43.json
+  s_325226c11a2133::t_8e0f73c428ad17 1-11
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "1d6e0bc3e2cf836cd4f3005756600be897cffb9c",
+  "prompts": {},
+  "sessions": {
+    "s_325226c11a2133": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f642b-4548-75d0-9f65-b1bbaae59d1e",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
