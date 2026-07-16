@@ -98,6 +98,16 @@ function run() {
       validateBranchStep.run.includes('For workflow_dispatch recovery'),
     'release.yml branch validation must enforce documented semver branch names and explain manual recovery refs'
   );
+  assert(
+    release.data.jobs.release.strategy.matrix['node-version'].length === 1 &&
+      release.data.jobs.release.strategy.matrix['node-version'][0] === '22.x',
+    'release.yml must use Node 22.x for npm trusted publishing'
+  );
+  const updateNpmStep = getStep(release, 'release', 'Update npm');
+  assert(
+    updateNpmStep && updateNpmStep.run === 'npm install -g npm@^11.5.1',
+    'release.yml must use the npm 11 line required for trusted publishing'
+  );
   assert(getStep(release, 'release', 'Check npm version (release)'), 'release.yml must check npm before stable publish');
   assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (release)'), 'release npm check');
   assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (hotfix)'), 'hotfix npm check');

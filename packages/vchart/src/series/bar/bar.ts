@@ -94,6 +94,27 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     };
   }
 
+  getStatisticFields() {
+    const fields = super.getStatisticFields();
+    const positionAxisHelper = this.direction === Direction.horizontal ? this.getYAxisHelper() : this.getXAxisHelper();
+    const positionFields = this.direction === Direction.horizontal ? this._fieldY : this._fieldX;
+    const positionScale = positionAxisHelper?.getScale?.(0);
+
+    if (positionScale && isContinuous(positionScale.type)) {
+      positionFields.forEach(field => {
+        const fieldStatistics = fields.find(entry => entry.key === field);
+        if (fieldStatistics) {
+          if (!fieldStatistics.operations.includes('values')) {
+            fieldStatistics.operations.push('values');
+          }
+        } else {
+          fields.push({ key: field, operations: ['values'] });
+        }
+      });
+    }
+    return fields;
+  }
+
   initMark(): void {
     this._initBarBackgroundMark();
 
@@ -794,12 +815,18 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const depthFromSpec = this._groups ? this._groups.fields.length : 1;
     const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
 
-    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
     const hasBarWidth = isValid(this._spec.barWidth) && depth === depthFromSpec;
+    const useFixedWidth =
+      hasBarWidth &&
+      typeof this._spec.barWidth === 'number' &&
+      typeof this._spec.barMinWidth !== 'string' &&
+      typeof this._spec.barMaxWidth !== 'string';
+    const axisBandWidth = useFixedWidth ? undefined : axisHelper.getBandwidth?.(depth - 1);
+    const bandWidth = axisBandWidth ?? DefaultBandWidth;
 
     const hasBarMinWidth = isValid(this._spec.barMinWidth);
     const hasBarMaxWidth = isValid(this._spec.barMaxWidth);
-    let width = bandWidth;
+    let width = axisHelper.isContinuous && !isNil(axisBandWidth) && !hasBarWidth ? bandWidth * 0.5 : bandWidth;
     if (hasBarWidth) {
       width = getActualNumValue(this._spec.barWidth, bandWidth);
     }
@@ -862,7 +889,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         }
       }
 
-      const center = scale.scale(datum[groupFields[0]]) + axisHelper.getBandwidth(0) / 2;
+      const center = scale.scale(datum[groupFields[0]]) + (axisHelper.getBandwidth(0) ?? bandWidth) / 2;
       return center - totalWidth / 2 + offSet;
     }
 

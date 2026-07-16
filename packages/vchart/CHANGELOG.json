@@ -2,6 +2,26 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.1.4",
+      "tag": "@visactor/vchart_v2.1.4",
+      "date": "Thu, 16 Jul 2026 09:04:49 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "feat: support automatic bar width for linear x axis"
+          },
+          {
+            "comment": "feat: support theming conversion funnel arrow (line / symbol / text) via series.funnel.conversionArrow theme token"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: restore existing axis grid graphics when grid visibility is enabled again through updateSpec with animation disabled"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.1.2",
       "tag": "@visactor/vchart_v2.1.2",
       "date": "Wed, 08 Jul 2026 08:25:01 GMT",
