@@ -1,6 +1,18 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Wed, 08 Jul 2026 08:25:01 GMT and should not be manually modified.
+This log was last generated on Thu, 16 Jul 2026 09:04:49 GMT and should not be manually modified.
+
+## 2.1.4
+Thu, 16 Jul 2026 09:04:49 GMT
+
+### Minor changes
+
+- feat: support automatic bar width for linear x axis
+- feat: support theming conversion funnel arrow (line / symbol / text) via series.funnel.conversionArrow theme token
+
+### Patches
+
+- fix: restore existing axis grid graphics when grid visibility is enabled again through updateSpec with animation disabled
 
 ## 2.1.2
 Wed, 08 Jul 2026 08:25:01 GMT
