@@ -1,3 +1,19 @@
+# v2.1.4
+
+2026-07-16
+
+**🆕 New Features**
+
+- **@visactor/vchart**: support automatic bar width for linear x axis
+- **@visactor/vchart**: support theming conversion funnel arrow (line / symbol / text) via series.funnel.conversionArrow theme token
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: restore existing axis grid graphics when grid visibility is enabled again through updateSpec with animation disabled
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.3...v2.1.4
+
+[more detail about v2.1.4](https://github.com/VisActor/VChart/releases/tag/v2.1.4)
 # v2.1.3
 
 2026-07-08

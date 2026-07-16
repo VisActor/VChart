@@ -23,7 +23,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.x]
 
     concurrency:
       group: vchart-release-${{ github.ref_name }}
@@ -78,7 +78,7 @@ jobs:
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
       - name: Update npm
-        run: npm install -g npm@latest
+        run: npm install -g npm@^11.5.1
 
       - name: Install latest pnpm
         run: npm install -g pnpm@10.7.0
