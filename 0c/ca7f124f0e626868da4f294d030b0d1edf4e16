@@ -1,0 +1,23 @@
+.github/workflows/release.yml
+  s_1be1168a1db6a8::t_0e75cc71044816 26,81
+common/scripts/verify-release-workflows.js
+  s_1be1168a1db6a8::t_d03f9cd28ec3bb 101-110
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "0cca7f124f0e626868da4f294d030b0d1edf4e16",
+  "prompts": {},
+  "sessions": {
+    "s_1be1168a1db6a8": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f6a1d-c24b-7930-a593-e358182264f3",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
