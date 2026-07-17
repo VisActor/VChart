@@ -1,0 +1,25 @@
+common/changes/@visactor/vchart/fix-dimension-hover-event-release_2026-07-17.json
+  s_325226c11a2133::t_10f4fc4ee56771 1-11
+packages/vchart/__tests__/unit/event/dimension-hover.test.ts
+  s_325226c11a2133::t_bf0f3e8974962b 1-23
+packages/vchart/src/event/events/dimension/dimension-hover.ts
+  s_325226c11a2133::t_9f8e1b010f7a27 38-41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "53a4034a476933ac0f632ff91428dd241fb12f19",
+  "prompts": {},
+  "sessions": {
+    "s_325226c11a2133": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f642b-4548-75d0-9f65-b1bbaae59d1e",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
