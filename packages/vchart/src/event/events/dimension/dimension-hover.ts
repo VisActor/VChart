@@ -35,6 +35,10 @@ export class DimensionHoverEvent extends DimensionEvent {
       query: null,
       callback: this.onMouseMove
     });
+    this._eventDispatcher.unregister('pointerout', {
+      query: null,
+      callback: this.onMouseOut
+    });
 
     if (isMobileLikeMode(this._mode)) {
       // 移动端点按也出发 hover
