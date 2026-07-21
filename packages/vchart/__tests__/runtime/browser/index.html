@@ -62,7 +62,12 @@
     <!-- 添加新的控制脚本 -->
     <script type="module">
       const params = new URLSearchParams(window.location.search);
-      const currentView = params.get('view') === 'dashboard' ? 'dashboard' : 'default';
+      const currentView =
+        params.get('view') === 'dashboard'
+          ? 'dashboard'
+          : params.get('view') === 'pie-performance'
+          ? 'pie-performance'
+          : 'default';
       const button = document.getElementById('toggleScriptBtn');
 
       let scriptSrc;
@@ -73,10 +78,14 @@
         scriptSrc = './index.page.dashboard.ts';
         nextViewUrl = './index.html'; // 切换回默认视图
         buttonText = '切换到默认视图 (单图)';
+      } else if (currentView === 'pie-performance') {
+        scriptSrc = './test-page/performance-pie-small.ts';
+        nextViewUrl = './index.html';
+        buttonText = '切换到默认视图 (单图)';
       } else {
         scriptSrc = './index.page.ts'; // 默认加载这个脚本
-        nextViewUrl = './index.html?view=dashboard'; // 切换到仪表盘视图
-        buttonText = '切换到仪表盘视图 (6图)';
+        nextViewUrl = './index.html?view=pie-performance';
+        buttonText = '切换到饼图性能页';
       }
 
       // 设置按钮文本
