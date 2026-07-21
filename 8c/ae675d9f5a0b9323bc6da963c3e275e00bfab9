@@ -1,0 +1,37 @@
+common/config/rush/pnpm-lock.yaml
+  s_7abea79d1329fd::t_f8ba5dc4e86717 40-41,43-44,206-207,209-210,297-298,300-301,532-533,535-536,538-539,541-542,544-545,698-699,701-702,704-705,707-708,1266-1267,1269-1270,1272-1273,3082-3083,3088-3089,3094-3095,3100-3101,3103-3104,15068,15070,15081,15083-15085,15094,15108,15111,15117,15119-15122
+docs/package.json
+  s_7abea79d1329fd::t_76c65fd52adb83 22-23
+packages/openinula-vchart/package.json
+  s_7abea79d1329fd::t_84a89e2755525d 33-34
+packages/react-vchart/package.json
+  s_7abea79d1329fd::t_5dc95319684b79 39-40
+packages/vchart-extension/package.json
+  s_7abea79d1329fd::t_dc3da2861e25b7 29-32
+packages/vchart/__tests__/runtime/browser/index.html
+  s_7abea79d1329fd::t_8931073c531583 65-70,81-84,87-88
+packages/vchart/__tests__/runtime/browser/test-page/performance-pie-small.ts
+  s_7abea79d1329fd::t_fbeede748d6258 1-83
+packages/vchart/package.json
+  s_7abea79d1329fd::t_f46baa9cd9615d 131-135
+tools/story-player/package.json
+  s_7abea79d1329fd::t_f458b5d0bff9a2 59-60,62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "8cae675d9f5a0b9323bc6da963c3e275e00bfab9",
+  "prompts": {},
+  "sessions": {
+    "s_7abea79d1329fd": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f83cc-5c3b-7891-ab87-bcd4079afe80",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
