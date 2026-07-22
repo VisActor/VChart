@@ -817,12 +817,20 @@ Set the pager type, currently supporting two styles:
 - Default style: pager with arrows
 - `type: 'scrollbar'`: Scrollbar pager
 
-#### layout(string)
+#### layout(string|Function)
 
 The layout of the page turner, the optional values are `'horizontal'` and `'vertical'`. The default value logic is:
 
 - Defaults to `'vertical'` when legend `orient` is `'left'` or `'right'`.
 - Defaults to `'horizontal'` when legend `orient` is `'top'` or `'bottom'`.
+
+A callback `(ctx) => 'horizontal' | 'vertical'` is also supported. It is evaluated during layout after `maxRow` / `maxCol` have been resolved. `ctx` contains `rect`, `orient`, `id`, `maxRow`, and `maxCol`, so the pager handlers can switch to a vertical arrangement for a multi-row legend.
+
+#### position(string|Function)
+
+The cross-axis alignment of the pager within the legend content. The optional values are `'start'`, `'middle'`, and `'end'`; the default is `'middle'`.
+
+A callback `(ctx) => 'start' | 'middle' | 'end'` is also supported. It is evaluated during layout after `maxRow` / `maxCol` have been resolved and receives the same `ctx` as the `layout` callback, so a multi-row legend can top-align its pager while a single-row legend remains centered.
 
 #### defaultCurrent(number)
 

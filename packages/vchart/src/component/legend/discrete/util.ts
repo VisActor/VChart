@@ -4,7 +4,7 @@ import { isPercent, isValidOrient } from '../../../util/space';
 import { mergeSpec } from '@visactor/vutils-extension';
 import { transformComponentStyle, transformToGraphic } from '../../../util/style';
 import { transformLegendTitleAttributes } from '../util';
-import type { IDiscreteLegendSpec, ILegendScrollbar, IPager } from './interface';
+import type { IDiscreteLegendPagerCallbackContext, IDiscreteLegendSpec, ILegendScrollbar, IPager } from './interface';
 import type { ILayoutRect } from '../../../typings/layout';
 import type { IOrientType } from '../../../typings/space';
 
@@ -88,13 +88,30 @@ export function getLegendAttributes(spec: IDiscreteLegendSpec, rect: ILayoutRect
   // Use the layout-resolved orient (falling back to the spec orient default rule) so the callback
   // sees the orient the legend actually lays out with, not the raw `spec.orient` which is
   // `undefined` when the user omits it.
-  if (isFunction(attrs.maxRow) || isFunction(attrs.maxCol)) {
+  const pagerLayout = (pager as IPager).layout;
+  const pagerPosition = (pager as IPager).position;
+  if (isFunction(attrs.maxRow) || isFunction(attrs.maxCol) || isFunction(pagerLayout) || isFunction(pagerPosition)) {
     const resolvedOrient = isValidOrient(layoutOrient) ? layoutOrient : isValidOrient(orient) ? orient : 'left';
     if (isFunction(attrs.maxRow)) {
       attrs.maxRow = attrs.maxRow({ rect, orient: resolvedOrient, id });
     }
     if (isFunction(attrs.maxCol)) {
       attrs.maxCol = attrs.maxCol({ rect, orient: resolvedOrient, id });
+    }
+    // `layout` / `position` callbacks only apply to the arrow pager, not the scrollbar.
+    const isArrowPager = (pager as ILegendScrollbar).type !== 'scrollbar';
+    const pagerContext: IDiscreteLegendPagerCallbackContext = {
+      rect,
+      orient: resolvedOrient,
+      id,
+      maxRow: attrs.maxRow,
+      maxCol: attrs.maxCol
+    };
+    if (isArrowPager && isFunction(pagerLayout)) {
+      (pager as IPager).layout = pagerLayout(pagerContext);
+    }
+    if (isArrowPager && isFunction(pagerPosition)) {
+      (pager as IPager).position = pagerPosition(pagerContext);
     }
   }
 
