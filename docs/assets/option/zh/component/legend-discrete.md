@@ -804,12 +804,20 @@ value: {
 - 默认样式：带箭头的翻页器
 - `type: 'scrollbar'`: 滚动条翻页
 
-#### layout(string)
+#### layout(string|Function)
 
 翻页器的布局方式，可选值为 `'horizontal'` 和 `'vertical'`。默认值逻辑为：
 
 - 图例 `orient` 为 `'left'` 或者 `'right'` 时，默认为 `'vertical'`。
 - 图例 `orient` 为 `'top'` 或者 `'bottom'` 时，默认为 `'horizontal'`。
+
+支持回调 `(ctx) => 'horizontal' | 'vertical'`。回调在布局期、`maxRow` / `maxCol` 求值后执行，`ctx` 包含 `rect`、`orient`、`id`、`maxRow` 和 `maxCol`，可据此让多行图例的翻页按钮切换为上下排列。
+
+#### position(string|Function)
+
+翻页器在图例内容交叉轴方向上的对齐位置，可选值为 `'start'`、`'middle'` 和 `'end'`，默认值为 `'middle'`。
+
+支持回调 `(ctx) => 'start' | 'middle' | 'end'`。回调同样在布局期、`maxRow` / `maxCol` 求值后执行，并接收与 `layout` 回调相同的 `ctx`，可据此让多行图例的翻页器顶对齐、单行图例保持居中。
 
 #### defaultCurrent(number)
 
