@@ -1,0 +1,33 @@
+packages/vchart/src/chart/base/base-chart.ts
+  s_3c9030f6f8f4da::t_1e1e1a0cbc7a15 1574
+packages/vchart/__tests__/runtime/browser/event-update-spec.html
+  s_3c9030f6f8f4da::t_02542e9284b375 1-82
+packages/vchart/__tests__/runtime/browser/index.html
+  s_3c9030f6f8f4da::t_977ffa7f7b4b75 52
+packages/vchart/__tests__/unit/core/vchart-event.test.ts
+  s_3c9030f6f8f4da::t_8d4853aaa114d4 246-376
+common/changes/@visactor/vchart/fix-event-listener-remake-duplication_2026-07-28-02-02.json
+  s_3c9030f6f8f4da::t_04c414276797aa 1-11
+packages/vchart/__tests__/unit/chart/bar.test.ts
+  s_3c9030f6f8f4da::t_85f5d7cb85e501 106,140
+packages/vchart/__tests__/util/factory/compiler.ts
+  s_3c9030f6f8f4da::t_77c15bc7216525 12-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "fe71c873fef0578d91728568d0d2065360cf081a",
+  "prompts": {},
+  "sessions": {
+    "s_3c9030f6f8f4da": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa199-d05b-7993-815b-a6141f1a79e6",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
