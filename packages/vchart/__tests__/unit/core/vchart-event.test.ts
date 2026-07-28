@@ -243,6 +243,137 @@ describe('vchart event test', () => {
     expect(pointDowmSpy).toBeCalledTimes(2);
   });
 
+  it('should not duplicate a user event when its handler remakes the chart', async () => {
+    const eventContainer = createDiv();
+    const eventDom = createDiv(eventContainer);
+    const spec: ICommonChartSpec = {
+      type: 'common',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            { x: 'A', y: 10 },
+            { x: 'B', y: 20 }
+          ]
+        }
+      ],
+      series: [
+        {
+          type: 'bar',
+          dataId: 'barData',
+          xField: 'x',
+          yField: 'y'
+        }
+      ],
+      axes: [{ orient: 'left' }, { orient: 'bottom', type: 'band' }]
+    };
+    const chart = new VChart(spec, { dom: eventDom, animation: false });
+    const updatePromises: Promise<unknown>[] = [];
+    const pointerdownSpy = jest.fn(() => {
+      spec.series[0].zIndex = 1;
+      updatePromises.push(chart.updateSpec(spec));
+    });
+    const stage = chart.getStage();
+    const emitPointerdown = () => {
+      const listeners = (stage as unknown as { _events?: { pointerdown?: StageEventListener | StageEventListener[] } })
+        ._events?.pointerdown;
+      const event = {
+        type: 'pointerdown',
+        target: stage,
+        defaultPrevented: false,
+        stopPropagation: jest.fn(),
+        preventDefault: jest.fn()
+      };
+      (listeners ? ('fn' in listeners ? [listeners] : listeners) : []).forEach((listener: StageEventListener) => {
+        listener.fn.call(listener.context, event);
+      });
+    };
+
+    try {
+      chart.renderSync();
+      chart.on('pointerdown', pointerdownSpy);
+
+      emitPointerdown();
+      await Promise.all(updatePromises.splice(0));
+      emitPointerdown();
+      await Promise.all(updatePromises.splice(0));
+
+      expect(pointerdownSpy).toBeCalledTimes(2);
+    } finally {
+      chart.release();
+      removeDom(eventContainer);
+    }
+  });
+
+  it('should release chart-owned interaction event handlers before remake', () => {
+    const eventContainer = createDiv();
+    const eventDom = createDiv(eventContainer);
+    const spec: ICommonChartSpec = {
+      type: 'common',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            { x: 'A', y: 10 },
+            { x: 'B', y: 20 }
+          ]
+        }
+      ],
+      series: [
+        {
+          type: 'bar',
+          dataId: 'barData',
+          xField: 'x',
+          yField: 'y',
+          hover: false,
+          select: false,
+          bar: {
+            state: {
+              active: {
+                fillOpacity: 0.5
+              }
+            }
+          },
+          interactions: [
+            {
+              type: 'element-active',
+              trigger: 'pointerover',
+              triggerOff: 'none'
+            }
+          ]
+        }
+      ],
+      axes: [{ orient: 'left' }, { orient: 'bottom', type: 'band' }]
+    };
+    const chart = new VChart(spec, { dom: eventDom, animation: false });
+    const getPointeroverHandlerCount = () => {
+      const eventDispatcher = chart as unknown as {
+        _eventDispatcher: { _viewBubbles: Map<string, { getCount: () => number }> };
+      };
+
+      return eventDispatcher._eventDispatcher._viewBubbles.get('pointerover')?.getCount();
+    };
+
+    try {
+      chart.renderSync();
+      expect(getPointeroverHandlerCount()).toBe(1);
+
+      spec.series[0].zIndex = 1;
+      chart.updateSpecSync(spec);
+
+      expect(getPointeroverHandlerCount()).toBe(1);
+      const barSeries = (chart.getChart() as IChart).getAllSeries()[0];
+      const barMark = barSeries.getMarks().find(mark => mark.name === 'bar') as IMark;
+      const barGraphic = barMark.getGraphics()[0] as IMarkGraphic;
+
+      (chart.getChart() as IChart).getEvent().emit('pointerover', { item: barGraphic } as unknown as BaseEventParams);
+      expect(barGraphic.hasState('active')).toBe(true);
+    } finally {
+      chart.release();
+      removeDom(eventContainer);
+    }
+  });
+
   it('should keep tooltip and crosshair triggerable after line mark and marker update without remake', () => {
     const lineContainer = createDiv();
     const lineDom = createDiv(lineContainer);

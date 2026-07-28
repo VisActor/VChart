@@ -1571,6 +1571,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     }
 
     /* 开始 release */
+    this._event.release();
     super.release();
     // clear event , temporary function of  chart items
     this.clear();
