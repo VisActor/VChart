@@ -1,0 +1,27 @@
+packages/vchart/__tests__/runtime/browser/event-update-spec.html
+  s_3c9030f6f8f4da::t_02542e9284b375 1-82
+packages/vchart/__tests__/runtime/browser/index.html
+  s_3c9030f6f8f4da::t_977ffa7f7b4b75 52
+packages/vchart/__tests__/unit/core/vchart-event.test.ts
+  s_3c9030f6f8f4da::t_8d4853aaa114d4 246-376
+packages/vchart/src/chart/base/base-chart.ts
+  s_3c9030f6f8f4da::t_1e1e1a0cbc7a15 1574
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.10",
+  "base_commit_sha": "449fe430f15842427515cfe069ea1d6c0c9a4e5a",
+  "prompts": {},
+  "sessions": {
+    "s_3c9030f6f8f4da": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019fa199-d05b-7993-815b-a6141f1a79e6",
+        "model": "unknown"
+      },
+      "human_author": "lixuefei.1313 <lixuef1313@163.com>"
+    }
+  },
+  "attestation_metadata": {},
+  "remote_transcripts": {}
+}
