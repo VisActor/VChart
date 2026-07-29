@@ -31,8 +31,35 @@
         text-align: center;
         flex-shrink: 0; /* 防止按钮区域被压缩 */
       }
+      #chartSizeControl {
+        display: inline-flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: 16px;
+        vertical-align: middle;
+      }
+      #chartSizeControl span,
+      #chartSizeControl label {
+        font-size: 12px;
+      }
+      #chartSizeControl label {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+      }
+      #chartSizeControl input {
+        width: 72px;
+        box-sizing: border-box;
+      }
+      #chartSizeControlStatus {
+        color: #606773;
+      }
       #chartContainer {
         flex-grow: 1; /* 让图表容器填充剩余空间 */
+        box-sizing: border-box;
+        overflow: auto;
+        padding: 50px;
         position: relative; /* 确保内部绝对定位有效 */
       }
       /* 为 id="chart" 添加样式，使其填充 chartContainer */
@@ -49,6 +76,19 @@
     <!-- 添加控制面板和按钮 -->
     <div id="controlPanel">
       <button id="toggleScriptBtn">切换视图</button>
+      <form id="chartSizeControl">
+        <span><strong>容器尺寸</strong></span>
+        <label>
+          宽
+          <input id="chartWidthInput" type="number" min="1" max="4000" step="1" value="768" />
+        </label>
+        <label>
+          高
+          <input id="chartHeightInput" type="number" min="1" max="4000" step="1" value="1024" />
+        </label>
+        <button type="submit">应用</button>
+        <span id="chartSizeControlStatus">768 x 1024</span>
+      </form>
     </div>
 
     <!-- 图表将在此容器内创建 -->
@@ -64,6 +104,12 @@
       const params = new URLSearchParams(window.location.search);
       const currentView = params.get('view') === 'dashboard' ? 'dashboard' : 'default';
       const button = document.getElementById('toggleScriptBtn');
+      const chartSizeControl = document.getElementById('chartSizeControl');
+      const chartWidthInput = document.getElementById('chartWidthInput');
+      const chartHeightInput = document.getElementById('chartHeightInput');
+      const chartSizeControlStatus = document.getElementById('chartSizeControlStatus');
+      const minChartSize = 1;
+      const maxChartSize = 4000;
 
       let scriptSrc;
       let nextViewUrl;
@@ -81,11 +127,51 @@
 
       // 设置按钮文本
       button.textContent = buttonText;
+      chartSizeControl.style.display = currentView === 'dashboard' ? 'none' : 'inline-flex';
 
       // 添加按钮点击事件监听器
       button.addEventListener('click', () => {
         window.location.href = nextViewUrl;
       });
+
+      const normalizeChartSize = value => Math.min(maxChartSize, Math.max(minChartSize, Math.round(value)));
+      const applyChartSize = () => {
+        const width = Number(chartWidthInput.value);
+        const height = Number(chartHeightInput.value);
+
+        if (!Number.isFinite(width) || !Number.isFinite(height)) {
+          chartSizeControlStatus.textContent = '请输入有效宽高';
+          return;
+        }
+
+        const normalizedWidth = normalizeChartSize(width);
+        const normalizedHeight = normalizeChartSize(height);
+        const chart = document.getElementById('chart');
+        chartWidthInput.value = `${normalizedWidth}`;
+        chartHeightInput.value = `${normalizedHeight}`;
+
+        if (chart) {
+          chart.style.width = `${normalizedWidth}px`;
+          chart.style.height = `${normalizedHeight}px`;
+          chart.style.margin = '0';
+        }
+
+        if (typeof window.resizeChartContainer === 'function') {
+          window.resizeChartContainer(normalizedWidth, normalizedHeight);
+        } else if (window.vchart && typeof window.vchart.resizeSync === 'function') {
+          window.vchart.resizeSync(normalizedWidth, normalizedHeight);
+        }
+
+        chartSizeControlStatus.textContent = `${normalizedWidth} x ${normalizedHeight}`;
+      };
+
+      chartSizeControl.addEventListener('submit', event => {
+        event.preventDefault();
+        applyChartSize();
+      });
+      chartWidthInput.addEventListener('change', applyChartSize);
+      chartHeightInput.addEventListener('change', applyChartSize);
+      applyChartSize();
 
       // 动态创建并添加当前视图所需的脚本
       const script = document.createElement('script');
