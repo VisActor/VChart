@@ -101,7 +101,7 @@ export type IMarkerSymbol = IMarkerRef & {
 } & Partial<IMarkerState<Omit<ISymbolMarkSpec, 'visible'>>>;
 export type MarkerStyleCallback<T> = (markerData: DataView, context: IMarkerAttributeContext) => T;
 export type MarkerStateCallback<T> = (markerData: DataView, context: IMarkerAttributeContext) => T;
-export type MarkerStateValue = 'hover' | 'hover_reverse' | 'selected' | 'selected_reverse';
+export type MarkerStateValue = 'hover' | 'hover_reverse' | 'dimension_hover' | 'dimension_hover_reverse' | 'selected' | 'selected_reverse';
 export type IMarkerState<T> = {
     style?: T | MarkerStyleCallback<T>;
     state?: Record<MarkerStateValue, T | MarkerStateCallback<T>>;
