@@ -15,6 +15,22 @@ function writeVersionOfHarmony(nextVersion) {
   fs.writeFileSync(ohPackageJsonPath, jsonFile);
 }
 
+function writeLockstepVersion(nextVersion) {
+  const versionPoliciesPath = path.join(__dirname, '../config/rush/version-policies.json');
+  let versionPoliciesFile = fs.readFileSync(versionPoliciesPath, { encoding: 'utf-8' });
+  const versionPolicies = JSON.parse(versionPoliciesFile);
+  const policyIndex = versionPolicies.findIndex(policy => policy.policyName === 'vchartMain');
+
+  if (policyIndex === -1) {
+    throw new Error('Unable to find the vchartMain version policy');
+  }
+
+  if (versionPolicies[policyIndex].version !== nextVersion) {
+    versionPoliciesFile = setJsonFileByKey(versionPoliciesFile, versionPolicies, [String(policyIndex), 'version'], nextVersion);
+    fs.writeFileSync(versionPoliciesPath, versionPoliciesFile);
+  }
+}
+
 
 function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildName) {
   const rushJson = getPackageJson(path.join(__dirname, '../../rush.json'));
@@ -49,7 +65,8 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
     }
   }
 
-  let nextVersion = nextVersionStr ? nextVersionStr : `${curVersion.major}.${curVersion.minor}.${curVersion.patch}`;
+  const nextBaseVersion = nextVersionStr ? nextVersionStr : `${curVersion.major}.${curVersion.minor}.${curVersion.patch}`;
+  let nextVersion = nextBaseVersion;
 
   if (preReleaseName && preReleaseName !== 'none') {
     nextVersion = `${nextVersion}-${preReleaseName}`;
@@ -58,6 +75,8 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
   if (buildName) {
     nextVersion = `${nextVersion}+${buildName}`;
   }
+
+  writeLockstepVersion(nextBaseVersion);
 
   const published = projects.filter(project => project.shouldPublish).map(project => project.packageName);
 
