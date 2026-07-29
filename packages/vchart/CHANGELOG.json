@@ -2,6 +2,12 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "1.13.28",
+      "tag": "@visactor/vchart_v1.13.28",
+      "date": "Wed, 29 Jul 2026 08:37:54 GMT",
+      "comments": {}
+    },
+    {
       "version": "1.13.14",
       "tag": "@visactor/vchart_v1.13.14",
       "date": "Fri, 08 May 2026 08:47:28 GMT",
