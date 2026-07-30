@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: avoid duplicate event handlers after chart remake",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "lixuef1313@163.com"
+}

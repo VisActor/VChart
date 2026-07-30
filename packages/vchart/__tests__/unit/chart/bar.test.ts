@@ -103,7 +103,7 @@ describe('Bar chart test', () => {
       {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        eventDispatcher: new EventDispatcher({} as never, { addEventListener: () => {} } as never),
+        eventDispatcher: new EventDispatcher({} as never, getTestCompiler()),
         globalInstance: {
           isAnimationEnable: () => true,
           getContainer: () => ({}),
@@ -137,7 +137,7 @@ describe('Bar chart test', () => {
       {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        eventDispatcher: new EventDispatcher({} as never, { addEventListener: () => {} } as never),
+        eventDispatcher: new EventDispatcher({} as never, getTestCompiler()),
         globalInstance: {
           isAnimationEnable: () => true,
           getContainer: () => ({}),
