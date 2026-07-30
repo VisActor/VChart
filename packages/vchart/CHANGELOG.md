@@ -1,6 +1,19 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 16 Jul 2026 09:04:49 GMT and should not be manually modified.
+This log was last generated on Thu, 30 Jul 2026 08:24:02 GMT and should not be manually modified.
+
+## 2.1.5
+Thu, 30 Jul 2026 08:24:02 GMT
+
+### Minor changes
+
+- feat: support layout-time callbacks for discrete legend pager.layout and pager.position with resolved maxRow and maxCol
+- feat: support dimension hover state for mark point target symbol
+
+### Patches
+
+- fix: release the pointerout listener when dimension hover events are unregistered
+- fix: avoid duplicate event handlers after chart remake
 
 ## 2.1.4
 Thu, 16 Jul 2026 09:04:49 GMT

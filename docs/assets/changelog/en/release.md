@@ -1,3 +1,20 @@
+# v2.1.5
+
+2026-07-30
+
+**🆕 New Features**
+
+- **@visactor/vchart**: support layout-time callbacks for discrete legend pager.layout and pager.position with resolved maxRow and maxCol
+- **@visactor/vchart**: support dimension hover state for mark point target symbol
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: release the pointerout listener when dimension hover events are unregistered
+- **@visactor/vchart**: avoid duplicate event handlers after chart remake
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.4...v2.1.5
+
+[more detail about v2.1.5](https://github.com/VisActor/VChart/releases/tag/v2.1.5)
 # v2.1.4
 
 2026-07-16
