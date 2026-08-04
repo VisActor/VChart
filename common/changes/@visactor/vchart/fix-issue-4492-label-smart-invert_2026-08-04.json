@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: respect explicit label smart invert settings",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "biukam.w@gmail.com"
+}
