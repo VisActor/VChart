@@ -1,3 +1,20 @@
+# v2.1.5
+
+2026-07-30
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 支持 layout-time callbacks for discrete 图例 pager.layout and pager.position with resolved maxRow and maxCol
+- **@visactor/vchart**: 支持 dimension hover state for mark point target symbol
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: release the pointerout listener when dimension hover events are unregistered
+- **@visactor/vchart**: avoid duplicate event handlers after chart remake
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.4...v2.1.5
+
+[更多详情请查看 v2.1.5](https://github.com/VisActor/VChart/releases/tag/v2.1.5)
 # v2.1.4
 
 2026-07-16

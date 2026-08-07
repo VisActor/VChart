@@ -384,7 +384,13 @@ export type MarkerStateCallback<T> = (
    */
   context: IMarkerAttributeContext
 ) => T;
-export type MarkerStateValue = 'hover' | 'hover_reverse' | 'selected' | 'selected_reverse';
+export type MarkerStateValue =
+  | 'hover'
+  | 'hover_reverse'
+  | 'dimension_hover'
+  | 'dimension_hover_reverse'
+  | 'selected'
+  | 'selected_reverse';
 export type IMarkerState<T> = {
   /** 默认样式设置 */
   style?: T | MarkerStyleCallback<T>;

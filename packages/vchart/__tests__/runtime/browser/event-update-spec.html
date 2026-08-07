@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VChart Event Update Spec Case</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      }
+
+      body {
+        box-sizing: border-box;
+        padding: 24px;
+        background: #f8fafc;
+      }
+
+      .panel {
+        box-sizing: border-box;
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px 24px;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 20px;
+      }
+
+      p {
+        margin: 0 0 12px;
+        color: #475569;
+        line-height: 1.5;
+      }
+
+      .status {
+        display: flex;
+        gap: 24px;
+        margin-bottom: 12px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .status strong {
+        color: #0f172a;
+      }
+
+      #chart {
+        width: 100%;
+        height: 480px;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="panel">
+      <h1>pointerdown 中 updateSpec 的事件注册用例</h1>
+      <p>连续点击任意柱子。每次点击都会更新被点击系列的 zIndex；回调次数应当每次只增加 1。</p>
+      <div class="status">
+        <span>pointerdown 回调次数：<strong id="eventCount">0</strong></span>
+        <span>最近命中系列：<strong id="targetIndex">-</strong></span>
+      </div>
+      <div id="chart"></div>
+      <div class="actions">
+        <button id="reset" type="button">重置用例</button>
+        <a href="./index.html">返回默认测试页</a>
+      </div>
+    </main>
+    <script type="module" src="./test-page/event-update-spec.ts"></script>
+  </body>
+</html>

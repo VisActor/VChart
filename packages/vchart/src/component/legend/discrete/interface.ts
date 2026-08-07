@@ -156,6 +156,9 @@ export type IItem = {
   autoEllipsisStrategy?: 'labelFirst' | 'valueFirst' | 'none';
 } & Omit<LegendItem, 'background' | 'shape' | 'label' | 'value' | 'focusIconStyle' | 'width' | 'height' | 'maxWidth'>;
 
+export type LegendPagerLayout = 'horizontal' | 'vertical';
+export type LegendPagerPosition = 'start' | 'middle' | 'end';
+
 export type IPager = {
   /**
    * 文本样式配置
@@ -186,7 +189,19 @@ export type IPager = {
       disable?: Omit<NoVisibleMarkStyle<ISymbolMarkSpec>, 'symbolType'>;
     };
   };
-} & Omit<LegendPagerAttributes, 'textStyle' | 'handler'>;
+  /**
+   * The layout of the pager. A callback is evaluated during layout after `maxRow` / `maxCol`
+   * have been resolved, allowing the pager handlers to adapt to a multi-row / multi-column legend.
+   * @since 2.2.0
+   */
+  layout?: LegendPagerLayout | ((ctx: IDiscreteLegendPagerCallbackContext) => LegendPagerLayout);
+  /**
+   * The cross-axis position of the pager. A callback is evaluated during layout after `maxRow` /
+   * `maxCol` have been resolved, allowing the pager alignment to adapt to the resolved page layout.
+   * @since 2.2.0
+   */
+  position?: LegendPagerPosition | ((ctx: IDiscreteLegendPagerCallbackContext) => LegendPagerPosition);
+} & Omit<LegendPagerAttributes, 'textStyle' | 'handler' | 'layout' | 'position'>;
 
 export type ILegendScrollbar = {
   type: 'scrollbar';
@@ -207,6 +222,17 @@ export interface IDiscreteLegendArrangeContext {
   orient: IOrientType;
   /** the id of the legend */
   id?: StringOrNumber;
+}
+
+/**
+ * The layout context passed to `pager.layout` and `pager.position` callbacks.
+ * @since 2.2.0
+ */
+export interface IDiscreteLegendPagerCallbackContext extends IDiscreteLegendArrangeContext {
+  /** the resolved maximum row count, when configured */
+  maxRow?: number;
+  /** the resolved maximum column count, when configured */
+  maxCol?: number;
 }
 
 /**
