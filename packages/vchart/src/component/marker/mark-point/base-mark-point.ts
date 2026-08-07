@@ -11,11 +11,13 @@ import {
 import type { MarkPointAttrs } from '@visactor/vrender-components';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
-import { isValid, merge } from '@visactor/vutils';
+import { array, isValid, merge } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant/layout';
-import type { IGroup } from '@visactor/vrender-core';
+import { STATE_VALUE_ENUM } from '../../../compile/mark/interface';
+import { DimensionEventEnum, type DimensionEventParams } from '../../../event/events/dimension/interface';
+import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import type { IMarkerLabelSpec, IMarkerLabelWithoutRefSpec } from '../interface';
 
 const isRichTextStyle = (style: any) => style?.type === 'rich';
@@ -43,6 +45,60 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
   protected declare _markerComponent: MarkPointComponent;
 
   protected abstract _computePointsAttr(): any;
+
+  protected initEvent() {
+    super.initEvent();
+
+    const targetSymbolState = this._spec.targetSymbol?.state;
+    if (
+      this.coordinateType === 'cartesian' &&
+      (targetSymbolState?.dimension_hover || targetSymbolState?.dimension_hover_reverse)
+    ) {
+      this.event.on(DimensionEventEnum.dimensionHover, this._handleDimensionHover);
+    }
+  }
+
+  protected _handleDimensionHover = (params: DimensionEventParams) => {
+    const targetSymbol = this._getTargetSymbolGraphic();
+    if (!targetSymbol) {
+      return;
+    }
+
+    switch (params.action) {
+      case 'enter': {
+        targetSymbol.removeState(STATE_VALUE_ENUM.STATE_DIMENSION_HOVER);
+        targetSymbol.removeState(STATE_VALUE_ENUM.STATE_DIMENSION_HOVER_REVERSE);
+
+        if (this._isDimensionHoverTarget(params)) {
+          targetSymbol.addState(STATE_VALUE_ENUM.STATE_DIMENSION_HOVER, true);
+        } else if (this._spec.targetSymbol?.state?.dimension_hover_reverse) {
+          targetSymbol.addState(STATE_VALUE_ENUM.STATE_DIMENSION_HOVER_REVERSE, true);
+        }
+        break;
+      }
+      case 'leave':
+        targetSymbol.removeState(STATE_VALUE_ENUM.STATE_DIMENSION_HOVER);
+        targetSymbol.removeState(STATE_VALUE_ENUM.STATE_DIMENSION_HOVER_REVERSE);
+        break;
+      default:
+        break;
+    }
+  };
+
+  private _getTargetSymbolGraphic() {
+    return this._markerComponent?.find(
+      node => node.name === 'mark-point-targetItem',
+      true
+    ) as unknown as IGraphic | null;
+  }
+
+  private _isDimensionHoverTarget(params: DimensionEventParams) {
+    const latestData = this._markerData?.latestData;
+    const markerData = latestData?.[0]?.latestData ?? latestData;
+    const markerXValues = array(markerData?.[0]?.x).filter(isValid);
+
+    return markerXValues.some(value => params.dimensionInfo.some(dimension => dimension.value === value));
+  }
 
   static _getMarkerCoordinateType(markerSpec: any): string {
     const { doPolarProcess, doGeoProcess } = getMarkPointProcessInfo(markerSpec);

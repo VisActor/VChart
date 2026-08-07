@@ -100,4 +100,64 @@ describe('MarkPoint Style', () => {
     expect(itemContent.style.textConfig).toEqual(richText);
     expect(itemContent.style.text).toBeUndefined();
   });
+
+  it('should apply targetSymbol dimension_hover state for the matching x value', () => {
+    const spec = {
+      coordinate: {
+        month: '3月',
+        value: 66
+      },
+      itemContent: {
+        type: 'text',
+        text: {
+          text: 'Hello'
+        }
+      },
+      itemLine: {},
+      targetSymbol: {
+        visible: true,
+        state: {
+          dimension_hover: {
+            opacity: 0.001
+          }
+        }
+      }
+    };
+    const ctx: any = {
+      getChart: () => ({
+        getTheme: () => ({})
+      })
+    };
+
+    const markPoint = new TestMarkPoint(spec as any, ctx);
+    const targetSymbol = {
+      addState: jest.fn(),
+      removeState: jest.fn()
+    };
+    (markPoint as any)._markerComponent = {
+      find: () => targetSymbol
+    };
+    (markPoint as any)._markerData = {
+      latestData: [
+        {
+          x: ['3月'],
+          y: [66]
+        }
+      ]
+    };
+
+    (markPoint as any)._handleDimensionHover({
+      action: 'enter',
+      dimensionInfo: [{ value: '3月', data: [] }]
+    });
+
+    expect(targetSymbol.addState).toHaveBeenCalledWith('dimension_hover', true);
+
+    (markPoint as any)._handleDimensionHover({
+      action: 'leave',
+      dimensionInfo: [{ value: '3月', data: [] }]
+    });
+
+    expect(targetSymbol.removeState).toHaveBeenCalledWith('dimension_hover');
+  });
 });

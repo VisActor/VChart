@@ -1,6 +1,6 @@
 import { getLegendAttributes } from '../../../../src/component/legend/discrete/util';
 
-describe('Discrete legend getLegendAttributes maxRow/maxCol', () => {
+describe('Discrete legend getLegendAttributes layout callbacks', () => {
   const rect = { width: 200, height: 80 };
 
   test('should evaluate function `maxRow` against the layout rect', () => {
@@ -77,5 +77,78 @@ describe('Discrete legend getLegendAttributes maxRow/maxCol', () => {
     );
 
     expect(received.orient).toBe('bottom');
+  });
+
+  test('should evaluate `pager.layout` after maxRow/maxCol are resolved', () => {
+    let received: any;
+    const attrs = getLegendAttributes(
+      {
+        type: 'discrete',
+        orient: 'bottom',
+        id: 'l3',
+        maxRow: () => 3,
+        maxCol: 1,
+        pager: {
+          layout: (ctx: any) => {
+            received = ctx;
+            return ctx.maxRow > 1 ? 'vertical' : 'horizontal';
+          }
+        }
+      } as any,
+      rect as any,
+      'top'
+    );
+
+    expect(attrs.pager.layout).toBe('vertical');
+    expect(received.rect).toBe(rect);
+    expect(received.orient).toBe('top');
+    expect(received.id).toBe('l3');
+    expect(received.maxRow).toBe(3);
+    expect(received.maxCol).toBe(1);
+  });
+
+  test('should keep a static `pager.layout` unchanged', () => {
+    const attrs = getLegendAttributes(
+      { type: 'discrete', pager: { layout: 'horizontal' } } as any,
+      rect as any
+    );
+
+    expect(attrs.pager.layout).toBe('horizontal');
+  });
+
+  test('should evaluate `pager.position` after maxRow/maxCol are resolved', () => {
+    let received: any;
+    const attrs = getLegendAttributes(
+      {
+        type: 'discrete',
+        orient: 'bottom',
+        id: 'l4',
+        maxRow: () => 3,
+        maxCol: 1,
+        pager: {
+          position: (ctx: any) => {
+            received = ctx;
+            return ctx.maxRow > 1 ? 'start' : 'middle';
+          }
+        }
+      } as any,
+      rect as any
+    );
+
+    expect(attrs.pager.position).toBe('start');
+    expect(received.rect).toBe(rect);
+    expect(received.orient).toBe('bottom');
+    expect(received.id).toBe('l4');
+    expect(received.maxRow).toBe(3);
+    expect(received.maxCol).toBe(1);
+  });
+
+  test('should keep a static `pager.position` unchanged', () => {
+    const attrs = getLegendAttributes(
+      { type: 'discrete', pager: { position: 'middle' } } as any,
+      rect as any
+    );
+
+    expect(attrs.pager.position).toBe('middle');
   });
 });

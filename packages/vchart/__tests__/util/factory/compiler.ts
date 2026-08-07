@@ -9,6 +9,8 @@ export const getTestCompiler = () =>
     updateLayoutTag: () => {},
     getStage: getTestStage,
     addRootMark: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
     renderNextTick: () => {},
     addGrammarItem: () => {}
   } as any);
