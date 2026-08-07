@@ -1,5 +1,8 @@
 import { DomTooltipHandler } from '../../../../src/plugin/components/tooltip-handler/dom-tooltip-handler';
-import { TOOLTIP_CONTAINER_EL_CLASS_NAME } from '../../../../src/plugin/components/tooltip-handler/constants';
+import {
+  TOOLTIP_CONTAINER_EL_CLASS_NAME,
+  TOOLTIP_TITLE_CLASS_NAME
+} from '../../../../src/plugin/components/tooltip-handler/constants';
 import { createDiv, removeDom } from '../../../util/dom';
 
 const createTooltipSpec = (spec: any) => ({
@@ -60,5 +63,17 @@ describe('DomTooltipHandler', () => {
     handler.initEl();
 
     expect(parentElement.querySelector(`.${TOOLTIP_CONTAINER_EL_CLASS_NAME}`)).toBe(handler.getTooltipContainer());
+  });
+
+  it('renders title as text', () => {
+    const handler = createHandler({}, container) as any;
+    const title = '<img src=x onerror="alert(1)">';
+
+    handler.initRootDom();
+    handler._updateDomStringByCol({ title: { value: title }, content: [] });
+
+    const titleDom = container.querySelector(`.${TOOLTIP_TITLE_CLASS_NAME}`);
+    expect(titleDom.textContent).toBe(title);
+    expect(titleDom.querySelector('img')).toBeNull();
   });
 });
