@@ -46,6 +46,8 @@ export type IItem = {
     height?: number | string;
     autoEllipsisStrategy?: 'labelFirst' | 'valueFirst' | 'none';
 } & Omit<LegendItem, 'background' | 'shape' | 'label' | 'value' | 'focusIconStyle' | 'width' | 'height' | 'maxWidth'>;
+export type LegendPagerLayout = 'horizontal' | 'vertical';
+export type LegendPagerPosition = 'start' | 'middle' | 'end';
 export type IPager = {
     textStyle?: Partial<NoVisibleMarkStyle<ITextMarkSpec>>;
     handler?: {
@@ -58,7 +60,9 @@ export type IPager = {
             disable?: Omit<NoVisibleMarkStyle<ISymbolMarkSpec>, 'symbolType'>;
         };
     };
-} & Omit<LegendPagerAttributes, 'textStyle' | 'handler'>;
+    layout?: LegendPagerLayout | ((ctx: IDiscreteLegendPagerCallbackContext) => LegendPagerLayout);
+    position?: LegendPagerPosition | ((ctx: IDiscreteLegendPagerCallbackContext) => LegendPagerPosition);
+} & Omit<LegendPagerAttributes, 'textStyle' | 'handler' | 'layout' | 'position'>;
 export type ILegendScrollbar = {
     type: 'scrollbar';
     railStyle?: Omit<Partial<NoVisibleMarkStyle<IRectMarkSpec>>, 'width' | 'height'>;
@@ -68,6 +72,10 @@ export interface IDiscreteLegendArrangeContext {
     rect: ILayoutRect;
     orient: IOrientType;
     id?: StringOrNumber;
+}
+export interface IDiscreteLegendPagerCallbackContext extends IDiscreteLegendArrangeContext {
+    maxRow?: number;
+    maxCol?: number;
 }
 export type DiscreteLegendArrangeCount = number | ((ctx: IDiscreteLegendArrangeContext) => number);
 export type IDiscreteLegendSpec = ILegendCommonSpec & {

@@ -55657,7 +55657,7 @@
           "typeof": "function"
         },
         {
-          "$ref": "#/definitions/Omit<LegendPagerAttributes,\"textStyle\"|\"handler\">"
+          "$ref": "#/definitions/Omit<LegendPagerAttributes,\"layout\"|\"position\"|\"textStyle\"|\"handler\">"
         }
       ]
     },
@@ -80978,7 +80978,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -80986,14 +80986,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81001,14 +81001,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81016,14 +81016,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81031,14 +81031,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81046,14 +81046,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81061,14 +81061,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Record<string,any>>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81076,14 +81076,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<any>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81091,14 +81091,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81106,14 +81106,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81121,14 +81121,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81136,14 +81136,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -81151,7 +81151,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
@@ -85555,7 +85555,7 @@
       },
       "type": "object"
     },
-    "Omit<LegendPagerAttributes,\"textStyle\"|\"handler\">": {
+    "Omit<LegendPagerAttributes,\"layout\"|\"position\"|\"textStyle\"|\"handler\">": {
       "properties": {
         "_debug_bounds": {
           "anyOf": [
@@ -85951,7 +85951,6 @@
         "keepStrokeScale": {
           "type": "boolean"
         },
-        "layout": {},
         "lineCap": {
           "$ref": "#/definitions/CanvasLineCap"
         },
@@ -86020,14 +86019,6 @@
         },
         "pickable": {
           "type": "boolean"
-        },
-        "position": {
-          "enum": [
-            "end",
-            "middle",
-            "start"
-          ],
-          "type": "string"
         },
         "postMatrix": {
           "$ref": "#/definitions/IMatrix"
@@ -105386,39 +105377,59 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12851"
+        "__@toStringTag@12854"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12851"
+        "__@toStringTag@12854"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12851"
+        "__@toStringTag@12854"
       ],
       "type": "object"
     },
     "Record<MarkerStateValue,IGroupGraphicAttribute|MarkerStateCallback<IGroupGraphicAttribute>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IGroupGraphicAttribute"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IGroupGraphicAttribute"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105461,6 +105472,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105470,6 +105483,26 @@
     },
     "Record<MarkerStateValue,IImageGraphicAttribute|MarkerStateCallback<IImageGraphicAttribute>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IImageGraphicAttribute"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IImageGraphicAttribute"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105512,6 +105545,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105521,6 +105556,38 @@
     },
     "Record<MarkerStateValue,IItemContentStyle|MarkerStateCallback<IItemContentStyle>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IImageGraphicAttribute"
+            },
+            {
+              "$ref": "#/definitions/IGroupGraphicAttribute"
+            },
+            {
+              "$ref": "#/definitions/ISymbolMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IImageGraphicAttribute"
+            },
+            {
+              "$ref": "#/definitions/IGroupGraphicAttribute"
+            },
+            {
+              "$ref": "#/definitions/ISymbolMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105587,6 +105654,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105596,6 +105665,32 @@
     },
     "Record<MarkerStateValue,ILineMarkSpec|IArcMarkSpec|MarkerStateCallback<ILineMarkSpec|IArcMarkSpec>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILineMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ILineMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105650,6 +105745,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105659,6 +105756,32 @@
     },
     "Record<MarkerStateValue,IPolygonMarkSpec|IArcMarkSpec|MarkerStateCallback<IPolygonMarkSpec|IArcMarkSpec>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IPolygonMarkSpec"
+            },
+            {
+              "$ref": "#/definitions/IArcMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105713,6 +105836,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105722,6 +105847,26 @@
     },
     "Record<MarkerStateValue,IRichTextGraphicAttribute|MarkerStateCallback<IRichTextGraphicAttribute>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRichTextGraphicAttribute"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/IRichTextGraphicAttribute"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105764,6 +105909,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105773,6 +105920,26 @@
     },
     "Record<MarkerStateValue,ISymbolMarkSpec|MarkerStateCallback<ISymbolMarkSpec>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ISymbolMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ISymbolMarkSpec"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105815,6 +105982,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105824,6 +105993,34 @@
     },
     "Record<MarkerStateValue,Omit<IComposedTextMarkSpec,\"visible\">|MarkerStateCallback<Omit<IComposedTextMarkSpec,\"visible\">>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9]+$": {}
+              },
+              "type": "object"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9]+$": {}
+              },
+              "type": "object"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105882,6 +106079,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -105891,6 +106090,34 @@
     },
     "Record<MarkerStateValue,Omit<ISymbolMarkSpec,\"visible\">|MarkerStateCallback<Omit<ISymbolMarkSpec,\"visible\">>>": {
       "properties": {
+        "dimension_hover": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9]+$": {}
+              },
+              "type": "object"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
+        "dimension_hover_reverse": {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "patternProperties": {
+                "^[a-zA-Z0-9]+$": {}
+              },
+              "type": "object"
+            },
+            {
+              "typeof": "function"
+            }
+          ]
+        },
         "hover": {
           "anyOf": [
             {
@@ -105949,6 +106176,8 @@
         }
       },
       "required": [
+        "dimension_hover",
+        "dimension_hover_reverse",
         "hover",
         "hover_reverse",
         "selected",
@@ -119243,7 +119472,7 @@
     },
     "Set<IGraphic<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -119251,14 +119480,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -119266,14 +119495,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -119281,14 +119510,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -119296,14 +119525,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<any>>": {
       "properties": {
-        "__@toStringTag@12851": {
+        "__@toStringTag@12854": {
           "type": "string"
         },
         "size": {
@@ -119311,7 +119540,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12851",
+        "__@toStringTag@12854",
         "size"
       ],
       "type": "object"
