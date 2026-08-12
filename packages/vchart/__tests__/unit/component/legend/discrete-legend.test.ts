@@ -108,10 +108,7 @@ describe('Discrete legend getLegendAttributes layout callbacks', () => {
   });
 
   test('should keep a static `pager.layout` unchanged', () => {
-    const attrs = getLegendAttributes(
-      { type: 'discrete', pager: { layout: 'horizontal' } } as any,
-      rect as any
-    );
+    const attrs = getLegendAttributes({ type: 'discrete', pager: { layout: 'horizontal' } } as any, rect as any);
 
     expect(attrs.pager.layout).toBe('horizontal');
   });
@@ -144,10 +141,7 @@ describe('Discrete legend getLegendAttributes layout callbacks', () => {
   });
 
   test('should keep a static `pager.position` unchanged', () => {
-    const attrs = getLegendAttributes(
-      { type: 'discrete', pager: { position: 'middle' } } as any,
-      rect as any
-    );
+    const attrs = getLegendAttributes({ type: 'discrete', pager: { position: 'middle' } } as any, rect as any);
 
     expect(attrs.pager.position).toBe('middle');
   });
