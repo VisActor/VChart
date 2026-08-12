@@ -2,7 +2,7 @@ import { default as VChart, type ISpec } from '../../../../src/index';
 
 const WIDTH = 640;
 const HEIGHT = 360;
-const DATA_COUNT = 100;
+const DATA_COUNT = 1000;
 
 const values = Array.from({ length: DATA_COUNT }, (_, index) => {
   const itemIndex = index + 1;
