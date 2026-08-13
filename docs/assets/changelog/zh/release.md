@@ -1,3 +1,14 @@
+# v2.1.6
+
+2026-08-13
+
+**🆕 新增功能**
+
+- TODO: Fill in change details for v2.1.6.
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.4...v2.1.6
+
+[更多详情请查看 v2.1.6](https://github.com/VisActor/VChart/releases/tag/v2.1.6)
 # v2.1.5
 
 2026-07-30
