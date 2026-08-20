@@ -1410,6 +1410,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
           diffState,
           // 从旧context中继承
           reusing: g.context?.reusing,
+          // exit图元不会再次执行encoder，需要保留上一轮的最终属性用于退场动画
+          finalAttrs: g.context?.finalAttrs,
           // 从旧context中继承
           originalFieldX: g.context?.originalFieldX,
           // 从旧context中继承

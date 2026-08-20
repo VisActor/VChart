@@ -1583,6 +1583,56 @@ describe('manual ticker animation regressions', () => {
     }
   });
 
+  it('keeps bar final attributes for exit animation when appear animation is disabled', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'barData',
+            values: [{ category: 'A', value: 10 }]
+          }
+        ],
+        dataKey: 'category',
+        xField: 'category',
+        yField: 'value',
+        axes: [
+          { orient: 'left', visible: false },
+          { orient: 'bottom', visible: false }
+        ],
+        animationAppear: false
+      } as IBarChartSpec,
+      {
+        dom,
+        ticker,
+        animation: true
+      }
+    );
+
+    chart.renderSync();
+
+    try {
+      const exitingBar = getBarGraphics(chart)[0];
+      const expectedFinalY = exitingBar.context.finalAttrs.y;
+      const expectedFinalY1 = exitingBar.context.finalAttrs.y1;
+
+      expect(() => {
+        chart.updateDataSync('barData', [{ category: 'B', value: 20 }]);
+      }).not.toThrow();
+      expect(exitingBar.context.diffState).toBe('exit');
+      expectClose(getGraphicFinalAttribute(exitingBar).y, expectedFinalY);
+      expectClose(getGraphicFinalAttribute(exitingBar).y1, expectedFinalY1);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
   it('keeps horizontal bar sorted update final y at the reordered axis positions', () => {
     const { container, dom } = createChartContainer();
     const ticker = createManualTicker();
