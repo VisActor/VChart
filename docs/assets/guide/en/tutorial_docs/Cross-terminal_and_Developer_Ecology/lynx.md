@@ -14,7 +14,7 @@ You can install the vchart dependency package directly in the lynx project: `@vi
 
 You can also manually reference VChart's umd packaged product, which you can obtain through the following channels:
 
-1. Obtain [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index. js), we will update it every time we send a package
+1. Obtain [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js), we will update it every time we send a package
 2. Get it from the following free CDN
 
 ```html
