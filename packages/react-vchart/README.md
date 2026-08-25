@@ -1,6 +1,6 @@
 # @visactor/react-vchart
 
-`@visactor/react-vchart` is a React wrapper version of the VChart library provided by [VisActor](visactor.io). It offers a series of easy-to-use React components for creating various types of charts in a React development environment, including line charts, bar charts, pie charts, and more. The components in `@visactor/react-vchart` are highly customizable and extensible, allowing you to achieve different chart effects through various parameters and configurations.
+`@visactor/react-vchart` is a React wrapper version of the VChart library provided by [VisActor](https://www.visactor.io). It offers a series of easy-to-use React components for creating various types of charts in a React development environment, including line charts, bar charts, pie charts, and more. The components in `@visactor/react-vchart` are highly customizable and extensible, allowing you to achieve different chart effects through various parameters and configurations.
 
 Key features of `@visactor/react-vchart` include:
 
