@@ -23,13 +23,13 @@ assets
 │   ├── en              # VChart 图表示例英文版
 │   ├── menu.json       # VChart 图表示例文档的索引配置
 │   └── zh              # VChart 图表示例中文版
-├── options             # VChart 配置项文档
+├── option              # VChart 配置项文档
 │   ├── en              # VChart 配置项文档英文本
 │   └── zh              # VChart 配置项文档中文本
 ├── themes              # VChart 图表主题
 │   ├── dark            # VChart 图表暗黑主题
 │   └── light           # VChart 图表默认主题
-└── tutorials           # VChart 教程文档
+└── guide               # VChart 教程文档
     ├── en              # VChart 教程文档英文版
     ├── menu.json       # VChart 教程文档的索引配置
     └── zh              # VChart 教程文档中文版
