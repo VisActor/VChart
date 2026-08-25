@@ -10,7 +10,7 @@ Tip: **Currently, VChart (@visactor/vchart) is not built into Lark Mini-Program 
 
 Currently, the widget requires VChart's umd packaged product, which you can obtain through the following channels:
 
-1. Obtain [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index. js), we will update it every time we send a package. **This is specially built for the Feishu widget environment. In order to reduce the size as much as possible, this package only contains the rendering environment of the Feishu widget. **
+1. Obtain [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js), we will update it every time we send a package. **This is specially built for the Feishu widget environment. In order to reduce the size as much as possible, this package only contains the rendering environment of the Feishu widget. **
 2. You can also get it from the following free CDN, **This is the vchart build product that includes all rendering environments and all functions**
 
 ```html
