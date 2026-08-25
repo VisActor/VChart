@@ -7,24 +7,29 @@ interface RunScriptArgv extends ParsedArgs {
   script?: string;
 }
 
-function run() {
-  const argv: RunScriptArgv = minimist(process.argv.slice(2));
+export function run(args = process.argv.slice(2), execute: typeof execSync = execSync) {
+  const argv: RunScriptArgv = minimist(args);
+
+  if (!argv.project || !argv.script) {
+    throw new Error('Both --project and --script are required.');
+  }
+
   const projects = RushConfiguration.loadFromDefaultLocation({
     startingFolder: process.cwd()
   });
 
-  const targetProject = projects.findProjectByShorthandName(argv.project!);
+  const targetProject = projects.findProjectByShorthandName(argv.project);
 
-  if (targetProject) {
-    try {
-      execSync(`rushx ${argv.script}`, {
-        cwd: targetProject?.projectFolder,
-        stdio: [0, 1, 2]
-      });
-    } catch (e) {
-      console.error(`Encountered error: ${e}`);
-    }
+  if (!targetProject) {
+    throw new Error(`Cannot find Rush project: ${argv.project}`);
   }
+
+  execute(`rushx ${argv.script}`, {
+    cwd: targetProject.projectFolder,
+    stdio: [0, 1, 2]
+  });
 }
 
-run();
+if (require.main === module) {
+  run();
+}
