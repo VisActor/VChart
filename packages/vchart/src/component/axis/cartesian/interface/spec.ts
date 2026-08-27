@@ -201,6 +201,15 @@ export type ICartesianBandAxisSpec = ICartesianAxisCommonSpec &
      * @since 1.4.0
      */
     autoRegionSize?: boolean;
+
+    /**
+     * 自定义区间分布配置
+     * @since 2.0.16
+     */
+    piecewise?: {
+      domain: number[];
+      ratio: number[];
+    };
   };
 
 export type ICartesianTimeAxisSpec = Omit<ICartesianAxisCommonSpec, 'inverse'> & {

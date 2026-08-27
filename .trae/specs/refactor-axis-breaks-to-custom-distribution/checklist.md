@@ -1,0 +1,5 @@
+- [ ] `computeLinearDomain` 中优先判断 `customDistribution`
+- [ ] `computeLinearDomain` 中正确将 `breaks` 转换为 `customDistribution` 格式
+- [ ] `getNewScaleRange` 中移除 `breaks` 逻辑
+- [ ] 验证仅配置 `breaks` 时，坐标轴断点效果正常
+- [ ] 验证同时配置 `breaks` 和 `customDistribution` 时，`breaks` 不生效

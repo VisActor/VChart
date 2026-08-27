@@ -20,10 +20,10 @@ describe('break data ', () => {
 
     expect(scope.length).toEqual(3);
     expect(scope[0][0]).toBeCloseTo(0);
-    expect(scope[0][1]).toBeCloseTo(0.06136455389584174);
-    expect(scope[1][0]).toBeCloseTo(0.06136455389584174);
-    expect(scope[1][1]).toBeCloseTo(0.36549589557260126);
-    expect(scope[2][0]).toBeCloseTo(0.36549589557260126);
+    expect(scope[0][1]).toBeCloseTo(0.19295518772708922);
+    expect(scope[1][0]).toBeCloseTo(0.19295518772708922);
+    expect(scope[1][1]).toBeCloseTo(0.4058471269008209);
+    expect(scope[2][0]).toBeCloseTo(0.4058471269008209);
     expect(scope[2][1]).toBeCloseTo(1);
   });
 
@@ -45,8 +45,8 @@ describe('break data ', () => {
     expect(scope[0][0]).toBeCloseTo(0);
     expect(scope[0][1]).toBeCloseTo(0.5);
     expect(scope[1][0]).toBeCloseTo(0.5);
-    expect(scope[1][1]).toBeCloseTo(0.5833333333333334);
-    expect(scope[2][0]).toBeCloseTo(0.5833333333333334);
+    expect(scope[1][1]).toBeCloseTo(0.5583333333333333);
+    expect(scope[2][0]).toBeCloseTo(0.5583333333333333);
     expect(scope[2][1]).toBeCloseTo(1);
   });
 });

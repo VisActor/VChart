@@ -115,3 +115,17 @@
 ###${prefix} style(Object)
 
 截断图形的样式配置，可以配置线宽(`lineWidth`)、颜色(`stroke`)等。
+
+#${prefix} customDistribution(Array)
+
+自**2.0.16**版本开始支持
+
+仅当轴为线性轴时生效。自定义区间分布配置，用于定义特定数据区间在轴上的视觉占比。
+
+##${prefix} domain(number[])
+
+数据区间 [min, max]。
+
+##${prefix} ratio(number)
+
+该区间在视觉范围内所占的比例，取值范围 0 到 1。
