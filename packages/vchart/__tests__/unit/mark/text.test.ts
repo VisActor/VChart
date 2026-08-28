@@ -30,6 +30,6 @@ test('rule mark initial style', () => {
   expect(stroke).toEqual(undefined);
   expect(strokeOpacity).toEqual(undefined);
   expect(strokeWidth).toEqual(0);
-  expect(lineDash).toEqual(undefined);
+  expect(lineDash).toEqual([]);
   expect(cursor).toEqual(undefined);
 });
