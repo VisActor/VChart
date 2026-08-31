@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: unregister array-valued trigger event listeners on release",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "biukam.w@gmail.com"
+}
