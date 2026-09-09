@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: resolve title width/height/minWidth/maxWidth/minHeight/maxHeight as ILayoutNumber against the chart view rect",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "chendaxin.tk@bytedance.com"
+}
