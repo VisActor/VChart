@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: 修复 roseSeries 在非堆叠场景里 innerRadius 不生效的问题\n\n",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "just_star@qq.com"
+}

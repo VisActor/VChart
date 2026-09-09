@@ -103,15 +103,13 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
           ),
         innerRadius: (datum: Datum) => {
           if (!this.getStack()) {
-            return 0;
+            return this._computeLayoutRadius() * this._innerRadius;
           }
           const stackStart = valueInScaleRange(
             this.radiusAxisHelper.dataToPosition([datum[this._innerRadiusField[0]]]),
             this.radiusAxisHelper.getScale(0)
           );
-          return stackStart <= Number.MIN_VALUE
-            ? this._computeLayoutRadius() * (this._spec.innerRadius ?? 0)
-            : stackStart;
+          return stackStart <= Number.MIN_VALUE ? this._computeLayoutRadius() * this._innerRadius : stackStart;
         }
       });
     }
@@ -141,7 +139,7 @@ export class RoseSeries<T extends IRoseSeriesSpec = IRoseSeriesSpec> extends Ros
 
     if (this._roseMark) {
       const animationParams: IRoseAnimationParams = {
-        innerRadius: () => this._computeLayoutRadius() * (this._spec.innerRadius ?? 0)
+        innerRadius: () => this._computeLayoutRadius() * this._innerRadius
       };
       this._roseMark.setAnimationConfig(
         animationConfig(
