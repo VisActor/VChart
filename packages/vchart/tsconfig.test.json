@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "paths": {
+      "@visactor/vchart": ["./src/index.ts"],
       "eventemitter3": ["./node_modules/eventemitter3"],
       "@visactor/vrender": ["./node_modules/@visactor/vrender/es/index"],
       "@visactor/vrender/*": ["./node_modules/@visactor/vrender/es/*"],
