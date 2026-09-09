@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: prevent rich text labels from inheriting line dash styles (Issue #4595)",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "biukam.w@gmail.com"
+}

@@ -29,6 +29,7 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
       angle: 0,
       textAlign: 'center',
       lineWidth: 0,
+      lineDash: [],
       textConfig: []
     };
     return defaultStyle;
