@@ -4,6 +4,8 @@
 
 图表标题配置。
 
+从 2.1.7 版本开始，`width`、`height`、`minWidth`、`maxWidth`、`minHeight` 和 `maxHeight` 支持 `ILayoutNumber`；此前版本仅支持数值。
+
 ### visible(boolean) = true
 
 是否显示标题。

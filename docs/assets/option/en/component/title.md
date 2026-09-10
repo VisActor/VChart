@@ -4,6 +4,8 @@
 
 Chart title configuration.
 
+Starting from version 2.1.7, `width`, `height`, `minWidth`, `maxWidth`, `minHeight` and `maxHeight` support `ILayoutNumber`. Earlier versions only support numeric values.
+
 ### visible(boolean) = true
 
 Whether to display the title.
