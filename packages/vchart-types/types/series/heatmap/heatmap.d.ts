@@ -5,6 +5,7 @@ import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { ICellMark, IMark, ITextMark } from '../../mark/interface';
 import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 export declare const DefaultBandWidth = 6;
 export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
@@ -20,6 +21,7 @@ export declare class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeries
     protected _fieldValue: string[];
     getFieldValue(): string[];
     setFieldValue(f: string | string[]): void;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     setAttrFromSpec(): void;
     initMark(): void;
     initMarkStyle(): void;

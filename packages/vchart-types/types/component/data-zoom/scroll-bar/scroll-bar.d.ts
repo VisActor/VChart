@@ -22,6 +22,7 @@ export declare class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extend
     constructor(spec: T, options: IComponentOption);
     protected _handleChange(start: number, end: number, updateComponent?: boolean): void;
     protected _handleDataCollectionChange(): void;
+    protected _getComponentOnlySpecKeys(): Record<string, boolean>;
     protected _beforeLayoutEnd(): void;
     onLayoutEnd(): void;
     protected _updateScaleRange(): void;

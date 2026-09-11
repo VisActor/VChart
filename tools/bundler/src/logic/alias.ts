@@ -21,6 +21,7 @@ const IMPORT_PATTERNS = [
   /require\((["'])(.*?)\1\)/g,
   /import\s+(["'])(.*?)\1/g
 ];
+const NODE_MODULES_PATH = /(^|[/\\])node_modules([/\\]|$)/;
 
 function parseImports(file: ReadonlyArray<string>, dir: string): FileData[] {
   return file.flatMap((line, index) => findImports(line).map(i => ({ path: dir, index, import: i })));
@@ -60,6 +61,10 @@ function resolveImports(file: ReadonlyArray<string>, imports: FileData[], option
 
         if (choices !== undefined) {
           resolved = choices[0]!;
+          if (NODE_MODULES_PATH.test(resolved)) {
+            resolved = '';
+            break;
+          }
           if (resolved.endsWith('/*')) {
             resolved = resolved.replace('/*', '/');
           }

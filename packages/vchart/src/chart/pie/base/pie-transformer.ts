@@ -22,6 +22,7 @@ export class BasePieChartSpecTransformer<T extends IPieChartSpec> extends PolarC
       'useSequentialAnimation',
       'layoutRadius'
     ]);
+    this._addSeriesRelatedSpecKeys(['valueField', 'angleField']);
     // 兼容旧版写法
     seriesSpec.categoryField = spec.categoryField || spec.seriesField;
     seriesSpec.valueField = spec.valueField || spec.angleField;

@@ -4,12 +4,13 @@ import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IMarkOption } from '../../mark/interface';
-import type { ISeriesSpec, StringOrNumber } from '../../typings';
+import type { Datum, ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label/interface';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 export interface ISeriesSeriesInfo {
     key: string;
     originalKey: any;
+    datum?: Datum;
     index?: number;
     style: (attribute: string) => any;
     shapeType: string;

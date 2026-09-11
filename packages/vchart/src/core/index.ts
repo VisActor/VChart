@@ -45,8 +45,8 @@ export * from '../typings/tooltip';
 export * from '../theme/index';
 
 // vrender
+export { vglobal } from '../vrender-bridge';
 export {
-  vglobal,
   createGroup,
   createRichText,
   createText,
@@ -55,8 +55,9 @@ export {
   createRect,
   createLine,
   createSymbol
-} from '@visactor/vrender-core';
-export { ManualTicker, StreamLight } from '@visactor/vrender-animate';
+} from '../vrender-bridge';
+export { ManualTicker } from '@visactor/vrender-animate/ticker/manual-ticker';
+export { StreamLight } from '@visactor/vrender-animate/custom/streamLight';
 
 // utils
 export * from '../util/space';

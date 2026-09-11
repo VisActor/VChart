@@ -255,6 +255,7 @@ export interface IChartSpecTransformer {
     chartSpec: any,
     transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void
   ) => IChartSpecInfo;
+  getSeriesRelatedSpecKeys: () => Record<string, true>;
   /** 枚举 spec 中每个有效的 region */
   forEachRegionInSpec: <K>(
     spec: any,

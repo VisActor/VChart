@@ -1,5 +1,5 @@
-import type { TreemapNodeElement, TreemapOptions } from '@visactor/vlayouts';
-export declare const treemapLayout: (data: Array<any>, op: TreemapOptions & {
+import { type TreemapNodeElement, type TreemapOptions } from '@visactor/vlayouts';
+interface ITreemapLayoutOptions extends TreemapOptions {
     getViewBox: () => {
         x0: number;
         x1: number;
@@ -7,4 +7,6 @@ export declare const treemapLayout: (data: Array<any>, op: TreemapOptions & {
         y1: number;
     };
     nameField: string;
-}) => TreemapNodeElement[];
+}
+export declare const treemapLayout: (data: Array<Record<string, unknown>>, op: ITreemapLayoutOptions | (() => ITreemapLayoutOptions)) => TreemapNodeElement[];
+export {};

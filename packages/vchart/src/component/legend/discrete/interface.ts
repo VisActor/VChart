@@ -8,6 +8,8 @@ import type {
 } from '@visactor/vrender-components';
 import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
 import type { IFormatMethod, StringOrNumber } from '../../../typings';
+import type { ILayoutRect } from '../../../typings/layout';
+import type { IOrientType } from '../../../typings/space';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGlobalScale } from '../../../scale/interface';
 import type { ComponentThemeWithDirection } from '../../interface';
@@ -154,6 +156,9 @@ export type IItem = {
   autoEllipsisStrategy?: 'labelFirst' | 'valueFirst' | 'none';
 } & Omit<LegendItem, 'background' | 'shape' | 'label' | 'value' | 'focusIconStyle' | 'width' | 'height' | 'maxWidth'>;
 
+export type LegendPagerLayout = 'horizontal' | 'vertical';
+export type LegendPagerPosition = 'start' | 'middle' | 'end';
+
 export type IPager = {
   /**
    * 文本样式配置
@@ -184,7 +189,19 @@ export type IPager = {
       disable?: Omit<NoVisibleMarkStyle<ISymbolMarkSpec>, 'symbolType'>;
     };
   };
-} & Omit<LegendPagerAttributes, 'textStyle' | 'handler'>;
+  /**
+   * The layout of the pager. A callback is evaluated during layout after `maxRow` / `maxCol`
+   * have been resolved, allowing the pager handlers to adapt to a multi-row / multi-column legend.
+   * @since 2.2.0
+   */
+  layout?: LegendPagerLayout | ((ctx: IDiscreteLegendPagerCallbackContext) => LegendPagerLayout);
+  /**
+   * The cross-axis position of the pager. A callback is evaluated during layout after `maxRow` /
+   * `maxCol` have been resolved, allowing the pager alignment to adapt to the resolved page layout.
+   * @since 2.2.0
+   */
+  position?: LegendPagerPosition | ((ctx: IDiscreteLegendPagerCallbackContext) => LegendPagerPosition);
+} & Omit<LegendPagerAttributes, 'textStyle' | 'handler' | 'layout' | 'position'>;
 
 export type ILegendScrollbar = {
   type: 'scrollbar';
@@ -193,6 +210,37 @@ export type ILegendScrollbar = {
 } & Omit<LegendScrollbarAttributes, 'railStyle' | 'sliderStyle'>;
 
 /** spec */
+/**
+ * The layout context passed to a `maxRow` / `maxCol` callback. The callback is evaluated during
+ * layout, so the row / column count can be derived from the space actually allocated to the legend.
+ * @since 2.0.23
+ */
+export interface IDiscreteLegendArrangeContext {
+  /** the layout rect allocated to the legend in the current layout */
+  rect: ILayoutRect;
+  /** the resolved orient the legend lays out with (defaults to `'left'` when `spec.orient` is unset) */
+  orient: IOrientType;
+  /** the id of the legend */
+  id?: StringOrNumber;
+}
+
+/**
+ * The layout context passed to `pager.layout` and `pager.position` callbacks.
+ * @since 2.2.0
+ */
+export interface IDiscreteLegendPagerCallbackContext extends IDiscreteLegendArrangeContext {
+  /** the resolved maximum row count, when configured */
+  maxRow?: number;
+  /** the resolved maximum column count, when configured */
+  maxCol?: number;
+}
+
+/**
+ * The max row / col count of a discrete legend. Either a fixed number, or a callback that returns a
+ * number, evaluated during layout against {@link IDiscreteLegendArrangeContext}.
+ */
+export type DiscreteLegendArrangeCount = number | ((ctx: IDiscreteLegendArrangeContext) => number);
+
 export type IDiscreteLegendSpec = ILegendCommonSpec & {
   type?: 'discrete';
   /**
@@ -231,7 +279,20 @@ export type IDiscreteLegendSpec = ILegendCommonSpec & {
    * 默认筛选的数据范围
    */
   defaultSelected?: string[];
-} & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager'>;
+  /**
+   * The maximum number of rows displayed (for horizontal legend). Besides a fixed number, a
+   * callback `(ctx) => number` is also supported, which is evaluated during layout so the row
+   * count can adapt to the space allocated to the legend.
+   * @since 2.0.23
+   */
+  maxRow?: DiscreteLegendArrangeCount;
+  /**
+   * The maximum number of columns displayed (for vertical legend). Besides a fixed number, a
+   * callback `(ctx) => number` is also supported (see {@link maxRow}).
+   * @since 2.0.23
+   */
+  maxCol?: DiscreteLegendArrangeCount;
+} & Omit<DiscreteLegendAttrs, 'layout' | 'title' | 'items' | 'item' | 'pager' | 'maxRow' | 'maxCol'>;
 
 // theme 主题相关配置
 export type IDiscreteLegendCommonTheme = Omit<

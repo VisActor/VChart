@@ -43,7 +43,15 @@ export class CartesianMarkArea extends BaseMarkArea {
     let points: IPoint[] = [];
     let lines: IPoint[][] = [];
     if (doXYProcess) {
-      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange, includeFullBand);
+      lines = xyLayout(
+        data,
+        startRelativeSeries,
+        endRelativeSeries,
+        relativeSeries,
+        autoRange,
+        includeFullBand,
+        this._getAutoRangeExtendDomainKeyPrefix()
+      );
       // 格式为 [[{x, y}], [{x, y}]]
       // 顺序为左下角开始逆时针绘制
       const [start, end] = lines;
@@ -62,13 +70,27 @@ export class CartesianMarkArea extends BaseMarkArea {
         ];
       }
     } else if (doXProcess || doYProcess) {
-      lines = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange, includeFullBand);
+      lines = xyLayout(
+        data,
+        startRelativeSeries,
+        endRelativeSeries,
+        relativeSeries,
+        autoRange,
+        includeFullBand,
+        this._getAutoRangeExtendDomainKeyPrefix()
+      );
       const [start, end] = lines;
       if (start && start.length && end && end.length) {
         points = [...start, end[1], end[0]];
       }
     } else if (doCoordinatesProcess) {
-      points = cartesianCoordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
+      points = cartesianCoordinateLayout(
+        data,
+        relativeSeries,
+        autoRange,
+        spec.coordinatesOffset,
+        this._getAutoRangeExtendDomainKeyPrefix()
+      );
     } else if (isPositionLayout) {
       points = positionLayout(spec.positions, relativeSeries, spec.regionRelative);
     }

@@ -169,8 +169,8 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
     this._data.getDataView().transform({
       type: 'funnel',
       options: {
-        valueField: this.getValueField(),
-        isCone: this._spec.isCone,
+        valueField: () => this.getValueField(),
+        isCone: () => this._spec.isCone,
         // heightVisual: true,
         asCurrentValue: FUNNEL_CURRENT_VALUE,
         asTransformRatio: FUNNEL_TRANSFORM_RATIO,
@@ -181,10 +181,7 @@ export class FunnelSeries<T extends IFunnelSeriesSpec = IFunnelSeriesSpec>
         asLastValueRatio: FUNNEL_LAST_VALUE_RATIO,
         asLastValue: FUNNEL_LAST_VALUE,
         asNextValue: FUNNEL_NEXT_VALUE,
-        range: {
-          min: this._spec.range?.min ?? this.getViewDataStatistics().latestData?.[this.getValueField()]?.min,
-          max: this._spec.range?.max ?? this.getViewDataStatistics().latestData?.[this.getValueField()]?.max
-        }
+        range: () => this._spec.range
       } as IFunnelOpt
     });
 

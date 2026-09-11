@@ -8,6 +8,7 @@ import { DataView } from '@visactor/vdataset';
 import type { IMark, ITextMark } from '../../mark/interface';
 import type { ICompilableData } from '../../compile/data';
 import { BoxPlotSeriesSpecTransformer } from './box-plot-transformer';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 export declare const DEFAULT_FILL_COLOR = "#FFF";
 export declare const DEFAULT_STROKE_COLOR = "#000";
 export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> extends CartesianSeries<T> {
@@ -46,6 +47,7 @@ export declare class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeries
     getOutliersStyle(): IOutlierMarkSpec;
     protected _outlierData: ICompilableData;
     private _autoBoxWidth;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     setAttrFromSpec(): void;
     private _boxPlotMark?;
     private _outlierMark?;

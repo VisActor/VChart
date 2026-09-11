@@ -1,6 +1,5 @@
-import type { SankeyOptions, SankeyData } from '@visactor/vlayouts';
-import { SankeyLayout } from '@visactor/vlayouts';
-import { isArray, isNil } from '@visactor/vutils';
+import { SankeyLayout, type SankeyOptions, type SankeyData } from '@visactor/vlayouts';
+import { isArray, isFunction, isNil } from '@visactor/vutils';
 
 export interface ISankeyOpt extends SankeyOptions {
   targetField: string;
@@ -9,10 +8,18 @@ export interface ISankeyOpt extends SankeyOptions {
   view: () => { x0: number; x1: number; y0: number; y1: number };
 }
 
-export const collectHierarchyField = (set: Set<any>, data: any[], field: string) => {
-  data.forEach((obj: any) => {
+type SankeyLayoutOption = ISankeyOpt | (() => ISankeyOpt);
+type SankeyFormatDatum = Record<string, unknown> & {
+  id?: 'links' | 'nodes';
+  values?: unknown;
+  latestData?: SankeyData[];
+  children?: SankeyFormatDatum[];
+};
+
+export const collectHierarchyField = <T>(set: Set<T>, data: SankeyFormatDatum[], field: string) => {
+  data.forEach(obj => {
     if (!isNil(obj[field])) {
-      set.add(obj[field]);
+      set.add(obj[field] as T);
     }
 
     if (obj.children && obj.children.length > 0) {
@@ -21,7 +28,7 @@ export const collectHierarchyField = (set: Set<any>, data: any[], field: string)
   });
 };
 
-export const sankeyFormat = (data: any[]): SankeyData[] => {
+export const sankeyFormat = (data: SankeyFormatDatum[]): SankeyData[] => {
   if (!data || !isArray(data)) {
     return [] as SankeyData[];
   }
@@ -35,9 +42,9 @@ export const sankeyFormat = (data: any[]): SankeyData[] => {
       links: [],
       nodes: []
     };
-    data.forEach((datum: any) => {
+    data.forEach(datum => {
       if (datum.id === 'links' || datum.id === 'nodes') {
-        updateData[datum.id] = datum.values;
+        (updateData as Record<string, unknown>)[datum.id] = datum.values;
       }
     });
     return [updateData];
@@ -49,15 +56,16 @@ export const sankeyFormat = (data: any[]): SankeyData[] => {
   if (data[0]?.latestData) {
     return data[0].latestData;
   }
-  return data;
+  return data as unknown as SankeyData[];
 };
 
-export const sankeyLayout = (data: SankeyData[], op: ISankeyOpt) => {
-  if (!data || !op?.view || !data.length) {
+export const sankeyLayout = (data: SankeyData[], op: SankeyLayoutOption) => {
+  const options = isFunction(op) ? op() : op;
+  if (!data || !options?.view || !data.length) {
     return [];
   }
 
-  const view = op.view();
+  const view = options.view();
 
   if (
     view.x1 - view.x0 === 0 ||
@@ -71,35 +79,47 @@ export const sankeyLayout = (data: SankeyData[], op: ISankeyOpt) => {
   }
 
   const originalData = data[0];
+  const layoutData = normalizeSankeyData(originalData, options);
 
-  if (op.sourceField !== 'source' || op.targetField !== 'target' || op.valueField !== 'value') {
-    if ((originalData as any).links) {
-      const updatedData: {}[] = [];
-
-      (originalData as any).links.forEach((datum: any) => {
-        const updatedDatum: any = {};
-        for (const key in datum) {
-          if (key === op.sourceField) {
-            updatedDatum.source = datum[op.sourceField];
-          } else if (key === op.targetField) {
-            updatedDatum.target = datum[op.targetField];
-          } else if (key === op.valueField) {
-            updatedDatum.value = datum[op.valueField];
-          } else {
-            updatedDatum[key] = datum[key];
-          }
-        }
-        updatedData.push(updatedDatum);
-      });
-      (originalData as any).links = updatedData;
-    }
-  }
-
-  const layout = new SankeyLayout(op);
+  const layout = new SankeyLayout(options);
 
   const result = [];
 
-  result.push(layout.layout(originalData, view));
+  result.push(layout.layout(layoutData, view));
 
   return result;
+};
+
+const normalizeSankeyData = (data: SankeyData, options: ISankeyOpt): SankeyData => {
+  if (
+    options.sourceField === 'source' &&
+    options.targetField === 'target' &&
+    options.valueField === 'value'
+  ) {
+    return data;
+  }
+
+  const links = (data as { links?: Array<Record<string, unknown>> }).links;
+  if (!links) {
+    return data;
+  }
+
+  return {
+    ...data,
+    links: links.map(link => {
+      const updatedLink: Record<string, unknown> = {};
+      Object.keys(link).forEach(key => {
+        if (key === options.sourceField) {
+          updatedLink.source = link[options.sourceField];
+        } else if (key === options.targetField) {
+          updatedLink.target = link[options.targetField];
+        } else if (key === options.valueField) {
+          updatedLink.value = link[options.valueField];
+        } else {
+          updatedLink[key] = link[key];
+        }
+      });
+      return updatedLink;
+    })
+  } as unknown as SankeyData;
 };

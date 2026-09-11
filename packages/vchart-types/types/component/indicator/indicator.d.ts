@@ -27,6 +27,7 @@ export declare class Indicator<T extends IIndicatorSpec> extends BaseComponent<T
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
     created(): void;
     setAttrFromSpec(): void;
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
     protected initEvent(): void;
     updateDatum(datum: any): void;
     private initData;

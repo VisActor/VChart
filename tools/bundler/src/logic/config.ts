@@ -1,7 +1,8 @@
 import ArgsParser, { Arguments } from 'yargs-parser';
 import type { RawPackageJson } from './package';
-import type { RollupOptions } from 'rollup';
+import type { Plugin, RollupOptions } from 'rollup';
 import type { Alias } from '@rollup/plugin-alias';
+import type { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
 
 const stringKeys = ['root', 'config', 'input', 'name', 'tsconfig'];
 function getCoerce(keys: string[]) {
@@ -101,7 +102,13 @@ export interface Config {
   // 构建 UMD 产物时，传递给 @rollup/plugin-alias 作为 entries 的选项
   alias: Array<Alias>;
   // 额外的 rollup 配置项
-  rollupOptions: Omit<RollupOptions, 'output'>;
+  rollupOptions: Omit<RollupOptions, 'output'> & { prePlugins?: Plugin[] };
+  // 仅用于 esTotalFile 产物的额外 rollup 配置项
+  esTotalRollupOptions: Omit<RollupOptions, 'output'> & { prePlugins?: Plugin[] };
+  // 传给 @rollup/plugin-node-resolve 的配置项
+  nodeResolveOptions:
+    | RollupNodeResolveOptions
+    | ((entry: string, config: Config) => RollupNodeResolveOptions | undefined);
   // 构建前执行的任务列表
   preTasks: Record<string, (config: Config, projectRoot: string, rawPackageJson: RawPackageJson) => Promise<unknown>>;
   // 构建后执行的任务列表
@@ -154,6 +161,8 @@ export function getDefaultConfig(): Config {
     external: [],
     alias: [],
     rollupOptions: {},
+    esTotalRollupOptions: {},
+    nodeResolveOptions: {},
     preTasks: {},
     postTasks: {},
     globals: {},

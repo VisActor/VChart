@@ -33,6 +33,18 @@ export interface IModelRenderOption {
 export interface IEffect {
     [key: string]: (e?: any) => any;
 }
+export interface IUpdateSpecEffects {
+    remake?: boolean;
+    compile?: boolean;
+    render?: boolean;
+    layout?: boolean;
+    data?: boolean;
+    scaleDomain?: boolean;
+    series?: boolean;
+    component?: boolean;
+    animation?: boolean;
+    localOnly?: boolean;
+}
 export interface IMarkTreeGroup extends Partial<IMarkStyle<IGroupMarkSpec>> {
     type: 'group';
     name: string;
@@ -46,6 +58,7 @@ export interface IUpdateSpecResult {
     reSize?: boolean;
     reCompile?: boolean;
     reTransformSpec?: boolean;
+    effects?: IUpdateSpecEffects;
     reAnimate?: boolean;
     changeTheme?: boolean;
     changeBackground?: boolean;

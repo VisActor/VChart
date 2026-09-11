@@ -3,6 +3,7 @@ import type { SeriesMarkMap } from '../../interface';
 import { SeriesTypeEnum } from '../../interface/type';
 import type { ILinearProgressSeriesSpec } from './interface';
 import type { IMark } from '../../../mark/interface';
+import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
 export declare class LinearProgressSeries<T extends ILinearProgressSeriesSpec = ILinearProgressSeriesSpec> extends CartesianSeries<T> {
     static readonly type: string;
     type: SeriesTypeEnum;
@@ -12,6 +13,7 @@ export declare class LinearProgressSeries<T extends ILinearProgressSeriesSpec = 
     };
     private _progressMark;
     private _trackMark;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     initMark(): void;
     initMarkStyle(): void;
     private _initProgressMark;

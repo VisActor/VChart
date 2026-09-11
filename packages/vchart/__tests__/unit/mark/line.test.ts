@@ -53,6 +53,47 @@ describe('Line Mark', () => {
     expect((lineMark4 as any)._segmentStyleKeys.length).toBe(0);
   });
 
+  it('should not mutate existing progressive segments in place', () => {
+    const lineMark = new LineMark('line1', ctx);
+    lineMark.created();
+
+    (lineMark as any).renderContext = {
+      progressive: {
+        currentIndex: 1
+      }
+    };
+    (lineMark as any)._keyGetter = (datum: any) => datum.x;
+
+    const existingSegments = [
+      {
+        points: [{ x: 0, y: 0 }]
+      }
+    ];
+    const graphic = {
+      attribute: {
+        segments: existingSegments
+      },
+      context: {
+        data: [
+          { x: 1, y: 10 },
+          { x: 2, y: 20 }
+        ]
+      }
+    };
+
+    const result = (lineMark as any)._runPointsEncoder(
+      {
+        x: (datum: any) => datum.x,
+        y: (datum: any) => datum.y
+      },
+      graphic
+    );
+
+    expect(existingSegments).toHaveLength(1);
+    expect(result.segments).toHaveLength(2);
+    expect(result.segments).not.toBe(existingSegments);
+  });
+
   // FIXME: 'fill' does not exist in type 'IMarkSpec<ILineMarkSpec>'
   // it('ignoreAttributes', () => {
   //   const lineMark = new LineMark('line', ctx);

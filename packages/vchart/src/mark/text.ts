@@ -5,9 +5,8 @@ import type { IMarkGraphic, IMarkOption, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface';
 import type { ITextMark, ITextSpec } from './interface/mark';
-import { registerRichtext, registerShadowRoot, registerText } from '@visactor/vrender-kits';
 import type { IGraphic, IRichTextGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
-import { createRichText, createText } from '@visactor/vrender-core';
+import { createRichText, createText, registerRichtext, registerShadowRoot, registerText } from '../vrender-bridge';
 import { isObject, isValid } from '@visactor/vutils';
 
 export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMark {
@@ -30,6 +29,7 @@ export class TextMark extends BaseMark<IComposedTextMarkSpec> implements ITextMa
       angle: 0,
       textAlign: 'center',
       lineWidth: 0,
+      lineDash: [],
       textConfig: []
     };
     return defaultStyle;

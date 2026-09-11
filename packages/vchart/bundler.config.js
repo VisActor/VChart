@@ -67,6 +67,36 @@ const esEntries = bundle_analyze_mode || IGNORE_ENTRIES ? [] : ['index-harmony',
 const umdEntries = Object.keys(crossEnvs)
   .map(env => crossEnvs[env].input)
   .filter((input, index, arr) => arr.indexOf(input, 0) === index);
+
+const multiEnvRuntimeEntries = new Set(['index-lark', 'index-wx', 'index-wx-simple', ...esEntries]);
+const factoryRegistryExternalId = '@visactor/vchart/esm/core/factory-registry';
+const vrenderExternalRE = /^@visactor\/vrender(?:-[^/]+)?(?:\/.*)?$/;
+
+function isBrowserRuntimeEntry(entry) {
+  const entryName = path.basename(entry, path.extname(entry));
+  return !multiEnvRuntimeEntries.has(entryName);
+}
+
+function externalizeFactoryRegistryForEsTotal() {
+  return {
+    name: 'externalize-vchart-factory-registry',
+    resolveId(source, importer) {
+      if (
+        (source === './factory-registry' || source === factoryRegistryExternalId) &&
+        importer &&
+        path.normalize(importer).endsWith(path.normalize('src/core/factory.ts'))
+      ) {
+        return {
+          id: factoryRegistryExternalId,
+          external: true
+        };
+      }
+
+      return null;
+    }
+  };
+}
+
 /**
  * @type {import('@internal/bundler').Config}
  */
@@ -90,6 +120,16 @@ module.exports = {
   rollupOptions: {
     plugins
   },
+  esTotalRollupOptions: {
+    external: id => vrenderExternalRE.test(id),
+    prePlugins: [externalizeFactoryRegistryForEsTotal()]
+  },
+  nodeResolveOptions: entry =>
+    isBrowserRuntimeEntry(entry)
+      ? {
+          exportConditions: ['browser']
+        }
+      : {},
   globals: {
     // '@visactor/vrender': 'VRender'
   },

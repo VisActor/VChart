@@ -1,5 +1,11 @@
-import type { IPieAnimationParams, PieAppearPreset } from '@visactor/vchart';
-import { Factory, pieDisappear, pieEnter, pieExit, piePresetAnimation } from '@visactor/vchart';
+import { Factory } from '@visactor/vchart/esm/core/factory';
+import type { IPieAnimationParams, PieAppearPreset } from '@visactor/vchart/esm/series/pie/interface';
+import {
+  pieDisappear,
+  pieEnter,
+  pieExit,
+  piePresetAnimation
+} from '@visactor/vchart/esm/series/pie/animation/animation';
 
 export const registerPie3dAnimation = () => {
   Factory.registerAnimation('pie3d', (params: IPieAnimationParams, preset: PieAppearPreset) => {

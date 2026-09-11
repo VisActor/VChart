@@ -7,6 +7,7 @@ import type { DimensionEventParams } from '../../event/events/dimension';
 import type { IRegion } from '../../region/interface';
 import type { ILineLikeSeriesTheme } from './interface';
 import type { ICompilableData } from '../../compile/data';
+export declare const LINE_LIKE_SERIES_DATA_RELATED_KEYS: Record<string, true>;
 export interface LineLikeSeriesMixin extends ISeries {
     _spec: any;
     _option: ISeriesOption;

@@ -2,7 +2,7 @@
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import { LineLikeSeriesMixin } from '../mixin/line-mixin';
+import { LINE_LIKE_SERIES_DATA_RELATED_KEYS, LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { mixin } from '@visactor/vutils';
 import type { Datum } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
@@ -16,10 +16,12 @@ import { Factory } from '../../core/factory';
 import type { IMark } from '../../mark/interface';
 import { LineLikeSeriesSpecTransformer } from '../mixin/line-mixin-transformer';
 import { getGroupAnimationParams } from '../util/utils';
-import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
+import { registerCartesianBandAxis } from '../../component/axis/cartesian/band-axis';
+import { registerCartesianLinearAxis } from '../../component/axis/cartesian/linear-axis';
 import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
 import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 import { line } from '../../theme/builtin/common/series/line';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 
 export interface LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec>
   extends Pick<
@@ -47,6 +49,17 @@ export class LineSeries<T extends ILineSeriesSpec = ILineSeriesSpec> extends Car
   readonly transformerConstructor = LineLikeSeriesSpecTransformer;
 
   protected _sortDataByAxis: boolean = false;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...LINE_LIKE_SERIES_DATA_RELATED_KEYS
+      }
+    };
+  }
 
   compile(): void {
     super.compile();

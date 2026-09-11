@@ -9,7 +9,8 @@ import type {
   IModelEvaluateOption,
   IModelSpec,
   IModelMarkInfo,
-  IModelSpecInfo
+  IModelSpecInfo,
+  IUpdateSpecResult
 } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type {
@@ -194,8 +195,8 @@ export abstract class BaseModel<T extends IModelSpec> extends CompilableBase imp
     return result;
   }
 
-  protected _compareSpec(spec: T, prevSpec: T) {
-    const result = {
+  protected _compareSpec(spec: T, prevSpec: T): IUpdateSpecResult {
+    const result: IUpdateSpecResult = {
       change: false,
       reMake: false,
       reRender: false,

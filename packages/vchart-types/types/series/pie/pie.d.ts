@@ -1,5 +1,6 @@
 import type { IPoint, Datum, StateValueType } from '../../typings';
 import { PolarSeries } from '../polar/polar';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import type { IArcMark, IMark, IPathMark, ITextMark } from '../../mark/interface';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -56,15 +57,10 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     getInnerRadius(state?: StateValueType): number;
     computeRadius(r: number, k?: number): number;
     computeDatumRadius(datum: Datum, state?: string): number;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: {
         [key: string]: true;
-    }): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    }): import("../..").IUpdateSpecResult;
     computeDatumInnerRadius(datum: Datum, state?: string): number;
     dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null;
     dataToCentralPosition: (datum: Datum) => IPoint | null;

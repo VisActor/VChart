@@ -4,13 +4,18 @@ import { ComponentTypeEnum } from '../interface/type';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { PREFIX } from '../../constant/base';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
-import type { IComponentMark } from '../../mark/interface';
+import type { IComponentMark, IMark } from '../../mark/interface';
 import { MarkTypeEnum, type IGroupMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
+
+const CUSTOM_MARK_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  style: true,
+  state: true
+};
 
 // TODO: 规范范型
 export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
@@ -132,12 +137,59 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
   _compareSpec(spec: ICustomMarkSpec<EnableMarkType>, prevSpec: ICustomMarkSpec<EnableMarkType>) {
     const result = super._compareSpec(spec, prevSpec);
     if (!isEqual(prevSpec, spec)) {
-      result.reMake = true;
+      if (!result.reMake && !result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
 
     result.change = true;
     result.reRender = true;
     return result;
+  }
+
+  protected _isComponentOnlySpecChange(
+    spec: ICustomMarkSpec<EnableMarkType>,
+    prevSpec: ICustomMarkSpec<EnableMarkType>
+  ) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || CUSTOM_MARK_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
+  }
+
+  reInit(spec?: ICustomMarkSpec<EnableMarkType>) {
+    super.reInit(spec);
+    this._updateMarkStyleWithSpec(this._spec, this.getMarks()[0]);
+    this.getMarks().forEach(mark => {
+      mark.commit(false, true);
+    });
+  }
+
+  private _updateMarkStyleWithSpec(
+    spec: ICustomMarkSpec<EnableMarkType> | ICustomMarkGroupSpec,
+    mark: IMark
+  ) {
+    if (!spec || !mark) {
+      return;
+    }
+
+    this.initMarkStyleWithSpec(mark, spec);
+    if (spec.type === 'group') {
+      const children = (mark as IGroupMark).getMarks?.() ?? [];
+      (spec as ICustomMarkGroupSpec).children?.forEach((childSpec, index) => {
+        this._updateMarkStyleWithSpec(childSpec, children[index]);
+      });
+    }
   }
 
   private _getMarkAttributeContext() {

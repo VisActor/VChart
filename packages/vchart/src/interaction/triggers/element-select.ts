@@ -7,6 +7,7 @@ import { parseTriggerOffOfSelect } from './util';
 import { Factory } from '../../core/factory';
 import { TRIGGER_TYPE_ENUM } from './enum';
 import type { BaseEventParams } from '../../event/interface';
+import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
 
 const defaultOptions: Partial<IElementSelectOptions> = {
   state: STATE_VALUE_ENUM.STATE_SELECTED,
@@ -117,7 +118,7 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
         if (this._timer) {
           clearTimeout(this._timer);
         }
-        markGraphic.addState(state, true);
+        addGraphicState(markGraphic, state, true);
 
         const newStatedGraphics = this.options.interaction.updateStates(
           this,
@@ -143,7 +144,7 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
   reset(markGraphic: IMarkGraphic, e?: BaseEventParams) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
-        markGraphic.removeState([this.options.state, this.options.reverseState]);
+        removeGraphicState(markGraphic, [this.options.state, this.options.reverseState]);
       }
     } else {
       this.resetAll(e);

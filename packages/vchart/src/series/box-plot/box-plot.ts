@@ -36,6 +36,7 @@ import { boxPlot } from '../../theme/builtin/common/series/box-plot';
 import { getActualNumValue } from '../../util/space';
 import { isContinuous } from '@visactor/vscale';
 import { BoxPlotSeriesSpecTransformer } from './box-plot-transformer';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 
 const DEFAULT_STROKE_WIDTH = 2;
 const DEFAULT_SHAFT_FILL_OPACITY = 0.5;
@@ -44,6 +45,15 @@ export const DEFAULT_FILL_COLOR = '#FFF';
 export const DEFAULT_STROKE_COLOR = '#000';
 
 const DEFAULT_OUTLIER_SIZE = 10;
+
+type BoxPlotSeriesCompileOnlyKey = 'boxWidth' | 'boxMinWidth' | 'boxMaxWidth' | 'boxGapInGroup';
+
+const BOX_PLOT_SERIES_COMPILE_ONLY_KEYS: Record<BoxPlotSeriesCompileOnlyKey, true> = {
+  boxWidth: true,
+  boxMinWidth: true,
+  boxMaxWidth: true,
+  boxGapInGroup: true
+};
 
 export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.boxPlot;
@@ -103,6 +113,17 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
   protected _outlierData: ICompilableData;
 
   private _autoBoxWidth: number;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...BOX_PLOT_SERIES_COMPILE_ONLY_KEYS
+      }
+    };
+  }
 
   /**
    * @override
@@ -196,6 +217,8 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
         AttributeLevel.Series
       );
     }
+
+    this.initBoxPlotMarkStyle();
   }
 
   initBoxPlotMarkStyle(): void {
@@ -306,11 +329,11 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
     outlierDataView.name = `${PREFIX}_series_${this.id}_outlierData`;
     outlierDataView.transform({
       type: 'foldOutlierData',
-      options: {
+      options: () => ({
         dimensionField: this._direction === Direction.horizontal ? this._fieldY : this._fieldX,
         outliersField: this._outliersField,
         seriesField: this._seriesField
-      }
+      })
     });
 
     outlierDataView.transform(

@@ -4,8 +4,7 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkStyle, IPathMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerPath, registerShadowRoot } from '@visactor/vrender-kits';
-import { createPath } from '@visactor/vrender-core';
+import { createPath, registerPath, registerShadowRoot } from '../vrender-bridge';
 
 export class PathMark extends BaseMark<IPathMarkSpec> implements IPathMark {
   static readonly type = MarkTypeEnum.path;

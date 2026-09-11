@@ -7,6 +7,7 @@ import { SeriesTypeEnum } from '../interface/type';
 import type { IAreaSeriesSpec, IAreaSeriesTheme } from './interface';
 import type { IMark, IAreaMark } from '../../mark/interface';
 import { AreaSeriesSpecTransformer } from './area-transformer';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Pick<LineLikeSeriesMixin, 'initLineMark' | 'initSymbolMark' | 'initLabelMarkStyle' | 'initLineMarkStyle' | 'initSymbolMarkStyle' | 'encodeDefined' | '_lineMark' | '_symbolMark' | 'addSamplingCompile' | 'addOverlapCompile' | 'reCompileSampling' | 'initLineLabelMarkStyle'>, CartesianSeries<T> {
 }
 export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends CartesianSeries<T> {
@@ -18,6 +19,7 @@ export declare class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> ext
     readonly transformerConstructor: typeof AreaSeriesSpecTransformer;
     protected _areaMark: IAreaMark;
     protected _sortDataByAxis: boolean;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     initMark(): void;
     initMarkStyle(): void;
     initAreaMarkStyle(): void;

@@ -108,7 +108,8 @@ export interface IGraphicContext {
    */
   diffAttrs?: Record<string, any>;
   /**
-   * 更新后最终的属性
+   * VChart encode/transform 后、应用到 VRender graphic 前的下一轮属性快照。
+   * 用于 VChart 的 afterEncode transform、diffAttrs 与动画参数，不等同于 VRender finalAttribute。
    */
   finalAttrs?: Record<string, any>;
   /**

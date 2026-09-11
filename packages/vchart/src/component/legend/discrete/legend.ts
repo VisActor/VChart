@@ -15,11 +15,11 @@ import { eachSeries } from '../../../util/model';
 import { getFieldAlias } from '../../../util/data';
 import { isDataDomainSpec } from '../../../util/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { LegendItemDatum } from '@visactor/vrender-components';
+import type { LegendItemDatum } from '@visactor/vrender-components/legend/discrete/type';
 // eslint-disable-next-line no-duplicate-imports
-import { LegendEvent } from '@visactor/vrender-components';
+import { LegendEvent } from '@visactor/vrender-components/legend/constant';
 // eslint-disable-next-line no-duplicate-imports
-import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components';
+import { DiscreteLegend as LegendComponent } from '@visactor/vrender-components/legend/discrete';
 import { discreteLegendDataMake, discreteLegendFilter } from '../../../data/transforms/legend-data/discrete/discrete';
 import { BaseLegend } from '../base-legend';
 import { ChartEvent } from '../../../constant/event';
@@ -182,7 +182,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
       layout,
       items: this._getLegendItems(),
       zIndex: this.layoutZIndex,
-      ...getLegendAttributes(this._spec, rect),
+      ...getLegendAttributes(this._spec, rect, this.layoutOrient),
       // maxWidth 和 maxHeight 已经在布局模块处理了，所以 rect 的优先级最高
       maxWidth: rect.width,
       maxHeight: rect.height
@@ -236,6 +236,7 @@ export class DiscreteLegend extends BaseLegend<IDiscreteLegendSpec> {
 
       return {
         label: datum.key,
+        datum: datum.datum,
         shape: {
           symbolType: datum.style('symbolType') ?? datum.shapeType ?? 'circle',
           fillOpacity: isValidNumber(fillOpacity) ? fillOpacity : 1,

@@ -6,6 +6,7 @@ import { ChartEvent } from '../../constant/event';
 import { generateFilterValue } from './util';
 import type { IMarkGraphic } from '../../mark/interface/common';
 import type { BaseEventParams } from '../../event/interface';
+import { removeGraphicState } from '../../util/graphic-state';
 
 const type = 'element-highlight-by-legend';
 const defaultOptions: Partial<IElementHighlightByLegendOptions> = {
@@ -84,7 +85,7 @@ export class ElementHighlightByLegend
     if (g) {
       const statedGraphics = interaction.getStatedGraphics(this);
       if (statedGraphics && statedGraphics.includes(g)) {
-        g.removeState([highlightState, blurState]);
+        removeGraphicState(g, [highlightState, blurState]);
         interaction.setStatedGraphics(
           this,
           statedGraphics.filter(sg => sg !== g)

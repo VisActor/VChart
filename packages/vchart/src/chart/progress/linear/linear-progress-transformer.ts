@@ -15,6 +15,7 @@ export class LinearProgressChartSpecTransformer<
     const series = super._getDefaultSeriesSpec(spec, ['bandWidth', 'progress', 'track', 'clamp']);
     series.direction = spec.direction ?? 'horizontal';
 
+    this._addSeriesRelatedSpecKeys(['cornerRadius']);
     series.cornerRadius = spec.cornerRadius ?? 0;
     return series;
   }

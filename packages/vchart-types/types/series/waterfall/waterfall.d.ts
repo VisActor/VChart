@@ -8,6 +8,7 @@ import type { Datum } from '../../typings';
 import type { ILabelMark, IRuleMark, ITextMark } from '../../mark/interface';
 import type { ILabelInfo } from '../../component/label/interface';
 import { type ICompilableData } from '../../compile/data';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 export declare const DefaultBandWidth = 6;
 export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSpec> extends BarSeries<any> {
     static readonly type: string;
@@ -24,6 +25,7 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     protected _leaderLineMark: IRuleMark;
     protected _stackLabelMark: ITextMark;
     protected _labelMark: ITextMark;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     protected initGroups(): void;
     setAttrFromSpec(): void;
     getSeriesKeys(): string[];
@@ -48,6 +50,8 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     };
     totalPositionX(datum: Datum, field: string, pos?: number): number;
     totalPositionY(datum: Datum, field: string, pos?: number): number;
+    protected _isCategoryAxisInverse(): boolean;
+    protected _getLeaderLineCategoryPos(isStart: boolean, isDecrease: boolean): number;
     initMarkStyle(): void;
     protected isVisibleLeaderLine(datum: Datum): boolean;
 }

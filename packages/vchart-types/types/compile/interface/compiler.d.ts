@@ -1,4 +1,4 @@
-import type { IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
+import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
@@ -42,6 +42,7 @@ export interface IRenderOption {
     viewBox?: IBoundsLike;
     canvasControled?: boolean;
     stage?: IStage;
+    app?: IApp;
     layer?: ILayer;
     beforeRender?: IStageParams['beforeRender'];
     afterRender?: IStageParams['afterRender'];
@@ -56,6 +57,7 @@ export interface IRenderOption {
     disableDirtyBounds?: boolean;
     enableView3dTransform?: boolean;
     pluginList?: string[];
+    runtimePluginInstallers?: ((app?: IApp) => void)[];
     ticker?: ITicker;
     optimize?: IOptimizeType;
     enableHtmlAttribute?: boolean;

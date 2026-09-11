@@ -1,13 +1,13 @@
 import type { ILayer, INode, IStage } from '@visactor/vrender-core';
 import { BaseTooltipHandler } from './base';
-import { Tooltip as TooltipComponent } from '@visactor/vrender-components';
+import { Tooltip as TooltipComponent } from '@visactor/vrender-components/tooltip';
 import { isValid, isNil } from '@visactor/vutils';
 import type { TooltipHandlerParams } from '../../../component/tooltip';
 import type { IComponentPluginService } from '../interface';
 import { registerComponentPlugin } from '../register';
 import { TooltipHandlerType } from '../../../component/tooltip/constant';
 import type { ITooltipActual } from '../../../typings';
-import type { IContainerSize } from '@visactor/vrender-components';
+import type { IContainerSize } from '@visactor/vrender-components/tooltip/type';
 import { getTooltipAttributes } from './utils/attribute';
 import type { ITooltipAttributes } from './interface';
 

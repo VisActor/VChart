@@ -1,4 +1,4 @@
-import { PieSeriesSpecTransformer } from '@visactor/vchart';
+import { PieSeriesSpecTransformer } from '@visactor/vchart/esm/series/pie/pie-transformer';
 import type { IPie3dSeriesSpec, IPie3dSeriesTheme } from './interface';
 import { SeriesMark3dNameEnum } from '../3d/enum';
 

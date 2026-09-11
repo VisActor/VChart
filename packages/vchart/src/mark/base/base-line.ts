@@ -171,7 +171,7 @@ export abstract class BaseLineMark<T extends ILineLikeMarkSpec = ILineLikeMarkSp
     });
 
     if (progressive) {
-      const segments = (g as any).attribute?.segments ?? [];
+      const segments = (g as any).attribute?.segments ? [...(g as any).attribute.segments] : [];
 
       segments.push({
         points

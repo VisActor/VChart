@@ -22,8 +22,11 @@ export declare abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg
     getPositionChannels(): string[];
     protected _positionEncoder: (glyphAttrs: any, datum: Datum, g: IGlyph) => Record<string, any>;
     protected _channelEncoder: Record<string, (channelValue: any) => Record<string, any>>;
+    private _getInheritedStyleAttrs;
+    private _getInheritedStyleAttrsMap;
+    private _syncInheritedStyleAttrs;
     private _onGlyphAttributeUpdate;
-    protected _setStateOfGraphic: (g: IMarkGraphic) => void;
+    protected _setStateOfGraphic: (g: IMarkGraphic, hasAnimation?: boolean) => void;
     protected _createGraphic(attrs?: IGlyphGraphicAttribute): IGraphic;
     protected _runProgressiveEncoder(graphics: IMarkGraphic[]): void;
 }

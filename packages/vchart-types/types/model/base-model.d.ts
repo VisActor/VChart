@@ -1,5 +1,5 @@
 import type { IEvent } from '../event/interface';
-import type { IEffect, IModel, IModelInitOption, IModelOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo, IModelSpecInfo } from './interface';
+import type { IEffect, IModel, IModelInitOption, IModelOption, IModelEvaluateOption, IModelSpec, IModelMarkInfo, IModelSpecInfo, IUpdateSpecResult } from './interface';
 import type { CoordinateType } from '../typings/coordinate';
 import type { AnimationStateValues, ICompileMarkConfig, IMark, IMarkGraphic, IMarkOption, IMarkRaw, IMarkStyle } from '../mark/interface';
 import type { Datum, StateValueType, ConvertToMarkStyleSpec, ICommonSpec, StringOrNumber, IRect, ILayoutRect } from '../typings';
@@ -50,20 +50,8 @@ export declare abstract class BaseModel<T extends IModelSpec> extends Compilable
     beforeRelease(): void;
     clear(): void;
     release(): void;
-    updateSpec(spec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
-    protected _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    updateSpec(spec: T): IUpdateSpecResult;
+    protected _compareSpec(spec: T, prevSpec: T): IUpdateSpecResult;
     reInit(spec?: T): void;
     updateLayoutAttribute(): void;
     setAttrFromSpec(): void;

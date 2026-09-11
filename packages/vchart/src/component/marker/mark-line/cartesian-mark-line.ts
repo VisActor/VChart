@@ -8,7 +8,7 @@ import {
   MarkLine as MarkLineComponent,
   registerMarkLineAnimate
 } from '@visactor/vrender-components';
-import { array, isValid, isValidNumber } from '@visactor/vutils';
+import { array, isFunction, isValid, isValidNumber } from '@visactor/vutils';
 import type { IDataPos, IMarkProcessOptions } from '../interface';
 import { getInsertPoints, getTextOffset } from './util';
 import { Factory } from '../../../core/factory';
@@ -28,7 +28,7 @@ export class CartesianMarkLine extends BaseMarkLine {
     markLine
   };
 
-  protected declare _markerComponent: MarkLineComponent;
+  declare protected _markerComponent: MarkLineComponent;
 
   protected _newMarkLineComponent(attr: MarkLineAttrs): MarkLineComponent {
     return new MarkLineComponent(attr);
@@ -60,11 +60,25 @@ export class CartesianMarkLine extends BaseMarkLine {
       (isValidCoordinates && isValidProcessX) ||
       (isValidCoordinates && isValidProcessY)
     ) {
-      const xyPoints = xyLayout(data, startRelativeSeries, endRelativeSeries, relativeSeries, autoRange);
+      const xyPoints = xyLayout(
+        data,
+        startRelativeSeries,
+        endRelativeSeries,
+        relativeSeries,
+        autoRange,
+        false,
+        this._getAutoRangeExtendDomainKeyPrefix()
+      );
       // 这里不同的场景返回的值不同，如果同时声明了 x x1 y y1，会返回两个数值的数组（如 [[{}], [{}]]），所以需要分别处理下
       points = (xyPoints.length === 1 ? xyPoints[0] : xyPoints.map(point => point[0])) as IPoint[];
     } else if (doCoordinatesProcess) {
-      points = cartesianCoordinateLayout(data, relativeSeries, autoRange, spec.coordinatesOffset);
+      points = cartesianCoordinateLayout(
+        data,
+        relativeSeries,
+        autoRange,
+        spec.coordinatesOffset,
+        this._getAutoRangeExtendDomainKeyPrefix()
+      );
     } else if (isPositionLayout) {
       points = positionLayout(spec.positions, relativeSeries, spec.regionRelative);
     }
@@ -79,7 +93,22 @@ export class CartesianMarkLine extends BaseMarkLine {
       const endRelativeSeries = this._endRelativeSeries;
 
       const { multiSegment, mainSegmentIndex } = (this._spec as IStepMarkLineSpec).line || {};
-      const { connectDirection, expandDistance = 0 } = this._spec as IStepMarkLineSpec;
+      const { connectDirection } = this._spec as IStepMarkLineSpec;
+      let { expandDistance = 0 } = this._spec as IStepMarkLineSpec;
+      const { points, limitRect } = updateAttrs;
+      const coordinatePoints = array(points as IPoint[]).filter(Boolean);
+
+      if (isFunction(expandDistance)) {
+        const startRegion = startRelativeSeries?.getRegion?.();
+        const endRegion = endRelativeSeries?.getRegion?.();
+        expandDistance = expandDistance(this._markerData, {
+          ...this.getMarkAttributeContext(),
+          region: this._relativeSeries?.getRegion?.(),
+          startRegion,
+          endRegion,
+          coordinatePoints
+        });
+      }
 
       let expandDistanceValue: number;
       if (isPercent(expandDistance)) {
@@ -110,7 +139,7 @@ export class CartesianMarkLine extends BaseMarkLine {
       } else {
         expandDistanceValue = expandDistance as number;
       }
-      const { points, limitRect } = updateAttrs;
+
       if (!points || points.length < 2) {
         this._markerComponent?.setAttributes(updateAttrs);
         return;

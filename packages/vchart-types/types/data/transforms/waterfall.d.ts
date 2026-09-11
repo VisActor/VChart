@@ -17,7 +17,8 @@ export interface IWaterfallOpt {
     stackInverse: boolean;
     groupData: () => DataView;
 }
-export declare const waterfall: (lastData: Array<Datum>, op: IWaterfallOpt) => Datum[];
+export type WaterfallOption = IWaterfallOpt | (() => IWaterfallOpt);
+export declare const waterfall: (lastData: Array<Datum>, op: WaterfallOption) => Datum[];
 export interface IWaterfallFillEndOpt {
     indexField: string;
     valueField: string;
@@ -25,4 +26,5 @@ export interface IWaterfallFillEndOpt {
     total: IWaterfallSeriesSpec['total'];
     calculationMode: IWaterfallSeriesSpec['calculationMode'];
 }
-export declare const waterfallFillTotal: (data: Array<Datum>, op: IWaterfallFillEndOpt) => Datum[];
+export type WaterfallFillEndOption = IWaterfallFillEndOpt | (() => IWaterfallFillEndOpt);
+export declare const waterfallFillTotal: (data: Array<Datum>, op: WaterfallFillEndOption) => Datum[];

@@ -90,17 +90,17 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       .transform({ type: 'copyDataView', options: { deep: true }, level: TransformLevel.copyDataView })
       .transform({
         type: 'map',
-        options: {
+        options: () => ({
           nameMap: this._nameMap,
           nameProperty: this._nameProperty
-        }
+        })
       })
       .transform({
         type: 'lookup',
         options: {
           from: () => this._data?.getLatestData(),
           key: DEFAULT_MAP_LOOK_UP_KEY,
-          fields: this._nameField,
+          fields: () => this._nameField,
           set: (feature: FeatureData, datum: Datum) => {
             if (datum) {
               Object.keys(datum).forEach(key => {

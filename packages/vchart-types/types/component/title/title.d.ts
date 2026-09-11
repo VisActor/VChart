@@ -24,13 +24,7 @@ export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseCompon
     constructor(spec: T, options: IComponentOption);
     initLayout(): void;
     static getSpecInfo(chartSpec: any): Maybe<IModelSpecInfo[]>;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
     afterSetLayoutStartPoint(pos: IPoint): void;
     getBoundsInRect(rect: ILayoutRect): {
         x1: number;

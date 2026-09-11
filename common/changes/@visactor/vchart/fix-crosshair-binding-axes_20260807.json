@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: preserve crosshair visibility for explicitly bound multiple band axes (Issue #4127)",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "biukam.w@gmail.com"
+}

@@ -1,6 +1,8 @@
+import type { DataView } from '@visactor/vdataset';
 import type { IComponent } from '../../../interface';
 import type {
   IAggrType,
+  IMarkerAttributeContext,
   IMarkerPositionsSpec,
   IDataPointSpec,
   IMarkerSpec,
@@ -17,6 +19,7 @@ import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { Datum, ILineMarkSpec, IPoint } from '../../../../typings';
 import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components';
+import type { IRegion } from '../../../../region/interface';
 
 export type IMarkLine = IComponent;
 
@@ -251,8 +254,21 @@ export type IStepMarkLineSpec = IMarkerSpec & {
    * 在连接方向的扩展距离。
    * number 类型为像素值
    * string 类型为百分比，相对于 region 区域宽度/高度的百分比，如 '30%'
+   * 回调函数参数同 marker 其他回调，支持拿到 markerData 与上下文，
+   * 并额外补充了 region/startRegion/endRegion 便于跨 region 计算，以及当前差异标注的坐标点。
    */
-  expandDistance?: number | string;
+  expandDistance?:
+    | number
+    | string
+    | ((
+        markerData: DataView,
+        context: IMarkerAttributeContext & {
+          region: IRegion;
+          startRegion: IRegion;
+          endRegion: IRegion;
+          coordinatePoints: IPoint[];
+        }
+      ) => number | string);
   /**
    * 标注线的标签样式
    */

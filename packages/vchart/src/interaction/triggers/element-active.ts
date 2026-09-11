@@ -5,6 +5,7 @@ import { TRIGGER_TYPE_ENUM } from './enum';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
 import type { IMarkGraphic } from '../../mark/interface';
 import type { BaseEventParams } from '../../event/interface';
+import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
 
 const defaultOptions: Partial<IElementActiveOptions> = {
   state: STATE_VALUE_ENUM.STATE_ACTIVE,
@@ -43,7 +44,7 @@ export class ElementActive extends BaseTrigger<IElementActiveOptions> implements
       const { state, interaction } = this.options;
 
       if (this.isGraphicInStateMark(g, state)) {
-        g.addState(state, true);
+        addGraphicState(g, state, true);
 
         interaction.setStatedGraphics(this, [g]);
       }
@@ -57,7 +58,7 @@ export class ElementActive extends BaseTrigger<IElementActiveOptions> implements
     const g = graphic ?? statedGraphics?.[0];
 
     if (g && statedGraphics?.includes(g)) {
-      g.removeState(state);
+      removeGraphicState(g, state);
       interaction.setStatedGraphics(
         this,
         statedGraphics.filter(sg => sg !== g)

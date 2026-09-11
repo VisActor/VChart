@@ -10,3 +10,6 @@ export declare const defaultSeriesIgnoreCheckKeys: {
 export declare const defaultSeriesCompileCheckKeys: {
     [key: string]: true;
 };
+export declare const defaultSeriesCompileOnlyCheckKeys: {
+    [key: string]: true;
+};

@@ -1,13 +1,8 @@
-import type {
-  IArcLabelSpec,
-  IChartExtendsSeriesSpec,
-  IChartSpec,
-  IIndicatorSpec,
-  IMarkTheme,
-  IPieSeriesSpec,
-  IPolarSeriesTheme,
-  SeriesMarkNameEnum
-} from '@visactor/vchart';
+import type { IChartExtendsSeriesSpec, IChartSpec, IMarkTheme } from '@visactor/vchart/esm/typings/spec/common';
+import type { IIndicatorSpec } from '@visactor/vchart/esm/component/indicator/interface';
+import type { IPolarSeriesTheme } from '@visactor/vchart/esm/series/polar/interface';
+import type { IArcLabelSpec, IPieSeriesSpec } from '@visactor/vchart/esm/series/pie/interface';
+import type { SeriesMarkNameEnum } from '@visactor/vchart/esm/series/interface/type';
 import type { SeriesMark3dNameEnum } from '../3d/enum';
 import type { IArc3dMarkSpec } from '../3d/interface';
 

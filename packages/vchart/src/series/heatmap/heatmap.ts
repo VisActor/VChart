@@ -20,8 +20,13 @@ import { getGroupAnimationParams } from '../util/utils';
 import { HeatmapSeriesSpecTransformer } from './heatmap-transformer';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import { heatmap } from '../../theme/builtin/common/series/heatmap';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
+
+const HEATMAP_SERIES_DATA_RELATED_KEYS: Record<'valueField', true> = {
+  valueField: true
+};
 
 export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.heatmap;
@@ -41,6 +46,17 @@ export class HeatmapSeries<T extends IHeatmapSeriesSpec = IHeatmapSeriesSpec> ex
   }
   setFieldValue(f: string | string[]) {
     this._fieldValue = array(f);
+  }
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...HEATMAP_SERIES_DATA_RELATED_KEYS
+      }
+    };
   }
 
   setAttrFromSpec() {

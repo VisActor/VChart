@@ -11,7 +11,7 @@ import type { IRegion } from '../../region/interface';
 import type { RenderMode } from '../../typings/spec/common';
 import type { ISeries } from './series';
 import type { IGroupMark, IMarkOption } from '../../mark/interface';
-import type { ISeriesSpec, StringOrNumber } from '../../typings';
+import type { Datum, ISeriesSpec, StringOrNumber } from '../../typings';
 import type { TransformedLabelSpec } from '../../component/label/interface';
 import type { SeriesMarkNameEnum, SeriesTypeEnum } from './type';
 
@@ -21,6 +21,7 @@ export interface ISeriesSeriesInfo {
   key: string;
   /** 直接取 datum 里的原始值 */
   originalKey: any;
+  datum?: Datum;
   index?: number;
   // 样式的值类型可能是 StringOrNumber | number[] | xxxx
   style: (attribute: string) => any;

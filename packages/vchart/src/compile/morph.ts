@@ -1,4 +1,4 @@
-import { morphPath, multiToOneMorph, oneToMultiMorph } from '@visactor/vrender-animate';
+import { morphPath, multiToOneMorph, oneToMultiMorph } from '@visactor/vrender-animate/custom/morphing';
 import { isNil, isNumber, isValid, isValidNumber } from '@visactor/vutils';
 import type { IMark, IMarkGraphic } from '../mark/interface';
 import type { IMorphConfig } from '../animation/spec';

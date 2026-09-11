@@ -1,10 +1,11 @@
-import { BarChart, CommonChart } from '../../../src';
+import VChart, { BarChart, CommonChart, type ISpec } from '../../../src';
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { EventDispatcher } from '../../../src/event/event-dispatcher';
 import { createCanvas, removeDom } from '../../util/dom';
 import { getTestCompiler } from '../../util/factory/compiler';
 import { GlobalScale } from '../../../src/scale/global-scale';
 import { getTheme, initChartDataSet } from '../../util/context';
+import { BaseMark } from '../../../src/mark/base/base-mark';
 
 const dataSet = new DataSet();
 initChartDataSet(dataSet);
@@ -94,6 +95,39 @@ const barSpec = {
   xField: 'name',
   yField: 'value'
 };
+
+const createMorphUpdateLineSpec = (): ISpec => ({
+  type: 'line',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1 },
+        { x: 'B', y: 2 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y',
+  point: {
+    visible: true
+  }
+});
+
+const createMorphUpdateBarSpec = (): ISpec => ({
+  type: 'bar',
+  data: [
+    {
+      id: 'data',
+      values: [
+        { x: 'A', y: 1 },
+        { x: 'B', y: 2 }
+      ]
+    }
+  ],
+  xField: 'x',
+  yField: 'y'
+});
 
 describe('Bar chart test', () => {
   let canvasDom: HTMLCanvasElement;
@@ -236,5 +270,40 @@ describe('Bar chart test', () => {
     expect(ASeries.getMarksInType('symbol')[0].getMarkConfig().morphElementKey).toBe('sex');
     expect(BSeries.getMarksInType('symbol')[0].getMarkConfig().morphElementKey).toBe('sex');
     expect(CSeries.getMarksInType('symbol')[0].getMarkConfig().morphElementKey).toBe('ratio');
+  });
+
+  test('updateSpec remake keeps previous marks for morph and clears unused cached marks', () => {
+    const originalPrepareMorph = BaseMark.prototype.prepareMorph;
+    const originalRemoveProduct = BaseMark.prototype.removeProduct;
+    const prepareMorphCalls: Array<{ target: string; source: string }> = [];
+    const removeProductCalls: Array<{ name: string; args: unknown[] }> = [];
+    const prepareMorphSpy = jest
+      .spyOn(BaseMark.prototype, 'prepareMorph')
+      .mockImplementation(function (this: BaseMark<any>, mark) {
+        prepareMorphCalls.push({ target: this.name, source: mark.name });
+        return originalPrepareMorph.call(this, mark);
+      });
+    const removeProductSpy = jest
+      .spyOn(BaseMark.prototype, 'removeProduct')
+      .mockImplementation(function (this: BaseMark<any>, ...args: unknown[]) {
+        removeProductCalls.push({ name: this.name, args });
+        return originalRemoveProduct.apply(this, args as any);
+      });
+    const chart = new VChart(createMorphUpdateLineSpec(), { dom: canvasDom, animation: true });
+
+    try {
+      chart.renderSync();
+      prepareMorphCalls.length = 0;
+      removeProductCalls.length = 0;
+
+      chart.updateSpecSync(createMorphUpdateBarSpec());
+
+      expect(prepareMorphCalls).toContainEqual({ target: 'bar', source: 'point' });
+      expect(removeProductCalls).toContainEqual({ name: 'line', args: [] });
+    } finally {
+      chart.release();
+      prepareMorphSpy.mockRestore();
+      removeProductSpy.mockRestore();
+    }
   });
 });

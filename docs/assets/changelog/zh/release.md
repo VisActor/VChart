@@ -1,3 +1,107 @@
+# v2.1.6
+
+2026-08-13
+
+**🆕 新增功能**
+
+- TODO: Fill in change details for v2.1.6.
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.4...v2.1.6
+
+[更多详情请查看 v2.1.6](https://github.com/VisActor/VChart/releases/tag/v2.1.6)
+# v2.1.5
+
+2026-07-30
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 支持 layout-time callbacks for discrete 图例 pager.layout and pager.position with resolved maxRow and maxCol
+- **@visactor/vchart**: 支持 dimension hover state for mark point target symbol
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: release the pointerout listener when dimension hover events are unregistered
+- **@visactor/vchart**: avoid duplicate event handlers after chart remake
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.4...v2.1.5
+
+[更多详情请查看 v2.1.5](https://github.com/VisActor/VChart/releases/tag/v2.1.5)
+# v2.1.4
+
+2026-07-16
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: 支持 automatic bar width for linear x axis
+- **@visactor/vchart**: 支持 theming conversion funnel arrow （line / symbol / text） via series.funnel.conversionArrow theme token
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: restore existing axis grid graphics when grid visibility is enabled again through updateSpec with animation disabled
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.3...v2.1.4
+
+[更多详情请查看 v2.1.4](https://github.com/VisActor/VChart/releases/tag/v2.1.4)
+# v2.1.3
+
+2026-07-08
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: handle progressive graphics hover state
+- **@visactor/vchart**: stabilize BytePack ESM VRender registration paths and preserve seriesStyle after theme updates
+- **@visactor/vchart**: normalize funnel range mapping
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.1...v2.1.3
+
+[更多详情请查看 v2.1.3](https://github.com/VisActor/VChart/releases/tag/v2.1.3)
+# v2.1.1
+
+2026-06-25
+
+**🆕 新增功能**
+
+- TODO: Fill in change details for v2.1.1.
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.0...v2.1.1
+
+[更多详情请查看 v2.1.1](https://github.com/VisActor/VChart/releases/tag/v2.1.1)
+# v2.1.0
+
+2026-06-23
+
+**🆕 新增功能**
+
+- **@visactor/vchart**: `markLine.expandDistance` 支持回调函数配置。close #4568
+- **@visactor/vchart**: 离散图例的 `maxRow` / `maxCol` 支持函数类型，可在布局阶段基于图例实际分配区域动态计算行数和列数。
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: 修复瀑布图引导线（leader line）在部分场景下位置异常的问题。fix #4580
+- **@visactor/vchart**: 修复 `legends.data` 为回调函数时，`updateSpec` 后离散图例筛选状态丢失的问题。fix #4566
+- **@visactor/vchart**: 修复笛卡尔线性坐标轴在 `tick.tickCount` 为函数时，未基于最终绘图区尺寸重新计算 nice domain 的问题。
+- **@visactor/vchart**: 修复 `reLayout` API 不生效的问题。fix #4537
+- **@visactor/vchart**: 修复地图拖拽时标签未正确跟随的问题。fix #4547
+- **@visactor/vchart**: 修复部分渲染流程异常的问题。fix #4578
+
+**🔨 维护与杂项**
+
+- **@visactor/vchart**: 修复移动端地图漫游拖拽场景中，`supportsTouchEvents` 被设为 `false` 后纵向拖拽不稳定的问题。
+- **@visactor/vchart**: 引入更细粒度的 `updateSpec` 影响范围标记，显式区分 chart、component、series、data、layout、render 和 animation 等更新路径；marker 退出、标题文本、图例外观、坐标轴外观、mark 样式、字段、标签、动画及布局相关更新，在可复用现有图表模型时会避免不必要
+  的 chart remake / recompile。
+- **@visactor/vchart**: 适配 VRender 1.1.0 的 app-scoped runtime、状态 resolver 和动画契约，在保持标准 VChart spec 用法兼容的基础上，收敛 mark shared-state、glyph 子图元状态隔离、词云 `scaleIn` 初始状态，以及 Sankey、Brush、图例纹理、marker 富文本、circularProgress
+  tickMask 等交互和渲染行为。
+
+**💖 社区贡献**
+
+感谢所有参与本次版本建设、反馈和验证的社区贡献者。特别感谢：
+
+- @g1f9: 贡献离散图例 `maxRow` / `maxCol` 函数配置支持，并修复线性坐标轴基于最终绘图区重新 nice 的问题。
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.20...v2.1.0
+
+[更多详情请查看 v2.1.0](https://github.com/VisActor/VChart/releases/tag/v2.1.0)
+
 # v2.0.22
 
 2026-04-13
@@ -13,6 +117,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.20...v2.0.22
 
 [更多详情请查看 v2.0.22](https://github.com/VisActor/VChart/releases/tag/v2.0.22)
+
 # v2.0.21
 
 2026-04-03
@@ -24,6 +129,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.20...v2.0.21
 
 [更多详情请查看 v2.0.21](https://github.com/VisActor/VChart/releases/tag/v2.0.21)
+
 # v2.0.20
 
 2026-03-26
@@ -45,6 +151,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.19...v2.0.20
 
 [更多详情请查看 v2.0.20](https://github.com/VisActor/VChart/releases/tag/v2.0.20)
+
 # v2.0.19
 
 2026-03-06
@@ -56,6 +163,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.18...v2.0.19
 
 [更多详情请查看 v2.0.19](https://github.com/VisActor/VChart/releases/tag/v2.0.19)
+
 # v2.0.18
 
 2026-03-05

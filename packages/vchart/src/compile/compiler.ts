@@ -6,11 +6,11 @@ import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isClass, isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { array, isArray, isObject, isValid } from '@visactor/vutils';
+import { isArray, isObject, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import { createGroup, Stage, vglobal, waitForAllSubLayers } from '@visactor/vrender-core';
-import type { IColor, IEventTarget, IGroup, IStage } from '@visactor/vrender-core';
+import { createGroup, vglobal, waitForAllSubLayers } from '../vrender-bridge';
+import type { IColor, IEventTarget, IGroup, IPlugin, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
 import type { AnimationStateValues } from '../mark/interface';
@@ -23,11 +23,14 @@ import { log } from '../util/debug';
 import type { MarkAnimationSpec, TypeAnimationConfig } from '../animation/interface';
 import { AnimationStateEnum } from '../animation/interface';
 import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
+import { createStageFromApp, getVRenderAppEnvParams, resolveVRenderApp } from './stage-app';
 
 type EventListener = {
   type: string;
   callback: (...args: any[]) => void;
 };
+
+const POPTIP_FOR_TEXT_PLUGIN_NAME = 'poptipForText';
 
 export class Compiler implements ICompiler {
   private _count: number = 0;
@@ -46,6 +49,10 @@ export class Compiler implements ICompiler {
   protected _rootMarks: IMark[] = [];
 
   protected _stage: IStage;
+
+  private _isExternalStage: boolean = false;
+
+  private _releaseVRenderAppRef?: () => void;
 
   protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
   get stateAnimationConfig() {
@@ -106,6 +113,36 @@ export class Compiler implements ICompiler {
     return this._stage;
   }
 
+  private _dedupeStagePlugin(pluginName: string) {
+    const pluginService = this._stage?.pluginService;
+    if (!pluginService?.findPluginsByName) {
+      return;
+    }
+
+    const plugins = pluginService.findPluginsByName(pluginName);
+    if (plugins.length <= 1) {
+      return;
+    }
+
+    const plugin = plugins[0] as IPlugin;
+    if (pluginService.uninstall) {
+      pluginService.uninstall(pluginName);
+      pluginService.register(plugin);
+    } else {
+      plugins.slice(1).forEach(duplicatePlugin => {
+        pluginService.unRegister(duplicatePlugin as IPlugin);
+      });
+    }
+  }
+
+  private _dedupePoptipPlugin() {
+    if (!this._option.pluginList?.includes(POPTIP_FOR_TEXT_PLUGIN_NAME)) {
+      return;
+    }
+
+    this._dedupeStagePlugin(POPTIP_FOR_TEXT_PLUGIN_NAME);
+  }
+
   initView() {
     if (this._released) {
       return;
@@ -126,40 +163,63 @@ export class Compiler implements ICompiler {
       autoPreventDefault,
       background
     } = this._option;
-    vglobal.setEnv(toRenderMode(mode), modeParams ?? {});
-    this._stage =
-      this._option.stage ??
-      (new Stage({
-        background,
-        width: this._width,
-        height: this._height,
-        container: this._container.dom ?? null,
-        canvas: this._container.canvas ?? null,
-        dpr,
-        viewBox: this._option.viewBox,
-        canvasControled: this._option.canvasControled,
-        beforeRender: (stage: IStage) => {
-          this._compileChart?.onBeforeRender();
-          this._option.beforeRender?.(stage);
-        },
-        afterRender: this._option.afterRender,
-        disableDirtyBounds: true,
-        autoRender: true,
-        ticker: this._option.ticker,
-        pluginList: this._option.pluginList,
-        enableHtmlAttribute: this._option.enableHtmlAttribute,
-        optimize: this._option.optimize,
-        supportsTouchEvents: this._option.supportsTouchEvents,
-        supportsPointerEvents: this._option.supportsPointerEvents,
-        event: {
-          clickInterval: clickInterval,
-          autoPreventDefault: autoPreventDefault
-        },
-        ReactDOM: this._option.ReactDOM,
-        autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
-        ...(this._option.renderHooks ?? {})
-      }) as unknown as IStage);
+    const appEnvParams = getVRenderAppEnvParams(mode, modeParams);
+    vglobal.setEnv(toRenderMode(mode), appEnvParams ?? {});
+    const externalStage = this._option.stage;
+    this._isExternalStage = !!externalStage;
+    this._releaseVRenderAppRef = undefined;
+    this._stage = externalStage;
 
+    if (!this._stage) {
+      const resolvedApp = resolveVRenderApp({
+        app: this._option.app,
+        mode,
+        modeParams
+      });
+      this._releaseVRenderAppRef = resolvedApp.releaseAppRef;
+      this._option.runtimePluginInstallers?.forEach(install => install(resolvedApp.app));
+
+      try {
+        // Canvas view binding is stage-scoped. Keep it out of app envParams so
+        // one app can safely host multiple VChart/VTable stages in Lynx pages.
+        this._stage = createStageFromApp(resolvedApp.app, {
+          background,
+          width: this._width,
+          height: this._height,
+          container: this._container.dom ?? null,
+          canvas: this._container.canvas ?? null,
+          dpr,
+          viewBox: this._option.viewBox,
+          canvasControled: this._option.canvasControled,
+          beforeRender: (stage: IStage) => {
+            this._compileChart?.onBeforeRender();
+            this._option.beforeRender?.(stage);
+          },
+          afterRender: this._option.afterRender,
+          disableDirtyBounds: true,
+          autoRender: true,
+          ticker: this._option.ticker,
+          pluginList: this._option.pluginList,
+          enableHtmlAttribute: this._option.enableHtmlAttribute,
+          optimize: this._option.optimize,
+          supportsTouchEvents: this._option.supportsTouchEvents,
+          supportsPointerEvents: this._option.supportsPointerEvents,
+          event: {
+            clickInterval: clickInterval,
+            autoPreventDefault: autoPreventDefault
+          },
+          ReactDOM: this._option.ReactDOM,
+          autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
+          ...(this._option.renderHooks ?? {})
+        }) as unknown as IStage;
+      } catch (error) {
+        this._releaseVRenderAppRef?.();
+        this._releaseVRenderAppRef = undefined;
+        throw error;
+      }
+    }
+
+    this._dedupePoptipPlugin();
     this._stage.enableIncrementalAutoRender();
 
     // 之前vgrammar 设置了一些默认配置
@@ -384,7 +444,10 @@ export class Compiler implements ICompiler {
   }
 
   renderMarks() {
-    if (!this._hasCommitedMark()) {
+    let hasCommitedMark = this._hasCommitedMark();
+    const needsLayout = this._layoutState === LayoutState.before;
+
+    if (!hasCommitedMark && !needsLayout) {
       return;
     }
 
@@ -392,17 +455,20 @@ export class Compiler implements ICompiler {
     this.clearProgressive();
 
     // 更新所有的mark
-    this._rootMarks.forEach(mark => {
-      mark.render();
-    });
+    if (hasCommitedMark) {
+      this._rootMarks.forEach(mark => {
+        mark.render();
+      });
+    }
 
-    if (this._layoutState === LayoutState.before) {
+    if (needsLayout) {
       // 需要更新布局
       this._layoutState = LayoutState.layouting;
       this._compileChart?.onLayout();
       this._layoutState = LayoutState.reevaluate;
+      hasCommitedMark = this._hasCommitedMark();
 
-      if (this._hasCommitedMark()) {
+      if (hasCommitedMark) {
         // 第二次更新所有的mark
         this._rootMarks.forEach(mark => {
           mark.render();
@@ -411,13 +477,17 @@ export class Compiler implements ICompiler {
       this.handleLayoutEnd();
     }
 
-    this.findProgressiveMarks();
+    if (hasCommitedMark) {
+      this.findProgressiveMarks();
 
-    // update stage animation state
-    this.updateStateAnimation();
+      // update stage animation state
+      this.updateStateAnimation();
+    }
 
     this._doRender(true);
-    this.doPreProgressive();
+    if (hasCommitedMark) {
+      this.doPreProgressive();
+    }
 
     log(`--- start of renderMarks(${this._count}) ---`);
     this._count++;
@@ -726,17 +796,30 @@ export class Compiler implements ICompiler {
   }
 
   release(): void {
+    const stage = this._stage;
+    const rootGroup = this._rootGroup;
+    const shouldReleaseStage = !!stage && !this._isExternalStage;
+    const releaseVRenderAppRef = this._releaseVRenderAppRef;
+
     this.clearNextRender();
     this.releaseEvent();
-    this._option = this._container = null as any;
     // vgrammar release
     this.releaseGrammar(true);
 
-    if (this._stage !== this._option?.stage) {
-      // don't release the stage created by outside
-      this._stage.release();
+    if (stage) {
+      if (shouldReleaseStage) {
+        stage.release();
+      } else if (rootGroup) {
+        stage.defaultLayer.removeChild(rootGroup, true);
+        rootGroup.release();
+      }
     }
+    releaseVRenderAppRef?.();
     this._stage = null;
+    this._rootGroup = null;
+    this._isExternalStage = false;
+    this._releaseVRenderAppRef = undefined;
+    this._option = this._container = null as any;
 
     this.isInited = false;
     this._compileChart = null;
@@ -755,7 +838,7 @@ export class Compiler implements ICompiler {
         traverseGroupMark(
           g,
           m => {
-            m.removeProduct();
+            m.removeProduct(true);
           },
           null,
           true

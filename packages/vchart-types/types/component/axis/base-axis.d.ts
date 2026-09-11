@@ -1,5 +1,5 @@
 import type { IGroup } from '@visactor/vrender-core';
-import type { ITickDataOpt } from '@visactor/vrender-components';
+import type { ITickDataOpt } from '@visactor/vrender-components/axis/type';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IOrientType, IPolarOrientType, StringOrNumber, CoordinateType } from '../../typings';
@@ -82,13 +82,8 @@ export declare abstract class AxisComponent<T extends ICommonAxisSpec & Record<s
     protected computeData(updateType?: 'domain' | 'range' | 'force'): void;
     protected _updateTickDataMarks(m: ICompilableMark): void;
     protected initScales(): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../..").IUpdateSpecResult;
+    private _isComponentOnlySpecChange;
     protected _getAxisAttributes(): any;
     protected _getGridAttributes(): {
         alternateColor: any;

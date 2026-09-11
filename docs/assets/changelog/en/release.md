@@ -1,3 +1,105 @@
+# v2.1.6
+
+2026-08-13
+
+**🆕 New Features**
+
+- TODO: Fill in change details for v2.1.6.
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.4...v2.1.6
+
+[more detail about v2.1.6](https://github.com/VisActor/VChart/releases/tag/v2.1.6)
+# v2.1.5
+
+2026-07-30
+
+**🆕 New Features**
+
+- **@visactor/vchart**: support layout-time callbacks for discrete legend pager.layout and pager.position with resolved maxRow and maxCol
+- **@visactor/vchart**: support dimension hover state for mark point target symbol
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: release the pointerout listener when dimension hover events are unregistered
+- **@visactor/vchart**: avoid duplicate event handlers after chart remake
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.4...v2.1.5
+
+[more detail about v2.1.5](https://github.com/VisActor/VChart/releases/tag/v2.1.5)
+# v2.1.4
+
+2026-07-16
+
+**🆕 New Features**
+
+- **@visactor/vchart**: support automatic bar width for linear x axis
+- **@visactor/vchart**: support theming conversion funnel arrow (line / symbol / text) via series.funnel.conversionArrow theme token
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: restore existing axis grid graphics when grid visibility is enabled again through updateSpec with animation disabled
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.3...v2.1.4
+
+[more detail about v2.1.4](https://github.com/VisActor/VChart/releases/tag/v2.1.4)
+# v2.1.3
+
+2026-07-08
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: handle progressive graphics hover state
+- **@visactor/vchart**: stabilize BytePack ESM VRender registration paths and preserve seriesStyle after theme updates
+- **@visactor/vchart**: normalize funnel range mapping
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.1...v2.1.3
+
+[more detail about v2.1.3](https://github.com/VisActor/VChart/releases/tag/v2.1.3)
+# v2.1.1
+
+2026-06-25
+
+**🆕 New Features**
+
+- TODO: Fill in change details for v2.1.1.
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.0...v2.1.1
+
+[more detail about v2.1.1](https://github.com/VisActor/VChart/releases/tag/v2.1.1)
+# v2.1.0
+
+2026-06-23
+
+**🆕 New Features**
+
+- **@visactor/vchart**: markLine expandDistancesupport callback. close#4568
+- **@visactor/vchart**: support function type for `maxRow` / `maxCol` of the discrete legend, evaluated during layout against the legend's allocated rect, so the row / column count can adapt to the available space
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: waterfall lead line bug. fix#4580
+- **@visactor/vchart**: preserve discrete legend filtering after updateSpec when `legends.data` is a callback (Issue #4566)
+- **@visactor/vchart**: re-nice the cartesian linear axis with the real plot-area length after layout when `tick.tickCount` is a function, so the length-based tick count and nice ceiling match the final plot area instead of the pre-layout chart viewRect
+- **@visactor/vchart**: vchart relayout api not work bug. fix#4537
+- **@visactor/vchart**: label not follow when drag. fix#4547
+- **@visactor/vchart**: prcoess render error. fix#4578
+
+**🔨 Chores**
+
+- **@visactor/vchart**: update changes for 009-fix-map-roam-pointer-drag: This plan fixes a map roam drag bug where mobile browsers lose stable vertical dragging after supportsTouchEvents is forced to false
+- **@visactor/vchart**: introduce scoped updateSpec effects to make chart, component, series, data, layout, render, and animation update ranges explicit; local component updates such as marker exit, title text, legend appearance, axis appearance, mark style, field, label, animation, and layout-related series changes now avoid unnecessary chart remake/recompile paths when the existing chart model can be updated in place
+- **@visactor/vchart**: align VChart with the VRender 1.1.0 app-scoped runtime, state resolver, and animation contracts while keeping standard VChart spec usage compatible; consolidate mark shared-state handling, glyph sub-graphic state isolation, word-cloud scaleIn initialization, and interaction-state behavior for Sankey, brush, legend textures, marker rich text, and circular progress tick masks
+
+**💖 Community Contributions**
+
+Thanks to everyone who contributed to this release through code, issue reports, test cases, and regression verification. Special thanks to:
+
+- @g1f9: contributed function support for discrete legend `maxRow` / `maxCol`, and fixed linear axis nice-domain recalculation based on the final plot area.
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.20...v2.1.0
+
+[more detail about v2.1.0](https://github.com/VisActor/VChart/releases/tag/v2.1.0)
+
 # v2.0.22
 
 2026-04-13
@@ -13,6 +115,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.20...v2.0.22
 
 [more detail about v2.0.22](https://github.com/VisActor/VChart/releases/tag/v2.0.22)
+
 # v2.0.21
 
 2026-04-03
@@ -24,6 +127,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.20...v2.0.21
 
 [more detail about v2.0.21](https://github.com/VisActor/VChart/releases/tag/v2.0.21)
+
 # v2.0.20
 
 2026-03-26
@@ -45,6 +149,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.19...v2.0.20
 
 [more detail about v2.0.20](https://github.com/VisActor/VChart/releases/tag/v2.0.20)
+
 # v2.0.19
 
 2026-03-06
@@ -56,6 +161,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.18...v2.0.19
 
 [more detail about v2.0.19](https://github.com/VisActor/VChart/releases/tag/v2.0.19)
+
 # v2.0.18
 
 2026-03-05
@@ -64,19 +170,17 @@
 
 - **@visactor/vchart**: feat: optimiz workflows for release
 
-
-
 **🐛 Bug Fixes**
 
 - **@visactor/vchart**: fix: ensure DataZoom updates when data source changes (Issue #4185)
 - **@visactor/vchart**: fix: fix default lineWidth for heatmap label
-
 
 - **@visactor/vchart**: fix: Fix memory leaks in Player component and BaseComponent release logic.
 
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.17...v2.0.18
 
 [more detail about v2.0.18](https://github.com/VisActor/VChart/releases/tag/v2.0.18)
+
 # v2.0.17
 
 2026-02-26
@@ -88,6 +192,7 @@
 **Full Changelog**: https://github.com/VisActor/VChart/compare/v2.0.16...v2.0.17
 
 [more detail about v2.0.17](https://github.com/VisActor/VChart/releases/tag/v2.0.17)
+
 # v2.0.16
 
 2026-02-13

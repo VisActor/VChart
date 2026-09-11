@@ -8,6 +8,7 @@ import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/int
 export declare class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
     readonly type: string;
     readonly seriesType: string;
+    protected _seriesRelatedSpecKeys: Record<string, true>;
     protected _option: IChartSpecTransformerOption;
     constructor(option: IChartSpecTransformerOption);
     initChartSpec(chartSpec: T): IChartSpecInfo;
@@ -16,6 +17,8 @@ export declare class BaseChartSpecTransformer<T extends IChartSpec> implements I
     transformModelSpec(chartSpec: T): IChartSpecInfo;
     createSpecInfo(chartSpec: T, transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void): IChartSpecInfo;
     protected _isValidSeries(seriesType: string): boolean;
+    getSeriesRelatedSpecKeys(): Record<string, true>;
+    protected _addSeriesRelatedSpecKeys(...keysList: Array<string[] | undefined>): void;
     protected _getDefaultSeriesSpec(chartSpec: any, pickKeys?: string[], pickKeys2?: string[]): any;
     forEachRegionInSpec<K>(chartSpec: T, callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo): K[];
     forEachSeriesInSpec<K>(chartSpec: T, callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo): K[];

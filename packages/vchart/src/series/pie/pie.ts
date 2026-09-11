@@ -20,6 +20,7 @@ import { normalizeStartEndAngle } from '../../util/math';
 import { isSpecValueWithScale } from '../../util/scale';
 import { field } from '../../util/object';
 import { PolarSeries } from '../polar/polar';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import type { IArcMark, IMark, IMarkStyle, IPathMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
@@ -53,6 +54,19 @@ import { calcLayoutNumber } from '../../util/space';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
 import { pie as pieTheme } from '../../theme/builtin/common/series/pie';
+
+const PIE_SERIES_DATA_RELATED_KEYS: Record<'valueField' | 'angleField' | 'startAngle' | 'endAngle' | 'minAngle', true> =
+  {
+    valueField: true,
+    angleField: true,
+    startAngle: true,
+    endAngle: true,
+    minAngle: true
+  };
+
+const PIE_SERIES_COMPILE_ONLY_KEYS: Record<'outerRadius', true> = {
+  outerRadius: true
+};
 
 export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
   static readonly transformerConstructor = PieSeriesSpecTransformer as any;
@@ -392,6 +406,21 @@ export class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> 
 
   computeDatumRadius(datum: Datum, state?: string): number {
     return this._computeLayoutRadius() * this.getRadius(state) + this._centerOffset;
+  }
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...PIE_SERIES_COMPILE_ONLY_KEYS
+      },
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...PIE_SERIES_DATA_RELATED_KEYS
+      }
+    };
   }
 
   _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: { [key: string]: true }) {

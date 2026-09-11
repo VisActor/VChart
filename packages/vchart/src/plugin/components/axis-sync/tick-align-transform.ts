@@ -1,6 +1,6 @@
 import type { Datum } from '../../../typings';
 import type { CartesianAxis } from '../../../component';
-import { convertDomainToTickData } from '@visactor/vrender-components';
+import { convertDomainToTickData } from '@visactor/vrender-components/axis/tick-data/util';
 import { last, precisionSub, getDecimalPlaces } from '@visactor/vutils';
 
 export interface ITickAlignOpt {

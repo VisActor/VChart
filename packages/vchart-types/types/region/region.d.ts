@@ -39,13 +39,7 @@ export declare class Region<T extends IRegionSpec = IRegionSpec> extends LayoutM
     initMark(): void;
     protected _initBackgroundMarkStyle(): void;
     protected _initForegroundMarkStyle(): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../model/interface").IUpdateSpecResult;
     reInit(spec?: T): void;
     addSeries(s: ISeries): void;
     removeSeries(s: ISeries): void;
