@@ -58,6 +58,10 @@ function assertFallbackGhToken(step, context) {
   assert(step && step.env && step.env.GH_TOKEN === '${{ secrets.CREATE_TAG_RELEASE_TOKEN || github.token }}', `${context} must use PAT fallback GH_TOKEN`);
 }
 
+function assertGithubToken(step, context) {
+  assert(step && step.env && step.env.GH_TOKEN === '${{ github.token }}', `${context} must use GitHub Actions bot token`);
+}
+
 function assertStepIfIncludes(step, expected, context) {
   assert(step, `${context} step must exist`);
   assert(typeof step.if === 'string' && step.if.includes(expected), `${context} if must include ${expected}`);
@@ -174,21 +178,26 @@ function run() {
 
   const syncOn = getOn(syncMain);
   assert(hasOwn(syncOn, 'workflow_dispatch'), 'sync-main-to-develop.yml must support workflow_dispatch recovery');
+  assert(!hasOwn(syncOn, 'pull_request'), 'sync-main-to-develop.yml must not use pull_request because release heads use [skip ci]');
+  assert(hasOwn(syncOn, 'pull_request_target'), 'sync-main-to-develop.yml must use pull_request_target for release PR merge events');
+  assertArrayIncludes(syncOn.pull_request_target.types, ['closed'], 'sync-main-to-develop.yml pull_request_target types');
+  assertArrayIncludes(syncOn.pull_request_target.branches, ['main'], 'sync-main-to-develop.yml pull_request_target branches');
   assert(
     syncMain.data.jobs.sync_main_to_develop.if &&
-      syncMain.data.jobs.sync_main_to_develop.if.includes("github.event_name == 'workflow_dispatch'"),
-    'sync-main-to-develop.yml job must allow workflow_dispatch'
+      syncMain.data.jobs.sync_main_to_develop.if.includes("github.event_name == 'workflow_dispatch'") &&
+      syncMain.data.jobs.sync_main_to_develop.if.includes("github.event.pull_request.head.repo.full_name == github.repository"),
+    'sync-main-to-develop.yml job must allow workflow_dispatch and only trust same-repo release PRs'
   );
   const syncCheckout = getStep(syncMain, 'sync_main_to_develop', 'Checkout');
   assert(syncCheckout && syncCheckout.with && syncCheckout.with.ref === 'main', 'sync-main-to-develop.yml must checkout main explicitly');
-  assertFallbackGhToken(getStep(syncMain, 'sync_main_to_develop', 'Configure git remote for workflow-created branches'), 'sync-main remote setup');
+  assertGithubToken(getStep(syncMain, 'sync_main_to_develop', 'Configure git remote for workflow-created branches'), 'sync-main remote setup');
   assertRunIncludes(
     getStep(syncMain, 'sync_main_to_develop', 'Compute sync branch name and check existence'),
     '^[0-9]+\\.[0-9]+\\.[0-9]+$',
     'sync-main-to-develop.yml version validation'
   );
   const syncPrStep = getStep(syncMain, 'sync_main_to_develop', 'Create Pull Request to develop');
-  assertFallbackGhToken(syncPrStep, 'sync-main PR creation');
+  assertGithubToken(syncPrStep, 'sync-main PR creation');
   assert(!syncPrStep.if, 'sync-main PR creation must run even when the sync branch already exists');
 
   const dispatchOn = getOn(developDispatch);
