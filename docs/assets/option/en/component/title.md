@@ -4,6 +4,8 @@
 
 Chart title configuration.
 
+Starting from version 2.1.7, `width`, `height`, `minWidth`, `maxWidth`, `minHeight` and `maxHeight` support `ILayoutNumber`. Earlier versions only support numeric values.
+
 ### visible(boolean) = true
 
 Whether to display the title.
@@ -47,21 +49,29 @@ Optional values:
 - 'right'
 - 'bottom'
 
-### minWidth(number)
+### minWidth(ILayoutNumber)
 
-Title's minimum width, in pixels.
+Title's minimum width.
 
-### maxWidth(number)
+{{ use: common-layout-number }}
 
-Title's maximum width, in pixels. When the text exceeds the maximum width, it will automatically be truncated.
+### maxWidth(ILayoutNumber)
 
-### minHeight(number)
+Title's maximum width. When the text exceeds the maximum width, it will automatically be truncated.
 
-Title's minimum height, in pixels.
+{{ use: common-layout-number }}
 
-### maxHeight(number)
+### minHeight(ILayoutNumber)
 
-Title's maximum height, in pixels.
+Title's minimum height.
+
+{{ use: common-layout-number }}
+
+### maxHeight(ILayoutNumber)
+
+Title's maximum height. When the text exceeds the maximum height, it will automatically be truncated.
+
+{{ use: common-layout-number }}
 
 ### innerPadding(Object|number) = 0
 
