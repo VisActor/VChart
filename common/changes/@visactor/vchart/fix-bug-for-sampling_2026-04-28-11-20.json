@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: bar smapling not work bug. fix#4571",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

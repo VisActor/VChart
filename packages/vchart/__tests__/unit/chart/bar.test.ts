@@ -225,6 +225,34 @@ describe('Bar chart test', () => {
     expect(series.fieldX2).toBeUndefined();
   });
 
+  test('Bar chart with lttb sampling should keep valid bar data', () => {
+    const samplingSpec = {
+      type: 'bar',
+      data: [
+        {
+          id: 'barData',
+          values: [
+            { month: 'Monday', sales: 22 },
+            { month: 'Tuesday', sales: 13 },
+            { month: 'Wednesday', sales: 25 },
+            { month: 'Thursday', sales: 29 },
+            { month: 'Friday', sales: 38 }
+          ]
+        }
+      ],
+      xField: 'month',
+      yField: 'sales',
+      sampling: 'lttb'
+    };
+    chart = createBarChart(samplingSpec);
+
+    const series: BarSeries = chart.getAllSeries()[0] as BarSeries;
+    series.getRegion().setLayoutRect({ width: 500, height: 500 });
+    series.compile();
+
+    expect(series.getData().getProduct()).toHaveLength(5);
+  });
+
   test('stackCornerRadius should build valid clip paths when barMinHeight is enabled', () => {
     const stackSpec = {
       type: 'bar',
