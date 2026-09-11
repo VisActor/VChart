@@ -244,43 +244,13 @@ describe('Bar chart test', () => {
       yField: 'sales',
       sampling: 'lttb'
     };
-    const transformer = new BarChart.transformerConstructor({
-      type: 'bar',
-      seriesType: 'bar',
-      getTheme: getTheme,
-      mode: 'desktop-browser'
-    });
-    const info = transformer.initChartSpec(samplingSpec as any);
-    chart = new BarChart(
-      samplingSpec as any,
-      {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-        globalInstance: {
-          isAnimationEnable: () => true,
-          getContainer: () => ({}),
-          getTooltipHandlerByUser: (() => undefined) as () => undefined
-        },
-        render: {} as any,
-        dataSet,
-        map: new Map(),
-        container: null,
-        mode: 'desktop-browser',
-        getCompiler: getTestCompiler,
-        globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-        getTheme: getTheme,
-        getSpecInfo: () => info
-      } as any
-    );
-    chart.created(transformer);
-    chart.init();
+    chart = createBarChart(samplingSpec);
 
     const series: BarSeries = chart.getAllSeries()[0] as BarSeries;
     series.getRegion().setLayoutRect({ width: 500, height: 500 });
     series.compile();
 
-    expect((series as any)._data.getProduct()).toHaveLength(5);
+    expect(series.getData().getProduct()).toHaveLength(5);
   });
 
   test('stackCornerRadius should build valid clip paths when barMinHeight is enabled', () => {
