@@ -72961,8 +72961,8 @@
           "type": "boolean"
         },
         "height": {
-          "description": "标题高度",
-          "type": "number"
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "标题高度，支持像素值、百分比与回调，百分比与回调的基准是图表视图区域"
         },
         "id": {
           "$ref": "#/definitions/StringOrNumber"
@@ -72997,20 +72997,20 @@
           "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
         "maxHeight": {
-          "description": "最大高度，像素值",
-          "type": "number"
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "最大高度，支持像素值、百分比与回调。当文字超过最大高度时，会自动省略。"
         },
         "maxWidth": {
-          "description": "最大宽度，像素值。当文字超过最大宽度时，会自动省略。",
-          "type": "number"
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "最大宽度，支持像素值、百分比与回调。当文字超过最大宽度时，会自动省略。"
         },
         "minHeight": {
-          "description": "最小高度，像素值",
-          "type": "number"
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "最小高度，支持像素值、百分比与回调"
         },
         "minWidth": {
-          "description": "最小宽度，像素值",
-          "type": "number"
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "最小宽度，支持像素值、百分比与回调"
         },
         "noOuterPadding": {
           "description": "是否按照 orient 自动修改 padding，隐藏位于外侧的 padding。目前只在组件上生效",
@@ -73135,8 +73135,8 @@
           "type": "boolean"
         },
         "width": {
-          "description": "标题宽度",
-          "type": "number"
+          "$ref": "#/definitions/ILayoutNumber",
+          "description": "标题宽度，支持像素值、百分比与回调，百分比与回调的基准是图表视图区域"
         },
         "x": {
           "description": "标题左上角x坐标像素值",
