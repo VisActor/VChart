@@ -3990,3 +3990,103 @@ describe('vchart updateSpec of different indicator', () => {
     });
   });
 });
+
+describe('vchart updateSpec of background', () => {
+  let container: HTMLElement;
+  let dom: HTMLElement;
+  let vchart: VChart;
+
+  const gradientBackground = {
+    fill: {
+      gradient: 'linear',
+      x0: 0,
+      y0: 0,
+      x1: 1,
+      y1: 0,
+      stops: [
+        { offset: 0, color: '#ff9f43' },
+        { offset: 1, color: '#ee5253' }
+      ]
+    }
+  };
+
+  const baseSpec = {
+    type: 'bar',
+    data: [
+      {
+        id: 'bar',
+        values: [
+          { x: 'A', y: 10, type: 'a' },
+          { x: 'B', y: 20, type: 'a' }
+        ]
+      }
+    ],
+    xField: 'x',
+    yField: 'y',
+    seriesField: 'type',
+    legends: [{ visible: true }],
+    animation: false
+  };
+
+  beforeAll(() => {
+    container = createDiv();
+    dom = createDiv(container);
+    dom.id = 'container';
+    container.style.position = 'fixed';
+    container.style.width = '500px';
+    container.style.height = '500px';
+    container.style.top = '0px';
+    container.style.left = '0px';
+  });
+
+  afterEach(() => {
+    vchart?.release();
+  });
+
+  afterAll(() => {
+    removeDom(container);
+  });
+
+  it('should remake background when background and theme change in the same updateSpec', () => {
+    const spec = {
+      ...baseSpec,
+      background: gradientBackground,
+      theme: { background: 'transparent' }
+    } as unknown as IBarChartSpec;
+
+    vchart = new VChart(spec, { dom, animation: false });
+    vchart.renderSync();
+
+    const updateRes = (vchart as any)._updateSpec(
+      {
+        ...spec,
+        background: '#4e83fd',
+        theme: { background: '#ffffff' }
+      },
+      false
+    );
+
+    expect(updateRes.changeTheme).toBe(true);
+    expect(updateRes.changeBackground).toBe(true);
+    expect(updateRes.reMake).toBe(true);
+  });
+
+  it('should not throw when recompiling a chart whose background is a mark spec', () => {
+    const spec = {
+      ...baseSpec,
+      background: gradientBackground,
+      theme: { background: 'transparent' }
+    } as unknown as IBarChartSpec;
+
+    vchart = new VChart(spec, { dom, animation: false });
+    vchart.renderSync();
+
+    // 只改图例：走 reCompile 而不是 reMake，chart 级的 background mark 会被二次 compile
+    const nextSpec = { ...spec, legends: [{ visible: false }] } as unknown as IBarChartSpec;
+    const updateRes = (vchart as any)._updateSpec(nextSpec, false);
+    expect(updateRes.reCompile).toBe(true);
+    expect(updateRes.reMake).toBe(false);
+
+    expect(() => (vchart as any)._updateCustomConfigAndRecompile(updateRes)).not.toThrow();
+  });
+});

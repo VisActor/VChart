@@ -297,7 +297,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       }
       return;
     } else if (isValid(product)) {
-      if (option.group && product.parent !== option.group) {
+      if (option?.group && product.parent !== option.group) {
         option.group.appendChild(product);
       }
     } else {

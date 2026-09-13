@@ -1172,7 +1172,9 @@ export class VChart implements IVChart {
       // setCurrentTheme 会导致 chart 实例的 reInit。
       // 只要模块从 vchart 实例获取与 spec 相关的信息，都会出现错误，它们已经不匹配了
       // this._setCurrentTheme();
-    } else if (!isEqual(this._spec.background, lastSpec.background)) {
+    }
+    // background 与 theme 互相独立，同一次 updateSpec 里两者一起变时也要重建背景 mark
+    if (!isEqual(this._spec.background, lastSpec.background)) {
       result.reMake = true;
       result.changeBackground = true;
     }
