@@ -1,284 +1,55 @@
 # Lynx
 
-**【注意】Lynx 开源版本暂时不提供 canvas 画布功能，所以暂时不支持 vchart 的渲染，后续版本将会支持，敬请期待，[更多功能请查看 lynx 官网](https://lynxjs.org/)**
+Lynx 是字节跳动开源的高性能跨端框架，基于 Web 技术栈构建原生视图。VChart 提供了面向字节内部 Lynx 环境的渲染适配。
 
-Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 Native 视图，Lynx 于 2025-03-05 正式开源；VChart 基于 Lynx 字节内部版本提供了该框架的图表渲染能力支持。
+## 适用范围
 
-## 如何获取 VChart
+**根据截至 2026-09-14 的公开文档和源码核查，开源原生 Lynx 尚未公开提供本文所需的 Canvas 接入能力。** 安装 `@visactor/vchart` 不会为宿主补充 Canvas 能力。开源进展请参考 [Lynx 官方文档](https://lynxjs.org/)及 [Lynx 图表需求讨论](https://github.com/lynx-family/lynx/issues/6230#issuecomment-4729040590)。
 
-### npm 包
+本文说明 VChart 侧的环境注册和参数要求，适用于已经具备 Canvas 能力的内部 Lynx 宿主。宿主的画布创建、视图绑定、模板、生命周期和事件接入方式，需要以对应宿主及版本的接入文档为准。本页不提供经过宿主运行验证的完整示例。
 
-你可以直接在 lynx 项目中安装 vchart 依赖包：`@visactor/vchart`。
+如果使用内部 ReactLynx 组件封装，请参阅 [ReactLynx 文档](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/react-lynx)。该封装依赖内部包 `@dp/lynx-vchart`，同样需要宿主提供 Canvas 能力。
 
-### 手动引入脚本
+## 获取 VChart
 
-也可以手动引用 VChart 的 umd 打包产物，你可以通过如下渠道获取：
+在满足上述宿主要求的项目中安装：
 
-1. 直接仓库中获取 [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js) ，每次发包我们都会进行更新
-2. 从如下免费的 CDN 中获取
-
-```html
-<!-- unpkg -->
-<script src="https://unpkg.com/@visactor/vchart/build/index.min.js"></script>
-
-<!-- jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
+```bash
+npm install @visactor/vchart
 ```
 
-## 如何使用
+## VChart 环境适配
 
-下面我们从 `js`、`ttml`、`ttss` 三部分介绍下如何在飞书小组件上使用 VChart。
+### 注册环境
 
-### index.ttml
-
-需要声明三个 canvas，并且注意声明的顺序
-
-- `bar_hidden_canvas` 隐藏的 canvas，在第一个声明，用于内部的一些拾取逻辑
-- `bar_draw_canvas` 绘制 canvas，第二个声明
-- `bar_tooltip_canvas` 用于绘制 tooltip 的 canvas，跨端环境的 tooltip 使用 canvas 绘制。
-
-```html
-<view class="vchart">
-  <!-- canvas顺序很重要 -->
-  <canvas
-    name="bar_hidden_canvas"
-    id="bar_hidden_canvas"
-    user-interaction-enabled="{{false}}"
-    class="cs-canvas cs-canvas-hidden"
-  >
-  </canvas>
-  <canvas
-    class="cs-canvas"
-    bindtouchstart="bindChartEvent"
-    bindtouchmove="bindChartEvent"
-    bindtouchend="bindChartEvent"
-    name="bar_draw_canvas"
-    id="bar_draw_canvas"
-  >
-  </canvas>
-  <canvas
-    name="bar_tooltip_canvas"
-    id="bar_tooltip_canvas"
-    user-interaction-enabled="{{false}}"
-    class="cs-tooltip-canvas"
-  >
-  </canvas>
-</view>
-```
-
-### index.js
-
-在该文件中创建 VChart 实例，因为 VChart 内部对 lynx 环境进行了兼容，所以在使用上，基本于 PC 端无异，只需要注意两点：
-
-1. 需要在 VChart 的构造函数中声明必要的环境参数
+创建图表前注册 Lynx 环境：
 
 ```ts
-const chartInstance = new VChart(spec, {
-  mode: 'lynx', //  Tip: 跨端环境需要手动传入 mode
-  // 跨端参数
-  modeParams: {
-    domref: domRef, // 图表绘制的 canvas 节点
-    force: true, // 是否强制使用 canvas 绘制
-    canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // canvasId 列表
-    tooltipCanvasId: `${item.id}_tooltip_canvas`, // tooltip canvasId
-    freeCanvasIdx: 1 // 自由 canvas 索引
-  },
-  dpr: pixelRatio, // Tip: 跨端环境需要手动传入 dpr
-  renderCanvas: `${item.id}_draw_canvas` // 声明用于绘制的 canvasId
-});
+import { registerLynxEnv } from '@visactor/vchart';
+
+registerLynxEnv();
 ```
 
-2. 在事件上，需要用户自己在 canvas（用于绘制的 canvas） 元素上绑定事件，然后在事件监听函数中手动得分发事件来触发 VChart 内部的事件。
+此调用注册 VChart 所需的 Lynx 渲染适配，不负责安装或启用宿主的 Canvas 组件。
 
-```ts
-bindChartEvent(event) {
-  const id = event.target.id.split("_")[0];
-  const targetChart = this.data.chartList.find(x => x.id === id);
-  const chartInstance = targetChart?.chart;
-  if (chartInstance) {
-    event.target = chartInstance.getCanvas(); // Tip: 必须设置
-    chartInstance.getStage().window.dispatchEvent(event);
-  }
-},
-```
+### 初始化参数
 
-下面是 index.js 相关的完成代码：
+以下是 VChart 侧的参数要求；具体值需由已完成接入的宿主提供。
 
-```ts
-import barSpec from './data/bar';
-import VChart, { registerLynxEnv } from '@visactor/vchart';
-import mapJson from './data/map-data-china';
+| 配置位置                       | 说明                                                                                                                   |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| 构造选项 `mode`                | 设置为 `'lynx'`。                                                                                                      |
+| 构造选项 `renderCanvas`        | 指定宿主提供的画布实例或标识，用于绑定当前图表的绘制画布。                                                             |
+| 图表 spec 的 `width`、`height` | 提供图表在宿主中的绘制尺寸。                                                                                           |
+| 构造选项 `dpr`                 | 提供宿主的设备像素比。                                                                                                 |
+| 构造选项 `modeParams`          | 传入宿主提供的环境能力，如 `pixelRatio`、`lynx` / `runtime` 或 `canvasFactory`；这些能力应适用于同一环境中的多个图表。 |
 
-Card({
-  data: {
-    chartList: [
-      {
-        id: 'bar',
-        spec: barSpec,
-        chart: undefined
-      }
-    ]
-  },
-  onLoad: function () {
-    // 如果需要使用地图，需要先注册地图
-    VChart.registerMap('china', mapJson, {
-      type: 'geojson'
-    });
-    this.init();
-  },
+新接入应通过 `renderCanvas`、图表尺寸和 `dpr` 指定单个图表的画布信息，不依赖旧示例中的 `domref`、`canvasIdLists` 或 `freeCanvasIdx`。这些旧参数不能替代宿主的 Canvas 能力。
 
-  init() {
-    registerLynxEnv();
-    this.data.chartList.forEach(item => {
-      this.createSelectorQuery()
-        .select(`#${item.id}_draw_canvas`)
-        .invoke({
-          method: 'boundingClientRect',
-          success: domRef => {
-            if (!domRef) {
-              console.error(`未找到 #${item.id} 画布`);
-              return;
-            }
-            domRef.id = item.id;
-            const pixelRatio = SystemInfo.pixelRatio;
-
-            const chartInstance = new VChart(item.spec, {
-              mode: 'lynx', //  Tip: 跨端环境需要手动传入 mode
-              // 跨端参数
-              modeParams: {
-                domref: domRef, // 图表绘制的 canvas 节点
-                force: true, // 是否强制使用 canvas 绘制
-                canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // canvasId 列表
-                tooltipCanvasId: `${item.id}_tooltip_canvas`, // tooltip canvasId
-                freeCanvasIdx: 1 // 自由 canvas 索引
-              },
-              dpr: pixelRatio, // Tip: 跨端环境需要手动传入 dpr
-              renderCanvas: `${item.id}_draw_canvas` // 声明用于绘制的 canvasId
-            });
-            item.chart = chartInstance;
-
-            if (item.events) {
-              item.events.forEach(event => {
-                chartInstance.on(event.type, { source: event.element }, event.handler);
-              });
-            }
-            chartInstance.renderSync();
-          },
-          fail: res => {
-            console.log('res:', res);
-          }
-        })
-        .exec();
-    });
-  },
-
-  bindChartEvent(event) {
-    const id = event.target.id.split('_')[0];
-    const targetChart = this.data.chartList.find(x => x.id === id);
-    const chartInstance = targetChart?.chart;
-    if (chartInstance) {
-      event.target = chartInstance.getCanvas(); // Tip: 必须设置
-      chartInstance.getStage().window.dispatchEvent(event);
-    }
-  }
-});
-```
+交互还需要对应宿主的画布事件接入。完成集成后，应在该宿主及版本中验证首屏渲染和触摸交互；仅注册环境不能验证接入是否可用。
 
 ## 按需加载
 
-lynx-vchart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，有两种办法：
+VChart 的图表和组件按需注册方式请参阅[按需加载教程](/vchart/guide/tutorial_docs/Load_on_Demand)。在 Lynx 中使用时，还需要调用 `registerLynxEnv()`，并使用适合原生 Canvas 环境的组件，例如 Canvas Tooltip。
 
-- 使用 `<VChartSimple />` 标签，实现自定义的按需加载
-
-`<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，根据本文描述，注册需要的图表和组件，并传入给 `<VChartSimple />`;
-
-- 使用语义化标签，所有的语义化标签默认支持按需加载，其中各种语义化标签默认注册的内容如下：
-
-> 自**0.0.12**版本开始支持
-
-| 图表                       | 分类           | 额外注册的组件                        |
-| -------------------------- | -------------- | ------------------------------------- |
-| `<LineChart/>`             | 直角坐标系图表 | `registerLabel`                       |
-| `<AreaChart/>`             | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
-| `<BarChart/>`              | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
-| `<Bar3dChart/>`            | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
-| `<BoxPlotChart/>`          | 直角坐标系图表 | `registerLabel`,                      |
-| `<HeatmapChart/>`          | 直角坐标系图表 | `registerLabel`                       |
-| `<Histogram3dChart/>`      | 直角坐标系图表 | `registerLabel`                       |
-| `<HistogramChart/>`        | 直角坐标系图表 | `registerLabel`                       |
-| `<LinearProgressChart/>`   | 直角坐标系图表 | `registerLabel`                       |
-| `<RangeColumnChart/>`      | 直角坐标系图表 | `registerLabel`                       |
-| `<RangeColumn3dChart/>`    | 直角坐标系图表 | `registerLabel`                       |
-| `<ScatterChart/>`          | 直角坐标系图表 | `registerLabel`                       |
-| `<SequenceChart/>`         | 直角坐标系图表 | `registerLabel`                       |
-| `<WaterfallChart/>`        | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
-| `<RadarChart/>`            | 极坐标系图表   | `registerLabel`                       |
-| `<RoseChart/>`             | 极坐标系图表   | `registerLabel`                       |
-| `<CircularProgressChart/>` | 极坐标系图表   | `registerLabel`, `registerIndicator`  |
-| `<Pie3dChart/>`            | 通用图表       | `registerLabel`, `registerIndicator`  |
-| `<PieChart/>`              | 通用图表       | `registerLabel`, `registerIndicator`  |
-| `<CirclePackingChart/>`    | 通用图表       | 无                                    |
-| `<FunnelChart/>`           | 通用图表       | `registerLabel`                       |
-| `<Funnel3dChart/>`         | 通用图表       | `registerLabel`                       |
-| `<GaugeChart/>`            | 通用图表       | 无                                    |
-| `<MapChart/>`              | 通用图表       | `registerLabel`                       |
-| `<SankeyChart/>`           | 通用图表       | 无                                    |
-| `<SunburstChart/>`         | 通用图表       | 无                                    |
-| `<TreemapChart/>`          | 通用图表       | 无                                    |
-| `<VennChart/>`             | 通用图表       | 无                                    |
-| `<WordCloud3dChart/>`      | 通用图表       | 无                                    |
-| `<WordCloudChart/>`        | 通用图表       | 无                                    |
-| `<LiquidChart/>`           | 通用图表       | `registerIndicator`                   |
-
-其中，直角坐标系图表默认注册组件如下：
-
-- `registerCartesianLinearAxis`
-- `registerCartesianBandAxis`
-- `registerCartesianTimeAxis`
-- `registerCartesianLogAxis`
-- `registerCartesianCrossHair`
-- `registerBrush`
-- `registerContinuousLegend`
-- `registerDataZoom`
-- `registerDiscreteLegend`
-- `registerCustomMark`
-- `registerAllMarks`
-- `registerMarkArea`
-- `registerMarkLine`
-- `registerMarkPoint`
-- `registerScrollBar`
-- `registerTitle`
-- `registerTooltip`
-- `registerCanvasTooltipHandler`
-
-极坐标系图表默认注册组件如下：
-
-- `registerPolarLinearAxis`
-- `registerPolarBandAxis`
-- `registerPolarCrossHair`
-- `registerBrush`
-- `registerContinuousLegend`
-- `registerDataZoom`
-- `registerDiscreteLegend`
-- `registerCustomMark`
-- `registerAllMarks`
-- `registerScrollBar`
-- `registerTitle`
-- `registerTooltip`
-- `registerCanvasTooltipHandler`
-
-通用图表默认注册组件如下：
-
-- `registerDiscreteLegend`
-- `registerContinuousLegend`
-- `registerCustomMark`
-- `registerAllMarks`
-- `registerTitle`
-- `registerTooltip`
-- `registerCanvasTooltipHandler`
-
-使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
-
-【注意】：如果使用 lynx 出现报错类似“No matching export in ...”，请升级 lynx 的版本，或者配置 resolve.enableINodeCache 为 false
-
-VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Demand)
+`<VChartSimple />` 等标签属于内部 ReactLynx 组件封装，其用法请参阅 [ReactLynx 文档](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/react-lynx)。

@@ -1,8 +1,10 @@
 # ReactLynx
 
-**【注意】Lynx 开源版本暂时不提供 canvas 画布功能，所以暂时不支持 vchart 的渲染，后续版本将会支持，敬请期待，[更多功能请查看 lynx 官网](https://lynxjs.org/)**
+Lynx 是字节跳动开源的高性能跨端框架，ReactLynx 提供 React 语法支持。本文介绍面向字节内部 ReactLynx 3.0 环境的图表组件封装，依赖内部包 `@dp/lynx-vchart` 和宿主提供的 Canvas 能力。
 
-Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 Native 视图，Lynx 于 2025-03-05 正式开源，ReactLynx 是 Lynx 的 React 语法版本 ；VChart 基于字节内部版本 ReactLynx3.0 ，提供了图表渲染能力支持。
+**根据截至 2026-09-14 的公开文档和源码核查，开源原生 Lynx 尚未公开提供本文所需的 Canvas 接入能力。** 安装图表包不会为宿主补充 Canvas 能力，本文中的内部组件也不能直接作为开源 ReactLynx 的接入方案。开源进展请参考 [Lynx 官方文档](https://lynxjs.org/)及 [Lynx 图表需求讨论](https://github.com/lynx-family/lynx/issues/6230#issuecomment-4729040590)。
+
+宿主和组件包的版本需与内部接入文档匹配。直接使用 `@visactor/vchart` 的环境注册和参数要求，请参阅 [Lynx 文档](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/lynx)。
 
 ## 如何获取 Lynx-VChart
 
