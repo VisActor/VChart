@@ -94,7 +94,9 @@ export const layoutByValue = (
               const posEnd = field === 'xField' ? series.dataToPositionX1(datum) : series.dataToPositionY1(datum);
               bandSize = Math.abs(posStart - posEnd);
               coord = Math.min(posStart, posEnd);
-              value = `${datum[field1]} ~ ${datum[field2]}`;
+              const startValue = datum[field1];
+              const endValue = datum[field2];
+              value = +startValue <= +endValue ? `${startValue} ~ ${endValue}` : `${endValue} ~ ${startValue}`;
             } else {
               bandSize = 1;
               coord = posStart;

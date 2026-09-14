@@ -1,8 +1,72 @@
 import { getDatumByValue } from '../../../../src/component/crosshair/utils/common';
-import { layoutCrosshair } from '../../../../src/component/crosshair/utils/cartesian';
-import type { CrossHairStateItem } from '../../../../src/component/crosshair/interface';
+import { layoutByValue, layoutCrosshair } from '../../../../src/component/crosshair/utils/cartesian';
+import type { CrossHairStateByField, CrossHairStateItem } from '../../../../src/component/crosshair/interface';
 
 describe('crosshair utils', () => {
+  describe.each(['x', 'y'])('layoutByValue range labels on %s axis', coordKey => {
+    test.each([
+      [2, 10, false, '2 ~ 10'],
+      [10, 2, false, '2 ~ 10'],
+      [2, 10, true, '2 ~ 10'],
+      [10, 2, true, '2 ~ 10'],
+      ['10.00', '2.00', false, '2.00 ~ 10.00'],
+      ['2.00', '10.00', true, '2.00 ~ 10.00'],
+      [2, 2, false, '2 ~ 2']
+    ])('formats %s to %s with inverse=%s as %s', (start, end, inverse, expectedLabel) => {
+      const datum = { start, end };
+      const scale = (value: number) => (inverse ? 12 - value : +value) * 10;
+      const orient = coordKey === 'x' ? 'bottom' : 'left';
+      const axis = {
+        getScale: () => ({ type: 'linear', scale }),
+        getLayoutStartPoint: () => ({ x: 0, y: 0 }),
+        getVRenderComponents: () => [],
+        getSpec: () => ({}),
+        getOrient: () => orient,
+        getRegions: () => [
+          { getLayoutStartPoint: () => ({ x: 0, y: 0 }), getLayoutRect: () => ({ width: 120, height: 120 }) }
+        ]
+      };
+      const formatMethod = jest.fn(value => `range: ${value}`);
+      const state: CrossHairStateByField = {
+        [`${coordKey}Field`]: {
+          coordKey,
+          anotherAxisKey: coordKey === 'x' ? 'y' : 'x',
+          currentValue: new Map([[0, { datum: (+start + +end) / 2, axis: axis as any }]]),
+          labelsComp: { top: null, bottom: null, left: null, right: null },
+          attributes: { visible: true, type: 'rect', label: { visible: true, formatMethod } }
+        }
+      };
+      const series = {
+        fieldX: ['start'],
+        fieldY: ['start'],
+        fieldX2: 'end',
+        fieldY2: 'end',
+        getViewData: () => ({ latestData: [datum] }),
+        dataToPositionX: () => scale(+start),
+        dataToPositionX1: () => scale(+end),
+        dataToPositionY: () => scale(+start),
+        dataToPositionY1: () => scale(+end)
+      };
+
+      layoutByValue(state, series as any, { x: 0, y: 0 });
+
+      const item = state[`${coordKey}Field`];
+      expect(item.cacheInfo.visible).toBe(true);
+      expect(formatMethod.mock.calls[0][0]).toBe(expectedLabel);
+      expect(item.cacheInfo.labels[orient].text).toBe(`range: ${expectedLabel}`);
+      expect(datum).toEqual({ start, end });
+      const rect = layoutCrosshair(item);
+      const minCoord = 20;
+      const maxCoord = start === end ? 20 : 100;
+      expect(rect.start[coordKey]).toBe(minCoord);
+      expect(rect.end[coordKey]).toBe(maxCoord);
+      item.attributes.type = 'line';
+      const line = layoutCrosshair(item);
+      expect(line.start[coordKey]).toBe((minCoord + maxCoord) / 2);
+      expect(line.end[coordKey]).toBe((minCoord + maxCoord) / 2);
+    });
+  });
+
   describe('getDatumByValue', () => {
     const data = [
       { start: 0, end: 0.2, name: 'A' },
