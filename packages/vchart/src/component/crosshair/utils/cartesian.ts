@@ -89,16 +89,18 @@ export const layoutByValue = (
           const field2 = field === 'xField' ? series.fieldX2 : series.fieldY2; // todo
           const datum = getDatumByValue(series.getViewData().latestData, +value, field1, field2);
           if (datum) {
-            const startX = field === 'xField' ? series.dataToPositionX(datum) : series.dataToPositionY(datum);
+            const posStart = field === 'xField' ? series.dataToPositionX(datum) : series.dataToPositionY(datum);
             if (field2) {
-              bandSize = Math.abs(
-                startX - (field === 'xField' ? series.dataToPositionX1(datum) : series.dataToPositionY1(datum))
-              );
-              value = `${datum[field1]} ~ ${datum[field2]}`;
+              const posEnd = field === 'xField' ? series.dataToPositionX1(datum) : series.dataToPositionY1(datum);
+              bandSize = Math.abs(posStart - posEnd);
+              coord = Math.min(posStart, posEnd);
+              const startValue = datum[field1];
+              const endValue = datum[field2];
+              value = +startValue <= +endValue ? `${startValue} ~ ${endValue}` : `${endValue} ~ ${startValue}`;
             } else {
               bandSize = 1;
+              coord = posStart;
             }
-            coord = startX;
           }
           niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
         }
