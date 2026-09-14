@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: keep the word cloud shape afterRender tap as a stable member callback",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "chendaxin.tk@bytedance.com"
+}
