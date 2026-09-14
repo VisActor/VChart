@@ -40,6 +40,7 @@ import { LinearScale } from '@visactor/vscale';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
 import type { ITransformSpec } from '../../compile/interface';
 import { createImage, vglobal } from '../../vrender-bridge';
+import type { IStage } from '@visactor/vrender-core';
 import { getTextBounds } from '@visactor/vrender-core/text';
 import { wordCloud } from '../../theme/builtin/common/series/word-cloud';
 import { LayoutZIndex } from '../../constant/layout';
@@ -78,6 +79,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected _maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape;
   protected _isWordCloudShape: boolean = false;
+  /** 形状词云布局完成后挂到 stage 上的 afterRender tap，随 series 一起摘掉，避免 release 后再被触发 */
+  protected _afterWordcloudShapeDrawTap?: { stage: IStage; fn: () => void };
 
   protected _wordCloudConfig?: WordCloudConfigType;
   protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
@@ -394,25 +397,29 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
           : this._maskShape,
       onUpdateMaskCanvas: this.handleMaskCanvasUpdate,
       onLayoutFinished: () => {
+        // 布局是异步的，跑完时 series 可能已经被 release，此时 _option 已置空
+        const stage = this._option?.globalInstance?.getStage();
+        if (!stage) {
+          return;
+        }
+        this._removeAfterWordcloudShapeDrawTap();
+
         const afterWordcloudShapeDraw = () => {
           // 需要等到真正渲染完成
-          this._option.globalInstance.getStage().hooks.afterRender.taps = this._option.globalInstance
-            .getStage()
-            .hooks.afterRender.taps.filter(tap => tap.fn !== afterWordcloudShapeDraw);
+          this._removeAfterWordcloudShapeDrawTap();
 
+          const globalInstance = this._option?.globalInstance;
+          if (!globalInstance) {
+            return;
+          }
           this._option.dispatchEvent?.(ChartEvent.afterWordcloudShapeDraw, {
-            instance: this._option.globalInstance
+            instance: globalInstance
           });
-          this._option.globalInstance
-            .getChart()
-            .getOption()
-            .performanceHook?.afterWordcloudShapeDraw?.(this._option.globalInstance);
+          globalInstance.getChart().getOption().performanceHook?.afterWordcloudShapeDraw?.(globalInstance);
         };
-        this._option.globalInstance.getStage().hooks.afterRender.taps.push({
-          type: 'sync',
-          name: 'afterWordcloudShapeDraw',
-          fn: afterWordcloudShapeDraw
-        });
+
+        this._afterWordcloudShapeDrawTap = { stage, fn: afterWordcloudShapeDraw };
+        stage.hooks.afterRender.tap('afterWordcloudShapeDraw', afterWordcloudShapeDraw);
       },
       dataIndexKey: DEFAULT_DATA_KEY,
       text: wordSpec.formatMethod
@@ -552,7 +559,19 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     this._wordMeasureCache?.clear();
   }
 
+  protected _removeAfterWordcloudShapeDrawTap() {
+    const tap = this._afterWordcloudShapeDrawTap;
+    if (!tap) {
+      return;
+    }
+    this._afterWordcloudShapeDrawTap = undefined;
+
+    // 带上 fn：同一个 stage 上可能有多个词云系列，只按名字清会误删别人的回调
+    tap.stage?.hooks?.afterRender?.unTap('afterWordcloudShapeDraw', tap.fn);
+  }
+
   release() {
+    this._removeAfterWordcloudShapeDrawTap();
     super.release();
     this._wordMeasureCache?.clear();
     this._wordMeasureCache = undefined;
