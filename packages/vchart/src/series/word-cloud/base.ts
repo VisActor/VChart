@@ -419,11 +419,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
         };
 
         this._afterWordcloudShapeDrawTap = { stage, fn: afterWordcloudShapeDraw };
-        stage.hooks.afterRender.taps.push({
-          type: 'sync',
-          name: 'afterWordcloudShapeDraw',
-          fn: afterWordcloudShapeDraw
-        });
+        stage.hooks.afterRender.tap('afterWordcloudShapeDraw', afterWordcloudShapeDraw);
       },
       dataIndexKey: DEFAULT_DATA_KEY,
       text: wordSpec.formatMethod
@@ -570,10 +566,8 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     }
     this._afterWordcloudShapeDrawTap = undefined;
 
-    const hooks = tap.stage?.hooks?.afterRender;
-    if (hooks) {
-      hooks.taps = hooks.taps.filter(item => item.fn !== tap.fn);
-    }
+    // 带上 fn：同一个 stage 上可能有多个词云系列，只按名字清会误删别人的回调
+    tap.stage?.hooks?.afterRender?.unTap('afterWordcloudShapeDraw', tap.fn);
   }
 
   release() {
