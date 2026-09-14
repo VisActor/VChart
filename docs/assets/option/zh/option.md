@@ -67,3 +67,5 @@
 {{import: chart-common}}
 
 {{import: chart-image-cloud}}
+
+{{import: chart-storyline}}
