@@ -1,7 +1,7 @@
 import { VChart } from '../../../src/vchart-all';
 import { createDiv, removeDom } from '../../util/dom';
 
-type Tap = { name: string; fn: () => void };
+type Tap = { name: string; fn: (stage: unknown) => void };
 
 const SVG_MASK =
   '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="50" cy="50" r="50"/></svg>';
@@ -67,7 +67,7 @@ describe('word cloud shape afterRender tap', () => {
 
     expect(getWordCloudTaps().length).toBe(0);
     // series 已经 release，_option 为空，这个 tap 即使被别处留住也不能再抛错
-    expect(() => tap.fn()).not.toThrow();
+    expect(() => tap.fn(vchart.getStage())).not.toThrow();
   });
 
   it('should not be registered twice when the layout finishes more than once', () => {
