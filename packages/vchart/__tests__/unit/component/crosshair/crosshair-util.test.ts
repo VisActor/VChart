@@ -19,7 +19,7 @@ describe('crosshair utils', () => {
       const axis = {
         getScale: () => ({ type: 'linear', scale }),
         getLayoutStartPoint: () => ({ x: 0, y: 0 }),
-        getVRenderComponents: () => [],
+        getVRenderComponents: (): [] => [],
         getSpec: () => ({}),
         getOrient: () => orient,
         getRegions: () => [
@@ -37,6 +37,7 @@ describe('crosshair utils', () => {
         }
       };
       const series = {
+        getStack: () => false,
         fieldX: ['start'],
         fieldY: ['start'],
         fieldX2: 'end',
