@@ -7,6 +7,9 @@ import { GlyphMark, registerGlyphMark } from './glyph';
 import type { IGlyph, IPathGraphicAttribute } from '@visactor/vrender-core';
 import { createPath, registerPath } from '../vrender-bridge';
 import type { Datum } from '../typings/common';
+import { STATE_VALUE_ENUM } from '../compile/mark/interface';
+
+const LINK_RUNTIME_STATE_KEYS = { [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]: ['ratio'] };
 
 export const getHorizontalPath = (options: ILinkPathMarkSpec, ratio?: number) => {
   const curvature = options.curvature ?? 0.5;
@@ -156,6 +159,10 @@ export class LinkPathMark extends GlyphMark<ILinkPathMarkSpec, ILinkPathConfig> 
   static readonly type = MarkTypeEnum.linkPath;
   readonly type = LinkPathMark.type;
 
+  protected _getRuntimeStateKeys() {
+    return LINK_RUNTIME_STATE_KEYS;
+  }
+
   protected _getDefaultStyle() {
     const defaultStyle: IMarkStyle<ILinkPathMarkSpec> = {
       ...super._getDefaultStyle(),
@@ -199,7 +206,7 @@ export class LinkPathMark extends GlyphMark<ILinkPathMarkSpec, ILinkPathConfig> 
     'align',
     'endArrow',
     'startArrow',
-    'ratio'
+    'direction'
   ];
 
   protected _channelEncoder = {
@@ -211,10 +218,7 @@ export class LinkPathMark extends GlyphMark<ILinkPathMarkSpec, ILinkPathConfig> 
   };
 
   protected _positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
-    const newAttrs = {
-      ...g.attribute,
-      ...glyphAttrs
-    };
+    const newAttrs = glyphAttrs;
 
     const direction = newAttrs.direction ?? this._glyphConfig?.direction;
     const parsePath = ['vertical', 'TB', 'BT'].includes(direction) ? getVerticalPath : getHorizontalPath;
