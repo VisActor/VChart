@@ -194,13 +194,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const extendWidth = !this._visible
       ? 0
       : this._isHorizontal
-        ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
-        : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
+      ? (startHandlerScaleXSize - this._startHandlerSize) / 2 + (endHandlerScaleXSize - this._endHandlerSize) / 2
+      : (Math.max(startHandlerScaleXSize, endHandlerScaleXSize) - this._width) / 2;
     const extendHeight = !this._visible
       ? 0
       : this._isHorizontal
-        ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
-        : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
+      ? (Math.max(startHandlerScaleYSize, endHandlerScaleYSize) - this._height) / 2
+      : (startHandlerScaleYSize - this._startHandlerSize) / 2 + (endHandlerScaleYSize - this._endHandlerSize) / 2;
     if (this._isHorizontal) {
       result.y2 = result.y1 + this._height + extendHeight;
       result.x2 = result.x1 + rect.width + extendWidth;
@@ -451,7 +451,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       minSpan: this._minSpan,
       maxSpan: this._maxSpan,
       delayType: spec.delayType,
-      delayTime: isValid(spec.delayType) ? (spec.delayTime ?? 30) : 0,
+      delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
       realTime: spec.realTime ?? true,
       previewData: isNeedPreview && this._data.getLatestData(),
       previewPointsX: isNeedPreview && this._dataToPositionX,
@@ -477,7 +477,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
 
   protected _createOrUpdateComponent(changeData?: boolean) {
     if (this._visible) {
-      const isNeedPreview = this._spec.showBackgroundChart !== false;
+      const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
+      const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
+      const isNeedPreview =
+        this._isScaleValid(xScale) && this._isScaleValid(yScale) && this._spec.showBackgroundChart !== false;
       const attrs = this._getAttrs(isNeedPreview);
 
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
