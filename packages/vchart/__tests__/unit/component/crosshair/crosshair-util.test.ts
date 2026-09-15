@@ -37,6 +37,7 @@ describe('crosshair utils', () => {
         }
       };
       const series = {
+        getStack: () => false,
         fieldX: ['start'],
         fieldY: ['start'],
         fieldX2: 'end',
