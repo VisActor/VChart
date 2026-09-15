@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: 修复预览比例尺退化时 DataZoom 显示多余预览线的问题",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
