@@ -113,3 +113,17 @@ Truncation graphic rotation angle configuration.
 ###${prefix} style(Object)
 
 The style configuration of the truncation graphic, you can configure the line width (`lineWidth`), color (`stroke`), etc.
+
+#${prefix} customDistribution(Array)
+
+Supported since version **2.0.16**
+
+Applies only when the axis is a linear axis. Custom interval distribution configuration, used to define the visual proportion of specific data intervals on the axis.
+
+##${prefix} domain(number[])
+
+The data interval [min, max].
+
+##${prefix} ratio(number)
+
+The proportion of the visual range this interval should occupy, value between 0 and 1.

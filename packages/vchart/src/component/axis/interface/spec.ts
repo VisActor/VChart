@@ -164,6 +164,14 @@ export interface ILinearAxisSpec {
    * @since 1.12.4
    */
   breaks?: ILinearAxisBreakSpec[];
+  /**
+   * 自定义区间分布配置
+   * @since 2.0.16
+   */
+  piecewise?: {
+    domain: number[];
+    ratio: number[];
+  };
 }
 
 export interface IBandAxisSpec {
