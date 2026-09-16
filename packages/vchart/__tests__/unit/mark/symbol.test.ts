@@ -60,6 +60,25 @@ test('symbol setAttribute support constant value.', () => {
   expect(y_hover).toEqual(100);
 });
 
+test('symbol reinit restores defaults before applying the next spec', () => {
+  const symbolMark = new SymbolMark('symbol0', ctx);
+  symbolMark.created();
+  symbolMark.initStyleWithSpec({ style: { visible: false, size: 12, lineWidth: 2 } });
+
+  symbolMark.clearBeforeReInit();
+
+  expect(symbolMark.stateStyle.normal).toBeDefined();
+  expect(symbolMark.getAttribute('visible', {})).toBe(true);
+  expect(symbolMark.getAttribute('size', {})).toBe(1);
+  expect(symbolMark.getAttribute('symbolType', {})).toBe('circle');
+  expect(symbolMark.getAttribute('lineWidth', {})).toBe(0);
+
+  symbolMark.initStyleWithSpec({ style: { visible: false, size: 8 } });
+
+  expect(symbolMark.getAttribute('visible', {})).toBe(false);
+  expect(symbolMark.getAttribute('size', {})).toBe(8);
+});
+
 test('symbol setAttribute support function.', () => {
   const symbolMark = new SymbolMark('symbol0', ctx);
   symbolMark.created();

@@ -2296,6 +2296,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     this.state.clearAllStateInfo();
     this.uncommit();
     this.stateStyle = {};
+    this._initStyle();
     this.getGraphics().forEach(g => {
       if (g.currentStates?.length) {
         (g as ReinitStateGraphic)[statesClearedBeforeReInitKey] = g.currentStates.slice();
