@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
     inputs:
       pr_number:
-        description: '待验证的 PR 编号（支持外部 fork PR）'
+        description: '待验证的外部 fork PR 编号'
         required: true
         type: string
       head_sha:
@@ -22,9 +22,10 @@ permissions:
 
 jobs:
   build:
-    if: github.event_name != 'workflow_dispatch'
+    if: >-
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: macos-latest
-
     strategy:
       matrix:
         node-version: [18.x]
