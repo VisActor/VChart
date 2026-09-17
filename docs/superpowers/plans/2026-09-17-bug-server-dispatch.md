@@ -41,7 +41,16 @@
 - [x] 从最终 workflow 提取下载、ZIP 读取、提交命令，在隔离目录模拟 artifact 到客户端的完整数据流，确认产物仅作为字节上传。
 - [x] 检查格式及最终 diff，记录本地验证和线上未验证项。
 
-## 验证结果
+## 任务 4：按 PR 来源分流
+
+文件：`.github/workflows/bug-server.yml`、`.github/workflows/bug-server-pr-bundle.yml`、`tools/bugserver-trigger/README.md`。
+
+- [x] 将 CI 的 `build.if` 改为 `github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)`，保留两个手动 job 的条件。
+- [x] 为 `build-pr-bundle` 添加 `if: github.event.pull_request.head.repo.full_name != github.repository`。
+- [x] 中文说明明确仓库内 PR 自动测试、fork PR 构建后手动测试、另一构建 job 显示 skipped，以及仓库内 PR 应重跑 CI。
+- [x] 从 YAML 读取实际条件，验证仓库内 PR、fork PR、`main` push、手动触发的执行矩阵；使用 actionlint 校验两个 workflow，运行现有 Node/Python 测试和 `git diff --check`。
+
+## 原手动入口验证结果
 
 - Node 来源校验测试 36 项、Python ZIP 测试 6 项全部通过。
 - 本地 macOS / Node.js 24.19.0 使用现有依赖完成四步构建，生成约 5.1 MB 的 bundle，`node --check` 通过。CI 构建沿用 Node.js 18；本地未重新安装全部 Rush 依赖。构建保留已有 sourcemap、ES module this 和循环依赖告警。
@@ -51,3 +60,9 @@
 - 读取所得的抛错 JavaScript bundle 交给隔离客户端 mock，成功、图片失败、SCM 失败、token 缺失四种场景通过；PR 元数据与 API 顺序保持正确，bundle 未执行。
 - resolver 和 ZIP 读取器与 VRender 最新实现相同；仅 workflow 的 runner、构建步骤、依赖版本、超时及中文说明保留 VChart 适配。
 - 本次未推送或运行 VChart 线上 Actions/CodeQL，也未调用真实 Bug Server。VRender 的线上验证记录不能替代 VChart 自身的线上验收。
+
+## PR 来源分流验证结果
+
+- 仓库内 PR、外部 fork PR、同组织不同仓库 PR、`main` push、手动触发共 5 种场景的实际条件求值通过；每个 PR 只执行一个构建 job，手动提交仍依赖校验 job。
+- actionlint 1.7.12、现有 Node 测试 36 项、Python 测试 6 项和 `git diff --check` 通过。
+- 构建步骤及提交脚本未变，本次未重跑完整构建，未触发线上 Actions 或 Bug Server。
