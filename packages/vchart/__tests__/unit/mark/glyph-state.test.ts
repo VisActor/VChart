@@ -153,6 +153,34 @@ test('liquid retains child opacity and does not rebuild points for a paint-only 
   expect(g.getSubGraphic()[0].attribute.points[0].x).toBe(-450);
 });
 
+test.each([undefined, 0.4])('liquid restores normal fillOpacity %s without rebuilding points', normalOpacity => {
+  const mark: any = new LiquidMark('liquid', markContext);
+  const attrs: any = { y: 20, height: 100, wave: 0, fill: 'red' };
+  if (normalOpacity !== undefined) {
+    attrs.fillOpacity = normalOpacity;
+  }
+  const g = createGraphic(mark, attrs);
+  const values = () => g.getSubGraphic().map((child: any) => child.attribute.fillOpacity);
+  const normal = normalOpacity === undefined ? [1, 0.66, 0.33] : [normalOpacity, normalOpacity, normalOpacity];
+  const points = g.getSubGraphic().map((child: any) => child.attribute.points);
+  const encode = jest.spyOn(mark, '_positionEncoder');
+
+  expect(values()).toEqual(normal);
+  g.states = { hover: { fillOpacity: 0 } };
+  g.setStates(['hover'], false);
+  expect(values()).toEqual([0, 0, 0]);
+  g.clearStates(false);
+  expect(values()).toEqual(normal);
+
+  g.setAttribute('fillOpacity', 0.6);
+  expect(values()).toEqual([0.6, 0.6, 0.6]);
+  expect(encode).not.toHaveBeenCalled();
+  g.getSubGraphic().forEach((child: any, i: number) => {
+    expect(child.attribute.points).toBe(points[i]);
+  });
+  g.release();
+});
+
 test.each([0, 1])('ratio endpoint %s has the correct foreground and full background thickness', ratio => {
   const mark: any = new LinkPathMark('link', markContext);
   const g = createGraphic(mark, linkAttrs);
