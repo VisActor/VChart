@@ -2,13 +2,27 @@ name: Bug Server CI
 
 # 这里业务方根据需求设置
 on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: '待验证的 PR 编号（支持外部 fork PR）'
+        required: true
+        type: string
+      head_sha:
+        description: '已审查的 PR head commit（完整 40 位 SHA）'
+        required: true
+        type: string
   push:
     branches: ['main']
   pull_request:
     branches: ['main', 'develop', 'dev/**']
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    if: github.event_name != 'workflow_dispatch'
     runs-on: macos-latest
 
     strategy:
@@ -17,13 +31,18 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
+
+      - name: Test manual dispatch validation
+        run: |
+          node --test .github/scripts/bug-server-dispatch.test.cjs
+          python3 -m unittest discover -s .github/scripts -p 'test_extract_bug_server_bundle.py'
 
       - name: Install Python distutils (macOS)
         if: runner.os == 'macOS'
@@ -87,3 +106,110 @@ jobs:
         env:
           BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
         run: node ../../common/scripts/install-run-rushx.js ci
+
+  resolve-manual-target:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      actions: read
+    outputs:
+      sha: ${{ steps.target.outputs.sha }}
+      pr_number: ${{ steps.target.outputs.pr_number }}
+      head_ref: ${{ steps.target.outputs.head_ref }}
+      pr_url: ${{ steps.target.outputs.pr_url }}
+      artifact_id: ${{ steps.target.outputs.artifact_id }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          persist-credentials: false
+          sparse-checkout: .github/scripts
+      - name: Validate reviewed PR head
+        id: target
+        uses: actions/github-script@v8
+        env:
+          PR_NUMBER: ${{ inputs.pr_number }}
+          HEAD_SHA: ${{ inputs.head_sha }}
+        with:
+          script: |
+            const { resolveBugServerTarget } = require('./.github/scripts/bug-server-dispatch.cjs');
+            const target = await resolveBugServerTarget({
+              github, context,
+              prNumber: process.env.PR_NUMBER,
+              headSha: process.env.HEAD_SHA
+            });
+            core.setOutput('sha', target.sha);
+            core.setOutput('pr_number', target.prNumber);
+            core.setOutput('head_ref', target.headRef);
+            core.setOutput('pr_url', target.prUrl);
+            core.setOutput('artifact_id', target.artifactId);
+            await core.summary
+              .addHeading('Bug Server 手动验证')
+              .addLink(`PR #${target.prNumber}`, target.prUrl)
+              .addLink(`来源构建 ${target.runId}`, target.runUrl)
+              .addRaw(`\n\n被测 head: \`${target.sha}\`\n`)
+              .write();
+
+  submit-manual-bundle:
+    needs: resolve-manual-target
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      # 使用默认分支 workflow 的固定提交，仅将 PR bundle 作为文件上传。
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.workflow_sha }}
+          persist-credentials: false
+          sparse-checkout: |
+            .github/scripts
+            tools/bugserver-trigger/scripts
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+      - name: Install isolated trigger client dependencies
+        run: |
+          mkdir -p "$RUNNER_TEMP/bug-server-client"
+          npm install --prefix "$RUNNER_TEMP/bug-server-client" --ignore-scripts --no-audit --no-fund --package-lock=false \
+            node-fetch@2.6.7 form-data@4.0.6 ts-node@10.9.0 typescript@4.9.5
+      - name: Download reviewed PR artifact
+        uses: actions/github-script@v8
+        env:
+          ARTIFACT_ID: ${{ needs.resolve-manual-target.outputs.artifact_id }}
+        with:
+          script: |
+            const archive = await github.rest.actions.downloadArtifact({
+              ...context.repo,
+              artifact_id: Number(process.env.ARTIFACT_ID),
+              archive_format: 'zip'
+            });
+            const fs = require('node:fs');
+            const path = require('node:path');
+            fs.writeFileSync(path.join(process.env.RUNNER_TEMP, 'bug-server-bundle.zip'), Buffer.from(archive.data));
+      - name: Read bundle as data
+        run: python3 .github/scripts/extract_bug_server_bundle.py "$RUNNER_TEMP/bug-server-bundle.zip" tools/bugserver-trigger/dist/index.js
+      - name: Trigger Bug Server for reviewed PR
+        working-directory: tools/bugserver-trigger
+        env:
+          BUG_SERVER_TOKEN: ${{ secrets.BUG_SERVER_TOKEN }}
+          NODE_PATH: ${{ runner.temp }}/bug-server-client/node_modules
+          TEST_SHA: ${{ needs.resolve-manual-target.outputs.sha }}
+          TEST_REF: refs/pull/${{ needs.resolve-manual-target.outputs.pr_number }}/head
+          TEST_BRANCH: ${{ needs.resolve-manual-target.outputs.head_ref }}
+          TEST_PR_URL: ${{ needs.resolve-manual-target.outputs.pr_url }}
+        run: |
+          if [ -z "$BUG_SERVER_TOKEN" ]; then
+            echo '::error::BUG_SERVER_TOKEN is not configured for this repository.'
+            exit 1
+          fi
+          test -f dist/index.js
+          printf 'PR: %s\n被测 head: `%s`\n' "$TEST_PR_URL" "$TEST_SHA" >> "$GITHUB_STEP_SUMMARY"
+          env GITHUB_SHA="$TEST_SHA" GITHUB_REF="$TEST_REF" GITHUB_HEAD_REF="$TEST_BRANCH" \
+            node "$RUNNER_TEMP/bug-server-client/node_modules/ts-node/dist/bin.js" \
+              --transpile-only --skip-project \
+              --compiler-options '{"module":"CommonJS","moduleResolution":"node","esModuleInterop":true}' \
+              scripts/trigger-test.ts

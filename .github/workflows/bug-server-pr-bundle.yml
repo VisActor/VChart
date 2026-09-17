@@ -1,0 +1,61 @@
+name: Bug Server PR Bundle
+
+on:
+  pull_request:
+    branches: ['main', 'develop', 'dev/**']
+
+permissions:
+  contents: read
+
+jobs:
+  build-pr-bundle:
+    runs-on: macos-latest
+    timeout-minutes: 30
+    steps:
+      # 仅在 pull_request 上下文执行 PR 代码，缓存写入限于 PR 作用域。
+      # 此 workflow 不注入 Bug Server token。
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+      - name: Verify checkout
+        env:
+          EXPECTED_SHA: ${{ github.event.pull_request.head.sha }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18.x
+      - name: Install Python distutils
+        run: python3 -m pip install setuptools --break-system-packages
+      - name: Install native deps for node-canvas
+        run: |
+          brew update
+          brew install pkg-config cairo pango libpng jpeg giflib librsvg
+      - name: Install rush
+        run: node common/scripts/install-run-rush.js install --bypass-policy
+      - name: Build vutils-extension
+        working-directory: packages/vutils-extension
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build:es
+      - name: Build vchart
+        working-directory: packages/vchart
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build:es
+      - name: Build vchart-extension
+        working-directory: packages/vchart-extension
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build:es
+      - name: Build bugserver-trigger
+        working-directory: tools/bugserver-trigger
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node ../../common/scripts/install-run-rushx.js build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bug-server-pr-${{ github.event.pull_request.number }}-${{ github.event.pull_request.head.sha }}
+          path: tools/bugserver-trigger/dist/index.js
+          if-no-files-found: error
+          retention-days: 7
