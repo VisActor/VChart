@@ -1,36 +1,30 @@
 import type { ICommonSpec } from '../typings/visual';
 import { BaseMark } from './base/base-mark';
-import type { IGlyph, IGlyphGraphicAttribute, IGraphic } from '@visactor/vrender-core';
+import type { IGlyph, IGlyphGraphicAttribute, IGraphic, ISetAttributeContext } from '@visactor/vrender-core';
 import { createGlyph, registerGlyph, registerShadowRoot } from '../vrender-bridge';
 import type { IGlyphMark } from './interface/mark';
 import type { MarkType } from './interface/type';
 import { Factory } from '../core/factory';
 import type { Datum } from '../typings/common';
 import type { IMarkGraphic } from './interface/common';
-import { DiffState } from './interface/enum';
-import { merge } from '@visactor/vutils';
 
-const GLYPH_INHERITED_STYLE_ATTRIBUTES = new Set([
-  'fill',
-  'fillOpacity',
-  'stroke',
-  'strokeOpacity',
-  'opacity',
-  'lineWidth',
-  'lineDash',
-  'lineDashOffset',
-  'lineCap',
-  'lineJoin',
-  'miterLimit',
-  'shadowBlur',
-  'shadowColor',
-  'shadowOffsetX',
-  'shadowOffsetY',
-  'visible',
-  'pickable',
-  'cursor'
-]);
-const GLYPH_STATE_ATTRIBUTE_UPDATE_TYPE = 2;
+type SubGraphicAttributes = Record<string, Record<string, any>>;
+
+type GlyphEncoderDefinition = {
+  positionChannels: string[];
+  channelEncoder: GlyphMark['_channelEncoder'];
+  subMarks: GlyphMark['_subMarks'];
+  positionKeys: string[];
+  channelKeys: string[];
+};
+
+type GlyphEncoding = {
+  definition: GlyphEncoderDefinition;
+  children: IGraphic[];
+  data?: Datum[];
+  inputs: any[];
+  parts: SubGraphicAttributes[];
+};
 
 export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
   extends BaseMark<T>
@@ -54,6 +48,7 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
 
   setGlyphConfig(cfg: Cfg) {
     this._glyphConfig = cfg;
+    this._glyphEncoderDefinition = undefined;
   }
 
   getGlyphConfig() {
@@ -70,117 +65,163 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
 
   protected _channelEncoder: Record<string, (channelValue: any) => Record<string, any>>;
 
-  private _getInheritedStyleAttrs(attributes: any) {
-    let inheritedStyleAttrs: any = null;
+  private _glyphEncoderDefinition?: GlyphEncoderDefinition;
+  private _glyphEncodings = new WeakMap<IGlyph, GlyphEncoding>();
 
-    Object.keys(attributes).forEach(channel => {
-      if (GLYPH_INHERITED_STYLE_ATTRIBUTES.has(channel)) {
-        inheritedStyleAttrs = inheritedStyleAttrs ?? {};
-        inheritedStyleAttrs[channel] = attributes[channel];
-      }
-    });
-
-    return inheritedStyleAttrs;
-  }
-
-  private _getInheritedStyleAttrsMap(glyph: IGlyph, attributes: any) {
-    const inheritedStyleAttrs = this._getInheritedStyleAttrs(attributes);
-
-    if (!inheritedStyleAttrs) {
-      return null;
+  private _getGlyphEncoderDefinition(): GlyphEncoderDefinition {
+    let definition = this._glyphEncoderDefinition;
+    if (
+      !definition ||
+      definition.positionChannels !== this._positionChannels ||
+      definition.channelEncoder !== this._channelEncoder ||
+      definition.subMarks !== this._subMarks
+    ) {
+      definition = {
+        positionChannels: this._positionChannels,
+        channelEncoder: this._channelEncoder,
+        subMarks: this._subMarks,
+        positionKeys: Array.from(new Set(this._positionChannels ?? [])),
+        channelKeys: Object.keys(this._channelEncoder ?? {})
+      };
+      this._glyphEncoderDefinition = definition;
     }
-
-    return glyph.getSubGraphic().reduce((map, subGraphic) => {
-      if (subGraphic) {
-        map[subGraphic.name] = { ...inheritedStyleAttrs };
-      }
-      return map;
-    }, {} as Record<string, any>);
+    return definition;
   }
 
-  private _syncInheritedStyleAttrs(glyph: IGlyph, attributes: any) {
-    const inheritedStyleAttrs = this._getInheritedStyleAttrs(attributes);
+  protected _afterCreateGraphic(g: IMarkGraphic & IGlyph): void {
+    g.setSubGraphicEncoder(this._encodeGlyph);
+  }
 
-    if (!inheritedStyleAttrs) {
+  private _encodeGlyph = (glyph: IGlyph, context?: ISetAttributeContext): void => {
+    const definition = this._getGlyphEncoderDefinition();
+    const children = glyph.getSubGraphic();
+    const previous = this._glyphEncodings.get(glyph);
+    const reset = !previous || previous.definition !== definition || previous.children !== children;
+    const cache: GlyphEncoding = reset ? { definition, children, inputs: [], parts: [] } : previous;
+    const data = glyph.context.data;
+    const force = reset || cache.data !== data || glyph.context.reusing;
+    let dirty: Map<string, Set<string>> | undefined;
+    const collectKey = (name: string, key: string) => {
+      dirty ??= new Map();
+      let keys = dirty.get(name);
+      if (!keys) {
+        keys = new Set();
+        dirty.set(name, keys);
+      }
+      keys.add(key);
+    };
+    const collectKeys = (part?: SubGraphicAttributes) => {
+      if (part) {
+        for (const name of Object.keys(part)) {
+          for (const key of Object.keys(part[name] ?? {})) {
+            collectKey(name, key);
+          }
+        }
+      }
+    };
+    if (reset && previous) {
+      previous.parts.forEach(collectKeys);
+    }
+    const updatePart = (index: number, part?: SubGraphicAttributes) => {
+      const previousPart = cache.parts[index];
+      if (force) {
+        collectKeys(previousPart);
+        collectKeys(part);
+      } else {
+        if (previousPart) {
+          for (const name of Object.keys(previousPart)) {
+            const next = part?.[name];
+            for (const key of Object.keys(previousPart[name] ?? {})) {
+              if (!next || !Object.prototype.hasOwnProperty.call(next, key)) {
+                collectKey(name, key);
+              }
+            }
+          }
+        }
+        if (part) {
+          for (const name of Object.keys(part)) {
+            const prev = previousPart?.[name];
+            const next = part[name];
+            for (const key of Object.keys(next ?? {})) {
+              if (!prev || !Object.prototype.hasOwnProperty.call(prev, key) || prev[key] !== next[key]) {
+                collectKey(name, key);
+              }
+            }
+          }
+        }
+      }
+      cache.parts[index] = part;
+    };
+    let positionChanged = force;
+    const { positionKeys, channelKeys } = definition;
+    for (let i = 0; i < positionKeys.length; i++) {
+      const value = (glyph.attribute as any)[positionKeys[i]];
+      positionChanged = positionChanged || cache.inputs[i] !== value;
+      cache.inputs[i] = value;
+    }
+    if (positionChanged) {
+      updatePart(0, this._positionEncoder?.(glyph.attribute, data[0], glyph));
+    }
+    for (let i = 0; i < channelKeys.length; i++) {
+      const channel = channelKeys[i];
+      const value = (glyph.attribute as any)[channel];
+      const inputIndex = positionKeys.length + i;
+      if (force || cache.inputs[inputIndex] !== value) {
+        updatePart(i + 1, value === undefined ? undefined : this._channelEncoder[channel](value));
+      }
+      cache.inputs[inputIndex] = value;
+    }
+    cache.data = data;
+    if (reset) {
+      this._glyphEncodings.set(glyph, cache);
+    }
+    if (!dirty) {
       return;
     }
-
-    glyph.getSubGraphic().forEach(subGraphic => {
-      subGraphic?.setAttributes({ ...inheritedStyleAttrs });
-    });
-  }
-
-  private _onGlyphAttributeUpdate(glyph: IGlyph) {
-    return (newAttributes: any) => {
-      const positionChannels = this.getPositionChannels();
-      let subAttrsMap =
-        positionChannels && this._positionEncoder && Object.keys(newAttributes).some(k => positionChannels.includes(k))
-          ? this._positionEncoder(newAttributes, glyph?.context?.data?.[0], glyph)
-          : null;
-
-      if (this._channelEncoder) {
-        Object.keys(this._channelEncoder).forEach(channel => {
-          if (channel in newAttributes) {
-            const channelAttrsMap = this._channelEncoder[channel](newAttributes[channel]);
-
-            subAttrsMap = subAttrsMap ? merge(subAttrsMap, channelAttrsMap) : channelAttrsMap;
-          }
-        });
+    for (const child of children) {
+      const keys = dirty.get(child.name);
+      if (!keys) {
+        continue;
       }
-
-      const inheritedStyleAttrsMap = this._getInheritedStyleAttrsMap(glyph, newAttributes);
-      if (inheritedStyleAttrsMap) {
-        subAttrsMap = subAttrsMap ? merge(inheritedStyleAttrsMap, subAttrsMap) : inheritedStyleAttrsMap;
-      }
-
-      if (subAttrsMap) {
-        glyph.getSubGraphic().forEach(subGraphic => {
-          if (subGraphic && subAttrsMap[subGraphic.name]) {
-            subGraphic.setAttributes(subAttrsMap[subGraphic.name]);
+      let patch: Record<string, any> | undefined;
+      let removedKeys: string[] | undefined;
+      let changed = false;
+      const base = child.baseAttributes;
+      const defaults = definition.subMarks[child.name]?.defaultAttributes;
+      keys.forEach(key => {
+        let hasValue = false;
+        let value: any;
+        for (let i = cache.parts.length - 1; i >= 0; i--) {
+          const attrs = cache.parts[i]?.[child.name];
+          if (attrs && Object.prototype.hasOwnProperty.call(attrs, key)) {
+            hasValue = true;
+            value = attrs[key];
+            break;
           }
-        });
-      }
-
-      return newAttributes;
-    };
-  }
-
-  protected _setStateOfGraphic = (g: IMarkGraphic, hasAnimation?: boolean) => {
-    g.clearStates();
-
-    if (g.context.diffState === DiffState.enter || g.context.diffState === DiffState.update) {
-      g.glyphStateProxy = (stateName: string, nexStates: string[]) => {
-        const glyphAttrs = {
-          attributes: {
-            ...this._runEncoderOfGraphic(this._encoderOfState?.[stateName], g),
-            ...(g.runtimeStateCache ? g.runtimeStateCache[stateName] : null)
-          }
-        };
-
-        // 更新缓存
-        if (!g.glyphStates) {
-          g.glyphStates = { [stateName]: glyphAttrs };
-        } else if (!g.glyphStates[stateName]) {
-          g.glyphStates[stateName] = glyphAttrs;
         }
-
-        return glyphAttrs;
-      };
-
-      g.useStates(g.context.states, hasAnimation);
+        if (!hasValue && defaults && Object.prototype.hasOwnProperty.call(defaults, key)) {
+          hasValue = true;
+          value = defaults[key];
+        }
+        const hasOwn = Object.prototype.hasOwnProperty.call(base, key);
+        if (hasValue) {
+          if (!hasOwn || (base as any)[key] !== value) {
+            (patch ??= {})[key] = value;
+            changed = true;
+          }
+        } else if (hasOwn) {
+          (removedKeys ??= []).push(key);
+          changed = true;
+        }
+      });
+      if (changed) {
+        glyph.commitSubGraphicAttributes(child, patch ?? {}, removedKeys, context);
+      }
     }
   };
 
   protected _createGraphic(attrs: IGlyphGraphicAttribute = {}): IGraphic {
     const glyph = createGlyph(attrs);
-    glyph.onBeforeAttributeUpdate = this._onGlyphAttributeUpdate(glyph);
-    const onAttributeUpdate = glyph.onAttributeUpdate.bind(glyph);
-    glyph.onAttributeUpdate = (context: any) => {
-      onAttributeUpdate(context);
-      if (context?.type === GLYPH_STATE_ATTRIBUTE_UPDATE_TYPE) {
-        this._syncInheritedStyleAttrs(glyph, glyph.attribute);
-      }
-    };
     const subMarks = this._subMarks;
 
     if (subMarks) {
@@ -196,16 +237,11 @@ export abstract class GlyphMark<T extends ICommonSpec = ICommonSpec, Cfg = any>
           subGraphics.push(subGraphic);
 
           subGraphic.name = name;
-          subGraphic.onBeforeAttributeUpdate = (attrs: any) => {
-            return attrs;
-          };
         }
       });
 
       glyph.setSubGraphic(subGraphics);
     }
-
-    (glyph as any).onBeforeAttributeUpdate(attrs);
 
     return glyph;
   }

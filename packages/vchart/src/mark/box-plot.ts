@@ -21,7 +21,8 @@ const BAR_BOX_PLOT_CHANNELS = [
   'min',
   'max',
   'median',
-  'angle'
+  'angle',
+  'anchor'
 ];
 
 const BOX_PLOT_CHANNELS = [
@@ -36,7 +37,8 @@ const BOX_PLOT_CHANNELS = [
   'min',
   'max',
   'median',
-  'angle'
+  'angle',
+  'anchor'
 ];
 
 export class BoxPlotMark

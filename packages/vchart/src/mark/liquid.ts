@@ -46,6 +46,14 @@ export class LiquidMark extends GlyphMark<ILiquidMarkSpec> implements ILiquidMar
     }
   };
 
+  protected _channelEncoder = {
+    fillOpacity: (fillOpacity: number) => ({
+      wave0: { fillOpacity },
+      wave1: { fillOpacity },
+      wave2: { fillOpacity }
+    })
+  };
+
   protected _positionChannels: string[] = ['wave', 'y', 'height'];
 
   protected _positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {

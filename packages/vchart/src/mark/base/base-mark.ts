@@ -1173,6 +1173,14 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     return Factory.createGraphicComponent(this.type, attrs);
   }
 
+  protected _afterCreateGraphic(g: IMarkGraphic): void {
+    // Subclasses may initialize derived graphics after datum/context are available.
+  }
+
+  protected _getRuntimeStateKeys(): Record<string, readonly string[]> | undefined {
+    return undefined;
+  }
+
   protected _runGroupData(data: Datum[]) {
     this._keyGetter = isFunction(this.key)
       ? (this.key as (datum: Datum) => string)
@@ -1640,9 +1648,17 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       return;
     }
 
+    const runtimeStateKeys = this._getRuntimeStateKeys();
     const stateNames = Object.keys(this._encoderOfState ?? {}).filter(
       stateName => stateName !== 'group' && stateName !== 'update'
     );
+    if (runtimeStateKeys) {
+      Object.keys(runtimeStateKeys).forEach(name => {
+        if (!stateNames.includes(name)) {
+          stateNames.push(name);
+        }
+      });
+    }
 
     if (!stateNames.length) {
       if (this._product.sharedStateDefinitions !== undefined) {
@@ -1662,7 +1678,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     const cacheKeys: string[] = [];
 
     stateNames.forEach(stateName => {
-      const encoder = this._encoderOfState[stateName];
+      const encoder = this._encoderOfState?.[stateName];
+      const runtimeKeys = runtimeStateKeys?.[stateName];
       const patch: Record<string, unknown> = {};
       const dynamicEncoder: Record<string, (datum: Datum) => any> = {};
       const patchKeys: string[] = [];
@@ -1678,7 +1695,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         }
       });
 
-      if (!patchKeys.length && !dynamicKeys.length) {
+      if (!patchKeys.length && !dynamicKeys.length && !runtimeKeys?.length) {
         return;
       }
 
@@ -1690,7 +1707,13 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         definition.patch = patch;
       }
 
-      if (dynamicKeys.length) {
+      if (runtimeKeys?.length) {
+        definition.declaredAffectedKeys = Array.from(new Set([...dynamicKeys, ...runtimeKeys]));
+        definition.resolver = ({ graphic }: StateResolveContext<Record<string, unknown>>) => {
+          const attrs = dynamicKeys.length ? this._runEncoderOfGraphic(dynamicEncoder, graphic as IMarkGraphic) : {};
+          return Object.assign(attrs, (graphic as IMarkGraphic).runtimeStateCache?.[stateName]);
+        };
+      } else if (dynamicKeys.length) {
         definition.declaredAffectedKeys = dynamicKeys;
         definition.resolver = ({ graphic }: StateResolveContext<Record<string, unknown>>) =>
           this._runEncoderOfGraphic(dynamicEncoder, graphic as IMarkGraphic);
@@ -1701,6 +1724,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         [
           stateName,
           definition.priority,
+          runtimeKeys?.join(','),
           patchKeys.sort().map(key => `${key}:${this._getSharedStateDefinitionValueKey(patch[key])}`),
           dynamicKeys.sort().map(key => {
             const stateStyle = this.stateStyle[stateName]?.[key];
@@ -1807,6 +1831,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         g.context = mockGraphic.context;
         g.context.diffAttrs = finalAttrs;
         g.stateSort = this._stateSort;
+        this._afterCreateGraphic(g);
 
         const gIndex = this._graphics === graphics ? index : index + this._graphics.length - graphics.length;
         if (gIndex >= 0) {
@@ -1827,6 +1852,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
         const diffAttrs = this._excludeStateControlledDiffAttrs(g, getDiffAttributesOfGraphic(g, finalAttrs));
         g.context.diffAttrs = diffAttrs;
         if (g.context.reusing) {
+          g.runtimeStateCache = undefined;
           // 表示正在被复用，需要重设属性的
           // TODO 理论上复用后只会走一次enter，所以这里lastAttrs不需要后续清除，这里需要硬拷贝(通过initAttributes重设属性也行)
           g.context.lastAttrs = g.attribute;
