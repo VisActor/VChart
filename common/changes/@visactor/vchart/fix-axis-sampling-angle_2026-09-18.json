@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "修复坐标轴旋转标签的采样角度单位与绘制不一致，导致标签过度抽样的问题。",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
