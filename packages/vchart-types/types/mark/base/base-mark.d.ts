@@ -142,6 +142,8 @@ export declare class BaseMark<T extends ICommonSpec> extends GrammarItem impleme
     private _parseProgressiveContext;
     getGraphics(): IMarkGraphic[];
     protected _createGraphic(attrs?: any): IGraphic;
+    protected _afterCreateGraphic(g: IMarkGraphic): void;
+    protected _getRuntimeStateKeys(): Record<string, readonly string[]> | undefined;
     protected _runGroupData(data: Datum[]): void;
     getAnimationState(): AnimationStateEnum.appear | AnimationStateEnum.disappear | AnimationStateEnum.none | AnimationStateValues;
     protected createAnimationStateList(type: string, animationConfig: Partial<MarkAnimationSpec>): any;

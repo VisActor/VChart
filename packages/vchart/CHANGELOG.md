@@ -1,6 +1,37 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 13 Aug 2026 02:18:20 GMT and should not be manually modified.
+This log was last generated on Fri, 18 Sep 2026 09:46:50 GMT and should not be manually modified.
+
+## 2.1.7
+Fri, 18 Sep 2026 09:46:50 GMT
+
+### Patches
+
+- 修复坐标轴旋转标签的采样角度单位与绘制不一致，导致标签过度抽样的问题。
+- fix: rebuild background when spec.background and spec.theme change in the same updateSpec
+- fix: avoid crash when recompiling a mark without a compile option
+- fix: remove the word cloud shape afterRender tap when the series is released
+- fix: preserve crosshair visibility for explicitly bound multiple band axes (Issue #4127)
+- fix: 修复预览比例尺退化时 DataZoom 显示多余预览线的问题
+- fix: preserve final attributes for exit animations when appear animations are disabled
+- fix: respect explicit label smart invert settings
+- fix: prevent rich text labels from inheriting line dash styles (Issue #4595)
+- fix: unregister array-valued trigger event listeners on release
+- 修复 Glyph 状态更新未重新编码子图形导致的桑基图 hover 残留、关联流量高亮比例和取消恢复异常；统一共享运行时状态与子图形属性撤销。需要配套包含 Glyph 派生同步接口的 VRender 版本。同时修复 Liquid 显式 fillOpacity 在初始渲染、配置更新及状态切换中未作用于子波浪的问题，并在退出状态时恢复普通样式或默认透明度。
+- fix: 修复 #4561 导致堆叠数值轴 crosshair 错误显示范围标签及偏移，保留马赛克和直方图的维度区间高亮
+- fix: resolve title width/height/minWidth/maxWidth/minHeight/maxHeight as ILayoutNumber against the chart view rect
+
+### Updates
+
+- fix: restore point visibility after overlap updates
+- fix: 修复 roseSeries 在非堆叠场景里 innerRadius 不生效的问题
+
+
+- fix: bar smapling not work bug. fix#4571
+- fix: fix theme overwrite when change chartType in updateSpec
+
+
+- refactor: keep the word cloud shape afterRender tap as a stable member callback
 
 ## 2.1.6
 Thu, 13 Aug 2026 02:18:20 GMT

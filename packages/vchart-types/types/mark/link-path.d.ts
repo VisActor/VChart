@@ -9,6 +9,9 @@ export declare const getVerticalPath: (options: ILinkPathMarkSpec, ratio?: numbe
 export declare class LinkPathMark extends GlyphMark<ILinkPathMarkSpec, ILinkPathConfig> implements ILinkPathMark {
     static readonly type = MarkTypeEnum.linkPath;
     readonly type = MarkTypeEnum.linkPath;
+    protected _getRuntimeStateKeys(): {
+        selected: string[];
+    };
     protected _getDefaultStyle(): IMarkStyle<ILinkPathMarkSpec>;
     protected _subMarks: {
         back: {
