@@ -4,7 +4,7 @@ import { Bounds, last, type IBounds, type IBoundsLike, type Maybe } from '@visac
 import type { IEffect, IModelInitOption, IModelSpecInfo } from '../../../model/interface';
 import type { ICartesianSeries } from '../../../series/interface';
 import type { IRegion } from '../../../region/interface';
-import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical } from './interface';
+import type { ICartesianAxisCommonSpec, IAxisHelper, ICartesianVertical, ICartesianAxisCrossing } from './interface';
 import { mergeSpec } from '@visactor/vutils-extension';
 import {
   isArray,
@@ -129,6 +129,11 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   };
   getInnerOffset() {
     return this._innerOffset;
+  }
+
+  /** `crossValue` 一族只挂在四条边的轴上（z 轴没有对面那根轴），读的时候统一从这里收窄 */
+  protected get _crossSpec(): ICartesianAxisCrossing {
+    return isZAxis(this._orient) ? {} : (this._spec as ICartesianVertical | ICartesianHorizontal);
   }
 
   constructor(spec: T, options: IComponentOption) {
@@ -327,6 +332,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       axisStyle.label.formatMethod = this._getLabelFormatMethod();
       axisStyle.verticalFactor = this.getOrient() === 'top' || this.getOrient() === 'right' ? -1 : 1;
       this._axisStyle = axisStyle;
+    }
+    if (isNil(this._spec.zIndex)) {
+      // 轴挪进绘图区之后要盖在系列之上，否则刻度标签会被图元遮住
+      this.layoutZIndex = isValidNumber(this._crossSpec.crossValue) ? LayoutZIndex.Region + 10 : LayoutZIndex.Axis;
     }
     this._tick = this._spec.tick;
     const chartSpec = this._option.getChart()?.getSpec() as ICartesianChartSpec;
@@ -670,6 +679,17 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     if (!this._visible) {
       return result;
     }
+    // 轴画到内部就不在边上占位，带子还给绘图区（对齐 Excel：交叉点进内部后绘图区变高）。两个收不掉的例外：
+    // 带标题的（标题反补偿回原处，收了会被裁）、显式配 width / height 的（USER 级，setLayoutRect 驳回这里的 0）。
+    if (!this._hasAxisTitle() && this._isCrossInterior()) {
+      const orient = this._layout.layoutOrient;
+      if (orient === 'left' || orient === 'right') {
+        result.width = 0;
+      } else {
+        result.height = 0;
+      }
+      return result;
+    }
     const bounds = this._latestBounds.clone().translate(-this.getLayoutStartPoint().x, -this.getLayoutStartPoint().y);
     switch (this._layout.layoutOrient) {
       case 'left':
@@ -941,8 +961,21 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     const startPoint = this.getLayoutStartPoint();
     const { grid: updateGridAttrs, ...updateAxisAttrs } = this._getUpdateAttribute(false);
     const axisAttrs = mergeSpec({ x: startPoint.x, y: startPoint.y }, this._axisStyle, updateAxisAttrs);
-    //axisComponent.setAttributes(axisAttrs);
+    const isX = isXAxis(this._orient);
+    const crossKey = isX ? 'dy' : 'dx';
+    // 没有 crossValue 也要显式写 0：VRender 的 setAttributes 是合并语义，漏掉这个字段旧偏移会留在图元上
+    const crossOffset = this._getCrossOffset() ?? 0;
+    axisAttrs[crossKey] = crossOffset;
+    if (axisAttrs.title) {
+      // 标题反向补偿，留在原来那条边上 —— 它占的还是边上那条带子
+      axisAttrs.title[crossKey] = -crossOffset;
+    }
     this._axisMark.setSimpleStyle(axisAttrs);
+    if (this._unitText) {
+      // 轴单位是容器上的独立图元，同样是合并语义，得把用户配的偏移一起算进去
+      const { dx = 0, dy = 0 } = this._spec.unit?.style ?? {};
+      this._unitText.setAttributes(isX ? { dy: dy + crossOffset } : { dx: dx + crossOffset });
+    }
 
     if (this._gridMark) {
       // const gridComponent = this._gridMark.getComponent(); // 获取语法元素
@@ -964,78 +997,192 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   private _fixAxisOnZero = () => {
+    // `crossValue` 是它的全量版（挪整根轴），两者同时配会让轴线被平移两次 —— 前者优先
+    if (isValidNumber(this._crossSpec.crossValue)) {
+      return;
+    }
     // 在布局结束之后调整坐标轴零基线
     const { onZero, visible } = this._spec.domainLine;
     if (this.visible && onZero && visible !== false) {
       const { onZeroAxisId, onZeroAxisIndex } = this._spec.domainLine;
-      const axesComponents = this._option.getComponentsByKey('axes') as IAxis[];
-      const isX = isXAxis(this.getOrient());
+      const isX = isXAxis(this._orient);
 
-      // 判断坐标轴是否可用
-      const isValidAxis = (item: any) => {
-        return (
-          (isX ? !isXAxis(item.getOrient()) : isXAxis(item.getOrient())) &&
-          isContinuous(item.getScale().type) &&
-          (item.getTickData()
-            ? item
-                .getTickData()
-                .getLatestData()
-                ?.find((d: any) => d.value === 0)
-            : item.getScale().domain()[0] <= 0 && last(item.getScale().domain()) >= 0)
-        );
-      };
-      const relativeAxes = axesComponents.filter(item => isValidAxis(item));
-      if (relativeAxes.length) {
-        let bindAxis;
-        if (isValid(onZeroAxisId)) {
-          bindAxis = relativeAxes.find(axis => axis.id === onZeroAxisId);
-        } else if (isValid(onZeroAxisIndex)) {
-          const indexAxis = axesComponents[onZeroAxisIndex];
-          if (isValidAxis(indexAxis)) {
-            bindAxis = indexAxis;
-          }
-        } else {
-          // 默认绑定第一条的相对坐标轴
-          bindAxis = relativeAxes[0];
+      // 0 刻度得真的落在这根轴上
+      const hasZeroTick = (item: IAxis) => {
+        const scale = item.getScale();
+        if (!isContinuous(scale.type)) {
+          return false;
         }
-        if (bindAxis) {
-          const axisMark = this._axisMark;
-          // 找到了绑定的 axis，获取基线的位置
-          const position = bindAxis.valueToPosition(0);
-          // 获取偏移量
-          if (isX) {
-            axisMark.setSimpleStyle({
-              ...axisMark.getSimpleStyle(),
-              line: {
-                ...this._axisStyle.line,
-                dy:
-                  this._orient === 'bottom'
-                    ? -(
-                        (bindAxis.getInverse() ? bindAxis.getScale().range()[1] : bindAxis.getScale().range()[0]) -
-                        position
-                      )
-                    : position
-              }
-            });
-          } else {
-            axisMark.setSimpleStyle({
-              ...axisMark.getSimpleStyle(),
-              line: {
-                ...this._axisStyle.line,
-                dx:
-                  this._orient === 'left'
-                    ? position
-                    : -(
-                        (bindAxis.getInverse() ? bindAxis.getScale().range()[0] : bindAxis.getScale().range()[1]) -
-                        position
-                      )
-              }
-            });
-          }
+        const tickData = (item as unknown as CartesianAxis<T>).getTickData?.();
+        return tickData
+          ? !!tickData.getLatestData()?.find((d: Datum) => d.value === 0)
+          : scale.domain()[0] <= 0 && last(scale.domain() as number[]) >= 0;
+      };
+      const bindAxis = this._getPerpendicularAxis(onZeroAxisId, onZeroAxisIndex, hasZeroTick);
+      if (bindAxis) {
+        const axisMark = this._axisMark;
+        // 找到了绑定的 axis，获取基线的位置
+        const position = bindAxis.valueToPosition(0);
+        // 获取偏移量
+        if (isX) {
+          axisMark.setSimpleStyle({
+            ...axisMark.getSimpleStyle(),
+            line: {
+              ...this._axisStyle.line,
+              dy:
+                this._orient === 'bottom'
+                  ? -(
+                      (bindAxis.getInverse() ? bindAxis.getScale().range()[1] : bindAxis.getScale().range()[0]) -
+                      position
+                    )
+                  : position
+            }
+          });
+        } else {
+          axisMark.setSimpleStyle({
+            ...axisMark.getSimpleStyle(),
+            line: {
+              ...this._axisStyle.line,
+              dx:
+                this._orient === 'left'
+                  ? position
+                  : -(
+                      (bindAxis.getInverse() ? bindAxis.getScale().range()[0] : bindAxis.getScale().range()[1]) -
+                      position
+                    )
+            }
+          });
         }
       }
     }
   };
+
+  /** 能给本轴提供刻度的那些轴：严格垂直（z 轴与极坐标轴都不提供）、且跟自己同区（否则刻度落在别的绘图区里） */
+  private _getPerpendicularAxes(): IAxis[] {
+    const selfRegions = this.getRegions();
+    const isX = isXAxis(this._orient);
+    return (this._option.getComponentsByKey('axes') as IAxis[]).filter(item => {
+      if (!item || item === this || item.getCoordinateType() !== 'cartesian') {
+        return false;
+      }
+      const orient = item.getOrient() as IOrientType;
+      return (
+        (isX ? isYAxis(orient) : isXAxis(orient)) &&
+        !!item.getScale() &&
+        item.getRegions().some(region => selfRegions.includes(region))
+      );
+    });
+  }
+
+  private _findPerpendicularAxis(
+    axes: IAxis[],
+    axisId: StringOrNumber | undefined,
+    axisIndex: number | undefined
+  ): IAxis | undefined {
+    if (isValid(axisId)) {
+      return axes.find(item => item.userId === axisId);
+    }
+    if (isValid(axisIndex)) {
+      // 认 spec 上的下标，不是组件数组的位置：非法轴不会建组件，两者不一定对齐
+      const target =
+        axes.find(item => item.getSpecIndex() === axisIndex) ??
+        (this._option.getComponentsByKey('axes') as IAxis[])[axisIndex];
+      return target && axes.includes(target) ? target : undefined;
+    }
+    return undefined;
+  }
+
+  /**
+   * `crossValue` 与 `domainLine.onZero` 共用的选轴：显式 id（只认 spec 上写的 `id`）> 显式 spec 下标 > 第一根满足 `accept` 的。
+   */
+  private _getPerpendicularAxis(
+    axisId: StringOrNumber | undefined,
+    axisIndex: number | undefined,
+    accept: (axis: IAxis) => boolean
+  ): IAxis | undefined {
+    const axes = this._getPerpendicularAxes();
+    if (isValid(axisId) || isValid(axisIndex)) {
+      const target = this._findPerpendicularAxis(axes, axisId, axisIndex);
+      return target && accept(target) ? target : undefined;
+    }
+    return axes.find(accept);
+  }
+
+  /**
+   * 选出给 `crossValue` 提供刻度的轴，同时算出它在该轴局部坐标里的像素位置。
+   * 没显式指定时优先挑 domain 罩得住这个值的那根；band 轴上 `crossValue` 是 domain 的 0 基下标。
+   */
+  private _resolveCrossTarget(): { axis: IAxis; position: number; interior: boolean } | undefined {
+    const { crossAxisId, crossAxisIndex, crossValue } = this._crossSpec;
+    if (!isValidNumber(crossValue)) {
+      return undefined;
+    }
+
+    const axes = this._getPerpendicularAxes();
+    let axis: IAxis | undefined;
+    if (isValid(crossAxisId) || isValid(crossAxisIndex)) {
+      axis = this._findPerpendicularAxis(axes, crossAxisId, crossAxisIndex);
+    } else {
+      axis =
+        axes.find(item => {
+          const scale = item.getScale();
+          if (!isContinuous(scale.type)) {
+            return true;
+          }
+          const domain = scale.domain() as number[];
+          return minInArr(domain) <= crossValue && crossValue <= maxInArr(domain);
+        }) ?? axes[0];
+    }
+    if (!axis) {
+      return undefined;
+    }
+
+    const scale = axis.getScale();
+    const domain = scale.domain();
+    if (isContinuous(scale.type)) {
+      const min = minInArr(domain as number[]);
+      const max = maxInArr(domain as number[]);
+      return {
+        axis,
+        position: axis.valueToPosition(clamp(crossValue, min, max)),
+        interior: crossValue > min && crossValue < max
+      };
+    }
+
+    // valueToPosition 给的是该类目的起始边；下标越界没有对应类目，只能直接取轴末端
+    const index = clamp(Math.round(crossValue), 0, domain.length);
+    return {
+      axis,
+      position: index < domain.length ? axis.valueToPosition(domain[index]) : last(scale.range() as number[]),
+      interior: crossValue > 0 && crossValue < domain.length
+    };
+  }
+
+  /** 判据与渲染端一致：`base-axis` 只在 `title.visible` 为真时才建标题 */
+  private _hasAxisTitle(): boolean {
+    return this._spec.title?.visible === true;
+  }
+
+  /** 被夹到端点时仍按贴边处理，不算落在内部 */
+  private _isCrossInterior(): boolean {
+    return this._resolveCrossTarget()?.interior ?? false;
+  }
+
+  /**
+   * 两端都换到图表坐标系再相减。不读 range：轴组的原点就画在轴线上（`start` 恒为 `{x:0,y:0}`），
+   * 所以 inverse、innerOffset、多 region 都不用单独分支。
+   */
+  private _getCrossOffset(): number | null {
+    if (!this.visible) {
+      return null;
+    }
+    const target = this._resolveCrossTarget();
+    if (!target) {
+      return null;
+    }
+    const key = isXAxis(this._orient) ? 'y' : 'x';
+    return target.axis.getLayoutStartPoint()[key] + target.position - this.getLayoutStartPoint()[key];
+  }
 
   protected _layoutCacheProcessing(rect: ILayoutRect) {
     ['width', 'height'].forEach(key => {
@@ -1070,6 +1217,19 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     }
 
     return rect;
+  }
+
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    // zIndex 只在建 mark 时写进图元，增删 crossValue 要改分层就只能重建
+    if (
+      !result.reMake &&
+      isValidNumber((prevSpec as ICartesianAxisCrossing)?.crossValue) !==
+        isValidNumber((spec as ICartesianAxisCrossing)?.crossValue)
+    ) {
+      result.reMake = true;
+    }
+    return result;
   }
 
   // 需要在重新设置属性时，更新cache

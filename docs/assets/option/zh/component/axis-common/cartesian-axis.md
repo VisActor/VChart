@@ -42,6 +42,29 @@ X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一
 
 当有多轴时，可以用这个属性手动指定，在哪个轴的 0 刻度上。
 
+#${prefix} crossValue(number)
+
+本轴钉在垂直方向那根轴的哪个刻度值上。不配置时轴贴 `orient` 指定的那条边（默认行为）。仅 `orient` 为 `left`/`right`/`top`/`bottom` 的轴支持。
+
+配置后轴线、刻度、标签、轴单位整体移动到该刻度处；**轴标题保持在原来那条边上**，网格线也保持不动。轴会被抬到系列之上；没有轴标题时它不再在绘图区边上占位（把这条带子让给绘图区），有轴标题时仍然占位 —— 标题还留在那里。显式配了 `width` / `height` 的轴同样保留占位：显式尺寸优先级更高。
+
+- 参照轴是连续轴时，取值就是该轴上的刻度值，超出 domain 会被夹到端点。
+- 参照轴是离散（band）轴时，取值是 domain 的**下标（0 基）**，轴落在该类目的起始边；下标大于等于类目数则夹到轴末端。
+- 参照轴的选取：`crossAxisId` > `crossAxisIndex` > 与本轴垂直、共用同一绘图区、且 domain 罩得住该值的第一根轴。
+- `domainLine.onZero` 是本配置 `crossValue: 0` 的「仅轴线」窄版，两者同时配置时以 `crossValue` 为准。
+
+#${prefix} crossAxisId(string|number)
+
+当有多轴时，手动指定 `crossValue` 参照哪根轴的刻度，取值为该轴 spec 上的 `id`。
+
+- Tips: 显式指定后不再要求 `crossValue` 落在该轴 domain 内，越界会被夹到端点。
+
+#${prefix} crossAxisIndex(number)
+
+当有多轴时，手动指定 `crossValue` 参照哪根轴的刻度。
+
+- Tips: **该索引对应 `axes` 数组的下标**。
+
 #${prefix} label(Object)
 
 轴标签配置。
