@@ -18,6 +18,7 @@ export * from './charts/pictogram';
 export * from './charts/image-cloud';
 export * from './charts/candlestick';
 export * from './charts/timeline';
+export * from './charts/storyline';
 
 export * from './components/series-break';
 export * from './components/bar-link';

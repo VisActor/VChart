@@ -173,10 +173,7 @@ export function barLabel(labelInfo: ILabelInfo) {
   }
 
   // encode smartInvert
-  let smartInvert = false;
-  if (isString(originPosition) && originPosition.includes('inside')) {
-    smartInvert = true;
-  }
+  const smartInvert = labelSpec.smartInvert ?? (isString(originPosition) && originPosition.includes('inside'));
 
   return { position, overlap, smartInvert };
 }
@@ -240,12 +237,7 @@ export function pieLabel(labelInfo: ILabelInfo) {
   const position = labelPosition as BaseLabelAttrs['position'];
 
   // encode smartInvert
-  let smartInvert;
-  if (labelSpec.smartInvert) {
-    smartInvert = labelSpec.smartInvert;
-  } else {
-    smartInvert = isString(labelPosition) && labelPosition.includes('inside');
-  }
+  const smartInvert = labelSpec.smartInvert ?? (isString(labelPosition) && labelPosition.includes('inside'));
 
   return { position, smartInvert };
 }

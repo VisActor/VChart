@@ -1,6 +1,6 @@
 # @visactor/openinula-vchart
 
-`@visactor/openinula-vchart` 是由 [VisActor](visactor.io) 为您提供的 Openinula 封装版本 VChart 图表库。它提供了一系列易于使用的 Openinula 组件，用于方便的在 Openinula 开发环境中创建各种类型的图表，包括折线图、柱状图、饼图等。`@visactor/openinula-vchart` 的组件具有高度的可定制性和可扩展性，可以通过传递不同的参数和配置来实现不同的图表效果。
+`@visactor/openinula-vchart` 是由 [VisActor](https://www.visactor.io) 为您提供的 Openinula 封装版本 VChart 图表库。它提供了一系列易于使用的 Openinula 组件，用于方便的在 Openinula 开发环境中创建各种类型的图表，包括折线图、柱状图、饼图等。`@visactor/openinula-vchart` 的组件具有高度的可定制性和可扩展性，可以通过传递不同的参数和配置来实现不同的图表效果。
 
 `@visactor/openinula-vchart` 的主要特点包括：
 

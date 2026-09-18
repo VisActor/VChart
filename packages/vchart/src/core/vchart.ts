@@ -673,9 +673,21 @@ export class VChart implements IVChart {
       this._updateAnimateState(true);
     }
 
+    const transformedByThemeUpdate =
+      option.transformSpec &&
+      (updateSpecResult as IUpdateSpecResult).changeTheme &&
+      (updateSpecResult as IUpdateSpecResult).reMake &&
+      (updateSpecResult as IUpdateSpecResult).reTransformSpec;
     this._reCompile(updateSpecResult as IUpdateSpecResult, option.morphConfig);
     if (isUpdateSpecResultLocalOnly(updateSpecResult as IUpdateSpecResult)) {
       return this as unknown as IVChart;
+    }
+    if (transformedByThemeUpdate) {
+      // _setCurrentTheme in _reCompile has already transformed a fresh copy of the original spec.
+      option = {
+        ...option,
+        transformSpec: false
+      };
     }
     if (sync) {
       return this._renderSync(option);
@@ -1160,7 +1172,9 @@ export class VChart implements IVChart {
       // setCurrentTheme 会导致 chart 实例的 reInit。
       // 只要模块从 vchart 实例获取与 spec 相关的信息，都会出现错误，它们已经不匹配了
       // this._setCurrentTheme();
-    } else if (!isEqual(this._spec.background, lastSpec.background)) {
+    }
+    // background 与 theme 互相独立，同一次 updateSpec 里两者一起变时也要重建背景 mark
+    if (!isEqual(this._spec.background, lastSpec.background)) {
       result.reMake = true;
       result.changeBackground = true;
     }

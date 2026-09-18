@@ -33,7 +33,7 @@ export declare function barLabel(labelInfo: ILabelInfo): {
     overlap: boolean | {
         strategy: Strategy[] | import("@visactor/vrender-components").ShiftYStrategy;
     };
-    smartInvert: boolean;
+    smartInvert: boolean | import("@visactor/vrender-components").SmartInvertAttrs;
 };
 export declare function pointLabel(labelInfo: ILabelInfo): {
     position: string;

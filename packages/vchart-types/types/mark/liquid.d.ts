@@ -33,6 +33,19 @@ export declare class LiquidMark extends GlyphMark<ILiquidMarkSpec> implements IL
             };
         };
     };
+    protected _channelEncoder: {
+        fillOpacity: (fillOpacity: number) => {
+            wave0: {
+                fillOpacity: number;
+            };
+            wave1: {
+                fillOpacity: number;
+            };
+            wave2: {
+                fillOpacity: number;
+            };
+        };
+    };
     protected _positionChannels: string[];
     protected _positionEncoder: (glyphAttrs: any, datum: Datum, g: IGlyph) => {
         wave0: {

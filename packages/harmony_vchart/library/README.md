@@ -404,5 +404,5 @@ $ rush build
 - [VChart API](https://www.visactor.com/vchart/api/API/vchart)
 - [VGrammar](https://www.visactor.com/vgrammar)
 - [VRender](https://www.visactor.com/vrender)
-- [FAQ](https://www.visactor.com/vchart/guide/tutorial_docs/FAQ)
+- [FAQ](https://www.visactor.com/vchart/faq/)
 - [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports

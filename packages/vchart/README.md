@@ -84,5 +84,5 @@ $ rush run -p @visactor/vchart -s test
 - [VChart API](https://www.visactor.io/vchart/api/API/vchart)
 - [VGrammar](https://www.visactor.io/vgrammar)
 - [VRender](https://www.visactor.io/vrender)
-- [FAQ](https://www.visactor.io/vchart/guide/tutorial_docs/FAQ)
+- [FAQ](https://www.visactor.io/vchart/faq/)
 - [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports

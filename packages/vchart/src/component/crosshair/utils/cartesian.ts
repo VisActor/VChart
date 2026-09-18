@@ -87,18 +87,23 @@ export const layoutByValue = (
         } else if (isContinuous(scale.type)) {
           const field1 = field === 'xField' ? series.fieldX[0] : series.fieldY[0]; // todo
           const field2 = field === 'xField' ? series.fieldX2 : series.fieldY2; // todo
-          const datum = getDatumByValue(series.getViewData().latestData, +value, field1, field2);
+          // 堆叠数值轴的起止字段表示堆叠位置，不作为 crosshair 的维度区间。
+          const isStackValue =
+            series.getStack() && coordKey === (series.direction === Direction.horizontal ? 'x' : 'y');
+          const datum = isStackValue ? null : getDatumByValue(series.getViewData().latestData, +value, field1, field2);
           if (datum) {
-            const startX = field === 'xField' ? series.dataToPositionX(datum) : series.dataToPositionY(datum);
+            const posStart = field === 'xField' ? series.dataToPositionX(datum) : series.dataToPositionY(datum);
             if (field2) {
-              bandSize = Math.abs(
-                startX - (field === 'xField' ? series.dataToPositionX1(datum) : series.dataToPositionY1(datum))
-              );
-              value = `${datum[field1]} ~ ${datum[field2]}`;
+              const posEnd = field === 'xField' ? series.dataToPositionX1(datum) : series.dataToPositionY1(datum);
+              bandSize = Math.abs(posStart - posEnd);
+              coord = Math.min(posStart, posEnd);
+              const startValue = datum[field1];
+              const endValue = datum[field2];
+              value = +startValue <= +endValue ? `${startValue} ~ ${endValue}` : `${endValue} ~ ${startValue}`;
             } else {
               bandSize = 1;
+              coord = posStart;
             }
-            coord = startX;
           }
           niceLabelFormatter = (axis as ILinearAxis).niceLabelFormatter;
         }

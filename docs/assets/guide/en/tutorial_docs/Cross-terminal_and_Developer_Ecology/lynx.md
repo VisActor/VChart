@@ -1,6 +1,6 @@
 # Lynx
 
-**[Note] The open-source version of Lynx currently does not provide canvas functionality, so VChart rendering is not supported at this time. Future versions will support this feature. Stay tuned, [see the Lynx official website for more features](https://lynxjs.org/)**
+**[Scope] This guide retains integration instructions for ByteDance's internal Lynx environment. Based on public information reviewed on September 14, 2026, open-source native Lynx does not yet publicly provide the Canvas integration required here. Installing VChart does not add this capability to the host. For updates, see the [official Lynx documentation](https://lynxjs.org/) and the [charting discussion](https://github.com/lynx-family/lynx/issues/6230#issuecomment-4729040590).**
 
 Lynx is a high-performance cross-platform framework open-sourced by ByteDance, enabling the rapid construction of Native views based on the Web technology stack. Lynx was officially open-sourced on March 5, 2025. VChart provides chart rendering capabilities for this framework based on the internal version of Lynx at ByteDance.
 
@@ -12,9 +12,9 @@ You can install the vchart dependency package directly in the lynx project: `@vi
 
 ### Manually import script
 
-You can also manually reference VChart's umd packaged product, which you can obtain through the following channels:
+You can also obtain the VChart UMD bundle and load it using a method supported by the internal host. The HTML tags below show browser usage and cannot be copied directly into a native Lynx project:
 
-1. Obtain [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index. js), we will update it every time we send a package
+1. Obtain [build/index.min.js](https://unpkg.com/@visactor/vchart/build/index.min.js) from the `@visactor/vchart` package
 2. Get it from the following free CDN
 
 ```html
@@ -25,9 +25,11 @@ You can also manually reference VChart's umd packaged product, which you can obt
 <script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
 ```
 
-## how to use
+## How to Use
 
-Below we will introduce how to use VChart on Feishu widgets from three parts: `js`, `ttml`, and `ttss`.
+The following historical `ttml` and `js` examples are retained for internal Lynx hosts. `Card(...)`, `SystemInfo`, and the Canvas bridge depend on the specific internal host; they are not general-purpose APIs for open-source ReactLynx.
+
+These examples have not been verified with the current VChart version and a specific host version. Check the versions and host APIs before using them. The `domref`, `canvasIdLists`, and `freeCanvasIdx` parameters belong to the older integration and should not be treated as the integration contract for newer versions.
 
 ### index.ttml
 
@@ -68,7 +70,7 @@ Three canvases need to be declared, and pay attention to the order of declaratio
 
 ### index.js
 
-Create a VChart instance in this file. Because VChart is internally compatible with the lynx environment, its use is basically the same as on the PC. You only need to pay attention to two points:
+This historical example creates a VChart instance in this file and illustrates two parts of the integration: environment parameters and events.
 
 1. Necessary environment parameters need to be declared in the constructor of VChart
 
@@ -102,7 +104,7 @@ bindChartEvent(event) {
 },
 ```
 
-The following is the completed code related to index.js:
+The following is the index.js example:
 
 ```ts
 import barSpec from './data/bar';
@@ -120,7 +122,7 @@ Card({
     ]
   },
   onLoad: function () {
-    // 如果需要使用地图，需要先注册地图
+    // Register the map before using a map chart
     VChart.registerMap('china', mapJson, {
       type: 'geojson'
     });
@@ -136,24 +138,24 @@ Card({
           method: 'boundingClientRect',
           success: domRef => {
             if (!domRef) {
-              console.error(`未找到 #${item.id} 画布`);
+              console.error(`Canvas #${item.id} was not found`);
               return;
             }
             domRef.id = item.id;
             const pixelRatio = SystemInfo.pixelRatio;
 
             const chartInstance = new VChart(item.spec, {
-              mode: 'lynx', //  Tip: 跨端环境需要手动传入 mode
-              // 跨端参数
+              mode: 'lynx', // Tip: Pass mode explicitly in cross-platform environments
+              // Cross-platform parameters
               modeParams: {
-                domref: domRef, // 图表绘制的 canvas 节点
-                force: true, // 是否强制使用 canvas 绘制
-                canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // canvasId 列表
+                domref: domRef, // Canvas node used to draw the chart
+                force: true, // Whether to force Canvas rendering
+                canvasIdLists: [`${item.id}_draw_canvas`, `${item.id}_tooltip_canvas`, `${item.id}_hidden_canvas`], // Canvas ID list
                 tooltipCanvasId: `${item.id}_tooltip_canvas`, // tooltip canvasId
-                freeCanvasIdx: 1 // 自由 canvas 索引
+                freeCanvasIdx: 1 // Index of the first canvas available for internal use
               },
-              dpr: pixelRatio, // Tip: 跨端环境需要手动传入 dpr
-              renderCanvas: `${item.id}_draw_canvas` // 声明用于绘制的 canvasId
+              dpr: pixelRatio, // Tip: Pass dpr explicitly in cross-platform environments
+              renderCanvas: `${item.id}_draw_canvas` // Canvas ID used for drawing
             });
             item.chart = chartInstance;
 
@@ -177,7 +179,7 @@ Card({
     const targetChart = this.data.chartList.find(x => x.id === id);
     const chartInstance = targetChart?.chart;
     if (chartInstance) {
-      event.target = chartInstance.getCanvas(); // Tip: 必须设置
+      event.target = chartInstance.getCanvas(); // Tip: Must be set
       chartInstance.getStage().window.dispatchEvent(event);
     }
   }
@@ -186,15 +188,15 @@ Card({
 
 ## On-Demand Loading
 
-Lynx-VChart inherently supports on-demand loading. There are two ways to achieve on-demand loading with VChart:
+The `<VChartSimple />` and semantic tags below belong to the internal `@dp/lynx-vchart` component wrapper and require the corresponding internal ReactLynx host. See the [ReactLynx guide](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/react-lynx) for usage. The historical loading methods and registration lists are retained below; check them against the wrapper version you use.
 
 - Use the `<VChartSimple />` tag to implement custom on-demand loading.
 
-The `<VChartSimple />` component and the `<VChart />` component are almost identical in usage. The only difference is that users need to import the `VChart` constructor class from `@viasctor/vchart/esm/core`, register the required charts and components as described in this document, and pass them to `<VChartSimple />`.
+The `<VChartSimple />` component and the `<VChart />` component are almost identical in usage. The only difference is that users need to import the `VChart` constructor class from `@visactor/vchart/esm/core`, register the required charts and components as described in this document, and pass them to `<VChartSimple />`.
 
 - Use semantic tags, all of which support on-demand loading by default. The default registered components for each type of semantic tag are as follows:
 
-> Supported from version **0.0.12**
+> Historical record: supported by the component wrapper from **0.0.12**. This version does not refer to VChart or the Lynx engine.
 
 | Chart                      | Category         | Additional Registered Components      |
 | -------------------------- | ---------------- | ------------------------------------- |
@@ -257,7 +259,7 @@ For Polar charts, the default registered components are as follows:
 - `registerPolarBandAxis`
 - `registerPolarCrossHair`
 - `registerBrush`
-- `registerContinuous Legend`
+- `registerContinuousLegend`
 - `registerDataZoom`
 - `registerDiscreteLegend`
 - `registerCustomMark`
@@ -279,6 +281,6 @@ For General charts, the default registered components are as follows:
 
 When using semantic tags, if you need components that are not loaded by default, you only need to register the missing components.
 
-[Note]: If there is an error similar to "No matching export in..." when using Lynx, please upgrade the version of Lynx or configure resolve.enable INodeCache to false
+[Historical troubleshooting note]: Earlier internal integration documentation suggested upgrading Lynx or setting `resolve.enableINodeCache` to `false` for "No matching export in ..." errors. The build tool and applicable versions for this advice have not been verified. Check the documentation for your toolchain before applying it; this is not a general configuration option for open-source Lynx.
 
 For reference on on-demand loading of VChart, see [related documentation](/vchart/guide/tutorial_docs/Load_on_Demand).

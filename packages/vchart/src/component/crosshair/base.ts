@@ -106,17 +106,23 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
    * @returns
    */
   protected _setAllAxisValues(axisMap: IAxisInfo<IAxis>, point: IPoint, field: string): boolean {
-    // 首先不能存在两个离散轴
+    // 未显式绑定轴时，同方向的多个离散轴无法确定唯一的维度位置；显式绑定表示调用方已选择这些轴。
     let discrete = false;
+    let multipleDiscreteAxes = false;
+    const bindingAxesIndex = get(this._spec, `${field}.bindingAxesIndex`);
+    const hasExplicitBinding = isArray(bindingAxesIndex) && bindingAxesIndex.length > 0;
     axisMap.forEach(item => {
       if (isDiscrete(item.axis.getScale().type)) {
         if (!discrete) {
           discrete = true;
         } else {
-          this.enable = false;
+          multipleDiscreteAxes = true;
         }
       }
     });
+    if (multipleDiscreteAxes && !hasExplicitBinding) {
+      this.enable = false;
+    }
     if (!this.enable) {
       return false;
     }

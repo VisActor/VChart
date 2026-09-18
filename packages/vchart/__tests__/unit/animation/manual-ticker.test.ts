@@ -1398,7 +1398,134 @@ const hasRenderableBarGeometry = (graphic: AnimatedGraphic) => {
   );
 };
 
+const issue4186Regions = ['华西区', '华东区', '华中区', '华北区', '华南区', '未知'];
+const issue4186Series = [
+  '直播自然线索量',
+  '短视频自然线索量',
+  '直播广告线索量',
+  '短视频广告线索量',
+  '其他广告线索量',
+  '其他自然线索量'
+];
+const issue4186Values = [
+  [4, 4, 4, 4, 4, 3],
+  [2, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1],
+  [1, 1, 4, 2, 3, 4],
+  [55, 0, 0, 0, 0, 0],
+  [5, 4, 3, 3, 1, 2]
+];
+const issue4186Handler = () => ({
+  style: {
+    size: 10,
+    symbolType: 'M0-4.5c2.5,0,4.5,2,4.5,4.5S2.5,4.5,0,4.5s-4.5-2-4.5-4.5S-2.5-4.5,0-4.5z M-1.5-2v4 M1.5-2v4'
+  }
+});
+const createIssue4186Spec = (updated: boolean): IBarChartSpec => ({
+  type: 'bar',
+  width: 500,
+  height: 500,
+  xField: ['data_name'],
+  yField: 'value',
+  seriesField: 'type',
+  axes: [],
+  data: [
+    {
+      id: 'dataBar',
+      values: updated
+        ? issue4186Series.flatMap((type, i) =>
+            issue4186Regions.map((data_name, j) => ({ data_name, type, value: issue4186Values[i][j] }))
+          )
+        : [{ data_name: '华北区', type: '其他自然线索量', value: 333 }]
+    },
+    { id: 'dataLine', values: [] }
+  ],
+  dataZoom: [
+    {
+      orient: 'bottom',
+      height: 18,
+      start: 0,
+      end: 1,
+      brushSelect: false,
+      showDetail: true,
+      startHandler: issue4186Handler(),
+      endHandler: issue4186Handler()
+    }
+  ]
+});
+
+const snapshotIssue4186Bars = (chart: VChart) =>
+  collectGraphics(chart.getStage() as unknown as TraversableGraphic)
+    .filter(g => g.type === 'rect' && g.context?.data?.[0]?.data_name !== undefined)
+    .map(g => {
+      const d = g.context.data[0];
+      const a = g.attribute;
+      const geometry = [a.x, a.y, a.width ?? a.x1 - a.x, a.height ?? a.y1 - a.y];
+      expect(geometry.every(Number.isFinite)).toBe(true);
+      return {
+        key: `${d.data_name}/${d.type}`,
+        value: d.value,
+        geometry: geometry.map(n => Number(n.toFixed(4)))
+      };
+    })
+    .sort((a, b) => a.key.localeCompare(b.key));
+
 describe('manual ticker animation regressions', () => {
+  it('renders the correct bars after dataZoom interrupts a data update (#4186)', () => {
+    const { container, dom } = createChartContainer();
+    const reference = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(createIssue4186Spec(false), { dom, ticker, animation: true });
+    const expected = new VChart(createIssue4186Spec(true), { dom: reference.dom, animation: false });
+    try {
+      chart.renderSync();
+      ticker.tickAt(2000);
+      chart.updateSpecSync(createIssue4186Spec(true), undefined, { morph: false, enableExitAnimation: false });
+      const zoom = chart
+        .getChart()
+        .getAllComponents()
+        .find(c => c.type === 'dataZoom') as import('../../../src/component/data-zoom/data-zoom/data-zoom').DataZoom;
+      const start = ticker.getTime();
+      const ranges: [number, number][] = [
+        [0, 0.7],
+        [0.2, 0.8],
+        [0.3, 0.9],
+        [0.1, 0.7]
+      ];
+      ranges.forEach(([a, b], i) => {
+        ticker.tickAt(start + (i + 1) * 20);
+        zoom.setStartAndEnd(a, b);
+        chart.renderSync();
+      });
+      ticker.tickAt(start + 3000);
+      expected.renderSync();
+      const expectedZoom = expected
+        .getChart()
+        .getAllComponents()
+        .find(c => c.type === 'dataZoom') as import('../../../src/component/data-zoom/data-zoom/data-zoom').DataZoom;
+      expectedZoom.setStartAndEnd(0.1, 0.7);
+      expected.renderSync();
+      const bars = snapshotIssue4186Bars(chart);
+      const expectedBars = snapshotIssue4186Bars(expected);
+      expect(expectedBars).toHaveLength(30);
+      expect(bars).toEqual(expectedBars);
+
+      zoom.setStartAndEnd(0, 1);
+      chart.renderSync();
+      ticker.tickAt(start + 6000);
+      expectedZoom.setStartAndEnd(0, 1);
+      expected.renderSync();
+      expect(snapshotIssue4186Bars(expected)).toHaveLength(36);
+      expect(snapshotIssue4186Bars(chart)).toEqual(snapshotIssue4186Bars(expected));
+    } finally {
+      chart.release();
+      expected.release();
+      ticker.release();
+      removeDom(container);
+      removeDom(reference.container);
+    }
+  });
+
   it('keeps custom group final attributes after a prevented update animation', () => {
     const { container, dom } = createChartContainer();
     const ticker = createManualTicker();
@@ -1576,6 +1703,56 @@ describe('manual ticker animation regressions', () => {
 
       expectBarYLayout(barGraphic, expectedFinalLayout);
       expect(barGraphic.attribute.y).not.toBe(barGraphic.attribute.y1);
+    } finally {
+      chart.release();
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
+  it('keeps bar final attributes for exit animation when appear animation is disabled', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const chart = new VChart(
+      {
+        type: 'bar',
+        width: 400,
+        height: 300,
+        data: [
+          {
+            id: 'barData',
+            values: [{ category: 'A', value: 10 }]
+          }
+        ],
+        dataKey: 'category',
+        xField: 'category',
+        yField: 'value',
+        axes: [
+          { orient: 'left', visible: false },
+          { orient: 'bottom', visible: false }
+        ],
+        animationAppear: false
+      } as IBarChartSpec,
+      {
+        dom,
+        ticker,
+        animation: true
+      }
+    );
+
+    chart.renderSync();
+
+    try {
+      const exitingBar = getBarGraphics(chart)[0];
+      const expectedFinalY = exitingBar.context.finalAttrs.y;
+      const expectedFinalY1 = exitingBar.context.finalAttrs.y1;
+
+      expect(() => {
+        chart.updateDataSync('barData', [{ category: 'B', value: 20 }]);
+      }).not.toThrow();
+      expect(exitingBar.context.diffState).toBe('exit');
+      expectClose(getGraphicFinalAttribute(exitingBar).y, expectedFinalY);
+      expectClose(getGraphicFinalAttribute(exitingBar).y1, expectedFinalY1);
     } finally {
       chart.release();
       ticker.release();

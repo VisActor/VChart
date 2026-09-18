@@ -2082,6 +2082,41 @@
             "zh": "时序散点图-支持KDE背景",
             "en": "sequence-scatter-kde"
           }
+        },
+        {
+          "path": "storyline-landscape",
+          "title": {
+            "zh": "横向叙事图",
+            "en": "Landscape Storyline"
+          }
+        },
+        {
+          "path": "storyline-portrait",
+          "title": {
+            "zh": "纵向叙事图",
+            "en": "Portrait Storyline"
+          }
+        },
+        {
+          "path": "storyline-clock",
+          "title": {
+            "zh": "时钟叙事图",
+            "en": "Clock Storyline"
+          }
+        },
+        {
+          "path": "storyline-arc",
+          "title": {
+            "zh": "弧形叙事图",
+            "en": "Arc Storyline"
+          }
+        },
+        {
+          "path": "storyline-wing",
+          "title": {
+            "zh": "翼形叙事图",
+            "en": "Wing Storyline"
+          }
         }
       ]
     },

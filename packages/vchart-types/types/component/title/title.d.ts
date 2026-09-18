@@ -32,6 +32,7 @@ export declare class Title<T extends ITitleSpec = ITitleSpec> extends BaseCompon
         x2: number;
         y2: number;
     };
+    private _calcSpecSize;
     private _getTitleLayoutRect;
     private _getTitleAttrs;
     private _createOrUpdateTitleComponent;

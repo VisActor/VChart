@@ -1,18 +1,18 @@
 import type { IComponent } from '../../interface';
 import type { ITextGraphicAttribute, IRichTextCharacter, ITextAttribute } from '@visactor/vrender-core';
-import type { IOrientType, IPadding } from '../../../typings';
+import type { ILayoutNumber, IOrientType, IPadding } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
     visible?: boolean;
     orient?: IOrientType;
     x?: number;
     y?: number;
-    width?: number;
-    height?: number;
-    minWidth?: number;
-    maxWidth?: number;
-    minHeight?: number;
-    maxHeight?: number;
+    width?: ILayoutNumber;
+    height?: ILayoutNumber;
+    minWidth?: ILayoutNumber;
+    maxWidth?: ILayoutNumber;
+    minHeight?: ILayoutNumber;
+    maxHeight?: ILayoutNumber;
     innerPadding?: IPadding | number | number[];
     align?: string;
     verticalAlign?: string;

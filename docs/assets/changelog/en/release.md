@@ -1,3 +1,34 @@
+# v2.1.7
+
+2026-09-18
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: restore point visibility after overlap updates
+- **@visactor/vchart**: 修复 roseSeries 在非堆叠场景里 innerRadius 不生效的问题
+- **@visactor/vchart**: 修复坐标轴旋转标签的采样角度单位与绘制不一致，导致标签过度抽样的问题。
+- **@visactor/vchart**: rebuild background when spec.background and spec.theme change in the same updateSpec
+- **@visactor/vchart**: avoid crash when recompiling a mark without a compile option
+- **@visactor/vchart**: remove the word cloud shape afterRender tap when the series is released
+- **@visactor/vchart**: bar smapling not work bug. fix#4571
+- **@visactor/vchart**: preserve crosshair visibility for explicitly bound multiple band axes (Issue #4127)
+- **@visactor/vchart**: 修复预览比例尺退化时 DataZoom 显示多余预览线的问题
+- **@visactor/vchart**: preserve final attributes for exit animations when appear animations are disabled
+- **@visactor/vchart**: respect explicit label smart invert settings
+- **@visactor/vchart**: prevent rich text labels from inheriting line dash styles (Issue #4595)
+- **@visactor/vchart**: unregister array-valued trigger event listeners on release
+- **@visactor/vchart**: fix theme overwrite when change chartType in updateSpec
+- **@visactor/vchart**: 修复 Glyph 状态更新未重新编码子图形导致的桑基图 hover 残留、关联流量高亮比例和取消恢复异常；统一共享运行时状态与子图形属性撤销。需要配套包含 Glyph 派生同步接口的 VRender 版本。同时修复 Liquid 显式 fillOpacity 在初始渲染、配置更新及状态切换中未作用于子波浪的问题，并在退出状态时恢复普通样式或默认透明度。
+- **@visactor/vchart**: 修复 #4561 导致堆叠数值轴 crosshair 错误显示范围标签及偏移，保留马赛克和直方图的维度区间高亮
+- **@visactor/vchart**: resolve title width/height/minWidth/maxWidth/minHeight/maxHeight as ILayoutNumber against the chart view rect
+
+**🔨 Chores**
+
+- **@visactor/vchart**: keep the word cloud shape afterRender tap as a stable member callback
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.6...v2.1.7
+
+[more detail about v2.1.7](https://github.com/VisActor/VChart/releases/tag/v2.1.7)
 # v2.1.6
 
 2026-08-13

@@ -2,6 +2,9 @@
   "name": "run-script",
   "version": "0.0.1",
   "private": true,
+  "scripts": {
+    "test": "node --test --require ts-node/register run.test.ts"
+  },
   "dependencies": {
     "@microsoft/rush-lib": "5.148.0",
     "minimist": "1.2.8",

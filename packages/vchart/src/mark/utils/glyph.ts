@@ -1,5 +1,5 @@
 import type { IMarkGraphic } from '../interface/common';
-import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
+import { addGraphicState } from '../../util/graphic-state';
 
 export const addRuntimeState = (
   g: IMarkGraphic,
@@ -14,8 +14,5 @@ export const addRuntimeState = (
 
   g.runtimeStateCache[stateName] = attrs;
 
-  if (g.hasState(stateName)) {
-    removeGraphicState(g, stateName);
-  }
   addGraphicState(g, stateName, keepCurrentStates, hasAnimation);
 };

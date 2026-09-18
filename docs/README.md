@@ -17,19 +17,19 @@ assets
 ├── demos           # VChart Some demos on the homepage of the website
 │ ├── builtin-theme
 │ ├── chart-history
-│ ├── Qixi
+│ ├── qixi
 │ └── template
 ├── examples        # VChart chart examples
 │ ├── en            # VChart chart example English version
 │ ├── menu.json     # Index configuration of VChart chart sample document
 │ └── zh            # VChart chart example Chinese version
-├── options         # VChart configuration item document
+├── option          # VChart configuration item document
 │ ├── en            # VChart configuration item document English version
 │ └── zh            # VChart configuration item document Chinese text
 ├── themes          # VChart chart theme
 │ ├── dark          # VChart chart dark theme
 │ └── light         # VChart chart default theme
-└── tutorials       # VChart tutorial document
+└── guide           # VChart tutorial document
      ├── en         # VChart tutorial document English version
      ├── menu.json  # Index configuration of VChart tutorial document
      └── zh         # VChart tutorial document Chinese version

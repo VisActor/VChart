@@ -1,0 +1,5740 @@
+{
+  "build-metadata": {
+    "vrenderCommit": "880cc3c8d",
+    "vchartBaseline": "702ecbb49",
+    "vrenderBaseline": "69d82c11b",
+    "oldPackageVersion": "1.1.8",
+    "localPackageVersion": "1.1.9",
+    "tarballs": {
+      "visactor-vrender-components-1.1.9.tgz": "2dd0de6b2b30745b9fae8b64e0ba524b9fd75a400737bdd009aee03d0dd40fd6",
+      "visactor-vrender-kits-1.1.9.tgz": "ad7dcd5759a48387cfd8fc038d4556707d546c6d21945c8bed1121975ef5e07d",
+      "visactor-vrender-core-1.1.9.tgz": "e4165e46b177703ff93fd9c8567316f5d78ec47a4765d75bbaa2a35c87c0aec0",
+      "visactor-vrender-1.1.9.tgz": "6b44cc43920c3541f83ea86e4c502e020a251864209c47f95c9762aa014ec2fa",
+      "visactor-vrender-animate-1.1.9.tgz": "c3400b454c9b975f705eb318f83c4107e08c9dea5574bc909c6df71242f55781"
+    }
+  },
+  "dependencies-final": [
+    {
+      "name": "vchart",
+      "core": "/Users/bytedance/Documents/opensource/VChart/common/temp/node_modules/.pnpm/@visactor+vrender-core@file+..+..+..+..+..+..+..+tmp+vrender-glyph-fix+r3+visactor-vrender-core-1.1.9.tgz/node_modules/@visactor/vrender-core/cjs/index.js"
+    },
+    {
+      "name": "vrender",
+      "version": "1.1.9",
+      "core": "/Users/bytedance/Documents/opensource/VChart/common/temp/node_modules/.pnpm/@visactor+vrender-core@file+..+..+..+..+..+..+..+tmp+vrender-glyph-fix+r3+visactor-vrender-core-1.1.9.tgz/node_modules/@visactor/vrender-core/cjs/index.js"
+    },
+    {
+      "name": "vrender-core",
+      "version": "1.1.9",
+      "core": "/Users/bytedance/Documents/opensource/VChart/common/temp/node_modules/.pnpm/@visactor+vrender-core@file+..+..+..+..+..+..+..+tmp+vrender-glyph-fix+r3+visactor-vrender-core-1.1.9.tgz/node_modules/@visactor/vrender-core/cjs/index.js"
+    },
+    {
+      "name": "vrender-kits",
+      "version": "1.1.9",
+      "core": "/Users/bytedance/Documents/opensource/VChart/common/temp/node_modules/.pnpm/@visactor+vrender-core@file+..+..+..+..+..+..+..+tmp+vrender-glyph-fix+r3+visactor-vrender-core-1.1.9.tgz/node_modules/@visactor/vrender-core/cjs/index.js"
+    },
+    {
+      "name": "vrender-components",
+      "version": "1.1.9",
+      "core": "/Users/bytedance/Documents/opensource/VChart/common/temp/node_modules/.pnpm/@visactor+vrender-core@file+..+..+..+..+..+..+..+tmp+vrender-glyph-fix+r3+visactor-vrender-core-1.1.9.tgz/node_modules/@visactor/vrender-core/cjs/index.js"
+    },
+    {
+      "name": "vrender-animate",
+      "version": "1.1.9",
+      "core": "/Users/bytedance/Documents/opensource/VChart/common/temp/node_modules/.pnpm/@visactor+vrender-core@file+..+..+..+..+..+..+..+tmp+vrender-glyph-fix+r3+visactor-vrender-core-1.1.9.tgz/node_modules/@visactor/vrender-core/cjs/index.js"
+    }
+  ],
+  "baseline-render-round1": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "options": {
+      "samples": 7,
+      "warmup": 2,
+      "scenarios": [
+        "scatter-10k",
+        "multi-chart-grid"
+      ]
+    },
+    "scenarios": [
+      {
+        "name": "scatter-10k",
+        "samples": [
+          {
+            "totalMs": 50.40000009536743,
+            "createMs": 0.9000000953674316,
+            "renderMs": 43.40000009536743,
+            "releaseMs": 3.1999998092651367,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.0999999046325684,
+              "compileToVGrammar": 0.10000014305114746,
+              "vRenderDraw": 6.1000001430511475,
+              "doRender": 6.300000190734863
+            }
+          },
+          {
+            "totalMs": 49.30000019073486,
+            "createMs": 0.7999999523162842,
+            "renderMs": 43.299999952316284,
+            "releaseMs": 3.0999999046325684,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.5,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 5.200000047683716,
+              "doRender": 5.299999952316284
+            }
+          },
+          {
+            "totalMs": 49.90000009536743,
+            "createMs": 0.7000000476837158,
+            "renderMs": 39.799999952316284,
+            "releaseMs": 2.700000047683716,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.1000001430511475,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 4.8999998569488525,
+              "doRender": 5.299999952316284
+            }
+          },
+          {
+            "totalMs": 50,
+            "createMs": 0.7000000476837158,
+            "renderMs": 37.299999952316284,
+            "releaseMs": 2.5999999046325684,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.6999998092651367,
+              "compileToVGrammar": 0.10000014305114746,
+              "vRenderDraw": 4.400000095367432,
+              "doRender": 4.5
+            }
+          },
+          {
+            "totalMs": 49.89999985694885,
+            "createMs": 0.9000000953674316,
+            "renderMs": 41.799999952316284,
+            "releaseMs": 2.5,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.5,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 4.599999904632568,
+              "doRender": 4.799999952316284
+            }
+          },
+          {
+            "totalMs": 50.09999990463257,
+            "createMs": 0.5999999046325684,
+            "renderMs": 37.700000047683716,
+            "releaseMs": 2.0999999046325684,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.5,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 4.400000095367432,
+              "doRender": 4.700000047683716
+            }
+          },
+          {
+            "totalMs": 50.09999990463257,
+            "createMs": 0.6999998092651367,
+            "renderMs": 39.30000019073486,
+            "releaseMs": 2.0999999046325684,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.299999952316284,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 6,
+              "doRender": 6.299999952316284
+            }
+          }
+        ]
+      },
+      {
+        "name": "multi-chart-grid",
+        "samples": [
+          {
+            "totalMs": 168.29999995231628,
+            "createMs": 31,
+            "renderMs": 57.299999952316284,
+            "releaseMs": 4.700000047683716,
+            "updateMs": 69.59999990463257,
+            "longTaskCount": 1,
+            "longTaskMs": 163,
+            "phaseMs": {
+              "initializeChart": 20.000000715255737,
+              "compileToVGrammar": 2.700000524520874,
+              "vRenderDraw": 10.09999966621399,
+              "doRender": 10.799999475479126
+            }
+          },
+          {
+            "totalMs": 183.29999995231628,
+            "createMs": 38.19999980926514,
+            "renderMs": 53.90000009536743,
+            "releaseMs": 4.900000095367432,
+            "updateMs": 69,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 17.80000066757202,
+              "compileToVGrammar": 2.999999761581421,
+              "vRenderDraw": 10.900000810623169,
+              "doRender": 11.300000667572021
+            }
+          },
+          {
+            "totalMs": 199.30000019073486,
+            "createMs": 47.700000047683716,
+            "renderMs": 65.60000014305115,
+            "releaseMs": 6,
+            "updateMs": 68,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 21.999999046325684,
+              "compileToVGrammar": 2.8999993801116943,
+              "vRenderDraw": 12.999999284744263,
+              "doRender": 13.499999523162842
+            }
+          },
+          {
+            "totalMs": 183.39999985694885,
+            "createMs": 51.19999980926514,
+            "renderMs": 52.5,
+            "releaseMs": 4.400000095367432,
+            "updateMs": 62.200000047683716,
+            "longTaskCount": 1,
+            "longTaskMs": 170,
+            "phaseMs": {
+              "initializeChart": 16.899999380111694,
+              "compileToVGrammar": 2.200000286102295,
+              "vRenderDraw": 10.599998712539673,
+              "doRender": 10.999998569488525
+            }
+          },
+          {
+            "totalMs": 183.5,
+            "createMs": 59.5,
+            "renderMs": 50.200000047683716,
+            "releaseMs": 4,
+            "updateMs": 59.299999952316284,
+            "longTaskCount": 1,
+            "longTaskMs": 173,
+            "phaseMs": {
+              "initializeChart": 15.200001001358032,
+              "compileToVGrammar": 2.499999761581421,
+              "vRenderDraw": 11.69999885559082,
+              "doRender": 12.6999990940094
+            }
+          },
+          {
+            "totalMs": 200,
+            "createMs": 67.20000004768372,
+            "renderMs": 53.5,
+            "releaseMs": 4.400000095367432,
+            "updateMs": 60.799999952316284,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 16.399999618530273,
+              "compileToVGrammar": 3.200000047683716,
+              "vRenderDraw": 9.700000524520874,
+              "doRender": 10.100000381469727
+            }
+          },
+          {
+            "totalMs": 200.29999995231628,
+            "createMs": 76.09999990463257,
+            "renderMs": 53,
+            "releaseMs": 4.200000047683716,
+            "updateMs": 58.200000047683716,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 16.200001001358032,
+              "compileToVGrammar": 1.6999986171722412,
+              "vRenderDraw": 10.300000190734863,
+              "doRender": 11.000000238418579
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "fixed-render-round1": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "options": {
+      "samples": 7,
+      "warmup": 2,
+      "scenarios": [
+        "scatter-10k",
+        "multi-chart-grid"
+      ]
+    },
+    "scenarios": [
+      {
+        "name": "scatter-10k",
+        "samples": [
+          {
+            "totalMs": 50,
+            "createMs": 0.7999999523162842,
+            "renderMs": 43.200000047683716,
+            "releaseMs": 2.299999952316284,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.200000047683716,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 7.800000190734863,
+              "doRender": 7.900000095367432
+            }
+          },
+          {
+            "totalMs": 49.89999985694885,
+            "createMs": 0.7000000476837158,
+            "renderMs": 37.700000047683716,
+            "releaseMs": 2.3999998569488525,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.5999999046325684,
+              "compileToVGrammar": 0.20000004768371582,
+              "vRenderDraw": 4.400000095367432,
+              "doRender": 4.5
+            }
+          },
+          {
+            "totalMs": 49,
+            "createMs": 0.7999999523162842,
+            "renderMs": 43.5,
+            "releaseMs": 2.8000001907348633,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 4,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 4.8999998569488525,
+              "doRender": 5.099999904632568
+            }
+          },
+          {
+            "totalMs": 49.89999985694885,
+            "createMs": 0.7000000476837158,
+            "renderMs": 38.5,
+            "releaseMs": 2.5,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3,
+              "compileToVGrammar": 0.10000014305114746,
+              "vRenderDraw": 4.800000190734863,
+              "doRender": 5.1000001430511475
+            }
+          },
+          {
+            "totalMs": 49.90000009536743,
+            "createMs": 0.7000000476837158,
+            "renderMs": 40.799999952316284,
+            "releaseMs": 2,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.700000047683716,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 6.199999809265137,
+              "doRender": 6.599999904632568
+            }
+          },
+          {
+            "totalMs": 50,
+            "createMs": 0.7000000476837158,
+            "renderMs": 35.200000047683716,
+            "releaseMs": 2,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.4000000953674316,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 4.299999952316284,
+              "doRender": 4.400000095367432
+            }
+          },
+          {
+            "totalMs": 49.799999952316284,
+            "createMs": 0.7999999523162842,
+            "renderMs": 41.80000019073486,
+            "releaseMs": 2.299999952316284,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.799999952316284,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 4.200000047683716,
+              "doRender": 4.3999998569488525
+            }
+          }
+        ]
+      },
+      {
+        "name": "multi-chart-grid",
+        "samples": [
+          {
+            "totalMs": 166.70000004768372,
+            "createMs": 31.299999952316284,
+            "renderMs": 57.200000047683716,
+            "releaseMs": 4.400000095367432,
+            "updateMs": 65.19999980926514,
+            "longTaskCount": 1,
+            "longTaskMs": 158,
+            "phaseMs": {
+              "initializeChart": 19.90000033378601,
+              "compileToVGrammar": 2.699998140335083,
+              "vRenderDraw": 9.099998712539673,
+              "doRender": 9.799998998641968
+            }
+          },
+          {
+            "totalMs": 183.29999995231628,
+            "createMs": 39.59999990463257,
+            "renderMs": 58.40000009536743,
+            "releaseMs": 4.900000095367432,
+            "updateMs": 63.799999952316284,
+            "longTaskCount": 1,
+            "longTaskMs": 167,
+            "phaseMs": {
+              "initializeChart": 20.399998426437378,
+              "compileToVGrammar": 3.8000004291534424,
+              "vRenderDraw": 13.09999966621399,
+              "doRender": 13.699999809265137
+            }
+          },
+          {
+            "totalMs": 183.40000009536743,
+            "createMs": 48.5,
+            "renderMs": 65.59999990463257,
+            "releaseMs": 6.200000047683716,
+            "updateMs": 60.10000014305115,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 24.100001335144043,
+              "compileToVGrammar": 2.9999990463256836,
+              "vRenderDraw": 13.500000953674316,
+              "doRender": 13.900001049041748
+            }
+          },
+          {
+            "totalMs": 183.39999985694885,
+            "createMs": 53.39999985694885,
+            "renderMs": 51.5,
+            "releaseMs": 4.599999904632568,
+            "updateMs": 65.90000009536743,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 16.000000476837158,
+              "compileToVGrammar": 2.1999998092651367,
+              "vRenderDraw": 9.200000762939453,
+              "doRender": 9.80000114440918
+            }
+          },
+          {
+            "totalMs": 199.09999990463257,
+            "createMs": 66.89999985694885,
+            "renderMs": 53.40000009536743,
+            "releaseMs": 4.400000095367432,
+            "updateMs": 61.09999990463257,
+            "longTaskCount": 1,
+            "longTaskMs": 186,
+            "phaseMs": {
+              "initializeChart": 17.099998712539673,
+              "compileToVGrammar": 1.700000286102295,
+              "vRenderDraw": 11.600000619888306,
+              "doRender": 12.100000381469727
+            }
+          },
+          {
+            "totalMs": 249.89999985694885,
+            "createMs": 89,
+            "renderMs": 72,
+            "releaseMs": 4.700000047683716,
+            "updateMs": 76.79999995231628,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 23.79999876022339,
+              "compileToVGrammar": 4.400000095367432,
+              "vRenderDraw": 14.299999713897705,
+              "doRender": 14.899999618530273
+            }
+          },
+          {
+            "totalMs": 233.29999995231628,
+            "createMs": 88.60000014305115,
+            "renderMs": 58.59999990463257,
+            "releaseMs": 4.200000047683716,
+            "updateMs": 66.40000009536743,
+            "longTaskCount": 1,
+            "longTaskMs": 218,
+            "phaseMs": {
+              "initializeChart": 18.90000081062317,
+              "compileToVGrammar": 3.1000003814697266,
+              "vRenderDraw": 10.899999856948853,
+              "doRender": 11.09999966621399
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "baseline-render": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "options": {
+      "samples": 7,
+      "warmup": 2,
+      "scenarios": [
+        "scatter-10k",
+        "multi-chart-grid"
+      ]
+    },
+    "scenarios": [
+      {
+        "name": "scatter-10k",
+        "samples": [
+          {
+            "totalMs": 49,
+            "createMs": 0.9000000953674316,
+            "renderMs": 42.5,
+            "releaseMs": 3.8999998569488525,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.9000000953674316,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 6.6000001430511475,
+              "doRender": 6.900000095367432
+            }
+          },
+          {
+            "totalMs": 49.30000019073486,
+            "createMs": 0.7999999523162842,
+            "renderMs": 38.60000014305115,
+            "releaseMs": 2.799999952316284,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.5999999046325684,
+              "compileToVGrammar": 0.10000014305114746,
+              "vRenderDraw": 5,
+              "doRender": 5.1000001430511475
+            }
+          },
+          {
+            "totalMs": 49.799999952316284,
+            "createMs": 0.8000001907348633,
+            "renderMs": 38.299999952316284,
+            "releaseMs": 2.799999952316284,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.5,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 4.900000095367432,
+              "doRender": 5
+            }
+          },
+          {
+            "totalMs": 65.59999990463257,
+            "createMs": 1,
+            "renderMs": 45.39999985694885,
+            "releaseMs": 2.8000001907348633,
+            "longTaskCount": 1,
+            "longTaskMs": 50,
+            "phaseMs": {
+              "initializeChart": 3.9000000953674316,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 5.099999904632568,
+              "doRender": 5.199999809265137
+            }
+          },
+          {
+            "totalMs": 50,
+            "createMs": 0.7999999523162842,
+            "renderMs": 39,
+            "releaseMs": 2.4000000953674316,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.5999999046325684,
+              "compileToVGrammar": 0.10000014305114746,
+              "vRenderDraw": 4.599999904632568,
+              "doRender": 4.900000095367432
+            }
+          },
+          {
+            "totalMs": 50,
+            "createMs": 0.7999999523162842,
+            "renderMs": 36,
+            "releaseMs": 2.3000001907348633,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.200000047683716,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 4.3999998569488525,
+              "doRender": 4.699999809265137
+            }
+          },
+          {
+            "totalMs": 48.299999952316284,
+            "createMs": 0.7000000476837158,
+            "renderMs": 35.299999952316284,
+            "releaseMs": 2.3000001907348633,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.3000001907348633,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 4.599999904632568,
+              "doRender": 4.8999998569488525
+            }
+          }
+        ]
+      },
+      {
+        "name": "multi-chart-grid",
+        "samples": [
+          {
+            "totalMs": 183.40000009536743,
+            "createMs": 31.90000009536743,
+            "renderMs": 65.79999995231628,
+            "releaseMs": 4.6000001430511475,
+            "updateMs": 64.29999995231628,
+            "longTaskCount": 1,
+            "longTaskMs": 167,
+            "phaseMs": {
+              "initializeChart": 23.1999990940094,
+              "compileToVGrammar": 2.9999988079071045,
+              "vRenderDraw": 12.099996089935303,
+              "doRender": 12.599996089935303
+            }
+          },
+          {
+            "totalMs": 166.60000014305115,
+            "createMs": 38.799999952316284,
+            "renderMs": 50.30000019073486,
+            "releaseMs": 4.1000001430511475,
+            "updateMs": 63.89999985694885,
+            "longTaskCount": 1,
+            "longTaskMs": 157,
+            "phaseMs": {
+              "initializeChart": 16.600000143051147,
+              "compileToVGrammar": 1.7000000476837158,
+              "vRenderDraw": 12.400001525878906,
+              "doRender": 12.500001668930054
+            }
+          },
+          {
+            "totalMs": 183.29999995231628,
+            "createMs": 47.89999985694885,
+            "renderMs": 55.799999952316284,
+            "releaseMs": 5.599999904632568,
+            "updateMs": 66.10000014305115,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 18.999999284744263,
+              "compileToVGrammar": 2.4000000953674316,
+              "vRenderDraw": 10.700000047683716,
+              "doRender": 11.100000381469727
+            }
+          },
+          {
+            "totalMs": 183.40000009536743,
+            "createMs": 52.60000014305115,
+            "renderMs": 51.09999990463257,
+            "releaseMs": 4.099999904632568,
+            "updateMs": 59.90000009536743,
+            "longTaskCount": 1,
+            "longTaskMs": 168,
+            "phaseMs": {
+              "initializeChart": 16.199999809265137,
+              "compileToVGrammar": 2.8000009059906006,
+              "vRenderDraw": 9.8000009059906,
+              "doRender": 10.200000762939453
+            }
+          },
+          {
+            "totalMs": 182.89999985694885,
+            "createMs": 59.799999952316284,
+            "renderMs": 50.700000047683716,
+            "releaseMs": 3.8999998569488525,
+            "updateMs": 58.700000047683716,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 15.700000286102295,
+              "compileToVGrammar": 3.099998950958252,
+              "vRenderDraw": 10.299999952316284,
+              "doRender": 10.499999761581421
+            }
+          },
+          {
+            "totalMs": 200,
+            "createMs": 68.40000009536743,
+            "renderMs": 50.39999985694885,
+            "releaseMs": 4.799999952316284,
+            "updateMs": 59.10000014305115,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 15.100000381469727,
+              "compileToVGrammar": 2.8000001907348633,
+              "vRenderDraw": 12.600000143051147,
+              "doRender": 12.600000143051147
+            }
+          },
+          {
+            "totalMs": 199.90000009536743,
+            "createMs": 78.90000009536743,
+            "renderMs": 48.299999952316284,
+            "releaseMs": 3.9000000953674316,
+            "updateMs": 60.299999952316284,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 15.100000619888306,
+              "compileToVGrammar": 2.0000007152557373,
+              "vRenderDraw": 9.5,
+              "doRender": 9.800000429153442
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "fixed-render": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36",
+    "options": {
+      "samples": 7,
+      "warmup": 2,
+      "scenarios": [
+        "scatter-10k",
+        "multi-chart-grid"
+      ]
+    },
+    "scenarios": [
+      {
+        "name": "scatter-10k",
+        "samples": [
+          {
+            "totalMs": 50.200000047683716,
+            "createMs": 0.7999999523162842,
+            "renderMs": 40,
+            "releaseMs": 2.700000047683716,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.700000047683716,
+              "compileToVGrammar": 0.09999990463256836,
+              "vRenderDraw": 5.700000047683716,
+              "doRender": 5.799999952316284
+            }
+          },
+          {
+            "totalMs": 49.90000009536743,
+            "createMs": 0.7999999523162842,
+            "renderMs": 41.299999952316284,
+            "releaseMs": 2.8000001907348633,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.3000001907348633,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 5,
+              "doRender": 5.099999904632568
+            }
+          },
+          {
+            "totalMs": 50,
+            "createMs": 0.7999999523162842,
+            "renderMs": 39,
+            "releaseMs": 2.5,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.6000001430511475,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 5,
+              "doRender": 5.299999952316284
+            }
+          },
+          {
+            "totalMs": 51.200000047683716,
+            "createMs": 0.6999998092651367,
+            "renderMs": 37.700000047683716,
+            "releaseMs": 2.200000047683716,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.6999998092651367,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 4.299999952316284,
+              "doRender": 4.5
+            }
+          },
+          {
+            "totalMs": 50,
+            "createMs": 0.7000000476837158,
+            "renderMs": 35.09999990463257,
+            "releaseMs": 2,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.200000047683716,
+              "compileToVGrammar": 0.10000014305114746,
+              "vRenderDraw": 4.400000095367432,
+              "doRender": 4.599999904632568
+            }
+          },
+          {
+            "totalMs": 49,
+            "createMs": 0.5999999046325684,
+            "renderMs": 36.30000019073486,
+            "releaseMs": 1.7999999523162842,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 2.1000001430511475,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 5.6000001430511475,
+              "doRender": 5.900000095367432
+            }
+          },
+          {
+            "totalMs": 50,
+            "createMs": 0.7999999523162842,
+            "renderMs": 41.299999952316284,
+            "releaseMs": 2.200000047683716,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 3.299999952316284,
+              "compileToVGrammar": 0,
+              "vRenderDraw": 4.3999998569488525,
+              "doRender": 4.5
+            }
+          }
+        ]
+      },
+      {
+        "name": "multi-chart-grid",
+        "samples": [
+          {
+            "totalMs": 164.90000009536743,
+            "createMs": 31.299999952316284,
+            "renderMs": 53.200000047683716,
+            "releaseMs": 4.299999952316284,
+            "updateMs": 60.700000047683716,
+            "longTaskCount": 1,
+            "longTaskMs": 150,
+            "phaseMs": {
+              "initializeChart": 17.399998903274536,
+              "compileToVGrammar": 2.59999942779541,
+              "vRenderDraw": 8.899998664855957,
+              "doRender": 9.19999885559082
+            }
+          },
+          {
+            "totalMs": 167.60000014305115,
+            "createMs": 39.40000009536743,
+            "renderMs": 52.799999952316284,
+            "releaseMs": 4.900000095367432,
+            "updateMs": 60.59999990463257,
+            "longTaskCount": 1,
+            "longTaskMs": 158,
+            "phaseMs": {
+              "initializeChart": 19.20000147819519,
+              "compileToVGrammar": 2.1999998092651367,
+              "vRenderDraw": 8.699999570846558,
+              "doRender": 8.999999761581421
+            }
+          },
+          {
+            "totalMs": 167.5,
+            "createMs": 47.19999980926514,
+            "renderMs": 50.60000014305115,
+            "releaseMs": 5.099999904632568,
+            "updateMs": 57.299999952316284,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 16.499999523162842,
+              "compileToVGrammar": 2.4000000953674316,
+              "vRenderDraw": 10.600000619888306,
+              "doRender": 11.100000619888306
+            }
+          },
+          {
+            "totalMs": 183.20000004768372,
+            "createMs": 52.200000047683716,
+            "renderMs": 48.09999990463257,
+            "releaseMs": 4.6000001430511475,
+            "updateMs": 64.70000004768372,
+            "longTaskCount": 1,
+            "longTaskMs": 170,
+            "phaseMs": {
+              "initializeChart": 14.599998474121094,
+              "compileToVGrammar": 2.6999998092651367,
+              "vRenderDraw": 11.700000762939453,
+              "doRender": 12.600000858306885
+            }
+          },
+          {
+            "totalMs": 183.29999995231628,
+            "createMs": 60.5,
+            "renderMs": 49.700000047683716,
+            "releaseMs": 3.8999998569488525,
+            "updateMs": 57,
+            "longTaskCount": 1,
+            "longTaskMs": 171,
+            "phaseMs": {
+              "initializeChart": 14.699999332427979,
+              "compileToVGrammar": 2.200000047683716,
+              "vRenderDraw": 8.000001430511475,
+              "doRender": 8.500001668930054
+            }
+          },
+          {
+            "totalMs": 200,
+            "createMs": 68.80000019073486,
+            "renderMs": 48.09999990463257,
+            "releaseMs": 4.099999904632568,
+            "updateMs": 65.40000009536743,
+            "longTaskCount": 0,
+            "longTaskMs": 0,
+            "phaseMs": {
+              "initializeChart": 16.19999885559082,
+              "compileToVGrammar": 2.6000006198883057,
+              "vRenderDraw": 10.200002193450928,
+              "doRender": 10.200002193450928
+            }
+          },
+          {
+            "totalMs": 200.09999990463257,
+            "createMs": 77,
+            "renderMs": 49,
+            "releaseMs": 4.3999998569488525,
+            "updateMs": 55,
+            "longTaskCount": 1,
+            "longTaskMs": 185,
+            "phaseMs": {
+              "initializeChart": 15.700002193450928,
+              "compileToVGrammar": 1.2999999523162842,
+              "vRenderDraw": 8.999998569488525,
+              "doRender": 9.299998760223389
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "baseline-glyph": {
+    "fixed": false,
+    "count": 10000,
+    "warmup": 2,
+    "samples": [
+      {
+        "create": {
+          "ms": 42.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 18.399999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "basePaint": {
+          "ms": 14.400000095367432,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "hover": {
+          "ms": 17.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "clearHover": {
+          "ms": 13.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "selected": {
+          "ms": 17.59999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 26.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "sameRatio": {
+          "ms": 24.09999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,35C50,35,50,25,0,25Z"
+        },
+        "clearSelected": {
+          "ms": 14.100000143051147,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 14.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmClearHover": {
+          "ms": 14.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "release": {
+          "ms": 1.2999999523162842,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 43.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 17.90000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "basePaint": {
+          "ms": 13.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "hover": {
+          "ms": 16.40000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "clearHover": {
+          "ms": 12.899999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "selected": {
+          "ms": 15.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 25.40000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "sameRatio": {
+          "ms": 24.59999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,35C50,35,50,25,0,25Z"
+        },
+        "clearSelected": {
+          "ms": 14.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 13,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmClearHover": {
+          "ms": 12.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "release": {
+          "ms": 0.7000000476837158,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 43,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 17.40000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "basePaint": {
+          "ms": 13.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "hover": {
+          "ms": 14.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "clearHover": {
+          "ms": 14.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "selected": {
+          "ms": 15.399999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 24.600000143051147,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "sameRatio": {
+          "ms": 23.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,35C50,35,50,25,0,25Z"
+        },
+        "clearSelected": {
+          "ms": 12.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 13.400000095367432,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmClearHover": {
+          "ms": 12.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "release": {
+          "ms": 0.5999999046325684,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 42.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 15.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "basePaint": {
+          "ms": 13.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "hover": {
+          "ms": 16.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "clearHover": {
+          "ms": 13.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "selected": {
+          "ms": 15.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 25.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "sameRatio": {
+          "ms": 24,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,35C50,35,50,25,0,25Z"
+        },
+        "clearSelected": {
+          "ms": 12.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 14,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmClearHover": {
+          "ms": 13.399999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "release": {
+          "ms": 1,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 45.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 19.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "basePaint": {
+          "ms": 14.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "hover": {
+          "ms": 18,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "clearHover": {
+          "ms": 12.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "selected": {
+          "ms": 17,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 26.199999809265137,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "sameRatio": {
+          "ms": 24.100000143051147,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,35C50,35,50,25,0,25Z"
+        },
+        "clearSelected": {
+          "ms": 14.899999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 15.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmClearHover": {
+          "ms": 14.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "release": {
+          "ms": 1,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 42,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 17.699999809265137,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "basePaint": {
+          "ms": 13.599999904632568,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "hover": {
+          "ms": 14.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "clearHover": {
+          "ms": 14.099999904632568,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "selected": {
+          "ms": 15.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 24.90000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "sameRatio": {
+          "ms": 24.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,35C50,35,50,25,0,25Z"
+        },
+        "clearSelected": {
+          "ms": 13.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 13.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmClearHover": {
+          "ms": 13.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "release": {
+          "ms": 0.6000001430511475,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 46,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 19.100000143051147,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "basePaint": {
+          "ms": 14.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "hover": {
+          "ms": 18,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "clearHover": {
+          "ms": 13.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "selected": {
+          "ms": 16.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 25.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "sameRatio": {
+          "ms": 24.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 40000
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,35C50,35,50,25,0,25Z"
+        },
+        "clearSelected": {
+          "ms": 14.399999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 14.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmClearHover": {
+          "ms": 14.100000143051147,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 20000
+        },
+        "release": {
+          "ms": 1,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      }
+    ],
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+  },
+  "fixed-glyph": {
+    "fixed": true,
+    "count": 10000,
+    "warmup": 2,
+    "samples": [
+      {
+        "create": {
+          "ms": 40,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 23.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "basePaint": {
+          "ms": 9.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "hover": {
+          "ms": 21,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "clearHover": {
+          "ms": 9.300000190734863,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "selected": {
+          "ms": 46.39999985694885,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 10000,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 46.60000014305115,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "sameRatio": {
+          "ms": 10.799999952316284,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,27.5C50,27.5,50,17.5,0,17.5Z"
+        },
+        "clearSelected": {
+          "ms": 60.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 22.40000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "warmClearHover": {
+          "ms": 15.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "release": {
+          "ms": 11.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 39.59999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 25.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "basePaint": {
+          "ms": 11.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "hover": {
+          "ms": 22.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "clearHover": {
+          "ms": 10.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "selected": {
+          "ms": 51,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 10000,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 51.10000014305115,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "sameRatio": {
+          "ms": 12.199999809265137,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,27.5C50,27.5,50,17.5,0,17.5Z"
+        },
+        "clearSelected": {
+          "ms": 47.60000014305115,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 23.399999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "warmClearHover": {
+          "ms": 17.100000143051147,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "release": {
+          "ms": 10.400000095367432,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 39.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 24.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "basePaint": {
+          "ms": 9.300000190734863,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "hover": {
+          "ms": 22,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "clearHover": {
+          "ms": 9.599999904632568,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "selected": {
+          "ms": 46.90000009536743,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 10000,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 46.09999990463257,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "sameRatio": {
+          "ms": 10.799999952316284,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,27.5C50,27.5,50,17.5,0,17.5Z"
+        },
+        "clearSelected": {
+          "ms": 42.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 21,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "warmClearHover": {
+          "ms": 15.099999904632568,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "release": {
+          "ms": 8.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 45.59999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 30,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "basePaint": {
+          "ms": 12.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "hover": {
+          "ms": 24.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "clearHover": {
+          "ms": 12.600000143051147,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "selected": {
+          "ms": 52.19999980926514,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 10000,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 56.200000047683716,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "sameRatio": {
+          "ms": 11.100000143051147,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,27.5C50,27.5,50,17.5,0,17.5Z"
+        },
+        "clearSelected": {
+          "ms": 47.39999985694885,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 24.199999809265137,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "warmClearHover": {
+          "ms": 18,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "release": {
+          "ms": 10.900000095367432,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 54.90000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 19.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "basePaint": {
+          "ms": 10.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "hover": {
+          "ms": 20.399999856948853,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "clearHover": {
+          "ms": 11.300000190734863,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "selected": {
+          "ms": 50.5,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 10000,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 49.299999952316284,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "sameRatio": {
+          "ms": 12.899999856948853,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,27.5C50,27.5,50,17.5,0,17.5Z"
+        },
+        "clearSelected": {
+          "ms": 49,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 19.59999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "warmClearHover": {
+          "ms": 17.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "release": {
+          "ms": 9.400000095367432,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 39.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 23.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "basePaint": {
+          "ms": 9.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "hover": {
+          "ms": 20.59999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "clearHover": {
+          "ms": 8.800000190734863,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "selected": {
+          "ms": 49,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 10000,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 45.19999980926514,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "sameRatio": {
+          "ms": 10.800000190734863,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,27.5C50,27.5,50,17.5,0,17.5Z"
+        },
+        "clearSelected": {
+          "ms": 43.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 21.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "warmClearHover": {
+          "ms": 15.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "release": {
+          "ms": 8.699999809265137,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      },
+      {
+        "create": {
+          "ms": 45.59999990463257,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "baseGeometry": {
+          "ms": 31.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "basePaint": {
+          "ms": 12.799999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "hover": {
+          "ms": 24.90000009536743,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "clearHover": {
+          "ms": 12.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "selected": {
+          "ms": 53.5,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 10000,
+          "writes": 20000
+        },
+        "ratioChange": {
+          "ms": 54.200000047683716,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 10000,
+          "channel": 0,
+          "writes": 10000
+        },
+        "sameRatio": {
+          "ms": 10.699999809265137,
+          "compile": 0,
+          "resolver": 10000,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "example": {
+          "ratio": 0.75,
+          "path": "M0,-5C50,-5,50,5,100,5\n  L100,27.5C50,27.5,50,17.5,0,17.5Z"
+        },
+        "clearSelected": {
+          "ms": 48.299999952316284,
+          "compile": 0,
+          "resolver": 0,
+          "position": 10000,
+          "channel": 0,
+          "writes": 20000
+        },
+        "warmHover": {
+          "ms": 23.700000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "warmClearHover": {
+          "ms": 18.5,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        },
+        "release": {
+          "ms": 11.200000047683716,
+          "compile": 0,
+          "resolver": 0,
+          "position": 0,
+          "channel": 0,
+          "writes": 0
+        }
+      }
+    ],
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+  },
+  "mouse": {
+    "baseline": [
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerdown",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover",
+            "selected"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "click",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover",
+            "selected"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerdown",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "click",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      }
+    ],
+    "core-only": [
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerdown",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover",
+            "selected"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "click",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover",
+            "selected"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      }
+    ],
+    "final": [
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerdown",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,56C568,56,568,19,385,19Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "click",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,56C568,56,568,19,385,19Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,56C568,56,568,19,385,19Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "hover",
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,56C568,56,568,19,385,19Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerdown",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,161C568,161,568,124,385,124Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "click",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,161C568,161,568,124,385,124Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "selected"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#B48DEB",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,161C568,161,568,124,385,124Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,161C568,161,568,124,385,124Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "pointerdown",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "click",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      }
+    ],
+    "modes": [
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "B-bottom",
+          "source": "B",
+          "target": "bottom",
+          "states": [
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,312C193,312,193,370,375,370\n  L375,407C193,407,193,349,10,349Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "B-bottom",
+          "source": "B",
+          "target": "bottom",
+          "states": [],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#B48DEB",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,312C193,312,193,370,375,370\n  L375,407C193,407,193,349,10,349Z",
+              "fill": "#B48DEB",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "C-top",
+          "source": "C",
+          "target": "top",
+          "states": [
+            "hover"
+          ],
+          "fill": "#009488",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#009488",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,357C193,357,193,216,375,216\n  L375,241C193,241,193,382,10,382Z",
+              "fill": "#009488",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "C-top",
+          "source": "C",
+          "target": "top",
+          "states": [],
+          "fill": "#009488",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#009488",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,357C193,357,193,216,375,216\n  L375,241C193,241,193,382,10,382Z",
+              "fill": "#009488",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#B48DEB",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#B48DEB",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "A-bottom",
+          "source": "A",
+          "target": "bottom",
+          "states": [
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,81C193,81,193,333,375,333\n  L375,370C193,370,193,118,10,118Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "A-bottom",
+          "source": "A",
+          "target": "bottom",
+          "states": [],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,81C193,81,193,333,375,333\n  L375,370C193,370,193,118,10,118Z",
+              "fill": "#1664FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [
+          {
+            "key": "A",
+            "states": [
+              "hover"
+            ],
+            "fill": "red"
+          }
+        ],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": {
+          "key": "A",
+          "states": [
+            "hover"
+          ],
+          "fill": "red"
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [
+          {
+            "key": "A",
+            "states": [
+              "hover"
+            ],
+            "fill": "red"
+          }
+        ],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "pointerout",
+        "item": {
+          "key": "A",
+          "states": [],
+          "fill": "#1664FF"
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "pointerdown",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "normal",
+        "event": "click",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "pointerdown",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "pointerout",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": {
+          "key": "B-bottom",
+          "source": "B",
+          "target": "bottom",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,312C193,312,193,370,375,370\n  L375,407C193,407,193,349,10,349Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,312C193,312,193,370,375,370\n  L375,407C193,407,193,349,10,349Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerout",
+        "item": {
+          "key": "B-bottom",
+          "source": "B",
+          "target": "bottom",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,312C193,312,193,370,375,370\n  L375,407C193,407,193,349,10,349Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": {
+          "key": "C-middle",
+          "source": "C",
+          "target": "middle",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#009488",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,382C193,382,193,299,375,299\n  L375,324C193,324,193,407,10,407Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,382C193,382,193,299,375,299\n  L375,324C193,324,193,407,10,407Z",
+              "fill": "#009488",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerout",
+        "item": {
+          "key": "C-middle",
+          "source": "C",
+          "target": "middle",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,382C193,382,193,299,375,299\n  L375,324C193,324,193,407,10,407Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": {
+          "key": "C-top",
+          "source": "C",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#009488",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,357C193,357,193,216,375,216\n  L375,241C193,241,193,382,10,382Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,357C193,357,193,216,375,216\n  L375,241C193,241,193,382,10,382Z",
+              "fill": "#009488",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerout",
+        "item": {
+          "key": "C-top",
+          "source": "C",
+          "target": "top",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,357C193,357,193,216,375,216\n  L375,241C193,241,193,382,10,382Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,161C568,161,568,124,385,124Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,161C568,161,568,124,385,124Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerout",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#B48DEB",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,127C193,127,193,44,375,44\n  L375,216C193,216,193,299,10,299Z",
+              "fill": "#B48DEB",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "pointerout",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,56C568,56,568,19,385,19Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,56C568,56,568,19,385,19Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "click",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,56C568,56,568,19,385,19Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "hover",
+        "event": "pointerout",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "pointerdown",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "hover",
+        "event": "click",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "vertical",
+        "event": "pointerover",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "vertical",
+        "event": "pointerout",
+        "item": null,
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "vertical",
+        "event": "pointerover",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,10C1,108,1,108,1,205\n  L81,205C81,108,81,108,81,10Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "vertical",
+        "event": "pointerdown",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,10C1,108,1,108,1,205\n  L81,205C81,108,81,108,81,10Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,10C1,108,1,108,1,205\n  L81,205C81,108,81,108,81,10Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L103,410C103,313,35,313,35,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "vertical",
+        "event": "click",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,10C1,108,1,108,1,205\n  L81,205C81,108,81,108,81,10Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,10C1,108,1,108,1,205\n  L81,205C81,108,81,108,81,10Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L103,410C103,313,35,313,35,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "vertical",
+        "event": "pointerout",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,10C1,108,1,108,1,205\n  L81,205C81,108,81,108,81,10Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,10C1,108,1,108,1,205\n  L81,205C81,108,81,108,81,10Z",
+              "fill": "#1664FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L103,410C103,313,35,313,35,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "vertical",
+        "event": "pointerover",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "hover",
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M226,10C226,108,81,108,81,205\n  L400,205C400,108,545,108,545,10Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.13043478260869565,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L103,410C103,313,35,313,35,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "vertical",
+        "event": "pointerdown",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M226,10C226,108,81,108,81,205\n  L400,205C400,108,545,108,545,10Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M226,10C226,108,81,108,81,205\n  L400,205C400,108,545,108,545,10Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L297,410C297,313,229,313,229,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "vertical",
+        "event": "click",
+        "item": {
+          "key": "B-top",
+          "source": "B",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#B48DEB",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M226,10C226,108,81,108,81,205\n  L400,205C400,108,545,108,545,10Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M226,10C226,108,81,108,81,205\n  L400,205C400,108,545,108,545,10Z",
+              "fill": "#B48DEB",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "selected"
+          ],
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "ratio": 0.8695652173913043,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M1,215C1,313,69,313,69,410\n  L331,410C331,313,263,313,263,215Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M1,215C1,313,69,313,69,410\n  L297,410C297,313,229,313,229,215Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "adjacency",
+        "event": "pointerover",
+        "item": {
+          "key": "top",
+          "fill": "#1AC6FF"
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 0
+      },
+      {
+        "mode": "adjacency",
+        "event": "pointerout",
+        "item": {
+          "key": "top",
+          "fill": "#1AC6FF"
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "adjacency",
+        "event": "pointerover",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "fill": "#1AC6FF",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#1AC6FF",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "adjacency",
+        "event": "pointerdown",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      },
+      {
+        "mode": "adjacency",
+        "event": "click",
+        "item": {
+          "key": "A-top",
+          "source": "A",
+          "target": "top",
+          "states": [
+            "selected",
+            "hover"
+          ],
+          "fill": "#1664FF",
+          "opacity": 0.15,
+          "ratio": 1,
+          "backgroundStyle": {
+            "fill": "#e8e8e8"
+          },
+          "sub": [
+            {
+              "name": "back",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#e8e8e8",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M10,1C193,1,193,1,375,1\n  L375,44C193,44,193,44,10,44Z",
+              "fill": "#1664FF",
+              "stroke": "#000000",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "target": {
+          "key": "top-00",
+          "source": "top",
+          "target": "00",
+          "states": [
+            "blur"
+          ],
+          "fill": "#e8e8e8",
+          "opacity": 0.15,
+          "sub": [
+            {
+              "name": "back",
+              "path": "",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            },
+            {
+              "name": "front",
+              "path": "M385,1C568,1,568,38,750,38\n  L750,180C568,180,568,143,385,143Z",
+              "fill": "#e8e8e8",
+              "fillOpacity": 0.15
+            }
+          ]
+        },
+        "hoverNodes": [],
+        "remainingStrokes": 1
+      }
+    ]
+  }
+}

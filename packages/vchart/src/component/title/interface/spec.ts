@@ -1,6 +1,6 @@
 import type { IComponent } from '../../interface';
 import type { ITextGraphicAttribute, IRichTextCharacter, ITextAttribute } from '@visactor/vrender-core';
-import type { IOrientType, IPadding } from '../../../typings';
+import type { ILayoutNumber, IOrientType, IPadding } from '../../../typings';
 import type { IComponentSpec } from '../../base/interface';
 
 interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
@@ -22,29 +22,29 @@ interface ITitleSpecWithoutText extends Omit<IComponentSpec, 'orient'> {
    */
   y?: number;
   /**
-   * 标题宽度
+   * 标题宽度，支持像素值、百分比与回调，百分比与回调的基准是图表视图区域
    */
-  width?: number;
+  width?: ILayoutNumber;
   /**
-   * 标题高度
+   * 标题高度，支持像素值、百分比与回调，百分比与回调的基准是图表视图区域
    */
-  height?: number;
+  height?: ILayoutNumber;
   /**
-   * 最小宽度，像素值
+   * 最小宽度，支持像素值、百分比与回调
    */
-  minWidth?: number;
+  minWidth?: ILayoutNumber;
   /**
-   * 最大宽度，像素值。当文字超过最大宽度时，会自动省略。
+   * 最大宽度，支持像素值、百分比与回调。当文字超过最大宽度时，会自动省略。
    */
-  maxWidth?: number;
+  maxWidth?: ILayoutNumber;
   /**
-   * 最小高度，像素值
+   * 最小高度，支持像素值、百分比与回调
    */
-  minHeight?: number;
+  minHeight?: ILayoutNumber;
   /**
-   * 最大高度，像素值
+   * 最大高度，支持像素值、百分比与回调。当文字超过最大高度时，会自动省略。
    */
-  maxHeight?: number;
+  maxHeight?: ILayoutNumber;
   /**
    * 标题的边距留白
    */

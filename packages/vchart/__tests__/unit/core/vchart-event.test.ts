@@ -38,6 +38,8 @@ type StageEventListener = {
 };
 
 type CrosshairStateForTest = {
+  enable?: boolean;
+  _layoutCrosshair?: (x: number, y: number) => void;
   _stateByField?: {
     xField?: {
       currentValue?: Map<unknown, unknown>;
@@ -520,6 +522,69 @@ describe('vchart event test', () => {
 
     lineChart.release();
     removeDom(lineContainer);
+  });
+
+  it('should keep crosshair enabled when bound to top and bottom band axes', () => {
+    const crosshairContainer = createDiv();
+    const crosshairDom = createDiv(crosshairContainer);
+    crosshairDom.id = 'multiple-crosshair-axis-container';
+    crosshairContainer.style.position = 'fixed';
+    crosshairContainer.style.width = '500px';
+    crosshairContainer.style.height = '500px';
+    crosshairContainer.style.top = '0px';
+    crosshairContainer.style.left = '0px';
+
+    const chart = new VChart(
+      {
+        type: 'common',
+        data: {
+          id: 'data',
+          values: [
+            { x: 'Mon', type: 'Breakfast', y: 15 },
+            { x: 'Mon', type: 'Lunch', y: 25 },
+            { x: 'Tue', type: 'Breakfast', y: 12 },
+            { x: 'Tue', type: 'Lunch', y: 30 }
+          ]
+        },
+        series: [
+          {
+            type: 'bar',
+            dataId: 'data',
+            xField: ['x', 'type'],
+            yField: 'y',
+            seriesField: 'type'
+          }
+        ],
+        axes: [
+          { orient: 'left' },
+          { orient: 'bottom', type: 'band' },
+          { orient: 'top', type: 'band' },
+          { orient: 'top', type: 'band' }
+        ],
+        crosshair: {
+          xField: {
+            visible: true,
+            bindingAxesIndex: [1, 2]
+          }
+        }
+      } as ICommonChartSpec,
+      { dom: crosshairDom, animation: false }
+    );
+
+    try {
+      chart.renderSync();
+      const crosshair = chart.getComponents().find(component => component.type === 'cartesianCrosshair') as
+        | CrosshairStateForTest
+        | undefined;
+
+      crosshair?._layoutCrosshair?.(250, 250);
+
+      expect(crosshair?.enable).toBe(true);
+      expect(Array.from(crosshair?._stateByField?.xField?.currentValue?.keys() ?? [])).toEqual([1, 2]);
+    } finally {
+      chart.release();
+      removeDom(crosshairContainer);
+    }
   });
 
   it('should fire tooltipRelease before release chart', () => {

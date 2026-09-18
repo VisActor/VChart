@@ -102,7 +102,7 @@ export abstract class BaseTrigger<T extends IBaseTriggerOptions> implements ITri
         if (evt.type && evt.handler) {
           if (isArray(evt.type)) {
             evt.type.forEach(evtType => {
-              evtType && evtType !== 'none' && this.options.event.on(evtType, evt.handler);
+              evtType && evtType !== 'none' && this.options.event.off(evtType, evt.handler);
             });
           } else {
             evt.type !== 'none' && this.options.event.off(evt.type, evt.handler);

@@ -124,7 +124,7 @@ Data configuration tutorial: [https://www.visactor.io/vchart/guide/tutorial_docs
 
 Tooltip configuration tutorial: [https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Tooltip](https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Tooltip)
 
-Data field configuration: [https://www.visactor.io/vchart/option/areaChart#data(IDataType%7CIDataType%5B%5D).IDataValues.fields](<https://www.visactor.io/vchart/ option/areaChart#data(IDataType%7CIDataType%5B%5D).IDataValues.fields>)
+Data field configuration: [https://www.visactor.io/vchart/option/areaChart#data(IDataType%7CIDataType%5B%5D).IDataValues.fields](<https://www.visactor.io/vchart/option/areaChart#data(IDataType%7CIDataType%5B%5D).IDataValues.fields>)
 
 Tooltip configuration item: [https://www.visactor.io/vchart/option/areaChart#tooltip.visible](https://www.visactor.io/vchart/option/areaChart#tooltip.visible)
 

@@ -10,7 +10,7 @@ As shown in the picture below, the text of the legend has been omitted. I want t
 
 Different chart library solutions have different solutions. [VChart](https://visactor.io/vchart/) supports complete text display with omitted text by default, and you only need to hover to display it.
 
-Of course, you can also create your own tooltip component by listening to legend-related events. For details, please refer to this example: [Link](https://codesandbox.io/s/vchart-legend-custom-interaction-8qsx5z?file=/ src/index.ts)
+Of course, you can also create your own tooltip component by listening to legend-related events. For details, please refer to this example: [Link](https://codesandbox.io/s/vchart-legend-custom-interaction-8qsx5z?file=/src/index.ts)
 
 ## Result display
 
