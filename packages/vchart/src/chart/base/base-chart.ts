@@ -1747,9 +1747,9 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                 graphics.filter(e => {
                   const elDatum = getDatumOfElement(e, m, s, r) as Datum[];
                   const isPick =
-                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
                     elDatum &&
                     (datum as Datum[]).every(
+                      // eslint-disable-next-line max-nested-callbacks, eqeqeq
                       (d, index) => elDatum[index] && keys.every(k => d[k] == elDatum[index][k])
                     );
 
