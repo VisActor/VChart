@@ -131,6 +131,7 @@ describe('filterGraphicsByDatum collection marks', () => {
 
     const hovered = [lineData[0], otherSeriesDatum];
     const picked = chart.filterGraphicsByDatum(hovered, {
+      filter: (_series, mark) => mark === lineMark || mark === pointMark,
       getDatum: (el, mark) => {
         if (mark.type === MarkTypeEnum.line) {
           // Collection marks often have fewer datums than a multi-series hover list.
