@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: ignore unmatched datums in filterGraphicsByDatum collection-mark matching so setHovered does not throw",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
