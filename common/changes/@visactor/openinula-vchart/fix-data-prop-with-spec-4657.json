@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/openinula-vchart",
+      "comment": "fix: honor the data prop when spec is supplied, including data-only updates",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/openinula-vchart"
+}
