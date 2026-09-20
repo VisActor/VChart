@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: 修复横向瀑布图连接线端点方向错误，避免连接线覆盖相邻柱体边缘，并保持反向轴和反向累计模式的正确连接。",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
