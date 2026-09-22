@@ -25,7 +25,19 @@ async function checkDrawing(page, errors) {
     const canvas = window.__visualChart?.getCanvas();
     if (!canvas || canvas.width <= 0 || canvas.height <= 0) throw new Error('没有有效画布');
     const series = window.__visualChart.getChart().getAllSeries();
-    if (!series.some(item => item.getSeriesMark()?.getGraphics()?.length > 0)) throw new Error('没有绘制数据图元');
+    const hasData = series.some(item => item.getSeriesMark()?.getGraphics()?.length > 0);
+    // 显式空值饼图可用真实占位环替代数据扇区，不能仅凭坐标轴或标签放行空图。
+    const hasPlaceholder = series.some(
+      item =>
+        item.type === 'pie' &&
+        item.getSpec().emptyPlaceholder?.showEmptyCircle &&
+        item
+          .getMarks()
+          .find(mark => mark.name === 'emptyCircle')
+          ?.getGraphics()
+          .some(g => g.attribute.visible !== false && g.attribute.outerRadius > 0 && g.globalAABBBounds.width() > 0)
+    );
+    if (!hasData && !hasPlaceholder) throw new Error('没有绘制数据图元');
     const context = canvas.getContext('2d');
     const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
     let ink = 0;

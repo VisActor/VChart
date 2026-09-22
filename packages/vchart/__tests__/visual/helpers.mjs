@@ -31,25 +31,41 @@ export async function graphicCenter(page, name) {
   }, name);
 }
 
-/** 验证静态用例的关键输入与图表类型，布局差异交给截图判断。 */
+/** 对照显式输入，允许已知的组件数组规范化，仍严格检查数据、回调及源轴。 */
+export function assertSpec(actual, expected, field = 'spec') {
+  if (['spec.crosshair', 'spec.indicator'].includes(field) && !Array.isArray(expected) && Array.isArray(actual)) {
+    if (actual.length !== 1) throw new Error('组件数量不正确：' + field);
+    actual = actual[0];
+  }
+  if (typeof expected === 'function') {
+    if (typeof actual !== 'function' || actual.toString() !== expected.toString())
+      throw new Error('回调配置不正确：' + field);
+  } else if (expected && typeof expected === 'object') {
+    if (!actual || typeof actual !== 'object') throw new Error('图表输入不正确：' + field);
+    const lengthMatches = field === 'spec.axes' ? actual.length >= expected.length : actual.length === expected.length;
+    if (Array.isArray(expected) && (!Array.isArray(actual) || !lengthMatches))
+      throw new Error('数据长度不正确：' + field);
+    for (const key of Object.keys(expected)) assertSpec(actual[key], expected[key], field + '.' + key);
+  } else if (actual !== expected) throw new Error('图表输入不正确：' + field);
+}
+
+/** 验证静态配置；动态回调和计算使用 verifySourceSpec 在浏览器内生成期望值。 */
 export async function verifySpec(page, expected) {
-  await page.evaluate(expected => {
-    const actual = window.__visualChart.getSpec();
-    if (actual.type !== expected.type) throw new Error('图表类型或数据数量不正确');
-    // VChart 会合并主题默认值，只核对用例明确指定的输入子集。
-    function check(actual, expected, field) {
-      if (expected && typeof expected === 'object') {
-        if (!actual || typeof actual !== 'object') throw new Error('图表输入不正确：' + field);
-        // 坐标系转换器在原轴数组末尾补充缺省轴；原轴仍逐项核对，其他数组必须等长。
-        const lengthMatches =
-          field === 'spec.axes' ? actual.length >= expected.length : actual.length === expected.length;
-        if (Array.isArray(expected) && (!Array.isArray(actual) || !lengthMatches))
-          throw new Error('数据长度不正确：' + field);
-        for (const key of Object.keys(expected)) check(actual[key], expected[key], field + '.' + key);
-      } else if (actual !== expected) throw new Error('图表输入不正确：' + field);
-    }
-    check(actual, expected, 'spec');
+  await page.evaluate(async expected => {
+    const { assertSpec } = await import(new URL('./helpers.mjs', location.href).href);
+    assertSpec(window.__visualChart.getSpec(), expected);
   }, expected);
+}
+
+/** 在同一浏览器执行冻结的源配置，避免 Node 转译函数格式和 Math 实现的微小差异。 */
+export async function verifySourceSpec(page, overrides = {}) {
+  await page.evaluate(async overrides => {
+    const { assertSpec } = await import(new URL('./helpers.mjs', location.href).href);
+    const { cases, loadCase } = await import(new URL('./cases/index.mjs', location.href).href);
+    const id = new URL(location.href).searchParams.get('case');
+    const item = await loadCase(cases.find(item => item.id === id));
+    assertSpec(window.__visualChart.getSpec(), { ...item.createSpec(), ...overrides });
+  }, overrides);
 }
 
 /** 检查每个系列实际绘制，以及用例关注的组件确实存在；布局由截图比较。 */
@@ -89,4 +105,27 @@ export async function verifyRendered(page, target = 'series') {
         throw new Error('没有可见数据标签');
     }
   }, target);
+}
+
+/** 空值饼图应实际绘制占位环，而不是把没有系列图元当作通过。 */
+export async function verifyEmptyPie(page) {
+  await page.evaluate(() => {
+    const series = window.__visualChart.getChart().getAllSeries();
+    if (series.length !== 1 || series[0].type !== 'pie') throw new Error('缺少饼图系列');
+    const mark = series[0].getMarks().find(mark => mark.name === 'emptyCircle');
+    const graphics = mark?.getGraphics() ?? [];
+    if (
+      !graphics.some(
+        g => g.attribute.visible !== false && g.attribute.outerRadius > 0 && g.globalAABBBounds.width() > 0
+      )
+    )
+      throw new Error('占位环未绘制');
+    const slices = series[0].getSeriesMark().getGraphics();
+    if (
+      slices.some(
+        g => g.attribute.visible !== false && Math.abs(g.attribute.endAngle - g.attribute.startAngle) > 0.0001
+      )
+    )
+      throw new Error('空值数据仍显示有效扇区');
+  });
 }

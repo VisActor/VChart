@@ -188,6 +188,167 @@ export const cases = [
     id: 'bar-title',
     purpose: '基础柱图显示主标题',
     file: './components/title/bar-title.mjs'
+  },
+  { id: 'area-horizontal', purpose: '横向面积图的数据映射与坐标布局', file: './charts/area/area-horizontal.mjs' },
+  { id: 'area-negative', purpose: '面积图正负值与零基线', file: './charts/area/area-negative.mjs' },
+  { id: 'area-missing', purpose: '面积图缺失值及源无效数据策略', file: './charts/area/area-missing.mjs' },
+  { id: 'area-stacked', purpose: '多组面积图堆叠与图例', file: './charts/area/area-stacked.mjs' },
+  { id: 'area-unstacked', purpose: '多组面积图关闭堆叠后的相交布局', file: './charts/area/area-unstacked.mjs' },
+  { id: 'line-step', purpose: '阶梯折线的曲线类型与点布局', file: './charts/line/line-step.mjs' },
+  { id: 'line-monotone', purpose: '单调平滑折线与点布局', file: './charts/line/line-monotone.mjs' },
+  { id: 'bar-group', purpose: '分组柱图的双分类字段与系列', file: './charts/bar/bar-group.mjs' },
+  { id: 'bar-three-level-gap', purpose: '三层分组柱图的组内间距', file: './charts/bar/bar-three-level-gap.mjs' },
+  { id: 'bar-width-limit', purpose: '柱宽与最大柱宽共同配置', file: './charts/bar/bar-width-limit.mjs' },
+  {
+    id: 'histogram-min-height',
+    purpose: '直方图区间边界与最小柱高',
+    file: './charts/histogram/histogram-min-height.mjs'
+  },
+  {
+    id: 'funnel-directions',
+    purpose: '四区域漏斗的方向、对齐与外侧标签',
+    file: './charts/funnel/funnel-directions.mjs'
+  },
+  { id: 'funnel-transform', purpose: '转化漏斗的转化标签与外侧标签', file: './charts/funnel/funnel-transform.mjs' },
+  { id: 'gauge-gradient', purpose: '仪表盘渐变圆弧和指针组件', file: './charts/gauge/gauge-gradient.mjs' },
+  { id: 'gauge-tick-segment', purpose: '仪表盘刻度分段和指针', file: './charts/gauge/gauge-tick-segment.mjs' },
+  { id: 'rose-stack', purpose: '玫瑰图分组数据的堆叠', file: './charts/rose/rose-stack.mjs' },
+  { id: 'rose-group', purpose: '玫瑰图分组与极坐标轴', file: './charts/rose/rose-group.mjs' },
+  { id: 'sankey-horizontal', purpose: '横向桑基图节点和连接布局', file: './charts/sankey/sankey-horizontal.mjs' },
+  { id: 'sankey-vertical', purpose: '纵向桑基图节点和连接布局', file: './charts/sankey/sankey-vertical.mjs' },
+  { id: 'axis-log', purpose: '对数坐标轴的刻度与折线位置', file: './components/axis/axis-log.mjs' },
+  { id: 'axis-zero-align', purpose: '双数值轴在零点两侧对齐', file: './components/axis/axis-zero-align.mjs' },
+  { id: 'axis-tick-align', purpose: '双数值轴的刻度对齐', file: './components/axis/axis-tick-align.mjs' },
+  {
+    id: 'axis-polar-multiple-labels',
+    purpose: '极坐标多层标签布局',
+    file: './components/axis/axis-polar-multiple-labels.mjs'
+  },
+  { id: 'axis-multilevel-wrap', purpose: '多层分类轴标签自动换行', file: './components/axis/axis-multilevel-wrap.mjs' },
+  { id: 'axis-break', purpose: '数值轴断轴及柱图分段', file: './components/axis/axis-break.mjs' },
+  { id: 'axis-unit-position', purpose: '轴单位在指定位置显示', file: './components/axis/axis-unit-position.mjs' },
+  {
+    id: 'mark-area-multiple',
+    purpose: '多块标注区域与折线坐标映射',
+    file: './components/marker/mark-area-multiple.mjs'
+  },
+  { id: 'mark-line-coordinates', purpose: '坐标点定位标注线', file: './components/marker/mark-line-coordinates.mjs' },
+  {
+    id: 'scale-domain-replace',
+    purpose: '公共比例尺替换定义域后作用于双散点系列',
+    file: './data/scale-domain-replace.mjs'
+  },
+  { id: 'data-fields-domain', purpose: '数据字段定义域与散点编码', file: './data/data-fields-domain.mjs' },
+  {
+    id: 'combination-line-pie',
+    purpose: '折线和饼图在独立区域共存',
+    file: './charts/combination/combination-line-pie.mjs'
+  },
+  { id: 'pie-nested', purpose: '多系列嵌套环形饼图', file: './charts/pie/pie-nested.mjs' },
+  { id: 'pie-radius-scale', purpose: '饼图半径字段编码', file: './charts/pie/pie-radius-scale.mjs' },
+  { id: 'theme-stack', purpose: '堆叠面积图的专用主题样式', file: './theme/theme-stack.mjs' },
+  {
+    id: 'legend-symbol-hidden',
+    purpose: '图例项隐藏符号后的文本布局',
+    file: './components/legend/legend-symbol-hidden.mjs'
+  },
+  {
+    id: 'scrollbar-axis-range',
+    purpose: '隐藏滚动条的初始范围及分类轴显示',
+    file: './components/scrollbar/scrollbar-axis-range.mjs'
+  },
+  {
+    id: 'datazoom-preview',
+    purpose: 'dataZoom 预览图的初始范围和布局',
+    file: './components/datazoom/datazoom-preview.mjs'
+  },
+  {
+    id: 'waterfall-leader-line',
+    purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
+    file: './charts/waterfall/waterfall-leader-line.mjs'
+  },
+  {
+    id: 'label-smart-invert',
+    purpose: '柱图外侧标签的智能反色配置',
+    file: './components/label/label-smart-invert.mjs'
+  },
+  { id: 'radar-series', purpose: '雷达图多系列与角度和半径轴', file: './charts/radar/radar-series.mjs' },
+  { id: 'radar-negative', purpose: '雷达图负值与面积区域', file: './charts/radar/radar-negative.mjs' },
+  { id: 'radar-stacked', purpose: '雷达面积堆叠与圆形径向网格', file: './charts/radar/radar-stacked.mjs' },
+  {
+    id: 'range-area-horizontal',
+    purpose: '横向区间面积图的上下界',
+    file: './charts/range-area/range-area-horizontal.mjs'
+  },
+  {
+    id: 'range-area-missing-bound',
+    purpose: '区间面积上界缺失并叠加两条折线',
+    file: './charts/range-area/range-area-missing-bound.mjs'
+  },
+  {
+    id: 'pie-empty-placeholder',
+    purpose: '空数据时显示自定义饼图占位环',
+    file: './charts/pie/pie-empty-placeholder.mjs'
+  },
+  { id: 'pie-zero-placeholder', purpose: '全零数据时显示饼图占位环', file: './charts/pie/pie-zero-placeholder.mjs' },
+  {
+    id: 'pie-show-all-zero',
+    purpose: 'showAllZero 下全零数据的扇区及外侧标签',
+    file: './charts/pie/pie-show-all-zero.mjs'
+  },
+  {
+    id: 'word-cloud-enlarge',
+    purpose: '词云的确定性布局与放大配置',
+    file: './charts/word-cloud/word-cloud-enlarge.mjs'
+  },
+  { id: 'sunburst-gap', purpose: '旭日图分层间隙和径向标签', file: './charts/sunburst/sunburst-gap.mjs' },
+  {
+    id: 'circle-packing-padding',
+    purpose: '圆打包分层留白和按深度显示标签',
+    file: './charts/circle-packing/circle-packing-padding.mjs'
+  },
+  { id: 'treemap-hierarchy', purpose: '矩形树图的层次数据与标签', file: './charts/treemap/treemap-hierarchy.mjs' },
+  {
+    id: 'heatmap-correlation',
+    purpose: '相关矩阵热力图与固定区域及旋转标签',
+    file: './charts/heatmap/heatmap-correlation.mjs'
+  },
+  { id: 'bar-percent', purpose: '百分比堆叠柱图与百分数刻度格式', file: './charts/bar/bar-percent.mjs' },
+  { id: 'axis-symlog', purpose: '相同正负数据在线性轴和对称对数轴的布局', file: './components/axis/axis-symlog.mjs' },
+  {
+    id: 'mark-point-symbol',
+    purpose: '标注点文字、端点配置与动态轴标签',
+    file: './components/marker/mark-point-symbol.mjs'
+  },
+  {
+    id: 'crosshair-polar-default',
+    purpose: '极坐标默认选中的径向和角度 crosshair',
+    file: './components/crosshair/crosshair-polar-default.mjs'
+  },
+  {
+    id: 'update-indicator-visible',
+    purpose: 'updateSpecSync 后显示仪表指标文字',
+    file: './api/update-indicator-visible.mjs'
+  },
+  { id: 'update-pie-empty', purpose: '更新饼图数据为 null 和零后切换占位图', file: './api/update-pie-empty.mjs' },
+  { id: 'brush-select', purpose: '拖拽矩形刷选后区分命中和未命中的散点', file: './components/brush/brush-select.mjs' },
+  {
+    id: 'custom-mark-click',
+    purpose: '按 markName 绑定的自定义图元点击更新',
+    file: './interaction/custom-mark-click.mjs'
+  },
+  {
+    id: 'legend-continuous-filter',
+    purpose: '拖动连续颜色图例后筛选矩形树图数据',
+    file: './components/legend/legend-continuous-filter.mjs'
+  },
+  { id: 'line-missing-link', purpose: '连接缺失值的折线与多系列数据', file: './charts/line/line-missing-link.mjs' },
+  { id: 'area-invalid-zero', purpose: '缺失值按零处理的堆叠面积与标签', file: './charts/area/area-invalid-zero.mjs' },
+  { id: 'axis-time-brush', purpose: '时间轴和 dataZoom 及刷选配置共存', file: './components/axis/axis-time-brush.mjs' },
+  {
+    id: 'correlation-tooltip',
+    purpose: '关联图布局与悬停后的 tooltip',
+    file: './charts/correlation/correlation-tooltip.mjs'
   }
 ];
 

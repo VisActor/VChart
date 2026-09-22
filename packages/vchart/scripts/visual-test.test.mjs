@@ -693,7 +693,15 @@ test('case specs are deterministic and independently allocated', async () => {
     const item = await loadCase(metadata);
     const first = item.createSpec();
     const second = item.createSpec();
-    assert.deepEqual(first, second, metadata.id);
+    // 回调是每次创建的独立函数；对照函数源码而不要求引用相同。
+    function comparable(value) {
+      if (typeof value === 'function') return { functionSource: value.toString() };
+      if (Array.isArray(value)) return value.map(comparable);
+      if (value && typeof value === 'object')
+        return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, comparable(item)]));
+      return value;
+    }
+    assert.deepEqual(comparable(first), comparable(second), metadata.id);
     // 递归检查全部配置对象，兼容顶层数据及 common 系列内部数据。
     function independent(a, b) {
       if (!a || typeof a !== 'object') return;
@@ -717,24 +725,48 @@ test('migrated cases declare unique BugServer IDs in their module header', async
   }
 });
 
-test('source spec checks allow appended default axes but reject changed source conditions', async () => {
-  // 模拟转换器仅追加默认轴，确保数据和显式轴仍严格检查。
-  const { verifySpec } = await import('../__tests__/visual/helpers.mjs');
+test('source checks preserve configuration through known transformer normalization', async () => {
+  // 只允许已知的数组规范化；原轴、数据长度、函数和组件字段仍须匹配。
+  const { assertSpec } = await import('../__tests__/visual/helpers.mjs');
   const expected = { type: 'bar', axes: [{ orient: 'left', inverse: true }], data: { values: [{ x: 1, y: 2 }] } };
   let actual = { ...structuredClone(expected), axes: [...expected.axes, { orient: 'bottom' }] };
+  assertSpec(actual, expected);
+  actual.axes[0] = { orient: 'left', inverse: false };
+  assert.throws(() => assertSpec(actual, expected), /inverse/);
+  actual = structuredClone(expected);
+  actual.axes = [];
+  assert.throws(() => assertSpec(actual, expected), /spec.axes/);
+  actual = structuredClone(expected);
+  actual.data.values.push({ x: 2, y: 3 });
+  assert.throws(() => assertSpec(actual, expected), /spec.data.values/);
+  const callback = value => value * 100;
+  const components = { crosshair: { xField: { visible: true } }, indicator: { visible: false }, format: callback };
+  assertSpec({ crosshair: [components.crosshair], indicator: [components.indicator], format: callback }, components);
+  assert.throws(() => assertSpec({ ...components, crosshair: [] }, components), /组件数量/);
+  assert.throws(() => assertSpec({ ...components, indicator: [{ visible: true }] }, components), /indicator.visible/);
+  assert.throws(() => assertSpec({ ...components, format: value => value * 10 }, components), /回调配置/);
+});
+
+test('empty pie checks require a visible placeholder and reject nonzero data slices', async () => {
+  // 空数据不能直接跳过有效绘制检查；占位环消失或仍有扇区都必须失败。
+  const { verifyEmptyPie } = await import('../__tests__/visual/helpers.mjs');
+  const graphic = { attribute: { visible: true, outerRadius: 20 }, globalAABBBounds: { width: () => 40 } };
+  let slices = [];
+  const series = {
+    type: 'pie',
+    getMarks: () => [{ name: 'emptyCircle', getGraphics: () => [graphic] }],
+    getSeriesMark: () => ({ getGraphics: () => slices })
+  };
   const previous = globalThis.window;
-  globalThis.window = { __visualChart: { getSpec: () => actual } };
-  const page = { evaluate: async (fn, value) => fn(value) };
+  globalThis.window = { __visualChart: { getChart: () => ({ getAllSeries: () => [series] }) } };
+  const page = { evaluate: async fn => fn() };
   try {
-    await verifySpec(page, expected);
-    actual.axes[0] = { orient: 'left', inverse: false };
-    await assert.rejects(verifySpec(page, expected), /inverse/);
-    actual = structuredClone(expected);
-    actual.axes = [];
-    await assert.rejects(verifySpec(page, expected), /spec.axes/);
-    actual = structuredClone(expected);
-    actual.data.values.push({ x: 2, y: 3 });
-    await assert.rejects(verifySpec(page, expected), /spec.data.values/);
+    await verifyEmptyPie(page);
+    graphic.attribute.visible = false;
+    await assert.rejects(verifyEmptyPie(page), /占位环/);
+    graphic.attribute.visible = true;
+    slices = [{ attribute: { visible: true, startAngle: 0, endAngle: 1 } }];
+    await assert.rejects(verifyEmptyPie(page), /有效扇区/);
   } finally {
     if (previous === undefined) delete globalThis.window;
     else globalThis.window = previous;
