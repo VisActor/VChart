@@ -129,3 +129,31 @@ export async function verifyEmptyPie(page) {
       throw new Error('空值数据仍显示有效扇区');
   });
 }
+
+/** 定位指定系列图元；扇区取环内中点，再正向变换到页面坐标。 */
+export async function seriesGraphicCenter(page, name) {
+  return page.evaluate(name => {
+    // 扇区包围盒中心可能落在空心区域，不能用矩阵的逆变换代替正向坐标计算。
+    const series = window.__visualChart.getChart().getAllSeries();
+    const graphic = series
+      .flatMap(s =>
+        s
+          .getMarks()
+          .filter(m => m.name === name)
+          .flatMap(m => m.getGraphics())
+      )
+      .find(g => g.attribute.visible !== false && g.globalAABBBounds.width() > 0);
+    if (!graphic) throw new Error('未找到交互系列图元 ' + name);
+    const a = graphic.attribute;
+    if (a.startAngle !== undefined) {
+      const angle = (a.startAngle + a.endAngle) / 2;
+      const radius = ((a.innerRadius || 0) + a.outerRadius) / 2;
+      const x = radius * Math.cos(angle),
+        y = radius * Math.sin(angle);
+      const m = graphic.globalTransMatrix;
+      return { x: m.a * x + m.c * y + m.e, y: m.b * x + m.d * y + m.f };
+    }
+    const b = graphic.globalAABBBounds;
+    return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
+  }, name);
+}

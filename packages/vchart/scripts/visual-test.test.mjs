@@ -1,4 +1,5 @@
 import { test } from 'node:test';
+import { runInNewContext } from 'node:vm';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import path from 'node:path';
@@ -771,4 +772,31 @@ test('empty pie checks require a visible placeholder and reject nonzero data sli
     if (previous === undefined) delete globalThis.window;
     else globalThis.window = previous;
   }
+});
+
+test('series graphic coordinates use forward transforms for hollow polar marks', async () => {
+  // 极坐标定位取内外半径中点并正向变换，防止点到空心区或反向坐标。
+  const { seriesGraphicCenter } = await import('../__tests__/visual/helpers.mjs');
+  const graphic = {
+    attribute: { startAngle: 0, endAngle: Math.PI / 2, innerRadius: 20, outerRadius: 40 },
+    globalTransMatrix: { a: 0, b: 1, c: -1, d: 0, e: 400, f: 300 },
+    globalAABBBounds: { width: () => 40 }
+  };
+  const page = {
+    evaluate: (fn, name) =>
+      runInNewContext(`(${fn.toString()})(name)`, {
+        name,
+        window: {
+          __visualChart: {
+            getChart: () => ({
+              getAllSeries: () => [{ getMarks: () => [{ name: 'rose', getGraphics: () => [graphic] }] }]
+            })
+          }
+        }
+      })
+  };
+  const point = await seriesGraphicCenter(page, 'rose');
+  assert.ok(Math.abs(point.x - (400 - 30 / Math.sqrt(2))) < 1e-8);
+  assert.ok(Math.abs(point.y - (300 + 30 / Math.sqrt(2))) < 1e-8);
+  await assert.rejects(seriesGraphicCenter(page, 'missing'), /未找到交互系列图元/);
 });

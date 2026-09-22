@@ -2,7 +2,7 @@
 
 按主要验证目的存放，一份 case 一个位置，`index.mjs` 是唯一可执行清单。目录表示用例归属；修改源码时，由开发者或编码 Agent 判断需要测试哪些目录，工具不自动推断影响范围。
 
-当前共 **100 个**用例：原有十例保持不变，另外 90 例从 BugServer 原始配置迁移，均在模块头部保留来源 ID。本轮只迁移有来源证据的用例；自主新增场景另走后续流程。
+当前共 **201 个**用例：原有十例保持不变，另外 191 例从 BugServer 原始配置迁移，均在模块头部保留来源 ID。本轮只迁移有来源证据的用例；自主新增场景另走后续流程。
 
 ## 原有用例
 
@@ -179,3 +179,11 @@ BugServer 迁移项在模块文件头唯一维护 `BugServer case IDs: <id>, <id
 | charts/correlation    | [correlation-tooltip](./charts/correlation/correlation-tooltip.mjs)            | 关联图布局与悬停后的 tooltip             |
 
 本轮实测、耗时和来源审核结论见 [验收记录](./ACCEPTANCE.md)。
+
+## spec 分支与交互扩展
+
+本轮补充 101 个真实 BugServer 来源用例，详细分支和未覆盖边界见 [覆盖清单](./COVERAGE.md)。新增 `components/richtext`、`api/update` 和 `api/state` 子目录；原 `api/` 用例不迁移，`--dir api` 会递归运行全部 API 用例。
+
+选用例时先看主要目的与文件头说明，再看 `createSpec()` 中的具体分支；例如相同图表类型的富文本、状态、轴与总计应分别考虑。工具只支持全量、目录和单例，不自动推断源码影响范围。
+
+新迁移的 28 个交互用例按实际图元或公开 API 操作，保留来源操作类型及目标状态，替换旧宿主坐标。空图图例检查后恢复有效数据再截图；source 的 `triggerOff: 'none'` 用例检查保留选中，不错误断言空白点击取消。极坐标定位共用 `seriesGraphicCenter()`，取环内点并执行正向矩阵变换。
