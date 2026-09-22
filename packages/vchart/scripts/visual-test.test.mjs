@@ -201,7 +201,9 @@ test(
           });
           page.on('pageerror', error => unexpected.push(error.message));
           await page.goto(new URL(`file://${dir}/index.html`).href);
-          assert.match(await page.locator('[data-testid="selection"]').textContent(), /选中 1 \/ 10/);
+          assert.ok(
+            (await page.locator('[data-testid="selection"]').textContent()).includes(`选中 1 / ${caseMetadata.length}`)
+          );
           assert.match(await page.locator('header').textContent(), /所选用例完成比较/);
           assert.equal(
             await page.locator('a', { hasText: '查看冻结用例' }).getAttribute('href'),
@@ -387,22 +389,28 @@ test('directory selection, optional sources and frozen paths', async () => {
     await fs.cp(source, frozen, { recursive: true });
     const frozenFiles = await fileManifest(frozen);
     const all = await loadCases(frozen);
-    assert.equal(all.length, 10);
+    assert.equal(all.length, caseMetadata.length);
     assert.ok(all.every(item => item.sourceExample === undefined));
-    assert.equal(selectCases(all).length, 10);
-    assert.equal(selectCases(all, { dir: 'charts' }).length, 4);
+    assert.equal(selectCases(all).length, caseMetadata.length);
+    assert.equal(
+      selectCases(all, { dir: 'charts' }).length,
+      caseMetadata.filter(item => item.file.startsWith('./charts/')).length
+    );
     assert.deepEqual(
       selectCases(all, { dir: 'components' })
         .map(item => item.id)
         .sort(),
-      ['axis-label', 'datazoom-drag', 'legend-filter', 'pie-label', 'tooltip-hover']
+      caseMetadata
+        .filter(item => item.file.startsWith('./components/'))
+        .map(item => item.id)
+        .sort()
     );
-    assert.deepEqual(selectCases(all, { dir: 'components/label' }), selectCases(all, { case: 'pie-label' }));
+    assert.ok(selectCases(all, { dir: 'components/label' }).some(item => item.id === 'pie-label'));
     assert.deepEqual(
       selectCases([...all, { id: 'sibling', file: './components/label-other/example.mjs' }], {
         dir: 'components/label'
       }).map(item => item.id),
-      ['pie-label']
+      caseMetadata.filter(item => item.file.startsWith('./components/label/')).map(item => item.id)
     );
     for (const options of [{ dir: 'empty' }, { dir: 'missing' }, { case: 'missing' }])
       assert.throws(() => selectCases(all, options), { code: 'CASE_MANIFEST_INVALID' });
@@ -590,9 +598,9 @@ test('preparation and report failures return 2 and preserve diagnostic JSON', as
     const firstDir = path.join(runs, (await fs.readdir(runs))[0]);
     const first = JSON.parse(await fs.readFile(path.join(firstDir, 'summary.json')));
     assert.ok(first.issues.some(issue => issue.code === 'PREFLIGHT_FAILED'));
-    assert.equal(first.counts.not_run, 5);
-    assert.equal(first.selection.selectedCount, 5);
-    assert.equal(first.selection.totalCount, 10);
+    assert.equal(first.counts.not_run, caseMetadata.filter(item => item.file.startsWith('./components/')).length);
+    assert.equal(first.selection.selectedCount, first.counts.not_run);
+    assert.equal(first.selection.totalCount, caseMetadata.length);
     assert.match(first.rerun, /--self-compare --dir 'components'/);
     assert.equal(first.finalized, true);
     const unresolved = await saveReport(firstDir, {
@@ -614,7 +622,10 @@ test('preparation and report failures return 2 and preserve diagnostic JSON', as
     assert.ok(report.issues.some(issue => issue.code === 'REPORT_FAILED'));
     assert.equal(report.status, 'error');
     assert.equal(report.finalized, true);
-    assert.deepEqual(report.selection.selectedIds, ['pie-label']);
+    assert.deepEqual(
+      report.selection.selectedIds,
+      caseMetadata.filter(item => item.file.startsWith('./components/label/')).map(item => item.id)
+    );
     assert.match(report.rerun, /--self-compare --dir 'components\/label'/);
     await assert.rejects(fs.access(path.join(dir, '.vchart-visual/running.lock')));
     // 输出目录不可建立时不能尝试构建，直接返回执行错误。
@@ -672,5 +683,60 @@ test('browser installation failure is a preflight error', async () => {
     assert.match(result.stderr, /PREFLIGHT_FAILED/);
   } finally {
     await fs.rm(empty, { recursive: true, force: true });
+  }
+});
+
+test('case specs are deterministic and independently allocated', async () => {
+  // 重复创建不共享数据对象，防止一个执行阶段污染另一阶段的输入。
+  const { loadCase } = await import('../__tests__/visual/cases/index.mjs');
+  for (const metadata of caseMetadata) {
+    const item = await loadCase(metadata);
+    const first = item.createSpec();
+    const second = item.createSpec();
+    assert.deepEqual(first, second, metadata.id);
+    // 递归检查全部配置对象，兼容顶层数据及 common 系列内部数据。
+    function independent(a, b) {
+      if (!a || typeof a !== 'object') return;
+      assert.notEqual(a, b, metadata.id);
+      for (const key of Object.keys(a)) independent(a[key], b[key]);
+    }
+    independent(first, second);
+  }
+});
+
+test('migrated cases declare unique BugServer IDs in their module header', async () => {
+  // 当前无公开示例来源的用例均为迁移项，来源 ID 只在文件头维护。
+  for (const metadata of caseMetadata.filter(item => !item.sourceExample)) {
+    const code = await fs.readFile(path.join(packageDir, '__tests__/visual/cases', metadata.file), 'utf8');
+    const header = code.match(/\/\*\*[\s\S]*?\*\//)?.[0];
+    const line = header?.match(/BugServer case IDs: ([^\r\n]+)/)?.[1];
+    assert.ok(line, metadata.id);
+    const ids = line.trim().split(/,\s*/);
+    assert.ok(ids.length > 0 && ids.every(id => /^[a-f0-9]{24}$/.test(id)), metadata.id);
+    assert.equal(new Set(ids).size, ids.length, metadata.id);
+  }
+});
+
+test('source spec checks allow appended default axes but reject changed source conditions', async () => {
+  // 模拟转换器仅追加默认轴，确保数据和显式轴仍严格检查。
+  const { verifySpec } = await import('../__tests__/visual/helpers.mjs');
+  const expected = { type: 'bar', axes: [{ orient: 'left', inverse: true }], data: { values: [{ x: 1, y: 2 }] } };
+  let actual = { ...structuredClone(expected), axes: [...expected.axes, { orient: 'bottom' }] };
+  const previous = globalThis.window;
+  globalThis.window = { __visualChart: { getSpec: () => actual } };
+  const page = { evaluate: async (fn, value) => fn(value) };
+  try {
+    await verifySpec(page, expected);
+    actual.axes[0] = { orient: 'left', inverse: false };
+    await assert.rejects(verifySpec(page, expected), /inverse/);
+    actual = structuredClone(expected);
+    actual.axes = [];
+    await assert.rejects(verifySpec(page, expected), /spec.axes/);
+    actual = structuredClone(expected);
+    actual.data.values.push({ x: 2, y: 3 });
+    await assert.rejects(verifySpec(page, expected), /spec.data.values/);
+  } finally {
+    if (previous === undefined) delete globalThis.window;
+    else globalThis.window = previous;
   }
 });

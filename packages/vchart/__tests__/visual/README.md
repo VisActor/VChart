@@ -97,7 +97,7 @@ node packages/vchart/node_modules/@playwright/test/cli.js show-report .vchart-vi
 
 ## 用例约定
 
-十个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
+当前 35 个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/`、`layout/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
 
 ID 必须唯一且符合 `^[a-z][a-z0-9-]*$`；file 使用 cases 内的 `./<目录>/<name>.mjs`，目录层级和文件名使用小写字母、数字与连字符。缺文件、非法导出、越界、符号链接和空选择集在构建前失败，未登记的模块不会自动执行。
 
@@ -118,7 +118,7 @@ export default {
 };
 ```
 
-在清单中注册模块，存在真实公开示例时填写来源，然后运行 `--list`、`--check`、`--self-compare --case <id>` 及默认基线单用例比较。新增 case 顶部说明验证目的、图表类型、关键配置、场景条件、最终检查和覆盖边界；不修改原始调试示例。
+在清单中注册模块，存在真实公开示例时填写来源，然后运行 `--list`、`--check`、`--self-compare --case <id>` 及默认基线单用例比较。BugServer 迁移项在文件头填写 `BugServer case IDs: <id>, <id>`，改写保留原 ID、合并列出多个；不得将内部业务内容直接带入公开代码。新增 case 顶部说明验证目的、图表类型、关键配置、场景条件、最终检查和覆盖边界；不修改原始调试示例。
 
 `createSpec()` 不能导入本地 VChart 源码、Node API 或测试框架运行时代码，也不能加载网络数据。页面只加载指定产物；两侧共用冻结副本。`exercise()` 执行动作，`verify()` 验证实际目标状态；不能只等待固定时间或只检查图片存在。共享的场景树定位在 `helpers.mjs`，定位不到目标必须失败。
 
@@ -213,3 +213,71 @@ Linux 后续执行相同矩阵，并在公开环境验证依赖准备；双平�
 本机证据保存在 `.vchart-visual/directory-acceptance-0vPpcz/`：`before-git.json`、`before-suite/`、`reference.js`、`migration/index.html`、`runs.json`、`baseline-sha.txt`、`node-tests.log` 和各模式日志。正式报告目录记录在 `runs.json`，整个运行目录可离线查看；截图、报告和缓存均不提交 Git。
 
 目录筛选减少截图与交互次数，本地构建仍每次执行。新增用例及 Linux 平台需要完成各自的实际验收，不能用本记录替代。
+
+## 首批 60 例验收（2026-09-22）（历史记录，已被来源纠偏替代）
+
+以下 60 例报告仅保留历史执行证据，不代表当前迁移覆盖。当前集合及复核结果见文末。
+
+在原有十例上新增 50 个合成用例，当前 charts 30、components 22、data 4、layout 1、api 3。产品源码和原有十例未修改。详细目的及覆盖边界见 [目录导航](./cases/README.md)。
+
+环境：macOS arm64，Node 22.22.2，Playwright 1.63.0，Chromium 153.0.8010.12。Linux 待验收。
+
+| 检查 | 结果 |
+| --- | --- |
+| 五轮双侧自比较 | 每轮 60/60 通过，共 300 次有效比较；一次正式 CLI 全新构建，四轮复用同一冻结套件和构建 |
+| 官方 develop 全量 | 60/60 通过；SHA `67400f3fb6501f62455392089b7a7d8367cf6b9a`，基线构建缓存命中 |
+| 新增用例的目标画面变异 | 50/50 至少一种有效变异返回 diff，具有完整三图证据 |
+| 新增 API 动作抑制 | updateSpec、连续 updateData 均返回 error |
+| Node 检查 | 28/28 通过，包含旧四类交互抑制、目录范围及新 spec 独立创建检查 |
+| 目录运行 | components/marker：7/60 通过 |
+| 单用例运行 | axis-auto-hide：1/60 通过 |
+
+| 正式 CLI | 构建 | 两侧截图 | 总耗时 |
+| --- | ---: | ---: | ---: |
+| 全量自比较 | 20.8 秒 | 56.1 秒 | 78.1 秒 |
+| 官方 develop 全量 | 24.9 秒 | 57.6 秒 | 85.5 秒 |
+| 标注目录自比较 | 20.3 秒 | 8.3 秒 | 29.6 秒 |
+| 单例自比较 | 18.9 秒 | 2.7 秒 | 22.6 秒 |
+
+变异检验包括图元移位/隐藏，以及箱线图方向、标签可见性和标注填充的改变。首次部分容器变异没有改变画面，保留为无效注入记录；改用明确配置变化后检出。完整隐藏无轴图表会触发空图错误，不能将这种执行错误冒充像素差异。最终统计只使用返回 diff 且证据完整的有效变异。该检查不代表所有语义分支或历史缺陷都已覆盖。
+
+本机验收材料位于忽略目录 `.vchart-visual/first-batch-20260922/`：`acceptance-summary.json`、`stability.json`、`mutation-coverage.json`、`suppressed.json` 和 `node-tests-pass.tap`。保留各轮原生报告、冻结输入和截图；不提交生成产物。
+
+正式三图/Agent 报告位于：
+
+- 全量自比较：`.vchart-visual/runs/1790074109072-190a5e2a/index.html`，同目录含 `summary.json` 和 `agent-summary.md`。
+- 官方 develop 全量：`.vchart-visual/runs/1790074428804-ca61414b/index.html`，同目录含 `summary.json` 和 `agent-summary.md`。
+- 目录：`.vchart-visual/runs/1790074568455-7dc80d36/index.html`，同目录含 `summary.json` 和 `agent-summary.md`。
+- 单用例：`.vchart-visual/runs/1790074598134-ed57818c/index.html`，同目录含 `summary.json` 和 `agent-summary.md`。
+
+## 第一批来源迁移复核（2026-09-22，历史阶段记录）
+
+当前为原有十例加四个源码保真迁移样本，共 14 例；原有十例和产品源码未改动。原先新增的 50 例中，25 个自主设计项已撤出本次迁移，四个已对照原始代码重新迁移，21 个待复核。详见 [用例说明](./cases/README.md)。
+
+macOS 上 29 项 Node 检查通过。14 例连续五轮自比较全部通过：一轮正式 CLI 新构建，四轮复用同一冻结输入与构建。四个源条件的画面变异均检出 diff，四个在 verify 前注入的错误配置均返回 error。官方 develop `67400f3fb6501f62455392089b7a7d8367cf6b9a` 全量 14/14 通过。Linux 仍待验收。
+
+本机真实报告（忽略目录，不提交 Git）：
+
+- 自比较：`.vchart-visual/runs/1790076261774-503c632b/index.html`。
+- 官方 develop：`.vchart-visual/runs/1790076433426-d72c52cd/index.html`。
+
+每个目录均包含 `summary.json`、`agent-summary.md`、冻结输入及截图；精确阶段耗时记录在 `summary.json` 的 `timings` 字段。源码审查证据和内部映射另存私有目录，不进入公开仓库。截图一致不等于证明历史缺陷全部复现。
+
+## 第二批来源迁移验收（2026-09-22，当前有效集合）
+
+当前 35 例：十个原有公开示例用例加 25 个 BugServer 来源迁移用例。第二批接入 21 例，分别保留不同箱线图、进度图、网格布局、标签及状态更新条件；三份不适合本轮迁移的来源暂缓，未带入公开代码。全部来源 ID 在对应 `.mjs` 文件头维护。
+
+macOS 最终 35 例连续五轮自比较通过（一轮正式 CLI 新构建，四轮复用冻结输入）。官方 develop `67400f3fb6501f62455392089b7a7d8367cf6b9a` 全量 35/35 通过，基线构建缓存命中。30 项 Node 检查通过；第二批 21 类关键条件视觉变异全部被检出，错误配置及无效状态动作检查保留诊断证据。新增独立对象检查涵盖 common 系列内部数据；轴断言允许转换器在原轴后追加默认轴，仍严格核对原轴及其他数据数组。
+
+| 正式运行 | 本地构建 | 两侧截图 | 总耗时 |
+| --- | ---: | ---: | ---: |
+| 全量自比较 | 24.8 秒 | 37.2 秒 | 63.5 秒 |
+| 官方 develop 全量 | 31.0 秒 | 39.0 秒 | 73.9 秒 |
+
+本机验收期间部分独立检查并行执行，上述耗时不是性能保证。Linux 仍待独立验收。
+
+- 自比较三图报告：`.vchart-visual/runs/1790078700626-084a3123/index.html`。
+- 官方 develop 三图报告：`.vchart-visual/runs/1790078793166-ae406f27/index.html`。
+- 每个运行目录均有 `summary.json`、`agent-summary.md`、冻结输入、截图及分阶段耗时。
+
+内部模型复核、原始源码及迁移审批记录留在私有准备目录，不进入公开仓库。模型意见经过来源对照和浏览器验证；模型认为保真不等于证明历史缺陷全部复现。
