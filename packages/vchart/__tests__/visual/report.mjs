@@ -11,6 +11,24 @@ function escape(value) {
     .replaceAll("'", '&#39;');
 }
 
+/** 复现参数以单引号包裹，避免目录或报告文字被 shell 解释。 */
+function quote(value) {
+  return `'${String(value).replaceAll("'", "'\\''")}'`;
+}
+
+/** 人与 Agent 共用范围说明；未选用例不被描述为已通过。 */
+function selectionDescription(report) {
+  const selection = report.selection;
+  if (!selection) return `范围未记录；本次记录 ${report.cases.length} 个用例`;
+  const label =
+    selection.mode === 'all'
+      ? '全部本地用例'
+      : `${selection.mode === 'directory' ? '目录' : '单用例'} ${selection.value}`;
+  return `${label}；选中 ${selection.selectedCount} / ${selection.totalCount}；其余 ${
+    selection.totalCount - selection.selectedCount
+  } 个未执行`;
+}
+
 /** 将已存在的运行内文件转换为可搬迁的相对路径，拒绝越界引用。 */
 async function artifact(runDir, relative) {
   if (!relative || path.isAbsolute(relative) || relative.split(/[\\/]/).includes('..')) return null;
@@ -27,6 +45,27 @@ export async function saveReport(runDir, summary) {
   const phases = {};
   const reportStarted = performance.now();
   const issues = [...(summary.issues ?? [])];
+  const selection = summary.selection;
+  if (
+    selection &&
+    (!['all', 'directory', 'case'].includes(selection.mode) ||
+      !Number.isSafeInteger(selection.totalCount) ||
+      selection.totalCount < summary.cases.length ||
+      selection.selectedCount !== summary.cases.length ||
+      !Array.isArray(selection.selectedIds) ||
+      selection.selectedIds.length !== summary.cases.length ||
+      new Set(selection.selectedIds).size !== summary.cases.length ||
+      summary.cases.some(item => !selection.selectedIds.includes(item.id)) ||
+      (selection.mode === 'all' && (selection.value !== null || selection.totalCount !== selection.selectedCount)) ||
+      (selection.mode !== 'all' && typeof selection.value !== 'string') ||
+      (selection.mode === 'case' && (selection.selectedCount !== 1 || selection.selectedIds[0] !== selection.value)))
+  )
+    issues.push({
+      phase: 'report',
+      category: 'execution',
+      code: 'RESULT_SET_MISMATCH',
+      message: '报告范围与选中用例集合不一致'
+    });
   for (const phase of ['baseline', 'current']) {
     phases[phase] = summary[`${phase}Result`];
     if (!phases[phase]) {
@@ -56,11 +95,13 @@ export async function saveReport(runDir, summary) {
     if (result.finalized === false)
       issues.push({ phase, category: 'execution', code: 'RUN_INCOMPLETE', message: '阶段异常结束，保留已完成用例' });
   }
+  // 预检失败时尚未解析基线，复现仍应保留用户请求的 SHA 或自比较模式。
+  const baselineSha = summary.baseline?.sha ?? summary.request?.baseline;
   const baselineArg =
-    summary.baseline?.repository === 'working-tree'
+    summary.baseline?.repository === 'working-tree' || summary.request?.['self-compare']
       ? '--self-compare'
-      : summary.baseline?.sha
-      ? `--baseline ${summary.baseline.sha}`
+      : baselineSha
+      ? `--baseline ${baselineSha}`
       : '';
   const cases = [];
   for (const item of summary.cases) {
@@ -135,10 +176,7 @@ export async function saveReport(runDir, summary) {
       images,
       attachments,
       errors,
-      rerun: `node packages/vchart/scripts/visual-test.mjs ${baselineArg} --case '${item.id.replaceAll(
-        "'",
-        "'\\''"
-      )}'`.replace('  ', ' ')
+      rerun: `node packages/vchart/scripts/visual-test.mjs ${baselineArg} --case ${quote(item.id)}`.replace('  ', ' ')
     });
   }
   const counts = Object.fromEntries(
@@ -171,6 +209,17 @@ export async function saveReport(runDir, summary) {
     cases,
     issues,
     logs,
+    rerun: selection
+      ? [
+          'node packages/vchart/scripts/visual-test.mjs',
+          baselineArg,
+          selection.mode === 'all'
+            ? ''
+            : `${selection.mode === 'directory' ? '--dir' : '--case'} ${quote(selection.value)}`
+        ]
+          .filter(Boolean)
+          .join(' ')
+      : null,
     environment: {
       ...summary.environment,
       browser: phases.current?.browser ?? phases.baseline?.browser ?? summary.environment.browser
@@ -195,6 +244,8 @@ function agentSummary(report) {
     '# VChart 视觉回归结果',
     '',
     `状态：${report.status}；完整比较：${report.complete}；${JSON.stringify(report.counts)}`,
+    `测试范围：${selectionDescription(report)}`,
+    ...(report.rerun ? [`本次范围复现：\`${report.rerun}\``] : []),
     '',
     `基线：${report.baseline?.repository ?? '未解析'} @ ${report.baseline?.sha ?? '未解析'}`,
     `本地：${report.local?.head ?? '未知'}；dirty=${report.local?.dirty ?? '未知'}；工作区摘要=${
@@ -308,18 +359,28 @@ function renderHtml(report) {
   <style>
   *{box-sizing:border-box}body{margin:0;background:#f4f6fa;color:#18283e;font:14px/1.6 system-ui,sans-serif}header{background:#14243a;color:white;padding:24px 32px}header p{color:#cbd5e1;margin:4px 0}h1{font-size:24px;margin:0 0 8px}h2{font-size:19px;margin:0}h3{font-size:14px}main{max-width:1600px;margin:auto;padding:24px}a{color:#175bcc}header a{color:#a8c9ff}nav{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px}.stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}.stat,article,.run-error,.metadata{background:white;border:1px solid #dce2ec;border-radius:8px;padding:18px}.stat{flex:1;min-width:130px}.stat strong{font-size:25px;display:block}.filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:18px 0}select,button{font:inherit;padding:6px 10px;border:1px solid #bcc8d9;background:white;border-radius:5px;color:#18283e}button{cursor:pointer}article{margin:18px 0}.case-title{display:flex;gap:14px;align-items:center}.badge{padding:2px 10px;border-radius:20px}.passed{color:#176642;background:#e7f5eb}.diff{color:#8a5000;background:#fff2ce}.error{color:#b12733;background:#ffebee}.not_run{color:#536077;background:#edf0f5}.images{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}figure{margin:0;border:1px solid #dce2ec;border-radius:4px;overflow:hidden;background:#fff}figcaption{padding:10px;background:#f7f9fc;border-bottom:1px solid #dce2ec;font-weight:600}img{width:100%;display:block}.empty{aspect-ratio:5/4;display:grid;place-items:center;color:#68758a;text-align:center;padding:20px}.source{color:#68758a;overflow-wrap:anywhere}.command{display:flex;gap:12px;align-items:center;background:#f4f6fa;padding:10px}.command code{flex:1;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f4f6fa;padding:12px}details{margin-top:12px}summary{cursor:pointer}.run-error{border-left:4px solid #bd3340;margin:12px 0}[hidden]{display:none!important}@media(max-width:760px){header{padding:20px}main{padding:12px}.images{overflow-x:auto;grid-template-columns:repeat(3,300px)}.command{align-items:flex-start;flex-direction:column}}
   </style></head><body><header><h1>VChart 视觉回归 · ${labels[report.status]}</h1><p>${escape(report.startedAt)} · ${
-    report.complete ? '所有用例完成比较' : '比较未完整完成'
+    report.complete ? '所选用例完成比较' : '比较未完整完成'
   } · ${escape(report.environment.platform)} / ${escape(report.environment.arch)} · Chromium ${escape(
     report.environment.browser ?? '未启动'
   )}</p><p>基线 ${escape(report.baseline?.sha ?? '未解析')} · 本地 ${escape(report.local?.head ?? '未解析')}${
     report.local?.dirty ? '（有未提交修改）' : ''
-  }</p><nav>${link('summary.json', '结构化 JSON')}${link('agent-summary.md', 'Agent 摘要')}${Object.values(report.logs)
+  }</p><p data-testid="selection">${escape(selectionDescription(report))}</p><nav>${link(
+    'summary.json',
+    '结构化 JSON'
+  )}${link('agent-summary.md', 'Agent 摘要')}${Object.values(report.logs)
     .map(file => link(file, file))
     .join('')}</nav></header>
   <main><div class="stats">${Object.entries(report.counts)
     .map(([status, count]) => `<div class="stat"><strong>${count}</strong>${labels[status]}</div>`)
     .join('')}</div>
   <p>同机、同一套用例对比。点击图片打开原图；视觉差异需要审查，不自动判为缺陷。</p>
+  ${
+    report.rerun
+      ? `<p>本次范围复现：</p><div class="command"><code>${escape(
+          report.rerun
+        )}</code><button type="button" class="copy">复制命令</button></div>`
+      : ''
+  }
   ${report.issues
     .map(
       issue =>
@@ -341,6 +402,7 @@ function renderHtml(report) {
     JSON.stringify(
       {
         local: report.local,
+        selection: report.selection,
         baseline: report.baseline,
         environment: report.environment,
         suiteDigest: report.suiteDigest,

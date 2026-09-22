@@ -5,7 +5,15 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { parseOptions } from './visual-test.mjs';
-import { executePhase as runPhase, loadCases, validateResults, acquireLock, runVisual } from './visual/runner.mjs';
+import {
+  executePhase as runPhase,
+  loadCases,
+  selectCases,
+  validateResults,
+  acquireLock,
+  runVisual
+} from './visual/runner.mjs';
+import { cases as caseMetadata } from '../__tests__/visual/cases/index.mjs';
 import { createRuntime, serve, fileManifest, cleanupAll } from './visual/runtime.mjs';
 import { readCache, publishCache, build, workingTree } from './visual/build.mjs';
 const runtime = createRuntime();
@@ -34,6 +42,18 @@ test('CLI rejects unknown cases and conflicting baseline options', () => {
   for (const args of [
     ['--case', 'missing'],
     ['--case', ''],
+    ['--dir', 'missing'],
+    ['--dir', 'components/empty'],
+    ['--dir', ''],
+    ['--dir', '/components'],
+    ['--dir', '../components'],
+    ['--dir', 'components/../charts'],
+    ['--dir', 'components/*'],
+    ['--dir', 'components\\label'],
+    ['--dir', 'components', '--case', 'pie-label'],
+    ['--dir', 'components', '--dir=charts'],
+    ['--list', '--dir', 'components'],
+    ['--check', '--dir', 'components'],
     ['--baseline', ''],
     ['--baseline', 'a'.repeat(40), '--self-compare'],
     ['--update-snapshots'],
@@ -43,6 +63,7 @@ test('CLI rejects unknown cases and conflicting baseline options', () => {
   ]) {
     const result = spawnSync(process.execPath, [path.join(packageDir, 'scripts/visual-test.mjs'), ...args]);
     assert.equal(result.status, 2, result.stderr.toString());
+    assert.ok(!result.stdout.toString().includes('构建当前工作区'), '选择错误不得进入构建');
   }
 });
 
@@ -60,17 +81,29 @@ test(
     await fs.writeFile(path.join(dir, 'baseline.js'), bundle);
     await fs.writeFile(path.join(dir, 'current.js'), bundle);
     const { server, url } = await serve(dir);
+    const barFile = caseMetadata.find(item => item.id === 'bar-stack').file.slice(2);
     // 真实阶段产物用于验证三图与结构化报告保持一致。
     const summary = () => ({
       status: 'passed',
       environment: {},
       baseline: { repository: 'official', sha: 'a'.repeat(40) },
       local: { head: 'b'.repeat(40), dirty: true },
+      selection: {
+        mode: 'directory',
+        value: 'charts/bar',
+        selectedIds: ['bar-stack'],
+        selectedCount: 1,
+        totalCount: caseMetadata.length
+      },
       cases: [
         {
           id: 'bar-stack',
           purpose: '颜色对比',
-          source: { path: 'packages/vchart/__tests__/visual/cases.mjs', line: 38, frozenPath: 'suite/cases.mjs' }
+          source: {
+            path: `packages/vchart/__tests__/visual/cases/${barFile}`,
+            line: 1,
+            frozenPath: `suite/cases/${barFile}`
+          }
         }
       ]
     });
@@ -79,6 +112,48 @@ test(
         // 同一构建分别生成基线和本地图像。
         assert.equal((await executePhase(dir, 'baseline', url, 'bar-stack')).status, 'passed');
         assert.equal((await executePhase(dir, 'current', url, 'bar-stack')).status, 'passed');
+      });
+      await t.test('scope reports preserve exact selection and reject inconsistent metadata', async () => {
+        // 同一真实图片用于检查范围协议，不把未选用例计为未完成或已通过。
+        for (const selection of [
+          summary().selection,
+          { mode: 'case', value: 'bar-stack', selectedIds: ['bar-stack'], selectedCount: 1, totalCount: 10 },
+          { mode: 'all', value: null, selectedIds: ['bar-stack'], selectedCount: 1, totalCount: 1 }
+        ]) {
+          const report = await saveReport(dir, { ...summary(), selection, baseline: { repository: 'working-tree' } });
+          assert.equal(report.status, 'passed');
+          assert.equal(report.complete, true);
+          assert.deepEqual(report.selection, selection);
+          assert.equal(report.counts.passed, 1);
+          assert.equal(report.counts.not_run, 0);
+          assert.match(report.rerun, /--self-compare/);
+          assert.ok(!report.rerun.includes('--baseline'));
+          const flag =
+            selection.mode === 'directory'
+              ? "--dir 'charts/bar'"
+              : selection.mode === 'case'
+              ? "--case 'bar-stack'"
+              : '';
+          assert.equal(
+            report.rerun,
+            `node packages/vchart/scripts/visual-test.mjs --self-compare${flag ? ` ${flag}` : ''}`
+          );
+          const expected = `选中 1 / ${selection.totalCount}；其余 ${selection.totalCount - 1} 个未执行`;
+          assert.ok((await fs.readFile(path.join(dir, 'index.html'), 'utf8')).includes(expected));
+          assert.ok((await fs.readFile(path.join(dir, 'agent-summary.md'), 'utf8')).includes(expected));
+          await fs.access(path.join(dir, report.cases[0].source.frozenPath));
+        }
+        for (const override of [
+          { selectedIds: ['unknown'] },
+          { selectedCount: 2 },
+          { totalCount: 0 },
+          { mode: 'all', value: null }
+        ]) {
+          const report = await saveReport(dir, { ...summary(), selection: { ...summary().selection, ...override } });
+          assert.equal(report.status, 'error');
+          assert.equal(report.complete, false);
+          assert.ok(report.issues.some(issue => issue.code === 'RESULT_SET_MISMATCH'));
+        }
       });
       await t.test('candidate-only color change is a visual difference', async () => {
         // 只修改候选构建的行为，两侧用例代码保持完全一致。
@@ -110,6 +185,7 @@ test(
           await fs.access(path.join(dir, file));
         }
         assert.match(report.cases[0].rerun, /--baseline a{40} --case 'bar-stack'/);
+        assert.match(report.rerun, /--baseline a{40} --dir 'charts\/bar'/);
         assert.ok(!JSON.stringify(report).includes('base64'));
         const markdown = await fs.readFile(path.join(dir, 'agent-summary.md'), 'utf8');
         assert.match(markdown, /bar-stack — diff/);
@@ -125,6 +201,12 @@ test(
           });
           page.on('pageerror', error => unexpected.push(error.message));
           await page.goto(new URL(`file://${dir}/index.html`).href);
+          assert.match(await page.locator('[data-testid="selection"]').textContent(), /选中 1 \/ 10/);
+          assert.match(await page.locator('header').textContent(), /所选用例完成比较/);
+          assert.equal(
+            await page.locator('a', { hasText: '查看冻结用例' }).getAttribute('href'),
+            `suite/cases/${barFile}`
+          );
           await page.locator('article img').last().scrollIntoViewIfNeeded();
           await page.waitForFunction(() =>
             [...document.querySelectorAll('article img')].every(image => image.complete && image.naturalWidth > 0)
@@ -139,6 +221,7 @@ test(
           try {
             await fs.cp(dir, moved, { recursive: true, filter: source => !source.includes('node_modules') });
             await page.goto(new URL(`file://${moved}/index.html`).href);
+            await fs.access(path.join(moved, `suite/cases/${barFile}`));
             await page.locator('article img').last().scrollIntoViewIfNeeded();
             await page.waitForFunction(() => [...document.images].every(image => image.complete && image.naturalWidth));
           } finally {
@@ -228,8 +311,9 @@ test(
         const config = await fs.readFile(configFile, 'utf8');
         await fs.writeFile(configFile, config.replace('timeout: 30000', 'timeout: 1500'));
         for (const id of ['legend-filter', 'tooltip-hover', 'datazoom-drag', 'update-resize']) {
-          const casesFile = path.join(dir, `suite/cases/${id}.mjs`);
+          const casesFile = path.join(dir, 'suite/cases', caseMetadata.find(item => item.id === id).file);
           const original = await fs.readFile(casesFile, 'utf8');
+          assert.ok(original.includes('export default {'), '故障注入必须命中真实模块');
           // 替换模块的动作，保留原始 verify；不依赖某一行鼠标代码的格式。
           await fs.writeFile(
             casesFile,
@@ -283,6 +367,89 @@ test('preparation errors preserve not-run cases and escape HTML', async () => {
   }
 });
 
+test('directory selection, optional sources and frozen paths', async () => {
+  // 用独立副本模拟未登记文件和工作区变化，不修改仓库 case。
+  const dir = await fs.mkdtemp(path.join(root, '.vchart-visual/directory-contracts-'));
+  try {
+    const source = path.join(dir, 'source');
+    const frozen = path.join(dir, 'frozen');
+    await fs.cp(path.join(packageDir, '__tests__/visual'), source, { recursive: true });
+    const index = path.join(source, 'cases/index.mjs');
+    const original = await fs.readFile(index, 'utf8');
+    const optional = original.replace(/,\s*sourceExample: '[^']*'/g, '');
+    assert.notEqual(optional, original);
+    await fs.writeFile(index, optional);
+    await fs.mkdir(path.join(source, 'cases/empty'));
+    await fs.writeFile(
+      path.join(source, 'cases/unregistered.mjs'),
+      'throw new Error("must not import unregistered case");'
+    );
+    await fs.cp(source, frozen, { recursive: true });
+    const frozenFiles = await fileManifest(frozen);
+    const all = await loadCases(frozen);
+    assert.equal(all.length, 10);
+    assert.ok(all.every(item => item.sourceExample === undefined));
+    assert.equal(selectCases(all).length, 10);
+    assert.equal(selectCases(all, { dir: 'charts' }).length, 4);
+    assert.deepEqual(
+      selectCases(all, { dir: 'components' })
+        .map(item => item.id)
+        .sort(),
+      ['axis-label', 'datazoom-drag', 'legend-filter', 'pie-label', 'tooltip-hover']
+    );
+    assert.deepEqual(selectCases(all, { dir: 'components/label' }), selectCases(all, { case: 'pie-label' }));
+    assert.deepEqual(
+      selectCases([...all, { id: 'sibling', file: './components/label-other/example.mjs' }], {
+        dir: 'components/label'
+      }).map(item => item.id),
+      ['pie-label']
+    );
+    for (const options of [{ dir: 'empty' }, { dir: 'missing' }, { case: 'missing' }])
+      assert.throws(() => selectCases(all, options), { code: 'CASE_MANIFEST_INVALID' });
+    assert.throws(() => selectCases(all, { dir: '../components' }), { code: 'INVALID_ARGUMENT' });
+    assert.throws(() => selectCases(all, { dir: 'components', case: 'pie-label' }), { code: 'INVALID_ARGUMENT' });
+    for (const args of [
+      ['--dir', 'components'],
+      ['--dir', 'components', '--baseline', 'a'.repeat(40)],
+      ['--dir', 'api', '--self-compare']
+    ])
+      assert.ok(parseOptions(args).dir);
+    // 已冻结输入不受原副本后续删除模块或重写清单影响。
+    await fs.writeFile(index, 'export const cases=[];');
+    await fs.rm(path.join(source, 'cases/components'), { recursive: true });
+    assert.deepEqual(
+      (await loadCases(frozen)).map(item => item.id),
+      all.map(item => item.id)
+    );
+    assert.deepEqual(await fileManifest(frozen), frozenFiles);
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
+});
+
+test('symlinked case files and parent directories fail before import', async () => {
+  // 文件和祖先目录都不能把清单导入指向套件外。
+  const dir = await fs.mkdtemp(path.join(root, '.vchart-visual/directory-links-'));
+  try {
+    for (const [index, relative] of [
+      'cases',
+      'cases/components',
+      'cases/components/label',
+      `cases/${caseMetadata[0].file.slice(2)}`
+    ].entries()) {
+      const suite = path.join(dir, `suite-${index}`);
+      await fs.cp(path.join(packageDir, '__tests__/visual'), suite, { recursive: true });
+      const target = path.join(suite, relative);
+      const outside = path.join(dir, `outside-${index}`);
+      await fs.rename(target, outside);
+      await fs.symlink(outside, target);
+      await assert.rejects(loadCases(suite), { code: 'CASE_MANIFEST_INVALID' });
+    }
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('manifest, result identity, caches, locks and cleanup contracts', async t => {
   // 使用独立目录覆盖不会通过正常截图触发的边界，不引入新测试框架。
   const dir = await fs.mkdtemp(path.join(root, '.vchart-visual/contracts-'));
@@ -297,8 +464,8 @@ test('manifest, result identity, caches, locks and cleanup contracts', async t =
     await t.test('manifest failures and nested fingerprint', async () => {
       for (const [index, transform] of [
         [0, text => text.replace("id: 'line-gap'", "id: 'bar-stack'")],
-        [1, text => text.replace("file: './bar-stack.mjs'", "file: '../../escape.mjs'")],
-        [2, text => text.replace("file: './bar-stack.mjs'", "file: './missing.mjs'")]
+        [1, text => text.replace(`file: '${caseMetadata[0].file}'`, "file: '../../escape.mjs'")],
+        [2, text => text.replace(`file: '${caseMetadata[0].file}'`, "file: './missing.mjs'")]
       ]) {
         const suite = path.join(dir, `suite-${index}`);
         await fs.cp(path.join(packageDir, '__tests__/visual'), suite, { recursive: true });
@@ -317,7 +484,7 @@ test('manifest, result identity, caches, locks and cleanup contracts', async t =
       await assert.rejects(loadCases(empty), { code: 'CASE_MANIFEST_INVALID' });
       const suite = path.join(dir, 'invalid-export');
       await fs.cp(path.join(packageDir, '__tests__/visual'), suite, { recursive: true });
-      await fs.writeFile(path.join(suite, 'cases/bar-stack.mjs'), 'export default {createSpec(){return {};}};');
+      await fs.writeFile(path.join(suite, 'cases', caseMetadata[0].file), 'export default {createSpec(){return {};}};');
       await assert.rejects(loadCases(suite), { code: 'CASE_MANIFEST_INVALID' });
       const before = await fileManifest(suite);
       await fs.writeFile(path.join(suite, 'cases/nested-data.json'), '{}');
@@ -365,6 +532,8 @@ test('manifest, result identity, caches, locks and cleanup contracts', async t =
       ]);
       assert.equal(result.status, 0, result.stderr.toString());
       assert.ok(parseOptions(['--help', '--list', '--check']).help);
+      assert.ok(parseOptions(['--help', '--dir', '../invalid']).help);
+      assert.throws(() => parseOptions(['--help', '--unknown']), { code: 'INVALID_ARGUMENT' });
       assert.equal(spawnSync(process.execPath, [cli, '--help']).status, 0);
     });
     await t.test('old bundle removed even if successful command produces nothing', async () => {
@@ -416,25 +585,37 @@ test('preparation and report failures return 2 and preserve diagnostic JSON', as
     await fs.cp(path.join(packageDir, '__tests__/visual'), path.join(dir, 'packages/vchart/__tests__/visual'), {
       recursive: true
     });
-    assert.equal(await runVisual(dir, { 'self-compare': true }), 2);
+    assert.equal(await runVisual(dir, { 'self-compare': true, dir: 'components' }), 2);
     const runs = path.join(dir, '.vchart-visual/runs');
-    const first = JSON.parse(await fs.readFile(path.join(runs, (await fs.readdir(runs))[0], 'summary.json')));
+    const firstDir = path.join(runs, (await fs.readdir(runs))[0]);
+    const first = JSON.parse(await fs.readFile(path.join(firstDir, 'summary.json')));
     assert.ok(first.issues.some(issue => issue.code === 'PREFLIGHT_FAILED'));
-    assert.equal(first.counts.not_run, 10);
+    assert.equal(first.counts.not_run, 5);
+    assert.equal(first.selection.selectedCount, 5);
+    assert.equal(first.selection.totalCount, 10);
+    assert.match(first.rerun, /--self-compare --dir 'components'/);
     assert.equal(first.finalized, true);
+    const unresolved = await saveReport(firstDir, {
+      ...first,
+      request: { baseline: 'c'.repeat(40), dir: 'components' }
+    });
+    assert.match(unresolved.rerun, /--baseline c{40} --dir 'components'/);
+    assert.equal(unresolved.status, 'error');
     const write = fs.writeFile.bind(fs);
     const mocked = t.mock.method(fs, 'writeFile', async (file, ...args) => {
       if (String(file).endsWith('index.html'))
         throw Object.assign(new Error('intentional report write failure'), { code: 'EACCES' });
       return write(file, ...args);
     });
-    assert.equal(await runVisual(dir, { 'self-compare': true }), 2);
+    assert.equal(await runVisual(dir, { 'self-compare': true, dir: 'components/label' }), 2);
     mocked.mock.restore();
     const latest = (await fs.readdir(runs)).sort().at(-1);
     const report = JSON.parse(await fs.readFile(path.join(runs, latest, 'summary.json')));
     assert.ok(report.issues.some(issue => issue.code === 'REPORT_FAILED'));
     assert.equal(report.status, 'error');
     assert.equal(report.finalized, true);
+    assert.deepEqual(report.selection.selectedIds, ['pie-label']);
+    assert.match(report.rerun, /--self-compare --dir 'components\/label'/);
     await assert.rejects(fs.access(path.join(dir, '.vchart-visual/running.lock')));
     // 输出目录不可建立时不能尝试构建，直接返回执行错误。
     const blocked = path.join(dir, 'blocked');

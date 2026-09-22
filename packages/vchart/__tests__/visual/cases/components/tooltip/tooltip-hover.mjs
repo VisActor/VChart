@@ -1,6 +1,13 @@
-import {} from '../helpers.mjs';
+import {} from '../../../helpers.mjs';
 
-/** 鼠标悬停后的 HTML tooltip（tooltip）。 */
+/**
+ * 验证目的：鼠标悬停后的 HTML tooltip（tooltip）。
+ * 图表类型：bar。
+ * 关键配置：tooltip.visible、tooltip.renderMode、tooltip.transitionDuration。
+ * 场景条件：固定三根正值柱，定位到 B 柱内部。
+ * 最终检查：鼠标悬停后验证 HTML tooltip 可见且含数值 50，再截取页面。
+ * 覆盖边界：不验证其他触发模式、维度 tooltip 或自定义内容。
+ */
 export default {
   createSpec() {
     // 单组正值柱图便于可靠定位柱体内部。

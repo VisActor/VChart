@@ -1,6 +1,13 @@
-import { graphicCenter } from '../helpers.mjs';
+import { graphicCenter } from '../../../helpers.mjs';
 
-/** 拖动后的可视范围（datazoom）。 */
+/**
+ * 验证目的：拖动后的可视范围（datazoom）。
+ * 图表类型：bar。
+ * 关键配置：dataZoom[].start、dataZoom[].end、dataZoom[].filterMode。
+ * 场景条件：固定十二条数据，初始范围为完整区间。
+ * 最终检查：拖动起始手柄，验证 start 大于 0.1 且可视数据少于十二条。
+ * 覆盖边界：不验证滚动条、缩放后更新数据或全部交互组合。
+ */
 export default {
   createSpec() {
     // 给缩放控件留出明确的初始范围。

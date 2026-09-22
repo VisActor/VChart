@@ -7,13 +7,15 @@ import { loadCases, preflight, runVisual } from './visual/runner.mjs';
 
 /** 解析公共命令；帮助不加载 Playwright，非法选项仍明确报错。 */
 export function parseOptions(args) {
-  let values;
+  let values, tokens;
   try {
-    ({ values } = parseArgs({
+    ({ values, tokens } = parseArgs({
       args,
+      tokens: true,
       options: {
         baseline: { type: 'string' },
         case: { type: 'string' },
+        dir: { type: 'string' },
         'self-compare': { type: 'boolean' },
         list: { type: 'boolean' },
         check: { type: 'boolean' },
@@ -24,11 +26,17 @@ export function parseOptions(args) {
     throw fault('INVALID_ARGUMENT', error.message, error);
   }
   if (values.help) return values;
+  if (tokens.filter(token => token.kind === 'option' && token.name === 'dir').length > 1)
+    throw fault('INVALID_ARGUMENT', '--dir 只能指定一次');
+  if (values.dir !== undefined && !/^[a-z][a-z0-9-]*(\/[a-z][a-z0-9-]*)*$/.test(values.dir))
+    throw fault('INVALID_ARGUMENT', '--dir 需要 cases 内的相对目录，例如 components/label');
+  if (values.dir !== undefined && values.case !== undefined) throw fault('INVALID_ARGUMENT', '--dir 与 --case 互斥');
   if (
     (values.list || values.check) &&
     ((values.list && values.check) ||
       values.baseline !== undefined ||
       values.case !== undefined ||
+      values.dir !== undefined ||
       values['self-compare'])
   )
     throw fault('INVALID_ARGUMENT', '--list/--check 必须独立使用');
@@ -45,14 +53,16 @@ async function main() {
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
   if (options.help) {
     console.log(
-      'node packages/vchart/scripts/visual-test.mjs [--baseline <40位SHA>] [--case <id>] [--self-compare]\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
+      'node packages/vchart/scripts/visual-test.mjs [--baseline <40位SHA> | --self-compare] [--dir <目录> | --case <id>]\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
     );
     return;
   }
   if (options.list || options.check) {
     const cases = await loadCases(path.join(root, 'packages/vchart/__tests__/visual'));
     if (options.list) {
-      console.log(cases.map(item => `${item.id}\t${item.purpose}\t${item.file}\t${item.sourceExample}`).join('\n'));
+      console.log(
+        cases.map(item => `${item.id}\t${item.purpose}\t${item.file}\t${item.sourceExample ?? ''}`).join('\n')
+      );
       return;
     }
     await fs.mkdir(path.join(root, '.vchart-visual'), { recursive: true });

@@ -10,6 +10,9 @@ import { saveReport } from '../../__tests__/visual/report.mjs';
 /** 验证元数据和可执行契约，只导入实际使用的清单目录。 */
 export async function loadCases(suite, caseId) {
   try {
+    // 列举也检查全部目录，导入前拒绝父目录和辅助资源中的符号链接。
+    if ((await fs.lstat(path.join(suite, 'cases'))).isSymbolicLink()) throw new Error('cases 不能为符号链接');
+    await fileManifest(path.join(suite, 'cases'));
     const { cases, loadCase } = await import(pathToFileURL(path.join(suite, 'cases/index.mjs')));
     if (!Array.isArray(cases) || !cases.length) throw new Error('用例清单为空');
     const ids = new Set();
@@ -18,9 +21,9 @@ export async function loadCases(suite, caseId) {
       ids.add(item.id);
       if (
         !item.purpose ||
-        !item.sourceExample ||
+        (item.sourceExample !== undefined && (typeof item.sourceExample !== 'string' || !item.sourceExample.trim())) ||
         typeof item.file !== 'string' ||
-        !/^\.\/[a-z][a-z0-9-]*\.mjs$/.test(item.file)
+        !/^\.\/([a-z][a-z0-9-]*\/)*[a-z][a-z0-9-]*\.mjs$/.test(item.file)
       )
         throw new Error(`非法用例元数据：${item.id}`);
       const file = path.join(suite, 'cases', item.file);
@@ -33,12 +36,25 @@ export async function loadCases(suite, caseId) {
       )
         throw new Error(`非法用例导出：${item.id}`);
     }
-    const selected = cases.filter(item => caseId === undefined || item.id === caseId);
-    if (!selected.length) throw new Error(`未知用例：${caseId}`);
-    return selected;
+    return selectCases(cases, { case: caseId });
   } catch (error) {
     throw fault('CASE_MANIFEST_INVALID', error.message, error);
   }
+}
+/** 从已验证的冻结清单选择准确范围；目录按层级匹配，不自动扩大或发现文件。 */
+export function selectCases(cases, options = {}) {
+  if (options.case !== undefined && options.dir !== undefined) throw fault('INVALID_ARGUMENT', '--dir 与 --case 互斥');
+  if (options.dir !== undefined && !/^[a-z][a-z0-9-]*(\/[a-z][a-z0-9-]*)*$/.test(options.dir))
+    throw fault('INVALID_ARGUMENT', '非法用例目录');
+  const selected = cases.filter(item =>
+    options.case !== undefined
+      ? item.id === options.case
+      : options.dir !== undefined
+      ? item.file.startsWith(`./${options.dir}/`)
+      : true
+  );
+  if (!selected.length) throw fault('CASE_MANIFEST_INVALID', `没有匹配用例：${options.dir ?? options.case ?? '全部'}`);
+  return selected;
 }
 /** 延迟加载 Playwright，确保帮助和列举不依赖浏览器安装。 */
 export function playwright(root) {
@@ -195,7 +211,16 @@ export async function runVisual(root, options) {
       timezoneId: settings.timezoneId,
       fontFamily: settings.fontFamily
     };
-    const selected = await loadCases(suite, options.case);
+    const allCases = await loadCases(suite);
+    const selected = selectCases(allCases, options);
+    report.selection = {
+      mode: options.dir !== undefined ? 'directory' : options.case !== undefined ? 'case' : 'all',
+      value: options.dir ?? options.case ?? null,
+      selectedIds: selected.map(item => item.id),
+      selectedCount: selected.length,
+      totalCount: allCases.length
+    };
+    console.log(`测试范围：${report.selection.value ?? '全部本地用例'}；选中 ${selected.length} / ${allCases.length}`);
     report.cases = selected.map(({ id, purpose, file, sourceExample }) => ({
       id,
       purpose,

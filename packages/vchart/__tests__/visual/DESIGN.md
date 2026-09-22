@@ -1,6 +1,8 @@
 # VChart 本地视觉测试工具设计 v1
 
-状态：规范化实现已接入，平台验收记录以 README 为准；Linux 待验收。日期：2026-09-21。
+状态：规范化实现已接入，平台验收记录以 README 为准；Linux 待验收。日期：2026-09-22。
+
+当前补充目录化用例和 `--dir` 递归选择；执行范围仅为全量、目录或单 case。清单与冻结机制保持一致，报告明确显示选中数量与总量，目录规范见 [用例说明](./cases/README.md)。
 
 本文将已验证的原型整理为可维护的仓库工具。本文记录设计决策与验收目标；当前实现和实际完成的验证以 README 及对应运行报告为准。
 
@@ -37,11 +39,12 @@
 ```sh
 node packages/vchart/scripts/visual-test.mjs
 node packages/vchart/scripts/visual-test.mjs --baseline <40位SHA>
+node packages/vchart/scripts/visual-test.mjs --dir components/label
 node packages/vchart/scripts/visual-test.mjs --case pie-label
 node packages/vchart/scripts/visual-test.mjs --self-compare
 ```
 
-包内 `test:visual` 继续指向相同入口。`--case` 与默认基线、指定 SHA 或自比较组合使用。未知选项、空字符串、未知 case 和互斥参数均失败，不静默忽略。
+包内 `test:visual` 继续指向相同入口。`--dir` 和 `--case` 互斥，均可与默认基线、指定 SHA 或自比较组合使用。未知选项、空字符串、未知 case 和互斥参数均失败，不静默忽略。
 
 设计新增两个只读入口：
 
@@ -93,7 +96,7 @@ packages/vchart/
 | `id`             | 清单内唯一，`^[a-z][a-z0-9-]*$`，已有 10 个 ID 保持不变  |
 | `purpose`        | 一句话说明要观察的行为，而不是只写图表类型               |
 | `file`           | `cases/` 内明确的相对模块路径；不接受越界路径            |
-| `sourceExample`  | 原始本地调试示例的仓库相对路径，便于追溯精简来源         |
+| `sourceExample`  | 可选的真实公开示例仓库相对路径；无来源时省略             |
 | `createSpec()`   | 返回新的确定性 spec；固定数据，不导入当前源码、不读网络  |
 | `exercise(page)` | 可选，执行真实鼠标动作或公开 API；操作成功不代表用例通过 |
 | `verify(page)`   | 验证目标状态；条件不满足抛出错误，不以截图生成替代断言   |
@@ -139,7 +142,7 @@ flowchart TD
   K --> L[最终 JSON、三图 HTML、Agent 摘要及退出码]
 ```
 
-自比较跳过远端解析和基线构建，以同一次本地构建的副本作为两侧输入，其余生命周期完全一致。单 case 模式只缩小冻结清单中的选择集。
+自比较跳过远端解析和基线构建，以同一次本地构建的副本作为两侧输入，其余生命周期完全一致。目录和单 case 模式只缩小冻结清单中的选择集。
 
 1. 先完成廉价参数检查；建立可写运行目录后立即记录运行标识、请求参数和未完成状态。缺少依赖、基线拉取/构建失败等均尽可能生成文件诊断。参数无法解析或输出目录不可写时允许仅 stderr，返回 2，明确没有生成报告。
 2. 获取带 `runId`、PID、启动时间及运行目录的仓库运行锁。保留同一工作区串行限制，因为本地构建会写公共产物目录。不静默夺取未知锁或终止已有进程；陈旧锁给出检查/清理路径。

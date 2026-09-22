@@ -1,6 +1,13 @@
-import { verifySpec } from '../helpers.mjs';
+import { verifySpec } from '../../../helpers.mjs';
 
-/** 累计、总计与连接线（waterfall）。 */
+/**
+ * 验证目的：累计、总计与连接线（waterfall）。
+ * 图表类型：waterfall。
+ * 关键配置：total.type、total.tagField、label.visible。
+ * 场景条件：固定正负增量和一个由字段标记的总计项。
+ * 最终检查：核对累计与总计输入，比较连接线和标签的最终截图。
+ * 覆盖边界：不验证横向瀑布图或所有总计模式。
+ */
 export default {
   createSpec() {
     // 总计项使用字段标记，不重复计算累计值。

@@ -1,6 +1,13 @@
-import { barSpec } from '../helpers.mjs';
+import { barSpec } from '../../helpers.mjs';
 
-/** 数据更新与尺寸调整（event-update-spec）。 */
+/**
+ * 验证目的：数据更新与尺寸调整（event-update-spec）。
+ * 图表类型：bar。
+ * 关键配置：updateData、resize。
+ * 场景条件：固定初始两组数据，更新为两条数据并调整为 640×480。
+ * 最终检查：验证实际数据含 Updated=55、条数为二、Canvas 尺寸正确。
+ * 覆盖边界：不验证 updateSpec 或连续多次更新。
+ */
 export default {
   createSpec: barSpec,
   async exercise(page) {
