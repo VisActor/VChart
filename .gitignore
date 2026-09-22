@@ -136,3 +136,6 @@ packages/vchart/__tests__/runtime/node/**.png
 *.tsbuildinfo
 .github/hooks/copilot-hooks.json
 .omx/
+
+# Local visual regression artifacts
+.vchart-visual/

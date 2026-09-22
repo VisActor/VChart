@@ -1,0 +1,185 @@
+# 本地视觉回归测试工具（Linux 待验收）
+
+工具的结构和设计取舍见 [设计稿](./DESIGN.md)。规范化实现已接入；macOS 验收结果见文末，Linux 仍需独立验收。
+
+使用同一批精简用例，在本机分别运行当前工作区与官方 `VisActor/VChart` 的 develop 构建，生成截图和差异报告。无需内网 BugServer 或访问凭证。图片差异表示需要检查，不等同于缺陷；两侧共同存在的错误仍需其他测试发现。
+
+## 准备
+
+使用 Node.js 22。工具面向 macOS 14+ 和 Ubuntu 22.04/24.04；Linux 必须有 Chromium 所需系统库。先在仓库根目录完成依赖安装：
+
+```sh
+node common/scripts/install-run-rush.js install --ignore-hooks
+```
+
+安装与锁文件对应的 Chromium：
+
+```sh
+# macOS
+node packages/vchart/node_modules/@playwright/test/cli.js install chromium --no-remove
+
+# Linux：系统依赖安装可能需要管理员权限
+node packages/vchart/node_modules/@playwright/test/cli.js install --with-deps chromium --no-remove
+```
+
+Rush 安装还需要项目现有的 node-canvas 编译依赖；按仓库贡献指南准备。截图命令本身不安装系统软件、不启动 Docker。
+
+## 使用
+
+在仓库根目录运行：
+
+```sh
+node packages/vchart/scripts/visual-test.mjs
+node packages/vchart/scripts/visual-test.mjs --baseline <完整的40位commit-sha>
+node packages/vchart/scripts/visual-test.mjs --case pie-label
+node packages/vchart/scripts/visual-test.mjs --self-compare
+node packages/vchart/scripts/visual-test.mjs --list
+node packages/vchart/scripts/visual-test.mjs --check
+```
+
+`--list` 独立列出用例元数据，不需要浏览器。`--check` 独立检查 Node、Git、当前依赖和 Chromium 实际启动，检查后关闭浏览器；不自动安装、不构建、不截图。预检日志位于 `.vchart-visual/preflight.log`。帮助不要求先安装 Playwright。
+
+包目录内也可使用 `rushx test:visual`。`--help` 列出选项；不存在更新永久基线或接受差异的命令。
+
+- 默认每次从官方仓库获取 develop，并固定本次 SHA；fork 的 `origin` 不影响基线选择。断网或拉取失败会报错，缓存不会冒充最新版本。
+- 指定 SHA 仍从官方仓库获取该提交；用于复现已知基线。首期不支持任意仓库或共同祖先自动选择。
+- 当前工作区包含未提交修改，每次重新构建；构建过程中源码发生变化会要求重跑。
+- 基线按自己的锁文件独立安装和构建。只缓存最近一次成功的基线构建，每次重新截图；缓存失效由 SHA、锁文件、Node、系统架构和构建配方决定；报告样式修改不使缓存失效，内容损坏会重建。
+- 自比较只构建本地一次，在两套隔离 context 中执行；它验证测试确定性，不能证明图表结果正确。
+
+退出码：`0` 无差异；`1` 有视觉差异；`2` 参数、构建、执行、资源、超时、缺图或清理错误。多个问题同时出现时执行错误优先。
+
+## 报告与清理
+
+命令输出 `.vchart-visual/runs/<run-id>/index.html`，浏览器直接打开即可离线查看，无需启动报告服务：
+
+- 每个用例展示 **基线 / 本地 / 差异** 三列图片，点击图片打开原始分辨率；通过用例的差异列显示“无视觉差异”。
+- 汇总通过、视觉差异、执行错误、未完成数量；默认展示问题用例，可按状态和用例筛选。
+- 展示用例目的、实际用例源码行号、冻结用例链接、阶段诊断和单用例复现命令。指定基线 SHA 固定，但复现本地结果仍需要相同工作区修改。
+- 缺图明确显示“未生成或缺失”；已完成截图的结果丢失必要图片时，汇总升级为执行错误，CLI 返回 `2`。
+- 分享报告时复制整个运行目录，保留相对目录结构；单独复制 HTML 不包含图片。页面不请求外网。
+
+同一次运行同时生成 `agent-summary.md` 和 `summary.json`，与 HTML 共用一份归一化结果：
+
+| 文件 / 字段                                      | 作用                                                                                     |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `agent-summary.md`                               | Agent 首选入口：运行环境、失败/未完成用例、诊断、三图路径与复现命令；通过用例仅汇总      |
+| `summary.json` / `schemaVersion: 1`              | 版本化结构化结果，完整保存全部用例及证据路径，不嵌入图片 Base64                          |
+| `status` / `complete` / `counts`                 | 运行结论、是否完成所有用例的有效比较、四类用例计数；运行级错误仍可使已完成比较的运行失败 |
+| `baseline` / `local` / `environment` / `timings` | 基线 SHA、本地 HEAD/dirty/修改摘要、运行时与浏览器版本、阶段耗时                         |
+| `cases[].source`                                 | `path` 相对于仓库根目录；`line` 指向冻结模块入口；`frozenPath` 相对于报告目录            |
+| `cases[].phases` / `errors`                      | 两侧状态及错误的 `phase`、`stage`、`category`、原始诊断文本                              |
+| `cases[].images` / `attachments` / `rerun`       | 三图相对路径（缺失为 `null`）、截图/trace 等证据路径、仓库根目录复现命令                 |
+| `issues` / `logs`                                | 构建、中断、清理等运行级错误，以及实际存在的日志和原生报告路径                           |
+
+用例状态为 `passed`、`diff`、`error`、`not_run`；运行状态为前三种。错误类别包括 `visual_difference`、`missing_artifact`、`timeout`、`resource`、`render`、`interaction`、`screenshot`、`comparison`、`setup`，以及运行级 `execution` / `report`。Agent 应先读取摘要，再按需读取 JSON、源码、图片或日志；报告只给出事实，不推断根因、不放宽阈值、不自动接受差异，也不调用任何模型 API。
+
+基线和本地阶段的 Playwright HTML/JSON 报告仍保留用于详细调试。失败阶段可能没有完整原生 HTML，汇总页只链接实际存在的报告与日志。
+
+需要交互查看 Playwright 报告时，显式运行：
+
+```sh
+node packages/vchart/node_modules/@playwright/test/cli.js show-report .vchart-visual/runs/<run-id>/current-report
+```
+
+查看完成后 Ctrl+C 退出报告服务。测试命令不会自动启动此常驻服务。
+
+正常结束、失败和 Ctrl+C 会回收测试子进程、浏览器、HTTP 服务及临时 worktree。报告保留供检查。SIGKILL 或断电无法执行清理：先确认无测试进程，再检查 `git worktree list`、删除该次临时 worktree 和 `.vchart-visual/running.lock` 后重跑。请勿删除其他任务的 worktree。
+
+`.vchart-visual/` 已被 Git 忽略。确认没有测试运行后，可删除旧 `runs` 释放磁盘空间；不要提交截图，也不要把基线替换为待测图片。
+
+## 用例约定
+
+十个本地用例在 `cases/index.mjs` 显式注册，一用例一文件；元数据仅在清单中维护。每项包含 `id`、`purpose`、`file`、`sourceExample`。ID 必须唯一且符合 `^[a-z][a-z0-9-]*$`，file 是 cases 目录内的 `./<name>.mjs`；缺文件、非法导出和空集合在构建前失败。
+
+用例模块默认导出 `createSpec()`、可选 `exercise(page)`、必需 `verify(page)`。核心函数补中文说明。新增用例可复制以下结构：
+
+```js
+export default {
+  createSpec() {
+    // 固定输入，每次创建新对象。
+    return { type: 'bar', data: { values: [{ x: 'A', y: 10 }] }, xField: 'x', yField: 'y' };
+  },
+  async verify(page) {
+    // 检查公开 spec，图片比较负责布局呈现。
+    await page.evaluate(() => {
+      if (window.__visualChart.getSpec().type !== 'bar') throw new Error('图表类型不正确');
+    });
+  }
+};
+```
+
+在清单中注册模块和原始本地示例路径，然后运行 `--list`、`--check`、`--self-compare --case <id>` 及默认基线单用例比较。新增 case 需说明现有覆盖缺口、确定性约束和故障验证方式；不修改原始调试示例。
+
+`createSpec()` 不能导入本地 VChart 源码、Node API 或测试框架运行时代码，也不能加载网络数据。页面只加载指定产物；两侧共用冻结副本。`exercise()` 执行动作，`verify()` 验证实际目标状态；不能只等待固定时间或只检查图片存在。共享的场景树定位在 `helpers.mjs`，定位不到目标必须失败。
+
+静态验证核对明确指定的类型、数据及配置子集，允许 VChart 合并主题默认值；公共检查还要求有效画布、图元及绘制像素。图例、tooltip、缩放和更新尺寸分别验证真实状态改变。
+
+确定性配置集中在 `settings.mjs`：单 worker、无重试、新 context、Chromium headless、1000×800、图表 800×600、DPR 1、白底、Arial、en-US、UTC、单用例 30 秒。关闭动画，等待字体与连续稳定截图；像素颜色阈值 0.1、允许差异像素数 0。固定英文文本和数据，不使用远程图片或字体。
+
+## 结果与错误协议
+
+`summary.json` 是 HTML 和 Agent 摘要的共同数据源。已有 schemaVersion=1 字段保持兼容，新增 `runId`、`finalized`、`request`、`comparison`、`frozenFiles`、分阶段耗时和诊断 `code`。未完成用例还记录 `blockedBy`。
+
+`finalized` 表示运行已形成终态，`complete` 表示所选用例全部完成有效比较；清理失败可以 finalized=true、complete=true、status=error。执行中保留 finalized=false 的 JSON；每完成一个用例原子落盘阶段结果，异常退出不丢失已完成诊断。
+
+稳定错误码包括 `INVALID_ARGUMENT`、`PREFLIGHT_FAILED`、`CASE_MANIFEST_INVALID`、`BASELINE_FETCH_FAILED`、`BUILD_FAILED`、`WORKSPACE_CHANGED`、`RESOURCE_FAILED`、`RENDER_FAILED`、`CASE_ASSERTION_FAILED`、`INTERACTION_ASSERTION_FAILED`、`SCREENSHOT_FAILED`、`COMPARISON_FAILED`、`TIMEOUT`、`MISSING_ARTIFACT`、`RESULT_SET_MISMATCH`、`RUN_LOCKED`、`RUN_INTERRUPTED`、`RUN_INCOMPLETE`、`CLEANUP_FAILED`、`REPORT_FAILED` 和兜底 `EXECUTION_FAILED`。只有完整的原生比较证据才会标为 `VISUAL_DIFFERENCE`。
+
+准备失败尽可能生成报告。参数不可解析或输出不可写时可能只有 stderr，退出码仍是 2；报告写入失败时保留阶段证据并尽可能写入错误 JSON，不保留误导性的成功 HTML。原始错误文字供排查，Agent 应优先使用稳定错误码。
+
+锁的 `owner.json` 记录 runId、PID、启动时间和目录；工具不自动夺锁。SIGINT/SIGTERM 逐项清理本次资源，主错误与清理错误同时保留。SIGKILL/断电后的锁需人工确认，不允许据此终止其他进程。
+
+## 验证工具本身
+
+先完成一次自比较以生成本地 UMD，再运行故障自检：
+
+```sh
+node --test packages/vchart/scripts/visual-test.test.mjs
+```
+
+自检在独立临时目录中验证：相同产物通过、仅候选构建改变颜色产生差异、缺图不自动生成基线、脚本缺失/异常/外部请求/超时及构建命令失败被归类为执行错误。自检结束自动清理目录和服务。
+
+平台验收及实测耗时见本文件末尾的验证记录；没有实际验证的平台不能视为已通过。
+
+## 原型历史记录（2026-09-21）
+
+环境：macOS 14.7.8 / arm64，Node.js 22.22.2，Playwright 1.63.0，Chromium 153.0.8010.12。官方基线为 `67400f3fb6501f62455392089b7a7d8367cf6b9a`。以下数据来自当前机器，不能作为其他机器的耗时保证。
+
+| 检查                                    | 结果                                                                                              |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| 十用例完整自比较，连续 5 轮             | 全部通过；每轮 33.8 ～ 36.9 秒                                                                    |
+| 官方 develop 独立安装、构建和十用例对比 | 全部通过；最终版本约 173.5 秒                                                                     |
+| 指定同一 SHA，命中基线构建缓存          | 全部通过；约 34.7 秒                                                                              |
+| 本地构建 / 双侧十用例截图               | 自比较中位数分别约 21.7 / 11.9 秒                                                                 |
+| 故障自检                                | 11 项原型测试通过，包含四类无效交互、差异检出、缺图、加载错误、运行异常、外部请求、超时及命令失败 |
+| 未提交源码进入构建                      | 临时唯一导出标记出现在产物中；原文件按字节恢复                                                    |
+| 构建阶段及浏览器阶段 SIGINT             | 返回 2，运行锁清理；浏览器阶段观察到的 18 个相关子进程均退出                                      |
+| 临时 worktree / 用户原有改动            | 临时 worktree 已回收，原有 image-cloud 改动保留                                                   |
+| Linux                                   | 未验收：当前环境没有可用的 Linux 执行环境                                                         |
+
+首次基线准备会安装该版本的 monorepo 依赖，耗时包含网络下载、原生模块编译和 worktree 清理；命中缓存时仅复用构建产物，截图仍全部重新生成。首次准备当前工作区依赖和下载浏览器的时间不包含在上述测试耗时内。
+
+原型报告增强验证：macOS 上 12 项自动检查通过，包括真实颜色差异的三图关联、`file://` 页面图片加载与筛选、无外网请求、差异图丢失升级为错误、准备失败保留未完成用例、HTML 转义和 Markdown 诊断。报告增强未单独完成 Linux 验收。
+
+截图测试不替代内网 BugServer 的发版前全量测试。Linux 上仍需执行五轮完整自比较和故障自检后，才能标记该平台通过验收。
+
+## 规范化版本验收
+
+环境：macOS 14.7.8 / arm64，Node.js 22.22.2，Playwright 1.63.0，Chromium 153.0.8010.12。规范化代码的 macOS 验收完成，Linux 仍待验收。
+
+| 检查                           | 结果                                                                                                          |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| 原型与迁移用例使用同一构建产物 | 10 个 case 截图一致；`migration-check.json`                                                                   |
+| 十用例连续 5 轮完整自比较      | 每轮 10/10 通过；32.4 ～ 35.8 秒，无差异或执行错误                                                            |
+| 官方 develop 冷启动            | 10/10 通过，约 174.0 秒；固定 SHA `67400f3fb6501f62455392089b7a7d8367cf6b9a`                                  |
+| 指定同一 SHA，缓存命中         | 10/10 通过，约 35.7 秒；单 case 自比较约 25.0 秒                                                              |
+| 冷启动分阶段耗时               | 本地构建 19.8 秒；基线安装 79.6 秒、编译 22.9 秒；两侧截图合计 12.1 秒；清理 35.3 秒                          |
+| 工具自动检查                   | 24 项全部通过；含三种视觉差异、空图、错误输入、四类无效交互、浏览器缺失、增量报告、缓存/锁/结果集合和写入失败 |
+| 隔离 fork 与未提交源码         | origin 改为其他地址后仍获取官方 develop；唯一未提交导出进入 UMD；源码及 origin 保持原样                       |
+| 构建 SIGINT / 浏览器 SIGTERM   | 均返回 2，记录 RUN_INTERRUPTED；运行锁移除，观察到的子进程无残留                                              |
+| 离线与报告搬迁                 | 三图、筛选和图片路径检查通过；HTML 不请求外网                                                                 |
+| Linux                          | 待验收，不能用以上结果替代                                                                                    |
+
+本机证据位于 `.vchart-visual/acceptance/`：`runs.json`、`node-tests.log`、`isolated-fork.json`、`signals.json`；迁移证据位于 `.vchart-visual/migration-check.json`。这些是本机生成产物，不提交 Git。其他机器应重新运行对应检查，不将此耗时作为承诺。
+
+Linux 后续执行相同矩阵，并在公开环境验证依赖准备；双平台验收完成后再移除平台待验收标记。
