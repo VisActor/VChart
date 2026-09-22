@@ -676,7 +676,7 @@ export const cases = [
   },
   {
     id: 'progress-tick-mask',
-    purpose: '环形进度刻度遮罩和强制对齐',
+    purpose: '环形进度刻度遮罩、强制对齐及悬停指标',
     file: './charts/progress/progress-tick-mask.mjs'
   },
   {
