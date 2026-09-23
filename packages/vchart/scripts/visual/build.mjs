@@ -14,7 +14,11 @@ export function git(root, args) {
 /** 包含未提交和未跟踪源码，不将忽略的生成产物纳入摘要。 */
 export async function workingTree(root) {
   const status = git(root, ['status', '--short']);
-  const patch = execFileSync('git', ['diff', 'HEAD', '--binary'], { cwd: root, maxBuffer: 64 * 1024 * 1024 });
+  // 使用完整对象哈希，避免 fetch 后 Git 自动延长缩写导致指纹误变。
+  const patch = execFileSync('git', ['diff', 'HEAD', '--binary', '--full-index'], {
+    cwd: root,
+    maxBuffer: 64 * 1024 * 1024
+  });
   const files = execFileSync('git', ['ls-files', '--others', '--exclude-standard', '-z'], {
     cwd: root,
     encoding: 'utf8'

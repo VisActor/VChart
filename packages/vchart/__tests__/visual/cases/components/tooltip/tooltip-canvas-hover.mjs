@@ -1,3 +1,4 @@
+import { interactionTarget, interactionFrame } from '../../../interaction-helpers.mjs';
 import { verifySpec, verifyRendered } from '../../../helpers.mjs';
 /**
  * BugServer case IDs: 646745e9cb5fa8011f4e03f5
@@ -35,49 +36,51 @@ export default {
     };
   },
   async exercise(page) {
-    // 真实鼠标操作必须产生可观察的组件状态。
-    await page.evaluate(() => {
-      window.__visualChart.on('pointermove', () => {
-        window.__pointerObserved = true;
-      });
-    });
-    const p = await page.evaluate(() => {
-      const s = window.__visualChart.getChart().getAllSeries()[0];
-      const m = s.type === 'line' ? s.getMarks().find(m => m.name === 'point') : s.getSeriesMark();
-      const g = m.getGraphics()[Math.min(2, m.getGraphics().length - 1)];
-      const b = g.globalAABBBounds;
-      window.__tooltipExpectedValue = String(
-        s.getViewData().latestData[Math.min(2, m.getGraphics().length - 1)][s.getSpec().yField]
+    // 保留多次 move 的语义：不同 datum 的提示、移出隐藏、恢复最终提示。
+    const observations = [];
+    for (const index of [0, 1, -1, 1]) {
+      let expected = '';
+      if (index >= 0) {
+        const p = await interactionTarget(page, 'bar', index);
+        expected = await page.evaluate(index => {
+          const s = window.__visualChart.getChart().getAllSeries()[0];
+          return String(s.getViewData().latestData[index][s.getSpec().yField]);
+        }, index);
+        await page.mouse.move(p.x, p.y);
+      } else await page.mouse.move(950, 750);
+      await page.waitForFunction(
+        shown => window.__visualChart.getTooltipHandler()?.isTooltipShown() === shown,
+        index >= 0
       );
-      return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
-    });
-    await page.mouse.move(p.x, p.y);
+      await interactionFrame(page);
+      observations.push(
+        await page.evaluate(expected => {
+          const c = window.__visualChart,
+            roots = c.getStage().findAll(g => g.name?.includes('tooltip') && g.attribute.visible !== false, true);
+          const text = roots
+            .flatMap(g => g.findAll?.(g => g.type === 'text', true) ?? [])
+            .map(g => String(g.attribute.text))
+            .join(' ');
+          return { shown: c.getTooltipHandler()?.isTooltipShown(), expected, text };
+        }, expected)
+      );
+    }
+    await page.evaluate(observations => {
+      window.__tooltipObservations = observations;
+    }, observations);
   },
   async verify(page) {
-    // 配置和绘制检查与视觉差异共同验证目标条件。
+    // Canvas 提示必须包含对应 datum 的值，切换和隐藏均以实际组件状态为准。
     await verifySpec(page, this.createSpec());
     await verifyRendered(page);
-    await page.waitForFunction(() => window.__visualChart.getTooltipHandler()?.isTooltipShown() === true);
     await page.evaluate(() => {
-      const spec = window.__visualChart.getSpec();
-      if (spec.tooltip.renderMode === 'canvas') {
-        const graphics = window.__visualChart
-          .getStage()
-          .findAll(g => g.name?.includes('tooltip') && g.attribute.visible !== false, true);
-        if (!graphics.length) throw Error('Canvas tooltip未绘制');
-      } else {
-        const elements = [...document.querySelectorAll('[class*="tooltip"]')];
-        if (
-          !elements.some(
-            e =>
-              e.textContent.includes(window.__tooltipExpectedValue) &&
-              e.getBoundingClientRect().width > 0 &&
-              getComputedStyle(e).visibility !== 'hidden' &&
-              getComputedStyle(e).display !== 'none'
-          )
-        )
-          throw Error('HTML tooltip没有可见内容');
-      }
+      const rows = window.__tooltipObservations;
+      if (rows?.length !== 4) throw Error('缺少多步 Tooltip 结果');
+      for (const i of [0, 1, 3])
+        if (!rows[i].shown || !rows[i].text.includes(rows[i].expected)) throw Error('Canvas Tooltip 内容不匹配');
+      if (rows[2].shown || rows[0].expected === rows[1].expected || rows[0].text === rows[1].text)
+        throw Error('Tooltip 未切换或隐藏');
+      if (!window.__visualChart.getTooltipHandler()?.isTooltipShown()) throw Error('最终 Tooltip 未恢复');
     });
   }
 };

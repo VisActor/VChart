@@ -581,6 +581,11 @@ test('manifest, result identity, caches, locks and cleanup contracts', async t =
       assert.notEqual((await workingTree(repo)).digest, before.digest);
       await fs.writeFile(path.join(repo, 'extra.js'), 'untracked');
       assert.equal((await workingTree(repo)).dirty, true);
+      // fetch 增加对象后 Git 可自动延长缩写；显示长度变化不能冒充源码变化。
+      spawnSync('git', ['-C', repo, 'config', 'core.abbrev', '7']);
+      const shortHash = await workingTree(repo);
+      spawnSync('git', ['-C', repo, 'config', 'core.abbrev', '12']);
+      assert.equal((await workingTree(repo)).digest, shortHash.digest);
     });
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
@@ -713,16 +718,49 @@ test('case specs are deterministic and independently allocated', async () => {
   }
 });
 
-test('migrated cases declare unique BugServer IDs in their module header', async () => {
-  // 当前无公开示例来源的用例均为迁移项，来源 ID 只在文件头维护。
-  for (const metadata of caseMetadata.filter(item => !item.sourceExample)) {
+test('BugServer IDs are optional, but declared IDs must be valid and unique', async () => {
+  /** 来源注释仅用于追溯；独立新增用例可省略，填写时不接受空值、占位或重复 ID。 */
+  function checkIds(code, label) {
+    const header = code.match(/\/\*\*[\s\S]*?\*\//)?.[0] ?? '';
+    const lines = header.split('\n').filter(line => line.includes('BugServer case IDs'));
+    if (!lines.length) return;
+    assert.equal(lines.length, 1, label);
+    const match = lines[0].match(/^\s*\*\s+BugServer case IDs: ([a-f0-9]{24}(?:,\s*[a-f0-9]{24})*)\s*$/);
+    assert.ok(match, label);
+    const ids = match[1].split(/,\s*/);
+    assert.equal(new Set(ids).size, ids.length, label);
+  }
+  const id = '0123456789abcdef01234567';
+  const header = value => `/**\n * BugServer case IDs: ${value}\n */`;
+  checkIds('/** 验证目的：独立新增用例。 */', 'no source ID');
+  checkIds(header(`${id}, ${'a'.repeat(24)}`), 'merged sources');
+  for (const value of ['', 'TODO', 'not-an-id', `${id}, ${id}`, `${id},`]) {
+    assert.throws(() => checkIds(header(value), value));
+  }
+  assert.throws(() => checkIds(`/**\n * BugServer case IDs: ${id}\n * BugServer case IDs: ${id}\n */`));
+  for (const metadata of caseMetadata) {
     const code = await fs.readFile(path.join(packageDir, '__tests__/visual/cases', metadata.file), 'utf8');
-    const header = code.match(/\/\*\*[\s\S]*?\*\//)?.[0];
-    const line = header?.match(/BugServer case IDs: ([^\r\n]+)/)?.[1];
-    assert.ok(line, metadata.id);
-    const ids = line.trim().split(/,\s*/);
-    assert.ok(ids.length > 0 && ids.every(id => /^[a-f0-9]{24}$/.test(id)), metadata.id);
-    assert.equal(new Set(ids).size, ids.length, metadata.id);
+    checkIds(code, metadata.id);
+  }
+  // 无 sourceExample、无 BugServer ID 的新模块也必须可经正式清单加载。
+  const dir = await fs.mkdtemp(path.join(root, '.vchart-visual/new-case-contract-'));
+  try {
+    await fs.mkdir(path.join(dir, 'cases'));
+    await fs.writeFile(
+      path.join(dir, 'cases/index.mjs'),
+      "export const cases = [{ id: 'new-case', purpose: '独立回归用例', file: './new-case.mjs' }];" +
+        'export async function loadCase(item) { return (await import(new URL(item.file, import.meta.url))).default; }'
+    );
+    await fs.writeFile(
+      path.join(dir, 'cases/new-case.mjs'),
+      'export default { createSpec() { return { type: "bar" }; }, async verify() {} };'
+    );
+    assert.deepEqual(
+      (await loadCases(dir)).map(item => item.id),
+      ['new-case']
+    );
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
   }
 });
 

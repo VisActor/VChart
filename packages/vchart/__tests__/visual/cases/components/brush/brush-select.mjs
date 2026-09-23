@@ -1,3 +1,4 @@
+import { interactionTarget, interactionFrame, seriesStates } from '../../../interaction-helpers.mjs';
 import { verifySourceSpec, verifyRendered } from '../../../helpers.mjs';
 
 /**
@@ -81,33 +82,46 @@ export default {
     return spec;
   },
   async exercise(page) {
-    // 适配源动作；鼠标定位按实际图元，避免绑定旧宿主像素坐标。
-    await page.evaluate(() =>
-      window.__visualChart.on('brushEnd', e => {
-        window.__brushState = { inside: e.value.inBrushData.length, outside: e.value.outOfBrushData.length };
-      })
-    );
-    const point = await page.evaluate(() => {
-      const g = window.__visualChart.getChart().getAllSeries()[0].getSeriesMark().getGraphics()[0];
-      const b = g.globalAABBBounds;
-      return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
+    // 两次刷选之间执行源录制中的空白点击，保留创建、清除、再次创建的真实结果。
+    const records = [];
+    await page.evaluate(() => {
+      window.__brushClears = 0;
+      window.__visualChart.on('brushClear', () => {
+        window.__brushClears++;
+      });
     });
-    await page.mouse.move(point.x - 18, point.y - 18);
-    await page.mouse.down();
-    await page.mouse.move(point.x + 18, point.y + 18, { steps: 8 });
-    await page.mouse.up();
-    await page.mouse.move(950, 750);
+    for (const index of [0, 1]) {
+      const p = await interactionTarget(page, 'point', index);
+      await page.mouse.move(p.x - 18, p.y - 18);
+      await page.mouse.down();
+      await page.mouse.move(p.x + 18, p.y + 18, { steps: 8 });
+      await page.mouse.up();
+      await page.mouse.move(950, 750);
+      await interactionFrame(page);
+      records.push(await seriesStates(page));
+      if (index === 0) {
+        await page.mouse.click(790, 590);
+        await interactionFrame(page);
+        records.push(await seriesStates(page));
+      }
+    }
+    await page.evaluate(records => {
+      window.__brushObservations = records;
+    }, records);
   },
   async verify(page) {
-    // 完整配置和回调由 verifySourceSpec 检查，另验证最终绘制或操作结果。
+    // 既检查两次非空刷选，又要求中间点击清空所有刷选状态。
     await verifySourceSpec(page);
-    await verifyRendered(page, 'series');
-    await page.waitForFunction(() => {
-      const graphics = window.__visualChart.getChart().getAllSeries()[0].getSeriesMark().getGraphics();
-      return (
-        graphics.some(g => g.currentStates?.includes('inBrush')) &&
-        graphics.some(g => g.currentStates?.includes('outOfBrush'))
-      );
+    await verifyRendered(page);
+    await page.evaluate(() => {
+      const rows = window.__brushObservations;
+      if (rows?.length !== 3 || window.__brushClears < 1) throw Error('缺少刷选清除过程');
+      for (const i of [0, 2])
+        if (!rows[i].some(m => m.states.inBrush > 0) || !rows[i].some(m => m.states.outOfBrush > 0))
+          throw Error('刷选未区分命中与未命中');
+      if (rows[1].some(m => m.states.inBrush > 0 || m.states.outOfBrush > 0)) throw Error('空白点击没有清除刷选状态');
+      const g = window.__visualChart.getChart().getAllSeries()[0].getSeriesMark().getGraphics();
+      if (!g.some(g => g.currentStates?.includes('inBrush'))) throw Error('最终刷选缺失');
     });
   }
 };

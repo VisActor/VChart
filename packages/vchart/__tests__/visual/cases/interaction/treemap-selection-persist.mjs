@@ -1,3 +1,4 @@
+import { interactionTarget, interactionFrame } from '../../interaction-helpers.mjs';
 import { verifySpec } from '../../helpers.mjs';
 /**
  * BugServer case IDs: 6582ac01847639595bfc6181
@@ -175,47 +176,51 @@ export default {
     };
   },
   async exercise(page) {
-    // 对实际图元执行来源动作，不靠固定等待冒充动作完成。
-    const p = await page.evaluate(mark => {
-      const chart = window.__visualChart;
-      let graphic;
-      for (const s of chart.getChart().getAllSeries()) {
-        const m = s.getMarks().find(m => m.name === mark);
-        graphic = m?.getGraphics().find(g => g.attribute.visible !== false && g.globalAABBBounds.width() > 0);
-        if (graphic) break;
-      }
-      if (!graphic) throw Error('缺少交互图元 ' + mark);
-      const a = graphic.attribute,
-        b = graphic.globalAABBBounds;
-      if (a.startAngle !== undefined) {
-        const angle = (a.startAngle + a.endAngle) / 2,
-          radius = ((a.innerRadius || 0) + a.outerRadius) / 2;
-        const p = { x: radius * Math.cos(angle), y: radius * Math.sin(angle) };
-        return graphic.globalTransMatrix.transformPoint(p, {});
-      }
-      return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
-    }, 'leaf');
-    await page.mouse.click(p.x, p.y);
-    await page.waitForFunction(
-      () => window.__visualChart.getStage().findAll(g => g.currentStates?.includes('selected'), true).length > 0
-    );
-    await page.evaluate(() => {
-      window.__wasSelected = true;
-      window.__selectedGraphics = window.__visualChart
-        .getStage()
-        .findAll(g => g.currentStates?.includes('selected'), true);
-    });
+    // 对两个不同叶节点执行源 click，再以空白点击验证 triggerOff:none 的保留行为。
+    const observations = [];
+    for (const index of [0, 1]) {
+      const p = await interactionTarget(page, 'leaf', index);
+      await page.mouse.click(p.x, p.y);
+      await interactionFrame(page);
+      observations.push(
+        await page.evaluate(() =>
+          window.__visualChart
+            .getChart()
+            .getAllSeries()[0]
+            .getMarks()
+            .find(m => m.name === 'leaf')
+            .getGraphics()
+            .flatMap((g, i) => (g.currentStates?.includes('selected') ? [i] : []))
+        )
+      );
+    }
     await page.mouse.click(790, 590);
     await page.mouse.move(950, 750);
+    await interactionFrame(page);
+    await page.evaluate(observations => {
+      window.__leafSelections = observations;
+    }, observations);
   },
   async verify(page) {
-    // 配置、状态及实际过滤结果须满足场景目的；动作未生效必须失败。
+    // 第二个叶节点必须被选中，空白点击后仍保留；仅执行一次 click 无法满足两步证据。
     await verifySpec(page, this.createSpec());
-    await page.waitForFunction(
-      () =>
-        window.__wasSelected === true &&
-        window.__selectedGraphics?.length > 0 &&
-        window.__selectedGraphics.every(g => g.currentStates?.includes('selected'))
-    );
+    await page.evaluate(() => {
+      const rows = window.__leafSelections;
+      if (
+        rows?.length !== 2 ||
+        !rows[0].includes(0) ||
+        !rows[1].includes(1) ||
+        JSON.stringify(rows[0]) === JSON.stringify(rows[1])
+      )
+        throw Error('叶节点选择没有切换');
+      const indices = window.__visualChart
+        .getChart()
+        .getAllSeries()[0]
+        .getMarks()
+        .find(m => m.name === 'leaf')
+        .getGraphics()
+        .flatMap((g, i) => (g.currentStates?.includes('selected') ? [i] : []));
+      if (JSON.stringify(indices) !== JSON.stringify(rows[1])) throw Error('空白点击清除了持久选择');
+    });
   }
 };

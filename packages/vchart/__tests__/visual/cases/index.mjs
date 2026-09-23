@@ -1018,6 +1018,281 @@ export const cases = [
     id: 'funnel-left-align-bottom',
     purpose: '左向漏斗底部对齐与外标签',
     file: './charts/funnel/funnel-left-align-bottom.mjs'
+  },
+  {
+    id: 'axis-force-tick-count',
+    purpose: '多个数值轴的 tickCount 与 forceTickCount 组合',
+    file: './components/axis/axis-force-tick-count.mjs'
+  },
+  {
+    id: 'range-area-vertical',
+    purpose: '纵向区间面积的上下界及半透明填充',
+    file: './charts/range-area/range-area-vertical.mjs'
+  },
+  {
+    id: 'range-area-average-line',
+    purpose: '独立数据源的区间面积与平均值折线组合',
+    file: './charts/range-area/range-area-average-line.mjs'
+  },
+  {
+    id: 'axis-inside-four-sides',
+    purpose: '四方向轴的内侧刻度、标签格式与轴线组合',
+    file: './components/axis/axis-inside-four-sides.mjs'
+  },
+  {
+    id: 'marker-extension-quadrants',
+    purpose: '散点象限标区与依赖 region 布局的扩展图元',
+    file: './components/marker/marker-extension-quadrants.mjs'
+  },
+  {
+    id: 'marker-richtext-position',
+    purpose: '起止点富文本标注的尺寸与偏移',
+    file: './components/richtext/marker-richtext-position.mjs'
+  },
+  {
+    id: 'axis-time-layer-step',
+    purpose: '时间轴 layers 的 tickStep 与混合范围数据',
+    file: './components/axis/axis-time-layer-step.mjs'
+  },
+  {
+    id: 'axis-tick-count-callback',
+    purpose: '依据轴长和字体计算数值轴刻度数量',
+    file: './components/axis/axis-tick-count-callback.mjs'
+  },
+  {
+    id: 'marker-richtext-content',
+    purpose: '富文本标注的行内样式与独立末端内容',
+    file: './components/richtext/marker-richtext-content.mjs'
+  },
+  {
+    id: 'marker-area-richtext',
+    purpose: '标区内部富文本标签的排版',
+    file: './components/richtext/marker-area-richtext.mjs'
+  },
+  {
+    id: 'marker-coordinate-callbacks',
+    purpose: '依据轴域和数据计算线、区、点坐标',
+    file: './components/marker/marker-coordinate-callbacks.mjs'
+  },
+  {
+    id: 'axis-region-overlap',
+    purpose: '关联不同系列的 region-relative-overlap 多轴布局',
+    file: './components/axis/axis-region-overlap.mjs'
+  },
+  {
+    id: 'bar-stack-sort-min-height',
+    purpose: '多数据源堆叠排序、逆序与最小柱高',
+    file: './charts/bar/bar-stack-sort-min-height.mjs'
+  },
+  {
+    id: 'axis-sync-scrollbar',
+    purpose: '横向柱图的双数值轴刻度同步与滚动条',
+    file: './components/axis/axis-sync-scrollbar.mjs'
+  },
+  {
+    id: 'pie-label-custom-path',
+    purpose: '外标签引导线自定义折角路径',
+    file: './components/label/pie-label-custom-path.mjs'
+  },
+  {
+    id: 'area-mark-hover',
+    purpose: '面积图点与面积分别悬停的真实状态',
+    file: './interaction/area-mark-hover.mjs'
+  },
+  {
+    id: 'tooltip-content-reduce',
+    purpose: '来源 Tooltip 配置、实际提示内容及移出隐藏',
+    file: './components/tooltip/tooltip-content-reduce.mjs'
+  },
+  {
+    id: 'tooltip-dimension-style',
+    purpose: '来源 Tooltip 配置、实际提示内容及移出隐藏',
+    file: './components/tooltip/tooltip-dimension-style.mjs'
+  },
+  {
+    id: 'axis-richtext-tooltip',
+    purpose: '来源 Tooltip 配置、实际提示内容及移出隐藏',
+    file: './components/tooltip/axis-richtext-tooltip.mjs'
+  },
+  {
+    id: 'tooltip-series-dimension',
+    purpose: '来源 Tooltip 配置、实际提示内容及移出隐藏',
+    file: './components/tooltip/tooltip-series-dimension.mjs'
+  },
+  {
+    id: 'axis-poptip-flush',
+    purpose: '截断轴标签悬停后显示完整文本（源录制 poptip）',
+    file: './components/axis/axis-poptip-flush.mjs'
+  },
+  {
+    id: 'axis-poptip-rotated',
+    purpose: '截断轴标签悬停后显示完整文本（源录制 poptip）',
+    file: './components/axis/axis-poptip-rotated.mjs'
+  },
+  {
+    id: 'legend-hover-state',
+    purpose: '图例悬停反向状态、移出恢复与单选筛选',
+    file: './components/legend/legend-hover-state.mjs'
+  },
+  {
+    id: 'legend-hover-no-filter',
+    purpose: '图例悬停反向状态、移出恢复',
+    file: './components/legend/legend-hover-no-filter.mjs'
+  },
+  {
+    id: 'hover-series-api',
+    purpose: '源 pointerover 回调按 Age 更新同组及反向状态',
+    file: './interaction/hover-series-api.mjs'
+  },
+  {
+    id: 'update-full-data-marker',
+    purpose: 'updateFullDataSync 原始更新值与标记组件',
+    file: './api/update/update-full-data-marker.mjs'
+  },
+  {
+    id: 'pie-update-zero',
+    purpose: '全零饼图经原始 updateData 更新为有效扇区',
+    file: './api/update/pie-update-zero.mjs'
+  },
+  {
+    id: 'dimension-index-area',
+    purpose: 'setDimensionIndex 定位来源指定维度的十字线',
+    file: './api/state/dimension-index-area.mjs'
+  },
+  {
+    id: 'custom-mark-text-click',
+    purpose: '来源 customMark 点击回调修改实际图元',
+    file: './interaction/custom-mark-text-click.mjs'
+  },
+  {
+    id: 'custom-mark-fill-click',
+    purpose: '来源 customMark 点击回调修改实际图元',
+    file: './interaction/custom-mark-fill-click.mjs'
+  },
+  {
+    id: 'datazoom-min-max-span',
+    purpose: '来源 DataZoom 拖动及有效范围约束',
+    file: './components/datazoom/datazoom-min-max-span.mjs'
+  },
+  {
+    id: 'datazoom-vertical-fixed-span',
+    purpose: '来源 DataZoom 拖动及有效范围约束',
+    file: './components/datazoom/datazoom-vertical-fixed-span.mjs'
+  },
+  {
+    id: 'datazoom-time-span',
+    purpose: '来源 DataZoom 拖动及有效范围约束',
+    file: './components/datazoom/datazoom-time-span.mjs'
+  },
+  {
+    id: 'datazoom-preview-brush',
+    purpose: '来源 DataZoom 拖动及有效范围约束',
+    file: './components/datazoom/datazoom-preview-brush.mjs'
+  },
+  {
+    id: 'scrollbar-auto',
+    purpose: '来源滚动条拖动与实际可视范围',
+    file: './components/scrollbar/scrollbar-auto.mjs'
+  },
+  {
+    id: 'scrollbar-crosshair',
+    purpose: '来源滚动条拖动与实际可视范围',
+    file: './components/scrollbar/scrollbar-crosshair.mjs'
+  },
+  {
+    id: 'scrollbar-axis-click-update',
+    purpose: '来源滚动条拖动后点击轴标签更新柱颜色',
+    file: './components/scrollbar/scrollbar-axis-click-update.mjs'
+  },
+  {
+    id: 'sankey-selected-adjacency',
+    purpose: '点击桑基节点时仅高亮相邻节点与连接，空白点击恢复',
+    file: './charts/sankey/sankey-selected-adjacency.mjs'
+  },
+  {
+    id: 'sankey-adjacency',
+    purpose: '点击桑基节点时仅高亮相邻节点与连接，空白点击恢复',
+    file: './charts/sankey/sankey-adjacency.mjs'
+  },
+  {
+    id: 'sankey-node-state',
+    purpose: '来源桑基节点悬停与点击状态',
+    file: './charts/sankey/sankey-node-state.mjs'
+  },
+  {
+    id: 'circle-packing-drill-rooted',
+    purpose: '来源层级图下钻与空白回退的路径和实际布局',
+    file: './charts/circle-packing/circle-packing-drill-rooted.mjs'
+  },
+  {
+    id: 'circle-packing-drill-forest',
+    purpose: '来源层级图下钻与空白回退的路径和实际布局',
+    file: './charts/circle-packing/circle-packing-drill-forest.mjs'
+  },
+  {
+    id: 'circle-packing-drill-event',
+    purpose: '来源层级图下钻与空白回退的路径和实际布局',
+    file: './charts/circle-packing/circle-packing-drill-event.mjs'
+  },
+  {
+    id: 'treemap-drill',
+    purpose: '来源层级图下钻与空白回退的路径和实际布局',
+    file: './charts/treemap/treemap-drill.mjs'
+  },
+  {
+    id: 'brush-polygon',
+    purpose: '来源多边形刷选的实际命中及排除状态',
+    file: './interaction/brush-polygon.mjs'
+  },
+  {
+    id: 'brush-region-link',
+    purpose: '来源跨区域刷选联动的实际命中及排除状态',
+    file: './interaction/brush-region-link.mjs'
+  },
+  {
+    id: 'indicator-richtext-click',
+    purpose: '饼图选择触发富文本指标及对应数值',
+    file: './components/indicator/indicator-richtext-click.mjs'
+  },
+  {
+    id: 'pie-label-hover',
+    purpose: '半圆饼图悬停状态及标签引导线布局',
+    file: './charts/pie/pie-label-hover.mjs'
+  },
+  {
+    id: 'funnel-outer-label-line',
+    purpose: '来源漏斗外标签对齐、虚线与悬停',
+    file: './charts/funnel/funnel-outer-label-line.mjs'
+  },
+  {
+    id: 'legend-custom-value',
+    purpose: '自定义图例值与点击后的真实数据筛选',
+    file: './components/legend/legend-custom-value.mjs'
+  },
+  {
+    id: 'crosshair-polar-formatters',
+    purpose: '极坐标十字线分类和数值 formatter 的真实悬停输出',
+    file: './components/crosshair/crosshair-polar-formatters.mjs'
+  },
+  {
+    id: 'theme-runtime-switch',
+    purpose: '来源主题注册和实例切换后的圆角与配色',
+    file: './theme/theme-runtime-switch.mjs'
+  },
+  {
+    id: 'theme-chart-components',
+    purpose: '来源图表主题启用柱标签并定位左侧图例',
+    file: './theme/theme-chart-components.mjs'
+  },
+  {
+    id: 'funnel-extension-select',
+    purpose: '来源漏斗扩展图元、初始选择和后续点击选择切换',
+    file: './charts/funnel/funnel-extension-select.mjs'
+  },
+  {
+    id: 'media-query-width',
+    purpose: '来源媒体查询注册、缩窄后隐藏左侧坐标轴标签',
+    file: './layout/media-query-width.mjs'
   }
 ];
 

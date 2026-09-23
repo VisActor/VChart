@@ -1,4 +1,5 @@
-import { verifySpec, verifySourceSpec, verifyRendered } from '../../helpers.mjs';
+import { interactionFrame } from '../../interaction-helpers.mjs';
+import { verifySourceSpec, verifyRendered } from '../../helpers.mjs';
 /**
  * BugServer case IDs: 649d7f2152a1e9eec95f9f11
  * 验证目的：点击旭日图父节点下钻。
@@ -445,59 +446,69 @@ export default {
     return spec;
   },
   async exercise(page) {
-    // 保留源操作类型，并以真实实例或图元定位执行。
-    const p = await page.evaluate(() => {
-      const c = window.__visualChart,
-        s = c.getChart().getAllSeries()[0],
-        graphics = s.getSeriesMark().getGraphics();
-      window.__drillBefore = JSON.stringify(
-        graphics.map(g => [
-          g.attribute.startAngle,
-          g.attribute.endAngle,
-          g.attribute.innerRadius,
-          g.attribute.outerRadius
-        ])
-      );
-      c.on('drill', e => {
-        window.__drillResult = e.value;
+    // 源三次 click 以当前图元定位为下钻、回退、另一分支下钻；旧宿主坐标不作为精确目标证据。
+    await page.evaluate(() => {
+      window.__drillEvents = [];
+      window.__visualChart.on('drill', e => {
+        window.__drillEvents.push({ type: e.value.type, path: [...e.value.path] });
       });
-      const g =
-        graphics.find(
-          g =>
-            !g.context?.data?.[0]?.isLeaf &&
-            g.attribute.outerRadius > g.attribute.innerRadius &&
-            g.attribute.innerRadius > 0
-        ) || graphics[0];
-      const a = g.attribute,
-        m = g.globalTransMatrix,
-        angle = (a.startAngle + a.endAngle) / 2,
-        r = (a.innerRadius + a.outerRadius) / 2,
-        x = r * Math.cos(angle),
-        y = r * Math.sin(angle);
-      return { x: m.a * x + m.c * y + m.e, y: m.b * x + m.d * y + m.f };
     });
-    await page.mouse.click(p.x, p.y);
-    await page.mouse.move(950, 750);
+    const snapshots = [];
+    for (const index of [0, -1, 1]) {
+      if (index < 0) await page.mouse.click(790, 590);
+      else {
+        const p = await page.evaluate(index => {
+          const g = window.__visualChart
+            .getChart()
+            .getAllSeries()[0]
+            .getSeriesMark()
+            .getGraphics()
+            .filter(g => !g.context?.data?.[0]?.isLeaf && g.attribute.innerRadius === 0)[index];
+          if (!g) throw Error('缺少顶层父扇区');
+          const a = g.attribute,
+            m = g.globalTransMatrix,
+            angle = (a.startAngle + a.endAngle) / 2,
+            r = (a.innerRadius + a.outerRadius) / 2,
+            x = r * Math.cos(angle),
+            y = r * Math.sin(angle);
+          return { x: m.a * x + m.c * y + m.e, y: m.b * x + m.d * y + m.f };
+        }, index);
+        await page.mouse.click(p.x, p.y);
+      }
+      await page.mouse.move(950, 750);
+      await interactionFrame(page);
+      snapshots.push(
+        await page.evaluate(() =>
+          JSON.stringify(
+            window.__visualChart
+              .getChart()
+              .getAllSeries()[0]
+              .getSeriesMark()
+              .getGraphics()
+              .map(g => [
+                g.attribute.startAngle,
+                g.attribute.endAngle,
+                g.attribute.innerRadius,
+                g.attribute.outerRadius
+              ])
+          )
+        )
+      );
+    }
+    await page.evaluate(snapshots => {
+      window.__drillGeometries = snapshots;
+    }, snapshots);
   },
   async verify(page) {
-    // 验证目标状态及实际绘制，动作缺失不能通过。
+    // 路径应下钻、恢复根层、再下钻，三步均须产生实际几何变化。
     await verifySourceSpec(page);
     await verifyRendered(page);
-    await page.waitForFunction(() => {
-      const r = window.__drillResult,
-        graphics = window.__visualChart.getChart().getAllSeries()[0].getSeriesMark().getGraphics();
-      return (
-        r?.path?.length > 0 &&
-        window.__drillBefore !==
-          JSON.stringify(
-            graphics.map(g => [
-              g.attribute.startAngle,
-              g.attribute.endAngle,
-              g.attribute.innerRadius,
-              g.attribute.outerRadius
-            ])
-          )
-      );
+    await page.evaluate(() => {
+      const e = window.__drillEvents,
+        g = window.__drillGeometries;
+      if (e?.length !== 3 || e[0].path.length !== 1 || e[1].path.length !== 0 || e[2].path.length !== 1)
+        throw Error('下钻/回退路径不正确');
+      if (g?.length !== 3 || g[0] === g[1] || g[1] === g[2]) throw Error('下钻没有改变几何布局');
     });
   }
 };

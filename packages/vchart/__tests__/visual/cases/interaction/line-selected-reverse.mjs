@@ -1,4 +1,5 @@
-import { verifySpec, seriesGraphicCenter } from '../../helpers.mjs';
+import { interactionTarget, interactionFrame, seriesStates } from '../../interaction-helpers.mjs';
+import { verifySpec } from '../../helpers.mjs';
 /**
  * BugServer case IDs: 646745e9cb5fa8011f4e03cf
  * 验证目的：关闭悬停后折线点选中与反向状态。
@@ -173,19 +174,40 @@ export default {
     };
   },
   async exercise(page) {
-    // 对实际图元执行来源动作，不靠固定等待冒充动作完成。
-    const p = await seriesGraphicCenter(page, 'point');
-    await page.mouse.click(p.x, p.y);
+    // 旧坐标缺少宿主尺寸；按源配置的不同图元重建动作，不宣称逐像素重放历史轨迹。
+    const observations = [];
+    for (const name of ['point', 'line']) {
+      await page.mouse.move(950, 750);
+      await page.evaluate(() => {
+        window.__visualChart.clearSelected();
+        window.__visualChart.clearHovered();
+      });
+      const target = await interactionTarget(page, name);
+      await page.mouse.click(target.x, target.y);
+      await interactionFrame(page);
+      observations.push({ target: name, marks: await seriesStates(page) });
+    }
+    await page.evaluate(observations => {
+      window.__stateObservations = observations;
+    }, observations);
   },
   async verify(page) {
-    // 配置、状态及实际过滤结果须满足场景目的；动作未生效必须失败。
+    // 每一步都必须命中相应图元，并验证源要求的反向状态；抑制动作后不能通过。
     await verifySpec(page, this.createSpec());
-    await page.waitForFunction(() => {
-      const all = window.__visualChart.getStage().findAll(g => g.currentStates?.includes('selected'), true);
-      return all.length > 0;
-    });
-    await page.waitForFunction(
-      () => window.__visualChart.getStage().findAll(g => g.currentStates?.includes('selected_reverse'), true).length > 0
+    await page.evaluate(
+      ({ count, state, reverse }) => {
+        const rows = window.__stateObservations;
+        if (!rows || rows.length !== count) throw new Error('缺少多目标交互结果');
+        for (const row of rows) {
+          if (!row.marks.some(m => m.name === row.target && m.states[state] > 0))
+            throw new Error('目标图元未进入状态：' + row.target);
+          if (reverse && !row.marks.some(m => m.states[state + '_reverse'] > 0))
+            throw new Error('缺少反向状态：' + row.target);
+        }
+        const actual = window.__visualChart.getStage().findAll(g => g.currentStates?.includes(state), true);
+        if (!actual.length) throw new Error('最终交互状态未保留');
+      },
+      { count: 2, state: 'selected', reverse: true }
     );
   }
 };
