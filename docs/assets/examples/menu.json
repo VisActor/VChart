@@ -151,6 +151,323 @@
       ]
     },
     {
+      "path": "lieflat-charts",
+      "title": {
+        "zh": "Lieflat · 信息图风格",
+        "en": "Lieflat · Infographic styles"
+      },
+      "children": [
+        {
+          "path": "overview",
+          "title": {
+            "zh": "信息图示例与使用说明",
+            "en": "Infographic examples and usage"
+          }
+        },
+        {
+          "path": "rung-bars",
+          "title": {
+            "zh": "F1 · 阶梯柱状图",
+            "en": "F1 · Rung bars"
+          }
+        },
+        {
+          "path": "hairline-line",
+          "title": {
+            "zh": "F2 · 细线折线图",
+            "en": "F2 · Hairline line"
+          }
+        },
+        {
+          "path": "hairline-area",
+          "title": {
+            "zh": "F3 · 细线面积图",
+            "en": "F3 · Hairline area"
+          }
+        },
+        {
+          "path": "tick-donut",
+          "title": {
+            "zh": "F4 · 刻度环形图",
+            "en": "F4 · Tick donut"
+          }
+        },
+        {
+          "path": "tick-rows",
+          "title": {
+            "zh": "F5 · 刻度条形图",
+            "en": "F5 · Tick rows"
+          }
+        },
+        {
+          "path": "paired-rungs",
+          "title": {
+            "zh": "F6 · 并列阶梯柱图",
+            "en": "F6 · Paired rungs"
+          }
+        },
+        {
+          "path": "stacked-rungs",
+          "title": {
+            "zh": "F7 · 堆叠阶梯柱图",
+            "en": "F7 · Stacked rungs"
+          }
+        },
+        {
+          "path": "rung-waterfall",
+          "title": {
+            "zh": "F9 · 阶梯瀑布图",
+            "en": "F9 · Rung waterfall"
+          }
+        },
+        {
+          "path": "dot-heat",
+          "title": {
+            "zh": "F10 · 点阵热力图",
+            "en": "F10 · Dot heat"
+          }
+        },
+        {
+          "path": "tick-gauge",
+          "title": {
+            "zh": "F11 · 刻度仪表盘",
+            "en": "F11 · Tick gauge"
+          }
+        },
+        {
+          "path": "dumbbell-queue",
+          "title": {
+            "zh": "F12 · 串珠哑铃图",
+            "en": "F12 · Dumbbell queue"
+          }
+        },
+        {
+          "path": "nested-treemap",
+          "title": {
+            "zh": "F13 · 嵌套矩形树图",
+            "en": "F13 · Nested treemap"
+          }
+        },
+        {
+          "path": "rung-histogram",
+          "title": {
+            "zh": "F14 · 阶梯直方图",
+            "en": "F14 · Rung histogram"
+          }
+        },
+        {
+          "path": "stream-ribbon",
+          "title": {
+            "zh": "F16 · 河流面积图",
+            "en": "F16 · Stream ribbon"
+          }
+        },
+        {
+          "path": "launch-fan",
+          "title": {
+            "zh": "L1 · 发布扇面图",
+            "en": "L1 · Launch fan"
+          }
+        },
+        {
+          "path": "dot-cascade",
+          "title": {
+            "zh": "L2 · 点阵阶梯图",
+            "en": "L2 · Dot cascade"
+          }
+        },
+        {
+          "path": "barcode-lollipop",
+          "title": {
+            "zh": "L3 · 日历条码棒棒糖图",
+            "en": "L3 · Barcode lollipop"
+          }
+        },
+        {
+          "path": "arc-matrix",
+          "title": {
+            "zh": "L4 · 弧形气泡矩阵",
+            "en": "L4 · Arc matrix"
+          }
+        },
+        {
+          "path": "radial-convergence",
+          "title": {
+            "zh": "L5 · 放射汇聚图",
+            "en": "L5 · Radial convergence"
+          }
+        },
+        {
+          "path": "cluster-field",
+          "title": {
+            "zh": "L6 · 贡献者群岛图",
+            "en": "L6 · Cluster field"
+          }
+        },
+        {
+          "path": "brand-spectrum",
+          "title": {
+            "zh": "L7 · 品牌双极量表",
+            "en": "L7 · Brand spectrum"
+          }
+        },
+        {
+          "path": "dotty-matrix",
+          "title": {
+            "zh": "L8 · 等距点阵平面",
+            "en": "L8 · Dotty matrix"
+          }
+        },
+        {
+          "path": "bubble-almanac",
+          "title": {
+            "zh": "L9 · 年度气泡年鉴",
+            "en": "L9 · Bubble almanac"
+          }
+        },
+        {
+          "path": "radial-patchwork",
+          "title": {
+            "zh": "L10 · 部署放射叠层图",
+            "en": "L10 · Radial patchwork"
+          }
+        },
+        {
+          "path": "trend-lineage",
+          "title": {
+            "zh": "L11 · 功能生命周期图",
+            "en": "L11 · Trend lineage"
+          }
+        },
+        {
+          "path": "type-colonnade",
+          "title": {
+            "zh": "L12 · 仓库归属柱廊",
+            "en": "L12 · Type colonnade"
+          }
+        },
+        {
+          "path": "hourglass-stream",
+          "title": {
+            "zh": "L13 · 细流漏斗图",
+            "en": "L13 · Hourglass stream"
+          }
+        },
+        {
+          "path": "hundred-field",
+          "title": {
+            "zh": "L14 · 百点构成图",
+            "en": "L14 · Hundred field"
+          }
+        },
+        {
+          "path": "ballot-tally",
+          "title": {
+            "zh": "L15 · 多选刻度计数图",
+            "en": "L15 · Ballot tally"
+          }
+        },
+        {
+          "path": "calendar-heat",
+          "title": {
+            "zh": "L17 · 年度日历热力图",
+            "en": "L17 · Calendar heat"
+          }
+        },
+        {
+          "path": "ridgeline",
+          "title": {
+            "zh": "L19 · 分布山峦图",
+            "en": "L19 · Ridgeline"
+          }
+        },
+        {
+          "path": "chunky-bars",
+          "title": {
+            "zh": "G3 · 粗柱排名图",
+            "en": "G3 · Chunky bars"
+          }
+        },
+        {
+          "path": "dot-waffle",
+          "title": {
+            "zh": "G4 · 圆点华夫图",
+            "en": "G4 · Dot waffle"
+          }
+        },
+        {
+          "path": "pictorial-forest",
+          "title": {
+            "zh": "G5 · 植树象形柱图",
+            "en": "G5 · Pictorial forest"
+          }
+        },
+        {
+          "path": "circular-network",
+          "title": {
+            "zh": "G6 · 环形关系图",
+            "en": "G6 · Circular network"
+          }
+        },
+        {
+          "path": "platform-tree",
+          "title": {
+            "zh": "G7 · 横向产品树",
+            "en": "G7 · Platform tree"
+          }
+        },
+        {
+          "path": "diverging-bars",
+          "title": {
+            "zh": "G10 · 正负发散条形图",
+            "en": "G10 · Diverging bars"
+          }
+        },
+        {
+          "path": "bar-race",
+          "title": {
+            "zh": "G16 · 产品动态排名",
+            "en": "G16 · Bar race"
+          }
+        },
+        {
+          "path": "draw-in-counter",
+          "title": {
+            "zh": "G18 · 描线增长与数字",
+            "en": "G18 · Draw-in and counter"
+          }
+        },
+        {
+          "path": "rank-strip",
+          "title": {
+            "zh": "G21 · 静态排名轨迹",
+            "en": "G21 · Rank strip"
+          }
+        },
+        {
+          "path": "aggregate-sankey",
+          "title": {
+            "zh": "G22 · 聚合流量桑基图",
+            "en": "G22 · Aggregate Sankey"
+          }
+        },
+        {
+          "path": "us-choropleth",
+          "title": {
+            "zh": "M1 · 美国州级分级地图",
+            "en": "M1 · US choropleth"
+          }
+        },
+        {
+          "path": "world-choropleth",
+          "title": {
+            "zh": "M2 · 世界分级地图",
+            "en": "M2 · World choropleth"
+          }
+        }
+      ]
+    },
+    {
       "path": "vscreen",
       "title": {
         "zh": "大屏数据可视化",
