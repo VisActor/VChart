@@ -158,13 +158,6 @@
       },
       "children": [
         {
-          "path": "overview",
-          "title": {
-            "zh": "信息图示例与使用说明",
-            "en": "Infographic examples and usage"
-          }
-        },
-        {
           "path": "rung-bars",
           "title": {
             "zh": "F1 · 阶梯柱状图",
