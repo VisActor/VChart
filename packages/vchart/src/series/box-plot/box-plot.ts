@@ -499,9 +499,17 @@ export class BoxPlotSeries<T extends IBoxPlotSeriesSpec = IBoxPlotSeriesSpec> ex
 
   getStatisticFields() {
     const fields = super.getStatisticFields();
+    if (!this._outliersField) {
+      return fields;
+    }
     const outliersField = fields.find(f => f.key === this._outliersField);
     if (outliersField) {
       outliersField.operations = ['array-min', 'array-max'];
+    } else {
+      fields.push({
+        key: this._outliersField,
+        operations: ['array-min', 'array-max']
+      });
     }
     return fields;
   }

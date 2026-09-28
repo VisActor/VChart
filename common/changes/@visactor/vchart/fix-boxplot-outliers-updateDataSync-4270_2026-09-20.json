@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: register boxPlot outliersField statistics so updateDataSync from empty data still renders outlier points",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
