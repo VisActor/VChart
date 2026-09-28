@@ -571,6 +571,9 @@ importers:
       '@internal/typescript-json-schema':
         specifier: workspace:*
         version: link:../../tools/typescript-json-schema
+      '@playwright/test':
+        specifier: 1.63.0
+        version: 1.63.0
       '@rushstack/eslint-patch':
         specifier: ~1.1.4
         version: 1.1.4
@@ -1255,7 +1258,7 @@ importers:
         version: 4.9.5
       vitest:
         specifier: 0.30.1
-        version: 0.30.1(jsdom@16.7.0(canvas@2.11.2(encoding@0.1.13)))(less@4.1.3)(sass@1.32.11)(stylus@0.54.8)(sugarss@2.0.0)(terser@5.17.1)
+        version: 0.30.1(jsdom@16.7.0(canvas@2.11.2(encoding@0.1.13)))(less@4.1.3)(playwright@1.63.0)(sass@1.32.11)(stylus@0.54.8)(sugarss@2.0.0)(terser@5.17.1)
 
   ../../tools/story-player:
     dependencies:
@@ -2351,6 +2354,11 @@ packages:
     resolution: {integrity: sha512-1SUf/Cg2GzGDyaf15aR9St9TWlb+XvbZXWpDx8YKs7MLzMH/BCeopv+y9vzrzgkfykCGuWOlSu3mZhj2+FQcrg==}
     engines: {node: '>=10'}
     deprecated: This functionality has been moved to @npmcli/fs
+
+  '@playwright/test@1.63.0':
+    resolution: {integrity: sha512-oxMK4vllB9RK5NQ2l1pq1IfOf2AvnEuj/vYGDj0H2nMtmtZpKtCwt/l00GEO6xjGfpBNAvjovvYdCm50dRQkpQ==}
+    engines: {node: '>=20'}
+    hasBin: true
 
   '@pmmmwh/react-refresh-webpack-plugin@0.4.3':
     resolution: {integrity: sha512-br5Qwvh8D2OQqSXpd1g/xqXKnK0r+Jz6qVKBbWmpUcrbGOxUrf39V5oZ1876084CGn18uMdR5uvPqBv9UqtBjQ==}
@@ -9440,6 +9448,16 @@ packages:
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
 
+  playwright-core@1.63.0:
+    resolution: {integrity: sha512-rYCsBF/M5HjUch52bbtVONEFjv6Xu8sm8h72dNlR5bzIE1fvC/bxgspzkjSfU+MweEMmPM8KJebG6nnyxo5mCg==}
+    engines: {node: '>=20'}
+    hasBin: true
+
+  playwright@1.63.0:
+    resolution: {integrity: sha512-+7ziBLidS4NaNCdt57SUDT+wYmmd5fmiQejUic/kb+YsYSCPyOOE9sebzMjNmQrsnNpDJqd4WHvV/8lfKfUDUg==}
+    engines: {node: '>=20'}
+    hasBin: true
+
   please-upgrade-node@3.2.0:
     resolution: {integrity: sha512-gQR3WpIgNIKwBMVLkpMUeR3e1/E1y42bqDQZfql+kDeXd8COYfM8PQA4X6y7a8u9Ua9FHmsrrmirW2vHs45hWg==}
 
@@ -13891,6 +13909,10 @@ snapshots:
     dependencies:
       mkdirp: 1.0.4
       rimraf: 3.0.2
+
+  '@playwright/test@1.63.0':
+    dependencies:
+      playwright: 1.63.0
 
   '@pmmmwh/react-refresh-webpack-plugin@0.4.3(react-refresh@0.9.0)(sockjs-client@1.4.0)(type-fest@0.13.1)(webpack-dev-server@3.11.0(webpack@4.46.0))(webpack@4.46.0)':
     dependencies:
@@ -23475,6 +23497,12 @@ snapshots:
       mlly: 1.8.2
       pathe: 2.0.3
 
+  playwright-core@1.63.0: {}
+
+  playwright@1.63.0:
+    dependencies:
+      playwright-core: 1.63.0
+
   please-upgrade-node@3.2.0:
     dependencies:
       semver-compare: 1.0.0
@@ -26589,7 +26617,7 @@ snapshots:
       sugarss: 2.0.0
       terser: 5.17.1
 
-  vitest@0.30.1(jsdom@16.7.0(canvas@2.11.2(encoding@0.1.13)))(less@4.1.3)(sass@1.32.11)(stylus@0.54.8)(sugarss@2.0.0)(terser@5.17.1):
+  vitest@0.30.1(jsdom@16.7.0(canvas@2.11.2(encoding@0.1.13)))(less@4.1.3)(playwright@1.63.0)(sass@1.32.11)(stylus@0.54.8)(sugarss@2.0.0)(terser@5.17.1):
     dependencies:
       '@types/chai': 4.3.20
       '@types/chai-subset': 1.3.6(@types/chai@4.3.20)
@@ -26619,6 +26647,7 @@ snapshots:
       why-is-node-running: 2.3.0
     optionalDependencies:
       jsdom: 16.7.0(canvas@2.11.2(encoding@0.1.13))
+      playwright: 1.63.0
     transitivePeerDependencies:
       - less
       - sass
