@@ -1,0 +1,21 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "feat: add `crossValue` to pin a cartesian axis to a tick of the perpendicular axis",
+      "type": "none"
+    },
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `domainLine.onZeroAxisId` never matched because it compared the internal auto id instead of the spec id",
+      "type": "none"
+    },
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: `domainLine.onZero` could bind to an axis of another region, or to a z axis, in multi-axis charts",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "chendaxin.tk@bytedance.com"
+}
