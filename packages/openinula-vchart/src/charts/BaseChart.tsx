@@ -2,7 +2,7 @@ import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@vi
 import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'openinula';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
-import { isEqual, isNil, pickWithout } from '@visactor/vutils';
+import { isEqual, isNil, isValid, pickWithout } from '@visactor/vutils';
 import { toArray } from '../util';
 import { REACT_PRIVATE_PROPS } from '../constants';
 import {
@@ -89,6 +89,40 @@ const getComponentId = (child: React.ReactNode, index: number) => {
   return `${componentName}-${index}`;
 };
 
+/**
+ * `updateFullDataSync` only replaces datasets that already exist under the same id.
+ * Valid data without a matchable id must go through the spec update path instead.
+ */
+const canUpdateFullDataByExistingId = (chart: IVChart, data?: IData) => {
+  if (!isValid(data)) {
+    return false;
+  }
+
+  const dataSet = chart.getDataSet();
+  if (!dataSet) {
+    return false;
+  }
+
+  const list = Array.isArray(data) ? data : [data];
+  if (!list.length) {
+    return false;
+  }
+
+  for (let i = 0; i < list.length; i++) {
+    const id = (list[i] as { id?: unknown } | null)?.id;
+    if ((typeof id !== 'string' && typeof id !== 'number') || id === '' || !dataSet.getDataView(id)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+const SPEC_UPDATE_MORPH = {
+  morph: false,
+  enableExitAnimation: false
+};
+
 const parseSpecFromChildren = (props: Props) => {
   const specFromChildren: Omit<ISpec, 'type' | 'data' | 'width' | 'height'> = {};
 
@@ -137,6 +171,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec && props.spec) {
       spec = props.spec;
+
+      if (isValid(props.data)) {
+        spec = {
+          ...props.spec,
+          data: props.data
+        } as ISpec;
+      }
     } else {
       spec = {
         ...prevSpec.current,
@@ -204,11 +245,18 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
         eventsBinded.current = props;
-        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, {
-          morph: false,
-          enableExitAnimation: false
-        });
+        chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, SPEC_UPDATE_MORPH);
         handleChartRender();
+      } else if (eventsBinded.current.data !== props.data) {
+        // Removing the data prop, or passing data with no existing id, must re-parse
+        // the effective spec so the result matches the first render's data priority.
+        if (canUpdateFullDataByExistingId(chartContext.current.chart, props.data)) {
+          chartContext.current.chart.updateFullDataSync(props.data as any);
+        } else {
+          chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, SPEC_UPDATE_MORPH);
+        }
+        handleChartRender();
+        eventsBinded.current = props;
       }
       return;
     }
