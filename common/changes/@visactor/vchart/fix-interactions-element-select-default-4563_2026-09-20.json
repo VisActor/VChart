@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: skip default single-select when spec.interactions already registers element-select, so isMultiple multi-select works",
+      "comment": "fix: let interactions element-select override default select only on matched marks, and keep selected_reverse",
       "type": "patch"
     }
   ],

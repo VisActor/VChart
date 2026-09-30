@@ -956,22 +956,46 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const { interactions } = this._spec;
     const res = this._parseDefaultInteractionConfig(mainMarks);
 
-    // Custom element-select is not isEqual to default select, so both would stay live and fight.
-    if (interactions?.some(interaction => interaction.type === TRIGGER_TYPE_ENUM.ELEMENT_SELECT)) {
-      const defaultSelectIndex = res.findIndex(item => item.trigger.type === TRIGGER_TYPE_ENUM.ELEMENT_SELECT);
-      if (defaultSelectIndex >= 0) {
-        res.splice(defaultSelectIndex, 1);
-      }
+    if (!interactions?.length) {
+      return res;
     }
 
-    if (interactions && interactions.length) {
-      interactions.forEach(interaction => {
-        const marks: IMark[] = filterMarksOfInteraction(interaction, this.getMarks());
+    // Default select and custom element-select are not isEqual, so both would stay live and fight
+    // on the same mark. Only drop default select for marks the custom interaction actually matches.
+    const defaultSelect = res.find(item => item.trigger.type === TRIGGER_TYPE_ENUM.ELEMENT_SELECT);
+    const defaultSelectMarkIds = defaultSelect ? new Set(defaultSelect.marks.map(mark => mark.id)) : undefined;
+    const coveredDefaultSelectMarkIds = new Set<number>();
+    const defaultReverseState = (defaultSelect?.trigger as { reverseState?: string } | undefined)?.reverseState;
 
-        if (marks.length) {
-          res.push({ trigger: interaction, marks });
+    interactions.forEach(interaction => {
+      const marks: IMark[] = filterMarksOfInteraction(interaction, this.getMarks());
+      if (!marks.length) {
+        return;
+      }
+
+      let trigger: Partial<IBaseTriggerOptions> = interaction;
+      if (interaction.type === TRIGGER_TYPE_ENUM.ELEMENT_SELECT && defaultSelectMarkIds) {
+        const overlappingMarks = marks.filter(mark => defaultSelectMarkIds.has(mark.id));
+        if (overlappingMarks.length) {
+          overlappingMarks.forEach(mark => coveredDefaultSelectMarkIds.add(mark.id));
+          // Default select applies selected_reverse. Custom element-select only fills state/trigger,
+          // so keep that reverse state unless the spec already sets reverseState.
+          if (!('reverseState' in interaction) && isValid(defaultReverseState)) {
+            const triggerWithReverse = { ...interaction };
+            (triggerWithReverse as { reverseState?: string }).reverseState = defaultReverseState;
+            trigger = triggerWithReverse;
+          }
         }
-      });
+      }
+
+      res.push({ trigger, marks });
+    });
+
+    if (defaultSelect && coveredDefaultSelectMarkIds.size) {
+      defaultSelect.marks = defaultSelect.marks.filter(mark => !coveredDefaultSelectMarkIds.has(mark.id));
+      if (!defaultSelect.marks.length) {
+        res.splice(res.indexOf(defaultSelect), 1);
+      }
     }
 
     return res;
