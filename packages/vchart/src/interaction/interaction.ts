@@ -153,13 +153,25 @@ export class Interaction implements IInteraction {
     });
   }
 
+  private _marksForReverseState(trigger: ITrigger) {
+    const marks = trigger.getMarks();
+    const reverseMarks = trigger.options?.reverseMarks;
+    if (!reverseMarks?.length) {
+      return marks;
+    }
+
+    const seen = new Set(marks.map(mark => mark && mark.id));
+    const extra = reverseMarks.filter((mark: IMark) => mark && !seen.has(mark.id));
+    return extra.length ? marks.concat(extra) : marks;
+  }
+
   protected addBothStateOfGraphics(
     trigger: ITrigger,
     statedGraphics: IMarkGraphic[],
     state: string,
     reverseState: string
   ) {
-    const marks = trigger.getMarks();
+    const marks = this._marksForReverseState(trigger);
     const markIdByState = trigger.getMarkIdByState();
 
     marks.forEach(m => {
@@ -221,7 +233,7 @@ export class Interaction implements IInteraction {
     if (!statedGraphics || !statedGraphics.length) {
       return;
     }
-    const marks = trigger.getMarks();
+    const marks = this._marksForReverseState(trigger);
     const markIdByState = trigger.getMarkIdByState();
 
     marks.forEach(mark => {

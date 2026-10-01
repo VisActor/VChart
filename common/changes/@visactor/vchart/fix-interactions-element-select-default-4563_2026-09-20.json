@@ -2,7 +2,7 @@
   "changes": [
     {
       "packageName": "@visactor/vchart",
-      "comment": "fix: let interactions element-select override default select only on matched marks, and keep selected_reverse",
+      "comment": "fix: let interactions element-select override default select only on matched marks, and keep cross-mark selected_reverse",
       "type": "patch"
     }
   ],

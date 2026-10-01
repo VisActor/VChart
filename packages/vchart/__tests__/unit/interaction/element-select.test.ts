@@ -67,6 +67,7 @@ type SelectTrigger = {
     reverseState?: string;
   };
   marks: IMark[];
+  reverseMarks?: IMark[];
 };
 
 function getSelectTriggers(series: { getInteractionTriggers: () => SelectTrigger[] }) {
@@ -75,6 +76,10 @@ function getSelectTriggers(series: { getInteractionTriggers: () => SelectTrigger
 
 function markNames(trigger: SelectTrigger) {
   return trigger.marks.map(mark => mark.name).sort();
+}
+
+function reverseMarkNames(trigger: SelectTrigger) {
+  return (trigger.reverseMarks ?? []).map(mark => mark.name).sort();
 }
 
 type TestGraphic = IMarkGraphic & {
@@ -99,15 +104,20 @@ function getIsMultiple(trigger: SelectTrigger['trigger']) {
   return trigger.isMultiple;
 }
 
+function createElementSelect(entry: SelectTrigger, interaction = new Interaction()) {
+  return new ElementSelect({
+    ...(entry.trigger as any),
+    marks: entry.marks,
+    reverseMarks: entry.reverseMarks,
+    event: dummyEvent,
+    interaction
+  });
+}
+
 function startSelects(selectTriggers: SelectTrigger[], graphics: IMarkGraphic[]) {
-  const instances = selectTriggers.map(({ trigger, marks }) => {
+  const instances = selectTriggers.map(entry => {
     const interaction = new Interaction();
-    const instance = new ElementSelect({
-      ...(trigger as any),
-      marks,
-      event: dummyEvent,
-      interaction
-    });
+    const instance = createElementSelect(entry, interaction);
     return { interaction, instance };
   });
 
@@ -281,15 +291,12 @@ describe('element-select vs default select', () => {
     expect(markNames(defaultSelect)).toEqual(['point']);
     expect(customSelect.trigger.reverseState).toBe('selected_reverse');
     expect(defaultSelect.trigger.reverseState).toBe('selected_reverse');
+    expect(reverseMarkNames(customSelect)).toEqual(['point']);
+    expect(reverseMarkNames(defaultSelect)).toEqual(['line']);
 
     const lineMark = customSelect.marks[0];
     const lineGraphics = attachGraphics(lineMark, 2);
-    const lineSelect = new ElementSelect({
-      ...(customSelect.trigger as any),
-      marks: customSelect.marks,
-      event: dummyEvent,
-      interaction: new Interaction()
-    });
+    const lineSelect = createElementSelect(customSelect);
     lineSelect.start(lineGraphics[0]);
     expect(lineGraphics[0].currentStates).toContain('selected');
     expect(lineGraphics[1].currentStates).toContain('selected_reverse');
@@ -298,12 +305,7 @@ describe('element-select vs default select', () => {
     expect(startSelects([defaultSelect], [createGraphic(point), createGraphic(point)])[0]).toHaveLength(1);
 
     const pointGraphics = attachGraphics(point, 2);
-    const pointSelect = new ElementSelect({
-      ...(defaultSelect.trigger as any),
-      marks: defaultSelect.marks,
-      event: dummyEvent,
-      interaction: new Interaction()
-    });
+    const pointSelect = createElementSelect(defaultSelect);
     pointSelect.start(pointGraphics[0]);
     expect(pointGraphics[0].currentStates).toContain('selected');
     expect(pointGraphics[1].currentStates).toContain('selected_reverse');
@@ -362,12 +364,7 @@ describe('element-select vs default select', () => {
     expect(mark.stateStyle.selected_reverse).toBeTruthy();
 
     const graphics = attachGraphics(mark, 3);
-    const elementSelect = new ElementSelect({
-      ...(selectTriggers[0].trigger as any),
-      marks: selectTriggers[0].marks,
-      event: dummyEvent,
-      interaction: new Interaction()
-    });
+    const elementSelect = createElementSelect(selectTriggers[0]);
 
     elementSelect.start(graphics[0]);
     expect(graphics[0].currentStates).toContain('selected');
@@ -397,5 +394,89 @@ describe('element-select vs default select', () => {
     const selectTriggers = getSelectTriggers(series);
     expect(selectTriggers).toHaveLength(1);
     expect(selectTriggers[0].trigger.reverseState).toBe('custom_reverse');
+    expect(selectTriggers[0].reverseMarks).toBeUndefined();
+  });
+
+  test('partial line element-select keeps cross-mark selected_reverse', () => {
+    const series = createCartesianSeries(LineSeries, {
+      type: 'line',
+      line: {
+        state: {
+          selected_reverse: {
+            strokeOpacity: 0.2
+          }
+        }
+      },
+      point: {
+        state: {
+          selected_reverse: {
+            fillOpacity: 0.2
+          }
+        }
+      },
+      interactions: [
+        {
+          type: 'element-select',
+          markNames: ['line']
+        }
+      ]
+    });
+
+    const selectTriggers = getSelectTriggers(series);
+    const customSelect = selectTriggers.find(item => markNames(item).join() === 'line');
+    const defaultSelect = selectTriggers.find(item => markNames(item).join() === 'point');
+
+    expect(selectTriggers).toHaveLength(2);
+    expect(customSelect).toBeTruthy();
+    expect(defaultSelect).toBeTruthy();
+    expect(customSelect.trigger.reverseState).toBe('selected_reverse');
+    expect(defaultSelect.trigger.reverseState).toBe('selected_reverse');
+    expect(reverseMarkNames(customSelect)).toEqual(['point']);
+    expect(reverseMarkNames(defaultSelect)).toEqual(['line']);
+
+    const lineMark = customSelect.marks[0];
+    const pointMark = defaultSelect.marks[0];
+
+    const linesWhenPointSelected = attachGraphics(lineMark, 2);
+    const pointsWhenPointSelected = attachGraphics(pointMark, 2);
+    createElementSelect(defaultSelect).start(pointsWhenPointSelected[0]);
+
+    expect(pointsWhenPointSelected[0].currentStates).toContain('selected');
+    expect(pointsWhenPointSelected[0].currentStates).not.toContain('selected_reverse');
+    expect(pointsWhenPointSelected[1].currentStates).toContain('selected_reverse');
+    expect(linesWhenPointSelected[0].currentStates).toEqual(['selected_reverse']);
+    expect(linesWhenPointSelected[1].currentStates).toEqual(['selected_reverse']);
+
+    const linesWhenLineSelected = attachGraphics(lineMark, 2);
+    const pointsWhenLineSelected = attachGraphics(pointMark, 2);
+    createElementSelect(customSelect).start(linesWhenLineSelected[0]);
+
+    expect(linesWhenLineSelected[0].currentStates).toContain('selected');
+    expect(linesWhenLineSelected[0].currentStates).not.toContain('selected_reverse');
+    expect(linesWhenLineSelected[1].currentStates).toContain('selected_reverse');
+    expect(pointsWhenLineSelected[0].currentStates).toEqual(['selected_reverse']);
+    expect(pointsWhenLineSelected[1].currentStates).toEqual(['selected_reverse']);
+  });
+
+  test('explicit reverseState on a partial element-select is not shared with default marks', () => {
+    const series = createCartesianSeries(LineSeries, {
+      type: 'line',
+      interactions: [
+        {
+          type: 'element-select',
+          markNames: ['line'],
+          reverseState: 'custom_reverse'
+        }
+      ]
+    });
+
+    const selectTriggers = getSelectTriggers(series);
+    const customSelect = selectTriggers.find(item => item.trigger.reverseState === 'custom_reverse');
+    const defaultSelect = selectTriggers.find(item => item.trigger.reverseState === 'selected_reverse');
+
+    expect(markNames(customSelect)).toEqual(['line']);
+    expect(markNames(defaultSelect)).toEqual(['point']);
+    expect(customSelect.reverseMarks).toBeUndefined();
+    expect(reverseMarkNames(defaultSelect)).toEqual(['line']);
   });
 });
