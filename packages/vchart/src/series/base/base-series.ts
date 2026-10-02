@@ -1036,10 +1036,32 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
           overlappingMarks.forEach(mark => coveredDefaultSelectMarkIds.add(mark.id));
           // Default select applies selected_reverse. Custom element-select only fills state/trigger,
           // so keep that reverse state unless the spec already sets reverseState.
-          if (!('reverseState' in interaction) && isValid(defaultReverseState)) {
-            const triggerWithReverse = { ...interaction };
-            (triggerWithReverse as { reverseState?: string }).reverseState = defaultReverseState;
-            trigger = triggerWithReverse;
+          // A partial override also needs triggerOff: blank click / click again must cancel the
+          // trigger that now owns the selection, while clicks on the other mark stay a selection.
+          const hasOwnReverse = 'reverseState' in interaction;
+          const specReverse = (interaction as { reverseState?: string }).reverseState;
+          const sharesDefaultReverse =
+            isValid(defaultReverseState) && (!hasOwnReverse || specReverse === defaultReverseState);
+          const coversEveryDefaultMark = [...defaultSelectMarkIds].every(id =>
+            overlappingMarks.some(mark => mark.id === id)
+          );
+          if (sharesDefaultReverse && (!hasOwnReverse || !coversEveryDefaultMark)) {
+            const triggerWithDefault = { ...interaction } as Partial<IBaseTriggerOptions> & {
+              reverseState?: string;
+              triggerOff?: unknown;
+              isMultiple?: boolean;
+              trigger?: string | string[];
+            };
+            if (!hasOwnReverse) {
+              triggerWithDefault.reverseState = defaultReverseState;
+            }
+            if (!coversEveryDefaultMark && !('triggerOff' in interaction)) {
+              const selectTrigger = triggerWithDefault.trigger ?? 'click';
+              triggerWithDefault.triggerOff = triggerWithDefault.isMultiple
+                ? ['empty']
+                : ['empty', ...(array(selectTrigger) as string[])];
+            }
+            trigger = triggerWithDefault;
           }
         }
       }

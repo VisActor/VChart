@@ -7,6 +7,7 @@ import type { IBarSeriesSpec } from '../../../src/series/bar/interface';
 import { LineSeries, registerLineSeries } from '../../../src/series/line/line';
 import type { ILineSeriesSpec } from '../../../src/series/line/interface';
 import { ElementSelect } from '../../../src/interaction/triggers/element-select';
+import type { ITriggerEventHandler } from '../../../src/interaction/interface/trigger';
 import { Interaction } from '../../../src/interaction/interaction';
 import { TRIGGER_TYPE_ENUM } from '../../../src/interaction/triggers/enum';
 import type { IMark } from '../../../src/mark/interface';
@@ -65,6 +66,8 @@ type SelectTrigger = {
     type?: string;
     isMultiple?: boolean;
     reverseState?: string;
+    trigger?: string | string[];
+    triggerOff?: unknown;
   };
   marks: IMark[];
   reverseMarks?: IMark[];
@@ -104,12 +107,22 @@ function getIsMultiple(trigger: SelectTrigger['trigger']) {
   return trigger.isMultiple;
 }
 
-function createElementSelect(entry: SelectTrigger, interaction = new Interaction()) {
+type SelectEventBus = {
+  on: (type: string, handler: ITriggerEventHandler) => void;
+  off: (type: string, handler: ITriggerEventHandler) => void;
+  emit: (type: string, payload?: { item?: TestGraphic }) => void;
+};
+
+function createElementSelect(
+  entry: SelectTrigger,
+  interaction = new Interaction(),
+  event: SelectEventBus = dummyEvent
+) {
   return new ElementSelect({
     ...(entry.trigger as any),
     marks: entry.marks,
     reverseMarks: entry.reverseMarks,
-    event: dummyEvent,
+    event,
     interaction
   });
 }
@@ -162,6 +175,100 @@ function attachGraphics(mark: IMark, count: number) {
   const graphics = Array.from({ length: count }, () => createGraphic(mark));
   (mark as IMark & { _graphics?: IMarkGraphic[] })._graphics = graphics;
   return graphics;
+}
+
+function selectionOf(graphic: TestGraphic) {
+  return graphic.currentStates.filter(state => state === 'selected' || state === 'selected_reverse');
+}
+
+function createSelectEvent() {
+  const handlers = new Map<string, Array<(payload: { item?: TestGraphic }) => void>>();
+  return {
+    on(type: string, handler: (payload: { item?: TestGraphic }) => void) {
+      const list = handlers.get(type) ?? [];
+      list.push(handler);
+      handlers.set(type, list);
+    },
+    off(type: string, handler: (payload: { item?: TestGraphic }) => void) {
+      handlers.set(
+        type,
+        (handlers.get(type) ?? []).filter(item => item !== handler)
+      );
+    },
+    emit(type: string, payload: { item?: TestGraphic } = {}) {
+      (handlers.get(type) ?? []).forEach(handler => handler(payload));
+    }
+  };
+}
+
+const lineAndPointSelectStyles = {
+  line: {
+    state: {
+      selected: {
+        strokeOpacity: 1
+      },
+      selected_reverse: {
+        strokeOpacity: 0.2
+      }
+    }
+  },
+  point: {
+    state: {
+      selected: {
+        fillOpacity: 1
+      },
+      selected_reverse: {
+        fillOpacity: 0.2
+      }
+    }
+  }
+};
+
+function bindLinePointSelects(interactions: Record<string, unknown>[]) {
+  const series = createCartesianSeries(LineSeries, {
+    type: 'line',
+    ...lineAndPointSelectStyles,
+    interactions
+  });
+  const selectTriggers = getSelectTriggers(series);
+  const customSelect = selectTriggers.find(item => markNames(item).join() === 'line');
+  const defaultSelect = selectTriggers.find(item => markNames(item).join() === 'point');
+  const event = createSelectEvent();
+  const interaction = new Interaction();
+  const pointTrigger = createElementSelect(defaultSelect, interaction, event);
+  const lineTrigger = createElementSelect(customSelect, interaction, event);
+  interaction.addTrigger(pointTrigger);
+  interaction.addTrigger(lineTrigger);
+  pointTrigger.init();
+  lineTrigger.init();
+
+  return {
+    series,
+    selectTriggers,
+    customSelect,
+    defaultSelect,
+    event,
+    interaction,
+    pointTrigger,
+    lineTrigger,
+    lines: attachGraphics(customSelect.marks[0], 2),
+    points: attachGraphics(defaultSelect.marks[0], 2)
+  };
+}
+
+function emitClick(
+  event: ReturnType<typeof createSelectEvent>,
+  graphic: TestGraphic | undefined,
+  pointertapFirst: boolean
+) {
+  const payload = { item: graphic };
+  if (pointertapFirst) {
+    event.emit('pointertap', payload);
+    event.emit('click', payload);
+    return;
+  }
+  event.emit('click', payload);
+  event.emit('pointertap', payload);
 }
 
 describe('element-select vs default select', () => {
@@ -478,5 +585,116 @@ describe('element-select vs default select', () => {
     expect(markNames(defaultSelect)).toEqual(['point']);
     expect(customSelect.reverseMarks).toBeUndefined();
     expect(reverseMarkNames(defaultSelect)).toEqual(['line']);
+  });
+
+  test('click point then line then cancel keeps one exclusive selected state', () => {
+    const bound = bindLinePointSelects([
+      {
+        type: 'element-select',
+        markNames: ['line']
+      }
+    ]);
+    const { customSelect, defaultSelect, interaction, pointTrigger, lineTrigger, lines, points } = bound;
+
+    expect(customSelect.trigger.reverseState).toBe('selected_reverse');
+    expect(defaultSelect.trigger.reverseState).toBe('selected_reverse');
+    expect(reverseMarkNames(customSelect)).toEqual(['point']);
+    expect(reverseMarkNames(defaultSelect)).toEqual(['line']);
+    expect(customSelect.trigger.triggerOff).toEqual(['empty', 'click']);
+
+    pointTrigger.start(points[0]);
+    expect(selectionOf(points[0])).toEqual(['selected']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[1])).toEqual(['selected_reverse']);
+
+    lineTrigger.start(lines[0]);
+    expect(selectionOf(lines[0])).toEqual(['selected']);
+    expect(selectionOf(lines[1])).toEqual(['selected_reverse']);
+    expect(selectionOf(points[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+    expect(interaction.getStatedGraphics(pointTrigger) ?? []).toEqual([]);
+    expect(interaction.getStatedGraphics(lineTrigger)).toEqual([lines[0]]);
+
+    pointTrigger.start(undefined);
+    [...points, ...lines].forEach(graphic => {
+      expect(selectionOf(graphic)).toEqual([]);
+    });
+    expect(interaction.getStatedGraphics(pointTrigger) ?? []).toEqual([]);
+    expect(interaction.getStatedGraphics(lineTrigger) ?? []).toEqual([]);
+  });
+
+  test.each([
+    ['pointertap then click', true],
+    ['click then pointertap', false]
+  ])('click point then line then cancel (%s)', (_label, pointertapFirst: boolean) => {
+    const { event, interaction, pointTrigger, lineTrigger, lines, points } = bindLinePointSelects([
+      {
+        type: 'element-select',
+        markNames: ['line']
+      }
+    ]);
+
+    emitClick(event, points[0], pointertapFirst);
+    expect(selectionOf(points[0])).toEqual(['selected']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[1])).toEqual(['selected_reverse']);
+    expect(interaction.getStatedGraphics(pointTrigger)).toEqual([points[0]]);
+
+    emitClick(event, lines[0], pointertapFirst);
+    expect(selectionOf(lines[0])).toEqual(['selected']);
+    expect(selectionOf(lines[1])).toEqual(['selected_reverse']);
+    expect(selectionOf(points[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+    expect(interaction.getStatedGraphics(pointTrigger) ?? []).toEqual([]);
+    expect(interaction.getStatedGraphics(lineTrigger)).toEqual([lines[0]]);
+
+    emitClick(event, undefined, pointertapFirst);
+    [...points, ...lines].forEach(graphic => {
+      expect(selectionOf(graphic)).toEqual([]);
+    });
+    expect(interaction.getStatedGraphics(pointTrigger) ?? []).toEqual([]);
+    expect(interaction.getStatedGraphics(lineTrigger) ?? []).toEqual([]);
+
+    emitClick(event, lines[0], pointertapFirst);
+    expect(selectionOf(lines[0])).toEqual(['selected']);
+    expect(selectionOf(points[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+
+    emitClick(event, points[0], pointertapFirst);
+    expect(selectionOf(points[0])).toEqual(['selected']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[1])).toEqual(['selected_reverse']);
+    expect(interaction.getStatedGraphics(lineTrigger) ?? []).toEqual([]);
+    expect(interaction.getStatedGraphics(pointTrigger)).toEqual([points[0]]);
+  });
+
+  test('partial multiple line select still accumulates across line clicks', () => {
+    const { event, customSelect, lines, points } = bindLinePointSelects([
+      {
+        type: 'element-select',
+        markNames: ['line'],
+        isMultiple: true
+      }
+    ]);
+
+    expect(customSelect.trigger.triggerOff).toEqual(['empty']);
+    expect(customSelect.trigger.reverseState).toBe('selected_reverse');
+
+    emitClick(event, lines[0], true);
+    emitClick(event, lines[1], true);
+
+    expect(selectionOf(lines[0])).toEqual(['selected']);
+    expect(selectionOf(lines[1])).toEqual(['selected']);
+    expect(selectionOf(points[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+
+    emitClick(event, points[0], true);
+    expect(selectionOf(points[0])).toEqual(['selected']);
+    expect(selectionOf(points[1])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[0])).toEqual(['selected_reverse']);
+    expect(selectionOf(lines[1])).toEqual(['selected_reverse']);
   });
 });
