@@ -1,0 +1,37 @@
+{
+  "type": "countPlot",
+  "title": "count",
+  "statistic": "proportion",
+  "data": [
+    {
+      "category": "A",
+      "count": 35,
+      "series": "训练集"
+    },
+    {
+      "category": "B",
+      "count": 45,
+      "series": "训练集"
+    },
+    {
+      "category": "C",
+      "count": 20,
+      "series": "训练集"
+    },
+    {
+      "category": "A",
+      "count": 20,
+      "series": "验证集"
+    },
+    {
+      "category": "B",
+      "count": 20,
+      "series": "验证集"
+    },
+    {
+      "category": "C",
+      "count": 10,
+      "series": "验证集"
+    }
+  ]
+}

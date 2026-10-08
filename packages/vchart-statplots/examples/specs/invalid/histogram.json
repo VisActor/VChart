@@ -1,0 +1,17 @@
+{
+  "type": "histogram",
+  "statistic": "density",
+  "data": [
+    {
+      "binStart": 0,
+      "binEnd": 1,
+      "count": 2
+    },
+    {
+      "binStart": 1,
+      "binEnd": 3,
+      "count": 2
+    }
+  ],
+  "xField": "guessed"
+}

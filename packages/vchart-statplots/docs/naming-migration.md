@@ -1,0 +1,95 @@
+# 命名与配置迁移
+
+本包发布前统一公共契约。新接口只接受以下规范名称；旧 type、字段与枚举值会报 SCHEMA_ERROR。图库旧 URL 和浏览记录可恢复到新类型，但编辑器不会转换旧 JSON。
+
+## 图表类型
+
+| 当前 type | 新 type | 中文主名称 | 新公开 Spec 类型 |
+| --- | --- | --- | --- |
+| `count` | `countPlot` | 类别计数图 | `CountPlotSpec` |
+| `missingness` | `missingValueMatrix` | 缺失值矩阵图 | `MissingValueMatrixSpec` |
+| `histogram` | `histogram` | 直方图 | `HistogramSpec` |
+| `kde` | `kdePlot` | 核密度估计图 | `KdePlotSpec` |
+| `ecdf` | `ecdfPlot` | 经验累积分布图 | `EcdfPlotSpec` |
+| `boxPlot` | `boxPlot` | 箱线图 | `BoxPlotSpec` |
+| `violin` | `violinPlot` | 小提琴图 | `ViolinPlotSpec` |
+| `stripPlot` | `stripPlot` | 条带图 | `StripPlotSpec` |
+| `estimateInterval` | `pointIntervalPlot` | 点估计区间图 | `PointIntervalPlotSpec` |
+| `paired` | `pairedComparisonPlot` | 配对比较图 | `PairedComparisonPlotSpec` |
+| `scatter` | `scatterPlot` | 散点图 | `ScatterPlotSpec` |
+| `hexbin` | `hexbinPlot` | 六边形分箱图 | `HexbinPlotSpec` |
+| `correlationMatrix` | `correlationMatrix` | 相关矩阵图 | `CorrelationMatrixSpec` |
+| `pairPlot` | `pairPlot` | 散点矩阵图 | `PairPlotSpec` |
+| `timeSeries` | `timeSeriesPlot` | 时间序列图 | `TimeSeriesPlotSpec` |
+| `seasonal` | `seasonalPlot` | 季节图 | `SeasonalPlotSpec` |
+| `autocorrelation` | `autocorrelationPlot` | 自相关图 | `AutocorrelationPlotSpec` |
+| `scree` | `screePlot` | 碎石图 | `ScreePlotSpec` |
+| `embedding` | `embeddingPlot` | 降维散点图 | `EmbeddingPlotSpec` |
+| `residual` | `residualPlot` | 残差图 | `ResidualPlotSpec` |
+| `qq` | `qqPlot` | Q–Q 图 | `QqPlotSpec` |
+| `confusionMatrix` | `confusionMatrix` | 混淆矩阵 | `ConfusionMatrixSpec` |
+| `roc` | `rocCurve` | ROC 曲线 | `RocCurveSpec` |
+| `precisionRecall` | `precisionRecallCurve` | PR 曲线 | `PrecisionRecallCurveSpec` |
+| `calibration` | `calibrationCurve` | 概率校准曲线 | `CalibrationCurveSpec` |
+| `learningCurve` | `learningCurve` | 学习曲线 | `LearningCurveSpec` |
+| `featureImportance` | `featureImportancePlot` | 特征重要性图 | `FeatureImportancePlotSpec` |
+| `shapBeeswarm` | `shapBeeswarmPlot` | SHAP 蜂群图 | `ShapBeeswarmPlotSpec` |
+
+公开 Row 类型使用同一前缀；公共 compileStatPlot、validateStatPlot、registerStatPlots 函数名称保留。内部 VChart 系列名保持原生契约。
+
+## 配置与数据字段
+
+所有已提供 labels 的图表统一改为 fieldLabels，键随数据字段更名。fieldLabels 只控制展示文字。
+
+| 新 type | 配置与数据字段调整 | 保留与说明 |
+| --- | --- | --- |
+| `countPlot` | `normalization` → `statistic`，`count/proportion` 枚举保留；新增 fieldLabels.proportion | category/count/series；输入始终是计数，statistic 选择显示统计量，默认 count |
+| `missingValueMatrix` | `data[].observation` → `observationId`；`missing` → `isMissing` | variable；id 表示观测，不是单元格唯一键；重复键仍是观测与变量组合 |
+| `histogram` | `normalization` → `statistic`；枚举 probability → proportion | count/density 保留；默认 count；binStart/binEnd/count，非等宽仍要求 density |
+| `kdePlot` | 无专属更名 | value/density、estimation.kernel/bandwidth；仅展示外部一维 KDE，不把 bandwidth 变成计算开关 |
+| `ecdfPlot` | `data[].probability` → `cumulativeProbability` | value；明确输入是累计概率，不是区间概率质量 |
+| `boxPlot` | `whiskerLow/whiskerHigh` → `whiskerLower/whiskerUpper` | category/q1/median/q3/outliers、whiskerRule；与 lower/upper 上下界用语一致 |
+| `violinPlot` | `widthScale` → `densityNormalization`，枚举 width/area 保留 | category/value/density；控制密度轮廓归一化，默认 width，不表示像素宽度 |
+| `stripPlot` | `jitter` → `jitterRatio` | layout=strip/jitter/swarm；jitterRatio 是最大偏移与完整分类带宽的比，0–0.5，默认 0.3，仅 jitter 布局可用 |
+| `pointIntervalPlot` | `reference` → `referenceLine` | estimate/lower/upper、interval、valueScale、referenceLine.value/label；valueScale 控制数值轴，不固定为 xScale |
+| `pairedComparisonPlot` | `categories` → `categoryOrder`，仍为两个不同字符串的元组 | id/category/value；显式顺序，不引入额外的 before/after 数据结构 |
+| `scatterPlot` | 无专属更名 | x/y/id/series、fit.method/data/interval、拟合行 estimate/lower/upper；fit 内必须有预计算结果 |
+| `hexbinPlot` | 无专属更名 | id/count/vertices[].x/y；顶点数与几何约束保留 |
+| `correlationMatrix` | `data[].value` → `correlation`；`order` → `variableOrder` | row/column、method、triangle；variableOrder 精确覆盖变量，triangle 仅改变显示 |
+| `pairPlot` | 无专属更名 | variables 是按显示顺序排列的变量选择；observations/diagonal/bins 含义明确，不改成通用 datasets |
+| `timeSeriesPlot` | 无专属更名 | time/value/lower/upper、interval；time 为带时区 ISO 8601，null 明确断线 |
+| `seasonalPlot` | period → phase、season → cycle、periodOrder → phaseOrder；新增必填 cycleOrder | value/series、layout=overlay/subseries；分组和时间方向见下文“季节图” |
+| `autocorrelationPlot` | `data[].value` → `correlation` | lag、method=acf/pacf、interval；不额外将无偏估计强行裁剪到 [-1,1] |
+| `screePlot` | 无专属更名 | component/explainedVarianceRatio、showCumulative；布尔选项已经表达显示开关 |
+| `embeddingPlot` | 无专属更名 | id/x/y、method、dimensions；explainedVarianceRatio 仅 PCA 可用，避免 method 对应三份重复 Spec |
+| `residualPlot` | `data[].fitted` → `fittedValue` | id/residual、residualKind；明确为拟合值，不暗示包含所有残差诊断 |
+| `qqPlot` | theoretical → theoreticalQuantile、observed → sampleQuantile；reference → referenceLine | distribution；referenceLine.method/intercept/slope 保留；理论与样本分位数方向明确 |
+| `confusionMatrix` | normalization 枚举 true → actual；新增 fieldLabels.proportion | normalization 的 none/predicted/all 保留，默认 none；actual/predicted/count 保留，分母与数据字段用语一致 |
+| `rocCurve` | 无专属更名 | fpr/tpr/threshold、metrics[].series/auc；保留常见领域缩写 |
+| `precisionRecallCurve` | `prevalence` → `positiveRate` | recall/precision/threshold、metrics[].averagePrecision；正例比例为 0–1 的显式参考线数值，不是让用户传基线模型 |
+| `calibrationCurve` | `meanPredicted` → `meanPredictedProbability` | observedRate/binStart/binEnd/count/lower/upper、interval；observedRate 明确表示实际正例比例 |
+| `learningCurve` | 无专属更名 | trainSize/split/score、metric、interval；trainSize 是训练样本数，split=train/validation，不能填 epoch |
+| `featureImportancePlot` | 无专属更名 | feature/importance/lower/upper、method、interval；保留负重要性与外部计算方法 |
+| `shapBeeswarmPlot` | 无专属更名 | id/feature/shapValue/featureValue、featureOrder；featureValue 可为 null，原值不转换成 SHAP 值 |
+
+## 季节图
+
+旧 period（如 Q1）改为 phase，旧 season（如 2024）改为 cycle。新增必填 cycleOrder，periodOrder 改为 phaseOrder；两者都需要由调用方显式指定。
+
+旧 subseries 按年分面；新 subseries 按季度分面、横轴为年份。相同数据产生不同面板，这是语义修复。缺少位置按显式顺序断线，不补零或插值。
+
+## 迁移示例
+
+旧输入：
+
+```json
+{"type":"count","normalization":"proportion","labels":{"category":"客户类型"},"data":[{"category":"A","count":3},{"category":"B","count":7}]}
+```
+
+新输入：
+
+```json
+{"type":"countPlot","statistic":"proportion","fieldLabels":{"category":"客户类型","proportion":"客户占比"},"data":[{"category":"A","count":3},{"category":"B","count":7}]}
+```
+
+比例和概率密度仍由已有计数归一化；本次没有增加统计估计。完整新契约见 [Spec 协议](spec.md)，自然语言选型见 [目录](catalog.md)。

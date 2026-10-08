@@ -1,0 +1,65 @@
+:root {
+  font: 14px/1.6 system-ui, sans-serif;
+  color: #17212b;
+  background: #f3f5f8;
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; height: 100dvh; display: flex; flex-direction: column; }
+.page-header { padding: 18px 24px; background: #fff; border-bottom: 1px solid #e2e7ed; }
+h1 { font-size: 22px; margin: 0; }
+h2 { font-size: 15px; margin: 0; }
+.page-header p { margin: 2px 0 0; color: #586473; font-size: 12px; }
+main { flex: 1; min-height: 0; padding: 20px; display: grid; grid-template-columns: 208px minmax(0, 1fr); gap: 20px; }
+#chart-nav, .preview, .editor { background: #fff; border: 1px solid #e2e7ed; border-radius: 10px; }
+#chart-nav { overflow-y: auto; padding: 0 10px 16px; scrollbar-width: thin; }
+.nav-heading { display: flex; align-items: center; justify-content: space-between; padding: 16px 10px 8px; position: sticky; top: 0; z-index: 1; background: #fff; }
+.nav-heading span { color: #586473; background: #f3f5f8; border-radius: 12px; padding: 0 8px; font-size: 12px; }
+.nav-group h3 { font-size: 11px; font-weight: 500; color: #6b7785; margin: 18px 10px 6px; }
+.nav-group ul { list-style: none; padding: 0; margin: 0; }
+.chart-link { display: block; padding: 7px 10px; margin: 2px 0; border-radius: 6px; color: #344150; text-decoration: none; border: 1px solid transparent; }
+.chart-link:hover { background: #f3f6fa; }
+.chart-link[aria-current="page"] { color: #18558f; background: #eaf3fc; border-color: #cbdff3; }
+.chart-link span { display: block; font-weight: 500; font-size: 13px; }
+.chart-link code { display: block; font-size: 11px; opacity: .75; }
+.workspace { min-width: 0; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 20px; overflow-y: auto; }
+.preview { padding: 20px; min-width: 0; display: flex; flex-direction: column; }
+.preview-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+#chart-type { font-size: 12px; color: #586473; }
+#plot { flex: 1; min-height: 400px; min-width: 0; }
+#status { margin: 12px 0 0; }
+.editor { min-width: 0; padding: 20px; display: flex; flex-direction: column; }
+label { display: block; font-weight: 600; font-size: 15px; }
+.note { color: #586473; font-size: 12px; }
+.editor > .note { margin: 6px 0 12px; }
+textarea { flex: 1; width: 100%; min-height: 280px; font: 12px/1.6 ui-monospace, monospace; border: 1px solid #ccd4de; border-radius: 6px; padding: 12px; resize: vertical; background: #fcfdff; color: #17212b; }
+.color-controls { margin: 0 0 12px; padding: 8px 10px; border: 1px solid #e2e7ed; border-radius: 6px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 6px 10px; align-items: center; }
+.color-controls legend, .color-controls label { font-size: 12px; font-weight: 500; }
+.color-controls select { min-width: 0; width: 100%; font: inherit; font-size: 12px; padding: 5px; border: 1px solid #ccd4de; border-radius: 4px; color: inherit; background: #fff; }
+.color-controls .note { grid-column: 1 / -1; margin: 2px 0 0; }
+button { cursor: pointer; font: inherit; font-size: 12px; border: 1px solid #2166ac; border-radius: 6px; background: #2166ac; color: #fff; padding: 7px 10px; }
+button.secondary { background: #fff; color: #2166ac; border-color: #ccd4de; }
+button:disabled { opacity: .5; cursor: wait; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+:focus-visible { outline: 2px solid #2166ac; outline-offset: 2px; }
+#error { white-space: pre-wrap; overflow-wrap: anywhere; color: #a62b24; font: 12px/1.5 ui-monospace, monospace; }
+#error:empty { display: none; }
+.actions + #error + .note { margin-top: 16px; }
+a { color: #2166ac; }
+#schema { font-size: 12px; }
+
+@media (max-width: 1199px) {
+  .workspace { grid-template-columns: minmax(0, 1fr); align-content: start; }
+  #plot { flex: none; height: 550px; }
+  textarea { flex: none; height: 320px; }
+}
+
+@media (max-width: 640px) {
+  body { height: auto; }
+  .page-header { padding: 16px; }
+  main { display: flex; flex-direction: column; padding: 12px; gap: 12px; }
+  #chart-nav { max-height: 240px; }
+  .workspace { overflow: visible; gap: 12px; }
+  .preview, .editor { padding: 14px; }
+  #plot { height: 420px; }
+}

@@ -1,0 +1,461 @@
+{
+  "type": "pairPlot",
+  "variables": [
+    "x",
+    "y",
+    "z"
+  ],
+  "data": {
+    "observations": [
+      {
+        "id": "A-0",
+        "values": {
+          "x": 0,
+          "y": null,
+          "z": 0
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-1",
+        "values": {
+          "x": 7,
+          "y": 3,
+          "z": 1
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-2",
+        "values": {
+          "x": 4,
+          "y": 6,
+          "z": 2
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-3",
+        "values": {
+          "x": 1,
+          "y": 9,
+          "z": 3
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-4",
+        "values": {
+          "x": 8,
+          "y": 2,
+          "z": 4
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-5",
+        "values": {
+          "x": 5,
+          "y": 5,
+          "z": 5
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-6",
+        "values": {
+          "x": 2,
+          "y": 8,
+          "z": 6
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-7",
+        "values": {
+          "x": 9,
+          "y": null,
+          "z": 7
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-8",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "z": 8
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-9",
+        "values": {
+          "x": 3,
+          "y": 7,
+          "z": 9
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-10",
+        "values": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-11",
+        "values": {
+          "x": 7,
+          "y": 3,
+          "z": 1
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-12",
+        "values": {
+          "x": 4,
+          "y": 6,
+          "z": 2
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-13",
+        "values": {
+          "x": 1,
+          "y": 9,
+          "z": 3
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-14",
+        "values": {
+          "x": 8,
+          "y": null,
+          "z": 4
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-15",
+        "values": {
+          "x": 5,
+          "y": 5,
+          "z": 5
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-16",
+        "values": {
+          "x": 2,
+          "y": 8,
+          "z": 6
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-17",
+        "values": {
+          "x": 9,
+          "y": 1,
+          "z": 7
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-18",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "z": 8
+        },
+        "series": "A"
+      },
+      {
+        "id": "A-19",
+        "values": {
+          "x": 3,
+          "y": 7,
+          "z": 9
+        },
+        "series": "A"
+      },
+      {
+        "id": "B-0",
+        "values": {
+          "x": 0,
+          "y": null,
+          "z": 0
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-1",
+        "values": {
+          "x": 7,
+          "y": 3,
+          "z": 1
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-2",
+        "values": {
+          "x": 4,
+          "y": 6,
+          "z": 2
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-3",
+        "values": {
+          "x": 1,
+          "y": 9,
+          "z": 3
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-4",
+        "values": {
+          "x": 8,
+          "y": 2,
+          "z": 4
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-5",
+        "values": {
+          "x": 5,
+          "y": 5,
+          "z": 5
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-6",
+        "values": {
+          "x": 2,
+          "y": 8,
+          "z": 6
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-7",
+        "values": {
+          "x": 9,
+          "y": null,
+          "z": 7
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-8",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "z": 8
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-9",
+        "values": {
+          "x": 3,
+          "y": 7,
+          "z": 9
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-10",
+        "values": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-11",
+        "values": {
+          "x": 7,
+          "y": 3,
+          "z": 1
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-12",
+        "values": {
+          "x": 4,
+          "y": 6,
+          "z": 2
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-13",
+        "values": {
+          "x": 1,
+          "y": 9,
+          "z": 3
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-14",
+        "values": {
+          "x": 8,
+          "y": null,
+          "z": 4
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-15",
+        "values": {
+          "x": 5,
+          "y": 5,
+          "z": 5
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-16",
+        "values": {
+          "x": 2,
+          "y": 8,
+          "z": 6
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-17",
+        "values": {
+          "x": 9,
+          "y": 1,
+          "z": 7
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-18",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "z": 8
+        },
+        "series": "B"
+      },
+      {
+        "id": "B-19",
+        "values": {
+          "x": 3,
+          "y": 7,
+          "z": 9
+        },
+        "series": "B"
+      }
+    ],
+    "diagonal": [
+      {
+        "variable": "x",
+        "bins": [
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 10,
+            "series": "A"
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10,
+            "series": "A"
+          },
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 10,
+            "series": "B"
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10,
+            "series": "B"
+          }
+        ]
+      },
+      {
+        "variable": "y",
+        "bins": [
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 7,
+            "series": "A"
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10,
+            "series": "A"
+          },
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 7,
+            "series": "B"
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10,
+            "series": "B"
+          }
+        ]
+      },
+      {
+        "variable": "z",
+        "bins": [
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 10,
+            "series": "A"
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10,
+            "series": "A"
+          },
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 10,
+            "series": "B"
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10,
+            "series": "B"
+          }
+        ]
+      }
+    ]
+  }
+}

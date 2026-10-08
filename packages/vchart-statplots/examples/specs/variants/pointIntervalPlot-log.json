@@ -1,0 +1,27 @@
+{
+  "type": "pointIntervalPlot",
+  "title": "比值及区间（对数轴）",
+  "interval": {
+    "kind": "confidence",
+    "level": 0.95
+  },
+  "referenceLine": {
+    "value": 1,
+    "label": "比值为 1"
+  },
+  "data": [
+    {
+      "category": "方案 A",
+      "estimate": 1.3,
+      "lower": 0.8,
+      "upper": 2.2
+    },
+    {
+      "category": "方案 B",
+      "estimate": 0.7,
+      "lower": 0.5,
+      "upper": 1.1
+    }
+  ],
+  "valueScale": "log"
+}

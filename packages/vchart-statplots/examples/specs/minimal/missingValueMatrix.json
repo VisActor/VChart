@@ -1,0 +1,245 @@
+{
+  "type": "missingValueMatrix",
+  "data": [
+    {
+      "observationId": "1",
+      "variable": "收入",
+      "isMissing": true
+    },
+    {
+      "observationId": "1",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "1",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "1",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "2",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "2",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "2",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "2",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "3",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "3",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "3",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "3",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "4",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "4",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "4",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "4",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "5",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "5",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "5",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "5",
+      "variable": "地区",
+      "isMissing": true
+    },
+    {
+      "observationId": "6",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "6",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "6",
+      "variable": "评分",
+      "isMissing": true
+    },
+    {
+      "observationId": "6",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "7",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "7",
+      "variable": "年龄",
+      "isMissing": true
+    },
+    {
+      "observationId": "7",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "7",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "8",
+      "variable": "收入",
+      "isMissing": true
+    },
+    {
+      "observationId": "8",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "8",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "8",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "9",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "9",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "9",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "9",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "10",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "10",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "10",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "10",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "11",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "11",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "11",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "11",
+      "variable": "地区",
+      "isMissing": false
+    },
+    {
+      "observationId": "12",
+      "variable": "收入",
+      "isMissing": false
+    },
+    {
+      "observationId": "12",
+      "variable": "年龄",
+      "isMissing": false
+    },
+    {
+      "observationId": "12",
+      "variable": "评分",
+      "isMissing": false
+    },
+    {
+      "observationId": "12",
+      "variable": "地区",
+      "isMissing": true
+    }
+  ]
+}

@@ -1,0 +1,3217 @@
+{
+  "anyOf": [
+    {
+      "$ref": "#/definitions/PairPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/ShapBeeswarmPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/HexbinPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/FeatureImportancePlotSpec"
+    },
+    {
+      "$ref": "#/definitions/LearningCurveSpec"
+    },
+    {
+      "$ref": "#/definitions/QqPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/ResidualPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/EmbeddingPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/ScreePlotSpec"
+    },
+    {
+      "$ref": "#/definitions/AutocorrelationPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/SeasonalPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/TimeSeriesPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/CalibrationCurveSpec"
+    },
+    {
+      "$ref": "#/definitions/PrecisionRecallCurveSpec"
+    },
+    {
+      "$ref": "#/definitions/ConfusionMatrixSpec"
+    },
+    {
+      "$ref": "#/definitions/ScatterPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/PairedComparisonPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/StripPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/MissingValueMatrixSpec"
+    },
+    {
+      "$ref": "#/definitions/CountPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/BoxPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/CorrelationMatrixSpec"
+    },
+    {
+      "$ref": "#/definitions/EcdfPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/PointIntervalPlotSpec"
+    },
+    {
+      "$ref": "#/definitions/HistogramSpec"
+    },
+    {
+      "$ref": "#/definitions/KdePlotSpec"
+    },
+    {
+      "$ref": "#/definitions/RocCurveSpec"
+    },
+    {
+      "$ref": "#/definitions/ViolinPlotSpec"
+    }
+  ],
+  "definitions": {
+    "PairPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "pairPlot"
+        },
+        "variables": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "data": {
+          "type": "object",
+          "properties": {
+            "observations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PairPlotObservation"
+              }
+            },
+            "diagonal": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "variable": {
+                    "type": "string"
+                  },
+                  "bins": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/PairPlotBin"
+                    }
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "bins",
+                  "variable"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "diagonal",
+            "observations"
+          ]
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type",
+        "variables"
+      ]
+    },
+    "PairPlotObservation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "null",
+              "number"
+            ]
+          }
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "values"
+      ]
+    },
+    "PairPlotBin": {
+      "type": "object",
+      "properties": {
+        "binStart": {
+          "type": "number"
+        },
+        "binEnd": {
+          "type": "number"
+        },
+        "count": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "binEnd",
+        "binStart",
+        "count"
+      ]
+    },
+    "StatPlotColors": {
+      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+      "type": "object",
+      "properties": {
+        "categorical": {
+          "description": "无序分组，默认 colorblind；vchart 使用原生主题分类色。",
+          "anyOf": [
+            {
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "colorblind",
+                "deep",
+                "vchart"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "sequential": {
+          "description": "从低到高，默认 viridis；数组停靠点等距。",
+          "anyOf": [
+            {
+              "minItems": 2,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "cividis",
+                "viridis"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "diverging": {
+          "description": "从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。",
+          "anyOf": [
+            {
+              "minItems": 3,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "const": "RdBu_r",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "ShapBeeswarmPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "shapBeeswarmPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ShapBeeswarmPlotRow"
+          }
+        },
+        "featureOrder": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "feature": {
+              "type": "string"
+            },
+            "shapValue": {
+              "type": "string"
+            },
+            "featureValue": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "featureOrder",
+        "type"
+      ]
+    },
+    "ShapBeeswarmPlotRow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "feature": {
+          "type": "string"
+        },
+        "shapValue": {
+          "type": "number"
+        },
+        "featureValue": {
+          "type": [
+            "null",
+            "number"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "feature",
+        "featureValue",
+        "id",
+        "shapValue"
+      ]
+    },
+    "HexbinPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "hexbinPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HexbinPlotRow"
+          }
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            },
+            "count": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "HexbinPlotRow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "count": {
+          "type": "number"
+        },
+        "vertices": {
+          "description": "按周界顺序给定六个数据坐标顶点，不包含重复闭合点。",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "x",
+              "y"
+            ]
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "count",
+        "id",
+        "vertices"
+      ]
+    },
+    "FeatureImportancePlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "featureImportancePlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FeatureImportancePlotRow"
+          }
+        },
+        "method": {
+          "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+          "type": "string"
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "feature": {
+              "type": "string"
+            },
+            "importance": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "method",
+        "type"
+      ]
+    },
+    "FeatureImportancePlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "feature": {
+          "type": "string"
+        },
+        "importance": {
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "feature",
+        "importance"
+      ]
+    },
+    "LearningCurveSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "learningCurve"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LearningCurveRow"
+          }
+        },
+        "metric": {
+          "description": "外部计算的评价指标名称，例如 Accuracy 或 MSE。",
+          "type": "string"
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "trainSize": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "metric",
+        "type"
+      ]
+    },
+    "LearningCurveRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "trainSize": {
+          "description": "训练样本数，正整数；不是训练轮次 epoch。",
+          "type": "number"
+        },
+        "split": {
+          "description": "训练集或验证集分数来源。",
+          "enum": [
+            "train",
+            "validation"
+          ],
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "score",
+        "split",
+        "trainSize"
+      ]
+    },
+    "QqPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "qqPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/QqPlotRow"
+          }
+        },
+        "distribution": {
+          "type": "string"
+        },
+        "referenceLine": {
+          "description": "显式参考线；数值及统计含义由调用方提供。",
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "intercept": {
+              "type": "number"
+            },
+            "slope": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "intercept",
+            "method",
+            "slope"
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "theoreticalQuantile": {
+              "type": "string"
+            },
+            "sampleQuantile": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "distribution",
+        "type"
+      ]
+    },
+    "QqPlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "theoreticalQuantile": {
+          "description": "给定理论分布的分位数，作为横轴；系列内非递减。",
+          "type": "number"
+        },
+        "sampleQuantile": {
+          "description": "对应样本分位数，作为纵轴；系列内非递减。",
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "sampleQuantile",
+        "theoreticalQuantile"
+      ]
+    },
+    "ResidualPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResidualPlotRow"
+          }
+        },
+        "residualKind": {
+          "description": "外部残差的定义；本配置不重新计算或标准化残差。",
+          "enum": [
+            "raw",
+            "standardized",
+            "studentized"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "residualKind",
+        "type"
+      ]
+    },
+    "ResidualPlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fittedValue": {
+          "description": "外部模型给出的拟合值，与 residual 对应。",
+          "type": "number"
+        },
+        "residual": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fittedValue",
+        "id",
+        "residual"
+      ]
+    },
+    "EmbeddingPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "embeddingPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EmbeddingPlotRow"
+          }
+        },
+        "method": {
+          "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+          "enum": [
+            "pca",
+            "tsne",
+            "umap"
+          ],
+          "type": "string"
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "explainedVarianceRatio": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "name"
+              ]
+            },
+            "y": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "explainedVarianceRatio": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "name"
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "x",
+            "y"
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "method",
+        "type"
+      ]
+    },
+    "EmbeddingPlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "x",
+        "y"
+      ]
+    },
+    "ScreePlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "screePlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScreePlotRow"
+          }
+        },
+        "showCumulative": {
+          "description": "是否显示累计解释方差比例，默认 false。",
+          "type": "boolean"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "component": {
+              "type": "string"
+            },
+            "explainedVarianceRatio": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "ScreePlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "component": {
+          "type": "number"
+        },
+        "explainedVarianceRatio": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "component",
+        "explainedVarianceRatio"
+      ]
+    },
+    "AutocorrelationPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "autocorrelationPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AutocorrelationPlotRow"
+          }
+        },
+        "method": {
+          "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+          "enum": [
+            "acf",
+            "pacf"
+          ],
+          "type": "string"
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "lag": {
+              "type": "string"
+            },
+            "correlation": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "method",
+        "type"
+      ]
+    },
+    "AutocorrelationPlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "lag": {
+          "type": "number"
+        },
+        "correlation": {
+          "description": "外部 ACF/PACF 估计值；保留无偏估计可能超出 [-1,1] 的结果。",
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "correlation",
+        "lag"
+      ]
+    },
+    "SeasonalPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "seasonalPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SeasonalPlotRow"
+          }
+        },
+        "cycleOrder": {
+          "description": "非空、无重复，覆盖输入的周期；可声明无观测的位置。",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "phaseOrder": {
+          "description": "非空、无重复，覆盖输入的周期内位置；可声明无观测的位置。",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "layout": {
+          "description": "默认 overlay；subseries 按 phase 分面、横轴为 cycle。",
+          "enum": [
+            "overlay",
+            "subseries"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "cycle": {
+              "type": "string"
+            },
+            "phase": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "cycleOrder",
+        "data",
+        "phaseOrder",
+        "type"
+      ]
+    },
+    "SeasonalPlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "cycle": {
+          "description": "完整周期编号，例如年份。",
+          "type": "string"
+        },
+        "phase": {
+          "description": "周期内位置，例如月份或季度。",
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "cycle",
+        "phase",
+        "value"
+      ]
+    },
+    "TimeSeriesPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "timeSeriesPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesPlotRow"
+          }
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "time": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "TimeSeriesPlotRow": {
+      "description": "统计量由调用方计算；只负责可视化。",
+      "type": "object",
+      "properties": {
+        "time": {
+          "description": "带时区的 ISO 8601 时间。",
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "time",
+        "value"
+      ]
+    },
+    "CalibrationCurveSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "calibrationCurve"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CalibrationCurveRow"
+          }
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "meanPredictedProbability": {
+              "type": "string"
+            },
+            "observedRate": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "CalibrationCurveRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "binStart": {
+          "type": "number"
+        },
+        "binEnd": {
+          "type": "number"
+        },
+        "meanPredictedProbability": {
+          "description": "箱内平均预测概率，0–1，必须位于 binStart 与 binEnd 内。",
+          "type": "number"
+        },
+        "observedRate": {
+          "description": "箱内实际正例比例，范围 0–1。",
+          "type": "number"
+        },
+        "count": {
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "binEnd",
+        "binStart",
+        "count",
+        "meanPredictedProbability",
+        "observedRate"
+      ]
+    },
+    "PrecisionRecallCurveSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "precisionRecallCurve"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PrecisionRecallCurveRow"
+          }
+        },
+        "positiveRate": {
+          "description": "评价数据中的正例比例，0–1；提供时绘制 PR 基线，不由曲线推算。",
+          "type": "number"
+        },
+        "metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "series": {
+                "type": "string"
+              },
+              "averagePrecision": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "averagePrecision"
+            ]
+          }
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "recall": {
+              "type": "string"
+            },
+            "precision": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "PrecisionRecallCurveRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "recall": {
+          "type": "number"
+        },
+        "precision": {
+          "type": "number"
+        },
+        "threshold": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "precision",
+        "recall"
+      ]
+    },
+    "ConfusionMatrixSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "confusionMatrix"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ConfusionMatrixRow"
+          }
+        },
+        "normalization": {
+          "description": "默认 none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化。",
+          "enum": [
+            "actual",
+            "all",
+            "none",
+            "predicted"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "actual": {
+              "type": "string"
+            },
+            "predicted": {
+              "type": "string"
+            },
+            "count": {
+              "type": "string"
+            },
+            "proportion": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "ConfusionMatrixRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "actual": {
+          "type": "string"
+        },
+        "predicted": {
+          "type": "string"
+        },
+        "count": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "actual",
+        "count",
+        "predicted"
+      ]
+    },
+    "ScatterPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "scatterPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ScatterPlotRow"
+          }
+        },
+        "fit": {
+          "type": "object",
+          "properties": {
+            "method": {
+              "type": "string"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/FitRow"
+              }
+            },
+            "interval": {
+              "description": "显示区间的统计含义；数值由计算端提供。",
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "confidence",
+                        "credible",
+                        "prediction"
+                      ],
+                      "type": "string"
+                    },
+                    "level": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "level"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "enum": [
+                        "standardDeviation",
+                        "standardError"
+                      ],
+                      "type": "string"
+                    },
+                    "multiplier": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind",
+                    "multiplier"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "range"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind"
+                  ]
+                }
+              ]
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "data",
+            "method"
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "ScatterPlotRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "FitRow": {
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "estimate": {
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "estimate",
+        "x"
+      ]
+    },
+    "PairedComparisonPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "pairedComparisonPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PairedComparisonPlotRow"
+          }
+        },
+        "categoryOrder": {
+          "description": "同一对象比较的两个不同状态，数组顺序即显示顺序。",
+          "type": "array",
+          "items": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "categoryOrder",
+        "data",
+        "type"
+      ]
+    },
+    "PairedComparisonPlotRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "id",
+        "value"
+      ]
+    },
+    "StripPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "stripPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/StripPlotRow"
+          }
+        },
+        "layout": {
+          "enum": [
+            "jitter",
+            "strip",
+            "swarm"
+          ],
+          "type": "string"
+        },
+        "jitterRatio": {
+          "description": "最大偏移占完整分类带宽的比例，0–0.5；仅 jitter 布局允许，默认 0.3。",
+          "type": "number"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "StripPlotRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "id",
+        "value"
+      ]
+    },
+    "MissingValueMatrixSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "missingValueMatrix"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MissingValueMatrixRow"
+          }
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "observationId": {
+              "type": "string"
+            },
+            "variable": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "MissingValueMatrixRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "observationId": {
+          "description": "观测标识；与 variable 组合唯一，不是单元格唯一编号。",
+          "type": "string"
+        },
+        "variable": {
+          "type": "string"
+        },
+        "isMissing": {
+          "description": "该观测的该变量是否缺失；true 表示缺失。",
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "isMissing",
+        "observationId",
+        "variable"
+      ]
+    },
+    "CountPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "countPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CountPlotRow"
+          }
+        },
+        "statistic": {
+          "description": "显示统计量，默认 count；proportion 为同一 series 内的计数比例。",
+          "enum": [
+            "count",
+            "proportion"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "count": {
+              "type": "string"
+            },
+            "proportion": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "CountPlotRow": {
+      "description": "预计算统计结果；本包不拟合模型。",
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "count": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "count"
+      ]
+    },
+    "BoxPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "boxPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BoxPlotRow"
+          }
+        },
+        "whiskerRule": {
+          "description": "须的定义，例如“1.5×IQR 内最远观测”，不自动推断。",
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type",
+        "whiskerRule"
+      ]
+    },
+    "BoxPlotRow": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "q1": {
+          "type": "number"
+        },
+        "median": {
+          "type": "number"
+        },
+        "q3": {
+          "type": "number"
+        },
+        "whiskerLower": {
+          "description": "下须端点，由 whiskerRule 定义，不自动等同于最小值。",
+          "type": "number"
+        },
+        "whiskerUpper": {
+          "description": "上须端点，由 whiskerRule 定义，不自动等同于最大值。",
+          "type": "number"
+        },
+        "outliers": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "median",
+        "q1",
+        "q3",
+        "whiskerLower",
+        "whiskerUpper"
+      ]
+    },
+    "CorrelationMatrixSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "correlationMatrix"
+        },
+        "data": {
+          "description": "完整的对称矩阵；triangle 只影响显示。",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CorrelationMatrixRow"
+          }
+        },
+        "method": {
+          "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+          "enum": [
+            "kendall",
+            "pearson",
+            "spearman"
+          ],
+          "type": "string"
+        },
+        "triangle": {
+          "description": "显示完整矩阵或指定三角，默认 full；输入仍须完整对称。",
+          "enum": [
+            "full",
+            "lower",
+            "upper"
+          ],
+          "type": "string"
+        },
+        "variableOrder": {
+          "description": "完整变量显示顺序；每个变量恰好出现一次，默认按数据首次出现排序。",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "row": {
+              "type": "string"
+            },
+            "column": {
+              "type": "string"
+            },
+            "correlation": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "method",
+        "type"
+      ]
+    },
+    "CorrelationMatrixRow": {
+      "type": "object",
+      "properties": {
+        "row": {
+          "type": "string"
+        },
+        "column": {
+          "type": "string"
+        },
+        "correlation": {
+          "description": "相关系数，-1 至 1；无法计算时为 null。",
+          "type": [
+            "null",
+            "number"
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "column",
+        "correlation",
+        "row"
+      ]
+    },
+    "EcdfPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "ecdfPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/EcdfPlotRow"
+          }
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "cumulativeProbability": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "EcdfPlotRow": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "cumulativeProbability": {
+          "description": "累计概率，范围 0–1；同一系列中随 value 非递减。",
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "cumulativeProbability",
+        "value"
+      ]
+    },
+    "PointIntervalPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "pointIntervalPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PointIntervalPlotRow"
+          }
+        },
+        "interval": {
+          "$ref": "#/definitions/Interval"
+        },
+        "referenceLine": {
+          "description": "显式参考线；数值及统计含义由调用方提供。",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number"
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ]
+        },
+        "valueScale": {
+          "description": "估计值轴尺度，默认 linear；log 要求估计、区间端点及参考值为正。",
+          "enum": [
+            "linear",
+            "log"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "estimate": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "interval",
+        "type"
+      ]
+    },
+    "PointIntervalPlotRow": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "estimate": {
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "estimate",
+        "lower",
+        "upper"
+      ]
+    },
+    "Interval": {
+      "description": "显示区间的统计含义；数值由计算端提供。",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "confidence",
+                "credible",
+                "prediction"
+              ],
+              "type": "string"
+            },
+            "level": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "level"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "enum": [
+                "standardDeviation",
+                "standardError"
+              ],
+              "type": "string"
+            },
+            "multiplier": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "multiplier"
+          ]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "const": "range"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ]
+        }
+      ]
+    },
+    "HistogramSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "histogram"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HistogramRow"
+          }
+        },
+        "statistic": {
+          "description": "显示统计量，默认 count；proportion 为系列内比例，density 为单位数值区间的概率密度。",
+          "enum": [
+            "count",
+            "density",
+            "proportion"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "count": {
+              "type": "string"
+            },
+            "proportion": {
+              "type": "string"
+            },
+            "density": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "HistogramRow": {
+      "type": "object",
+      "properties": {
+        "binStart": {
+          "type": "number"
+        },
+        "binEnd": {
+          "type": "number"
+        },
+        "count": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "binEnd",
+        "binStart",
+        "count"
+      ]
+    },
+    "KdePlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "kdePlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/KdePlotRow"
+          }
+        },
+        "estimation": {
+          "description": "结果说明；修改此项不会重新计算 KDE。",
+          "type": "object",
+          "properties": {
+            "kernel": {
+              "type": "string"
+            },
+            "bandwidth": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "bandwidth",
+            "kernel"
+          ]
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "density": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "KdePlotRow": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "density": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "density",
+        "value"
+      ]
+    },
+    "RocCurveSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "rocCurve"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RocCurveRow"
+          }
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "fpr": {
+              "type": "string"
+            },
+            "tpr": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "metrics": {
+          "description": "预先计算的曲线面积；本包不推算 AUC。",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "series": {
+                "type": "string"
+              },
+              "auc": {
+                "type": "number"
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "auc"
+            ]
+          }
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "RocCurveRow": {
+      "type": "object",
+      "properties": {
+        "fpr": {
+          "description": "假阳性率，0–1。",
+          "type": "number"
+        },
+        "tpr": {
+          "description": "真阳性率，0–1。",
+          "type": "number"
+        },
+        "threshold": {
+          "description": "有限决策阈值；无穷阈值省略。",
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fpr",
+        "tpr"
+      ]
+    },
+    "ViolinPlotSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "violinPlot"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ViolinPlotRow"
+          }
+        },
+        "densityNormalization": {
+          "description": "密度轮廓归一化：width 等最大宽度（默认），area 等面积。",
+          "enum": [
+            "area",
+            "width"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            },
+            "density": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "ViolinPlotRow": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "density": {
+          "description": "已计算的概率密度，不是样本数量。",
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "density",
+        "value"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://visactor.io/schemas/vchart-statplots/2.1.7/statplot.schema.json"
+}

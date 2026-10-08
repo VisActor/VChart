@@ -1,0 +1,39 @@
+# Skill 生成协议
+
+先确定分析问题和统计结果，再生成最小语义 JSON。不要要求模型从原始数据猜测区间或评价指标。
+
+1. 从 [28 类目录](catalog.md) 选择 type。
+2. 读取 `schema/plots/<type>.schema.json` 和对应逐图文档，避免把全部 VChart 选项送入生成上下文。
+3. 计算端输出固定语义字段；只选择分析问题所需的图表选项。
+4. 调用 `validateStatPlot`，按错误 path 修正；不能静默换图或丢弃错误数据。
+5. 调用 `compileStatPlot`，由已注册的同版本 VChart 渲染。
+6. 保存原始 JSON、方法说明及外部计算元数据，便于复现。
+
+配色默认省略 `colors`。需要统一报告配色时，复用 `{"categorical":"colorblind","sequential":"viridis","diverging":"RdBu_r"}`，不为每类图重新猜色号。用户指定业务配色时可使用 `#RRGGBB` 数组；角色规则与支持名称见[公共配色](colors.md)。`theme` 只决定深浅外观，不能通过更换颜色表达未经输入提供的统计意义。
+
+## 典型错误
+
+```json
+{ "type": "rocCurve", "data": [{ "x": 0.1, "y": 0.8 }] }
+```
+
+会报结构错误，应使用 fpr/tpr。`{"type":"rocCurve","data":[{"fpr":1.2,"tpr":0.8}]}` 的错误指向 `/data/0/fpr`；这应回到计算端检查，不能把概率裁剪到 1。
+
+若 lower/upper 缺少 interval，不自动填写 confidence/0.95。若想画不等宽直方图，应提供 density 归一化；若没有观测 id，先让计算端生成稳定标识再请求蜂群或配对图。
+
+参考实现均在 `examples/specs`，每份都由 CI 校验。图表输出仅提供视觉证据，报告解释应区分描述、统计推断和因果结论。
+
+## 名称与变体选择
+
+先读取 [机器可读目录](plot-catalog.json)，按 useWhen/avoidWhen 选择图表，再根据 variants 的 aliases 和 options 选择变体。每个 Spec 仅接受一个规范 type，不把自然语言别名直接填入 JSON。
+
+- 普通蜂群：stripPlot + layout=swarm；SHAP 蜂群：shapBeeswarmPlot。
+- 偏自相关：autocorrelationPlot + method=pacf。
+- 类别比例：countPlot + statistic=proportion，输入仍然是计数。
+- UMAP：embeddingPlot + method=umap；仅说 PCA 时须明确得分、解释方差还是载荷。
+- 配对前后：pairedComparisonPlot；多变量两两关系：pairPlot。
+- 训练规模学习曲线：learningCurve；epoch–loss 不属于这一契约。
+
+fieldLabels 为展示文字；区间含义、计算方法、统计量和顺序需要由分析结果确定，不从名称猜测。旧 JSON 的迁移见 [迁移表](naming-migration.md)。
+
+仓库中的 chart-intents.json 是 78 条选型预期，check:catalog 只检查预期与可执行契约的一致性，未执行模型命中率评测。

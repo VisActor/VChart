@@ -1,0 +1,730 @@
+[
+  {
+    "type": "countPlot",
+    "name": "类别计数图",
+    "englishName": "Count plot",
+    "group": "概览与分布",
+    "aliases": [
+      "Count plot",
+      "类别计数图",
+      "类别频数",
+      "countplot"
+    ],
+    "useWhen": "比较各客户类别有多少条观测。",
+    "avoidWhen": [
+      "任意数值柱状图",
+      "各组均值",
+      "连续变量分箱"
+    ],
+    "schema": "schema/plots/countPlot.schema.json",
+    "example": "examples/specs/minimal/countPlot.json",
+    "variants": [
+      {
+        "name": "类别比例图",
+        "aliases": [
+          "类别占比",
+          "proportion count plot"
+        ],
+        "options": {
+          "statistic": "proportion"
+        },
+        "example": "examples/specs/variants/countPlot-proportion.json"
+      }
+    ]
+  },
+  {
+    "type": "missingValueMatrix",
+    "name": "缺失值矩阵图",
+    "englishName": "Missing value matrix",
+    "group": "概览与分布",
+    "aliases": [
+      "Missing value matrix",
+      "缺失值矩阵图",
+      "缺失矩阵",
+      "missing data matrix"
+    ],
+    "useWhen": "检查每条观测各变量的缺失位置。",
+    "avoidWhen": [
+      "缺失率柱状图",
+      "缺失相关性矩阵"
+    ],
+    "schema": "schema/plots/missingValueMatrix.schema.json",
+    "example": "examples/specs/minimal/missingValueMatrix.json",
+    "variants": []
+  },
+  {
+    "type": "histogram",
+    "name": "直方图",
+    "englishName": "Histogram",
+    "group": "概览与分布",
+    "aliases": [
+      "Histogram",
+      "直方图",
+      "histplot"
+    ],
+    "useWhen": "查看连续变量的分箱分布和尾部。",
+    "avoidWhen": [
+      "类别频数比较",
+      "没有分箱结果"
+    ],
+    "schema": "schema/plots/histogram.schema.json",
+    "example": "examples/specs/minimal/histogram.json",
+    "variants": [
+      {
+        "name": "密度直方图",
+        "aliases": [
+          "density histogram"
+        ],
+        "options": {
+          "statistic": "density"
+        },
+        "example": "examples/specs/variants/histogram-density.json"
+      },
+      {
+        "name": "比例直方图",
+        "aliases": [
+          "proportion histogram",
+          "probability histogram"
+        ],
+        "options": {
+          "statistic": "proportion"
+        },
+        "example": "examples/specs/variants/histogram-proportion.json"
+      }
+    ]
+  },
+  {
+    "type": "kdePlot",
+    "name": "核密度估计图",
+    "englishName": "Kernel density plot",
+    "group": "概览与分布",
+    "aliases": [
+      "Kernel density plot",
+      "核密度估计图",
+      "KDE",
+      "kdeplot",
+      "核密度图"
+    ],
+    "useWhen": "比较已计算的一维核密度曲线。",
+    "avoidWhen": [
+      "二维密度图",
+      "需要库内估计 KDE"
+    ],
+    "schema": "schema/plots/kdePlot.schema.json",
+    "example": "examples/specs/minimal/kdePlot.json",
+    "variants": []
+  },
+  {
+    "type": "ecdfPlot",
+    "name": "经验累积分布图",
+    "englishName": "Empirical cumulative distribution plot",
+    "group": "概览与分布",
+    "aliases": [
+      "Empirical cumulative distribution plot",
+      "经验累积分布图",
+      "ECDF",
+      "ecdfplot"
+    ],
+    "useWhen": "比较样本的累计概率与尾部。",
+    "avoidWhen": [
+      "概率密度",
+      "普通分箱频数"
+    ],
+    "schema": "schema/plots/ecdfPlot.schema.json",
+    "example": "examples/specs/minimal/ecdfPlot.json",
+    "variants": []
+  },
+  {
+    "type": "boxPlot",
+    "name": "箱线图",
+    "englishName": "Box plot",
+    "group": "概览与分布",
+    "aliases": [
+      "Box plot",
+      "箱线图",
+      "boxplot",
+      "箱须图"
+    ],
+    "useWhen": "比较组间四分位数、中位数与异常值。",
+    "avoidWhen": [
+      "没有须规则",
+      "将最小最大值直接当作箱须"
+    ],
+    "schema": "schema/plots/boxPlot.schema.json",
+    "example": "examples/specs/minimal/boxPlot.json",
+    "variants": []
+  },
+  {
+    "type": "violinPlot",
+    "name": "小提琴图",
+    "englishName": "Violin plot",
+    "group": "概览与分布",
+    "aliases": [
+      "Violin plot",
+      "小提琴图",
+      "violinplot"
+    ],
+    "useWhen": "比较不同组预计算密度的分布形状。",
+    "avoidWhen": [
+      "只有五数概括",
+      "没有密度采样"
+    ],
+    "schema": "schema/plots/violinPlot.schema.json",
+    "example": "examples/specs/minimal/violinPlot.json",
+    "variants": [
+      {
+        "name": "等面积小提琴图",
+        "aliases": [
+          "equal area violin"
+        ],
+        "options": {
+          "densityNormalization": "area"
+        },
+        "example": "examples/specs/variants/violinPlot-area.json"
+      }
+    ]
+  },
+  {
+    "type": "stripPlot",
+    "name": "条带图",
+    "englishName": "Strip plot",
+    "group": "概览与分布",
+    "aliases": [
+      "Strip plot",
+      "条带图",
+      "stripplot"
+    ],
+    "useWhen": "查看各类别中每条观测的数值。",
+    "avoidWhen": [
+      "只有汇总统计",
+      "SHAP 贡献"
+    ],
+    "schema": "schema/plots/stripPlot.schema.json",
+    "example": "examples/specs/minimal/stripPlot.json",
+    "variants": [
+      {
+        "name": "抖动散点图",
+        "aliases": [
+          "jitter plot",
+          "分类抖动散点图"
+        ],
+        "options": {
+          "layout": "jitter"
+        },
+        "example": "examples/specs/variants/stripPlot-jitter.json"
+      },
+      {
+        "name": "蜂群图",
+        "aliases": [
+          "swarm plot",
+          "swarmplot",
+          "beeswarm",
+          "蜂群图"
+        ],
+        "options": {
+          "layout": "swarm"
+        },
+        "example": "examples/specs/variants/stripPlot-swarm.json"
+      }
+    ]
+  },
+  {
+    "type": "pointIntervalPlot",
+    "name": "点估计区间图",
+    "englishName": "Point interval plot",
+    "group": "分组与关系",
+    "aliases": [
+      "Point interval plot",
+      "点估计区间图",
+      "点估计与区间",
+      "point and interval plot"
+    ],
+    "useWhen": "比较各组点估计与已经计算的区间。",
+    "avoidWhen": [
+      "完整 meta 分析森林图",
+      "缺少区间定义"
+    ],
+    "schema": "schema/plots/pointIntervalPlot.schema.json",
+    "example": "examples/specs/minimal/pointIntervalPlot.json",
+    "variants": []
+  },
+  {
+    "type": "pairedComparisonPlot",
+    "name": "配对比较图",
+    "englishName": "Paired comparison plot",
+    "group": "分组与关系",
+    "aliases": [
+      "Paired comparison plot",
+      "配对比较图",
+      "配对比较",
+      "before-after plot"
+    ],
+    "useWhen": "比较同一对象干预前后的两次观测。",
+    "avoidWhen": [
+      "多个变量的两两散点矩阵",
+      "超过两个状态"
+    ],
+    "schema": "schema/plots/pairedComparisonPlot.schema.json",
+    "example": "examples/specs/minimal/pairedComparisonPlot.json",
+    "variants": []
+  },
+  {
+    "type": "scatterPlot",
+    "name": "散点图",
+    "englishName": "Scatter plot",
+    "group": "分组与关系",
+    "aliases": [
+      "Scatter plot",
+      "散点图",
+      "scatterplot"
+    ],
+    "useWhen": "查看两个数值变量的关系。",
+    "avoidWhen": [
+      "需要库内拟合",
+      "分类轴蜂群布局"
+    ],
+    "schema": "schema/plots/scatterPlot.schema.json",
+    "example": "examples/specs/minimal/scatterPlot.json",
+    "variants": []
+  },
+  {
+    "type": "hexbinPlot",
+    "name": "六边形分箱图",
+    "englishName": "Hexbin plot",
+    "group": "分组与关系",
+    "aliases": [
+      "Hexbin plot",
+      "六边形分箱图",
+      "hexbin"
+    ],
+    "useWhen": "展示已计算的六边形分箱计数。",
+    "avoidWhen": [
+      "只有原始散点，没有六边形顶点与计数"
+    ],
+    "schema": "schema/plots/hexbinPlot.schema.json",
+    "example": "examples/specs/minimal/hexbinPlot.json",
+    "variants": []
+  },
+  {
+    "type": "correlationMatrix",
+    "name": "相关矩阵图",
+    "englishName": "Correlation matrix",
+    "group": "分组与关系",
+    "aliases": [
+      "Correlation matrix",
+      "相关矩阵图",
+      "相关热力图",
+      "correlation heatmap"
+    ],
+    "useWhen": "比较多个变量的相关方向和强度。",
+    "avoidWhen": [
+      "任意数值矩阵",
+      "缺失状态矩阵"
+    ],
+    "schema": "schema/plots/correlationMatrix.schema.json",
+    "example": "examples/specs/minimal/correlationMatrix.json",
+    "variants": []
+  },
+  {
+    "type": "pairPlot",
+    "name": "散点矩阵图",
+    "englishName": "Pair plot",
+    "group": "分组与关系",
+    "aliases": [
+      "Pair plot",
+      "散点矩阵图",
+      "pairplot",
+      "scatterplot matrix",
+      "成对关系图"
+    ],
+    "useWhen": "同时查看多个变量两两关系及对角分布。",
+    "avoidWhen": [
+      "同一对象前后两次配对比较"
+    ],
+    "schema": "schema/plots/pairPlot.schema.json",
+    "example": "examples/specs/minimal/pairPlot.json",
+    "variants": []
+  },
+  {
+    "type": "timeSeriesPlot",
+    "name": "时间序列图",
+    "englishName": "Time series plot",
+    "group": "时间序列",
+    "aliases": [
+      "Time series plot",
+      "时间序列图",
+      "时间趋势图"
+    ],
+    "useWhen": "查看随时间变化的数值及已有区间。",
+    "avoidWhen": [
+      "时间没有时区",
+      "训练轮次直接作为时间"
+    ],
+    "schema": "schema/plots/timeSeriesPlot.schema.json",
+    "example": "examples/specs/minimal/timeSeriesPlot.json",
+    "variants": []
+  },
+  {
+    "type": "seasonalPlot",
+    "name": "季节图",
+    "englishName": "Seasonal plot",
+    "group": "时间序列",
+    "aliases": [
+      "Seasonal plot",
+      "季节图",
+      "季节叠加图",
+      "season plot"
+    ],
+    "useWhen": "比较不同年份的季度形状。",
+    "avoidWhen": [
+      "没有周期和周期内位置",
+      "缺少明确顺序"
+    ],
+    "schema": "schema/plots/seasonalPlot.schema.json",
+    "example": "examples/specs/minimal/seasonalPlot.json",
+    "variants": [
+      {
+        "name": "季节叠加图",
+        "aliases": [
+          "seasonal overlay"
+        ],
+        "options": {
+          "layout": "overlay"
+        },
+        "example": "examples/specs/variants/seasonalPlot-overlay.json"
+      },
+      {
+        "name": "季节子序列图",
+        "aliases": [
+          "seasonal subseries plot"
+        ],
+        "options": {
+          "layout": "subseries"
+        },
+        "example": "examples/specs/variants/seasonalPlot-subseries.json"
+      }
+    ]
+  },
+  {
+    "type": "autocorrelationPlot",
+    "name": "自相关图",
+    "englishName": "Autocorrelation plot",
+    "group": "时间序列",
+    "aliases": [
+      "Autocorrelation plot",
+      "自相关图",
+      "ACF",
+      "acf plot"
+    ],
+    "useWhen": "查看时间序列各滞后阶的自相关。",
+    "avoidWhen": [
+      "偏自相关需 method=pacf",
+      "要求库内计算相关量"
+    ],
+    "schema": "schema/plots/autocorrelationPlot.schema.json",
+    "example": "examples/specs/minimal/autocorrelationPlot.json",
+    "variants": [
+      {
+        "name": "自相关图",
+        "aliases": [
+          "acf plot"
+        ],
+        "options": {
+          "method": "acf"
+        },
+        "example": "examples/specs/variants/autocorrelationPlot-acf.json"
+      },
+      {
+        "name": "偏自相关图",
+        "aliases": [
+          "PACF",
+          "pacf plot"
+        ],
+        "options": {
+          "method": "pacf"
+        },
+        "example": "examples/specs/variants/autocorrelationPlot-pacf.json"
+      }
+    ]
+  },
+  {
+    "type": "screePlot",
+    "name": "碎石图",
+    "englishName": "Scree plot",
+    "group": "降维与模型诊断",
+    "aliases": [
+      "Scree plot",
+      "碎石图",
+      "解释方差图"
+    ],
+    "useWhen": "查看各成分解释方差比例。",
+    "avoidWhen": [
+      "PCA 得分散点",
+      "载荷矩阵"
+    ],
+    "schema": "schema/plots/screePlot.schema.json",
+    "example": "examples/specs/minimal/screePlot.json",
+    "variants": []
+  },
+  {
+    "type": "embeddingPlot",
+    "name": "降维散点图",
+    "englishName": "Embedding plot",
+    "group": "降维与模型诊断",
+    "aliases": [
+      "Embedding plot",
+      "降维散点图",
+      "降维坐标图"
+    ],
+    "useWhen": "展示已计算的二维降维坐标。",
+    "avoidWhen": [
+      "PCA 载荷图",
+      "仅给原始高维数据"
+    ],
+    "schema": "schema/plots/embeddingPlot.schema.json",
+    "example": "examples/specs/minimal/embeddingPlot.json",
+    "variants": [
+      {
+        "name": "PCA 得分图",
+        "aliases": [
+          "PCA score plot",
+          "PCA 得分散点图"
+        ],
+        "options": {
+          "method": "pca"
+        },
+        "example": "examples/specs/variants/embeddingPlot-pca.json"
+      },
+      {
+        "name": "t-SNE 散点图",
+        "aliases": [
+          "t-SNE",
+          "tSNE plot"
+        ],
+        "options": {
+          "method": "tsne"
+        },
+        "example": "examples/specs/variants/embeddingPlot-tsne.json"
+      },
+      {
+        "name": "UMAP 散点图",
+        "aliases": [
+          "UMAP",
+          "UMAP scatter plot"
+        ],
+        "options": {
+          "method": "umap"
+        },
+        "example": "examples/specs/variants/embeddingPlot-umap.json"
+      }
+    ]
+  },
+  {
+    "type": "residualPlot",
+    "name": "残差图",
+    "englishName": "Residual plot",
+    "group": "降维与模型诊断",
+    "aliases": [
+      "Residual plot",
+      "残差图",
+      "residplot",
+      "残差诊断散点"
+    ],
+    "useWhen": "检查残差随拟合值变化是否存在结构。",
+    "avoidWhen": [
+      "残差直方图",
+      "残差 Q–Q 图"
+    ],
+    "schema": "schema/plots/residualPlot.schema.json",
+    "example": "examples/specs/minimal/residualPlot.json",
+    "variants": []
+  },
+  {
+    "type": "qqPlot",
+    "name": "Q–Q 图",
+    "englishName": "Q–Q plot",
+    "group": "降维与模型诊断",
+    "aliases": [
+      "Q–Q plot",
+      "Q–Q 图",
+      "QQ plot",
+      "qqplot",
+      "分位数比较图"
+    ],
+    "useWhen": "比较样本分位数与给定理论分布分位数。",
+    "avoidWhen": [
+      "P–P 图",
+      "两样本 Q–Q",
+      "缺少理论分布说明"
+    ],
+    "schema": "schema/plots/qqPlot.schema.json",
+    "example": "examples/specs/minimal/qqPlot.json",
+    "variants": []
+  },
+  {
+    "type": "confusionMatrix",
+    "name": "混淆矩阵",
+    "englishName": "Confusion matrix",
+    "group": "分类评估与解释",
+    "aliases": [
+      "Confusion matrix",
+      "混淆矩阵",
+      "分类混淆矩阵"
+    ],
+    "useWhen": "检查实际类别与预测类别的错误分布。",
+    "avoidWhen": [
+      "未提供完整类别组合计数"
+    ],
+    "schema": "schema/plots/confusionMatrix.schema.json",
+    "example": "examples/specs/minimal/confusionMatrix.json",
+    "variants": [
+      {
+        "name": "按实际类别归一化的混淆矩阵",
+        "aliases": [
+          "按真实类别归一化"
+        ],
+        "options": {
+          "normalization": "actual"
+        },
+        "example": "examples/specs/variants/confusionMatrix-actual.json"
+      },
+      {
+        "name": "按预测类别归一化的混淆矩阵",
+        "aliases": [
+          "按预测类别归一化"
+        ],
+        "options": {
+          "normalization": "predicted"
+        },
+        "example": "examples/specs/variants/confusionMatrix-predicted.json"
+      },
+      {
+        "name": "整体比例混淆矩阵",
+        "aliases": [
+          "全局归一化混淆矩阵"
+        ],
+        "options": {
+          "normalization": "all"
+        },
+        "example": "examples/specs/variants/confusionMatrix-all.json"
+      }
+    ]
+  },
+  {
+    "type": "rocCurve",
+    "name": "ROC 曲线",
+    "englishName": "ROC curve",
+    "group": "分类评估与解释",
+    "aliases": [
+      "ROC curve",
+      "ROC 曲线",
+      "ROC",
+      "roc_curve"
+    ],
+    "useWhen": "比较不同分类阈值的真阳性率与假阳性率。",
+    "avoidWhen": [
+      "原始概率尚未计算曲线",
+      "精确率召回率曲线"
+    ],
+    "schema": "schema/plots/rocCurve.schema.json",
+    "example": "examples/specs/minimal/rocCurve.json",
+    "variants": []
+  },
+  {
+    "type": "precisionRecallCurve",
+    "name": "PR 曲线",
+    "englishName": "Precision–recall curve",
+    "group": "分类评估与解释",
+    "aliases": [
+      "Precision–recall curve",
+      "PR 曲线",
+      "PR curve",
+      "precision_recall_curve"
+    ],
+    "useWhen": "比较不同阈值的精确率与召回率。",
+    "avoidWhen": [
+      "单个指标",
+      "把 AP 当作梯形积分面积"
+    ],
+    "schema": "schema/plots/precisionRecallCurve.schema.json",
+    "example": "examples/specs/minimal/precisionRecallCurve.json",
+    "variants": []
+  },
+  {
+    "type": "calibrationCurve",
+    "name": "概率校准曲线",
+    "englishName": "Calibration curve",
+    "group": "分类评估与解释",
+    "aliases": [
+      "Calibration curve",
+      "概率校准曲线",
+      "reliability diagram",
+      "可靠性图"
+    ],
+    "useWhen": "检查预测概率与实际正例比例是否一致。",
+    "avoidWhen": [
+      "要求重新校准模型",
+      "没有分箱统计"
+    ],
+    "schema": "schema/plots/calibrationCurve.schema.json",
+    "example": "examples/specs/minimal/calibrationCurve.json",
+    "variants": []
+  },
+  {
+    "type": "learningCurve",
+    "name": "学习曲线",
+    "englishName": "Learning curve",
+    "group": "分类评估与解释",
+    "aliases": [
+      "Learning curve",
+      "学习曲线",
+      "训练规模学习曲线"
+    ],
+    "useWhen": "比较训练样本数变化时的训练与验证分数。",
+    "avoidWhen": [
+      "epoch–loss 曲线",
+      "超参数验证曲线"
+    ],
+    "schema": "schema/plots/learningCurve.schema.json",
+    "example": "examples/specs/minimal/learningCurve.json",
+    "variants": []
+  },
+  {
+    "type": "featureImportancePlot",
+    "name": "特征重要性图",
+    "englishName": "Feature importance plot",
+    "group": "分类评估与解释",
+    "aliases": [
+      "Feature importance plot",
+      "特征重要性图",
+      "特征重要性条形图"
+    ],
+    "useWhen": "比较给定方法算出的各特征重要性。",
+    "avoidWhen": [
+      "据重要性直接推断因果",
+      "逐观测 SHAP 分布"
+    ],
+    "schema": "schema/plots/featureImportancePlot.schema.json",
+    "example": "examples/specs/minimal/featureImportancePlot.json",
+    "variants": []
+  },
+  {
+    "type": "shapBeeswarmPlot",
+    "name": "SHAP 蜂群图",
+    "englishName": "SHAP beeswarm plot",
+    "group": "分类评估与解释",
+    "aliases": [
+      "SHAP beeswarm plot",
+      "SHAP 蜂群图",
+      "SHAP summary beeswarm"
+    ],
+    "useWhen": "查看各特征逐观测的 SHAP 贡献与特征值。",
+    "avoidWhen": [
+      "普通蜂群图",
+      "只提供聚合重要性"
+    ],
+    "schema": "schema/plots/shapBeeswarmPlot.schema.json",
+    "example": "examples/specs/minimal/shapBeeswarmPlot.json",
+    "variants": []
+  }
+]
