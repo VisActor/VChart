@@ -1,4 +1,5 @@
 import type { MissingValueMatrixSpec } from './types';
+import type { IHeatmapSeriesSpec } from '@visactor/vchart';
 import { commonChart } from '../../common/chart';
 import { categoryAxis } from '../../common/axes';
 import { semanticTooltip } from '../../common/tooltip';
@@ -9,7 +10,7 @@ export function compileMissingness(spec: MissingValueMatrixSpec) {
     spec,
     [
       {
-        type: 'heatmap',
+        type: 'statplotsMissingness',
         id: 'missingness',
         data: {
           id: 'missingness',
@@ -21,14 +22,35 @@ export function compileMissingness(spec: MissingValueMatrixSpec) {
         seriesField: 'status',
         cell: { style: { fill: { scale: 'missing', field: 'status' } } },
         tooltip: semanticTooltip(['observationId', 'variable', 'status'], { ...spec.fieldLabels, status: '状态' })
-      }
+      } as unknown as IHeatmapSeriesSpec
     ],
     [
-      categoryAxis('bottom', spec.fieldLabels?.variable ?? '变量', [...new Set(spec.data.map(row => row.variable))]),
-      categoryAxis('left', spec.fieldLabels?.observationId ?? '观测', [
-        ...new Set(spec.data.map(row => row.observationId))
-      ])
-    ]
+      {
+        ...categoryAxis('bottom', spec.fieldLabels?.variable ?? '变量', [
+          ...new Set(spec.data.map(row => row.variable))
+        ]),
+        sampling: false,
+        grid: {
+          visible: true,
+          alignWithLabel: false,
+          zIndex: 500,
+          style: { stroke: paletteColor(spec.theme, 'backgroundColor'), lineWidth: 1, lineDash: [] }
+        }
+      },
+      {
+        ...categoryAxis('left', spec.fieldLabels?.observationId ?? '观测', [
+          ...new Set(spec.data.map(row => row.observationId))
+        ]),
+        sampling: true
+      }
+    ].map(axis => ({
+      ...axis,
+      paddingInner: 0,
+      paddingOuter: 0,
+      domainLine: { visible: false },
+      tick: { visible: false },
+      label: { autoLimit: true, autoHide: true }
+    }))
   );
   chart.scales = [
     {
