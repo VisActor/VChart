@@ -59,7 +59,7 @@ cd packages/vchart-statplots
 rushx start
 ```
 
-默认使用 `4180` 端口并自动打开 `/examples/index.html`。端口被占用时 Vite 自动选择下一个可用端口，以终端显示的地址为准；可用 `rushx start --port 4181` 指定端口。通过左侧分组导航切换 28 类图表，可编辑 JSON、查看校验错误、切换主题和导出 PNG。自动化浏览器测试使用 test 模式和独立端口，不自动打开浏览器。
+默认使用 `4180` 端口并自动打开 `/examples/index.html`。访问根路径 `/` 也会自动跳转到图库，并保留查询参数和 URL 锚点，例如 `/?type=pairPlot`。端口被占用时 Vite 自动选择下一个可用端口，以终端显示的地址为准；可用 `rushx start --port 4181` 指定端口。通过左侧分组导航切换 28 类图表，可编辑 JSON、查看校验错误、切换主题和导出 PNG。自动化浏览器测试使用 test 模式和独立端口，不自动打开浏览器。
 
 支持 `/examples/index.html?type=violinPlot` 直接打开指定图表，`type` 使用[图表目录](docs/catalog.md)中的值。切换会同步 URL，支持浏览器前进、后退和复制链接。进入页面时依次使用：有效的 URL 类型 → 同源浏览器中上次成功查看的类型 → 默认 `violinPlot`。无效类型会回退并修正 URL；浏览器禁用本地存储时仍可通过 URL 切换。仅记忆图表类型，不保存编辑过的 JSON 或主题。
 
