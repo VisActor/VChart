@@ -57,6 +57,20 @@
       "computation": "见对应逐图契约，统计结果由调用方提供"
     },
     {
+      "type": "correlationMatrix",
+      "variant": "upper",
+      "file": "variants/correlationMatrix-upper.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "已有系数的上三角显示；null 表示不可计算"
+    },
+    {
+      "type": "correlationMatrix",
+      "variant": "signed",
+      "file": "variants/correlationMatrix-signed.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "合成显示数据，验证正负、零和 NA，不代表统计估计"
+    },
+    {
       "type": "countPlot",
       "variant": "minimal",
       "file": "minimal/countPlot.json",

@@ -4,6 +4,9 @@ import { categoryAxis } from '../../common/axes';
 import { semanticTooltip } from '../../common/tooltip';
 import { paletteColor } from '../../common/theme';
 import { continuousColorScale } from '../../common/colors';
+import type { ILayoutSpec } from '@visactor/vchart';
+import { CorrelationMatrixLayout } from '../../layout/correlation-matrix';
+import { createCorrelationColorBar } from './colorbar';
 
 export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
   const missingColor = paletteColor(spec.theme, 'disableFontColor');
@@ -32,8 +35,9 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
         cell: { style: { fill: { field: 'correlation', scale: 'correlation' }, stroke: borderColor, lineWidth: 1 } },
         label: {
           visible: true,
+          overlap: { hideOnHit: true, avoidBaseMark: false, overlapPadding: 4, strategy: [] },
           smartInvert: { contrastRatiosThreshold: 4.5 },
-          style: { fill: '#000000', stroke: false, fontSize: 11 },
+          style: { fill: '#000000', stroke: false, fontSize: 11, boundsPadding: 0 },
           formatMethod: text => Number(text).toFixed(2)
         },
         tooltip: semanticTooltip(['row', 'column', 'correlation', 'method'], {
@@ -51,9 +55,10 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
         cell: { style: { fill: missingColor, stroke: borderColor, lineWidth: 1 } },
         label: {
           visible: true,
+          overlap: { hideOnHit: true, avoidBaseMark: false, overlapPadding: 4, strategy: [] },
           smartInvert: { contrastRatiosThreshold: 4.5 },
           formatMethod: () => 'NA',
-          style: { fill: paletteColor(spec.theme, 'primaryFontColor'), stroke: false, fontSize: 11 }
+          style: { fill: paletteColor(spec.theme, 'primaryFontColor'), stroke: false, fontSize: 11, boundsPadding: 0 }
         },
         tooltip: semanticTooltip(['row', 'column', 'correlation', 'method'], {
           correlation: '相关系数',
@@ -64,17 +69,22 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
     [
       categoryAxis('bottom', spec.fieldLabels?.column ?? '', variableOrder),
       categoryAxis('left', spec.fieldLabels?.row ?? '', variableOrder)
-    ]
+    ].map(axis => ({
+      ...axis,
+      paddingInner: 0,
+      paddingOuter: 0,
+      title: { ...axis.title, visible: Boolean(axis.title?.text) },
+      domainLine: { visible: false },
+      tick: { visible: false },
+      grid: { visible: false },
+      label: { autoLimit: true, autoHide: true }
+    }))
   );
-  chart.scales = [continuousColorScale(spec, 'diverging', 'correlation', -1, 1)];
-  chart.legends = {
-    visible: true,
-    type: 'color',
-    scale: 'correlation',
-    orient: 'right',
-    filter: false,
-    slidable: false,
-    title: { visible: true, text: spec.method }
-  };
+  const scale = continuousColorScale(spec, 'diverging', 'correlation', -1, 1);
+  chart.scales = [scale];
+  chart.layout = { type: CorrelationMatrixLayout.type } as ILayoutSpec;
+  if (spec.data.length) {
+    chart.customMark = [createCorrelationColorBar(spec, scale)];
+  }
   return chart;
 }

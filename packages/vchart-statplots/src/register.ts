@@ -3,9 +3,11 @@ import { registerHexbinSeries } from './series/hexbin/hexbin';
 import { registerStripSeries } from './series/swarm/strip';
 import { registerViolinSeries } from './series/violin/violin';
 import { registerMissingnessSeries } from './series/missingness/missingness';
+import { registerCustomMark } from '@visactor/vchart';
+import { registerCorrelationMatrixLayout } from './layout/correlation-matrix';
 
 let registered = false;
-/** 应用启动时调用；专用系列在这里统一注册。 */
+/** 应用启动时调用；专用系列、布局与装饰在这里统一注册。 */
 export function registerStatPlots(): void {
   if (registered) {
     return;
@@ -15,5 +17,7 @@ export function registerStatPlots(): void {
   registerSwarmSeries();
   registerHexbinSeries();
   registerMissingnessSeries();
+  registerCorrelationMatrixLayout();
+  registerCustomMark();
   registered = true;
 }

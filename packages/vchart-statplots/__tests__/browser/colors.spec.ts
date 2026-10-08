@@ -86,7 +86,9 @@ test('categorical palettes update real marks, cycle custom colors and restore na
 });
 
 for (const type of ['correlationMatrix', 'confusionMatrix', 'hexbinPlot', 'shapBeeswarmPlot']) {
-  test(`${type} keeps marks, legend and color scale consistent across palette and theme updates`, async ({ page }) => {
+  test(`${type} keeps marks, color guide and color scale consistent across palette and theme updates`, async ({
+    page
+  }) => {
     await page.goto('/__tests__/browser/page.html');
     const base = fixture(type);
     if (type === 'correlationMatrix') {
@@ -145,10 +147,25 @@ for (const type of ['correlationMatrix', 'confusionMatrix', 'hexbinPlot', 'shapB
                   )
                 };
               });
-            const legend = chart
-              .getAllComponents()
-              .find((c: any) => c.type === 'colorLegend')
-              .getVRenderComponents()[0];
+            let colorGuide;
+            if (spec.type === 'correlationMatrix') {
+              const rail = chart.getMarkByUserName('correlation-colorbar-rail')[0].getGraphics()[0];
+              const ticks = chart
+                .getAllMarks()
+                .filter((m: any) => m.name === 'correlation-colorbar-tick')
+                .flatMap((m: any) => m.getGraphics().map((g: any) => Number(g.attribute.text.replace('−', '-'))));
+              colorGuide = {
+                min: Math.min(...ticks),
+                max: Math.max(...ticks),
+                colors: rail.attribute.fill.stops.map((stop: any) => stop.color)
+              };
+            } else {
+              const legend = chart
+                .getAllComponents()
+                .find((c: any) => c.type === 'colorLegend')
+                .getVRenderComponents()[0];
+              colorGuide = { min: legend.attribute.min, max: legend.attribute.max, colors: legend.attribute.colors };
+            }
             const text = w.chart.getStage().findAll((g: any) => g.type === 'text', true);
             const labels = ['correlationMatrix', 'confusionMatrix'].includes(spec.type)
               ? chart.getAllSeries().flatMap((s: any) =>
@@ -175,7 +192,7 @@ for (const type of ['correlationMatrix', 'confusionMatrix', 'hexbinPlot', 'shapB
               labels,
               domain: colorSpec.domain,
               range: colorSpec.range,
-              legend: { min: legend.attribute.min, max: legend.attribute.max, colors: legend.attribute.colors },
+              colorGuide,
               errors: w.chartErrors
             };
           },
@@ -186,11 +203,11 @@ for (const type of ['correlationMatrix', 'confusionMatrix', 'hexbinPlot', 'shapB
         if (colors === custom) {
           expect(result.range).toEqual(type === 'correlationMatrix' ? custom.diverging : custom.sequential);
         }
-        expect([result.legend.min, result.legend.max]).toEqual([
+        expect([result.colorGuide.min, result.colorGuide.max]).toEqual([
           result.domain[0],
           result.domain[result.domain.length - 1]
         ]);
-        expect(result.legend.colors).toEqual(result.range);
+        expect(result.colorGuide.colors).toEqual(result.range);
         if (type.includes('Matrix')) {
           expect(result.labels.length).toBeGreaterThan(0);
           for (const label of result.labels) {
