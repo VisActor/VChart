@@ -2,10 +2,10 @@
 "use strict";
 export const validate = validate10;
 export default validate10;
-const schema11 = {"definitions":{"PairPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairPlot"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/PairPlotObservation"}},"diagonal":{"type":"array","items":{"type":"object","properties":{"variable":{"type":"string"},"bins":{"type":"array","items":{"$ref":"#/definitions/PairPlotBin"}}},"additionalProperties":false,"required":["bins","variable"]}}},"additionalProperties":false,"required":["diagonal","observations"]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"PairPlotObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","values"]},"PairPlotBin":{"type":"object","properties":{"binStart":{"type":"number"},"binEnd":{"type":"number"},"count":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["binEnd","binStart","count"]},"StatPlotColors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","type":"object","properties":{"categorical":{"description":"无序分组，默认 colorblind；vchart 使用原生主题分类色。","anyOf":[{"minItems":1,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["colorblind","deep","vchart"],"type":"string"}]},"sequential":{"description":"从低到高，默认 viridis；数组停靠点等距。","anyOf":[{"minItems":2,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["cividis","viridis"],"type":"string"}]},"diverging":{"description":"从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。","anyOf":[{"minItems":3,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"const":"RdBu_r","type":"string"}]}},"additionalProperties":false},"ShapBeeswarmPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"shapBeeswarmPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ShapBeeswarmPlotRow"}},"featureOrder":{"type":"array","items":{"type":"string"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"shapValue":{"type":"string"},"featureValue":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","featureOrder","type"]},"ShapBeeswarmPlotRow":{"type":"object","properties":{"id":{"type":"string"},"feature":{"type":"string"},"shapValue":{"type":"number"},"featureValue":{"type":["null","number"]}},"additionalProperties":false,"required":["feature","featureValue","id","shapValue"]},"HexbinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"hexbinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/HexbinPlotRow"}},"binning":{"description":"原始散点的分箱规则；重复坐标按多条观测计数。","$ref":"#/definitions/HexbinBinningSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"},"count":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HexbinPlotRow":{"type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"}},"additionalProperties":false,"required":["x","y"]},"HexbinBinningSpec":{"type":"object","properties":{"xBins":{"description":"水平方向的分箱分辨率，默认 30；不是非空箱总数，边缘可增加一列。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"FeatureImportancePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"featureImportancePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/FeatureImportancePlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"FeatureImportancePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["feature","importance"]},"LearningCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"learningCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveRow"}},"metric":{"description":"外部计算的评价指标名称，例如 Accuracy 或 MSE。","type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","metric","type"]},"LearningCurveRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"trainSize":{"description":"训练样本数，正整数；不是训练轮次 epoch。","type":"number"},"split":{"description":"训练集或验证集分数来源。","enum":["train","validation"],"type":"string"},"score":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["score","split","trainSize"]},"QqPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"qqPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/QqPlotRow"}},"distribution":{"type":"string"},"referenceLine":{"description":"显式参考线；数值及统计含义由调用方提供。","type":"object","properties":{"method":{"type":"string"},"intercept":{"type":"number"},"slope":{"type":"number"}},"additionalProperties":false,"required":["intercept","method","slope"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"theoreticalQuantile":{"type":"string"},"sampleQuantile":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","distribution","type"]},"QqPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"theoreticalQuantile":{"description":"给定理论分布的分位数，作为横轴；系列内非递减。","type":"number"},"sampleQuantile":{"description":"对应样本分位数，作为纵轴；系列内非递减。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["sampleQuantile","theoreticalQuantile"]},"ResidualPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"residualPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPlotRow"}},"residualKind":{"description":"外部残差的定义；本配置不重新计算或标准化残差。","enum":["raw","standardized","studentized"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","residualKind","type"]},"ResidualPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"id":{"type":"string"},"fittedValue":{"description":"外部模型给出的拟合值，与 residual 对应。","type":"number"},"residual":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fittedValue","id","residual"]},"EmbeddingPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"embeddingPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EmbeddingPlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["pca","tsne","umap"],"type":"string"},"dimensions":{"type":"object","properties":{"x":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]},"y":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]}},"additionalProperties":false,"required":["x","y"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"EmbeddingPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"id":{"type":"string"},"x":{"type":"number"},"y":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","x","y"]},"ScreePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"screePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScreePlotRow"}},"showCumulative":{"description":"是否显示累计解释方差比例，默认 false。","type":"boolean"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"component":{"type":"string"},"explainedVarianceRatio":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScreePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"component":{"type":"number"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["component","explainedVarianceRatio"]},"AutocorrelationPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"autocorrelationPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/AutocorrelationPlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["acf","pacf"],"type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"lag":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"AutocorrelationPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"lag":{"type":"number"},"correlation":{"description":"外部 ACF/PACF 估计值；保留无偏估计可能超出 [-1,1] 的结果。","type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["correlation","lag"]},"SeasonalPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"seasonalPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/SeasonalPlotRow"}},"cycleOrder":{"description":"非空、无重复，覆盖输入的周期；可声明无观测的位置。","type":"array","items":{"type":"string"}},"phaseOrder":{"description":"非空、无重复，覆盖输入的周期内位置；可声明无观测的位置。","type":"array","items":{"type":"string"}},"layout":{"description":"默认 overlay；subseries 按 phase 分面、横轴为 cycle。","enum":["overlay","subseries"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"cycle":{"type":"string"},"phase":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["cycleOrder","data","phaseOrder","type"]},"SeasonalPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"cycle":{"description":"完整周期编号，例如年份。","type":"string"},"phase":{"description":"周期内位置，例如月份或季度。","type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["cycle","phase","value"]},"TimeSeriesPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"timeSeriesPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/TimeSeriesPlotRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"time":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"TimeSeriesPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"time":{"description":"带时区的 ISO 8601 时间。","type":"string"},"value":{"type":["null","number"]},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["time","value"]},"CalibrationCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"calibrationCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/CalibrationCurveRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"meanPredictedProbability":{"type":"string"},"observedRate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CalibrationCurveRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"binStart":{"type":"number"},"binEnd":{"type":"number"},"meanPredictedProbability":{"description":"箱内平均预测概率，0–1，必须位于 binStart 与 binEnd 内。","type":"number"},"observedRate":{"description":"箱内实际正例比例，范围 0–1。","type":"number"},"count":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["binEnd","binStart","count","meanPredictedProbability","observedRate"]},"PrecisionRecallCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"precisionRecallCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/PrecisionRecallCurveRow"}},"positiveRate":{"description":"评价数据中的正例比例，0–1；提供时绘制 PR 基线，不由曲线推算。","type":"number"},"metrics":{"type":"array","items":{"type":"object","properties":{"series":{"type":"string"},"averagePrecision":{"type":"number"}},"additionalProperties":false,"required":["averagePrecision"]}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"recall":{"type":"string"},"precision":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"PrecisionRecallCurveRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"recall":{"type":"number"},"precision":{"type":"number"},"threshold":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["precision","recall"]},"ConfusionMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"confusionMatrix"},"data":{"type":"array","items":{"$ref":"#/definitions/ConfusionMatrixRow"}},"normalization":{"description":"默认 none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化。","enum":["actual","all","none","predicted"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ConfusionMatrixRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"},"count":{"type":"number"}},"additionalProperties":false,"required":["actual","count","predicted"]},"ScatterPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"scatterPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScatterPlotRow"}},"fit":{"type":"object","properties":{"method":{"type":"string"},"data":{"type":"array","items":{"$ref":"#/definitions/FitRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]}},"additionalProperties":false,"required":["data","method"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScatterPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]},"FitRow":{"type":"object","properties":{"x":{"type":"number"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["estimate","x"]},"PairedComparisonPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairedComparisonPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PairedComparisonPlotRow"}},"categoryOrder":{"description":"同一对象比较的两个不同状态，数组顺序即显示顺序。","type":"array","items":[{"type":"string"},{"type":"string"}],"minItems":2,"maxItems":2},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["categoryOrder","data","type"]},"PairedComparisonPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"StripPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"stripPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/StripPlotRow"}},"layout":{"enum":["jitter","strip","swarm"],"type":"string"},"jitterRatio":{"description":"最大偏移占完整分类带宽的比例，0–0.5；仅 jitter 布局允许，默认 0.3。","type":"number"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"StripPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"MissingValueMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"missingValueMatrix"},"data":{"type":"array","items":{"$ref":"#/definitions/MissingValueMatrixRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"observationId":{"type":"string"},"variable":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"MissingValueMatrixRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"observationId":{"description":"观测标识；与 variable 组合唯一，不是单元格唯一编号。","type":"string"},"variable":{"type":"string"},"isMissing":{"description":"该观测的该变量是否缺失；true 表示缺失。","type":"boolean"}},"additionalProperties":false,"required":["isMissing","observationId","variable"]},"CountPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"countPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/CountPlotRow"}},"statistic":{"description":"显示统计量，默认 count；proportion 为同一 series 内的计数比例。","enum":["count","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CountPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","count"]},"BoxPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"boxPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/BoxPlotRow"}},"whiskerRule":{"description":"须的定义，例如“1.5×IQR 内最远观测”，不自动推断。","type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","whiskerRule"]},"BoxPlotRow":{"type":"object","properties":{"category":{"type":"string"},"q1":{"type":"number"},"median":{"type":"number"},"q3":{"type":"number"},"whiskerLower":{"description":"下须端点，由 whiskerRule 定义，不自动等同于最小值。","type":"number"},"whiskerUpper":{"description":"上须端点，由 whiskerRule 定义，不自动等同于最大值。","type":"number"},"outliers":{"type":"array","items":{"type":"number"}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","median","q1","q3","whiskerLower","whiskerUpper"]},"CorrelationMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"correlationMatrix"},"data":{"description":"完整的对称矩阵；triangle 只影响显示。","type":"array","items":{"$ref":"#/definitions/CorrelationMatrixRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["kendall","pearson","spearman"],"type":"string"},"triangle":{"description":"显示完整矩阵或指定三角，默认 full；输入仍须完整对称。","enum":["full","lower","upper"],"type":"string"},"variableOrder":{"description":"完整变量显示顺序；每个变量恰好出现一次，默认按数据首次出现排序。","type":"array","items":{"type":"string"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"CorrelationMatrixRow":{"type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"description":"相关系数，-1 至 1；无法计算时为 null。","type":["null","number"]}},"additionalProperties":false,"required":["column","correlation","row"]},"EcdfPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"ecdfPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EcdfPlotRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"cumulativeProbability":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"EcdfPlotRow":{"type":"object","properties":{"value":{"type":"number"},"cumulativeProbability":{"description":"累计概率，范围 0–1；同一系列中随 value 非递减。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["cumulativeProbability","value"]},"PointIntervalPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pointIntervalPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalPlotRow"}},"interval":{"$ref":"#/definitions/Interval"},"referenceLine":{"description":"显式参考线；数值及统计含义由调用方提供。","type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"description":"估计值轴尺度，默认 linear；log 要求估计、区间端点及参考值为正。","enum":["linear","log"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","interval","type"]},"PointIntervalPlotRow":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","estimate","lower","upper"]},"Interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"HistogramSpec":{"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"statistic":{"description":"显示统计量，默认 count；proportion 为系列内比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HistogramRow":{"type":"object","properties":{"binStart":{"type":"number"},"binEnd":{"type":"number"},"count":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["binEnd","binStart","count"]},"KdePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"结果说明；修改此项不会重新计算 KDE。","type":"object","properties":{"kernel":{"type":"string"},"bandwidth":{"type":"number"}},"additionalProperties":false,"required":["bandwidth","kernel"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"KdePlotRow":{"type":"object","properties":{"value":{"type":"number"},"density":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["density","value"]},"RocCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/RocCurveRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"metrics":{"description":"预先计算的曲线面积；本包不推算 AUC。","type":"array","items":{"type":"object","properties":{"series":{"type":"string"},"auc":{"type":"number"}},"additionalProperties":false,"required":["auc"]}},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"RocCurveRow":{"type":"object","properties":{"fpr":{"description":"假阳性率，0–1。","type":"number"},"tpr":{"description":"真阳性率，0–1。","type":"number"},"threshold":{"description":"有限决策阈值；无穷阈值省略。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fpr","tpr"]},"ViolinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ViolinPlotRow":{"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"density":{"description":"已计算的概率密度，不是样本数量。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","density","value"]}},"$schema":"http://json-schema.org/draft-07/schema#","$id":"https://visactor.io/schemas/vchart-statplots/2.1.7/statplot.schema.json","type":"object","required":["type"],"oneOf":[{"$ref":"#/definitions/PairPlotSpec"},{"$ref":"#/definitions/ShapBeeswarmPlotSpec"},{"$ref":"#/definitions/HexbinPlotSpec"},{"$ref":"#/definitions/FeatureImportancePlotSpec"},{"$ref":"#/definitions/LearningCurveSpec"},{"$ref":"#/definitions/QqPlotSpec"},{"$ref":"#/definitions/ResidualPlotSpec"},{"$ref":"#/definitions/EmbeddingPlotSpec"},{"$ref":"#/definitions/ScreePlotSpec"},{"$ref":"#/definitions/AutocorrelationPlotSpec"},{"$ref":"#/definitions/SeasonalPlotSpec"},{"$ref":"#/definitions/TimeSeriesPlotSpec"},{"$ref":"#/definitions/CalibrationCurveSpec"},{"$ref":"#/definitions/PrecisionRecallCurveSpec"},{"$ref":"#/definitions/ConfusionMatrixSpec"},{"$ref":"#/definitions/ScatterPlotSpec"},{"$ref":"#/definitions/PairedComparisonPlotSpec"},{"$ref":"#/definitions/StripPlotSpec"},{"$ref":"#/definitions/MissingValueMatrixSpec"},{"$ref":"#/definitions/CountPlotSpec"},{"$ref":"#/definitions/BoxPlotSpec"},{"$ref":"#/definitions/CorrelationMatrixSpec"},{"$ref":"#/definitions/EcdfPlotSpec"},{"$ref":"#/definitions/PointIntervalPlotSpec"},{"$ref":"#/definitions/HistogramSpec"},{"$ref":"#/definitions/KdePlotSpec"},{"$ref":"#/definitions/RocCurveSpec"},{"$ref":"#/definitions/ViolinPlotSpec"}],"discriminator":{"propertyName":"type"}};
-const schema12 = {"type":"object","properties":{"type":{"type":"string","const":"pairPlot"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/PairPlotObservation"}},"diagonal":{"type":"array","items":{"type":"object","properties":{"variable":{"type":"string"},"bins":{"type":"array","items":{"$ref":"#/definitions/PairPlotBin"}}},"additionalProperties":false,"required":["bins","variable"]}}},"additionalProperties":false,"required":["diagonal","observations"]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]};
+const schema11 = {"definitions":{"PairPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairPlot"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/PairPlotObservation"}}},"additionalProperties":false,"required":["observations"]},"diagonal":{"anyOf":[{"type":"object","properties":{"type":{"const":"histogram","type":"string"},"binning":{"$ref":"#/definitions/PairPlotBinningSpec"}},"additionalProperties":false},{"type":"object","properties":{"type":{"type":"string","const":"none"}},"additionalProperties":false,"required":["type"]}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"PairPlotObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","values"]},"PairPlotBinningSpec":{"type":"object","properties":{"binCount":{"description":"每个非恒定变量的等宽箱数；省略时按有效观测数选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"StatPlotColors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","type":"object","properties":{"categorical":{"description":"无序分组，默认 colorblind；vchart 使用原生主题分类色。","anyOf":[{"minItems":1,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["colorblind","deep","vchart"],"type":"string"}]},"sequential":{"description":"从低到高，默认 viridis；数组停靠点等距。","anyOf":[{"minItems":2,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["cividis","viridis"],"type":"string"}]},"diverging":{"description":"从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。","anyOf":[{"minItems":3,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"const":"RdBu_r","type":"string"}]}},"additionalProperties":false},"ShapBeeswarmPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"shapBeeswarmPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ShapBeeswarmPlotRow"}},"featureOrder":{"type":"array","items":{"type":"string"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"shapValue":{"type":"string"},"featureValue":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","featureOrder","type"]},"ShapBeeswarmPlotRow":{"type":"object","properties":{"id":{"type":"string"},"feature":{"type":"string"},"shapValue":{"type":"number"},"featureValue":{"type":["null","number"]}},"additionalProperties":false,"required":["feature","featureValue","id","shapValue"]},"HexbinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"hexbinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/HexbinPlotRow"}},"binning":{"description":"原始散点的分箱规则；重复坐标按多条观测计数。","$ref":"#/definitions/HexbinBinningSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"},"count":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HexbinPlotRow":{"type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"}},"additionalProperties":false,"required":["x","y"]},"HexbinBinningSpec":{"type":"object","properties":{"xBins":{"description":"水平方向的分箱分辨率，默认 30；不是非空箱总数，边缘可增加一列。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"FeatureImportancePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"featureImportancePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/FeatureImportancePlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"FeatureImportancePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["feature","importance"]},"LearningCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"learningCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveRow"}},"metric":{"description":"外部计算的评价指标名称，例如 Accuracy 或 MSE。","type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","metric","type"]},"LearningCurveRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"trainSize":{"description":"训练样本数，正整数；不是训练轮次 epoch。","type":"number"},"split":{"description":"训练集或验证集分数来源。","enum":["train","validation"],"type":"string"},"score":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["score","split","trainSize"]},"QqPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"qqPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/QqPlotRow"}},"distribution":{"type":"string"},"referenceLine":{"description":"显式参考线；数值及统计含义由调用方提供。","type":"object","properties":{"method":{"type":"string"},"intercept":{"type":"number"},"slope":{"type":"number"}},"additionalProperties":false,"required":["intercept","method","slope"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"theoreticalQuantile":{"type":"string"},"sampleQuantile":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","distribution","type"]},"QqPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"theoreticalQuantile":{"description":"给定理论分布的分位数，作为横轴；系列内非递减。","type":"number"},"sampleQuantile":{"description":"对应样本分位数，作为纵轴；系列内非递减。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["sampleQuantile","theoreticalQuantile"]},"ResidualPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"residualPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPlotRow"}},"residualKind":{"description":"外部残差的定义；本配置不重新计算或标准化残差。","enum":["raw","standardized","studentized"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","residualKind","type"]},"ResidualPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"id":{"type":"string"},"fittedValue":{"description":"外部模型给出的拟合值，与 residual 对应。","type":"number"},"residual":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fittedValue","id","residual"]},"EmbeddingPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"embeddingPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EmbeddingPlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["pca","tsne","umap"],"type":"string"},"dimensions":{"type":"object","properties":{"x":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]},"y":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]}},"additionalProperties":false,"required":["x","y"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"EmbeddingPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"id":{"type":"string"},"x":{"type":"number"},"y":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","x","y"]},"ScreePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"screePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScreePlotRow"}},"showCumulative":{"description":"是否显示累计解释方差比例，默认 false。","type":"boolean"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"component":{"type":"string"},"explainedVarianceRatio":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScreePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"component":{"type":"number"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["component","explainedVarianceRatio"]},"AutocorrelationPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"autocorrelationPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/AutocorrelationPlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["acf","pacf"],"type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"lag":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"AutocorrelationPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"lag":{"type":"number"},"correlation":{"description":"外部 ACF/PACF 估计值；保留无偏估计可能超出 [-1,1] 的结果。","type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["correlation","lag"]},"SeasonalPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"seasonalPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/SeasonalPlotRow"}},"cycleOrder":{"description":"非空、无重复，覆盖输入的周期；可声明无观测的位置。","type":"array","items":{"type":"string"}},"phaseOrder":{"description":"非空、无重复，覆盖输入的周期内位置；可声明无观测的位置。","type":"array","items":{"type":"string"}},"layout":{"description":"默认 overlay；subseries 按 phase 分面、横轴为 cycle。","enum":["overlay","subseries"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"cycle":{"type":"string"},"phase":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["cycleOrder","data","phaseOrder","type"]},"SeasonalPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"cycle":{"description":"完整周期编号，例如年份。","type":"string"},"phase":{"description":"周期内位置，例如月份或季度。","type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["cycle","phase","value"]},"TimeSeriesPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"timeSeriesPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/TimeSeriesPlotRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"time":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"TimeSeriesPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"time":{"description":"带时区的 ISO 8601 时间。","type":"string"},"value":{"type":["null","number"]},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["time","value"]},"CalibrationCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"calibrationCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/CalibrationCurveRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"meanPredictedProbability":{"type":"string"},"observedRate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CalibrationCurveRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"binStart":{"type":"number"},"binEnd":{"type":"number"},"meanPredictedProbability":{"description":"箱内平均预测概率，0–1，必须位于 binStart 与 binEnd 内。","type":"number"},"observedRate":{"description":"箱内实际正例比例，范围 0–1。","type":"number"},"count":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["binEnd","binStart","count","meanPredictedProbability","observedRate"]},"PrecisionRecallCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"precisionRecallCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/PrecisionRecallCurveRow"}},"positiveRate":{"description":"评价数据中的正例比例，0–1；提供时绘制 PR 基线，不由曲线推算。","type":"number"},"metrics":{"type":"array","items":{"type":"object","properties":{"series":{"type":"string"},"averagePrecision":{"type":"number"}},"additionalProperties":false,"required":["averagePrecision"]}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"recall":{"type":"string"},"precision":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"PrecisionRecallCurveRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"recall":{"type":"number"},"precision":{"type":"number"},"threshold":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["precision","recall"]},"ConfusionMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"confusionMatrix"},"data":{"type":"array","items":{"$ref":"#/definitions/ConfusionMatrixRow"}},"normalization":{"description":"默认 none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化。","enum":["actual","all","none","predicted"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ConfusionMatrixRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"},"count":{"type":"number"}},"additionalProperties":false,"required":["actual","count","predicted"]},"ScatterPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"scatterPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScatterPlotRow"}},"fit":{"type":"object","properties":{"method":{"type":"string"},"data":{"type":"array","items":{"$ref":"#/definitions/FitRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]}},"additionalProperties":false,"required":["data","method"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScatterPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]},"FitRow":{"type":"object","properties":{"x":{"type":"number"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["estimate","x"]},"PairedComparisonPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairedComparisonPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PairedComparisonPlotRow"}},"categoryOrder":{"description":"同一对象比较的两个不同状态，数组顺序即显示顺序。","type":"array","items":[{"type":"string"},{"type":"string"}],"minItems":2,"maxItems":2},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["categoryOrder","data","type"]},"PairedComparisonPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"StripPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"stripPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/StripPlotRow"}},"layout":{"enum":["jitter","strip","swarm"],"type":"string"},"jitterRatio":{"description":"最大偏移占完整分类带宽的比例，0–0.5；仅 jitter 布局允许，默认 0.3。","type":"number"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"StripPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"MissingValueMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"missingValueMatrix"},"data":{"type":"array","items":{"$ref":"#/definitions/MissingValueMatrixRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"observationId":{"type":"string"},"variable":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"MissingValueMatrixRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"observationId":{"description":"观测标识；与 variable 组合唯一，不是单元格唯一编号。","type":"string"},"variable":{"type":"string"},"isMissing":{"description":"该观测的该变量是否缺失；true 表示缺失。","type":"boolean"}},"additionalProperties":false,"required":["isMissing","observationId","variable"]},"CountPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"countPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/CountPlotRow"}},"statistic":{"description":"显示统计量，默认 count；proportion 为同一 series 内的计数比例。","enum":["count","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CountPlotRow":{"description":"预计算统计结果；本包不拟合模型。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","count"]},"BoxPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"boxPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/BoxPlotRow"}},"whiskerRule":{"description":"须的定义，例如“1.5×IQR 内最远观测”，不自动推断。","type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","whiskerRule"]},"BoxPlotRow":{"type":"object","properties":{"category":{"type":"string"},"q1":{"type":"number"},"median":{"type":"number"},"q3":{"type":"number"},"whiskerLower":{"description":"下须端点，由 whiskerRule 定义，不自动等同于最小值。","type":"number"},"whiskerUpper":{"description":"上须端点，由 whiskerRule 定义，不自动等同于最大值。","type":"number"},"outliers":{"type":"array","items":{"type":"number"}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","median","q1","q3","whiskerLower","whiskerUpper"]},"CorrelationMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"correlationMatrix"},"data":{"description":"完整的对称矩阵；triangle 只影响显示。","type":"array","items":{"$ref":"#/definitions/CorrelationMatrixRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["kendall","pearson","spearman"],"type":"string"},"triangle":{"description":"显示完整矩阵或指定三角，默认 full；输入仍须完整对称。","enum":["full","lower","upper"],"type":"string"},"variableOrder":{"description":"完整变量显示顺序；每个变量恰好出现一次，默认按数据首次出现排序。","type":"array","items":{"type":"string"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"CorrelationMatrixRow":{"type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"description":"相关系数，-1 至 1；无法计算时为 null。","type":["null","number"]}},"additionalProperties":false,"required":["column","correlation","row"]},"EcdfPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"ecdfPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EcdfPlotRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"cumulativeProbability":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"EcdfPlotRow":{"type":"object","properties":{"value":{"type":"number"},"cumulativeProbability":{"description":"累计概率，范围 0–1；同一系列中随 value 非递减。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["cumulativeProbability","value"]},"PointIntervalPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pointIntervalPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalPlotRow"}},"interval":{"$ref":"#/definitions/Interval"},"referenceLine":{"description":"显式参考线；数值及统计含义由调用方提供。","type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"description":"估计值轴尺度，默认 linear；log 要求估计、区间端点及参考值为正。","enum":["linear","log"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","interval","type"]},"PointIntervalPlotRow":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","estimate","lower","upper"]},"Interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"HistogramSpec":{"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"binning":{"description":"原始观测的分箱规则；重复值分别计数。","$ref":"#/definitions/HistogramBinningSpec"},"statistic":{"description":"显示统计量，默认 count；proportion 为样本比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HistogramRow":{"type":"object","properties":{"value":{"type":"number"}},"additionalProperties":false,"required":["value"]},"HistogramBinningSpec":{"type":"object","properties":{"binCount":{"description":"非恒定数据的等宽箱数；省略时按样本量选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"KdePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"结果说明；修改此项不会重新计算 KDE。","type":"object","properties":{"kernel":{"type":"string"},"bandwidth":{"type":"number"}},"additionalProperties":false,"required":["bandwidth","kernel"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"KdePlotRow":{"type":"object","properties":{"value":{"type":"number"},"density":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["density","value"]},"RocCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/RocCurveRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"metrics":{"description":"预先计算的曲线面积；本包不推算 AUC。","type":"array","items":{"type":"object","properties":{"series":{"type":"string"},"auc":{"type":"number"}},"additionalProperties":false,"required":["auc"]}},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"RocCurveRow":{"type":"object","properties":{"fpr":{"description":"假阳性率，0–1。","type":"number"},"tpr":{"description":"真阳性率，0–1。","type":"number"},"threshold":{"description":"有限决策阈值；无穷阈值省略。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fpr","tpr"]},"ViolinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ViolinPlotRow":{"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"density":{"description":"已计算的概率密度，不是样本数量。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","density","value"]}},"$schema":"http://json-schema.org/draft-07/schema#","$id":"https://visactor.io/schemas/vchart-statplots/2.1.7/statplot.schema.json","type":"object","required":["type"],"oneOf":[{"$ref":"#/definitions/PairPlotSpec"},{"$ref":"#/definitions/ShapBeeswarmPlotSpec"},{"$ref":"#/definitions/HexbinPlotSpec"},{"$ref":"#/definitions/FeatureImportancePlotSpec"},{"$ref":"#/definitions/LearningCurveSpec"},{"$ref":"#/definitions/QqPlotSpec"},{"$ref":"#/definitions/ResidualPlotSpec"},{"$ref":"#/definitions/EmbeddingPlotSpec"},{"$ref":"#/definitions/ScreePlotSpec"},{"$ref":"#/definitions/AutocorrelationPlotSpec"},{"$ref":"#/definitions/SeasonalPlotSpec"},{"$ref":"#/definitions/TimeSeriesPlotSpec"},{"$ref":"#/definitions/CalibrationCurveSpec"},{"$ref":"#/definitions/PrecisionRecallCurveSpec"},{"$ref":"#/definitions/ConfusionMatrixSpec"},{"$ref":"#/definitions/ScatterPlotSpec"},{"$ref":"#/definitions/PairedComparisonPlotSpec"},{"$ref":"#/definitions/StripPlotSpec"},{"$ref":"#/definitions/MissingValueMatrixSpec"},{"$ref":"#/definitions/CountPlotSpec"},{"$ref":"#/definitions/BoxPlotSpec"},{"$ref":"#/definitions/CorrelationMatrixSpec"},{"$ref":"#/definitions/EcdfPlotSpec"},{"$ref":"#/definitions/PointIntervalPlotSpec"},{"$ref":"#/definitions/HistogramSpec"},{"$ref":"#/definitions/KdePlotSpec"},{"$ref":"#/definitions/RocCurveSpec"},{"$ref":"#/definitions/ViolinPlotSpec"}],"discriminator":{"propertyName":"type"}};
+const schema12 = {"type":"object","properties":{"type":{"type":"string","const":"pairPlot"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/PairPlotObservation"}}},"additionalProperties":false,"required":["observations"]},"diagonal":{"anyOf":[{"type":"object","properties":{"type":{"const":"histogram","type":"string"},"binning":{"$ref":"#/definitions/PairPlotBinningSpec"}},"additionalProperties":false},{"type":"object","properties":{"type":{"type":"string","const":"none"}},"additionalProperties":false,"required":["type"]}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]};
 const schema13 = {"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","values"]};
-const schema14 = {"type":"object","properties":{"binStart":{"type":"number"},"binEnd":{"type":"number"},"count":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["binEnd","binStart","count"]};
+const schema14 = {"type":"object","properties":{"binCount":{"description":"每个非恒定变量的等宽箱数；省略时按有效观测数选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false};
 const schema15 = {"description":"全图共用的颜色角色；省略时使用各角色默认色板。","type":"object","properties":{"categorical":{"description":"无序分组，默认 colorblind；vchart 使用原生主题分类色。","anyOf":[{"minItems":1,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["colorblind","deep","vchart"],"type":"string"}]},"sequential":{"description":"从低到高，默认 viridis；数组停靠点等距。","anyOf":[{"minItems":2,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["cividis","viridis"],"type":"string"}]},"diverging":{"description":"从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。","anyOf":[{"minItems":3,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"const":"RdBu_r","type":"string"}]}},"additionalProperties":false};
 const pattern0 = new RegExp("^#[0-9a-fA-F]{6}$", "u");
 
@@ -382,7 +382,7 @@ vErrors.push(err2);
 errors++;
 }
 for(const key0 in data){
-if(!(((((((key0 === "type") || (key0 === "variables")) || (key0 === "data")) || (key0 === "title")) || (key0 === "description")) || (key0 === "theme")) || (key0 === "colors"))){
+if(!((((((((key0 === "type") || (key0 === "variables")) || (key0 === "data")) || (key0 === "diagonal")) || (key0 === "title")) || (key0 === "description")) || (key0 === "theme")) || (key0 === "colors"))){
 const err3 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err3];
@@ -447,8 +447,8 @@ errors++;
 if(data.data !== undefined){
 let data3 = data.data;
 if(data3 && typeof data3 == "object" && !Array.isArray(data3)){
-if(data3.diagonal === undefined){
-const err8 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/required",keyword:"required",params:{missingProperty: "diagonal"},message:"must have required property '"+"diagonal"+"'"};
+if(data3.observations === undefined){
+const err8 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/required",keyword:"required",params:{missingProperty: "observations"},message:"must have required property '"+"observations"+"'"};
 if(vErrors === null){
 vErrors = [err8];
 }
@@ -457,24 +457,14 @@ vErrors.push(err8);
 }
 errors++;
 }
-if(data3.observations === undefined){
-const err9 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/required",keyword:"required",params:{missingProperty: "observations"},message:"must have required property '"+"observations"+"'"};
+for(const key1 in data3){
+if(!(key1 === "observations")){
+const err9 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key1},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err9];
 }
 else {
 vErrors.push(err9);
-}
-errors++;
-}
-for(const key1 in data3){
-if(!((key1 === "observations") || (key1 === "diagonal"))){
-const err10 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key1},message:"must NOT have additional properties"};
-if(vErrors === null){
-vErrors = [err10];
-}
-else {
-vErrors.push(err10);
 }
 errors++;
 }
@@ -487,7 +477,17 @@ for(let i1=0; i1<len1; i1++){
 let data5 = data4[i1];
 if(data5 && typeof data5 == "object" && !Array.isArray(data5)){
 if(data5.id === undefined){
-const err11 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/required",keyword:"required",params:{missingProperty: "id"},message:"must have required property '"+"id"+"'"};
+const err10 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/required",keyword:"required",params:{missingProperty: "id"},message:"must have required property '"+"id"+"'"};
+if(vErrors === null){
+vErrors = [err10];
+}
+else {
+vErrors.push(err10);
+}
+errors++;
+}
+if(data5.values === undefined){
+const err11 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/required",keyword:"required",params:{missingProperty: "values"},message:"must have required property '"+"values"+"'"};
 if(vErrors === null){
 vErrors = [err11];
 }
@@ -496,8 +496,9 @@ vErrors.push(err11);
 }
 errors++;
 }
-if(data5.values === undefined){
-const err12 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/required",keyword:"required",params:{missingProperty: "values"},message:"must have required property '"+"values"+"'"};
+for(const key2 in data5){
+if(!(((key2 === "id") || (key2 === "values")) || (key2 === "series"))){
+const err12 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err12];
 }
@@ -506,26 +507,15 @@ vErrors.push(err12);
 }
 errors++;
 }
-for(const key2 in data5){
-if(!(((key2 === "id") || (key2 === "values")) || (key2 === "series"))){
-const err13 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
+}
+if(data5.id !== undefined){
+if(typeof data5.id !== "string"){
+const err13 = {instancePath:instancePath+"/data/observations/" + i1+"/id",schemaPath:"#/definitions/PairPlotObservation/properties/id/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err13];
 }
 else {
 vErrors.push(err13);
-}
-errors++;
-}
-}
-if(data5.id !== undefined){
-if(typeof data5.id !== "string"){
-const err14 = {instancePath:instancePath+"/data/observations/" + i1+"/id",schemaPath:"#/definitions/PairPlotObservation/properties/id/type",keyword:"type",params:{type: "string"},message:"must be string"};
-if(vErrors === null){
-vErrors = [err14];
-}
-else {
-vErrors.push(err14);
 }
 errors++;
 }
@@ -536,7 +526,19 @@ if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
 for(const key3 in data7){
 let data8 = data7[key3];
 if((data8 !== null) && (!((typeof data8 == "number") && (isFinite(data8))))){
-const err15 = {instancePath:instancePath+"/data/observations/" + i1+"/values/" + key3.replace(/~/g, "~0").replace(/\//g, "~1"),schemaPath:"#/definitions/PairPlotObservation/properties/values/additionalProperties/type",keyword:"type",params:{type: schema13.properties.values.additionalProperties.type},message:"must be null,number"};
+const err14 = {instancePath:instancePath+"/data/observations/" + i1+"/values/" + key3.replace(/~/g, "~0").replace(/\//g, "~1"),schemaPath:"#/definitions/PairPlotObservation/properties/values/additionalProperties/type",keyword:"type",params:{type: schema13.properties.values.additionalProperties.type},message:"must be null,number"};
+if(vErrors === null){
+vErrors = [err14];
+}
+else {
+vErrors.push(err14);
+}
+errors++;
+}
+}
+}
+else {
+const err15 = {instancePath:instancePath+"/data/observations/" + i1+"/values",schemaPath:"#/definitions/PairPlotObservation/properties/values/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -546,9 +548,9 @@ vErrors.push(err15);
 errors++;
 }
 }
-}
-else {
-const err16 = {instancePath:instancePath+"/data/observations/" + i1+"/values",schemaPath:"#/definitions/PairPlotObservation/properties/values/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(data5.series !== undefined){
+if(typeof data5.series !== "string"){
+const err16 = {instancePath:instancePath+"/data/observations/" + i1+"/series",schemaPath:"#/definitions/PairPlotObservation/properties/series/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err16];
 }
@@ -558,9 +560,9 @@ vErrors.push(err16);
 errors++;
 }
 }
-if(data5.series !== undefined){
-if(typeof data5.series !== "string"){
-const err17 = {instancePath:instancePath+"/data/observations/" + i1+"/series",schemaPath:"#/definitions/PairPlotObservation/properties/series/type",keyword:"type",params:{type: "string"},message:"must be string"};
+}
+else {
+const err17 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err17];
 }
@@ -572,7 +574,7 @@ errors++;
 }
 }
 else {
-const err18 = {instancePath:instancePath+"/data/observations/" + i1,schemaPath:"#/definitions/PairPlotObservation/type",keyword:"type",params:{type: "object"},message:"must be object"};
+const err18 = {instancePath:instancePath+"/data/observations",schemaPath:"#/properties/data/properties/observations/type",keyword:"type",params:{type: "array"},message:"must be array"};
 if(vErrors === null){
 vErrors = [err18];
 }
@@ -584,7 +586,7 @@ errors++;
 }
 }
 else {
-const err19 = {instancePath:instancePath+"/data/observations",schemaPath:"#/properties/data/properties/observations/type",keyword:"type",params:{type: "array"},message:"must be array"};
+const err19 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err19];
 }
@@ -594,15 +596,15 @@ vErrors.push(err19);
 errors++;
 }
 }
-if(data3.diagonal !== undefined){
-let data10 = data3.diagonal;
-if(Array.isArray(data10)){
-const len2 = data10.length;
-for(let i2=0; i2<len2; i2++){
-let data11 = data10[i2];
-if(data11 && typeof data11 == "object" && !Array.isArray(data11)){
-if(data11.bins === undefined){
-const err20 = {instancePath:instancePath+"/data/diagonal/" + i2,schemaPath:"#/properties/data/properties/diagonal/items/required",keyword:"required",params:{missingProperty: "bins"},message:"must have required property '"+"bins"+"'"};
+if(data.diagonal !== undefined){
+let data10 = data.diagonal;
+const _errs27 = errors;
+let valid9 = false;
+const _errs28 = errors;
+if(data10 && typeof data10 == "object" && !Array.isArray(data10)){
+for(const key4 in data10){
+if(!((key4 === "type") || (key4 === "binning"))){
+const err20 = {instancePath:instancePath+"/diagonal",schemaPath:"#/properties/diagonal/anyOf/0/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key4},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err20];
 }
@@ -611,8 +613,11 @@ vErrors.push(err20);
 }
 errors++;
 }
-if(data11.variable === undefined){
-const err21 = {instancePath:instancePath+"/data/diagonal/" + i2,schemaPath:"#/properties/data/properties/diagonal/items/required",keyword:"required",params:{missingProperty: "variable"},message:"must have required property '"+"variable"+"'"};
+}
+if(data10.type !== undefined){
+let data11 = data10.type;
+if(typeof data11 !== "string"){
+const err21 = {instancePath:instancePath+"/diagonal/type",schemaPath:"#/properties/diagonal/anyOf/0/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err21];
 }
@@ -621,9 +626,8 @@ vErrors.push(err21);
 }
 errors++;
 }
-for(const key4 in data11){
-if(!((key4 === "variable") || (key4 === "bins"))){
-const err22 = {instancePath:instancePath+"/data/diagonal/" + i2,schemaPath:"#/properties/data/properties/diagonal/items/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key4},message:"must NOT have additional properties"};
+if("histogram" !== data11){
+const err22 = {instancePath:instancePath+"/diagonal/type",schemaPath:"#/properties/diagonal/anyOf/0/properties/type/const",keyword:"const",params:{allowedValue: "histogram"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err22];
 }
@@ -633,9 +637,12 @@ vErrors.push(err22);
 errors++;
 }
 }
-if(data11.variable !== undefined){
-if(typeof data11.variable !== "string"){
-const err23 = {instancePath:instancePath+"/data/diagonal/" + i2+"/variable",schemaPath:"#/properties/data/properties/diagonal/items/properties/variable/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data10.binning !== undefined){
+let data12 = data10.binning;
+if(data12 && typeof data12 == "object" && !Array.isArray(data12)){
+for(const key5 in data12){
+if(!(key5 === "binCount")){
+const err23 = {instancePath:instancePath+"/diagonal/binning",schemaPath:"#/definitions/PairPlotBinningSpec/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key5},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err23];
 }
@@ -645,15 +652,10 @@ vErrors.push(err23);
 errors++;
 }
 }
-if(data11.bins !== undefined){
-let data13 = data11.bins;
-if(Array.isArray(data13)){
-const len3 = data13.length;
-for(let i3=0; i3<len3; i3++){
-let data14 = data13[i3];
-if(data14 && typeof data14 == "object" && !Array.isArray(data14)){
-if(data14.binEnd === undefined){
-const err24 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3,schemaPath:"#/definitions/PairPlotBin/required",keyword:"required",params:{missingProperty: "binEnd"},message:"must have required property '"+"binEnd"+"'"};
+if(data12.binCount !== undefined){
+let data13 = data12.binCount;
+if(!(((typeof data13 == "number") && (!(data13 % 1) && !isNaN(data13))) && (isFinite(data13)))){
+const err24 = {instancePath:instancePath+"/diagonal/binning/binCount",schemaPath:"#/definitions/PairPlotBinningSpec/properties/binCount/type",keyword:"type",params:{type: "integer"},message:"must be integer"};
 if(vErrors === null){
 vErrors = [err24];
 }
@@ -662,8 +664,9 @@ vErrors.push(err24);
 }
 errors++;
 }
-if(data14.binStart === undefined){
-const err25 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3,schemaPath:"#/definitions/PairPlotBin/required",keyword:"required",params:{missingProperty: "binStart"},message:"must have required property '"+"binStart"+"'"};
+if((typeof data13 == "number") && (isFinite(data13))){
+if(data13 > 200 || isNaN(data13)){
+const err25 = {instancePath:instancePath+"/diagonal/binning/binCount",schemaPath:"#/definitions/PairPlotBinningSpec/properties/binCount/maximum",keyword:"maximum",params:{comparison: "<=", limit: 200},message:"must be <= 200"};
 if(vErrors === null){
 vErrors = [err25];
 }
@@ -672,8 +675,8 @@ vErrors.push(err25);
 }
 errors++;
 }
-if(data14.count === undefined){
-const err26 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3,schemaPath:"#/definitions/PairPlotBin/required",keyword:"required",params:{missingProperty: "count"},message:"must have required property '"+"count"+"'"};
+if(data13 < 1 || isNaN(data13)){
+const err26 = {instancePath:instancePath+"/diagonal/binning/binCount",schemaPath:"#/definitions/PairPlotBinningSpec/properties/binCount/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"};
 if(vErrors === null){
 vErrors = [err26];
 }
@@ -682,9 +685,11 @@ vErrors.push(err26);
 }
 errors++;
 }
-for(const key5 in data14){
-if(!((((key5 === "binStart") || (key5 === "binEnd")) || (key5 === "count")) || (key5 === "series"))){
-const err27 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3,schemaPath:"#/definitions/PairPlotBin/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key5},message:"must NOT have additional properties"};
+}
+}
+}
+else {
+const err27 = {instancePath:instancePath+"/diagonal/binning",schemaPath:"#/definitions/PairPlotBinningSpec/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err27];
 }
@@ -694,10 +699,9 @@ vErrors.push(err27);
 errors++;
 }
 }
-if(data14.binStart !== undefined){
-let data15 = data14.binStart;
-if(!((typeof data15 == "number") && (isFinite(data15)))){
-const err28 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3+"/binStart",schemaPath:"#/definitions/PairPlotBin/properties/binStart/type",keyword:"type",params:{type: "number"},message:"must be number"};
+}
+else {
+const err28 = {instancePath:instancePath+"/diagonal",schemaPath:"#/properties/diagonal/anyOf/0/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err28];
 }
@@ -706,11 +710,13 @@ vErrors.push(err28);
 }
 errors++;
 }
-}
-if(data14.binEnd !== undefined){
-let data16 = data14.binEnd;
-if(!((typeof data16 == "number") && (isFinite(data16)))){
-const err29 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3+"/binEnd",schemaPath:"#/definitions/PairPlotBin/properties/binEnd/type",keyword:"type",params:{type: "number"},message:"must be number"};
+var _valid0 = _errs28 === errors;
+valid9 = valid9 || _valid0;
+if(!valid9){
+const _errs39 = errors;
+if(data10 && typeof data10 == "object" && !Array.isArray(data10)){
+if(data10.type === undefined){
+const err29 = {instancePath:instancePath+"/diagonal",schemaPath:"#/properties/diagonal/anyOf/1/required",keyword:"required",params:{missingProperty: "type"},message:"must have required property '"+"type"+"'"};
 if(vErrors === null){
 vErrors = [err29];
 }
@@ -719,11 +725,9 @@ vErrors.push(err29);
 }
 errors++;
 }
-}
-if(data14.count !== undefined){
-let data17 = data14.count;
-if(!((typeof data17 == "number") && (isFinite(data17)))){
-const err30 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3+"/count",schemaPath:"#/definitions/PairPlotBin/properties/count/type",keyword:"type",params:{type: "number"},message:"must be number"};
+for(const key6 in data10){
+if(!(key6 === "type")){
+const err30 = {instancePath:instancePath+"/diagonal",schemaPath:"#/properties/diagonal/anyOf/1/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key6},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -733,9 +737,10 @@ vErrors.push(err30);
 errors++;
 }
 }
-if(data14.series !== undefined){
-if(typeof data14.series !== "string"){
-const err31 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3+"/series",schemaPath:"#/definitions/PairPlotBin/properties/series/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data10.type !== undefined){
+let data14 = data10.type;
+if(typeof data14 !== "string"){
+const err31 = {instancePath:instancePath+"/diagonal/type",schemaPath:"#/properties/diagonal/anyOf/1/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err31];
 }
@@ -744,10 +749,8 @@ vErrors.push(err31);
 }
 errors++;
 }
-}
-}
-else {
-const err32 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins/" + i3,schemaPath:"#/definitions/PairPlotBin/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if("none" !== data14){
+const err32 = {instancePath:instancePath+"/diagonal/type",schemaPath:"#/properties/diagonal/anyOf/1/properties/type/const",keyword:"const",params:{allowedValue: "none"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err32];
 }
@@ -759,7 +762,7 @@ errors++;
 }
 }
 else {
-const err33 = {instancePath:instancePath+"/data/diagonal/" + i2+"/bins",schemaPath:"#/properties/data/properties/diagonal/items/properties/bins/type",keyword:"type",params:{type: "array"},message:"must be array"};
+const err33 = {instancePath:instancePath+"/diagonal",schemaPath:"#/properties/diagonal/anyOf/1/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err33];
 }
@@ -768,10 +771,11 @@ vErrors.push(err33);
 }
 errors++;
 }
+var _valid0 = _errs39 === errors;
+valid9 = valid9 || _valid0;
 }
-}
-else {
-const err34 = {instancePath:instancePath+"/data/diagonal/" + i2,schemaPath:"#/properties/data/properties/diagonal/items/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(!valid9){
+const err34 = {instancePath:instancePath+"/diagonal",schemaPath:"#/properties/diagonal/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
 if(vErrors === null){
 vErrors = [err34];
 }
@@ -780,10 +784,21 @@ vErrors.push(err34);
 }
 errors++;
 }
-}
+else {
+errors = _errs27;
+if(vErrors !== null){
+if(_errs27){
+vErrors.length = _errs27;
 }
 else {
-const err35 = {instancePath:instancePath+"/data/diagonal",schemaPath:"#/properties/data/properties/diagonal/type",keyword:"type",params:{type: "array"},message:"must be array"};
+vErrors = null;
+}
+}
+}
+}
+if(data.title !== undefined){
+if(typeof data.title !== "string"){
+const err35 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err35];
 }
@@ -793,9 +808,9 @@ vErrors.push(err35);
 errors++;
 }
 }
-}
-else {
-const err36 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(data.description !== undefined){
+if(typeof data.description !== "string"){
+const err36 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err36];
 }
@@ -805,9 +820,10 @@ vErrors.push(err36);
 errors++;
 }
 }
-if(data.title !== undefined){
-if(typeof data.title !== "string"){
-const err37 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data.theme !== undefined){
+let data17 = data.theme;
+if(typeof data17 !== "string"){
+const err37 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err37];
 }
@@ -816,38 +832,13 @@ vErrors.push(err37);
 }
 errors++;
 }
-}
-if(data.description !== undefined){
-if(typeof data.description !== "string"){
-const err38 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(!((data17 === "dark") || (data17 === "light"))){
+const err38 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema12.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err38];
 }
 else {
 vErrors.push(err38);
-}
-errors++;
-}
-}
-if(data.theme !== undefined){
-let data21 = data.theme;
-if(typeof data21 !== "string"){
-const err39 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
-if(vErrors === null){
-vErrors = [err39];
-}
-else {
-vErrors.push(err39);
-}
-errors++;
-}
-if(!((data21 === "dark") || (data21 === "light"))){
-const err40 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema12.properties.theme.enum},message:"must be equal to one of the allowed values"};
-if(vErrors === null){
-vErrors = [err40];
-}
-else {
-vErrors.push(err40);
 }
 errors++;
 }
@@ -860,12 +851,12 @@ errors = vErrors.length;
 }
 }
 else {
-const err41 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
+const err39 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
-vErrors = [err41];
+vErrors = [err39];
 }
 else {
-vErrors.push(err41);
+vErrors.push(err39);
 }
 errors++;
 }
@@ -11071,8 +11062,9 @@ validate58.errors = vErrors;
 return errors === 0;
 }
 
-const schema65 = {"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"statistic":{"description":"显示统计量，默认 count；proportion 为系列内比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema66 = {"type":"object","properties":{"binStart":{"type":"number"},"binEnd":{"type":"number"},"count":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["binEnd","binStart","count"]};
+const schema65 = {"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"binning":{"description":"原始观测的分箱规则；重复值分别计数。","$ref":"#/definitions/HistogramBinningSpec"},"statistic":{"description":"显示统计量，默认 count；proportion 为样本比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema66 = {"type":"object","properties":{"value":{"type":"number"}},"additionalProperties":false,"required":["value"]};
+const schema67 = {"type":"object","properties":{"binCount":{"description":"非恒定数据的等宽箱数；省略时按样本量选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false};
 
 function validate60(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
@@ -11099,7 +11091,7 @@ vErrors.push(err1);
 errors++;
 }
 for(const key0 in data){
-if(!((((((((key0 === "type") || (key0 === "data")) || (key0 === "statistic")) || (key0 === "fieldLabels")) || (key0 === "title")) || (key0 === "description")) || (key0 === "theme")) || (key0 === "colors"))){
+if(!(func2.call(schema65.properties, key0))){
 const err2 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err2];
@@ -11140,8 +11132,8 @@ const len0 = data1.length;
 for(let i0=0; i0<len0; i0++){
 let data2 = data1[i0];
 if(data2 && typeof data2 == "object" && !Array.isArray(data2)){
-if(data2.binEnd === undefined){
-const err5 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/required",keyword:"required",params:{missingProperty: "binEnd"},message:"must have required property '"+"binEnd"+"'"};
+if(data2.value === undefined){
+const err5 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/required",keyword:"required",params:{missingProperty: "value"},message:"must have required property '"+"value"+"'"};
 if(vErrors === null){
 vErrors = [err5];
 }
@@ -11150,8 +11142,9 @@ vErrors.push(err5);
 }
 errors++;
 }
-if(data2.binStart === undefined){
-const err6 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/required",keyword:"required",params:{missingProperty: "binStart"},message:"must have required property '"+"binStart"+"'"};
+for(const key1 in data2){
+if(!(key1 === "value")){
+const err6 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key1},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err6];
 }
@@ -11160,8 +11153,11 @@ vErrors.push(err6);
 }
 errors++;
 }
-if(data2.count === undefined){
-const err7 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/required",keyword:"required",params:{missingProperty: "count"},message:"must have required property '"+"count"+"'"};
+}
+if(data2.value !== undefined){
+let data3 = data2.value;
+if(!((typeof data3 == "number") && (isFinite(data3)))){
+const err7 = {instancePath:instancePath+"/data/" + i0+"/value",schemaPath:"#/definitions/HistogramRow/properties/value/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err7];
 }
@@ -11170,9 +11166,10 @@ vErrors.push(err7);
 }
 errors++;
 }
-for(const key1 in data2){
-if(!((((key1 === "binStart") || (key1 === "binEnd")) || (key1 === "count")) || (key1 === "series"))){
-const err8 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key1},message:"must NOT have additional properties"};
+}
+}
+else {
+const err8 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err8];
 }
@@ -11182,10 +11179,9 @@ vErrors.push(err8);
 errors++;
 }
 }
-if(data2.binStart !== undefined){
-let data3 = data2.binStart;
-if(!((typeof data3 == "number") && (isFinite(data3)))){
-const err9 = {instancePath:instancePath+"/data/" + i0+"/binStart",schemaPath:"#/definitions/HistogramRow/properties/binStart/type",keyword:"type",params:{type: "number"},message:"must be number"};
+}
+else {
+const err9 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/type",keyword:"type",params:{type: "array"},message:"must be array"};
 if(vErrors === null){
 vErrors = [err9];
 }
@@ -11195,10 +11191,12 @@ vErrors.push(err9);
 errors++;
 }
 }
-if(data2.binEnd !== undefined){
-let data4 = data2.binEnd;
-if(!((typeof data4 == "number") && (isFinite(data4)))){
-const err10 = {instancePath:instancePath+"/data/" + i0+"/binEnd",schemaPath:"#/definitions/HistogramRow/properties/binEnd/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(data.binning !== undefined){
+let data4 = data.binning;
+if(data4 && typeof data4 == "object" && !Array.isArray(data4)){
+for(const key2 in data4){
+if(!(key2 === "binCount")){
+const err10 = {instancePath:instancePath+"/binning",schemaPath:"#/definitions/HistogramBinningSpec/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err10];
 }
@@ -11208,10 +11206,10 @@ vErrors.push(err10);
 errors++;
 }
 }
-if(data2.count !== undefined){
-let data5 = data2.count;
-if(!((typeof data5 == "number") && (isFinite(data5)))){
-const err11 = {instancePath:instancePath+"/data/" + i0+"/count",schemaPath:"#/definitions/HistogramRow/properties/count/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(data4.binCount !== undefined){
+let data5 = data4.binCount;
+if(!(((typeof data5 == "number") && (!(data5 % 1) && !isNaN(data5))) && (isFinite(data5)))){
+const err11 = {instancePath:instancePath+"/binning/binCount",schemaPath:"#/definitions/HistogramBinningSpec/properties/binCount/type",keyword:"type",params:{type: "integer"},message:"must be integer"};
 if(vErrors === null){
 vErrors = [err11];
 }
@@ -11220,10 +11218,9 @@ vErrors.push(err11);
 }
 errors++;
 }
-}
-if(data2.series !== undefined){
-if(typeof data2.series !== "string"){
-const err12 = {instancePath:instancePath+"/data/" + i0+"/series",schemaPath:"#/definitions/HistogramRow/properties/series/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if((typeof data5 == "number") && (isFinite(data5))){
+if(data5 > 200 || isNaN(data5)){
+const err12 = {instancePath:instancePath+"/binning/binCount",schemaPath:"#/definitions/HistogramBinningSpec/properties/binCount/maximum",keyword:"maximum",params:{comparison: "<=", limit: 200},message:"must be <= 200"};
 if(vErrors === null){
 vErrors = [err12];
 }
@@ -11232,10 +11229,8 @@ vErrors.push(err12);
 }
 errors++;
 }
-}
-}
-else {
-const err13 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/HistogramRow/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(data5 < 1 || isNaN(data5)){
+const err13 = {instancePath:instancePath+"/binning/binCount",schemaPath:"#/definitions/HistogramBinningSpec/properties/binCount/minimum",keyword:"minimum",params:{comparison: ">=", limit: 1},message:"must be >= 1"};
 if(vErrors === null){
 vErrors = [err13];
 }
@@ -11246,8 +11241,9 @@ errors++;
 }
 }
 }
+}
 else {
-const err14 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/type",keyword:"type",params:{type: "array"},message:"must be array"};
+const err14 = {instancePath:instancePath+"/binning",schemaPath:"#/definitions/HistogramBinningSpec/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err14];
 }
@@ -11258,8 +11254,8 @@ errors++;
 }
 }
 if(data.statistic !== undefined){
-let data7 = data.statistic;
-if(typeof data7 !== "string"){
+let data6 = data.statistic;
+if(typeof data6 !== "string"){
 const err15 = {instancePath:instancePath+"/statistic",schemaPath:"#/properties/statistic/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err15];
@@ -11269,7 +11265,7 @@ vErrors.push(err15);
 }
 errors++;
 }
-if(!(((data7 === "count") || (data7 === "density")) || (data7 === "proportion"))){
+if(!(((data6 === "count") || (data6 === "density")) || (data6 === "proportion"))){
 const err16 = {instancePath:instancePath+"/statistic",schemaPath:"#/properties/statistic/enum",keyword:"enum",params:{allowedValues: schema65.properties.statistic.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err16];
@@ -11281,11 +11277,11 @@ errors++;
 }
 }
 if(data.fieldLabels !== undefined){
-let data8 = data.fieldLabels;
-if(data8 && typeof data8 == "object" && !Array.isArray(data8)){
-for(const key2 in data8){
-if(!((((key2 === "value") || (key2 === "count")) || (key2 === "proportion")) || (key2 === "density"))){
-const err17 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
+let data7 = data.fieldLabels;
+if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
+for(const key3 in data7){
+if(!((((key3 === "value") || (key3 === "count")) || (key3 === "proportion")) || (key3 === "density"))){
+const err17 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key3},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err17];
 }
@@ -11295,8 +11291,8 @@ vErrors.push(err17);
 errors++;
 }
 }
-if(data8.value !== undefined){
-if(typeof data8.value !== "string"){
+if(data7.value !== undefined){
+if(typeof data7.value !== "string"){
 const err18 = {instancePath:instancePath+"/fieldLabels/value",schemaPath:"#/properties/fieldLabels/properties/value/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err18];
@@ -11307,8 +11303,8 @@ vErrors.push(err18);
 errors++;
 }
 }
-if(data8.count !== undefined){
-if(typeof data8.count !== "string"){
+if(data7.count !== undefined){
+if(typeof data7.count !== "string"){
 const err19 = {instancePath:instancePath+"/fieldLabels/count",schemaPath:"#/properties/fieldLabels/properties/count/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err19];
@@ -11319,8 +11315,8 @@ vErrors.push(err19);
 errors++;
 }
 }
-if(data8.proportion !== undefined){
-if(typeof data8.proportion !== "string"){
+if(data7.proportion !== undefined){
+if(typeof data7.proportion !== "string"){
 const err20 = {instancePath:instancePath+"/fieldLabels/proportion",schemaPath:"#/properties/fieldLabels/properties/proportion/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err20];
@@ -11331,8 +11327,8 @@ vErrors.push(err20);
 errors++;
 }
 }
-if(data8.density !== undefined){
-if(typeof data8.density !== "string"){
+if(data7.density !== undefined){
+if(typeof data7.density !== "string"){
 const err21 = {instancePath:instancePath+"/fieldLabels/density",schemaPath:"#/properties/fieldLabels/properties/density/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err21];
@@ -11380,8 +11376,8 @@ errors++;
 }
 }
 if(data.theme !== undefined){
-let data15 = data.theme;
-if(typeof data15 !== "string"){
+let data14 = data.theme;
+if(typeof data14 !== "string"){
 const err25 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err25];
@@ -11391,7 +11387,7 @@ vErrors.push(err25);
 }
 errors++;
 }
-if(!((data15 === "dark") || (data15 === "light"))){
+if(!((data14 === "dark") || (data14 === "light"))){
 const err26 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema65.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err26];
@@ -11423,8 +11419,8 @@ validate60.errors = vErrors;
 return errors === 0;
 }
 
-const schema67 = {"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"结果说明；修改此项不会重新计算 KDE。","type":"object","properties":{"kernel":{"type":"string"},"bandwidth":{"type":"number"}},"additionalProperties":false,"required":["bandwidth","kernel"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema68 = {"type":"object","properties":{"value":{"type":"number"},"density":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["density","value"]};
+const schema68 = {"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"结果说明；修改此项不会重新计算 KDE。","type":"object","properties":{"kernel":{"type":"string"},"bandwidth":{"type":"number"}},"additionalProperties":false,"required":["bandwidth","kernel"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema69 = {"type":"object","properties":{"value":{"type":"number"},"density":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["density","value"]};
 
 function validate62(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
@@ -11746,7 +11742,7 @@ vErrors.push(err25);
 errors++;
 }
 if(!((data14 === "dark") || (data14 === "light"))){
-const err26 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema67.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err26 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema68.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err26];
 }
@@ -11777,8 +11773,8 @@ validate62.errors = vErrors;
 return errors === 0;
 }
 
-const schema69 = {"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/RocCurveRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"metrics":{"description":"预先计算的曲线面积；本包不推算 AUC。","type":"array","items":{"type":"object","properties":{"series":{"type":"string"},"auc":{"type":"number"}},"additionalProperties":false,"required":["auc"]}},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema70 = {"type":"object","properties":{"fpr":{"description":"假阳性率，0–1。","type":"number"},"tpr":{"description":"真阳性率，0–1。","type":"number"},"threshold":{"description":"有限决策阈值；无穷阈值省略。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fpr","tpr"]};
+const schema70 = {"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/RocCurveRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"metrics":{"description":"预先计算的曲线面积；本包不推算 AUC。","type":"array","items":{"type":"object","properties":{"series":{"type":"string"},"auc":{"type":"number"}},"additionalProperties":false,"required":["auc"]}},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema71 = {"type":"object","properties":{"fpr":{"description":"假阳性率，0–1。","type":"number"},"tpr":{"description":"真阳性率，0–1。","type":"number"},"threshold":{"description":"有限决策阈值；无穷阈值省略。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fpr","tpr"]};
 
 function validate64(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
@@ -12119,7 +12115,7 @@ vErrors.push(err26);
 errors++;
 }
 if(!((data16 === "dark") || (data16 === "light"))){
-const err27 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema69.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err27 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema70.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err27];
 }
@@ -12150,8 +12146,8 @@ validate64.errors = vErrors;
 return errors === 0;
 }
 
-const schema71 = {"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema72 = {"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"density":{"description":"已计算的概率密度，不是样本数量。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","density","value"]};
+const schema72 = {"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema73 = {"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"density":{"description":"已计算的概率密度，不是样本数量。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","density","value"]};
 
 function validate66(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
@@ -12348,7 +12344,7 @@ vErrors.push(err15);
 errors++;
 }
 if(!((data7 === "area") || (data7 === "width"))){
-const err16 = {instancePath:instancePath+"/densityNormalization",schemaPath:"#/properties/densityNormalization/enum",keyword:"enum",params:{allowedValues: schema71.properties.densityNormalization.enum},message:"must be equal to one of the allowed values"};
+const err16 = {instancePath:instancePath+"/densityNormalization",schemaPath:"#/properties/densityNormalization/enum",keyword:"enum",params:{allowedValues: schema72.properties.densityNormalization.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err16];
 }
@@ -12458,7 +12454,7 @@ vErrors.push(err24);
 errors++;
 }
 if(!((data14 === "dark") || (data14 === "light"))){
-const err25 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema71.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err25 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema72.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err25];
 }

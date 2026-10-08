@@ -1,31 +1,19 @@
 import { compileStatPlot } from '../../src/compile';
 import { validateStatPlot } from '../../src/validate';
-import type { HistogramSpec, BoxPlotSpec } from '../../src/types';
+import type { BoxPlotSpec } from '../../src/types';
 import type { IBarSeriesSpec, IDataValues, ILineSeriesSpec } from '@visactor/vchart';
 
 describe('distributions', () => {
-  const bins = [
-    { binStart: 0, binEnd: 1, count: 2 },
-    { binStart: 1, binEnd: 3, count: 2 }
-  ];
-  it('不等宽箱的面积而不是高度表示概率', () => {
-    expect(validateStatPlot({ type: 'histogram', data: bins }).valid).toBe(false);
-    const native = compileStatPlot({ type: 'histogram', statistic: 'density', data: bins });
+  it('原始分箱按面积表示概率密度', () => {
+    const native = compileStatPlot({
+      type: 'histogram',
+      statistic: 'density',
+      binning: { binCount: 2 },
+      data: [0, 1, 2, 3, 4].map(value => ({ value }))
+    });
     const values = ((native.series![0] as IBarSeriesSpec).data as IDataValues).values as { height: number }[];
-    expect(values.map(row => row.height)).toEqual([0.5, 0.25]);
-    expect(values[0].height + values[1].height * 2).toBe(1);
-  });
-  it('拒绝负计数、小数计数、重叠箱', () => {
-    for (const data of [
-      [{ binStart: 0, binEnd: 1, count: -1 }],
-      [{ binStart: 0, binEnd: 1, count: 1.5 }],
-      [
-        { binStart: 0, binEnd: 2, count: 1 },
-        { binStart: 1, binEnd: 3, count: 2 }
-      ]
-    ]) {
-      expect(validateStatPlot({ type: 'histogram', data } as HistogramSpec).valid).toBe(false);
-    }
+    expect(values.map(row => row.height)).toEqual([0.2, 0.3]);
+    expect(values.reduce((area, row) => area + row.height * 2, 0)).toBe(1);
   });
   it('ECDF 保持右连续阶梯并拒绝重复采样位置', () => {
     const native = compileStatPlot({

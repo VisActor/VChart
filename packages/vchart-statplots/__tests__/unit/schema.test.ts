@@ -33,10 +33,7 @@ test.each(examples)('$type rejects unknown options and produces an explicit empt
   expect(invalid.errors.some(e => e.path === '/xField')).toBe(true);
   const empty = {
     ...spec,
-    data:
-      spec.type === 'pairPlot'
-        ? { observations: [], diagonal: spec.variables.map((variable: string) => ({ variable, bins: [] })) }
-        : []
+    data: spec.type === 'pairPlot' ? { observations: [] } : []
   };
   delete empty.metrics;
   delete empty.variableOrder;

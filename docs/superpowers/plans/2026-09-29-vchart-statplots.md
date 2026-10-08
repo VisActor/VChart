@@ -216,6 +216,8 @@ it('密度不能为负数', () => {
 
 ### T3：分布族——直方图、KDE、ECDF、箱线
 
+> histogram 的预计算输入与相关测试预期已由 [2026-10-08 原始样本重构计划](2026-10-08-histogram-raw-data.md) 覆盖；以下保留最初设计上下文，当前契约见子包文档。
+
 **Files：** 分别创建 `src/plots/histogram/`、`kde/`、`ecdf/`、`box-plot/` 中的 `types.ts`、`compile.ts`、`validate.ts`；`__tests__/unit/distributions.test.ts`、`__tests__/browser/distributions.spec.ts`；四份同名 fixture/JSON 示例/逐图文档；追加 types 和分派。
 
 **Produces：** `HistogramSpec`、`KdeSpec`、`EcdfSpec`、`BoxPlotSpec`；各自的 `compileHistogram/compileKde/compileEcdf/compileBoxPlot` 和同名 validate 函数，签名沿用第 3 节。
@@ -437,6 +439,8 @@ it('容量不足被显式报告', () => {
 **Run：** `npm test -- --runInBand __tests__/unit/swarm.test.ts`；`npm run build`；`npm run test:browser -- --grep swarm`；更新性能基准，记录 10k 点与极端重复值案例。
 
 ### T12：Pair Plot 的共轴布局与联动
+
+> 以下 diagonal 预计算输入为历史设计，已由 [2026-10-08 重构计划](2026-10-08-pair-plot-diagonal.md) 替代。当前只输入 observations，顶层 diagonal 为可选展示配置。
 
 **Files：** `src/plots/pair-plot/{types,compile,validate}.ts`、`src/layout/pair-grid.ts`、`__tests__/unit/pair-plot.test.ts`、`__tests__/browser/pair-plot.spec.ts`；对应 fixture/示例/docs。
 

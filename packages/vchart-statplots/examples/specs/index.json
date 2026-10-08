@@ -152,14 +152,7 @@
       "variant": "minimal",
       "file": "minimal/histogram.json",
       "documentation": "../../docs/plots/histogram.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
-    },
-    {
-      "type": "histogram",
-      "variant": "grouped",
-      "file": "grouped/histogram.json",
-      "documentation": "../../docs/plots/histogram.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "原始 value 观测；本包计算单分布分箱计数与显示归一化"
     },
     {
       "type": "kdePlot",
@@ -201,14 +194,14 @@
       "variant": "minimal",
       "file": "minimal/pairPlot.json",
       "documentation": "../../docs/plots/pairPlot.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始 observations；按变量独立排除 null，由本包计算共享边界和分组计数"
     },
     {
       "type": "pairPlot",
       "variant": "grouped",
       "file": "grouped/pairPlot.json",
       "documentation": "../../docs/plots/pairPlot.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "原始 observations；按变量独立排除 null，由本包计算共享边界和分组计数"
     },
     {
       "type": "pairedComparisonPlot",
@@ -421,12 +414,14 @@
     {
       "type": "histogram",
       "variant": "density",
-      "file": "variants/histogram-density.json"
+      "file": "variants/histogram-density.json",
+      "computation": "原始 value 观测；本包计算单分布分箱计数与显示归一化"
     },
     {
       "type": "histogram",
       "variant": "proportion",
-      "file": "variants/histogram-proportion.json"
+      "file": "variants/histogram-proportion.json",
+      "computation": "原始 value 观测；本包计算单分布分箱计数与显示归一化"
     },
     {
       "type": "stripPlot",
@@ -490,6 +485,55 @@
       "file": "variants/hexbinPlot-different-units.json",
       "documentation": "../../docs/plots/hexbinPlot.md",
       "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "histogram",
+      "file": "variants/pairPlot-histogram.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始观测；对角直方图内部计算，none 明确关闭对角分布"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "none",
+      "file": "variants/pairPlot-none.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始观测；对角直方图内部计算，none 明确关闭对角分布"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "missing-constant",
+      "file": "variants/pairPlot-missing-constant.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始观测；对角直方图内部计算，none 明确关闭对角分布"
+    },
+    {
+      "type": "histogram",
+      "variant": "coarse",
+      "file": "variants/histogram-coarse.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "histogram",
+      "variant": "fine",
+      "file": "variants/histogram-fine.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "histogram",
+      "variant": "constant",
+      "file": "variants/histogram-constant.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "histogram",
+      "variant": "zero-bin",
+      "file": "variants/histogram-zero-bin.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
     }
   ],
   "invalid": [
@@ -574,7 +618,7 @@
       "type": "histogram",
       "file": "invalid/histogram.json",
       "code": "SCHEMA_ERROR",
-      "path": "/xField",
+      "path": "/binning/binCount",
       "reason": "语义协议不接受原生字段映射"
     },
     {
@@ -602,8 +646,8 @@
       "type": "pairPlot",
       "file": "invalid/pairPlot.json",
       "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "path": "/diagonal/binning/binCount",
+      "reason": "箱数必须为 1–200 的整数"
     },
     {
       "type": "pairedComparisonPlot",

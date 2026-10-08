@@ -1,0 +1,14 @@
+{
+  "type": "histogram",
+  "binning": {
+    "binCount": 4
+  },
+  "data": [
+    {
+      "value": 0
+    },
+    {
+      "value": 4
+    }
+  ]
+}

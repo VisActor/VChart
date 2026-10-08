@@ -204,6 +204,28 @@ test('catalog names actual variants and reports a failed catalog load', async ({
   await expect(page.locator('#chart-title')).toHaveText('蜂群图');
   await page.goto('/examples/index.html?type=seasonalPlot');
   await expect(page.locator('#chart-title')).toHaveText('季节子序列图');
+  await page.goto('/examples/index.html?type=pairPlot');
+  await page.locator('#input').fill(
+    JSON.stringify({
+      type: 'pairPlot',
+      variables: ['x', 'y'],
+      diagonal: { type: 'histogram', binning: { binCount: 2 } },
+      data: {
+        observations: [
+          { id: '0', values: { x: 0, y: 1 } },
+          { id: '1', values: { x: 1, y: 0 } }
+        ]
+      }
+    })
+  );
+  await page.locator('#render').click();
+  await expect(page.locator('#chart-title')).toHaveText('自定义对角直方图的散点矩阵');
+  // 相同父配置、不同深层箱数不能误命中两箱变体。
+  await page
+    .locator('#input')
+    .fill((await page.locator('#input').inputValue()).replace('"binCount":2', '"binCount":3'));
+  await page.locator('#render').click();
+  await expect(page.locator('#chart-title')).toHaveText('散点矩阵图');
   await page.route('**/docs/plot-catalog.json', route => route.fulfill({ status: 503, body: 'unavailable' }));
   await page.reload();
   await expect(page.locator('#error')).toContainText('图表目录加载失败（503）');

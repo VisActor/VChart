@@ -45,7 +45,7 @@
 | --- | --- | --- |
 | `countPlot` | `normalization` → `statistic`，`count/proportion` 枚举保留；新增 fieldLabels.proportion | category/count/series；输入始终是计数，statistic 选择显示统计量，默认 count |
 | `missingValueMatrix` | `data[].observation` → `observationId`；`missing` → `isMissing` | variable；id 表示观测，不是单元格唯一键；重复键仍是观测与变量组合 |
-| `histogram` | `normalization` → `statistic`；枚举 probability → proportion | count/density 保留；默认 count；binStart/binEnd/count，非等宽仍要求 density |
+| `histogram`             | `normalization` → `statistic`；枚举 probability → proportion                            | count/density 保留；默认 count；当前使用原始 value 和可选 binning.binCount，旧 binStart/binEnd/count/series 直接拒绝                                           |
 | `kdePlot` | 无专属更名 | value/density、estimation.kernel/bandwidth；仅展示外部一维 KDE，不把 bandwidth 变成计算开关 |
 | `ecdfPlot` | `data[].probability` → `cumulativeProbability` | value；明确输入是累计概率，不是区间概率质量 |
 | `boxPlot` | `whiskerLow/whiskerHigh` → `whiskerLower/whiskerUpper` | category/q1/median/q3/outliers、whiskerRule；与 lower/upper 上下界用语一致 |
@@ -56,7 +56,7 @@
 | `scatterPlot` | 无专属更名 | x/y/id/series、fit.method/data/interval、拟合行 estimate/lower/upper；fit 内必须有预计算结果 |
 | `hexbinPlot` | 无专属更名 | 原始 x/y + binning.xBins；旧 id/count/vertices 输入移除，见逐图迁移说明 |
 | `correlationMatrix` | `data[].value` → `correlation`；`order` → `variableOrder` | row/column、method、triangle；variableOrder 精确覆盖变量，triangle 仅改变显示 |
-| `pairPlot` | 无专属更名 | variables 是按显示顺序排列的变量选择；observations/diagonal/bins 含义明确，不改成通用 datasets |
+| `pairPlot`              | 无专属更名                                                                              | variables 仍表示顺序；data 仅保留 observations，删除 data.diagonal 与公开 PairPlotBin；可选顶层 diagonal 配置展示方式 |
 | `timeSeriesPlot` | 无专属更名 | time/value/lower/upper、interval；time 为带时区 ISO 8601，null 明确断线 |
 | `seasonalPlot` | period → phase、season → cycle、periodOrder → phaseOrder；新增必填 cycleOrder | value/series、layout=overlay/subseries；分组和时间方向见下文“季节图” |
 | `autocorrelationPlot` | `data[].value` → `correlation` | lag、method=acf/pacf、interval；不额外将无偏估计强行裁剪到 [-1,1] |
@@ -83,13 +83,48 @@
 旧输入：
 
 ```json
-{"type":"count","normalization":"proportion","labels":{"category":"客户类型"},"data":[{"category":"A","count":3},{"category":"B","count":7}]}
+{
+  "type": "count",
+  "normalization": "proportion",
+  "labels": { "category": "客户类型" },
+  "data": [
+    { "category": "A", "count": 3 },
+    { "category": "B", "count": 7 }
+  ]
+}
 ```
 
 新输入：
 
 ```json
-{"type":"countPlot","statistic":"proportion","fieldLabels":{"category":"客户类型","proportion":"客户占比"},"data":[{"category":"A","count":3},{"category":"B","count":7}]}
+{
+  "type": "countPlot",
+  "statistic": "proportion",
+  "fieldLabels": { "category": "客户类型", "proportion": "客户占比" },
+  "data": [
+    { "category": "A", "count": 3 },
+    { "category": "B", "count": 7 }
+  ]
+}
 ```
 
-比例和概率密度仍由已有计数归一化；本次没有增加统计估计。完整新契约见 [Spec 协议](spec.md)，自然语言选型见 [目录](catalog.md)。
+countPlot 的比例仍由已有计数归一化；histogram 先对原始观测分箱再归一化。完整新契约见 [Spec 协议](spec.md)，自然语言选型见 [目录](catalog.md)。
+
+## Histogram 原始观测迁移（2026-10-08）
+
+旧 `data:[{binStart,binEnd,count,series?}]` 直接拒绝；新输入每行仅包含一个原始 value，不支持 series。库在 compileStatPlot 中确定边界、计数并换算 statistic，默认 count。
+
+```json
+{
+  "type": "histogram",
+  "binning": { "binCount": 2 },
+  "statistic": "density",
+  "data": [{ "value": 0 }, { "value": 1 }, { "value": 2 }, { "value": 3 }, { "value": 4 }]
+}
+```
+
+binning 可省略，默认箱数只依赖样本量；显式 binCount 为 1–200 的整数。空数据、恒定值、零频次箱及浮点支持范围见[直方图契约](plots/histogram.md)。只有聚合结果时使用 VChart 原生 histogram；聚合数据无法恢复原始样本，不应按 count 重复展开伪造观测。
+
+## pairPlot 对角分布迁移
+
+直接删除 `data.diagonal`，保留原始 `data.observations` 和 `variables`；无需重新提供箱边界/count。旧字段报 SCHEMA_ERROR `/data/diagonal`，公开 `PairPlotBin` 已删除。可选顶层 `diagonal` 只控制展示：`{"type":"histogram","binning":{"binCount":20}}` 或 `{"type":"none"}`。省略为内部自动分箱。只有旧 bins 而没有原始观测时，不能还原两两散点；不得伪造观测。

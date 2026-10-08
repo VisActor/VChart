@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | [类别计数图](plots/countPlot.md) | `countPlot` | 比较各客户类别有多少条观测。 |
 | [缺失值矩阵图](plots/missingValueMatrix.md) | `missingValueMatrix` | 检查每条观测各变量的缺失位置。 |
-| [直方图](plots/histogram.md) | `histogram` | 查看连续变量的分箱分布和尾部。 |
+| [直方图](plots/histogram.md)                   | `histogram`             | 从原始连续变量观测查看分箱分布和尾部。                               |
 | [核密度估计图](plots/kdePlot.md) | `kdePlot` | 比较已计算的一维核密度曲线。 |
 | [经验累积分布图](plots/ecdfPlot.md) | `ecdfPlot` | 比较样本的累计概率与尾部。 |
 | [箱线图](plots/boxPlot.md) | `boxPlot` | 比较组间四分位数、中位数与异常值。 |
@@ -17,7 +17,7 @@
 | [散点图](plots/scatterPlot.md) | `scatterPlot` | 查看两个数值变量的关系。 |
 | [六边形分箱图](plots/hexbinPlot.md) | `hexbinPlot` | 汇总大量二维散点的局部分布，颜色表示每个六边形箱内的观测数。 |
 | [相关矩阵图](plots/correlationMatrix.md) | `correlationMatrix` | 比较多个变量的相关方向和强度。 |
-| [散点矩阵图](plots/pairPlot.md) | `pairPlot` | 同时查看多个变量两两关系及对角分布。 |
+| [散点矩阵图](plots/pairPlot.md)                | `pairPlot`              | 从原始观测查看多个数值变量的两两关系和自动计算的对角分布。   |
 | [时间序列图](plots/timeSeriesPlot.md) | `timeSeriesPlot` | 查看随时间变化的数值及已有区间。 |
 | [季节图](plots/seasonalPlot.md) | `seasonalPlot` | 比较不同年份的季度形状。 |
 | [自相关图](plots/autocorrelationPlot.md) | `autocorrelationPlot` | 查看时间序列各滞后阶的自相关。 |

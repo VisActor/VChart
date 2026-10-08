@@ -62,10 +62,10 @@
       "直方图",
       "histplot"
     ],
-    "useWhen": "查看连续变量的分箱分布和尾部。",
+    "useWhen": "从原始连续变量观测查看分箱分布和尾部。",
     "avoidWhen": [
       "类别频数比较",
-      "没有分箱结果"
+      "多组叠加分布比较"
     ],
     "schema": "schema/plots/histogram.schema.json",
     "example": "examples/specs/minimal/histogram.json",
@@ -90,6 +90,30 @@
           "statistic": "proportion"
         },
         "example": "examples/specs/variants/histogram-proportion.json"
+      },
+      {
+        "name": "粗分箱直方图",
+        "aliases": [
+          "coarse histogram"
+        ],
+        "options": {
+          "binning": {
+            "binCount": 2
+          }
+        },
+        "example": "examples/specs/variants/histogram-coarse.json"
+      },
+      {
+        "name": "细分箱直方图",
+        "aliases": [
+          "fine histogram"
+        ],
+        "options": {
+          "binning": {
+            "binCount": 10
+          }
+        },
+        "example": "examples/specs/variants/histogram-fine.json"
       }
     ]
   },
@@ -366,13 +390,43 @@
       "scatterplot matrix",
       "成对关系图"
     ],
-    "useWhen": "同时查看多个变量两两关系及对角分布。",
+    "useWhen": "从原始观测查看多个数值变量的两两关系和自动计算的对角分布。",
     "avoidWhen": [
       "同一对象前后两次配对比较"
     ],
     "schema": "schema/plots/pairPlot.schema.json",
     "example": "examples/specs/minimal/pairPlot.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "自定义对角直方图的散点矩阵",
+        "aliases": [
+          "指定对角直方图箱数",
+          "pair plot with 2 histogram bins"
+        ],
+        "options": {
+          "diagonal": {
+            "type": "histogram",
+            "binning": {
+              "binCount": 2
+            }
+          }
+        },
+        "example": "examples/specs/variants/pairPlot-histogram.json"
+      },
+      {
+        "name": "无对角分布的散点矩阵",
+        "aliases": [
+          "关闭对角分布",
+          "pair plot without diagonal"
+        ],
+        "options": {
+          "diagonal": {
+            "type": "none"
+          }
+        },
+        "example": "examples/specs/variants/pairPlot-none.json"
+      }
+    ]
   },
   {
     "type": "timeSeriesPlot",

@@ -6,10 +6,11 @@ import { validateStatPlot } from '../src/validate';
 import { compileStatPlot } from '../src/compile';
 import type { StatPlotSpec } from '../src/types';
 
+type CatalogOption = string | number | boolean | { [key: string]: CatalogOption };
 interface CatalogVariant {
   name: string;
   aliases: string[];
-  options: Record<string, string | number | boolean | Record<string, string | number | boolean>>;
+  options: Record<string, CatalogOption>;
   example: string;
 }
 interface CatalogEntry {

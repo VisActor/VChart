@@ -1,14 +1,9 @@
-"""只使用标准库的交接示例；分箱计算位于 Python，输出纯语义 JSON。"""
+"""标准库交接示例：输出原始观测，由 StatPlots 分箱。"""
 import json
 import sys
 
-values = [0.1, 0.2, 0.5, 0.9, 1.2, 1.8, 2.2, 2.9]
-edges = [0, 1, 3]
-bins = []
-for index, (start, end) in enumerate(zip(edges, edges[1:])):
-    last = index == len(edges) - 2
-    count = sum(start <= value < end or (last and value == end) for value in values)
-    bins.append({"binStart": start, "binEnd": end, "count": count})
-
-json.dump({"type": "histogram", "statistic": "density", "title": "Python 预计算分箱", "data": bins}, sys.stdout, ensure_ascii=False, allow_nan=False, indent=2)
+values = [0, 1, 2, 3, 4]
+json.dump({"type": "histogram", "statistic": "density", "binning": {"binCount": 2},
+           "title": "Python 原始观测", "data": [{"value": value} for value in values]},
+          sys.stdout, ensure_ascii=False, allow_nan=False, indent=2)
 sys.stdout.write("\n")

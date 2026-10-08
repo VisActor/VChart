@@ -107,34 +107,41 @@
               "items": {
                 "$ref": "#/definitions/PairPlotObservation"
               }
-            },
-            "diagonal": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "variable": {
-                    "type": "string"
-                  },
-                  "bins": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/definitions/PairPlotBin"
-                    }
-                  }
-                },
-                "additionalProperties": false,
-                "required": [
-                  "bins",
-                  "variable"
-                ]
-              }
             }
           },
           "additionalProperties": false,
           "required": [
-            "diagonal",
             "observations"
+          ]
+        },
+        "diagonal": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "histogram",
+                  "type": "string"
+                },
+                "binning": {
+                  "$ref": "#/definitions/PairPlotBinningSpec"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "none"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "type"
+              ]
+            }
           ]
         },
         "title": {
@@ -190,29 +197,17 @@
         "values"
       ]
     },
-    "PairPlotBin": {
+    "PairPlotBinningSpec": {
       "type": "object",
       "properties": {
-        "binStart": {
-          "type": "number"
-        },
-        "binEnd": {
-          "type": "number"
-        },
-        "count": {
-          "type": "number"
-        },
-        "series": {
-          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
-          "type": "string"
+        "binCount": {
+          "description": "每个非恒定变量的等宽箱数；省略时按有效观测数选择。",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
         }
       },
-      "additionalProperties": false,
-      "required": [
-        "binEnd",
-        "binStart",
-        "count"
-      ]
+      "additionalProperties": false
     },
     "StatPlotColors": {
       "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
@@ -2854,8 +2849,12 @@
             "$ref": "#/definitions/HistogramRow"
           }
         },
+        "binning": {
+          "description": "原始观测的分箱规则；重复值分别计数。",
+          "$ref": "#/definitions/HistogramBinningSpec"
+        },
         "statistic": {
-          "description": "显示统计量，默认 count；proportion 为系列内比例，density 为单位数值区间的概率密度。",
+          "description": "显示统计量，默认 count；proportion 为样本比例，density 为单位数值区间的概率密度。",
           "enum": [
             "count",
             "density",
@@ -2911,26 +2910,26 @@
     "HistogramRow": {
       "type": "object",
       "properties": {
-        "binStart": {
+        "value": {
           "type": "number"
-        },
-        "binEnd": {
-          "type": "number"
-        },
-        "count": {
-          "type": "number"
-        },
-        "series": {
-          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
-          "type": "string"
         }
       },
       "additionalProperties": false,
       "required": [
-        "binEnd",
-        "binStart",
-        "count"
+        "value"
       ]
+    },
+    "HistogramBinningSpec": {
+      "type": "object",
+      "properties": {
+        "binCount": {
+          "description": "非恒定数据的等宽箱数；省略时按样本量选择。",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        }
+      },
+      "additionalProperties": false
     },
     "KdePlotSpec": {
       "type": "object",

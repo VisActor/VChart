@@ -43,3 +43,23 @@ npm run test:browser --prefix packages/vchart-statplots -- hexbin.spec.ts --grep
 ```
 
 这是单次生命周期冒烟，不设毫秒阈值，不与原生散点或 Python 对比。compile 包含校验和分箱，update 包含重新编译，resize 的记录含 Playwright 往返；100k 首绘受到前一轮暖机影响。原始运行输出位于 `.vchart-statplots/hexbin/lifecycle-timing.json`。
+
+## Pair Plot 内部对角分箱（2026-10-08）
+
+[新协议测量](pair-diagonal-results.json) 单独记录共享分箱计算和原生图表生命周期。4/8 变量 × 1k/10k 的输入与历史模运算散点一致，移除外部 diagonal；本轮自动箱数分别为 11/15，旧例仅两箱且覆盖范围不同，因此不作为同条件性能提升结论。
+
+独立计算包含范围、边界和计数，Node 22 下每规模先暖机一次、测量十次。4/8 变量 × 10k 的中位数约 1.10/1.94 ms。浏览器生命周期只测一次，不设毫秒阈值：8 变量 × 10k 的 compile 约 34 ms、render 约 1.85 s、update 约 14.54 s、resize 约 18.76 s，仍物化 56 万散点，不适合作为默认流畅交互规模。
+
+每变量计数守恒，修改 id=501 的 v1 为 0.1 后对应旧箱减一、新箱加一；resize 保持箱数据；真实框选按 id 跨面板联动；release 后 canvas=0。brush 计时包含 Playwright 往返。共享工作区同时开发 histogram，不能把环境波动当作算法性能变化。
+
+复现独立统计：`packages/vchart-statplots/node_modules/.bin/ts-node packages/vchart-statplots/scripts/benchmark-pair-diagonal.ts`。生命周期：`npm run test:browser --prefix packages/vchart-statplots -- pair-performance.spec.ts`。原始日志与截图在 `.vchart-statplots/pair-diagonal/`，不提交。
+
+## Histogram 原始观测生命周期（2026-10-08）
+
+[测量记录](histogram-results.json) 使用固定模运算 `value=((i*73)%997)/997` 生成 1 万 / 10 万原始观测，显式 binCount=30。compile 包含校验与分箱，暖机一次后测量九次，记录中位数与最大值；本机中位数约 0.3 / 1.6 ms。原生图元仅按箱数生成，不为每条观测创建图元。
+
+```sh
+npm run test:browser --prefix packages/vchart-statplots -- histogram.spec.ts --grep '10k and 100k'
+```
+
+每规模的 render/update/resize/release 只测一次，update 包含重新编译并增加一条重复观测，检查 sum(count)=N+1；resize 保持箱数据，release 后 canvas=0。20 个图表各 1,000 条观测的创建与释放同样通过。浏览器时间含测量噪声，100k 首绘受前一轮暖机影响，不设毫秒阈值或跨设备 SLA。原始输出位于 `.vchart-statplots/histogram/lifecycle-timing.json`。

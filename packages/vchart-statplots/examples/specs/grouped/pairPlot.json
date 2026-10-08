@@ -1,10 +1,6 @@
 {
   "type": "pairPlot",
-  "variables": [
-    "x",
-    "y",
-    "z"
-  ],
+  "variables": ["x", "y", "z"],
   "data": {
     "observations": [
       {
@@ -366,95 +362,6 @@
           "z": 9
         },
         "series": "B"
-      }
-    ],
-    "diagonal": [
-      {
-        "variable": "x",
-        "bins": [
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 10,
-            "series": "A"
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10,
-            "series": "A"
-          },
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 10,
-            "series": "B"
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10,
-            "series": "B"
-          }
-        ]
-      },
-      {
-        "variable": "y",
-        "bins": [
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 7,
-            "series": "A"
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10,
-            "series": "A"
-          },
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 7,
-            "series": "B"
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10,
-            "series": "B"
-          }
-        ]
-      },
-      {
-        "variable": "z",
-        "bins": [
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 10,
-            "series": "A"
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10,
-            "series": "A"
-          },
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 10,
-            "series": "B"
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10,
-            "series": "B"
-          }
-        ]
       }
     ]
   }

@@ -29,7 +29,7 @@
 
 验证覆盖：
 
-- 独立统计预期：不等宽直方图面积、ECDF 单调、箱线五数次序、零分母、对称相关矩阵、区间种类、时间合法性、分箱逐箱计数、凸六边形和蜂群碰撞。
+- 独立统计预期：原始分箱频数及直方图面积、ECDF 单调、箱线五数次序、零分母、对称相关矩阵、区间种类、时间合法性、分箱逐箱计数、凸六边形和蜂群碰撞。
 - 实际图形：小提琴对称轮廓、箱线坐标域包含异常点、区间端帽、连续色标完整范围、时间线和带同步断开、ACF stem、Q–Q / 校准参考线。
 - 交互与生命周期：真实 tooltip 和图例点击、50 次更新后事件仍只触发一次、resize 后蜂群和按 ID 刷选、20 个图表释放后无 canvas、PNG 导出和示例页切换全部类型。
 - Python 标准库预计算 JSON 进入浏览器，随后用浏览器端结果更新同一实例；两次分别验证实际柱高比和等高关系。
@@ -215,3 +215,22 @@ hexbinPlot 改为 `data:[{x,y}]` 与可选 `binning.xBins`（默认 30，整数 
 - ESLint 0 errors / 427 warnings；JavaScript 语法与 git diff --check 通过。证据保留在 `.vchart-statplots/hexbin/{build,unit,browser,lint,counter-*}.log` 及该目录截图。
 
 本轮仅修改 StatPlots，未改 VChart 核心；上述浏览器全包回归不等同于官方 develop 的全量视觉基线比较。
+
+## Histogram 原始观测重构（2026-10-08）
+
+histogram 现在接收单变量 `data:[{value}]`，在编译阶段按可选 binning.binCount 确定等宽边界并计数；默认使用 Sturges 候选数。删除 series 与旧 binStart/binEnd/count 输入，保留 count/proportion/density。域、边界与查箱工具从工作区 pairPlot 实现抽取为共用几何函数，分组和缺失职责仍由 pairPlot 处理；不新增运行依赖。
+
+- ESM/CJS/UMD 构建、源码与测试 TypeScript、Schema 一致性检查通过。28 主例、79 有效变体、28 反例，28 类目录与 81 条意图预期检查通过；中文协议、迁移和 Python 原始观测交接同步更新。
+- 全包 Jest **20 套 / 383 项通过**，Chromium **191 项通过**，包含 ESM 独立引擎注册。共享工作区同时开发 pairPlot，因此总数包含其新增回归，不能把所有改动归属到本任务。
+- 计数守恒、重复值、内部边界归右、最大端点、零箱、空样本、恒定值、不可表示的浮点边界与密度面积均有断言。真实 hover 检查上下界、原始计数及显示量；同一实例更新数据和箱数，检查实际柱几何与 tooltip。200 箱窄容器先复现默认最小像素宽度破坏区间，使用标准 barMinWidth='0%' 后通过。
+- 六项重点浏览器用例连续五轮通过；九种统计量/常数/零箱/深浅主题/宽窄窗口截图的五轮 SHA256 完全一致，已审阅截图。独立副本的去重、漏最大端点、内部边界归左、删除零箱、抑制更新和抑制 hover 反例均按预期失败，控制版本通过。
+- 1 万 / 10 万观测的 compile 中位数约 **0.3 / 1.6 ms**；生命周期检查增加重复观测后 sum(count)=N+1，resize 保持箱数据，release 后 canvas=0。20 图表各 1,000 观测创建和释放通过，[性能记录](../benchmarks/histogram-results.json) 为本机冒烟，不设毫秒 SLA。
+- ESLint 0 errors / 556 warnings，git diff --check 通过。最终浏览器测试使用冻结的 UMD/ESM、示例和页面资源，由 Vite 保留 ESM 解析并关闭热更新；此前并发构建引发的资源重载及依赖产物缺失，恢复构建和隔离资源后复验通过。
+
+截图复查发现原生轴更新错误：系列统计先使用旧 min/max 更新 scale，轴 reInit 随后才应用新边界，之后没有统计事件。在线性轴标准 reInit 路径仅在解析后的显式边界变化时调用 updateScaleDomain，避免范围不变时追加计算。新单测覆盖变化、range 别名、移除边界及重复初始化；常数域与普通域往返的实际 scale 断言先失败后通过。线性轴 14 项单测通过，关联轴及更新单测按文件隔离的 6 套 / 27 项通过；批量 Electron runner 曾出现 stage.defaultLayer 为 null 的执行错误，相关文件隔离复验通过。VChart 源码类型检查和改动文件 lint（0 errors / 20 warnings）通过。
+
+新增清单用例 linear-axis-update-bounds 与官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc` 的单例比较 **通过且无像素差异**，报告位于 `.vchart-visual/runs/1791446421440-bd8445bb/index.html`。本地冻结构建的轴目录 30 项自比较通过，新用例连续五轮截图一致；独立副本抑制更新、使用错误边界均被检出。
+
+官方轴目录比较 **未完成**：基线侧已有 band-axis-update-spec 的分类轴主题更新断言失败，工具在本地阶段开始前中止。报告位于 `.vchart-visual/runs/1791446345535-0d19f435/index.html`；不能把本地自比较写成官方目录通过。本轮未运行官方 develop 全量比较，提交 PR 前仍须执行。
+
+证据位于 `.vchart-statplots/histogram/`：unit-final.log、browser-final.log、stability-final.log、stability-images.json、contracts-final.log、lint-final.log、counterexamples/、native/results.json、core-unit-isolated.json、core-typecheck.log 及截图。冻结资源的完整浏览器复现命令为 `packages/vchart-statplots/node_modules/.bin/playwright test --config .vchart-statplots/histogram/playwright-frozen.config.cjs`；标准独占工作区可直接使用包内 test:browser。

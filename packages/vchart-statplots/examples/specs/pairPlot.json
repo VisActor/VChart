@@ -1,11 +1,7 @@
 {
   "type": "pairPlot",
   "title": "散点矩阵图",
-  "variables": [
-    "x",
-    "y",
-    "z"
-  ],
+  "variables": ["x", "y", "z"],
   "data": {
     "observations": [
       {
@@ -167,53 +163,6 @@
           "y": 7,
           "z": 9
         }
-      }
-    ],
-    "diagonal": [
-      {
-        "variable": "x",
-        "bins": [
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 10
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10
-          }
-        ]
-      },
-      {
-        "variable": "y",
-        "bins": [
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 7
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10
-          }
-        ]
-      },
-      {
-        "variable": "z",
-        "bins": [
-          {
-            "binStart": 0,
-            "binEnd": 5,
-            "count": 10
-          },
-          {
-            "binStart": 5,
-            "binEnd": 10,
-            "count": 10
-          }
-        ]
       }
     ]
   }

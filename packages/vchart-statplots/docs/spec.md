@@ -5,13 +5,13 @@
 ## 公共配置
 
 | 字段                | 含义                                                                                         |
-| ------------------- | -------------------------------------------------------------------------------------------- |
-| type / data         | 必填，类型和对应数据；hexbinPlot 使用原始 x/y 散点，pairPlot 使用 observations/diagonal 对象 |
+| ------------------------------- | ---------------------------------------------------------------------------- |
+| type / data         | 必填，类型和对应数据；histogram 使用单变量原始 value 观测，hexbinPlot 使用原始 x/y 散点，pairPlot 使用仅含 observations 的对象 |
 | title / description | 标题及数据范围、统计方法说明                                                                 |
 | theme               | VChart 原生 light（默认）或 dark                                                             |
 | colors              | 共用 categorical / sequential / diverging，支持名称与色号数组；见[公共配色](colors.md)       |
 | fieldLabels         | 该图允许的字段展示名，供轴和 tooltip 使用；不控制图元标签                                    |
-| 行级 series         | 在该图 Schema 支持时比较系列，同一表全部提供非空系列名或全部省略；hexbinPlot 不支持分组      |
+| 行级 series         | 在该图 Schema 支持时比较系列，同一表全部提供非空系列名或全部省略；histogram、hexbinPlot 不支持分组   |
 
 观测 id 为字符串，category 为类别。缺失值只在明确允许 null 的字段中接受。数值必须有限，不接受数值字符串；未知字段、NaN、Infinity 不做静默归一化。缺少下界或上界时不能推断另一端。
 
@@ -30,7 +30,8 @@ method、metric、distribution、estimation 是已有结果的说明；修改这
 | 选项                            | 默认值及含义                                                                 |
 | ------------------------------- | ---------------------------------------------------------------------------- |
 | countPlot.statistic             | count；proportion 为系列内计数比例                                           |
-| histogram.statistic             | count；proportion 为系列内比例，density 的柱面积和为 1；不等宽箱必须 density |
+| histogram.binning.binCount      | 可选 1–200 整数；省略时使用 Sturges 候选数，恒定观测一个箱 |
+| histogram.statistic                | count；proportion 为样本比例，density 的柱面积和为 1；输入原始 value |
 | violinPlot.densityNormalization | width 等最大宽度；area 等面积                                                |
 | stripPlot.layout / jitterRatio  | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5                           |
 | pointIntervalPlot.valueScale    | linear；log 的估计、区间和参考值必须为正                                     |
@@ -39,9 +40,11 @@ method、metric、distribution、estimation 是已有结果的说明；修改这
 | confusionMatrix.normalization   | none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化          |
 | seasonalPlot.layout             | overlay；subseries 按 phase 分面、横轴 cycle                                 |
 | screePlot.showCumulative        | false                                                                        |
+| pairPlot.diagonal.type             | histogram；none 保留对角槽位但关闭对角分布                                   |
+| pairPlot.diagonal.binning.binCount | 可选的 1–200 整数；省略时按各变量有效 N 使用 Sturges 箱数，恒定变量一个箱    |
 | hexbinPlot.binning.xBins        | 30；1–200 的整数，水平方向分箱分辨率，非总箱数                               |
 
-statistic 只选择已有计数的显示形式。countPlot、histogram 的归一化在各 series 内独立进行；零总量无法定义比例/密度，相关归一化图形不绘制。混淆矩阵的零分母显示 NA。fieldLabels.proportion 改变名称，不改变数值单位。
+statistic 选择计数的显示形式。countPlot 接收已有计数，在各 series 内归一化；零总量的比例不绘制。histogram 先对原始观测分箱，再按唯一分布的样本总量归一化；保留零频次箱，原始全零值仍是有效观测。混淆矩阵的零分母显示 NA。fieldLabels.proportion 改变名称，不改变数值单位。
 
 seasonalPlot 的 cycleOrder 与 phaseOrder 必填、非空、不重复，覆盖数据；可声明无观测的位置，缺口断线。pairedComparisonPlot.categoryOrder 必须是两个不同类别；同一对象以 id 连接。
 
