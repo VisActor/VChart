@@ -566,6 +566,15 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       return;
     }
 
+    const dataKey = this._spec.brushLinkDataKey;
+    // 每次框选仅建立一次索引，避免每个目标图元扫描源数据。
+    const selectedKeys = dataKey
+      ? new Set(
+          Object.values(this._inBrushElementsMap[operateMask.name] ?? {})
+            .map(item => item.context.data[0][dataKey])
+            .filter(value => value !== undefined && value !== null)
+        )
+      : undefined;
     const regionLayoutPos = region.getLayoutStartPoint();
     const seriesId = region.getSeries().map(s => s.id);
     this._linkedSeries.forEach((s: ISeries) => {
@@ -608,8 +617,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             return;
           }
           graphics.forEach((graphicItem: IMarkGraphic) => {
-            const { key } = graphicItem.context;
-
+            const isLinked = selectedKeys
+              ? selectedKeys.has(graphicItem.context.data[0][dataKey])
+              : this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem);
             const elementKey = mark.id + '_' + graphicItem.context.key;
             // 判断逻辑:
             // 应该被置为inBrush状态的图元:
@@ -619,22 +629,17 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             // 应该被置为outOfBrush状态的图元:
             // before: 在当前brush 的 in brush element map中, 即在当前brush中
             // now: 不在当前brush中
-            if (
-              this._linkedOutOfBrushElementsMap?.[elementKey] &&
-              this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem)
-            ) {
+            if (this._linkedOutOfBrushElementsMap?.[elementKey] && isLinked) {
               this._setBrushState(graphicItem, IN_BRUSH_STATE);
               if (!this._linkedInBrushElementsMap[operateMask?.name]) {
                 this._linkedInBrushElementsMap[operateMask?.name] = {};
               }
               this._linkedInBrushElementsMap[operateMask?.name][elementKey] = graphicItem;
               delete this._linkedOutOfBrushElementsMap[elementKey];
-            } else if (
-              this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
-              !this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem)
-            ) {
+            } else if (this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] && !isLinked) {
               this._setBrushState(graphicItem, OUT_BRUSH_STATE);
               this._linkedOutOfBrushElementsMap[elementKey] = graphicItem;
+              delete this._linkedInBrushElementsMap[operateMask.name][elementKey];
             }
           });
         });
@@ -820,10 +825,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   clear(): void {
     if (this._brushComponents) {
       const container = this.getContainer();
-      this._brushComponents.forEach((brush, index) => {
-        // 清空元素状态
-        this._initMarkBrushState(index, '');
-
+      // 在释放任何组件前统一清空状态，避免下一轮访问已移除的容器。
+      this._initMarkBrushState(-1, '');
+      this._brushComponents.forEach(brush => {
         brush.removeAllChild();
         brush.releaseBrushEvents();
 
@@ -835,10 +839,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     }
   }
   clearBrushStateAndMask() {
-    this._relativeRegions.forEach((region: IRegion, componentIndex: number) => {
-      this._initMarkBrushState(componentIndex, '');
-      this._brushComponents[componentIndex].children[0].removeAllChild();
-    });
+    this._initMarkBrushState(-1, '');
   }
 }
 

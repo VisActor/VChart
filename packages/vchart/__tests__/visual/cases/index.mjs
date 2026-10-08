@@ -4,6 +4,9 @@
  */
 /** 本地用例元数据的唯一清单；模块必须保持浏览器和 Node 均可导入。 */
 export const cases = [
+  { id: 'band-axis-update-spec', purpose: '分类轴 updateSpec 应用新的主题与标签样式', file: './components/axis/band-axis-update-spec.mjs' },
+  { id: 'legend-piecewise-domain', purpose: '多节点连续色域图例的完整范围', file: './components/legend/legend-piecewise-domain.mjs' },
+  { id: 'brush-link-data-key', purpose: '不同变量面板按观测标识联动框选', file: './interaction/brush-link-data-key.mjs' },
   {
     id: 'bar-stack',
     purpose: '正负值、堆叠与零基准线（bar）',
