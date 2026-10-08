@@ -381,6 +381,10 @@
             "$ref": "#/definitions/HexbinPlotRow"
           }
         },
+        "binning": {
+          "description": "原始散点的分箱规则；重复坐标按多条观测计数。",
+          "$ref": "#/definitions/HexbinBinningSpec"
+        },
         "fieldLabels": {
           "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
@@ -426,39 +430,30 @@
     "HexbinPlotRow": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string"
-        },
-        "count": {
+        "x": {
           "type": "number"
         },
-        "vertices": {
-          "description": "按周界顺序给定六个数据坐标顶点，不包含重复闭合点。",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "x": {
-                "type": "number"
-              },
-              "y": {
-                "type": "number"
-              }
-            },
-            "additionalProperties": false,
-            "required": [
-              "x",
-              "y"
-            ]
-          }
+        "y": {
+          "type": "number"
         }
       },
       "additionalProperties": false,
       "required": [
-        "count",
-        "id",
-        "vertices"
+        "x",
+        "y"
       ]
+    },
+    "HexbinBinningSpec": {
+      "type": "object",
+      "properties": {
+        "xBins": {
+          "description": "水平方向的分箱分辨率，默认 30；不是非空箱总数，边缘可增加一列。",
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 200
+        }
+      },
+      "additionalProperties": false
     },
     "FeatureImportancePlotSpec": {
       "type": "object",

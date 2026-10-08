@@ -6,7 +6,7 @@
 
 **Goal:** 在当前仓库新增 `@visactor/vchart-statplots`，以简洁的语义 spec 分四期实现 28 类专业数据科学图表，并提供未来 skill 可直接使用的契约与示例。
 
-**Architecture:** `StatPlotSpec → 边界校验 → 编译器 → VChart ISpec`。复用 VChart 实例生命周期和标准系列；小提琴、蜂群、Hexbin 使用必要的专用系列。统计计算由调用方完成，本包只做显示所需的归一化和布局。
+**Architecture:** `StatPlotSpec → 边界校验 → 编译器 → VChart ISpec`。复用 VChart 实例生命周期和标准系列；小提琴、蜂群、Hexbin 使用必要的专用系列。大部分统计计算由调用方完成，本包负责显示归一化和布局；hexbinPlot 按 2026-10-08 重构计划改为原始散点输入，由本包完成固定六边形分箱。
 
 **Tech Stack:** Node.js 22、TypeScript 4.9.5、Rush 5.148.0、pnpm 10.7.0、仓库 bundler、Jest 26、Playwright 1.63.0、内部 JSON Schema 生成器、Ajv 8.12 系列的构建期 standalone 生成。
 
@@ -395,29 +395,15 @@ it('部分 PCA 成分累计解释率不足 100% 仍合法', () => {
 
 ## 6. P4：复杂几何、排布与多面板
 
-### T10：Hexbin 的真实边界
+### T10：Hexbin 原始散点输入与保形布局（2026-10-08 更新）
 
-**Files：** `src/plots/hexbin/{types,compile,validate}.ts`、`src/series/hexbin/{interface,hexbin,tooltip,index}.ts`、`__tests__/unit/hexbin.test.ts`、`__tests__/browser/hexbin.spec.ts`；对应 fixture/示例/docs。
+本节旧的“每箱 id/count/vertices 输入”和“允许非正六边形显示”决定已被用户确认的新方向覆盖。完整实施步骤、接口、坐标规则和验收见 [Hexbin 重构计划](2026-10-08-hexbin-raw-data.md)。其余图表计算职责不随本次变更扩大。
 
-**Produces：** `HexbinSpec`、compileHexbin/validateHexbin、`registerHexbinSeries(): void`；内部 series type 为 `statplotsHexbin`。
-
-- [ ] 输入每箱恰好六个有序有限顶点、正面积凸多边形、id 唯一、count 为非负整数；顶点是数据坐标，不是像素坐标。允许经过不同轴尺度映射后显示非正六边形。
-- [ ] 用专用多边形系列逐顶点经过轴比例尺转换，count 只控制顺序色；不使用“六边形 symbol + count 大小”替代分箱边界。
-- [ ] 邻箱共享的数据坐标边在 resize 后仍重合；tooltip 显示 count 与范围，空箱是否出现取决于上游是否提供。
-
-```ts
-it('拒绝伪装成六边形的五顶点输入', () => {
-  expect(validateStatPlot({
-    type: 'hexbin',
-    data: [{ id: 'h1', count: 3, vertices: [
-      { x: 0, y: 0 }, { x: 1, y: 0 }, { x: 2, y: 1 },
-      { x: 1, y: 2 }, { x: 0, y: 1 }
-    ] }]
-  }).valid).toBe(false);
-});
-```
-
-**Run：** `npm test -- --runInBand __tests__/unit/hexbin.test.ts`；`npm run build`；`npm run test:browser -- --grep hexbin`。
+- [x] 公共输入改为 `data:[{x,y}]`，可选 `binning:{xBins:30}`；仅支持原始点模式，旧顶点 Spec 不兼容。
+- [x] 编译阶段完成固定归一化和六边形分箱，内部生成 id/count/vertices，保留所有重复观测并保证总数守恒。
+- [x] 用专用 Layout 保持归一化网格等比例映射，实际显示为正六边形；原生轴和 Tooltip 仍使用原始单位。
+- [x] resize/主题/配色不改变分箱归属和计数；data/xBins 更新才重新计算。
+- [x] 同步 Schema、示例、目录、计算契约和中文说明；测试实际边长/角度、边界归属、Tooltip 更新及大数据生命周期。
 
 ### T11：真正的蜂群布局与 SHAP 蜂群
 

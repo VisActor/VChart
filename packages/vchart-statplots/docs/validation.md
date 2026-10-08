@@ -200,3 +200,18 @@ UMD min gzip 从 31,633 增至 33,916 字节，主要增加来自名称、字段
 SHAP 使用原生 256 停靠点尺度，1k 点新增约 0.33ms，10k 点未见退化；这些是单机短样本，不是性能保证。UMD min 从 336,668 到 357,044 字节，gzip 从 33,916 到 37,646 字节（+3,730），均不包含外部 VChart。
 
 证据位于 `.vchart-statplots/colors-before/`（源码快照、211 项原单测、基准）和 `colors-after/`（build.log、unit.log、typecheck.log、contracts.log、browser-final.log、browser-final-targeted.log、lint.log、benchmark.json、comparison.json、consumer-cjs.json、consumer-typecheck.log、pack-browser-smoke.json 及截图）。本轮没有修改 VChart 核心，也未提交、推送或发布。
+
+
+## Hexbin 原始散点与正六边形重构（2026-10-08）
+
+hexbinPlot 改为 `data:[{x,y}]` 与可选 `binning.xBins`（默认 30，整数 1–200）。编译阶段归一化并分箱，内部生成计数、完整顶点和原始单位的轴域；专用原生 Layout 保持正六边形。旧 id/count/vertices 输入直接拒绝。Schema、中文契约、机器目录、skill 指南、主例和四份数据/分辨率变体同步更新；不新增运行依赖。
+
+- Node 22 构建及 TypeScript（含测试）、Schema、示例、目录检查通过；28 份主示例、73 份有效变体、28 份反例、28 类目录及 78 条意图预期一致。
+- Jest 16 套 / **310 项通过**；全包 Chromium **169 项通过**。其他 27 份图表 Schema 未改动。
+- 实际几何覆盖 800×600、420×360、1000×420、823.5×599.25、DPR 1/1.25/2；六条边最大差 <1e−5 CSS px，120° 内角余弦误差 <1e−7，邻箱共享两顶点。不同单位、恒定轴、单点、重合点和超小容器正常；已审阅相关截图。
+- 计数覆盖重复点、中心、共享边界及两侧、顶点和最大端点，结果与输入排列无关，冻结输入不被修改。真实 tooltip 检查原始单位包围盒及更新后的计数；resize/主题/配色保持箱数据，数据/xBins 更新才重新分箱。
+- 反例证明测试能发现拉伸、去重、漏端点和失效更新。禁止更新时 tooltip 实际显示旧计数 2，测试要求 3 因而失败；恢复后全包回归通过。
+- 1 万 / 10 万点生命周期守恒与释放检查通过，[性能记录](../benchmarks/hexbin-results.json) 仅为本机单次冒烟；不设环境敏感阈值。
+- ESLint 0 errors / 427 warnings；JavaScript 语法与 git diff --check 通过。证据保留在 `.vchart-statplots/hexbin/{build,unit,browser,lint,counter-*}.log` 及该目录截图。
+
+本轮仅修改 StatPlots，未改 VChart 核心；上述浏览器全包回归不等同于官方 develop 的全量视觉基线比较。

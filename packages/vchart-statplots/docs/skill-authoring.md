@@ -4,7 +4,7 @@
 
 1. 从 [28 类目录](catalog.md) 选择 type。
 2. 读取 `schema/plots/<type>.schema.json` 和对应逐图文档，避免把全部 VChart 选项送入生成上下文。
-3. 计算端输出固定语义字段；只选择分析问题所需的图表选项。
+3. 计算端输出固定语义字段；只选择分析问题所需的图表选项。hexbinPlot 直接传原始 x/y 散点与可选 binning.xBins，计数和顶点由库生成，不要求模型构造几何。
 4. 调用 `validateStatPlot`，按错误 path 修正；不能静默换图或丢弃错误数据。
 5. 调用 `compileStatPlot`，由已注册的同版本 VChart 渲染。
 6. 保存原始 JSON、方法说明及外部计算元数据，便于复现。

@@ -32,3 +32,14 @@ Pair Plot 规模按变量数平方增长：8 变量 × 1 万观测意味着 64 �
 | 8 / 10000 | 64 / 560000 | 32.8 | 1886.3 | 28231.0 | 5798.0 |
 
 1 万散点首绘 63.1 ms；20 图表共 2 万点首绘 113.8 ms，释放后 canvas 数为 0。外部 VChart 不计入包体，UMD min gzip 为 31,719 字节。
+
+
+## Hexbin 原始散点生命周期（2026-10-08）
+
+[测量记录](hexbin-results.json) 包含 1 万 / 10 万原始点的 compile、render、update、resize、release 时间及非空箱数。输入为固定的整数模运算生成点，xBins=30，仅生成非空箱；每次更新增加一条重复观测，测试检查总计数 N+1、resize 保留箱数据及释放后 canvas=0。
+
+```sh
+npm run test:browser --prefix packages/vchart-statplots -- hexbin.spec.ts --grep '10k and 100k'
+```
+
+这是单次生命周期冒烟，不设毫秒阈值，不与原生散点或 Python 对比。compile 包含校验和分箱，update 包含重新编译，resize 的记录含 Playwright 往返；100k 首绘受到前一轮暖机影响。原始运行输出位于 `.vchart-statplots/hexbin/lifecycle-timing.json`。

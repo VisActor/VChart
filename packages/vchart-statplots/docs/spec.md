@@ -4,21 +4,21 @@
 
 ## 公共配置
 
-| 字段 | 含义 |
-| --- | --- |
-| type / data | 必填，类型和对应预计算数据；pairPlot 使用 observations/diagonal 对象 |
-| title / description | 标题及数据范围、统计方法说明 |
-| theme | VChart 原生 light（默认）或 dark |
-| colors | 共用 categorical / sequential / diverging，支持名称与色号数组；见[公共配色](colors.md) |
-| fieldLabels | 该图允许的字段展示名，供轴和 tooltip 使用；不控制图元标签 |
-| 行级 series | 比较系列，同一表全部提供非空系列名或全部省略 |
+| 字段                | 含义                                                                                         |
+| ------------------- | -------------------------------------------------------------------------------------------- |
+| type / data         | 必填，类型和对应数据；hexbinPlot 使用原始 x/y 散点，pairPlot 使用 observations/diagonal 对象 |
+| title / description | 标题及数据范围、统计方法说明                                                                 |
+| theme               | VChart 原生 light（默认）或 dark                                                             |
+| colors              | 共用 categorical / sequential / diverging，支持名称与色号数组；见[公共配色](colors.md)       |
+| fieldLabels         | 该图允许的字段展示名，供轴和 tooltip 使用；不控制图元标签                                    |
+| 行级 series         | 在该图 Schema 支持时比较系列，同一表全部提供非空系列名或全部省略；hexbinPlot 不支持分组      |
 
 观测 id 为字符串，category 为类别。缺失值只在明确允许 null 的字段中接受。数值必须有限，不接受数值字符串；未知字段、NaN、Infinity 不做静默归一化。缺少下界或上界时不能推断另一端。
 
 ## 区间与外部方法
 
 ```json
-{"kind":"confidence","level":0.95}
+{ "kind": "confidence", "level": 0.95 }
 ```
 
 confidence、prediction、credible 要求 0 < level < 1；standardError、standardDeviation 要求 multiplier > 0；range 不接受 level 或 multiplier。lower/upper 同时提供且 lower ≤ upper；不预设为 95% 置信区间。
@@ -27,18 +27,19 @@ method、metric、distribution、estimation 是已有结果的说明；修改这
 
 ## 显示统计量与默认值
 
-| 选项 | 默认值及含义 |
-| --- | --- |
-| countPlot.statistic | count；proportion 为系列内计数比例 |
-| histogram.statistic | count；proportion 为系列内比例，density 的柱面积和为 1；不等宽箱必须 density |
-| violinPlot.densityNormalization | width 等最大宽度；area 等面积 |
-| stripPlot.layout / jitterRatio | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5 |
-| pointIntervalPlot.valueScale | linear；log 的估计、区间和参考值必须为正 |
-| correlationMatrix.triangle | full；输入仍须完整对称 |
-| correlationMatrix.variableOrder | 数据中变量首次出现顺序；显式数组须完整且无重复 |
-| confusionMatrix.normalization | none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化 |
-| seasonalPlot.layout | overlay；subseries 按 phase 分面、横轴 cycle |
-| screePlot.showCumulative | false |
+| 选项                            | 默认值及含义                                                                 |
+| ------------------------------- | ---------------------------------------------------------------------------- |
+| countPlot.statistic             | count；proportion 为系列内计数比例                                           |
+| histogram.statistic             | count；proportion 为系列内比例，density 的柱面积和为 1；不等宽箱必须 density |
+| violinPlot.densityNormalization | width 等最大宽度；area 等面积                                                |
+| stripPlot.layout / jitterRatio  | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5                           |
+| pointIntervalPlot.valueScale    | linear；log 的估计、区间和参考值必须为正                                     |
+| correlationMatrix.triangle      | full；输入仍须完整对称                                                       |
+| correlationMatrix.variableOrder | 数据中变量首次出现顺序；显式数组须完整且无重复                               |
+| confusionMatrix.normalization   | none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化          |
+| seasonalPlot.layout             | overlay；subseries 按 phase 分面、横轴 cycle                                 |
+| screePlot.showCumulative        | false                                                                        |
+| hexbinPlot.binning.xBins        | 30；1–200 的整数，水平方向分箱分辨率，非总箱数                               |
 
 statistic 只选择已有计数的显示形式。countPlot、histogram 的归一化在各 series 内独立进行；零总量无法定义比例/密度，相关归一化图形不绘制。混淆矩阵的零分母显示 NA。fieldLabels.proportion 改变名称，不改变数值单位。
 

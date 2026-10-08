@@ -37,13 +37,7 @@ test('pair plot rejects inaccurate bin counts even if the total is correct', () 
   spec.data.diagonal[0].bins[1].count--;
   expect(validateStatPlot(spec).valid).toBe(false);
 });
-test('hexbin rejects a degenerate polygon and SHAP rejects duplicate observation-feature keys', () => {
-  expect(
-    validateStatPlot({
-      type: 'hexbinPlot',
-      data: [{ id: 'a', count: 1, vertices: Array.from({ length: 6 }, (_, x) => ({ x, y: 0 })) }]
-    }).valid
-  ).toBe(false);
+test('SHAP rejects duplicate observation-feature keys', () => {
   expect(
     validateStatPlot({
       type: 'shapBeeswarmPlot',
@@ -54,8 +48,4 @@ test('hexbin rejects a degenerate polygon and SHAP rejects duplicate observation
       ]
     }).valid
   ).toBe(false);
-});
-test('hexbin rejects self-crossing vertex order', () => {
-  const vertices = [0, 2, 4, 1, 3, 5].map(i => ({ x: Math.cos((i * Math.PI) / 3), y: Math.sin((i * Math.PI) / 3) }));
-  expect(validateStatPlot({ type: 'hexbinPlot', data: [{ id: 'star', count: 1, vertices }] }).valid).toBe(false);
 });

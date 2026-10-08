@@ -1,6 +1,6 @@
 # @visactor/vchart-statplots
 
-以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，统计计算留在 Python 或调用方 JavaScript；本包负责校验、显示归一化、几何布局与交互。
+以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，统计估计留在 Python 或调用方 JavaScript；本包负责校验、显示归一化、几何布局与交互。`hexbinPlot` 接受原始 x/y 散点，在编译阶段按 `binning.xBins`（默认 30）计算六边形分箱计数。
 
 ```ts
 import VChart from '@visactor/vchart';
@@ -10,7 +10,11 @@ registerStatPlots();
 const spec = {
   type: 'rocCurve' as const,
   title: '分类器表现',
-  data: [{ fpr: 0, tpr: 0 }, { fpr: 0.1, tpr: 0.8 }, { fpr: 1, tpr: 1 }]
+  data: [
+    { fpr: 0, tpr: 0 },
+    { fpr: 0.1, tpr: 0.8 },
+    { fpr: 1, tpr: 1 }
+  ]
 };
 const result = validateStatPlot(spec); // 可选；compile 内部也会校验
 const chart = new VChart(compileStatPlot(spec), { dom: 'chart' });
