@@ -75,3 +75,15 @@ npm run test:browser --prefix packages/vchart-statplots -- distribution-performa
 ```
 
 原始报告为 `.vchart-statplots/distributions/*-timings.json`。UMD 大小及浏览器、视觉验证范围见 [验收记录](../docs/validation.md)。
+
+## BoxPlot 原始样本生命周期（2026-10-08）
+
+[测量记录](box-plot-results.json) 使用确定性 10k / 100k 输入：单组和十组采用 value=(i×37)%1009；大量异常点采用每五条四个 0、一个 100，保持 20% 异常值（100k 实际生成 20000 个异常点图元）。统计按 category + series 独立，复杂度 O(N + Σ N组 log N组)，绘图规模随箱数和异常观测数增长，不去重或降采样。
+
+每规模暖机一次，compile 测量九次，中位数约 1 / 9 ms（普通单组）；首绘、update、resize、release 各测一次。100k / 20k 异常点约 61 ms 首绘、53 ms 更新、54 ms resize；这些是本机冒烟结果，不是跨设备 SLA。数据更新重新编译，resize 保持统计数据，20 个图表释放后 canvas=0。
+
+```sh
+npm run test:browser --prefix packages/vchart-statplots -- box-plot-performance.spec.ts
+```
+
+原始性能与截图证据保留在 `.vchart-statplots/box-plot/`。实际统计和交互验收见 [验收记录](../docs/validation.md)。

@@ -14,8 +14,13 @@ export function commonChart(
     theme: spec.theme ?? 'light',
     color: categoricalColors(spec),
     padding: 16,
-    title:
-      spec.title || description ? { text: spec.title ?? '', subtext: description, padding: { bottom: 16 } } : undefined,
+    // updateSpec 合并配置；明确关闭标题，避免空态说明残留。
+    title: {
+      visible: Boolean(spec.title || description),
+      text: spec.title ?? '',
+      subtext: description ?? '',
+      padding: { bottom: 16 }
+    },
     axes,
     series: series.map(item => ({ ...item, animation: false })),
     legends: { visible: false }

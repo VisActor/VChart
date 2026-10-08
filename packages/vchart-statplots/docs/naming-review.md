@@ -119,3 +119,5 @@ Seaborn 明确区分了 `countplot` 与汇总估计值的 `barplot`。本库可�
 命名变更需同步类型联合、注册表、Schema、示例、逐图文档、图库标签与 URL、测试以及 skill 选型目录，不能只修改展示文字。旧 URL 和上次查看记录是否迁移，应按实际兼容需求决定；不必让核心 Spec 永久接受所有旧名称。
 
 本轮仅增加本审查文档。现有 [图表目录](catalog.md) 与 Schema 仍是当前可执行 API 的依据。
+
+boxPlot 的输入已改为原始 category/value/series；五数和 outliers 为私有编译结果。旧 whiskerRule 说明字符串删除，whiskers.iqrMultiplier 是实际参与计算的参数。

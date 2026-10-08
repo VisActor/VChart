@@ -261,3 +261,28 @@ histogram 现在接收单变量 `data:[{value}]`，在编译阶段按可选 binn
 原始证据保存在 `.vchart-statplots/distributions/`：`unit-final.log`、`browser-complete.log`、`esm-final.log`、`counterexample-*.log`、`screenshot-stability.json`、`*-timings.json` 和截图。原生三图报告为 `.vchart-visual/runs/1791449431631-423703bf/index.html`，Agent 摘要为同目录 `agent-summary.md`；基线为官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc`。
 
 本次没有创建 PR，原生比较范围仅为 charts/line；提交 PR 前仍须运行全量官方 develop 比较。上述新算法语义由本包单元 / 浏览器测试验证，原生目录比较不替代它们。
+
+## BoxPlot 原始样本重构（2026-10-08）
+
+boxPlot 接受原始 `{category,value,series?}`，按 category + series 独立排序，复用 vutils quantileSorted 线性插值；whiskers.iqrMultiplier 默认 1.5，允许有限非负值。旧五数摘要、outliers 数组和 whiskerRule 字符串拒绝。小样本须候选落入箱体时停在对应四分位数，零 IQR 不自动切换 min/max，重复异常值不丢弃。统计只在编译阶段执行，resize / hover 不扫描原始观测。
+
+| 检查 | 结果 |
+| --- | --- |
+| ESM / CJS / UMD build、TypeScript | 通过；CJS 独立 require 原始箱线数值断言通过，ESM 与 UMD 在真实浏览器渲染 |
+| Schema、示例、目录 | 28 主例、88 有效变体、28 反例；28 类目录和 81 条意图预期一致 |
+| ESLint | 0 errors / 625 warnings；未禁用规则 |
+| Jest 全包 | 23 套 / 443 项通过；新增箱线 21 项覆盖统计与非法输入 |
+| Chromium 全包 | 212 项通过，包含新箱线统计、真实 hover/update、性能和 ESM 入口 |
+| 截图稳定性 | 新增三个定向测试 × 五轮 = 15 项通过；五组截图 × 五轮 SHA256 全一致 |
+| 错误反例 | 围栏冒充须、去重样本、忽略 k 的临时改动分别被定向测试检出；恢复后构建和全量验证 |
+| 官方 develop 原生视觉比较 | charts/box-plot 4/4、components/title 1/1 通过，0 差异、0 执行错误 |
+
+真实浏览器断言箱体五数和异常点坐标、纵轴包含极值、箱体与异常点 tooltip 内容、IQR 倍数变化移除旧异常点、双层分组位置、首次系列顺序、图例与箱体同色、主题、空表往返、同实例更新、resize 保持统计数据，以及 release 后 canvas=0。截图已审阅。空态往返发现公共编译层 title=undefined 无法清除旧说明，已通过明确 title.visible/text/subtext 修正；图例采用公开 item.shape.style 显示系列描边色。没有修改原生 VChart 核心。
+
+性能覆盖 10k / 100k 的单组、十组、20% 异常点，以及 20 图表创建/释放。[测量记录](../benchmarks/box-plot-results.json)：普通单组编译中位数约 0.9 / 9.6 ms；100k 数据生成 20000 个真实异常点图元，约 61 ms 首绘、53 ms 更新、54 ms resize。统计复杂度 `O(N + Σ N组 log N组)`，绘图规模随箱数和异常点数增长；本机测量不作为跨设备 SLA。UMD min 366759 bytes / gzip 41755 bytes，较上次 KDE/ECDF 记录减少 845 / 351 bytes。沿用已有 vutils 直接依赖，锁文件无改动。
+
+原始证据保留在 `.vchart-statplots/box-plot/`：`unit-final.log`、`browser-complete.log`、`stability.log`、`build.log`、`eslint.log`、`counterexample-*.log`、`screenshot-stability.json`、`timings.json` 及截图。首次原生视觉构建在工作区仍在修改时触发 WORKSPACE_CHANGED，没有完成比较；该过程清理了共享 vutils-extension 的 CJS，导致当时启动的包测试缺少模块，恢复其 ESM / CJS 双格式后上述全量检查通过。首次新 hover 测试也暴露了测试坐标重复应用图元平移，修正全局坐标后真实 hover 通过；没有跳过测试或放宽断言。
+
+原生箱线图三图报告为 `.vchart-visual/runs/1791451732479-31d8ad04/index.html`；标题报告为 `.vchart-visual/runs/1791451755857-3b4c3b1b/index.html`。两个目录的 `agent-summary.md` 均已审阅，基线为官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc`。这些目录比较不替代新统计契约的包级数学和浏览器验证。
+
+本次未创建 PR；提交 PR 前仍需执行全量官方 develop 比较。最终原生视觉构建会清理共享依赖的部分格式，结束后恢复了 vutils-extension 的 ESM / CJS 双格式，保留可用的开发环境。
