@@ -48,7 +48,7 @@
 | `histogram`             | `normalization` → `statistic`；枚举 probability → proportion                            | count/density 保留；默认 count；当前使用原始 value 和可选 binning.binCount，旧 binStart/binEnd/count/series 直接拒绝                                           |
 | `kdePlot` | data 仅接收原始 value / series；拒绝旧 density | estimation.kernel / bandwidth 真正参与估计；bandwidth 为正数或 scott / silverman，sampling.points 控制绘制精度 |
 | `ecdfPlot` | data 仅接收原始 value / series；拒绝 probability / cumulativeProbability | 重复值分别计入，库内生成右连续累计概率及真实跳点 |
-| `boxPlot` | `whiskerLow/whiskerHigh` → `whiskerLower/whiskerUpper` | category/q1/median/q3/outliers、whiskerRule；与 lower/upper 上下界用语一致 |
+| `boxPlot` | 五数摘要 → 原始 category/value/series；whiskerRule → whiskers.iqrMultiplier | 默认 1.5×IQR；q1/median/q3/whiskerLower/whiskerUpper/outliers 只存在于内部绘图数据，旧预计算输入拒绝 |
 | `violinPlot` | `widthScale` → `densityNormalization`，枚举 width/area 保留 | category/value/density；控制密度轮廓归一化，默认 width，不表示像素宽度 |
 | `stripPlot` | `jitter` → `jitterRatio` | layout=strip/jitter/swarm；jitterRatio 是最大偏移与完整分类带宽的比，0–0.5，默认 0.3，仅 jitter 布局可用 |
 | `pointIntervalPlot` | `reference` → `referenceLine` | estimate/lower/upper、interval、valueScale、referenceLine.value/label；valueScale 控制数值轴，不固定为 xScale |
@@ -128,3 +128,7 @@ binning 可省略，默认箱数只依赖样本量；显式 binCount 为 1–200
 ## pairPlot 对角分布迁移
 
 直接删除 `data.diagonal`，保留原始 `data.observations` 和 `variables`；无需重新提供箱边界/count。旧字段报 SCHEMA_ERROR `/data/diagonal`，公开 `PairPlotBin` 已删除。可选顶层 `diagonal` 只控制展示：`{"type":"histogram","binning":{"binCount":20}}` 或 `{"type":"none"}`。省略为内部自动分箱。只有旧 bins 而没有原始观测时，不能还原两两散点；不得伪造观测。
+
+## 箱线图原始输入
+
+boxPlot 不再接收五数摘要或异常值数组。提供完整原始 `{category,value,series?}` 观测，按 category + series 独立计算；须规则说明字符串改为实际配置 `whiskers.iqrMultiplier`，默认 1.5。四分位数采用 vutils 的线性插值；小样本须不向箱体内反向延伸，必要时取 Q1 / Q3。仅有预计算摘要的调用方使用原生 VChart boxPlot，不能从摘要构造伪造样本。

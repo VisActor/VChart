@@ -72,8 +72,6 @@ const fieldCases = [
   ['histogram', '', 'statistic', 'normalization'],
   ['missingValueMatrix', 'data', 'observationId', 'observation'],
   ['missingValueMatrix', 'data', 'isMissing', 'missing'],
-  ['boxPlot', 'data', 'whiskerLower', 'whiskerLow'],
-  ['boxPlot', 'data', 'whiskerUpper', 'whiskerHigh'],
   ['violinPlot', '', 'densityNormalization', 'widthScale'],
   ['stripPlot', '', 'jitterRatio', 'jitter'],
   ['pointIntervalPlot', '', 'referenceLine', 'reference'],

@@ -19,14 +19,14 @@
       "variant": "minimal",
       "file": "minimal/boxPlot.json",
       "documentation": "../../docs/plots/boxPlot.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
     },
     {
       "type": "boxPlot",
       "variant": "grouped",
       "file": "grouped/boxPlot.json",
       "documentation": "../../docs/plots/boxPlot.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
     },
     {
       "type": "calibrationCurve",
@@ -562,6 +562,41 @@
       "file": "variants/ecdfPlot-constant.json",
       "documentation": "../../docs/plots/ecdfPlot.md",
       "computation": "本包复用 vutils，从原始观测计算统计曲线"
+    },
+    {
+      "file": "variants/boxPlot-singleton.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-singleton",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-constant.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-constant",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-zero-iqr.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-zero-iqr",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-whiskers.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-whiskers",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-small-sample.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-small-sample",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
     }
   ],
   "invalid": [
@@ -576,8 +611,8 @@
       "type": "boxPlot",
       "file": "invalid/boxPlot.json",
       "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "path": "/whiskers/iqrMultiplier",
+      "reason": "IQR 围栏倍数必须为有限非负数"
     },
     {
       "type": "calibrationCurve",

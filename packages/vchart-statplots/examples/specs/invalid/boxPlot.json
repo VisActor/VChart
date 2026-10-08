@@ -1,30 +1,16 @@
 {
   "type": "boxPlot",
-  "whiskerRule": "1.5×IQR 内最远观测",
+  "whiskers": {
+    "iqrMultiplier": -1
+  },
   "data": [
     {
       "category": "A",
-      "whiskerLower": -2,
-      "q1": -0.7,
-      "median": 0.1,
-      "q3": 0.8,
-      "whiskerUpper": 2,
-      "outliers": [
-        -3,
-        2.8
-      ]
+      "value": 0
     },
     {
-      "category": "B",
-      "whiskerLower": -1,
-      "q1": 0,
-      "median": 0.9,
-      "q3": 1.7,
-      "whiskerUpper": 2.9,
-      "outliers": [
-        3.5
-      ]
+      "category": "A",
+      "value": 1
     }
-  ],
-  "xField": "guessed"
+  ]
 }

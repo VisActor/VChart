@@ -1,7 +1,13 @@
 import { compileStatPlot } from '../../src/compile';
 import { validateStatPlot } from '../../src/validate';
 import type { BoxPlotSpec } from '../../src/types';
-import type { IBarSeriesSpec, IDataValues, ILineSeriesSpec } from '@visactor/vchart';
+import type {
+  ICommonChartSpec,
+  IBoxPlotSeriesSpec,
+  IBarSeriesSpec,
+  IDataValues,
+  ILineSeriesSpec
+} from '@visactor/vchart';
 
 describe('distributions', () => {
   it('原始分箱按面积表示概率密度', () => {
@@ -28,13 +34,13 @@ describe('distributions', () => {
       }).valid
     ).toBe(true);
   });
-  it('箱线次序明确，异常点不能改变须端点', () => {
+  it('箱线图从原始样本计算，异常值不会成为须端点', () => {
     const spec: BoxPlotSpec = {
       type: 'boxPlot',
-      whiskerRule: '1.5×IQR',
-      data: [{ category: 'A', whiskerLower: 0, q1: 1, median: 2, q3: 3, whiskerUpper: 4, outliers: [-10, 9] }]
+      data: [0, 1, 2, 3, 4, 5, 6, 7, 100].map(value => ({ category: 'A', value }))
     };
-    expect(validateStatPlot(spec).valid).toBe(true);
-    expect(validateStatPlot({ ...spec, data: [{ ...spec.data[0], median: 5 }] }).valid).toBe(false);
+    const values = (((compileStatPlot(spec) as ICommonChartSpec).series![0] as IBoxPlotSeriesSpec).data as IDataValues)
+      .values;
+    expect(values[0]).toMatchObject({ whiskerLower: 0, whiskerUpper: 7, outliers: [100] });
   });
 });

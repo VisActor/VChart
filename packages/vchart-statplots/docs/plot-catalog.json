@@ -211,14 +211,28 @@
       "boxplot",
       "箱须图"
     ],
-    "useWhen": "比较组间四分位数、中位数与异常值。",
+    "useWhen": "从原始分类观测计算四分位数、须和异常值，比较组间分布。",
     "avoidWhen": [
-      "没有须规则",
-      "将最小最大值直接当作箱须"
+      "只有预计算的五数摘要",
+      "需要完整密度轮廓"
     ],
     "schema": "schema/plots/boxPlot.schema.json",
     "example": "examples/specs/minimal/boxPlot.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "四分位数须箱线图",
+        "aliases": [
+          "零倍 IQR 箱线图",
+          "zero IQR multiplier box plot"
+        ],
+        "options": {
+          "whiskers": {
+            "iqrMultiplier": 0
+          }
+        },
+        "example": "examples/specs/variants/boxPlot-whiskers.json"
+      }
+    ]
   },
   {
     "type": "violinPlot",

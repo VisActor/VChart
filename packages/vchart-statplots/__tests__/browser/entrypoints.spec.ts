@@ -31,6 +31,21 @@ test('ESM consumer registers against its own VChart engine', async ({ page }) =>
   expect(distributions[0].points).toBe(3);
   expect(distributions[1].rows.map((row: any) => row.cumulativeProbability)).toEqual([0, 0.25, 0.75, 1, 1]);
   expect(distributions[1].points).toBe(5);
+  const boxes = await page.evaluate(async () => {
+    const w = window as any;
+    await w.esmChart.updateSpec(
+      w.esmCompile({ type: 'boxPlot', data: [0, 1, 2, 3, 4, 5, 6, 7, 100].map(value => ({ category: 'A', value })) })
+    );
+    const series = w.esmChart.getChart().getAllSeries()[0];
+    return {
+      rows: w.esmChart.getSpec().series[0].data.values,
+      boxes: series.getMarkInName('boxPlot').getGraphics().length,
+      outliers: series.getMarkInName('outlier').getGraphics().length
+    };
+  });
+  expect(boxes.rows[0]).toMatchObject({ q1: 2, median: 4, q3: 6, whiskerLower: 0, whiskerUpper: 7, outliers: [100] });
+  expect(boxes.boxes).toBe(1);
+  expect(boxes.outliers).toBe(1);
   expect(errors).toEqual([]);
   await page.evaluate(() => (window as any).esmChart.release());
   await expect(page.locator('canvas')).toHaveCount(0);

@@ -11,9 +11,9 @@
         "$ref": "#/definitions/BoxPlotRow"
       }
     },
-    "whiskerRule": {
-      "description": "须的定义，例如“1.5×IQR 内最远观测”，不自动推断。",
-      "type": "string"
+    "whiskers": {
+      "description": "编译阶段计算须和异常值的规则。",
+      "$ref": "#/definitions/BoxPlotWhiskersSpec"
     },
     "fieldLabels": {
       "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
@@ -51,8 +51,7 @@
   "additionalProperties": false,
   "required": [
     "data",
-    "type",
-    "whiskerRule"
+    "type"
   ],
   "definitions": {
     "BoxPlotRow": {
@@ -61,28 +60,9 @@
         "category": {
           "type": "string"
         },
-        "q1": {
+        "value": {
+          "description": "原始观测；重复值分别参与统计。",
           "type": "number"
-        },
-        "median": {
-          "type": "number"
-        },
-        "q3": {
-          "type": "number"
-        },
-        "whiskerLower": {
-          "description": "下须端点，由 whiskerRule 定义，不自动等同于最小值。",
-          "type": "number"
-        },
-        "whiskerUpper": {
-          "description": "上须端点，由 whiskerRule 定义，不自动等同于最大值。",
-          "type": "number"
-        },
-        "outliers": {
-          "type": "array",
-          "items": {
-            "type": "number"
-          }
         },
         "series": {
           "description": "同一数据表要么全部提供系列名称，要么全部省略。",
@@ -92,12 +72,19 @@
       "additionalProperties": false,
       "required": [
         "category",
-        "median",
-        "q1",
-        "q3",
-        "whiskerLower",
-        "whiskerUpper"
+        "value"
       ]
+    },
+    "BoxPlotWhiskersSpec": {
+      "type": "object",
+      "properties": {
+        "iqrMultiplier": {
+          "description": "IQR 围栏倍数，默认 1.5；有限且非负。",
+          "minimum": 0,
+          "type": "number"
+        }
+      },
+      "additionalProperties": false
     },
     "StatPlotColors": {
       "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
