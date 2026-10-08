@@ -1,17 +1,24 @@
 {
   "type": "histogram",
-  "statistic": "density",
+  "title": "原始观测直方图",
+  "binning": {
+    "binCount": 0
+  },
   "data": [
     {
-      "binStart": 0,
-      "binEnd": 1,
-      "count": 2
+      "value": 0
     },
     {
-      "binStart": 1,
-      "binEnd": 3,
-      "count": 2
+      "value": 1
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 3
+    },
+    {
+      "value": 4
     }
-  ],
-  "xField": "guessed"
+  ]
 }

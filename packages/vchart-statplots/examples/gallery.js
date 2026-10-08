@@ -128,14 +128,12 @@ async function initGallery() {
       Array.isArray(spec.data) ? spec.data.length + ' 条输入记录' : spec.data.observations.length + ' 条观测'
     } · ${spec.theme || 'light'}`;
     const entry = catalog.find(item => item.type === spec.type);
+    const matchesOptions = (actual, expected) =>
+      typeof expected === 'object'
+        ? Object.entries(expected).every(([key, value]) => matchesOptions(actual?.[key], value))
+        : actual === expected;
     const variant = entry.variants
-      .filter(item =>
-        Object.entries(item.options).every(([key, value]) =>
-          typeof value === 'object'
-            ? Object.entries(value).every(([field, option]) => spec[key]?.[field] === option)
-            : spec[key] === value
-        )
-      )
+      .filter(item => Object.entries(item.options).every(([key, value]) => matchesOptions(spec[key], value)))
       .sort((a, b) => Object.keys(b.options).length - Object.keys(a.options).length)[0];
     const displayName = variant?.name ?? entry.name;
     document.getElementById('chart-title').textContent = displayName;

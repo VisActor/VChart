@@ -4,7 +4,7 @@
 
 1. 从 [28 类目录](catalog.md) 选择 type。
 2. 读取 `schema/plots/<type>.schema.json` 和对应逐图文档，避免把全部 VChart 选项送入生成上下文。
-3. 计算端输出固定语义字段；只选择分析问题所需的图表选项。hexbinPlot 直接传原始 x/y 散点与可选 binning.xBins，计数和顶点由库生成，不要求模型构造几何。
+3. 计算端输出固定语义字段；只选择分析问题所需的图表选项。histogram 直接传单分布原始 `{value}` 观测与可选 binning.binCount，不生成 binStart/binEnd/count/series。hexbinPlot 直接传原始 x/y 散点与可选 binning.xBins，计数和顶点由库生成，不要求模型构造几何。pairPlot 传 variables 和 data.observations，不生成 data.diagonal 或 count；diagonal 可省略，明确要求调整箱数/关闭分布时才填写。
 4. 调用 `validateStatPlot`，按错误 path 修正；不能静默换图或丢弃错误数据。
 5. 调用 `compileStatPlot`，由已注册的同版本 VChart 渲染。
 6. 保存原始 JSON、方法说明及外部计算元数据，便于复现。
@@ -19,7 +19,7 @@
 
 会报结构错误，应使用 fpr/tpr。`{"type":"rocCurve","data":[{"fpr":1.2,"tpr":0.8}]}` 的错误指向 `/data/0/fpr`；这应回到计算端检查，不能把概率裁剪到 1。
 
-若 lower/upper 缺少 interval，不自动填写 confidence/0.95。若想画不等宽直方图，应提供 density 归一化；若没有观测 id，先让计算端生成稳定标识再请求蜂群或配对图。
+若 lower/upper 缺少 interval，不自动填写 confidence/0.95。histogram 当前只计算等宽箱数；只有预分箱结果或需要自定义不等宽边界时使用 VChart 原生 histogram。若没有观测 id，先让计算端生成稳定标识再请求蜂群或配对图。
 
 参考实现均在 `examples/specs`，每份都由 CI 校验。图表输出仅提供视觉证据，报告解释应区分描述、统计推断和因果结论。
 
@@ -36,4 +36,4 @@
 
 fieldLabels 为展示文字；区间含义、计算方法、统计量和顺序需要由分析结果确定，不从名称猜测。旧 JSON 的迁移见 [迁移表](naming-migration.md)。
 
-仓库中的 chart-intents.json 是 78 条选型预期，check:catalog 只检查预期与可执行契约的一致性，未执行模型命中率评测。
+仓库中的 chart-intents.json 是 81 条选型预期，check:catalog 只检查预期与可执行契约的一致性，未执行模型命中率评测。

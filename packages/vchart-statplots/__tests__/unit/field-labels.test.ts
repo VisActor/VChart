@@ -18,12 +18,13 @@ test('histogram count and displayed statistic labels reach the tooltip', () => {
     type: 'histogram',
     statistic: 'density',
     fieldLabels: { count: '样本数', density: '采样密度' },
-    data: [{ binStart: 0, binEnd: 2, count: 4 }]
+    binning: { binCount: 1 },
+    data: [{ value: 0 }, { value: 2 }]
   }) as any;
   expect(chart.axes[1].title.text).toBe('采样密度');
   expect(chart.series[0].tooltip.mark.content.map((item: any) => item.key)).toEqual([
-    'binStart',
-    'binEnd',
+    '数值下界',
+    '数值上界',
     '样本数',
     '采样密度'
   ]);

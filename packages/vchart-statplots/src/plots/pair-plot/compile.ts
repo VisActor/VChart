@@ -1,30 +1,21 @@
-import type { ICommonChartSpec, ICartesianAxisSpec, IGridLayoutSpec } from '@visactor/vchart';
+import type { ICommonChartSpec, ICartesianAxisSpec, IGridLayoutSpec, IDiscreteLegendSpec } from '@visactor/vchart';
 import type { PairPlotSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { numberAxis } from '../../common/axes';
 import { points } from '../../common/marks';
 import { semanticTooltip } from '../../common/tooltip';
+import { preparePairDistributions } from './binning';
 export function compilePairPlot(spec: PairPlotSpec) {
   const n = spec.variables.length;
   const grouped = spec.data.observations.some(row => row.series !== undefined);
-  const domains = new Map<string, [number, number]>();
-  const diagonals = new Map(spec.data.diagonal.map(row => [row.variable, row.bins]));
-  spec.variables.forEach(variable => {
-    let min = Infinity,
-      max = -Infinity;
-    spec.data.observations.forEach(row => {
-      const v = row.values[variable];
-      if (v !== null) {
-        min = Math.min(min, v);
-        max = Math.max(max, v);
-      }
-    });
-    diagonals.get(variable)!.forEach(bin => {
-      min = Math.min(min, bin.binStart);
-      max = Math.max(max, bin.binEnd);
-    });
-    domains.set(variable, min === Infinity ? [0, 1] : min === max ? [min - 0.5, max + 0.5] : [min, max]);
-  });
+  const diagonal = spec.diagonal;
+  const enabled = diagonal?.type !== 'none';
+  const distributions = new Map(
+    preparePairDistributions(spec.data.observations, spec.variables, {
+      enabled,
+      binCount: diagonal?.type === 'none' ? undefined : diagonal?.binning?.binCount
+    }).map(result => [result.variable, result])
+  );
   const series: NonNullable<ICommonChartSpec['series']> = [];
   const axes: ICartesianAxisSpec[] = [];
   const region: { id: string }[] = [];
@@ -41,8 +32,9 @@ export function compilePairPlot(spec: PairPlotSpec) {
         { modelId: `x-${r}-${c}`, col: c * 3 + 1, row: r * 3 + 2 },
         { modelId: `y-${r}-${c}`, col: c * 3, row: r * 3 + 1 }
       );
-      const [xMin, xMax] = domains.get(x)!,
-        [yMin, yMax] = domains.get(y)!;
+      const distribution = distributions.get(x)!;
+      const [xMin, xMax] = distribution.domain,
+        [yMin, yMax] = distributions.get(y)!.domain;
       const xAxis = {
         ...numberAxis('bottom', x),
         id: `x-${r}-${c}`,
@@ -53,7 +45,23 @@ export function compilePairPlot(spec: PairPlotSpec) {
         tick: { tickCount: 3 }
       };
       if (r === c) {
-        const values = diagonals.get(x)!.map(row => ({ ...row }));
+        if (!enabled) {
+          const hidden = { tick: { visible: false }, label: { visible: false }, grid: { visible: false } };
+          axes.push(
+            { ...xAxis, ...hidden },
+            {
+              ...numberAxis('left', y),
+              ...hidden,
+              id: `y-${r}-${c}`,
+              regionId: id,
+              min: yMin,
+              max: yMax,
+              nice: false
+            }
+          );
+          return;
+        }
+        const values = distribution.bins;
         series.push({
           type: 'bar',
           id: `diagonal-${r}`,
@@ -64,11 +72,16 @@ export function compilePairPlot(spec: PairPlotSpec) {
           yField: 'count',
           seriesField: 'series',
           stack: false,
+          barMinWidth: '0%',
           bar: { style: { fillOpacity: 0.45 } },
-          tooltip: semanticTooltip(['binStart', 'binEnd', 'count'], {})
+          tooltip: semanticTooltip(['binStart', 'binEnd', 'count'], {
+            binStart: `${x} · 箱下界（含）`,
+            binEnd: `${x} · 箱上界（最后一箱含）`,
+            count: '计数'
+          })
         });
         axes.push(xAxis, {
-          ...numberAxis('left', '计数'),
+          ...numberAxis('left', `计数 · n=${distribution.sampleSize}`),
           id: `y-${r}-${c}`,
           regionId: id,
           zero: true,
@@ -125,7 +138,24 @@ export function compilePairPlot(spec: PairPlotSpec) {
     ],
     elements: [...elements, { modelKey: 'legends', modelIndex: 0, col: 0, row: n * 3 + 1, colSpan: n * 3 }]
   };
-  chart.legends = { visible: grouped, orient: 'bottom', interactive: false, seriesId: scatterIds };
+  const groups = grouped ? Array.from(new Set(spec.data.observations.map(row => row.series!))) : [];
+  if (grouped) {
+    // 显式原始系列域保持跨面板同色，包含在部分面板没有有效值的系列。
+    chart.scales = [
+      { id: 'color', type: 'ordinal', domain: groups, range: Array.isArray(chart.color) ? chart.color : [] }
+    ];
+  }
+  const legend: IDiscreteLegendSpec = {
+    visible: grouped,
+    orient: 'bottom',
+    interactive: false,
+    data: (_, colorScale) =>
+      groups.map(label => ({
+        label,
+        shape: { symbolType: 'circle' as const, fill: colorScale.scale(label) }
+      }))
+  };
+  chart.legends = legend;
   // VChart 标准 brush 以 id 联动，不以不同变量面板中的相同像素框联动。
   chart.brush = {
     visible: true,

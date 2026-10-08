@@ -30,10 +30,7 @@ test('all types render an explicit empty state', async ({ page }) => {
   await page.goto('/__tests__/browser/page.html');
   for (const item of manifest.valid.filter((r: any) => r.variant === 'minimal')) {
     const spec = JSON.parse(fs.readFileSync(path.join(directory, item.file), 'utf8'));
-    spec.data =
-      spec.type === 'pairPlot'
-        ? { observations: [], diagonal: spec.variables.map((variable: string) => ({ variable, bins: [] })) }
-        : [];
+    spec.data = spec.type === 'pairPlot' ? { observations: [] } : [];
     delete spec.metrics;
     delete spec.variableOrder;
     if (spec.fit) spec.fit.data = [];

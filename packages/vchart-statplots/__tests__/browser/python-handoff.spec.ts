@@ -2,11 +2,11 @@ import { test, expect } from '@playwright/test';
 import { execFileSync } from 'child_process';
 import path from 'path';
 
-test('Python JSON and browser-prepared results update the same chart', async ({ page }) => {
+test('Python raw observations and browser data update the same chart', async ({ page }) => {
   const spec = JSON.parse(
     execFileSync('python3', [path.resolve(__dirname, '../../examples/python/histogram.py')], { encoding: 'utf8' })
   );
-  expect(spec.data.map((row: any) => row.count)).toEqual([4, 4]);
+  expect(spec.data.map((row: any) => row.value)).toEqual([0, 1, 2, 3, 4]);
   await page.goto('/__tests__/browser/page.html');
   const before = await page.evaluate(async spec => {
     const w = window as any;
@@ -19,16 +19,13 @@ test('Python JSON and browser-prepared results update the same chart', async ({ 
       .getGraphics()
       .map((g: any) => Math.abs(g.attribute.y1 - g.attribute.y));
   }, spec);
-  expect(before[0] / before[1]).toBeCloseTo(2, 5);
+  expect(before[0] / before[1]).toBeCloseTo(2 / 3, 5);
   const after = await page.evaluate(async spec => {
     const w = window as any;
-    // 浏览器端已有计算结果；两箱概率密度均为 1/3。
+    // 浏览器提交原始观测；相同实例内重新计算两箱密度 0.25。
     const next = {
       ...spec,
-      data: [
-        { binStart: 0, binEnd: 1, count: 2 },
-        { binStart: 1, binEnd: 3, count: 4 }
-      ]
+      data: [0, 1, 2, 4].map(value => ({ value }))
     };
     await w.chart.updateSpec(w.VChartStatPlots.compileStatPlot(next));
     return {

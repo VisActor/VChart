@@ -32,6 +32,7 @@ for (const type of [
               y: g.attribute.y,
               width: g.AABBBounds.width(),
               height: g.AABBBounds.height(),
+              barHeight: Math.abs(g.attribute.y1 - g.attribute.y),
               fill: g.attribute.fill
             }))
           )
@@ -41,8 +42,8 @@ for (const type of [
     if (type === 'histogram') {
       const bars = geometry.filter((g: any) => g.name === 'bar');
       expect(bars).toHaveLength(2);
-      expect(bars[1].width / bars[0].width).toBeCloseTo(2, 1);
-      expect(bars[0].height / bars[1].height).toBeCloseTo(2, 1);
+      expect(bars[1].width / bars[0].width).toBeCloseTo(1, 5);
+      expect(bars[0].barHeight / bars[1].barHeight).toBeCloseTo(2 / 3, 5);
     }
     if (type === 'violinPlot') {
       const areas = geometry.filter((g: any) => g.name === 'area');

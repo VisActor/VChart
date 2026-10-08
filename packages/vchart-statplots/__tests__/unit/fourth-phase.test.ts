@@ -31,11 +31,12 @@ test('swarm has no collisions, is stable under input reordering and reports crow
     ).overflow
   ).toBeGreaterThan(900);
 });
-test('pair plot rejects inaccurate bin counts even if the total is correct', () => {
+test('pair plot rejects legacy precomputed diagonal input', () => {
   const spec = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../examples/specs/pairPlot.json'), 'utf8'));
-  spec.data.diagonal[0].bins[0].count++;
-  spec.data.diagonal[0].bins[1].count--;
-  expect(validateStatPlot(spec).valid).toBe(false);
+  spec.data.diagonal = [];
+  expect(validateStatPlot(spec).errors).toEqual(
+    expect.arrayContaining([expect.objectContaining({ code: 'SCHEMA_ERROR', path: '/data/diagonal' })])
+  );
 });
 test('SHAP rejects duplicate observation-feature keys', () => {
   expect(

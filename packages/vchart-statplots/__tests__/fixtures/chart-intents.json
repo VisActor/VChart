@@ -568,5 +568,37 @@
     "prompt": "比较两个样本的 Q–Q 图",
     "expected": null,
     "reason": "当前 qqPlot 接收理论与样本分位数"
+  },
+  {
+    "prompt": "从原始观测查看多个数值变量的两两关系及其分布",
+    "expected": {
+      "type": "pairPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "关闭散点矩阵的对角分布",
+    "expected": {
+      "type": "pairPlot",
+      "options": {
+        "diagonal": {
+          "type": "none"
+        }
+      }
+    }
+  },
+  {
+    "prompt": "散点矩阵对角直方图使用两个箱",
+    "expected": {
+      "type": "pairPlot",
+      "options": {
+        "diagonal": {
+          "type": "histogram",
+          "binning": {
+            "binCount": 2
+          }
+        }
+      }
+    }
   }
 ]
