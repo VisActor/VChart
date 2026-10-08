@@ -1,26 +1,18 @@
 {
   "type": "ecdfPlot",
-  "title": "经验累积分布图",
   "data": [
     {
-      "value": -2,
-      "cumulativeProbability": 0.1
+      "value": 4
     },
     {
-      "value": -1,
-      "cumulativeProbability": 0.25
+      "value": 1
     },
     {
-      "value": 0,
-      "cumulativeProbability": 0.6
+      "value": 0
     },
     {
-      "value": 1,
-      "cumulativeProbability": 0.85
-    },
-    {
-      "value": 2,
-      "cumulativeProbability": 1
+      "value": 1
     }
-  ]
+  ],
+  "title": "原始样本的经验累积分布"
 }

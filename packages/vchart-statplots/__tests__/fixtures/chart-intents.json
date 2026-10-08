@@ -69,7 +69,7 @@
     }
   },
   {
-    "prompt": "比较已计算的一维核密度曲线。",
+    "prompt": "从原始样本估计一维概率密度。",
     "expected": {
       "type": "kdePlot",
       "options": {}
@@ -83,7 +83,7 @@
     }
   },
   {
-    "prompt": "比较样本的累计概率与尾部。",
+    "prompt": "从原始样本计算经验累积概率。",
     "expected": {
       "type": "ecdfPlot",
       "options": {}

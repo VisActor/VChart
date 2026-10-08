@@ -6,7 +6,7 @@
 
 | 字段                | 含义                                                                                         |
 | ------------------------------- | ---------------------------------------------------------------------------- |
-| type / data         | 必填，类型和对应数据；histogram 使用单变量原始 value 观测，hexbinPlot 使用原始 x/y 散点，pairPlot 使用仅含 observations 的对象 |
+| type / data         | 必填，类型和对应数据；histogram、kdePlot、ecdfPlot 使用原始 value 观测，hexbinPlot 使用原始 x/y 散点，pairPlot 使用仅含 observations 的对象 |
 | title / description | 标题及数据范围、统计方法说明                                                                 |
 | theme               | VChart 原生 light（默认）或 dark                                                             |
 | colors              | 共用 categorical / sequential / diverging，支持名称与色号数组；见[公共配色](colors.md)       |
@@ -23,7 +23,7 @@
 
 confidence、prediction、credible 要求 0 < level < 1；standardError、standardDeviation 要求 multiplier > 0；range 不接受 level 或 multiplier。lower/upper 同时提供且 lower ≤ upper；不预设为 95% 置信区间。
 
-method、metric、distribution、estimation 是已有结果的说明；修改这些配置不会重新拟合或估计。referenceLine 只在明确提供时绘制，ROC/校准对角线、残差/SHAP 零线等由图义确定的参考线继续内置。
+method、metric、distribution 是已有结果的说明；修改这些配置不会重新拟合或估计。kdePlot.estimation 是实际核密度估计配置，修改 kernel / bandwidth 会重新计算；sampling.points 只控制绘制精度。referenceLine 只在明确提供时绘制，ROC/校准对角线、残差/SHAP 零线等由图义确定的参考线继续内置。
 
 ## 显示统计量与默认值
 
@@ -32,6 +32,9 @@ method、metric、distribution、estimation 是已有结果的说明；修改这
 | countPlot.statistic             | count；proportion 为系列内计数比例                                           |
 | histogram.binning.binCount      | 可选 1–200 整数；省略时使用 Sturges 候选数，恒定观测一个箱 |
 | histogram.statistic                | count；proportion 为样本比例，density 的柱面积和为 1；输入原始 value |
+| kdePlot.estimation.kernel / bandwidth | gaussian / scott；kernel 可选 epanechnikov，bandwidth 可为正数或 scott / silverman |
+| kdePlot.sampling.points | 256；每系列 2–2048 个等距绘制点，不改变带宽 |
+| ecdfPlot.data | 原始 value / series，按真实跳点计算右连续累计概率，不分箱 |
 | violinPlot.densityNormalization | width 等最大宽度；area 等面积                                                |
 | stripPlot.layout / jitterRatio  | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5                           |
 | pointIntervalPlot.valueScale    | linear；log 的估计、区间和参考值必须为正                                     |

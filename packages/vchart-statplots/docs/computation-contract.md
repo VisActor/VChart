@@ -1,10 +1,12 @@
 # 计算契约
 
-`vchart-statplots` 通常接受可解释的预计算结果。Python 或调用方 JS 负责数据清洗、缺失策略、KDE、拟合、bootstrap、PCA/UMAP/t-SNE、ACF/PACF、SHAP、模型评价和统计推断。histogram 的单变量分箱由本包完成。其余本包计算包括计数归一化、比率累加、密度轮廓宽度、坐标布局和颜色映射。
+`vchart-statplots` 通常接受可解释的预计算结果。Python 或调用方 JS 负责数据清洗、缺失策略、拟合、bootstrap、PCA/UMAP/t-SNE、ACF/PACF、SHAP、模型评价和统计推断。histogram 的单变量分箱、kdePlot 的一维核密度估计、ecdfPlot 的经验累积概率由本包完成。其余本包计算包括计数归一化、比率累加、密度轮廓宽度、坐标布局和颜色映射。
 
 `hexbinPlot` 是明确的计算例外：输入原始 x/y 散点与 `binning.xBins`（默认 30），编译阶段完成固定归一化、六边形分箱和计数。每条观测恰好入一个箱，重复坐标重复计数，仅生成非空箱；颜色表示计数，面积保持一致。resize、hover、主题和配色切换不改变分箱结果。原始数值轴和 tooltip 保留原单位，保形布局在屏幕中维持正六边形。完整规则和数值边界见[逐图契约](plots/hexbinPlot.md)。
 
-`pairPlot` 是另一项明确的计算例外：输入有序 variables 和 data.observations，对角直方图按变量独立排除 null，按有效样本量选择 Sturges 箱数；可用 diagonal.binning.binCount 覆盖。同变量的所有系列共享边界、分别计数，不先丢弃整行。diagonal.type=none 关闭对角分布，非对角仍按变量对排除缺失并按 id 联动。恒定变量只有一个箱；数值规则见[逐图契约](plots/pairPlot.md)。histogram 使用单变量原始输入；kdePlot 仍接收预计算密度采样。
+`pairPlot` 是另一项明确的计算例外：输入有序 variables 和 data.observations，对角直方图按变量独立排除 null，按有效样本量选择 Sturges 箱数；可用 diagonal.binning.binCount 覆盖。同变量的所有系列共享边界、分别计数，不先丢弃整行。diagonal.type=none 关闭对角分布，非对角仍按变量对排除缺失并按 id 联动。恒定变量只有一个箱；数值规则见[逐图契约](plots/pairPlot.md)。histogram 使用单变量原始输入。
+
+`kdePlot` 和 `ecdfPlot` 接受原始 `{value, series?}` 样本；重复值分别计入，各系列独立归一化。编译阶段直接复用 vutils 的 kde / ecdf，render、resize 和 hover 不扫描原始样本。KDE 默认 Gaussian + Scott，以总体标准差估计带宽；单样本和常数系列要求显式正带宽。ECDF 在排序去重后的真实观测位置求概率，保留重复值权重，不使用等距网格。完整规则见 [KDE](plots/kdePlot.md) / [ECDF](plots/ecdfPlot.md)。
 
 ## Python 交接
 
@@ -28,6 +30,8 @@ with open("rocCurve.json", "w", encoding="utf-8") as output:
 ## 必须保留的统计含义
 
 - 直方图：提供原始 value 观测及可选 binning.binCount；本包确定边界并计数，按样本总数归一化。左闭右开，最后一箱含最大值；保留零频次箱。密度以面积而不是高度比较概率。
+- KDE：保留原始样本、核函数及实际带宽规则；Gaussian 绘制范围截断尾部，不重新归一化。
+- ECDF：重复值分别计入分母，真实跳点全部保留，右连续；边界连接点不计入样本量。
 - 箱线图：须规则与异常点；小提琴：密度采样、可选方法说明放 description。
 - 区间：计算方法放 description，区间种类及水平/倍数放 interval。
 - 模型：训练/验证来源、正例定义、指标名称、外部 AUC/AP；不能从画出的折线代替原评估结果。

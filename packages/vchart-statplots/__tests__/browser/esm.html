@@ -2,6 +2,7 @@
 import VChart from '@visactor/vchart';
 import {compileStatPlot,registerStatPlots} from '/esm/index.js';
 registerStatPlots();registerStatPlots();
+window.esmCompile=compileStatPlot;
 window.esmChart=new VChart(compileStatPlot({type:'violinPlot',data:[{category:'A',value:-1,density:0},{category:'A',value:0,density:1},{category:'A',value:1,density:0}]}),{dom:'plot'});
 await window.esmChart.renderAsync();window.esmReady=true;
 </script></body></html>

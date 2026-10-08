@@ -826,6 +826,10 @@ importers:
         version: 1.5.1
 
   ../../packages/vchart-statplots:
+    dependencies:
+      '@visactor/vutils':
+        specifier: ~1.0.24
+        version: 1.0.24
     devDependencies:
       '@internal/bundler':
         specifier: workspace:*

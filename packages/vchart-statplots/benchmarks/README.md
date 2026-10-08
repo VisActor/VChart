@@ -63,3 +63,15 @@ npm run test:browser --prefix packages/vchart-statplots -- histogram.spec.ts --g
 ```
 
 每规模的 render/update/resize/release 只测一次，update 包含重新编译并增加一条重复观测，检查 sum(count)=N+1；resize 保持箱数据，release 后 canvas=0。20 个图表各 1,000 条观测的创建与释放同样通过。浏览器时间含测量噪声，100k 首绘受前一轮暖机影响，不设毫秒阈值或跨设备 SLA。原始输出位于 `.vchart-statplots/histogram/lifecycle-timing.json`。
+
+## KDE / ECDF 原始样本生命周期（2026-10-08）
+
+[测量记录](distribution-results.json) 在 Node.js 22 启动的 Chromium 中使用确定性模运算生成 10k / 100k 原始观测。KDE 默认 Gaussian + Scott、256 点，编译中位数约 9 / 93 ms；ECDF 同时测量重复值和全不同值，100k 全不同值保留 100002 个绘图点，编译约 24 ms、首绘约 115 ms。每规模先暖机一次、测量九次编译，记录中位数和最大值；图形生命周期单次测量不作为跨设备 SLA。
+
+KDE 估计为 O(N × points)，每系列只生成 points 个绘图点。ECDF 不降采样，每系列计算为 O(N log N + U log U + U log N)，绘图规模随不同值 U 增长。数据更新新增重复 0，ECDF 断言更新后的真实概率；resize 不改变统计数据，20 图表全部释放后 canvas=0。
+
+```sh
+npm run test:browser --prefix packages/vchart-statplots -- distribution-performance.spec.ts
+```
+
+原始报告为 `.vchart-statplots/distributions/*-timings.json`。UMD 大小及浏览器、视觉验证范围见 [验收记录](../docs/validation.md)。

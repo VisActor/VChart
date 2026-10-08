@@ -9,7 +9,13 @@ export function lineChart<T extends SeriesRow>(
   x: keyof T & string,
   y: keyof T & string,
   labels: Record<string, string | undefined>,
-  options: { probabilityY?: boolean; step?: boolean; zeroY?: boolean } = {}
+  options: {
+    probabilityY?: boolean;
+    step?: boolean;
+    zeroY?: boolean;
+    points?: boolean;
+    tooltipActiveType?: 'mark' | 'dimension';
+  } = {}
 ): ICommonChartSpec {
   const yAxis: ICartesianLinearAxisSpec = numberAxis('left', labels[y] ?? y, options.probabilityY);
   if (options.zeroY) {
@@ -25,9 +31,9 @@ export function lineChart<T extends SeriesRow>(
         yField: y,
         seriesField: 'series',
         data: { id: 'observations', values: spec.data.map(row => ({ ...row })) },
-        point: { visible: true, style: { size: 4 } },
+        point: { visible: options.points ?? true, style: { size: 4 } },
         line: { style: { curveType: options.step ? 'stepAfter' : 'linear', lineWidth: 2 } },
-        tooltip: semanticTooltip([x, y], labels)
+        tooltip: semanticTooltip([x, y], labels, options.tooltipActiveType)
       }
     ],
     [numberAxis('bottom', labels[x] ?? x), yAxis]

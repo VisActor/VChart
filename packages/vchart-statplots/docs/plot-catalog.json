@@ -129,14 +129,56 @@
       "kdeplot",
       "核密度图"
     ],
-    "useWhen": "比较已计算的一维核密度曲线。",
+    "useWhen": "从原始样本估计一维概率密度，比较不同系列的分布。",
     "avoidWhen": [
       "二维密度图",
-      "需要库内估计 KDE"
+      "仅持有预计算密度曲线",
+      "单样本或常数样本但无法指定带宽"
     ],
     "schema": "schema/plots/kdePlot.schema.json",
     "example": "examples/specs/minimal/kdePlot.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "固定带宽核密度图",
+        "aliases": [
+          "kdePlot-fixed",
+          "固定带宽核密度图"
+        ],
+        "options": {
+          "estimation": {
+            "bandwidth": 0.4
+          }
+        },
+        "example": "examples/specs/variants/kdePlot-fixed.json"
+      },
+      {
+        "name": "Epanechnikov 核密度图",
+        "aliases": [
+          "kdePlot-epanechnikov",
+          "Epanechnikov 核密度图"
+        ],
+        "options": {
+          "estimation": {
+            "kernel": "epanechnikov",
+            "bandwidth": 0.6
+          }
+        },
+        "example": "examples/specs/variants/kdePlot-epanechnikov.json"
+      },
+      {
+        "name": "常数样本核密度图",
+        "aliases": [
+          "kdePlot-constant",
+          "常数样本核密度图"
+        ],
+        "options": {
+          "estimation": {
+            "bandwidth": 0.5
+          }
+        },
+        "example": "examples/specs/variants/kdePlot-constant.json"
+      }
+    ]
   },
   {
     "type": "ecdfPlot",
@@ -149,7 +191,7 @@
       "ECDF",
       "ecdfplot"
     ],
-    "useWhen": "比较样本的累计概率与尾部。",
+    "useWhen": "从原始样本计算经验累积概率，保留真实跳点并比较不同系列。",
     "avoidWhen": [
       "概率密度",
       "普通分箱频数"

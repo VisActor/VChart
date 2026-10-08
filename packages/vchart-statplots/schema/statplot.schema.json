@@ -2652,10 +2652,7 @@
       "type": "object",
       "properties": {
         "value": {
-          "type": "number"
-        },
-        "cumulativeProbability": {
-          "description": "累计概率，范围 0–1；同一系列中随 value 非递减。",
+          "description": "原始观测；无序和重复值均有效。",
           "type": "number"
         },
         "series": {
@@ -2665,7 +2662,6 @@
       },
       "additionalProperties": false,
       "required": [
-        "cumulativeProbability",
         "value"
       ]
     },
@@ -2945,21 +2941,12 @@
           }
         },
         "estimation": {
-          "description": "结果说明；修改此项不会重新计算 KDE。",
-          "type": "object",
-          "properties": {
-            "kernel": {
-              "type": "string"
-            },
-            "bandwidth": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "bandwidth",
-            "kernel"
-          ]
+          "description": "编译阶段的核密度估计配置。单样本和常数系列须显式提供正带宽。",
+          "$ref": "#/definitions/KdeEstimationSpec"
+        },
+        "sampling": {
+          "description": "绘制采样配置；不改变估计方法和带宽。",
+          "$ref": "#/definitions/KdeSamplingSpec"
         },
         "fieldLabels": {
           "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
@@ -3004,9 +2991,7 @@
       "type": "object",
       "properties": {
         "value": {
-          "type": "number"
-        },
-        "density": {
+          "description": "原始观测；重复值分别参与估计。",
           "type": "number"
         },
         "series": {
@@ -3016,9 +3001,49 @@
       },
       "additionalProperties": false,
       "required": [
-        "density",
         "value"
       ]
+    },
+    "KdeEstimationSpec": {
+      "type": "object",
+      "properties": {
+        "kernel": {
+          "description": "默认 gaussian。",
+          "enum": [
+            "epanechnikov",
+            "gaussian"
+          ],
+          "type": "string"
+        },
+        "bandwidth": {
+          "description": "正数为固定带宽，单位与 value 相同；默认 scott，各系列独立估计。",
+          "anyOf": [
+            {
+              "enum": [
+                "scott",
+                "silverman"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "KdeSamplingSpec": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "description": "每系列等距绘制点数，默认 256；仅控制曲线离散精度。",
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 2048
+        }
+      },
+      "additionalProperties": false
     },
     "RocCurveSpec": {
       "type": "object",

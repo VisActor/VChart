@@ -34,6 +34,9 @@
   "peerDependencies": {
     "@visactor/vchart": "2.1.7"
   },
+  "dependencies": {
+    "@visactor/vutils": "~1.0.24"
+  },
   "devDependencies": {
     "@visactor/vchart": "workspace:2.1.7",
     "@internal/bundler": "workspace:*",

@@ -7,8 +7,8 @@
 | [类别计数图](plots/countPlot.md) | `countPlot` | 比较各客户类别有多少条观测。 |
 | [缺失值矩阵图](plots/missingValueMatrix.md) | `missingValueMatrix` | 检查每条观测各变量的缺失位置。 |
 | [直方图](plots/histogram.md)                   | `histogram`             | 从原始连续变量观测查看分箱分布和尾部。                               |
-| [核密度估计图](plots/kdePlot.md) | `kdePlot` | 比较已计算的一维核密度曲线。 |
-| [经验累积分布图](plots/ecdfPlot.md) | `ecdfPlot` | 比较样本的累计概率与尾部。 |
+| [核密度估计图](plots/kdePlot.md) | `kdePlot` | 从原始样本估计一维概率密度，比较不同系列的分布。 |
+| [经验累积分布图](plots/ecdfPlot.md) | `ecdfPlot` | 从原始样本计算经验累积概率，保留真实跳点并比较不同系列。 |
 | [箱线图](plots/boxPlot.md) | `boxPlot` | 比较组间四分位数、中位数与异常值。 |
 | [小提琴图](plots/violinPlot.md) | `violinPlot` | 比较不同组预计算密度的分布形状。 |
 | [条带图](plots/stripPlot.md) | `stripPlot` | 查看各类别中每条观测的数值。 |

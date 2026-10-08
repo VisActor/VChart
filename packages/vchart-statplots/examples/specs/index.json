@@ -88,15 +88,15 @@
       "type": "ecdfPlot",
       "variant": "minimal",
       "file": "minimal/ecdfPlot.json",
-      "documentation": "../../docs/plots/ecdf.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/ecdfPlot.md",
+      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
     },
     {
       "type": "ecdfPlot",
       "variant": "grouped",
       "file": "grouped/ecdfPlot.json",
-      "documentation": "../../docs/plots/ecdf.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/ecdfPlot.md",
+      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
     },
     {
       "type": "embeddingPlot",
@@ -158,15 +158,15 @@
       "type": "kdePlot",
       "variant": "minimal",
       "file": "minimal/kdePlot.json",
-      "documentation": "../../docs/plots/kde.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
     },
     {
       "type": "kdePlot",
       "variant": "grouped",
       "file": "grouped/kdePlot.json",
-      "documentation": "../../docs/plots/kde.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
     },
     {
       "type": "learningCurve",
@@ -534,6 +534,34 @@
       "file": "variants/histogram-zero-bin.json",
       "documentation": "../../docs/plots/histogram.md",
       "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "fixed",
+      "file": "variants/kdePlot-fixed.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "本包复用 vutils，从原始观测计算统计曲线"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "epanechnikov",
+      "file": "variants/kdePlot-epanechnikov.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "本包复用 vutils，从原始观测计算统计曲线"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "constant",
+      "file": "variants/kdePlot-constant.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "本包复用 vutils，从原始观测计算统计曲线"
+    },
+    {
+      "type": "ecdfPlot",
+      "variant": "constant",
+      "file": "variants/ecdfPlot-constant.json",
+      "documentation": "../../docs/plots/ecdfPlot.md",
+      "computation": "本包复用 vutils，从原始观测计算统计曲线"
     }
   ],
   "invalid": [
