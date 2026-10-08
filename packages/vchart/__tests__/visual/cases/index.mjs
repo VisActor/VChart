@@ -63,7 +63,7 @@ export const cases = [
   },
   {
     id: 'update-resize',
-    purpose: '数据更新与尺寸调整（event-update-spec）',
+    purpose: '数据更新、尺寸调整及 Spec 重建后尺寸一致（event-update-spec）',
     file: './api/update-resize.mjs',
     sourceExample: 'packages/vchart/__tests__/runtime/browser/test-page/event-update-spec.ts'
   },
