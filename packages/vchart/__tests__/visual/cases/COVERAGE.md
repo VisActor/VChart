@@ -150,3 +150,10 @@
 - ManualTicker、manual 模式、autoRender:false 和手动 tick 时序需要独立宿主契约。
 
 开发者可以依据新功能或缺陷独立补充有效用例，遵循 [编写与来源约定](./README.md)。未迁移的 BugServer 用例不能据此判为冗余或删除。平台状态见 [验收摘要](./ACCEPTANCE.md)。
+
+## 统计图场景补充
+
+- `legend-piecewise-domain`：三节点色域 [-1,0,1] 的图例须覆盖完整范围，检查真实组件上下界。
+- `brush-link-data-key`：两个面板坐标交换，同一 id 仍联动选中；检查真实图元状态。
+
+- `band-axis-update-spec`：分类轴更新后应用新主题和标签样式；通过实际文字图元断言。
