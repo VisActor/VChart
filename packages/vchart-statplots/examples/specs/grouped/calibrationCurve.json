@@ -1,0 +1,109 @@
+{
+  "type": "calibrationCurve",
+  "interval": {
+    "kind": "confidence",
+    "level": 0.95
+  },
+  "data": [
+    {
+      "binStart": 0.0,
+      "binEnd": 0.2,
+      "meanPredictedProbability": 0.1,
+      "observedRate": 0.07,
+      "lower": 0.010000000000000009,
+      "upper": 0.13,
+      "count": 100,
+      "series": "A"
+    },
+    {
+      "binStart": 0.2,
+      "binEnd": 0.4,
+      "meanPredictedProbability": 0.3,
+      "observedRate": 0.26,
+      "lower": 0.2,
+      "upper": 0.32,
+      "count": 90,
+      "series": "A"
+    },
+    {
+      "binStart": 0.4,
+      "binEnd": 0.6,
+      "meanPredictedProbability": 0.5,
+      "observedRate": 0.44,
+      "lower": 0.38,
+      "upper": 0.5,
+      "count": 80,
+      "series": "A"
+    },
+    {
+      "binStart": 0.6,
+      "binEnd": 0.8,
+      "meanPredictedProbability": 0.7,
+      "observedRate": 0.65,
+      "lower": 0.5900000000000001,
+      "upper": 0.71,
+      "count": 70,
+      "series": "A"
+    },
+    {
+      "binStart": 0.8,
+      "binEnd": 1.0,
+      "meanPredictedProbability": 0.9,
+      "observedRate": 0.85,
+      "lower": 0.79,
+      "upper": 0.9099999999999999,
+      "count": 60,
+      "series": "A"
+    },
+    {
+      "binStart": 0.0,
+      "binEnd": 0.2,
+      "meanPredictedProbability": 0.1,
+      "observedRate": 0.07,
+      "lower": 0.010000000000000009,
+      "upper": 0.13,
+      "count": 100,
+      "series": "B"
+    },
+    {
+      "binStart": 0.2,
+      "binEnd": 0.4,
+      "meanPredictedProbability": 0.3,
+      "observedRate": 0.26,
+      "lower": 0.2,
+      "upper": 0.32,
+      "count": 90,
+      "series": "B"
+    },
+    {
+      "binStart": 0.4,
+      "binEnd": 0.6,
+      "meanPredictedProbability": 0.5,
+      "observedRate": 0.44,
+      "lower": 0.38,
+      "upper": 0.5,
+      "count": 80,
+      "series": "B"
+    },
+    {
+      "binStart": 0.6,
+      "binEnd": 0.8,
+      "meanPredictedProbability": 0.7,
+      "observedRate": 0.65,
+      "lower": 0.5900000000000001,
+      "upper": 0.71,
+      "count": 70,
+      "series": "B"
+    },
+    {
+      "binStart": 0.8,
+      "binEnd": 1.0,
+      "meanPredictedProbability": 0.9,
+      "observedRate": 0.85,
+      "lower": 0.79,
+      "upper": 0.9099999999999999,
+      "count": 60,
+      "series": "B"
+    }
+  ]
+}

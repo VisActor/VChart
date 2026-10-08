@@ -1,0 +1,7 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><title>ESM smoke</title></head><body><div id="plot" style="width:500px;height:400px"></div><script type="module">
+import VChart from '@visactor/vchart';
+import {compileStatPlot,registerStatPlots} from '/esm/index.js';
+registerStatPlots();registerStatPlots();
+window.esmChart=new VChart(compileStatPlot({type:'violinPlot',data:[{category:'A',value:-1,density:0},{category:'A',value:0,density:1},{category:'A',value:1,density:0}]}),{dom:'plot'});
+await window.esmChart.renderAsync();window.esmReady=true;
+</script></body></html>

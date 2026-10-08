@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "rootDir": ".", "sourceMap": true, "types": ["node", "jest", "offscreencanvas"] },
+  "include": ["src", "scripts", "__tests__", "vite.config.ts"]
+}

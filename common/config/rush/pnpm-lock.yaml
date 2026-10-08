@@ -825,6 +825,60 @@ importers:
         specifier: ^1.2.0
         version: 1.5.1
 
+  ../../packages/vchart-statplots:
+    devDependencies:
+      '@internal/bundler':
+        specifier: workspace:*
+        version: link:../../tools/bundler
+      '@internal/eslint-config':
+        specifier: workspace:*
+        version: link:../../share/eslint-config
+      '@internal/ts-config':
+        specifier: workspace:*
+        version: link:../../share/ts-config
+      '@internal/typescript-json-schema':
+        specifier: workspace:*
+        version: link:../../tools/typescript-json-schema
+      '@playwright/test':
+        specifier: 1.63.0
+        version: 1.63.0
+      '@rushstack/eslint-patch':
+        specifier: ~1.1.4
+        version: 1.1.4
+      '@types/jest':
+        specifier: ^26.0.0
+        version: 26.0.24
+      '@types/node':
+        specifier: 20.14.10
+        version: 20.14.10
+      '@types/offscreencanvas':
+        specifier: 2019.6.4
+        version: 2019.6.4
+      '@visactor/vchart':
+        specifier: workspace:2.1.7
+        version: link:../vchart
+      ajv:
+        specifier: ^8.12.0
+        version: 8.20.0
+      eslint:
+        specifier: ~8.18.0
+        version: 8.18.0
+      jest:
+        specifier: ^26.0.0
+        version: 26.6.3(canvas@2.11.2(encoding@0.1.13))(ts-node@10.9.0(@types/node@20.14.10)(typescript@4.9.5))
+      ts-jest:
+        specifier: ^26.0.0
+        version: 26.5.6(jest@26.6.3(canvas@2.11.2(encoding@0.1.13))(ts-node@10.9.0(@types/node@20.14.10)(typescript@4.9.5)))(typescript@4.9.5)
+      ts-node:
+        specifier: 10.9.0
+        version: 10.9.0(@types/node@20.14.10)(typescript@4.9.5)
+      typescript:
+        specifier: 4.9.5
+        version: 4.9.5
+      vite:
+        specifier: 3.2.6
+        version: 3.2.6(@types/node@20.14.10)(less@4.1.3)(sass@1.32.11)(stylus@0.54.8)(sugarss@2.0.0)(terser@5.17.1)
+
   ../../packages/vchart-types:
     devDependencies:
       '@internal/eslint-config':

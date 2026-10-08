@@ -1,0 +1,83 @@
+{
+  "type": "autocorrelationPlot",
+  "method": "acf",
+  "interval": {
+    "kind": "confidence",
+    "level": 0.95
+  },
+  "data": [
+    {
+      "lag": 0,
+      "correlation": 1,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 1,
+      "correlation": 0.3782116141076978,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 2,
+      "correlation": -0.20391194990809974,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 3,
+      "correlation": -0.3395674263339527,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 4,
+      "correlation": -0.1569398333693532,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 5,
+      "correlation": 0.047675103510804416,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 6,
+      "correlation": 0.11296307405412886,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 7,
+      "correlation": 0.062087092424864786,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 8,
+      "correlation": -0.008387787403999288,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 9,
+      "correlation": -0.03676739251390131,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 10,
+      "correlation": -0.023701693910468148,
+      "lower": -0.2,
+      "upper": 0.2
+    },
+    {
+      "lag": 11,
+      "correlation": 8.751050988214107e-05,
+      "lower": -0.2,
+      "upper": 0.2
+    }
+  ],
+  "xField": "guessed"
+}

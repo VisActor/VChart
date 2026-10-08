@@ -1,0 +1,19 @@
+{
+  "type": "countPlot",
+  "statistic": "proportion",
+  "data": [
+    {
+      "category": "A",
+      "count": 35
+    },
+    {
+      "category": "B",
+      "count": 45
+    },
+    {
+      "category": "C",
+      "count": 20
+    }
+  ],
+  "xField": "guessed"
+}

@@ -1,0 +1,220 @@
+{
+  "type": "pairPlot",
+  "title": "散点矩阵图",
+  "variables": [
+    "x",
+    "y",
+    "z"
+  ],
+  "data": {
+    "observations": [
+      {
+        "id": "0",
+        "values": {
+          "x": 0,
+          "y": null,
+          "z": 0
+        }
+      },
+      {
+        "id": "1",
+        "values": {
+          "x": 7,
+          "y": 3,
+          "z": 1
+        }
+      },
+      {
+        "id": "2",
+        "values": {
+          "x": 4,
+          "y": 6,
+          "z": 2
+        }
+      },
+      {
+        "id": "3",
+        "values": {
+          "x": 1,
+          "y": 9,
+          "z": 3
+        }
+      },
+      {
+        "id": "4",
+        "values": {
+          "x": 8,
+          "y": 2,
+          "z": 4
+        }
+      },
+      {
+        "id": "5",
+        "values": {
+          "x": 5,
+          "y": 5,
+          "z": 5
+        }
+      },
+      {
+        "id": "6",
+        "values": {
+          "x": 2,
+          "y": 8,
+          "z": 6
+        }
+      },
+      {
+        "id": "7",
+        "values": {
+          "x": 9,
+          "y": null,
+          "z": 7
+        }
+      },
+      {
+        "id": "8",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "z": 8
+        }
+      },
+      {
+        "id": "9",
+        "values": {
+          "x": 3,
+          "y": 7,
+          "z": 9
+        }
+      },
+      {
+        "id": "10",
+        "values": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        }
+      },
+      {
+        "id": "11",
+        "values": {
+          "x": 7,
+          "y": 3,
+          "z": 1
+        }
+      },
+      {
+        "id": "12",
+        "values": {
+          "x": 4,
+          "y": 6,
+          "z": 2
+        }
+      },
+      {
+        "id": "13",
+        "values": {
+          "x": 1,
+          "y": 9,
+          "z": 3
+        }
+      },
+      {
+        "id": "14",
+        "values": {
+          "x": 8,
+          "y": null,
+          "z": 4
+        }
+      },
+      {
+        "id": "15",
+        "values": {
+          "x": 5,
+          "y": 5,
+          "z": 5
+        }
+      },
+      {
+        "id": "16",
+        "values": {
+          "x": 2,
+          "y": 8,
+          "z": 6
+        }
+      },
+      {
+        "id": "17",
+        "values": {
+          "x": 9,
+          "y": 1,
+          "z": 7
+        }
+      },
+      {
+        "id": "18",
+        "values": {
+          "x": 6,
+          "y": 4,
+          "z": 8
+        }
+      },
+      {
+        "id": "19",
+        "values": {
+          "x": 3,
+          "y": 7,
+          "z": 9
+        }
+      }
+    ],
+    "diagonal": [
+      {
+        "variable": "x",
+        "bins": [
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 10
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10
+          }
+        ]
+      },
+      {
+        "variable": "y",
+        "bins": [
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 7
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10
+          }
+        ]
+      },
+      {
+        "variable": "z",
+        "bins": [
+          {
+            "binStart": 0,
+            "binEnd": 5,
+            "count": 10
+          },
+          {
+            "binStart": 5,
+            "binEnd": 10,
+            "count": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "type": "confusionMatrix",
+  "title": "confusionMatrix",
+  "normalization": "actual",
+  "data": [
+    {
+      "actual": "猫",
+      "predicted": "猫",
+      "count": 38
+    },
+    {
+      "actual": "猫",
+      "predicted": "狗",
+      "count": 2
+    },
+    {
+      "actual": "猫",
+      "predicted": "其他",
+      "count": 0
+    },
+    {
+      "actual": "狗",
+      "predicted": "猫",
+      "count": 3
+    },
+    {
+      "actual": "狗",
+      "predicted": "狗",
+      "count": 27
+    },
+    {
+      "actual": "狗",
+      "predicted": "其他",
+      "count": 0
+    },
+    {
+      "actual": "其他",
+      "predicted": "猫",
+      "count": 0
+    },
+    {
+      "actual": "其他",
+      "predicted": "狗",
+      "count": 0
+    },
+    {
+      "actual": "其他",
+      "predicted": "其他",
+      "count": 0
+    }
+  ]
+}

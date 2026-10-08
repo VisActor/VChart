@@ -33,5 +33,5 @@ packages/vchart-types
 tools/typescript-json-schema
 packages/tt-vchart
 packages/vchart-schema
+packages/vchart-statplots/src/generated
 packages/wx-vchart
-

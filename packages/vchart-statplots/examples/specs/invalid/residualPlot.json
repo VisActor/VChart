@@ -1,0 +1,182 @@
+{
+  "type": "residualPlot",
+  "residualKind": "raw",
+  "data": [
+    {
+      "id": "0",
+      "fittedValue": 0.0,
+      "residual": 0.0
+    },
+    {
+      "id": "1",
+      "fittedValue": 0.2,
+      "residual": 0.07391099235586378
+    },
+    {
+      "id": "2",
+      "fittedValue": 0.4,
+      "residual": 0.1238259194618588
+    },
+    {
+      "id": "3",
+      "fittedValue": 0.6,
+      "residual": 0.1150401502987077
+    },
+    {
+      "id": "4",
+      "fittedValue": 0.8,
+      "residual": 0.04063586824618036
+    },
+    {
+      "id": "5",
+      "fittedValue": 1.0,
+      "residual": -0.06957968379312454
+    },
+    {
+      "id": "6",
+      "fittedValue": 1.2,
+      "residual": -0.16039127088523591
+    },
+    {
+      "id": "7",
+      "fittedValue": 1.4,
+      "residual": -0.17882862239240097
+    },
+    {
+      "id": "8",
+      "fittedValue": 1.6,
+      "residual": -0.10431020041738237
+    },
+    {
+      "id": "9",
+      "fittedValue": 1.8,
+      "residual": 0.03556308631434647
+    },
+    {
+      "id": "10",
+      "fittedValue": 2.0,
+      "residual": 0.17412540335052504
+    },
+    {
+      "id": "11",
+      "fittedValue": 2.2,
+      "residual": 0.2373860376629237
+    },
+    {
+      "id": "12",
+      "fittedValue": 2.4,
+      "residual": 0.18329758001832305
+    },
+    {
+      "id": "13",
+      "fittedValue": 2.6,
+      "residual": 0.027821721834678674
+    },
+    {
+      "id": "14",
+      "fittedValue": 2.8,
+      "residual": -0.15768001479736632
+    },
+    {
+      "id": "15",
+      "fittedValue": 3.0,
+      "residual": -0.27902889401702685
+    },
+    {
+      "id": "16",
+      "fittedValue": 3.2,
+      "residual": -0.26699868131005006
+    },
+    {
+      "id": "17",
+      "fittedValue": 3.4,
+      "residual": -0.11606378169940319
+    },
+    {
+      "id": "18",
+      "fittedValue": 3.6,
+      "residual": 0.10724701834397916
+    },
+    {
+      "id": "19",
+      "fittedValue": 3.8,
+      "residual": 0.29327594272230456
+    },
+    {
+      "id": "20",
+      "fittedValue": 4.0,
+      "residual": 0.343083880804109
+    },
+    {
+      "id": "21",
+      "fittedValue": 4.2,
+      "residual": 0.22077845793269354
+    },
+    {
+      "id": "22",
+      "fittedValue": 4.4,
+      "residual": -0.023220126471021493
+    },
+    {
+      "id": "23",
+      "fittedValue": 4.6,
+      "residual": -0.27218301691123126
+    },
+    {
+      "id": "24",
+      "fittedValue": 4.8,
+      "residual": -0.39886931550963195
+    },
+    {
+      "id": "25",
+      "fittedValue": 5.0,
+      "residual": -0.3304680205109418
+    },
+    {
+      "id": "26",
+      "fittedValue": 5.2,
+      "residual": -0.0895819530075814
+    },
+    {
+      "id": "27",
+      "fittedValue": 5.4,
+      "residual": 0.21145160472973365
+    },
+    {
+      "id": "28",
+      "fittedValue": 5.6,
+      "residual": 0.422788525006469
+    },
+    {
+      "id": "29",
+      "fittedValue": 5.8,
+      "residual": 0.4316557363272192
+    },
+    {
+      "id": "30",
+      "fittedValue": 6.0,
+      "residual": 0.2221662962128105
+    },
+    {
+      "id": "31",
+      "fittedValue": 6.2,
+      "residual": -0.11118978458909483
+    },
+    {
+      "id": "32",
+      "fittedValue": 6.4,
+      "residual": -0.4058104986824872
+    },
+    {
+      "id": "33",
+      "fittedValue": 6.6,
+      "residual": -0.5102881472510279
+    },
+    {
+      "id": "34",
+      "fittedValue": 6.8,
+      "residual": -0.3620799594196403
+    }
+  ],
+  "xField": "guessed"
+}

@@ -1,0 +1,26 @@
+{
+  "type": "pointIntervalPlot",
+  "title": "点估计区间图",
+  "interval": {
+    "kind": "confidence",
+    "level": 0.95
+  },
+  "referenceLine": {
+    "value": 0,
+    "label": "无效应"
+  },
+  "data": [
+    {
+      "category": "方案 A",
+      "estimate": 0.32,
+      "lower": 0.12,
+      "upper": 0.51
+    },
+    {
+      "category": "方案 B",
+      "estimate": -0.08,
+      "lower": -0.21,
+      "upper": 0.06
+    }
+  ]
+}

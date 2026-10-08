@@ -1,0 +1,174 @@
+{
+  "type": "stripPlot",
+  "layout": "jitter",
+  "data": [
+    {
+      "id": "A-0",
+      "category": "A",
+      "value": 0.0,
+      "series": "A"
+    },
+    {
+      "id": "A-3",
+      "category": "B",
+      "value": 1.6666666666666667,
+      "series": "A"
+    },
+    {
+      "id": "A-6",
+      "category": "A",
+      "value": 3.3333333333333335,
+      "series": "A"
+    },
+    {
+      "id": "A-9",
+      "category": "B",
+      "value": 5.0,
+      "series": "A"
+    },
+    {
+      "id": "A-12",
+      "category": "A",
+      "value": 6.666666666666667,
+      "series": "A"
+    },
+    {
+      "id": "A-15",
+      "category": "B",
+      "value": 0.6666666666666666,
+      "series": "A"
+    },
+    {
+      "id": "A-18",
+      "category": "A",
+      "value": 2.3333333333333335,
+      "series": "A"
+    },
+    {
+      "id": "A-21",
+      "category": "B",
+      "value": 4.0,
+      "series": "A"
+    },
+    {
+      "id": "A-24",
+      "category": "A",
+      "value": 5.666666666666667,
+      "series": "A"
+    },
+    {
+      "id": "A-27",
+      "category": "B",
+      "value": 7.333333333333333,
+      "series": "A"
+    },
+    {
+      "id": "A-30",
+      "category": "A",
+      "value": 1.3333333333333333,
+      "series": "A"
+    },
+    {
+      "id": "A-33",
+      "category": "B",
+      "value": 3.0,
+      "series": "A"
+    },
+    {
+      "id": "A-36",
+      "category": "A",
+      "value": 4.666666666666667,
+      "series": "A"
+    },
+    {
+      "id": "A-39",
+      "category": "B",
+      "value": 6.333333333333333,
+      "series": "A"
+    },
+    {
+      "id": "B-0",
+      "category": "A",
+      "value": 0.0,
+      "series": "B"
+    },
+    {
+      "id": "B-3",
+      "category": "B",
+      "value": 1.6666666666666667,
+      "series": "B"
+    },
+    {
+      "id": "B-6",
+      "category": "A",
+      "value": 3.3333333333333335,
+      "series": "B"
+    },
+    {
+      "id": "B-9",
+      "category": "B",
+      "value": 5.0,
+      "series": "B"
+    },
+    {
+      "id": "B-12",
+      "category": "A",
+      "value": 6.666666666666667,
+      "series": "B"
+    },
+    {
+      "id": "B-15",
+      "category": "B",
+      "value": 0.6666666666666666,
+      "series": "B"
+    },
+    {
+      "id": "B-18",
+      "category": "A",
+      "value": 2.3333333333333335,
+      "series": "B"
+    },
+    {
+      "id": "B-21",
+      "category": "B",
+      "value": 4.0,
+      "series": "B"
+    },
+    {
+      "id": "B-24",
+      "category": "A",
+      "value": 5.666666666666667,
+      "series": "B"
+    },
+    {
+      "id": "B-27",
+      "category": "B",
+      "value": 7.333333333333333,
+      "series": "B"
+    },
+    {
+      "id": "B-30",
+      "category": "A",
+      "value": 1.3333333333333333,
+      "series": "B"
+    },
+    {
+      "id": "B-33",
+      "category": "B",
+      "value": 3.0,
+      "series": "B"
+    },
+    {
+      "id": "B-36",
+      "category": "A",
+      "value": 4.666666666666667,
+      "series": "B"
+    },
+    {
+      "id": "B-39",
+      "category": "B",
+      "value": 6.333333333333333,
+      "series": "B"
+    }
+  ]
+}

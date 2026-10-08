@@ -1,0 +1,651 @@
+{
+  "valid": [
+    {
+      "type": "autocorrelationPlot",
+      "variant": "minimal",
+      "file": "minimal/autocorrelationPlot.json",
+      "documentation": "../../docs/plots/autocorrelation.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "grouped",
+      "file": "grouped/autocorrelationPlot.json",
+      "documentation": "../../docs/plots/autocorrelation.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "boxPlot",
+      "variant": "minimal",
+      "file": "minimal/boxPlot.json",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "boxPlot",
+      "variant": "grouped",
+      "file": "grouped/boxPlot.json",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "calibrationCurve",
+      "variant": "minimal",
+      "file": "minimal/calibrationCurve.json",
+      "documentation": "../../docs/plots/calibration.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "calibrationCurve",
+      "variant": "grouped",
+      "file": "grouped/calibrationCurve.json",
+      "documentation": "../../docs/plots/calibration.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "minimal",
+      "file": "minimal/confusionMatrix.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "correlationMatrix",
+      "variant": "minimal",
+      "file": "minimal/correlationMatrix.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "countPlot",
+      "variant": "minimal",
+      "file": "minimal/countPlot.json",
+      "documentation": "../../docs/plots/count.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "countPlot",
+      "variant": "grouped",
+      "file": "grouped/countPlot.json",
+      "documentation": "../../docs/plots/count.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "ecdfPlot",
+      "variant": "minimal",
+      "file": "minimal/ecdfPlot.json",
+      "documentation": "../../docs/plots/ecdf.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "ecdfPlot",
+      "variant": "grouped",
+      "file": "grouped/ecdfPlot.json",
+      "documentation": "../../docs/plots/ecdf.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "minimal",
+      "file": "minimal/embeddingPlot.json",
+      "documentation": "../../docs/plots/embedding.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "grouped",
+      "file": "grouped/embeddingPlot.json",
+      "documentation": "../../docs/plots/embedding.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "minimal",
+      "file": "minimal/pointIntervalPlot.json",
+      "documentation": "../../docs/plots/estimateInterval.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "grouped",
+      "file": "grouped/pointIntervalPlot.json",
+      "documentation": "../../docs/plots/estimateInterval.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "featureImportancePlot",
+      "variant": "minimal",
+      "file": "minimal/featureImportancePlot.json",
+      "documentation": "../../docs/plots/featureImportance.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "featureImportancePlot",
+      "variant": "grouped",
+      "file": "grouped/featureImportancePlot.json",
+      "documentation": "../../docs/plots/featureImportance.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "minimal",
+      "file": "minimal/hexbinPlot.json",
+      "documentation": "../../docs/plots/hexbin.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "histogram",
+      "variant": "minimal",
+      "file": "minimal/histogram.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "histogram",
+      "variant": "grouped",
+      "file": "grouped/histogram.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "minimal",
+      "file": "minimal/kdePlot.json",
+      "documentation": "../../docs/plots/kde.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "grouped",
+      "file": "grouped/kdePlot.json",
+      "documentation": "../../docs/plots/kde.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "learningCurve",
+      "variant": "minimal",
+      "file": "minimal/learningCurve.json",
+      "documentation": "../../docs/plots/learningCurve.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "learningCurve",
+      "variant": "grouped",
+      "file": "grouped/learningCurve.json",
+      "documentation": "../../docs/plots/learningCurve.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "missingValueMatrix",
+      "variant": "minimal",
+      "file": "minimal/missingValueMatrix.json",
+      "documentation": "../../docs/plots/missingness.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "minimal",
+      "file": "minimal/pairPlot.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "grouped",
+      "file": "grouped/pairPlot.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "pairedComparisonPlot",
+      "variant": "minimal",
+      "file": "minimal/pairedComparisonPlot.json",
+      "documentation": "../../docs/plots/paired.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "pairedComparisonPlot",
+      "variant": "grouped",
+      "file": "grouped/pairedComparisonPlot.json",
+      "documentation": "../../docs/plots/paired.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "variant": "minimal",
+      "file": "minimal/precisionRecallCurve.json",
+      "documentation": "../../docs/plots/precisionRecall.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "variant": "grouped",
+      "file": "grouped/precisionRecallCurve.json",
+      "documentation": "../../docs/plots/precisionRecall.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "minimal",
+      "file": "minimal/qqPlot.json",
+      "documentation": "../../docs/plots/qq.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "grouped",
+      "file": "grouped/qqPlot.json",
+      "documentation": "../../docs/plots/qq.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "minimal",
+      "file": "minimal/residualPlot.json",
+      "documentation": "../../docs/plots/residual.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "grouped",
+      "file": "grouped/residualPlot.json",
+      "documentation": "../../docs/plots/residual.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "rocCurve",
+      "variant": "minimal",
+      "file": "minimal/rocCurve.json",
+      "documentation": "../../docs/plots/roc.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "rocCurve",
+      "variant": "grouped",
+      "file": "grouped/rocCurve.json",
+      "documentation": "../../docs/plots/roc.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "minimal",
+      "file": "minimal/scatterPlot.json",
+      "documentation": "../../docs/plots/scatter.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "grouped",
+      "file": "grouped/scatterPlot.json",
+      "documentation": "../../docs/plots/scatter.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "screePlot",
+      "variant": "minimal",
+      "file": "minimal/screePlot.json",
+      "documentation": "../../docs/plots/scree.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "minimal",
+      "file": "minimal/seasonalPlot.json",
+      "documentation": "../../docs/plots/seasonal.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "grouped",
+      "file": "grouped/seasonalPlot.json",
+      "documentation": "../../docs/plots/seasonal.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "shapBeeswarmPlot",
+      "variant": "minimal",
+      "file": "minimal/shapBeeswarmPlot.json",
+      "documentation": "../../docs/plots/shapBeeswarm.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "minimal",
+      "file": "minimal/stripPlot.json",
+      "documentation": "../../docs/plots/stripPlot.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "grouped",
+      "file": "grouped/stripPlot.json",
+      "documentation": "../../docs/plots/stripPlot.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "variant": "minimal",
+      "file": "minimal/timeSeriesPlot.json",
+      "documentation": "../../docs/plots/timeSeries.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "variant": "grouped",
+      "file": "grouped/timeSeriesPlot.json",
+      "documentation": "../../docs/plots/timeSeries.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "minimal",
+      "file": "minimal/violinPlot.json",
+      "documentation": "../../docs/plots/violin.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "grouped",
+      "file": "grouped/violinPlot.json",
+      "documentation": "../../docs/plots/violin.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "swarm",
+      "file": "variants/stripPlot-swarm.json",
+      "documentation": "../../docs/plots/stripPlot.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "pacf",
+      "file": "variants/autocorrelationPlot-pacf.json",
+      "documentation": "../../docs/plots/autocorrelation.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "overlay",
+      "file": "variants/seasonalPlot-overlay.json",
+      "documentation": "../../docs/plots/seasonal.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "area",
+      "file": "variants/violinPlot-area.json",
+      "documentation": "../../docs/plots/violin.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "predicted",
+      "file": "variants/confusionMatrix-predicted.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "all",
+      "file": "variants/confusionMatrix-all.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "log",
+      "file": "variants/pointIntervalPlot-log.json",
+      "documentation": "../../docs/plots/estimateInterval.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "countPlot",
+      "variant": "proportion",
+      "file": "variants/countPlot-proportion.json"
+    },
+    {
+      "type": "histogram",
+      "variant": "density",
+      "file": "variants/histogram-density.json"
+    },
+    {
+      "type": "histogram",
+      "variant": "proportion",
+      "file": "variants/histogram-proportion.json"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "jitter",
+      "file": "variants/stripPlot-jitter.json"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "subseries",
+      "file": "variants/seasonalPlot-subseries.json"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "acf",
+      "file": "variants/autocorrelationPlot-acf.json"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "pca",
+      "file": "variants/embeddingPlot-pca.json"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "tsne",
+      "file": "variants/embeddingPlot-tsne.json"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "umap",
+      "file": "variants/embeddingPlot-umap.json"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "actual",
+      "file": "variants/confusionMatrix-actual.json"
+    }
+  ],
+  "invalid": [
+    {
+      "type": "autocorrelationPlot",
+      "file": "invalid/autocorrelationPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "boxPlot",
+      "file": "invalid/boxPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "calibrationCurve",
+      "file": "invalid/calibrationCurve.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "confusionMatrix",
+      "file": "invalid/confusionMatrix.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "correlationMatrix",
+      "file": "invalid/correlationMatrix.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "countPlot",
+      "file": "invalid/countPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "ecdfPlot",
+      "file": "invalid/ecdfPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "embeddingPlot",
+      "file": "invalid/embeddingPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "file": "invalid/pointIntervalPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "featureImportancePlot",
+      "file": "invalid/featureImportancePlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "hexbinPlot",
+      "file": "invalid/hexbinPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "histogram",
+      "file": "invalid/histogram.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "kdePlot",
+      "file": "invalid/kdePlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "learningCurve",
+      "file": "invalid/learningCurve.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "missingValueMatrix",
+      "file": "invalid/missingValueMatrix.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "pairPlot",
+      "file": "invalid/pairPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "pairedComparisonPlot",
+      "file": "invalid/pairedComparisonPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "file": "invalid/precisionRecallCurve.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "qqPlot",
+      "file": "invalid/qqPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "residualPlot",
+      "file": "invalid/residualPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "rocCurve",
+      "file": "invalid/rocCurve.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "scatterPlot",
+      "file": "invalid/scatterPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "screePlot",
+      "file": "invalid/screePlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "seasonalPlot",
+      "file": "invalid/seasonalPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "shapBeeswarmPlot",
+      "file": "invalid/shapBeeswarmPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "stripPlot",
+      "file": "invalid/stripPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "violinPlot",
+      "file": "invalid/violinPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    }
+  ]
+}

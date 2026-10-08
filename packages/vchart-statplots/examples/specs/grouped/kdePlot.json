@@ -1,0 +1,719 @@
+{
+  "type": "kdePlot",
+  "estimation": {
+    "kernel": "gaussian",
+    "bandwidth": 0.4
+  },
+  "data": [
+    {
+      "value": -3.5,
+      "density": 0.0008726826950457602,
+      "series": "A"
+    },
+    {
+      "value": -3.4,
+      "density": 0.00123221916847302,
+      "series": "A"
+    },
+    {
+      "value": -3.3,
+      "density": 0.0017225689390536812,
+      "series": "A"
+    },
+    {
+      "value": -3.2,
+      "density": 0.0023840882014648404,
+      "series": "A"
+    },
+    {
+      "value": -3.1,
+      "density": 0.0032668190561999186,
+      "series": "A"
+    },
+    {
+      "value": -3.0,
+      "density": 0.0044318484119380075,
+      "series": "A"
+    },
+    {
+      "value": -2.9,
+      "density": 0.005952532419775854,
+      "series": "A"
+    },
+    {
+      "value": -2.8,
+      "density": 0.007915451582979969,
+      "series": "A"
+    },
+    {
+      "value": -2.7,
+      "density": 0.010420934814422592,
+      "series": "A"
+    },
+    {
+      "value": -2.6,
+      "density": 0.013582969233685615,
+      "series": "A"
+    },
+    {
+      "value": -2.5,
+      "density": 0.01752830049356854,
+      "series": "A"
+    },
+    {
+      "value": -2.4,
+      "density": 0.0223945302948429,
+      "series": "A"
+    },
+    {
+      "value": -2.3,
+      "density": 0.02832703774160119,
+      "series": "A"
+    },
+    {
+      "value": -2.2,
+      "density": 0.035474592846231424,
+      "series": "A"
+    },
+    {
+      "value": -2.1,
+      "density": 0.0439835959804272,
+      "series": "A"
+    },
+    {
+      "value": -2.0,
+      "density": 0.05399096651318806,
+      "series": "A"
+    },
+    {
+      "value": -1.9,
+      "density": 0.0656158147746766,
+      "series": "A"
+    },
+    {
+      "value": -1.8,
+      "density": 0.07895015830089415,
+      "series": "A"
+    },
+    {
+      "value": -1.7,
+      "density": 0.09404907737688695,
+      "series": "A"
+    },
+    {
+      "value": -1.6,
+      "density": 0.11092083467945554,
+      "series": "A"
+    },
+    {
+      "value": -1.5,
+      "density": 0.12951759566589174,
+      "series": "A"
+    },
+    {
+      "value": -1.4,
+      "density": 0.14972746563574488,
+      "series": "A"
+    },
+    {
+      "value": -1.3,
+      "density": 0.17136859204780736,
+      "series": "A"
+    },
+    {
+      "value": -1.2,
+      "density": 0.19418605498321298,
+      "series": "A"
+    },
+    {
+      "value": -1.1,
+      "density": 0.21785217703255055,
+      "series": "A"
+    },
+    {
+      "value": -1.0,
+      "density": 0.24197072451914337,
+      "series": "A"
+    },
+    {
+      "value": -0.9,
+      "density": 0.2660852498987548,
+      "series": "A"
+    },
+    {
+      "value": -0.8,
+      "density": 0.28969155276148273,
+      "series": "A"
+    },
+    {
+      "value": -0.7,
+      "density": 0.31225393336676127,
+      "series": "A"
+    },
+    {
+      "value": -0.6,
+      "density": 0.33322460289179967,
+      "series": "A"
+    },
+    {
+      "value": -0.5,
+      "density": 0.3520653267642995,
+      "series": "A"
+    },
+    {
+      "value": -0.4,
+      "density": 0.36827014030332333,
+      "series": "A"
+    },
+    {
+      "value": -0.3,
+      "density": 0.38138781546052414,
+      "series": "A"
+    },
+    {
+      "value": -0.2,
+      "density": 0.3910426939754559,
+      "series": "A"
+    },
+    {
+      "value": -0.1,
+      "density": 0.3969525474770118,
+      "series": "A"
+    },
+    {
+      "value": 0.0,
+      "density": 0.3989422804014327,
+      "series": "A"
+    },
+    {
+      "value": 0.1,
+      "density": 0.3969525474770118,
+      "series": "A"
+    },
+    {
+      "value": 0.2,
+      "density": 0.3910426939754559,
+      "series": "A"
+    },
+    {
+      "value": 0.3,
+      "density": 0.38138781546052414,
+      "series": "A"
+    },
+    {
+      "value": 0.4,
+      "density": 0.36827014030332333,
+      "series": "A"
+    },
+    {
+      "value": 0.5,
+      "density": 0.3520653267642995,
+      "series": "A"
+    },
+    {
+      "value": 0.6,
+      "density": 0.33322460289179967,
+      "series": "A"
+    },
+    {
+      "value": 0.7,
+      "density": 0.31225393336676127,
+      "series": "A"
+    },
+    {
+      "value": 0.8,
+      "density": 0.28969155276148273,
+      "series": "A"
+    },
+    {
+      "value": 0.9,
+      "density": 0.2660852498987548,
+      "series": "A"
+    },
+    {
+      "value": 1.0,
+      "density": 0.24197072451914337,
+      "series": "A"
+    },
+    {
+      "value": 1.1,
+      "density": 0.21785217703255055,
+      "series": "A"
+    },
+    {
+      "value": 1.2,
+      "density": 0.19418605498321298,
+      "series": "A"
+    },
+    {
+      "value": 1.3,
+      "density": 0.17136859204780736,
+      "series": "A"
+    },
+    {
+      "value": 1.4,
+      "density": 0.14972746563574488,
+      "series": "A"
+    },
+    {
+      "value": 1.5,
+      "density": 0.12951759566589174,
+      "series": "A"
+    },
+    {
+      "value": 1.6,
+      "density": 0.11092083467945554,
+      "series": "A"
+    },
+    {
+      "value": 1.7,
+      "density": 0.09404907737688695,
+      "series": "A"
+    },
+    {
+      "value": 1.8,
+      "density": 0.07895015830089415,
+      "series": "A"
+    },
+    {
+      "value": 1.9,
+      "density": 0.0656158147746766,
+      "series": "A"
+    },
+    {
+      "value": 2.0,
+      "density": 0.05399096651318806,
+      "series": "A"
+    },
+    {
+      "value": 2.1,
+      "density": 0.0439835959804272,
+      "series": "A"
+    },
+    {
+      "value": 2.2,
+      "density": 0.035474592846231424,
+      "series": "A"
+    },
+    {
+      "value": 2.3,
+      "density": 0.02832703774160119,
+      "series": "A"
+    },
+    {
+      "value": 2.4,
+      "density": 0.0223945302948429,
+      "series": "A"
+    },
+    {
+      "value": 2.5,
+      "density": 0.01752830049356854,
+      "series": "A"
+    },
+    {
+      "value": 2.6,
+      "density": 0.013582969233685615,
+      "series": "A"
+    },
+    {
+      "value": 2.7,
+      "density": 0.010420934814422592,
+      "series": "A"
+    },
+    {
+      "value": 2.8,
+      "density": 0.007915451582979969,
+      "series": "A"
+    },
+    {
+      "value": 2.9,
+      "density": 0.005952532419775854,
+      "series": "A"
+    },
+    {
+      "value": 3.0,
+      "density": 0.0044318484119380075,
+      "series": "A"
+    },
+    {
+      "value": 3.1,
+      "density": 0.0032668190561999186,
+      "series": "A"
+    },
+    {
+      "value": 3.2,
+      "density": 0.0023840882014648404,
+      "series": "A"
+    },
+    {
+      "value": 3.3,
+      "density": 0.0017225689390536812,
+      "series": "A"
+    },
+    {
+      "value": 3.4,
+      "density": 0.00123221916847302,
+      "series": "A"
+    },
+    {
+      "value": 3.5,
+      "density": 0.0008726826950457602,
+      "series": "A"
+    },
+    {
+      "value": -3.5,
+      "density": 0.0008726826950457602,
+      "series": "B"
+    },
+    {
+      "value": -3.4,
+      "density": 0.00123221916847302,
+      "series": "B"
+    },
+    {
+      "value": -3.3,
+      "density": 0.0017225689390536812,
+      "series": "B"
+    },
+    {
+      "value": -3.2,
+      "density": 0.0023840882014648404,
+      "series": "B"
+    },
+    {
+      "value": -3.1,
+      "density": 0.0032668190561999186,
+      "series": "B"
+    },
+    {
+      "value": -3.0,
+      "density": 0.0044318484119380075,
+      "series": "B"
+    },
+    {
+      "value": -2.9,
+      "density": 0.005952532419775854,
+      "series": "B"
+    },
+    {
+      "value": -2.8,
+      "density": 0.007915451582979969,
+      "series": "B"
+    },
+    {
+      "value": -2.7,
+      "density": 0.010420934814422592,
+      "series": "B"
+    },
+    {
+      "value": -2.6,
+      "density": 0.013582969233685615,
+      "series": "B"
+    },
+    {
+      "value": -2.5,
+      "density": 0.01752830049356854,
+      "series": "B"
+    },
+    {
+      "value": -2.4,
+      "density": 0.0223945302948429,
+      "series": "B"
+    },
+    {
+      "value": -2.3,
+      "density": 0.02832703774160119,
+      "series": "B"
+    },
+    {
+      "value": -2.2,
+      "density": 0.035474592846231424,
+      "series": "B"
+    },
+    {
+      "value": -2.1,
+      "density": 0.0439835959804272,
+      "series": "B"
+    },
+    {
+      "value": -2.0,
+      "density": 0.05399096651318806,
+      "series": "B"
+    },
+    {
+      "value": -1.9,
+      "density": 0.0656158147746766,
+      "series": "B"
+    },
+    {
+      "value": -1.8,
+      "density": 0.07895015830089415,
+      "series": "B"
+    },
+    {
+      "value": -1.7,
+      "density": 0.09404907737688695,
+      "series": "B"
+    },
+    {
+      "value": -1.6,
+      "density": 0.11092083467945554,
+      "series": "B"
+    },
+    {
+      "value": -1.5,
+      "density": 0.12951759566589174,
+      "series": "B"
+    },
+    {
+      "value": -1.4,
+      "density": 0.14972746563574488,
+      "series": "B"
+    },
+    {
+      "value": -1.3,
+      "density": 0.17136859204780736,
+      "series": "B"
+    },
+    {
+      "value": -1.2,
+      "density": 0.19418605498321298,
+      "series": "B"
+    },
+    {
+      "value": -1.1,
+      "density": 0.21785217703255055,
+      "series": "B"
+    },
+    {
+      "value": -1.0,
+      "density": 0.24197072451914337,
+      "series": "B"
+    },
+    {
+      "value": -0.9,
+      "density": 0.2660852498987548,
+      "series": "B"
+    },
+    {
+      "value": -0.8,
+      "density": 0.28969155276148273,
+      "series": "B"
+    },
+    {
+      "value": -0.7,
+      "density": 0.31225393336676127,
+      "series": "B"
+    },
+    {
+      "value": -0.6,
+      "density": 0.33322460289179967,
+      "series": "B"
+    },
+    {
+      "value": -0.5,
+      "density": 0.3520653267642995,
+      "series": "B"
+    },
+    {
+      "value": -0.4,
+      "density": 0.36827014030332333,
+      "series": "B"
+    },
+    {
+      "value": -0.3,
+      "density": 0.38138781546052414,
+      "series": "B"
+    },
+    {
+      "value": -0.2,
+      "density": 0.3910426939754559,
+      "series": "B"
+    },
+    {
+      "value": -0.1,
+      "density": 0.3969525474770118,
+      "series": "B"
+    },
+    {
+      "value": 0.0,
+      "density": 0.3989422804014327,
+      "series": "B"
+    },
+    {
+      "value": 0.1,
+      "density": 0.3969525474770118,
+      "series": "B"
+    },
+    {
+      "value": 0.2,
+      "density": 0.3910426939754559,
+      "series": "B"
+    },
+    {
+      "value": 0.3,
+      "density": 0.38138781546052414,
+      "series": "B"
+    },
+    {
+      "value": 0.4,
+      "density": 0.36827014030332333,
+      "series": "B"
+    },
+    {
+      "value": 0.5,
+      "density": 0.3520653267642995,
+      "series": "B"
+    },
+    {
+      "value": 0.6,
+      "density": 0.33322460289179967,
+      "series": "B"
+    },
+    {
+      "value": 0.7,
+      "density": 0.31225393336676127,
+      "series": "B"
+    },
+    {
+      "value": 0.8,
+      "density": 0.28969155276148273,
+      "series": "B"
+    },
+    {
+      "value": 0.9,
+      "density": 0.2660852498987548,
+      "series": "B"
+    },
+    {
+      "value": 1.0,
+      "density": 0.24197072451914337,
+      "series": "B"
+    },
+    {
+      "value": 1.1,
+      "density": 0.21785217703255055,
+      "series": "B"
+    },
+    {
+      "value": 1.2,
+      "density": 0.19418605498321298,
+      "series": "B"
+    },
+    {
+      "value": 1.3,
+      "density": 0.17136859204780736,
+      "series": "B"
+    },
+    {
+      "value": 1.4,
+      "density": 0.14972746563574488,
+      "series": "B"
+    },
+    {
+      "value": 1.5,
+      "density": 0.12951759566589174,
+      "series": "B"
+    },
+    {
+      "value": 1.6,
+      "density": 0.11092083467945554,
+      "series": "B"
+    },
+    {
+      "value": 1.7,
+      "density": 0.09404907737688695,
+      "series": "B"
+    },
+    {
+      "value": 1.8,
+      "density": 0.07895015830089415,
+      "series": "B"
+    },
+    {
+      "value": 1.9,
+      "density": 0.0656158147746766,
+      "series": "B"
+    },
+    {
+      "value": 2.0,
+      "density": 0.05399096651318806,
+      "series": "B"
+    },
+    {
+      "value": 2.1,
+      "density": 0.0439835959804272,
+      "series": "B"
+    },
+    {
+      "value": 2.2,
+      "density": 0.035474592846231424,
+      "series": "B"
+    },
+    {
+      "value": 2.3,
+      "density": 0.02832703774160119,
+      "series": "B"
+    },
+    {
+      "value": 2.4,
+      "density": 0.0223945302948429,
+      "series": "B"
+    },
+    {
+      "value": 2.5,
+      "density": 0.01752830049356854,
+      "series": "B"
+    },
+    {
+      "value": 2.6,
+      "density": 0.013582969233685615,
+      "series": "B"
+    },
+    {
+      "value": 2.7,
+      "density": 0.010420934814422592,
+      "series": "B"
+    },
+    {
+      "value": 2.8,
+      "density": 0.007915451582979969,
+      "series": "B"
+    },
+    {
+      "value": 2.9,
+      "density": 0.005952532419775854,
+      "series": "B"
+    },
+    {
+      "value": 3.0,
+      "density": 0.0044318484119380075,
+      "series": "B"
+    },
+    {
+      "value": 3.1,
+      "density": 0.0032668190561999186,
+      "series": "B"
+    },
+    {
+      "value": 3.2,
+      "density": 0.0023840882014648404,
+      "series": "B"
+    },
+    {
+      "value": 3.3,
+      "density": 0.0017225689390536812,
+      "series": "B"
+    },
+    {
+      "value": 3.4,
+      "density": 0.00123221916847302,
+      "series": "B"
+    },
+    {
+      "value": 3.5,
+      "density": 0.0008726826950457602,
+      "series": "B"
+    }
+  ]
+}

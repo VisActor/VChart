@@ -1,0 +1,15 @@
+{
+  "type": "histogram",
+  "data": [
+    {
+      "binStart": 0,
+      "binEnd": 1,
+      "count": 2
+    },
+    {
+      "binStart": 1,
+      "binEnd": 2,
+      "count": 2
+    }
+  ]
+}
