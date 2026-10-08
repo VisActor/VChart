@@ -234,3 +234,30 @@ histogram 现在接收单变量 `data:[{value}]`，在编译阶段按可选 binn
 官方轴目录比较 **未完成**：基线侧已有 band-axis-update-spec 的分类轴主题更新断言失败，工具在本地阶段开始前中止。报告位于 `.vchart-visual/runs/1791446345535-0d19f435/index.html`；不能把本地自比较写成官方目录通过。本轮未运行官方 develop 全量比较，提交 PR 前仍须执行。
 
 证据位于 `.vchart-statplots/histogram/`：unit-final.log、browser-final.log、stability-final.log、stability-images.json、contracts-final.log、lint-final.log、counterexamples/、native/results.json、core-unit-isolated.json、core-typecheck.log 及截图。冻结资源的完整浏览器复现命令为 `packages/vchart-statplots/node_modules/.bin/playwright test --config .vchart-statplots/histogram/playwright-frozen.config.cjs`；标准独占工作区可直接使用包内 test:browser。
+
+## KDE / ECDF 原始样本重构（2026-10-08）
+
+两图统一接收原始 `{value, series?}` 样本，拒绝旧 density / cumulativeProbability 输入，允许无序和重复值，各系列独立归一化。直接声明 `@visactor/vutils ~1.0.24` 并复用 kde / ecdf evaluator；未复制统计算法，也未修改 VUtil。KDE 默认 Gaussian + Scott，带宽配置真正生效；单样本 / 常数系列需显式正带宽。ECDF 保留全部真实跳点和重复值权重，并补齐首尾平台。
+
+关闭采样点符号后采用原生 dimension tooltip；shared line / tooltip helper 仅新增可选参数，其他图表的默认点符号和 mark tooltip 保持原有行为。同步了 TS、生成 Schema / AJV、主例 / minimal / grouped / invalid、新变体、catalog、中文逐图文档及迁移说明。
+
+| 检查 | 结果 |
+| --- | --- |
+| Rush 离线更新与锁文件安装检查 | 通过；锁文件仅增加 StatPlots 的直接 vutils importer |
+| build / TypeScript / ESLint | 通过；ESLint 0 errors，现有非空断言及测试 any 警告仍存在 |
+| Schema / 示例 / catalog | 通过；28 主例、83 有效变体、28 反例、81 意图预期 |
+| Jest | 22 套、424 项通过 |
+| Chromium 全量浏览器 | 最终 203 项通过，无跳过和阈值调整 |
+| ESM / CJS / UMD | 原始 KDE / ECDF 输入与数学结果通过；ESM 使用调用方自己的 VChart engine |
+| 五轮定向浏览器 | 30 项通过；8 组截图各五轮完全一致，已查看阶梯、常数、Gaussian 及分组深色图 |
+| 受控反例 | 丢弃 ECDF 重复值权重、忽略固定带宽都会导致新增断言失败；故障修改已恢复 |
+| 原生折线官方 develop 比较 | charts/line 7/7 通过，0 视觉差异、0 执行错误 |
+| git diff --check | 通过 |
+
+完整浏览器首轮曾在已有 Pair Plot 8 变量 × 10k 的 brushEnd 等待中超时；单独重跑通过，最终整套重跑也通过。一次 CJS 单格式清理构建还删除了 vutils-extension 的 ESM 产物，已通过构建两种格式恢复并验证；没有通过修改断言、跳过用例或增大超时解决。
+
+定向测试断言真实 ECDF 跳点 x=1、首尾平台、常数从 0 跳到 1、KDE 参数更新后的真实曲线与 hover 值、系列增删、颜色 / 主题、resize 数据不变、同实例更新和释放后 canvas=0。性能覆盖 10k / 100k（ECDF 含全部不同值）以及 20 图表创建 / 释放，记录见 [性能基准](../benchmarks/distribution-results.json)；KDE 256 点约 9 / 93 ms 编译中位数，ECDF 100k 不同值保留 100002 个绘图点。数据是本机测量而非 SLA。UMD min 为 367604 bytes，gzip 为 42106 bytes，外置 VChart；增加了 vutils 的许可文本。
+
+原始证据保存在 `.vchart-statplots/distributions/`：`unit-final.log`、`browser-complete.log`、`esm-final.log`、`counterexample-*.log`、`screenshot-stability.json`、`*-timings.json` 和截图。原生三图报告为 `.vchart-visual/runs/1791449431631-423703bf/index.html`，Agent 摘要为同目录 `agent-summary.md`；基线为官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc`。
+
+本次没有创建 PR，原生比较范围仅为 charts/line；提交 PR 前仍须运行全量官方 develop 比较。上述新算法语义由本包单元 / 浏览器测试验证，原生目录比较不替代它们。

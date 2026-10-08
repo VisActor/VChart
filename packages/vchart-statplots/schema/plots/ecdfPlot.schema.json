@@ -54,10 +54,7 @@
       "type": "object",
       "properties": {
         "value": {
-          "type": "number"
-        },
-        "cumulativeProbability": {
-          "description": "累计概率，范围 0–1；同一系列中随 value 非递减。",
+          "description": "原始观测；无序和重复值均有效。",
           "type": "number"
         },
         "series": {
@@ -67,7 +64,6 @@
       },
       "additionalProperties": false,
       "required": [
-        "cumulativeProbability",
         "value"
       ]
     },

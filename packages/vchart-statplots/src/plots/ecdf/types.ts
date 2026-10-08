@@ -1,8 +1,7 @@
 import type { BaseSpec, SeriesRow } from '../../common/types';
 export interface EcdfPlotRow extends SeriesRow {
+  /** 原始观测；无序和重复值均有效。 */
   value: number;
-  /** 累计概率，范围 0–1；同一系列中随 value 非递减。 */
-  cumulativeProbability: number;
 }
 export interface EcdfPlotSpec extends BaseSpec {
   type: 'ecdfPlot';

@@ -15,24 +15,18 @@ describe('distributions', () => {
     expect(values.map(row => row.height)).toEqual([0.2, 0.3]);
     expect(values.reduce((area, row) => area + row.height * 2, 0)).toBe(1);
   });
-  it('ECDF 保持右连续阶梯并拒绝重复采样位置', () => {
+  it('ECDF 从原始重复观测计算右连续阶梯', () => {
     const native = compileStatPlot({
       type: 'ecdfPlot',
-      data: [
-        { value: 1, cumulativeProbability: 0.5 },
-        { value: 2, cumulativeProbability: 1 }
-      ]
+      data: [{ value: 1 }, { value: 2 }]
     });
     expect((native.series![0] as ILineSeriesSpec).line?.style?.curveType).toBe('stepAfter');
     expect(
       validateStatPlot({
         type: 'ecdfPlot',
-        data: [
-          { value: 1, cumulativeProbability: 0.5 },
-          { value: 1, cumulativeProbability: 1 }
-        ]
+        data: [{ value: 1 }, { value: 1 }]
       }).valid
-    ).toBe(false);
+    ).toBe(true);
   });
   it('箱线次序明确，异常点不能改变须端点', () => {
     const spec: BoxPlotSpec = {

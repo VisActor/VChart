@@ -46,8 +46,8 @@
 | `countPlot` | `normalization` → `statistic`，`count/proportion` 枚举保留；新增 fieldLabels.proportion | category/count/series；输入始终是计数，statistic 选择显示统计量，默认 count |
 | `missingValueMatrix` | `data[].observation` → `observationId`；`missing` → `isMissing` | variable；id 表示观测，不是单元格唯一键；重复键仍是观测与变量组合 |
 | `histogram`             | `normalization` → `statistic`；枚举 probability → proportion                            | count/density 保留；默认 count；当前使用原始 value 和可选 binning.binCount，旧 binStart/binEnd/count/series 直接拒绝                                           |
-| `kdePlot` | 无专属更名 | value/density、estimation.kernel/bandwidth；仅展示外部一维 KDE，不把 bandwidth 变成计算开关 |
-| `ecdfPlot` | `data[].probability` → `cumulativeProbability` | value；明确输入是累计概率，不是区间概率质量 |
+| `kdePlot` | data 仅接收原始 value / series；拒绝旧 density | estimation.kernel / bandwidth 真正参与估计；bandwidth 为正数或 scott / silverman，sampling.points 控制绘制精度 |
+| `ecdfPlot` | data 仅接收原始 value / series；拒绝 probability / cumulativeProbability | 重复值分别计入，库内生成右连续累计概率及真实跳点 |
 | `boxPlot` | `whiskerLow/whiskerHigh` → `whiskerLower/whiskerUpper` | category/q1/median/q3/outliers、whiskerRule；与 lower/upper 上下界用语一致 |
 | `violinPlot` | `widthScale` → `densityNormalization`，枚举 width/area 保留 | category/value/density；控制密度轮廓归一化，默认 width，不表示像素宽度 |
 | `stripPlot` | `jitter` → `jitterRatio` | layout=strip/jitter/swarm；jitterRatio 是最大偏移与完整分类带宽的比，0–0.5，默认 0.3，仅 jitter 布局可用 |
