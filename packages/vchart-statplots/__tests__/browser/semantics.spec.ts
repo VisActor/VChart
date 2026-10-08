@@ -159,7 +159,7 @@ test('pair plot brush links observation ids across panels with different positio
   await page.evaluate(() => (window as any).chart.release());
   await expect(page.locator('canvas')).toHaveCount(0);
 });
-test('interval caps and diverging legend have the promised geometry', async ({ page }) => {
+test('interval caps and diverging colorbar have the promised geometry', async ({ page }) => {
   await render(page, fixture('pointIntervalPlot'));
   const caps = (await marks(page)).find((s: any) => s.id === 'caps').marks.filter((m: any) => m.name === 'point');
   expect(caps).toHaveLength(4);
@@ -170,14 +170,17 @@ test('interval caps and diverging legend have the promised geometry', async ({ p
   await render(page, fixture('correlationMatrix'));
   expect(
     await page.evaluate(() => {
-      const legend = (window as any).chart
+      return (window as any).chart
         .getChart()
-        .getAllComponents()
-        .find((c: any) => c.type === 'colorLegend')
-        .getVRenderComponents()[0];
-      return [legend.attribute.min, legend.attribute.max];
+        .getAllMarks()
+        .filter((mark: any) => mark.name === 'correlation-colorbar-tick')
+        .flatMap((mark: any) =>
+          mark.getGraphics().map((g: any) => ({ text: g.attribute.text, y: g.globalAABBBounds.y1 }))
+        )
+        .sort((a: any, b: any) => a.y - b.y)
+        .map((tick: any) => tick.text);
     })
-  ).toEqual([-1, 1]);
+  ).toEqual(['1', '0.5', '0', '−0.5', '−1']);
 });
 test('violin tooltip describes the density group and legend filters entire groups', async ({ page }) => {
   await render(page, fixture('violinPlot'));

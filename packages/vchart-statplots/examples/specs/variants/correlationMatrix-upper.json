@@ -1,0 +1,53 @@
+{
+  "type": "correlationMatrix",
+  "title": "相关矩阵：上三角与 NA",
+  "method": "pearson",
+  "triangle": "upper",
+  "data": [
+    {
+      "row": "年龄",
+      "column": "年龄",
+      "correlation": 1
+    },
+    {
+      "row": "年龄",
+      "column": "收入",
+      "correlation": 0.42
+    },
+    {
+      "row": "年龄",
+      "column": "常量",
+      "correlation": null
+    },
+    {
+      "row": "收入",
+      "column": "年龄",
+      "correlation": 0.42
+    },
+    {
+      "row": "收入",
+      "column": "收入",
+      "correlation": 1
+    },
+    {
+      "row": "收入",
+      "column": "常量",
+      "correlation": null
+    },
+    {
+      "row": "常量",
+      "column": "年龄",
+      "correlation": null
+    },
+    {
+      "row": "常量",
+      "column": "收入",
+      "correlation": null
+    },
+    {
+      "row": "常量",
+      "column": "常量",
+      "correlation": null
+    }
+  ]
+}
