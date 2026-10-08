@@ -34,7 +34,7 @@
 | `estimateInterval` | `pointIntervalPlot` | 点估计区间图 | 原名容易被理解为“估计区间”的计算操作；新名表达点与区间，不能统称置信区间图。 |
 | `paired` | `pairedComparisonPlot` | 配对比较图 | 明确同一对象两个状态的比较；与多变量的 `pairPlot` 拉开区别。 |
 | `scatter` | `scatterPlot` | 散点图 | 补齐完整术语；拟合曲线可选，主名称不应暗示一定有拟合。 |
-| `hexbin` | `hexbinPlot` | 六边形分箱图 | 区分分箱操作与图表；当前接收预计算六边形顶点和计数。 |
+| `hexbin` | `hexbinPlot` | 六边形分箱图 | 区分分箱操作与图表；接收原始 x/y 散点和分箱分辨率。 |
 | `correlationMatrix` | 保留 | 相关矩阵图 | 明确且通用；不是任意数值热力图或缺失状态矩阵。 |
 | `pairPlot` | 保留 | 散点矩阵图 | 对应常见 pair plot；当前为两两散点与对角线直方图。 |
 | `timeSeries` | `timeSeriesPlot` | 时间序列图 | 区分数据类型与图表；区间带属于可选能力。 |

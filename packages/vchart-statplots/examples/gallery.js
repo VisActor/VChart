@@ -5,7 +5,10 @@ async function initGallery() {
   const groups = [];
   for (const entry of catalog) {
     let group = groups.find(([name]) => name === entry.group);
-    if (!group) { group = [entry.group, []]; groups.push(group); }
+    if (!group) {
+      group = [entry.group, []];
+      groups.push(group);
+    }
     group[1].push([entry.type, entry.name]);
   }
   const labels = new Map(catalog.map(entry => [entry.type, entry.name]));
@@ -98,7 +101,9 @@ async function initGallery() {
 
   function setLoading(loading) {
     preview.setAttribute('aria-busy', String(loading));
-    controls.forEach(control => { control.disabled = loading; });
+    controls.forEach(control => {
+      control.disabled = loading;
+    });
   }
 
   async function draw(spec, current) {
@@ -119,10 +124,18 @@ async function initGallery() {
       const value = spec.colors?.[control.dataset.colorRole] ?? colorDefaults[control.dataset.colorRole];
       control.value = Array.isArray(value) ? 'custom' : value;
     });
-    status.textContent = `${spec.type} · ${Array.isArray(spec.data) ? spec.data.length + ' 条输入记录' : spec.data.observations.length + ' 条观测'} · ${spec.theme || 'light'}`;
+    status.textContent = `${spec.type} · ${
+      Array.isArray(spec.data) ? spec.data.length + ' 条输入记录' : spec.data.observations.length + ' 条观测'
+    } · ${spec.theme || 'light'}`;
     const entry = catalog.find(item => item.type === spec.type);
     const variant = entry.variants
-      .filter(item => Object.entries(item.options).every(([key, value]) => spec[key] === value))
+      .filter(item =>
+        Object.entries(item.options).every(([key, value]) =>
+          typeof value === 'object'
+            ? Object.entries(value).every(([field, option]) => spec[key]?.[field] === option)
+            : spec[key] === value
+        )
+      )
       .sort((a, b) => Object.keys(b.options).length - Object.keys(a.options).length)[0];
     const displayName = variant?.name ?? entry.name;
     document.getElementById('chart-title').textContent = displayName;
@@ -130,7 +143,9 @@ async function initGallery() {
     document.getElementById('schema').href = `/schema/plots/${spec.type}.schema.json`;
     document.title = `${displayName} · VChart StatPlots`;
     selectLink(spec.type);
-    try { localStorage.setItem(storageKey, spec.type); } catch {}
+    try {
+      localStorage.setItem(storageKey, spec.type);
+    } catch {}
     return true;
   }
 
@@ -186,13 +201,16 @@ async function initGallery() {
   });
   document.getElementById('render').addEventListener('click', () => drawInput());
   document.getElementById('theme').addEventListener('click', () => drawInput(true));
-  colorControls.forEach(control => control.addEventListener('change', () =>
-    drawInput(false, { [control.dataset.colorRole]: control.value })
-  ));
-  document.getElementById('export').addEventListener('click', () => { if (chart) chart.exportImg('png'); });
+  colorControls.forEach(control =>
+    control.addEventListener('change', () => drawInput(false, { [control.dataset.colorRole]: control.value }))
+  );
+  document.getElementById('export').addEventListener('click', () => {
+    if (chart) chart.exportImg('png');
+  });
   window.addEventListener('popstate', () => choose(resolveType(), 'replace'));
   window.addEventListener('beforeunload', () => chart?.release());
   choose(resolveType(), 'replace');
-
 }
-initGallery().catch(error => { document.getElementById('error').textContent = error.message; });
+initGallery().catch(error => {
+  document.getElementById('error').textContent = error.message;
+});

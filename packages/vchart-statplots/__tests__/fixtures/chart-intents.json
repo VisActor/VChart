@@ -208,14 +208,14 @@
     }
   },
   {
-    "prompt": "展示已计算的六边形分箱计数。",
+    "prompt": "把大量原始二维散点按六边形分箱，查看局部观测数量。",
     "expected": {
       "type": "hexbinPlot",
       "options": {}
     }
   },
   {
-    "prompt": "Hexbin plot",
+    "prompt": "Hexbin plot of raw x/y observations",
     "expected": {
       "type": "hexbinPlot",
       "options": {}

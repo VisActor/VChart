@@ -77,7 +77,7 @@ test('hexbin preserves all six vertices through resize', async ({ page }) => {
       }, size);
     }
     const polygons = (await marks(page))[0].marks.filter((m: any) => m.type === 'polygon');
-    expect(polygons).toHaveLength(spec.data.length);
+    expect(polygons.reduce((sum: number, polygon: any) => sum + polygon.datum.count, 0)).toBe(spec.data.length);
     for (const polygon of polygons) {
       expect(polygon.points).toHaveLength(6);
       expect(polygon.points.every((p: any) => Number.isFinite(p.x) && Number.isFinite(p.y))).toBe(true);

@@ -15,7 +15,7 @@
 | [点估计区间图](plots/pointIntervalPlot.md) | `pointIntervalPlot` | 比较各组点估计与已经计算的区间。 |
 | [配对比较图](plots/pairedComparisonPlot.md) | `pairedComparisonPlot` | 比较同一对象干预前后的两次观测。 |
 | [散点图](plots/scatterPlot.md) | `scatterPlot` | 查看两个数值变量的关系。 |
-| [六边形分箱图](plots/hexbinPlot.md) | `hexbinPlot` | 展示已计算的六边形分箱计数。 |
+| [六边形分箱图](plots/hexbinPlot.md) | `hexbinPlot` | 汇总大量二维散点的局部分布，颜色表示每个六边形箱内的观测数。 |
 | [相关矩阵图](plots/correlationMatrix.md) | `correlationMatrix` | 比较多个变量的相关方向和强度。 |
 | [散点矩阵图](plots/pairPlot.md) | `pairPlot` | 同时查看多个变量两两关系及对角分布。 |
 | [时间序列图](plots/timeSeriesPlot.md) | `timeSeriesPlot` | 查看随时间变化的数值及已有区间。 |

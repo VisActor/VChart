@@ -5,6 +5,7 @@ import { registerViolinSeries } from './series/violin/violin';
 import { registerMissingnessSeries } from './series/missingness/missingness';
 import { registerCustomMark } from '@visactor/vchart';
 import { registerCorrelationMatrixLayout } from './layout/correlation-matrix';
+import { registerHexbinLayout } from './layout/hexbin';
 
 let registered = false;
 /** 应用启动时调用；专用系列、布局与装饰在这里统一注册。 */
@@ -18,6 +19,7 @@ export function registerStatPlots(): void {
   registerHexbinSeries();
   registerMissingnessSeries();
   registerCorrelationMatrixLayout();
+  registerHexbinLayout();
   registerCustomMark();
   registered = true;
 }

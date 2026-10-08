@@ -297,13 +297,42 @@
       "六边形分箱图",
       "hexbin"
     ],
-    "useWhen": "展示已计算的六边形分箱计数。",
+    "useWhen": "汇总大量二维散点的局部分布，颜色表示每个六边形箱内的观测数。",
     "avoidWhen": [
-      "只有原始散点，没有六边形顶点与计数"
+      "需要识别或交互查看单个观测，应使用 scatterPlot",
+      "坐标轴为类别而非数值",
+      "需要权重、sum/mean 等其他聚合统计"
     ],
     "schema": "schema/plots/hexbinPlot.schema.json",
     "example": "examples/specs/minimal/hexbinPlot.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "粗分箱六边形图",
+        "aliases": [
+          "粗 hexbin",
+          "Coarse hexbin"
+        ],
+        "options": {
+          "binning": {
+            "xBins": 8
+          }
+        },
+        "example": "examples/specs/variants/hexbinPlot-coarse.json"
+      },
+      {
+        "name": "细分箱六边形图",
+        "aliases": [
+          "细 hexbin",
+          "Fine hexbin"
+        ],
+        "options": {
+          "binning": {
+            "xBins": 50
+          }
+        },
+        "example": "examples/specs/variants/hexbinPlot-fine.json"
+      }
+    ]
   },
   {
     "type": "correlationMatrix",

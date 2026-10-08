@@ -1,52 +1,45 @@
-import type { IScatterSeriesSpec } from '@visactor/vchart';
+import type { IScatterSeriesSpec, ILayoutSpec } from '@visactor/vchart';
 import type { HexbinPlotSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { numberAxis } from '../../common/axes';
 import { points } from '../../common/marks';
 import { continuousColorScale } from '../../common/colors';
+import { binHexagons } from './binning';
+import type { HexbinLayoutSpec } from '../../layout/hexbin';
+
 export function compileHexbin(spec: HexbinPlotSpec) {
-  const vertices = spec.data.flatMap(row => row.vertices);
-  const range = (axis: 'x' | 'y') =>
-    vertices.reduce(([min, max], v) => [Math.min(min, v[axis]), Math.max(max, v[axis])], [Infinity, -Infinity]);
-  const [xMin, xMax] = range('x'),
-    [yMin, yMax] = range('y');
-  const values = spec.data.map(row => ({
-    ...row,
-    vertices: row.vertices.map(v => ({ ...v })),
-    xMin: Math.min(...row.vertices.map(v => v.x)),
-    xMax: Math.max(...row.vertices.map(v => v.x)),
-    yMin: Math.min(...row.vertices.map(v => v.y)),
-    yMax: Math.max(...row.vertices.map(v => v.y)),
-    x: row.vertices.reduce((sum, v) => sum + v.x, 0) / 6,
-    y: row.vertices.reduce((sum, v) => sum + v.y, 0) / 6
-  }));
-  const series = points('bins', values, 'x', 'y', ['id', 'count', 'xMin', 'xMax', 'yMin', 'yMax'], spec.fieldLabels);
+  const result = binHexagons(spec.data, spec.binning?.xBins ?? 30);
+  const xLabel = spec.fieldLabels?.x ?? 'x',
+    yLabel = spec.fieldLabels?.y ?? 'y';
+  const series = points('bins', result.bins, 'x', 'y', ['count', 'xMin', 'xMax', 'yMin', 'yMax'], {
+    count: spec.fieldLabels?.count ?? '计数',
+    xMin: `${xLabel}包围盒下界`,
+    xMax: `${xLabel}包围盒上界`,
+    yMin: `${yLabel}包围盒下界`,
+    yMax: `${yLabel}包围盒上界`
+  });
   series.type = 'statplotsHexbin' as IScatterSeriesSpec['type'];
   const chart = commonChart(
     spec,
     [series],
     [
-      {
-        ...numberAxis('bottom', spec.fieldLabels?.x ?? 'x'),
-        ...(vertices.length ? { min: xMin, max: xMax, nice: false } : {})
-      },
-      {
-        ...numberAxis('left', spec.fieldLabels?.y ?? 'y'),
-        ...(vertices.length ? { min: yMin, max: yMax, nice: false } : {})
-      }
+      { ...numberAxis('bottom', xLabel), min: result.xDomain[0], max: result.xDomain[1], nice: false },
+      { ...numberAxis('left', yLabel), min: result.yDomain[0], max: result.yDomain[1], nice: false }
     ]
   );
+  const layout: HexbinLayoutSpec = { type: 'statplotsHexbin', normalizedAspect: result.normalizedAspect };
+  chart.layout = layout as unknown as ILayoutSpec;
   chart.scales = [
     continuousColorScale(
       spec,
       'sequential',
       'hex-count',
       0,
-      spec.data.reduce((max, row) => Math.max(max, row.count), 1)
+      result.bins.reduce((max, bin) => Math.max(max, bin.count), 1)
     )
   ];
   chart.legends = {
-    visible: true,
+    visible: result.bins.length > 0,
     type: 'color',
     scale: 'hex-count',
     filter: false,

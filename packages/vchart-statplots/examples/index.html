@@ -1,23 +1,29 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>VChart StatPlots · 数据科学图表</title>
-    <link rel="stylesheet" href="./gallery.css">
+    <link rel="stylesheet" href="./gallery.css" />
   </head>
   <body>
     <header class="page-header">
       <h1>VChart StatPlots</h1>
-      <p>28 类统计图 · 语义 JSON · 可解释的预计算结果</p>
+      <p>28 类统计图 · 语义 JSON · 数据科学可视化</p>
     </header>
     <main>
       <nav id="chart-nav" aria-label="图表类型">
-        <div class="nav-heading"><h2>图表类型</h2><span>28</span></div>
+        <div class="nav-heading">
+          <h2>图表类型</h2>
+          <span>28</span>
+        </div>
       </nav>
       <div class="workspace">
         <section class="preview" aria-labelledby="chart-title" aria-busy="true">
-          <div class="preview-heading"><h2 id="chart-title">图表预览</h2><code id="chart-type"></code></div>
+          <div class="preview-heading">
+            <h2 id="chart-title">图表预览</h2>
+            <code id="chart-type"></code>
+          </div>
           <div id="plot"></div>
           <p class="note" id="status" role="status"></p>
         </section>

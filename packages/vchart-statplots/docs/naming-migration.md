@@ -54,7 +54,7 @@
 | `pointIntervalPlot` | `reference` → `referenceLine` | estimate/lower/upper、interval、valueScale、referenceLine.value/label；valueScale 控制数值轴，不固定为 xScale |
 | `pairedComparisonPlot` | `categories` → `categoryOrder`，仍为两个不同字符串的元组 | id/category/value；显式顺序，不引入额外的 before/after 数据结构 |
 | `scatterPlot` | 无专属更名 | x/y/id/series、fit.method/data/interval、拟合行 estimate/lower/upper；fit 内必须有预计算结果 |
-| `hexbinPlot` | 无专属更名 | id/count/vertices[].x/y；顶点数与几何约束保留 |
+| `hexbinPlot` | 无专属更名 | 原始 x/y + binning.xBins；旧 id/count/vertices 输入移除，见逐图迁移说明 |
 | `correlationMatrix` | `data[].value` → `correlation`；`order` → `variableOrder` | row/column、method、triangle；variableOrder 精确覆盖变量，triangle 仅改变显示 |
 | `pairPlot` | 无专属更名 | variables 是按显示顺序排列的变量选择；observations/diagonal/bins 含义明确，不改成通用 datasets |
 | `timeSeriesPlot` | 无专属更名 | time/value/lower/upper、interval；time 为带时区 ISO 8601，null 明确断线 |

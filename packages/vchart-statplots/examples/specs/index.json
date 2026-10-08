@@ -144,8 +144,8 @@
       "type": "hexbinPlot",
       "variant": "minimal",
       "file": "minimal/hexbinPlot.json",
-      "documentation": "../../docs/plots/hexbin.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点；本包计算六边形分箱计数，xBins 默认 30"
     },
     {
       "type": "histogram",
@@ -462,6 +462,34 @@
       "type": "confusionMatrix",
       "variant": "actual",
       "file": "variants/confusionMatrix-actual.json"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "coarse",
+      "file": "variants/hexbinPlot-coarse.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "fine",
+      "file": "variants/hexbinPlot-fine.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "constant",
+      "file": "variants/hexbinPlot-constant.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "different-units",
+      "file": "variants/hexbinPlot-different-units.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
     }
   ],
   "invalid": [
@@ -539,8 +567,8 @@
       "type": "hexbinPlot",
       "file": "invalid/hexbinPlot.json",
       "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "path": "/binning/xBins",
+      "reason": "xBins 必须为 1–200 的整数"
     },
     {
       "type": "histogram",

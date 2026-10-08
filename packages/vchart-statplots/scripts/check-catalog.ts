@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import assert from 'assert';
+import { isDeepStrictEqual } from 'util';
 import { validateStatPlot } from '../src/validate';
 import { compileStatPlot } from '../src/compile';
 import type { StatPlotSpec } from '../src/types';
@@ -8,7 +9,7 @@ import type { StatPlotSpec } from '../src/types';
 interface CatalogVariant {
   name: string;
   aliases: string[];
-  options: Record<string, string | number | boolean>;
+  options: Record<string, string | number | boolean | Record<string, string | number | boolean>>;
   example: string;
 }
 interface CatalogEntry {
@@ -36,7 +37,7 @@ const byType = new Map(catalog.map(entry => [entry.type, entry]));
 function checkExample(file: string, type: string, options: CatalogVariant['options'] = {}) {
   const spec = read(file);
   assert.strictEqual(spec.type, type, file);
-  for (const [key, value] of Object.entries(options)) assert.strictEqual(spec[key], value, `${file}: ${key}`);
+  for (const [key, value] of Object.entries(options)) assert.deepStrictEqual(spec[key], value, `${file}: ${key}`);
   const result = validateStatPlot(spec);
   assert(result.valid, `${file}: ${JSON.stringify(result.errors)}`);
   compileStatPlot(spec);
@@ -80,7 +81,7 @@ for (const item of intents) {
   assert(entry, item.prompt);
   const variants = [{ options: {}, example: entry.example }, ...entry.variants];
   const variant = variants.find(candidate =>
-    Object.entries(item.expected!.options).every(([key, value]) => candidate.options[key] === value)
+    Object.entries(item.expected!.options).every(([key, value]) => isDeepStrictEqual(candidate.options[key], value))
   );
   assert(variant, `${item.prompt}: 未声明的变体选项`);
   const spec = { ...read(variant.example), ...item.expected.options };
