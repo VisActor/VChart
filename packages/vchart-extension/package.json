@@ -31,9 +31,9 @@
     "@visactor/vrender-components": "1.1.11",
     "@visactor/vrender-animate": "1.1.11",
     "@visactor/vchart": "workspace:2.1.7",
-    "@visactor/vutils": "~1.0.24",
-    "@visactor/vdataset": "~1.0.24",
-    "@visactor/vlayouts": "~1.0.24"
+    "@visactor/vutils": "~1.0.25",
+    "@visactor/vdataset": "~1.0.25",
+    "@visactor/vlayouts": "~1.0.25"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

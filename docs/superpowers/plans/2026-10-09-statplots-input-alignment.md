@@ -8,7 +8,7 @@
 
 **Tech Stack:** TypeScript 4.9.5、VChart、vutils、JSON Schema/AJV、Jest、Playwright；Node.js 22。Python 只用于离线对照，不参与运行。
 
-**状态：** 五类改造和本地源码联调完成；发布依赖与 PR 前全量原生视觉验收未完成。用户已选择 pointIntervalPlot 保留原始样本和外部估计两种用途。
+**状态：** 五类改造完成，正式 vutils 1.0.25 依赖、锁文件及发布包隔离验收完成；官方全量原生视觉已执行，基线断言失败，完整比较仍受阻。用户已选择 pointIntervalPlot 保留原始样本和外部估计两种用途。
 
 ## 一、范围与方案选择
 
@@ -331,7 +331,7 @@ expect(correlation([1, 1], [1, 2])).toBeUndefined();
 - [x] 相关矩阵各算法保持正确复杂度，bootstrap 的 mean 为 O(BN)、median 为 O(BN log N)，必须记录默认参数成本。若默认规模不可用，先依据测量重新审查参数，不引入静默抽样。
 - [x] 新增确定性视觉/交互用例并登记显式清单，截图稳定性重复五轮、审查反例；原生相关目录按实际影响执行。修改公共渲染/布局/状态路径时扩大范围，不确定时全量。
 - [ ] 创建 PR 前按仓库规范执行官方 develop 基线的全量原生视觉回归，审查 HTML/agent-summary.md；阻断与执行错误如实记录，self-compare 不替代基线，不跳过用例或放宽阈值。
-- [ ] 完成 vutils 真实发版与消费者依赖/锁文件更新后，从已发布包进行隔离安装和构建，才能标记发布准备完成。未发版时只记录本地联调完成。
+- [x] vutils 1.0.25 已由用户发布；消费者依赖下限与 Rush 锁文件已更新。npm 隔离安装、根入口运行/类型、配套消费者构建及 CJS/ESM/UMD 打包验收通过，已清理临时源码链接。
 
 从仓库根目录执行：
 
@@ -370,4 +370,8 @@ npm run build --prefix packages/vutils
 
 功能测试集中到 input-alignment.test.ts、input-alignment-python.test.ts 和 input-alignment.spec.ts，保留既有矩阵测试；性能集中到 input-alignment-performance.spec.ts。595 项 StatPlots 单元、254 项 VUtil 联调测试、315 项浏览器覆盖（全量加修正后的定向复验）、Schema/示例/目录/构建/类型验证完成。最终构建后再次执行新入口与配色浏览器验证，16 项通过。
 
-失败原因、测量成本、截图稳定性、官方原生 heatmap 范围和源码联调工作树见 packages/vchart-statplots/docs/validation.md。本轮整理后本地提交；不发布或创建 PR。真实上游发版、依赖/锁文件更新和发布包隔离构建仍为发布前置条件；PR 前全量原生视觉比较仍待执行。本轮相关目录 1/1 无差异，不将其写成全量通过。
+失败原因、测量成本、截图稳定性、官方原生 heatmap 范围和源码联调工作树见 packages/vchart-statplots/docs/validation.md。本轮整理后本地提交；不发布或创建 PR。本阶段当时仍等待真实上游发版、依赖/锁文件更新与发布包隔离构建；这些依赖前置项随后由 1.0.25 完成，见下文补充。PR 前全量原生视觉的完整比较仍受基线阻断。本轮相关目录 1/1 无差异，不将其写成全量通过。
+
+### 正式依赖验收补充（2026-10-09）
+
+此前上游发版、依赖/锁文件更新与隔离构建前置项已由真实 npm 1.0.25 完成。仓库 8 个消费者的 14 处直接依赖同步更新，完整所选构建、595 项单元、315 项浏览器和契约检查通过。官方全量原生比较已实际执行，仍因 develop 上 4 项基线行为断言失败而受阻；同一冻结套件的 current 补跑为 255 项无差异、1 项既有主题差异、4 项缺失基线截图。不得将执行过全量等同于完整比较通过。最新浏览器结果和证据见 packages/vchart-statplots/docs/validation.md。

@@ -77,10 +77,8 @@ npm run eslint --prefix packages/vchart-statplots
 
 统计图需要原始统计意义正确的输入；Schema 只能保证结构，跨字段规则由 `validateStatPlot` 补充。输入不修改，编译后的 series/data ID 和辅助字段不构成公共承诺。更新应重新编译完整语义 spec。
 
-## Q–Q / ACF 的上游依赖
+## 统计工具依赖
 
-本次使用 vutils 根入口的公共 `normalQuantile`。npm 已发布的 1.0.24 尚无此 API；需要先发布 VUtil 的公共导出，再同步这里的 dependencies 和 Rush 锁文件，才可发布本包。目前 package.json 保留已存在的版本范围，不能把 fresh install 视为已验证。
+本包使用 `@visactor/vutils ~1.0.25` 根入口的公共 `normalQuantile`、`mean`、`correlation` 和 `bootstrapEstimate`。这些 API 已包含在 npm 发布的 `1.0.25` 中；仓库依赖和 Rush 锁文件已同步。执行标准 Rush 安装即可使用，无需本地 VUtil 开发链接。
 
-本地联调：在相邻 VUtil 中构建 packages/vutils（本地开发版本 `1.0.24-dev.normal-quantile` 避免 TypeScript 把类型重定向到同版本的旧安装包），然后在 StatPlots 包目录执行 `node ../../common/scripts/install-run-rush-pnpm.js link /绝对路径/VUtil/packages/vutils`。链接不替代发版依赖。详见[验收记录](docs/validation.md)。
-
-新增 mean/correlation/bootstrapEstimate（以及之前的 normalQuantile）依赖配套 vutils 上游改动。当前使用本地 VUtil 联调；发布前须先发布包含这些 API 的真实版本，更新依赖下限和 Rush 锁文件，并从发布包隔离安装验证。现有 ~1.0.24 不能视为发布验收完成。
+已发布依赖的隔离安装、类型、构建与回归结果见[验收记录](docs/validation.md)。这项升级解决统计工具的依赖阻断；VChart 核心改动及其他发布要求仍须按验收记录核对。
