@@ -5,14 +5,28 @@
       "type": "string",
       "const": "missingValueMatrix"
     },
-    "data": {
+    "variables": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/MissingValueMatrixRow"
+        "type": "string"
       }
     },
+    "data": {
+      "type": "object",
+      "properties": {
+        "observations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TableObservation"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "observations"
+      ]
+    },
     "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
       "type": "object",
       "properties": {
         "observationId": {
@@ -47,30 +61,36 @@
   "additionalProperties": false,
   "required": [
     "data",
-    "type"
+    "type",
+    "variables"
   ],
   "definitions": {
-    "MissingValueMatrixRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+    "TableObservation": {
       "type": "object",
       "properties": {
-        "observationId": {
-          "description": "观测标识；与 variable 组合唯一，不是单元格唯一编号。",
+        "id": {
           "type": "string"
         },
-        "variable": {
-          "type": "string"
-        },
-        "isMissing": {
-          "description": "该观测的该变量是否缺失；true 表示缺失。",
-          "type": "boolean"
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ObservationValue"
+          }
         }
       },
       "additionalProperties": false,
       "required": [
-        "isMissing",
-        "observationId",
-        "variable"
+        "id",
+        "values"
+      ]
+    },
+    "ObservationValue": {
+      "description": "JSON 原始单元格；null 是唯一缺失标记。",
+      "type": [
+        "null",
+        "string",
+        "number",
+        "boolean"
       ]
     },
     "StatPlotColors": {

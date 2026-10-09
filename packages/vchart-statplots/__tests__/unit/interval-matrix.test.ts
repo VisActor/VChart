@@ -5,6 +5,7 @@ import type { PointIntervalPlotSpec, CorrelationMatrixSpec } from '../../src/typ
 describe('interval-matrix', () => {
   const spec: PointIntervalPlotSpec = {
     type: 'pointIntervalPlot',
+    input: 'estimates',
     interval: { kind: 'confidence', level: 0.95 },
     data: [{ category: 'A', estimate: 0, lower: 1, upper: 2 }]
   };
@@ -21,15 +22,16 @@ describe('interval-matrix', () => {
     const matrix: CorrelationMatrixSpec = {
       type: 'correlationMatrix',
       method: 'pearson',
-      data: [
-        { row: 'A', column: 'A', correlation: 1 },
-        { row: 'A', column: 'B', correlation: null },
-        { row: 'B', column: 'A', correlation: null },
-        { row: 'B', column: 'B', correlation: null }
-      ]
+      variables: ['A', 'B'],
+      data: {
+        observations: [
+          { id: '1', values: { A: 1, B: null } },
+          { id: '2', values: { A: 2, B: null } }
+        ]
+      }
     };
     expect(validateStatPlot(matrix).valid).toBe(true);
-    expect(validateStatPlot({ ...matrix, data: matrix.data.slice(0, 3) }).valid).toBe(false);
+    expect(validateStatPlot({ ...matrix, data: { observations: [{ id: '1', values: { A: 1 } }] } }).valid).toBe(false);
     const native = compileStatPlot(matrix);
     const domain = native.scales![0].domain as number[];
     expect([domain[0], domain[(domain.length - 1) / 2], domain[domain.length - 1]]).toEqual([-1, 0, 1]);

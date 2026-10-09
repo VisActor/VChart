@@ -100,7 +100,7 @@ export function validateStatPlot(input: unknown): ValidationResult {
         const property =
           error.params.missingProperty ??
           error.params.additionalProperty ??
-          (error.keyword === 'discriminator' ? 'type' : undefined);
+          (error.keyword === 'discriminator' ? error.params.tag : undefined);
         return {
           code: 'SCHEMA_ERROR' as const,
           path:

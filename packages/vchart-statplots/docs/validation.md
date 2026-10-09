@@ -1,5 +1,27 @@
 # 实现与验收记录
 
+## 表格与模型结果入口优化（2026-10-09）
+
+五类改造已完成：missingValueMatrix/correlationMatrix 接收 variables/data.observations；pointIntervalPlot、residualPlot、learningCurve 分别以 input 区分样本/外部估计、预测/外部残差、各折/汇总。统计在 compile 执行一次，不进入 resize/hover；类型、生成 Schema、目录、示例与中文迁移文档同步。
+
+- StatPlots：32 套、595 项单元测试通过；含 21 组固定 Python 对照及模式、null、配对、ties、单样本、冻结/置换输入、误差区间和模型结果反例。
+- VUtil 联调：50 套、254 项测试与类型/构建通过；通用 mean、correlation、bootstrapEstimate 从包根导出。tau-b 对照独立逐对计数，修正对角浮点端点问题。
+- Chromium：全量 315 项中 312 项首次通过；三处旧测试数据/选择器迁移后定向复验全部通过。它们分别为旧系数输入、图库固定旧标签数值、矩阵空数据 helper。未跳过用例或放宽数值、像素、交互断言。另有一轮被并行原生构建清理产物打断的测试，不计为通过。
+- 新输入交互清单位于 input-alignment.spec.ts：五类真实 Tooltip、结果进入图元、同实例 update/resize、空态往返、release；另外验证点/区间/端帽及学习曲线/带的图例联动、三类输入模式切换。此前图例仅筛选估计点/得分曲线的问题通过标准 seriesId 绑定全部对应系列修复。
+- 六个新增有效变体显式登记 examples/specs/index.json 和 docs/plot-catalog.json。28 主例、105 有效变体、28 无效例、89 条目录意图按契约通过。
+- 五类更新/resize 后截图各连续五轮字节一致，已审阅面积、区间端帽、NA、原始残差及缺失网格。实际行为反例包括原有图例单系列绑定（新测试会失败）和旧 Kendall 运算顺序（Python/严格端点断言会失败）。本包截图稳定性不冒充官方基线比较。
+- 原生视觉执行 `--dir charts/heatmap`：官方 develop d169be9f3d63ed1e998dead9711dac5fb5af91fc 基线比较 1/1 passed、无差异；其余 259 项未执行。本轮未改 VChart 核心，未创建 PR；创建 PR 前仍须全量原生基线回归。报告 `.vchart-visual/runs/1791518893009-0ebccedf/agent-summary.md`。
+
+性能见 [测量记录](../benchmarks/input-alignment-results.json)：10k/100k 输入、相关矩阵 4/16 变量与三种算法、100/1000 次 bootstrap、缺失矩阵实际 10k/100k 单元格、残差实际 10k/100k 散点、学习曲线 10/100 规模 ×5/10 折 ×1/10 模型及 20 图表页面。resize 数据不变，release 后 canvas=0。单次测量不作为 SLA；100k 默认均值 bootstrap 约 1.8 秒，选择中位数时约 12.6 秒；100k ×16 的秩相关约 6–8 秒，文档明确同步统计成本及参数选择。
+
+证据保留于 `.vchart-statplots/input-alignment/`；Python fixture 固定版本与解释器写入 input-alignment-python.json。最终 ESM/CJS/UMD 构建后，新入口与配色浏览器验证再次 16 项通过；ESLint 0 errors、888 warnings，主要为既有及测试 any/非空断言警告。
+
+### 本地依赖与发布边界
+
+另一任务切换 VUtil 分支后，本轮改用 `.vchart-statplots/vutils-input-alignment` 中的 detached 联调 worktree（fb6a7f5 + 本轮三项通用工具），保留既有 normalQuantile；消费者开发链接指向该 package，版本为 1.0.24-dev.input-alignment，避免 TypeScript 将不同本地内容视为同一个旧包。未覆盖另一任务的分支或源码，也未把通用算法复制到 StatPlots。工作树需保留到真实依赖版本可用。
+
+这仅证明本地源码联调完成。现有 ~1.0.24 缺少这些 API，发布前仍须先发布包含 normalQuantile/mean/correlation/bootstrapEstimate 的真实 vutils 版本，更新消费者依赖下限与 Rush 锁文件，并从发布包隔离安装构建。本轮提交包含源码、测试与文档；没有发布或创建 PR。配套统计工具已在 VUtil 提交为 `28621a3`，当前联调源码与其一致。
+
 日期：2026-09-29。分支：`codex/vchart-statplots`。环境：macOS arm64、Node 22.23.3、TypeScript 4.9.5、Playwright 1.63.0 / Chromium；VChart 和新包源码版本均为 2.1.7。
 
 ## 已实现范围

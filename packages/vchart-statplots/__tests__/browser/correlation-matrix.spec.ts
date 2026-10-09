@@ -3,7 +3,7 @@ import type { Page } from '@playwright/test';
 import path from 'path';
 import fs from 'fs';
 import type { CorrelationMatrixSpec } from '../../src/types';
-import { names, correlationExample as example, denseCorrelation } from '../fixtures/correlation-matrix';
+import { names, coefficients, correlationExample as example, denseCorrelation } from '../fixtures/correlation-matrix';
 const outputDir = path.resolve(__dirname, '../../../../.vchart-statplots/correlation-matrix');
 type Bounds = { x1: number; x2: number; y1: number; y2: number };
 type Cell = {
@@ -177,7 +177,7 @@ test('triangles, ordering, themes and resize keep one shared square grid', async
   for (const theme of ['light', 'dark'] as const) {
     for (const triangle of ['full', 'lower', 'upper'] as const) {
       const variables = triangle === 'upper' ? names.slice().reverse() : names;
-      const spec = { ...example, theme, triangle, variableOrder: variables };
+      const spec = { ...example, theme, triangle, variables };
       await update(page, spec);
       for (const [width, height] of [
         [800, 600],
@@ -192,9 +192,7 @@ test('triangles, ordering, themes and resize keep one shared square grid', async
           const c = variables.indexOf(cell.column);
           if (triangle === 'lower') expect(r).toBeGreaterThanOrEqual(c);
           if (triangle === 'upper') expect(r).toBeLessThanOrEqual(c);
-          expect(cell.value).toBe(
-            example.data.find(row => row.row === cell.row && row.column === cell.column)!.correlation
-          );
+          expect(cell.value).toBe(coefficients[names.indexOf(cell.row)][names.indexOf(cell.column)]);
         }
         for (const mark of layout.marks) {
           expect(mark.bounds.x2).toBeLessThanOrEqual(width);
@@ -254,14 +252,29 @@ test('single, null, empty and long-label inputs retain geometry and method metad
     await render(page, {
       type: 'correlationMatrix',
       method: 'spearman',
-      data: [{ row: 'A', column: 'A', correlation }]
+      variables: ['A'],
+      data: {
+        observations: [
+          { id: '1', values: { A: correlation === null ? null : 1 } },
+          { id: '2', values: { A: correlation === null ? null : 2 } }
+        ]
+      }
     });
     const layout = await readLayout(page);
     expectMatrix(layout, ['A'], 1);
     expect(layout.cells[0].value).toBe(correlation);
     expect(layout.marks.find(mark => mark.name === 'correlation-colorbar-title')!.text).toBe('Spearman ρ');
   }
-  await render(page, { ...example, method: 'kendall', data: example.data.map(row => ({ ...row, correlation: null })) });
+  await render(page, {
+    ...example,
+    method: 'kendall',
+    data: {
+      observations: example.data.observations.map(row => ({
+        ...row,
+        values: Object.fromEntries(names.map(name => [name, null]))
+      }))
+    }
+  });
   expectMatrix(await readLayout(page), names, 25);
   expect((await readLayout(page)).labels.every(label => label.text === 'NA')).toBe(true);
   const longName = '这是一个用于检查坐标轴截断和占位的很长的中文变量名称';
@@ -272,14 +285,20 @@ test('single, null, empty and long-label inputs retain geometry and method metad
       ...example,
       description: '保留统计方法与完整数据',
       fieldLabels: { row: '行变量', column: '列变量', correlation: '系数' },
-      data: example.data.map(row => ({ ...row, row: longName + row.row, column: longName + row.column }))
+      variables: longNames,
+      data: {
+        observations: example.data.observations.map(row => ({
+          ...row,
+          values: Object.fromEntries(Object.entries(row.values).map(([key, value]) => [longName + key, value]))
+        }))
+      }
     },
     420,
     360
   );
   expectMatrix(await readLayout(page), longNames, 25);
   await page.screenshot({ path: path.join(outputDir, 'long-labels-420.png') });
-  await render(page, { ...example, data: [] });
+  await render(page, { ...example, data: { observations: [] } });
   const empty = await readLayout(page);
   expect(empty.cells).toHaveLength(0);
   expect(empty.marks).toHaveLength(0);

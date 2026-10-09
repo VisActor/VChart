@@ -40,9 +40,6 @@
       "$ref": "#/definitions/CalibrationCurveSpec"
     },
     {
-      "$ref": "#/definitions/RocCurveSpec"
-    },
-    {
       "$ref": "#/definitions/PrecisionRecallCurveSpec"
     },
     {
@@ -80,6 +77,9 @@
     },
     {
       "$ref": "#/definitions/KdePlotSpec"
+    },
+    {
+      "$ref": "#/definitions/RocCurveSpec"
     },
     {
       "$ref": "#/definitions/ViolinPlotSpec"
@@ -593,22 +593,127 @@
         "importance"
       ]
     },
-    "LearningCurveSpec": {
+    "LearningCurveFoldsSpec": {
       "type": "object",
       "properties": {
+        "input": {
+          "type": "string",
+          "const": "folds"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LearningCurveFoldRow"
+          }
+        },
+        "spread": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
         "type": {
           "type": "string",
           "const": "learningCurve"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "trainSize": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "metric",
+        "type"
+      ]
+    },
+    "LearningCurveFoldRow": {
+      "type": "object",
+      "properties": {
+        "trainSize": {
+          "type": "number"
+        },
+        "fold": {
+          "type": "string"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation"
+          ],
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fold",
+        "score",
+        "split",
+        "trainSize"
+      ]
+    },
+    "LearningCurveSummariesSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "summaries"
         },
         "data": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/LearningCurveRow"
           }
-        },
-        "metric": {
-          "description": "外部计算的评价指标名称，例如 Accuracy 或 MSE。",
-          "type": "string"
         },
         "interval": {
           "description": "显示区间的统计含义；数值由计算端提供。",
@@ -669,8 +774,14 @@
             }
           ]
         },
+        "type": {
+          "type": "string",
+          "const": "learningCurve"
+        },
+        "metric": {
+          "type": "string"
+        },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "trainSize": {
@@ -705,20 +816,18 @@
       "additionalProperties": false,
       "required": [
         "data",
+        "input",
         "metric",
         "type"
       ]
     },
     "LearningCurveRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
       "type": "object",
       "properties": {
         "trainSize": {
-          "description": "训练样本数，正整数；不是训练轮次 epoch。",
           "type": "number"
         },
         "split": {
-          "description": "训练集或验证集分数来源。",
           "enum": [
             "train",
             "validation"
@@ -844,30 +953,24 @@
         "value"
       ]
     },
-    "ResidualPlotSpec": {
+    "ResidualPredictionsSpec": {
       "type": "object",
       "properties": {
-        "type": {
+        "input": {
           "type": "string",
-          "const": "residualPlot"
+          "const": "predictions"
         },
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ResidualPlotRow"
+            "$ref": "#/definitions/ResidualPredictionRow"
           }
         },
-        "residualKind": {
-          "description": "外部残差的定义；本配置不重新计算或标准化残差。",
-          "enum": [
-            "raw",
-            "standardized",
-            "studentized"
-          ],
-          "type": "string"
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
         },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "fittedValue": {
@@ -902,19 +1005,106 @@
       "additionalProperties": false,
       "required": [
         "data",
+        "input",
+        "type"
+      ]
+    },
+    "ResidualPredictionRow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "actual": {
+          "type": "number"
+        },
+        "fittedValue": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "actual",
+        "fittedValue",
+        "id"
+      ]
+    },
+    "ResidualResultsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "residuals"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResidualPlotRow"
+          }
+        },
+        "residualKind": {
+          "enum": [
+            "raw",
+            "standardized",
+            "studentized"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
         "residualKind",
         "type"
       ]
     },
     "ResidualPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
         },
         "fittedValue": {
-          "description": "外部模型给出的拟合值，与 residual 对应。",
           "type": "number"
         },
         "residual": {
@@ -2157,14 +2347,28 @@
           "type": "string",
           "const": "missingValueMatrix"
         },
-        "data": {
+        "variables": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/MissingValueMatrixRow"
+            "type": "string"
           }
         },
+        "data": {
+          "type": "object",
+          "properties": {
+            "observations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TableObservation"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "observations"
+          ]
+        },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "observationId": {
@@ -2199,30 +2403,36 @@
       "additionalProperties": false,
       "required": [
         "data",
-        "type"
+        "type",
+        "variables"
       ]
     },
-    "MissingValueMatrixRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+    "TableObservation": {
       "type": "object",
       "properties": {
-        "observationId": {
-          "description": "观测标识；与 variable 组合唯一，不是单元格唯一编号。",
+        "id": {
           "type": "string"
         },
-        "variable": {
-          "type": "string"
-        },
-        "isMissing": {
-          "description": "该观测的该变量是否缺失；true 表示缺失。",
-          "type": "boolean"
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/ObservationValue"
+          }
         }
       },
       "additionalProperties": false,
       "required": [
-        "isMissing",
-        "observationId",
-        "variable"
+        "id",
+        "values"
+      ]
+    },
+    "ObservationValue": {
+      "description": "JSON 原始单元格；null 是唯一缺失标记。",
+      "type": [
+        "null",
+        "string",
+        "number",
+        "boolean"
       ]
     },
     "CountPlotSpec": {
@@ -2408,15 +2618,29 @@
           "type": "string",
           "const": "correlationMatrix"
         },
-        "data": {
-          "description": "完整的对称矩阵；triangle 只影响显示。",
+        "variables": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/CorrelationMatrixRow"
+            "type": "string"
           }
         },
+        "data": {
+          "type": "object",
+          "properties": {
+            "observations": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/NumericObservation"
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "observations"
+          ]
+        },
         "method": {
-          "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+          "description": "默认 pearson；kendall 为 tau-b。",
           "enum": [
             "kendall",
             "pearson",
@@ -2424,8 +2648,12 @@
           ],
           "type": "string"
         },
+        "minSamples": {
+          "description": "最少有效配对数，默认 2。",
+          "type": "integer",
+          "minimum": 2
+        },
         "triangle": {
-          "description": "显示完整矩阵或指定三角，默认 full；输入仍须完整对称。",
           "enum": [
             "full",
             "lower",
@@ -2433,15 +2661,7 @@
           ],
           "type": "string"
         },
-        "variableOrder": {
-          "description": "完整变量显示顺序；每个变量恰好出现一次，默认按数据首次出现排序。",
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "row": {
@@ -2479,32 +2699,30 @@
       "additionalProperties": false,
       "required": [
         "data",
-        "method",
-        "type"
+        "type",
+        "variables"
       ]
     },
-    "CorrelationMatrixRow": {
+    "NumericObservation": {
       "type": "object",
       "properties": {
-        "row": {
+        "id": {
           "type": "string"
         },
-        "column": {
-          "type": "string"
-        },
-        "correlation": {
-          "description": "相关系数，-1 至 1；无法计算时为 null。",
-          "type": [
-            "null",
-            "number"
-          ]
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "null",
+              "number"
+            ]
+          }
         }
       },
       "additionalProperties": false,
       "required": [
-        "column",
-        "correlation",
-        "row"
+        "id",
+        "values"
       ]
     },
     "EcdfPlotSpec": {
@@ -2576,24 +2794,122 @@
         "value"
       ]
     },
-    "PointIntervalPlotSpec": {
+    "PointIntervalObservationsSpec": {
       "type": "object",
       "properties": {
-        "type": {
+        "input": {
           "type": "string",
-          "const": "pointIntervalPlot"
+          "const": "observations"
         },
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PointIntervalPlotRow"
+            "$ref": "#/definitions/PointIntervalObservation"
           }
         },
-        "interval": {
-          "$ref": "#/definitions/Interval"
+        "estimator": {
+          "enum": [
+            "mean",
+            "median"
+          ],
+          "type": "string"
+        },
+        "errorBar": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "confidence"
+                },
+                "level": {
+                  "type": "number"
+                },
+                "resamples": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "percentile"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "standardError"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "standardDeviation"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "const": "pointIntervalPlot"
         },
         "referenceLine": {
-          "description": "显式参考线；数值及统计含义由调用方提供。",
           "type": "object",
           "properties": {
             "value": {
@@ -2609,7 +2925,6 @@
           ]
         },
         "valueScale": {
-          "description": "估计值轴尺度，默认 linear；log 要求估计、区间端点及参考值为正。",
           "enum": [
             "linear",
             "log"
@@ -2617,7 +2932,6 @@
           "type": "string"
         },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "category": {
@@ -2652,6 +2966,108 @@
       "additionalProperties": false,
       "required": [
         "data",
+        "input",
+        "type"
+      ]
+    },
+    "PointIntervalObservation": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string"
+        },
+        "value": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "value"
+      ]
+    },
+    "PointIntervalEstimatesSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "estimates"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PointIntervalPlotRow"
+          }
+        },
+        "interval": {
+          "$ref": "#/definitions/Interval"
+        },
+        "type": {
+          "type": "string",
+          "const": "pointIntervalPlot"
+        },
+        "referenceLine": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number"
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ]
+        },
+        "valueScale": {
+          "enum": [
+            "linear",
+            "log"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "estimate": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
         "interval",
         "type"
       ]
@@ -3046,6 +3462,66 @@
       "required": [
         "category",
         "value"
+      ]
+    },
+    "LearningCurveSpec": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/LearningCurveFoldsSpec"
+        },
+        {
+          "$ref": "#/definitions/LearningCurveSummariesSpec"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "learningCurve"
+        }
+      },
+      "required": [
+        "type",
+        "input"
+      ]
+    },
+    "ResidualPlotSpec": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ResidualPredictionsSpec"
+        },
+        {
+          "$ref": "#/definitions/ResidualResultsSpec"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "residualPlot"
+        }
+      },
+      "required": [
+        "type",
+        "input"
+      ]
+    },
+    "PointIntervalPlotSpec": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/PointIntervalObservationsSpec"
+        },
+        {
+          "$ref": "#/definitions/PointIntervalEstimatesSpec"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "pointIntervalPlot"
+        }
+      },
+      "required": [
+        "type",
+        "input"
       ]
     }
   },

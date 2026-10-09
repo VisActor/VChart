@@ -1,129 +1,100 @@
 {
-  "type": "object",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "learningCurve"
+  "anyOf": [
+    {
+      "$ref": "#/definitions/LearningCurveFoldsSpec"
     },
-    "data": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/LearningCurveRow"
-      }
-    },
-    "metric": {
-      "description": "外部计算的评价指标名称，例如 Accuracy 或 MSE。",
-      "type": "string"
-    },
-    "interval": {
-      "description": "显示区间的统计含义；数值由计算端提供。",
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "confidence",
-                "credible",
-                "prediction"
-              ],
-              "type": "string"
-            },
-            "level": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "level"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "standardDeviation",
-                "standardError"
-              ],
-              "type": "string"
-            },
-            "multiplier": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "multiplier"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "range"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind"
-          ]
-        }
-      ]
-    },
-    "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
-      "type": "object",
-      "properties": {
-        "trainSize": {
-          "type": "string"
-        },
-        "score": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false
-    },
-    "title": {
-      "description": "图表标题。",
-      "type": "string"
-    },
-    "description": {
-      "description": "数据范围或统计方法说明。",
-      "type": "string"
-    },
-    "theme": {
-      "enum": [
-        "dark",
-        "light"
-      ],
-      "type": "string"
-    },
-    "colors": {
-      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
-      "$ref": "#/definitions/StatPlotColors"
+    {
+      "$ref": "#/definitions/LearningCurveSummariesSpec"
     }
-  },
-  "additionalProperties": false,
-  "required": [
-    "data",
-    "metric",
-    "type"
   ],
   "definitions": {
-    "LearningCurveRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+    "LearningCurveFoldsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "folds"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LearningCurveFoldRow"
+          }
+        },
+        "spread": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "const": "learningCurve"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "trainSize": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "metric",
+        "type"
+      ]
+    },
+    "LearningCurveFoldRow": {
       "type": "object",
       "properties": {
         "trainSize": {
-          "description": "训练样本数，正整数；不是训练轮次 epoch。",
           "type": "number"
         },
+        "fold": {
+          "type": "string"
+        },
         "split": {
-          "description": "训练集或验证集分数来源。",
           "enum": [
             "train",
             "validation"
@@ -133,12 +104,6 @@
         "score": {
           "type": "number"
         },
-        "lower": {
-          "type": "number"
-        },
-        "upper": {
-          "type": "number"
-        },
         "series": {
           "description": "同一数据表要么全部提供系列名称，要么全部省略。",
           "type": "string"
@@ -146,6 +111,7 @@
       },
       "additionalProperties": false,
       "required": [
+        "fold",
         "score",
         "split",
         "trainSize"
@@ -215,7 +181,170 @@
         }
       },
       "additionalProperties": false
+    },
+    "LearningCurveSummariesSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "summaries"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LearningCurveRow"
+          }
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "const": "learningCurve"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "trainSize": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "metric",
+        "type"
+      ]
+    },
+    "LearningCurveRow": {
+      "type": "object",
+      "properties": {
+        "trainSize": {
+          "type": "number"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation"
+          ],
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "score",
+        "split",
+        "trainSize"
+      ]
     }
   },
-  "$schema": "http://json-schema.org/draft-07/schema#"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "learningCurve"
+    }
+  },
+  "required": [
+    "type",
+    "input"
+  ]
 }

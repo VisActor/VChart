@@ -7,14 +7,17 @@ const example = JSON.parse(
   fs.readFileSync(path.resolve(__dirname, '../../examples/specs/missingValueMatrix.json'), 'utf8')
 );
 const outputDir = path.resolve(__dirname, '../../../../.vchart-statplots/missingness-layout');
-const makeData = (rows: number, columns: number) =>
-  Array.from({ length: rows }, (_, r) =>
-    Array.from({ length: columns }, (_, c) => ({
-      observationId: String(r + 1),
-      variable: `变量${c + 1}`,
-      isMissing: (r + c) % 7 === 0
+const makeData = (rows: number, columns: number) => ({
+  variables: Array.from({ length: columns }, (_, c) => `变量${c + 1}`),
+  data: {
+    observations: Array.from({ length: rows }, (_, r) => ({
+      id: String(r + 1),
+      values: Object.fromEntries(
+        Array.from({ length: columns }, (_, c) => [`变量${c + 1}`, (r + c) % 7 === 0 ? null : 0])
+      )
     }))
-  ).flat();
+  }
+});
 
 async function readLayout(page: Page) {
   return page.evaluate(() => {
@@ -118,7 +121,7 @@ test('missing-value matrix fills band axes and draws fixed column separators in 
         await (window as any).chart.resize(size[0], size[1]);
       }, size);
       const layout = await readLayout(page);
-      expect(layout.cells).toBe(example.data.length);
+      expect(layout.cells).toBe(example.data.observations.length * example.variables.length);
       expectCompact(layout, 4, theme);
       expectLabelsDoNotOverlap(layout.labels);
       if (size[0] === 800) {
@@ -134,7 +137,7 @@ test('dense observation labels avoid overlap while update and resize retain ever
 }) => {
   await page.goto('/__tests__/browser/page.html');
   await page.evaluate(async spec => (window as any).renderStatPlot(spec), example);
-  const spec = { type: 'missingValueMatrix', data: makeData(300, 4) };
+  const spec = { type: 'missingValueMatrix', ...makeData(300, 4) };
   await page.evaluate(async spec => {
     const w = window as any;
     await w.chart.updateSpec(w.VChartStatPlots.compileStatPlot(spec));
@@ -183,13 +186,17 @@ test('single row, single column and empty matrices render without invalid geomet
   ]) {
     await page.evaluate(async spec => (window as any).renderStatPlot(spec), {
       type: 'missingValueMatrix',
-      data: makeData(rows, columns)
+      ...makeData(rows, columns)
     });
     const layout = await readLayout(page);
     expect(layout.cells).toBe(rows * columns);
     expectCompact(layout, columns, 'light');
   }
-  await page.evaluate(async spec => (window as any).renderStatPlot(spec), { type: 'missingValueMatrix', data: [] });
+  await page.evaluate(async spec => (window as any).renderStatPlot(spec), {
+    type: 'missingValueMatrix',
+    variables: ['变量'],
+    data: { observations: [] }
+  });
   expect(
     await page.evaluate(() => ({
       errors: (window as any).chartErrors,
@@ -200,7 +207,7 @@ test('single row, single column and empty matrices render without invalid geomet
 
 test('ten thousand cells keep column-only decorations through render, update, resize and release', async ({ page }) => {
   await page.goto('/__tests__/browser/page.html');
-  const spec = { type: 'missingValueMatrix', data: makeData(1000, 10) };
+  const spec = { type: 'missingValueMatrix', ...makeData(1000, 10) };
   const timing = await page.evaluate(async spec => {
     const w = window as any;
     let start = performance.now();
@@ -211,7 +218,14 @@ test('ten thousand cells keep column-only decorations through render, update, re
     await w.chart.updateSpec(
       w.VChartStatPlots.compileStatPlot({
         ...spec,
-        data: spec.data.map(row => ({ ...row, isMissing: !row.isMissing }))
+        data: {
+          observations: spec.data.observations.map(row => ({
+            ...row,
+            values: Object.fromEntries(
+              Object.entries(row.values).map(([key, value]) => [key, value === null ? 0 : null])
+            )
+          }))
+        }
       })
     );
     const updateMs = performance.now() - start;

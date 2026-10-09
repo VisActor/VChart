@@ -5,15 +5,29 @@
       "type": "string",
       "const": "correlationMatrix"
     },
-    "data": {
-      "description": "完整的对称矩阵；triangle 只影响显示。",
+    "variables": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/CorrelationMatrixRow"
+        "type": "string"
       }
     },
+    "data": {
+      "type": "object",
+      "properties": {
+        "observations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/NumericObservation"
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "observations"
+      ]
+    },
     "method": {
-      "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+      "description": "默认 pearson；kendall 为 tau-b。",
       "enum": [
         "kendall",
         "pearson",
@@ -21,8 +35,12 @@
       ],
       "type": "string"
     },
+    "minSamples": {
+      "description": "最少有效配对数，默认 2。",
+      "type": "integer",
+      "minimum": 2
+    },
     "triangle": {
-      "description": "显示完整矩阵或指定三角，默认 full；输入仍须完整对称。",
       "enum": [
         "full",
         "lower",
@@ -30,15 +48,7 @@
       ],
       "type": "string"
     },
-    "variableOrder": {
-      "description": "完整变量显示顺序；每个变量恰好出现一次，默认按数据首次出现排序。",
-      "type": "array",
-      "items": {
-        "type": "string"
-      }
-    },
     "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
       "type": "object",
       "properties": {
         "row": {
@@ -76,32 +86,30 @@
   "additionalProperties": false,
   "required": [
     "data",
-    "method",
-    "type"
+    "type",
+    "variables"
   ],
   "definitions": {
-    "CorrelationMatrixRow": {
+    "NumericObservation": {
       "type": "object",
       "properties": {
-        "row": {
+        "id": {
           "type": "string"
         },
-        "column": {
-          "type": "string"
-        },
-        "correlation": {
-          "description": "相关系数，-1 至 1；无法计算时为 null。",
-          "type": [
-            "null",
-            "number"
-          ]
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "type": [
+              "null",
+              "number"
+            ]
+          }
         }
       },
       "additionalProperties": false,
       "required": [
-        "column",
-        "correlation",
-        "row"
+        "id",
+        "values"
       ]
     },
     "StatPlotColors": {

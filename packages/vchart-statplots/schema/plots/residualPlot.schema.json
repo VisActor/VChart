@@ -1,77 +1,79 @@
 {
-  "type": "object",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "residualPlot"
+  "anyOf": [
+    {
+      "$ref": "#/definitions/ResidualPredictionsSpec"
     },
-    "data": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/ResidualPlotRow"
-      }
-    },
-    "residualKind": {
-      "description": "外部残差的定义；本配置不重新计算或标准化残差。",
-      "enum": [
-        "raw",
-        "standardized",
-        "studentized"
-      ],
-      "type": "string"
-    },
-    "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
-      "type": "object",
-      "properties": {
-        "fittedValue": {
-          "type": "string"
-        },
-        "residual": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false
-    },
-    "title": {
-      "description": "图表标题。",
-      "type": "string"
-    },
-    "description": {
-      "description": "数据范围或统计方法说明。",
-      "type": "string"
-    },
-    "theme": {
-      "enum": [
-        "dark",
-        "light"
-      ],
-      "type": "string"
-    },
-    "colors": {
-      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
-      "$ref": "#/definitions/StatPlotColors"
+    {
+      "$ref": "#/definitions/ResidualResultsSpec"
     }
-  },
-  "additionalProperties": false,
-  "required": [
-    "data",
-    "residualKind",
-    "type"
   ],
   "definitions": {
-    "ResidualPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+    "ResidualPredictionsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "predictions"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResidualPredictionRow"
+          }
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "type"
+      ]
+    },
+    "ResidualPredictionRow": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string"
         },
-        "fittedValue": {
-          "description": "外部模型给出的拟合值，与 residual 对应。",
+        "actual": {
           "type": "number"
         },
-        "residual": {
+        "fittedValue": {
           "type": "number"
         },
         "series": {
@@ -81,9 +83,9 @@
       },
       "additionalProperties": false,
       "required": [
+        "actual",
         "fittedValue",
-        "id",
-        "residual"
+        "id"
       ]
     },
     "StatPlotColors": {
@@ -150,7 +152,106 @@
         }
       },
       "additionalProperties": false
+    },
+    "ResidualResultsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "residuals"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResidualPlotRow"
+          }
+        },
+        "residualKind": {
+          "enum": [
+            "raw",
+            "standardized",
+            "studentized"
+          ],
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "residualKind",
+        "type"
+      ]
+    },
+    "ResidualPlotRow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fittedValue": {
+          "type": "number"
+        },
+        "residual": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fittedValue",
+        "id",
+        "residual"
+      ]
     }
   },
-  "$schema": "http://json-schema.org/draft-07/schema#"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "residualPlot"
+    }
+  },
+  "required": [
+    "type",
+    "input"
+  ]
 }

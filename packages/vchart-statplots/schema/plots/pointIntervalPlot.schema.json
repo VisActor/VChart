@@ -1,83 +1,356 @@
 {
-  "type": "object",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "pointIntervalPlot"
+  "anyOf": [
+    {
+      "$ref": "#/definitions/PointIntervalObservationsSpec"
     },
-    "data": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/PointIntervalPlotRow"
-      }
-    },
-    "interval": {
-      "$ref": "#/definitions/Interval"
-    },
-    "referenceLine": {
-      "description": "显式参考线；数值及统计含义由调用方提供。",
+    {
+      "$ref": "#/definitions/PointIntervalEstimatesSpec"
+    }
+  ],
+  "definitions": {
+    "PointIntervalObservationsSpec": {
       "type": "object",
       "properties": {
-        "value": {
-          "type": "number"
+        "input": {
+          "type": "string",
+          "const": "observations"
         },
-        "label": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PointIntervalObservation"
+          }
+        },
+        "estimator": {
+          "enum": [
+            "mean",
+            "median"
+          ],
           "type": "string"
+        },
+        "errorBar": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "confidence"
+                },
+                "level": {
+                  "type": "number"
+                },
+                "resamples": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "percentile"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "standardError"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "standardDeviation"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "const": "pointIntervalPlot"
+        },
+        "referenceLine": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number"
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ]
+        },
+        "valueScale": {
+          "enum": [
+            "linear",
+            "log"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "estimate": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
         }
       },
       "additionalProperties": false,
       "required": [
-        "value"
+        "data",
+        "input",
+        "type"
       ]
     },
-    "valueScale": {
-      "description": "估计值轴尺度，默认 linear；log 要求估计、区间端点及参考值为正。",
-      "enum": [
-        "linear",
-        "log"
-      ],
-      "type": "string"
-    },
-    "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+    "PointIntervalObservation": {
       "type": "object",
       "properties": {
         "category": {
           "type": "string"
         },
-        "estimate": {
+        "value": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
           "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "value"
+      ]
+    },
+    "StatPlotColors": {
+      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+      "type": "object",
+      "properties": {
+        "categorical": {
+          "description": "无序分组，默认 colorblind；vchart 使用原生主题分类色。",
+          "anyOf": [
+            {
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "colorblind",
+                "deep",
+                "vchart"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "sequential": {
+          "description": "从低到高，默认 viridis；数组停靠点等距。",
+          "anyOf": [
+            {
+              "minItems": 2,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "cividis",
+                "viridis"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "diverging": {
+          "description": "从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。",
+          "anyOf": [
+            {
+              "minItems": 3,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "const": "RdBu_r",
+              "type": "string"
+            }
+          ]
         }
       },
       "additionalProperties": false
     },
-    "title": {
-      "description": "图表标题。",
-      "type": "string"
+    "PointIntervalEstimatesSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "estimates"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PointIntervalPlotRow"
+          }
+        },
+        "interval": {
+          "$ref": "#/definitions/Interval"
+        },
+        "type": {
+          "type": "string",
+          "const": "pointIntervalPlot"
+        },
+        "referenceLine": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "number"
+            },
+            "label": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "value"
+          ]
+        },
+        "valueScale": {
+          "enum": [
+            "linear",
+            "log"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "estimate": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "interval",
+        "type"
+      ]
     },
-    "description": {
-      "description": "数据范围或统计方法说明。",
-      "type": "string"
-    },
-    "theme": {
-      "enum": [
-        "dark",
-        "light"
-      ],
-      "type": "string"
-    },
-    "colors": {
-      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
-      "$ref": "#/definitions/StatPlotColors"
-    }
-  },
-  "additionalProperties": false,
-  "required": [
-    "data",
-    "interval",
-    "type"
-  ],
-  "definitions": {
     "PointIntervalPlotRow": {
       "type": "object",
       "properties": {
@@ -164,72 +437,17 @@
           ]
         }
       ]
-    },
-    "StatPlotColors": {
-      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
-      "type": "object",
-      "properties": {
-        "categorical": {
-          "description": "无序分组，默认 colorblind；vchart 使用原生主题分类色。",
-          "anyOf": [
-            {
-              "minItems": 1,
-              "items": {
-                "type": "string",
-                "pattern": "^#[0-9a-fA-F]{6}$"
-              },
-              "type": "array"
-            },
-            {
-              "enum": [
-                "colorblind",
-                "deep",
-                "vchart"
-              ],
-              "type": "string"
-            }
-          ]
-        },
-        "sequential": {
-          "description": "从低到高，默认 viridis；数组停靠点等距。",
-          "anyOf": [
-            {
-              "minItems": 2,
-              "items": {
-                "type": "string",
-                "pattern": "^#[0-9a-fA-F]{6}$"
-              },
-              "type": "array"
-            },
-            {
-              "enum": [
-                "cividis",
-                "viridis"
-              ],
-              "type": "string"
-            }
-          ]
-        },
-        "diverging": {
-          "description": "从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。",
-          "anyOf": [
-            {
-              "minItems": 3,
-              "items": {
-                "type": "string",
-                "pattern": "^#[0-9a-fA-F]{6}$"
-              },
-              "type": "array"
-            },
-            {
-              "const": "RdBu_r",
-              "type": "string"
-            }
-          ]
-        }
-      },
-      "additionalProperties": false
     }
   },
-  "$schema": "http://json-schema.org/draft-07/schema#"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "pointIntervalPlot"
+    }
+  },
+  "required": [
+    "type",
+    "input"
+  ]
 }

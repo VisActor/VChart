@@ -6,7 +6,7 @@
 
 | 字段                | 含义                                                                                                                                                                                     |
 | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| type / data         | 必填，类型和对应数据；histogram、kdePlot、ecdfPlot 使用原始 value 观测，boxPlot 使用原始 category/value/series 观测，hexbinPlot 使用原始 x/y 散点，pairPlot 使用仅含 observations 的对象 |
+| type / data         | 必填，类型和对应数据；histogram、kdePlot、ecdfPlot 使用原始 value 观测，boxPlot 使用原始 category/value/series 观测，hexbinPlot 使用原始 x/y 散点，pairPlot、missingValueMatrix、correlationMatrix 使用 variables 与 data.observations |
 | title / description | 标题及数据范围、统计方法说明                                                                                                                                                             |
 | theme               | VChart 原生 light（默认）或 dark                                                                                                                                                         |
 | colors              | 共用 categorical / sequential / diverging，支持名称与色号数组；见[公共配色](colors.md)                                                                                                   |
@@ -41,8 +41,8 @@ confidence、prediction、credible 要求 0 < level < 1；standardError、standa
 | violinPlot.densityNormalization       | width 等最大宽度；area 等面积                                                       |
 | stripPlot.layout / jitterRatio        | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5                                  |
 | pointIntervalPlot.valueScale          | linear；log 的估计、区间和参考值必须为正                                            |
-| correlationMatrix.triangle            | full；输入仍须完整对称                                                              |
-| correlationMatrix.variableOrder       | 数据中变量首次出现顺序；显式数组须完整且无重复                                      |
+| correlationMatrix.triangle            | full；原始观测内部生成对称矩阵                                                              |
+| correlationMatrix.variables / method / minSamples | 有序变量必填；pearson / 2，支持 spearman、kendall tau-b |
 | confusionMatrix.normalization         | none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化                 |
 | seasonalPlot.layout                   | overlay；subseries 按 phase 分面、横轴 cycle                                        |
 | screePlot.showCumulative              | false                                                                               |
@@ -67,3 +67,9 @@ registerStatPlots() 幂等注册专用系列。生命周期、事件和导出复
 ## 原始输入与明确默认值
 
 ROC / PR 接收布尔 actual 和有限 score，所有不同阈值参与计算；calibration 接收布尔 actual 和 probability，binning 默认 5 箱 uniform；confusion 接收类别 actual/predicted 和可选 classOrder。QQ 默认标准正态，referenceLine 默认 none；ACF 默认 acf，maxLag 按 N 确定，confidence 默认 95%。详见各图契约。不接受旧统计结果，也不通过猜测字段或展开频数恢复样本。
+
+## 显式输入模式与迁移
+
+pointIntervalPlot 必填 input=observations/estimates；residualPlot 必填 input=predictions/residuals；learningCurve 必填 input=folds/summaries。Schema 禁止跨模式字段，不自动识别旧数据。点区间原始样本默认 mean + 95% bootstrap（1000 次，seed=0），学习曲线默认均值 ± 1 倍总体 SD，普通残差为 actual−fittedValue。外部结果添加对应 input，保留其原有统计含义。
+
+缺失和相关矩阵迁移为 variables/data.observations；每行 values 必须恰好匹配变量集合，null 是唯一缺失标记。删除旧掩码/系数结果行及 variableOrder。相关矩阵 method 现在控制计算，不只是元数据。完整迁移边界见五类逐图文档。

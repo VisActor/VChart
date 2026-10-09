@@ -22,5 +22,6 @@
       "upper": 0.06
     }
   ],
-  "xField": "guessed"
+  "xField": "guessed",
+  "input": "estimates"
 }

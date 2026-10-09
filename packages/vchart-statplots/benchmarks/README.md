@@ -105,3 +105,27 @@ npm run test:browser --prefix packages/vchart-statplots -- violin-performance.sp
 ```
 
 原始证据位于 `.vchart-statplots/violin/timings.json`；测量记录采用定向性能测试结果，后续全包回归运行也会生成自己的性能报告。数学、交互和截图验收见[验收记录](../docs/validation.md)。
+
+## 表格与模型结果输入（2026-10-09）
+
+[独立校验耗时](input-alignment-validation.json) 使用 Node 22，暖机一次后测五次，确认 validate 不运行完整相关性或 bootstrap。10k/100k ×16 变量约 1.3/14.2 ms（相关表格）、1.6/14.4 ms（缺失表格）；结构校验和必要键集/唯一性检查随输入增长，runtime 由 type/input 判别路由，不重复遍历 28 个图表分支。
+
+[完整测量](input-alignment-results.json) 来自 `input-alignment-performance.spec.ts`，每配置独立页面测量一次。render 不含 compile，update 包含重新编译；无跨设备 SLA 或固定耗时阈值。确定性输入见用例，缺失矩阵的 N 指实际单元格、残差的 N 指实际散点，相关矩阵的 N 指观测数。全部 resize 保持统计数据，释放后 canvas=0；另测 20 个混合图表页面。
+
+| 配置 | compile | render | update | resize |
+| --- | --- | --- | --- |
+| 相关矩阵 100k ×16，Pearson | 307 ms | 35 ms | 305 ms | 12 ms |
+| 相关矩阵 100k ×16，Spearman / Kendall | 6.2 / 7.6 s | 40 / 38 ms | 6.2 / 7.4 s | 11 ms |
+| 100k 均值，1000 次 bootstrap | 1.8 s | 25 ms | 2.1 s | 4 ms |
+| 100k 中位数，1000 次 bootstrap | 12.6 s | 23 ms | 12.9 s | 4 ms |
+| 缺失矩阵 100k 单元格 | 13 ms | 468 ms | 468 ms | 548 ms |
+| 普通残差 100k 散点 | 23 ms | 337 ms | 319 ms | 296 ms |
+| 学习曲线 100 规模 ×10 折 ×10 模型，两种 split | 12 ms | 48 ms | 32 ms | 18 ms |
+
+矩阵统计复杂度为 Pearson O(P²N)、秩相关 O(P²N log N)；只计算半矩阵后镜像。缺失和残差生成 O(N)，学习曲线分组 O(N) 并排序结果。点区间均值 bootstrap O(BN)，中位数 bootstrap O(BN log N)。10k/100k、4/16 变量、三种方法、100/1000 次重采样，以及 10/100 训练规模、5/10 折、1/10 模型均有记录。
+
+默认 estimator=mean、1000 次 CI 对 100k 样本已有秒级同步成本；选择 median 时默认次数成本更高。大样本应根据分析问题明确使用 SD/SE、percentile、range、关闭区间或减少重采样次数；不静默抽样。秩相关应先选择必要变量。render/resize/hover 不重算这些统计。
+
+```sh
+npm run test:browser --prefix packages/vchart-statplots -- input-alignment-performance.spec.ts
+```

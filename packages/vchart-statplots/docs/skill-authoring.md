@@ -1,6 +1,6 @@
 # Skill 生成协议
 
-先确定分析问题和统计结果，再生成最小语义 JSON。不要要求模型从原始数据猜测区间或评价指标。
+先确定分析问题、实际持有的数据与区间含义，再生成最小语义 JSON。按契约提交原始样本或外部模型结果，不让模型猜测区间含义。
 
 1. 从 [28 类目录](catalog.md) 选择 type。
 2. 读取 `schema/plots/<type>.schema.json` 和对应逐图文档，避免把全部 VChart 选项送入生成上下文。
@@ -36,6 +36,8 @@
 
 fieldLabels 为展示文字；区间含义、计算方法、统计量和顺序需要由分析结果确定，不从名称猜测。旧 JSON 的迁移见 [迁移表](naming-migration.md)。
 
-仓库中的 chart-intents.json 是 81 条选型预期，check:catalog 只检查预期与可执行契约的一致性，未执行模型命中率评测。
+仓库中的 chart-intents.json 是 89 条选型预期，check:catalog 只检查预期与可执行契约的一致性，未执行模型命中率评测。
 
 分类评估直接输出原始标签/分数（calibration 使用 probability）；QQ、ACF 输出原始 value/series。无需模型生成阈值、AP、AUC、分位数、滞后系数或置信带。
+
+missingValueMatrix 与 correlationMatrix 提交 variables/data.observations，不输出掩码或系数矩阵。pointIntervalPlot 必填 input=observations/estimates，原始样本默认 mean + 95% bootstrap，外部区间要求明确 interval；residualPlot 使用 predictions 的 actual/fittedValue 或 residuals 的外部诊断残差；learningCurve 使用 folds 的各折分数或 summaries 的已有汇总。未知模式和混入字段应回到输入契约修正，不通过自动推断掩盖。

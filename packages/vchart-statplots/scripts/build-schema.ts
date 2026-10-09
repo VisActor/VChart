@@ -36,26 +36,61 @@ function output(relative: string, content: string): void {
   }
 }
 
-const schema = generator.getSchemaForSymbol('StatPlotSpec');
-schema.$id = `https://visactor.io/schemas/vchart-statplots/${version}/statplot.schema.json`;
-output('schema/statplot.schema.json', JSON.stringify(schema, null, 2) + '\n');
-
-// 从联合类型读取已交付图表，避免维护第二份类型清单。
+// 从公开联合的具名引用枚举图表，避免把一个图表的输入模式展开成同 type 分支。
 const source = program.getSourceFile(file)!;
 const alias = source.statements.find(
   node => ts.isTypeAliasDeclaration(node) && node.name.text === 'StatPlotSpec'
 ) as ts.TypeAliasDeclaration;
 const checker = program.getTypeChecker();
-const union = checker.getTypeFromTypeNode(alias.type);
+const references = ts.isUnionTypeNode(alias.type) ? alias.type.types : [alias.type];
+const schema = generator.getSchemaForSymbol('StatPlotSpec');
+schema.$id = `https://visactor.io/schemas/vchart-statplots/${version}/statplot.schema.json`;
+const definitions = schema.definitions ?? {};
+const branches: any[] = [];
+const runtimeBranches: any[] = [];
 const expectedPlotFiles = new Set<string>();
-for (const member of union.isUnion() ? union.types : [union]) {
-  const name = member.getSymbol()!.name;
+for (const reference of references) {
+  const name = reference.getText(source);
   const plotSchema = generator.getSchemaForSymbol(name);
-  const discriminator = plotSchema.properties!.type as { const?: string; enum?: string[] };
-  const type = discriminator.const ?? discriminator.enum![0];
+  const union = checker.getTypeFromTypeNode(reference);
+  const members = union.isUnion() ? union.types : [union];
+  const types = members.map(member => {
+    const property = member.getProperty('type')!;
+    return (checker.getTypeOfSymbolAtLocation(property, source) as ts.StringLiteralType).value;
+  });
+  if (new Set(types).size !== 1) {
+    throw new Error(`${name} 必须属于同一种图表`);
+  }
+  const type = types[0];
+  if (members.length > 1) {
+    plotSchema.type = 'object';
+    plotSchema.properties = { type: { const: type } };
+    plotSchema.required = ['type', 'input'];
+  }
+  Object.assign(definitions, plotSchema.definitions);
+  const body = { ...plotSchema };
+  delete body.definitions;
+  delete body.$schema;
+  definitions[name] = body;
   expectedPlotFiles.add(`${type}.schema.json`);
   output(`schema/plots/${type}.schema.json`, JSON.stringify(plotSchema, null, 2) + '\n');
+  branches.push({ $ref: `#/definitions/${name}` });
+  if (members.length > 1) {
+    const modes = body.anyOf ?? body.oneOf;
+    runtimeBranches.push({
+      type: 'object',
+      properties: { type: { const: type } },
+      required: ['type', 'input'],
+      oneOf: modes,
+      discriminator: { propertyName: 'input' }
+    });
+  } else {
+    runtimeBranches.push({ $ref: `#/definitions/${name}` });
+  }
 }
+schema.definitions = definitions;
+schema.anyOf = branches;
+output('schema/statplot.schema.json', JSON.stringify(schema, null, 2) + '\n');
 const plotDirectory = path.join(root, 'schema/plots');
 const stale = fs
   .readdirSync(plotDirectory)
@@ -66,18 +101,15 @@ if (check && stale.length) {
 if (!check) {
   stale.forEach(name => fs.unlinkSync(path.join(plotDirectory, name)));
 }
-
-// 判别联合按 type 一次选中，避免对每一种图表结构重复扫描全部数据。
-const runtimeSchema = schema.anyOf
-  ? {
-      ...schema,
-      type: 'object',
-      required: ['type'],
-      anyOf: undefined,
-      oneOf: schema.anyOf,
-      discriminator: { propertyName: 'type' }
-    }
-  : schema;
+// type 先选择图表；双模式图内部再用必填 input 选择结构。
+const runtimeSchema = {
+  ...schema,
+  type: 'object',
+  required: ['type'],
+  anyOf: undefined,
+  oneOf: runtimeBranches,
+  discriminator: { propertyName: 'type' }
+};
 const ajv = new Ajv({
   strict: false,
   strictNumbers: true,

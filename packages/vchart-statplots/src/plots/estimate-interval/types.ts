@@ -5,14 +5,32 @@ export interface PointIntervalPlotRow extends SeriesRow {
   lower: number;
   upper: number;
 }
-export interface PointIntervalPlotSpec extends BaseSpec {
+export interface PointIntervalObservation extends SeriesRow {
+  category: string;
+  value: number;
+}
+export type PointIntervalErrorBar =
+  | false
+  | { kind: 'confidence'; level?: number; resamples?: number; seed?: number }
+  | { kind: 'percentile'; level?: number }
+  | { kind: 'standardError'; multiplier?: number }
+  | { kind: 'standardDeviation'; multiplier?: number }
+  | { kind: 'range' };
+interface PointIntervalBase extends BaseSpec {
   type: 'pointIntervalPlot';
-  data: PointIntervalPlotRow[];
-  interval: Interval;
-  /** 显式参考线；数值及统计含义由调用方提供。 */
   referenceLine?: { value: number; label?: string };
-  /** 估计值轴尺度，默认 linear；log 要求估计、区间端点及参考值为正。 */
   valueScale?: 'linear' | 'log';
-  /** 字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。 */
   fieldLabels?: { category?: string; estimate?: string };
 }
+export interface PointIntervalObservationsSpec extends PointIntervalBase {
+  input: 'observations';
+  data: PointIntervalObservation[];
+  estimator?: 'mean' | 'median';
+  errorBar?: PointIntervalErrorBar;
+}
+export interface PointIntervalEstimatesSpec extends PointIntervalBase {
+  input: 'estimates';
+  data: PointIntervalPlotRow[];
+  interval: Interval;
+}
+export type PointIntervalPlotSpec = PointIntervalObservationsSpec | PointIntervalEstimatesSpec;

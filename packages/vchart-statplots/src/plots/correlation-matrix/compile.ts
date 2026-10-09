@@ -1,4 +1,5 @@
 import type { CorrelationMatrixSpec } from './types';
+import { buildCorrelationCells } from './statistics';
 import { commonChart } from '../../common/chart';
 import { matrixAxis } from '../../common/axes';
 import { semanticTooltip } from '../../common/tooltip';
@@ -13,9 +14,9 @@ const titles = { pearson: 'Pearson r', spearman: 'Spearman ρ', kendall: 'Kendal
 export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
   const missingColor = paletteColor(spec.theme, 'disableFontColor');
   const borderColor = paletteColor(spec.theme, 'backgroundColor');
-  const variableOrder = spec.variableOrder ?? Array.from(new Set(spec.data.map(row => row.row)));
+  const variableOrder = spec.variables;
   const indexes = new Map(variableOrder.map((correlation, i) => [correlation, i]));
-  const values = spec.data
+  const values = buildCorrelationCells(spec)
     .filter(row =>
       spec.triangle === 'lower'
         ? indexes.get(row.row)! >= indexes.get(row.column)!
@@ -23,7 +24,7 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
         ? indexes.get(row.row)! <= indexes.get(row.column)!
         : true
     )
-    .map(row => ({ ...row, method: spec.method }));
+    .map(row => ({ ...row, method: spec.method ?? 'pearson' }));
   const chart = commonChart(
     spec,
     [
@@ -42,8 +43,10 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
           style: { fill: '#000000', stroke: false, fontSize: 11, boundsPadding: 0 },
           formatMethod: text => Number(text).toFixed(2)
         },
-        tooltip: semanticTooltip(['row', 'column', 'correlation', 'method'], {
+        tooltip: semanticTooltip(['row', 'column', 'correlation', 'sampleCount', 'undefinedReason', 'method'], {
           correlation: '相关系数',
+          sampleCount: '有效配对数',
+          undefinedReason: '不可计算原因',
           ...spec.fieldLabels
         })
       },
@@ -62,8 +65,10 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
           formatMethod: () => 'NA',
           style: { fill: paletteColor(spec.theme, 'primaryFontColor'), stroke: false, fontSize: 11, boundsPadding: 0 }
         },
-        tooltip: semanticTooltip(['row', 'column', 'correlation', 'method'], {
+        tooltip: semanticTooltip(['row', 'column', 'correlation', 'sampleCount', 'undefinedReason', 'method'], {
           correlation: '相关系数',
+          sampleCount: '有效配对数',
+          undefinedReason: '不可计算原因',
           ...spec.fieldLabels
         })
       }
@@ -76,11 +81,11 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
   const scale = continuousColorScale(spec, 'diverging', 'correlation', -1, 1);
   chart.scales = [scale];
   chart.layout = { type: MatrixLayout.type } as ILayoutSpec;
-  if (spec.data.length) {
+  if (spec.data.observations.length) {
     chart.customMark = [
       createMatrixColorBar(spec, scale, {
         name: 'correlation-colorbar',
-        title: titles[spec.method],
+        title: titles[spec.method ?? 'pearson'],
         ticks: [-1, -0.5, 0, 0.5, 1],
         formatTick: value => String(value).replace('-', '−')
       })
