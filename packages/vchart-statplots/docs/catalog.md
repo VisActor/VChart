@@ -14,7 +14,7 @@
 | [条带图](plots/stripPlot.md) | `stripPlot` | 查看各类别中每条观测的数值。 |
 | [点估计区间图](plots/pointIntervalPlot.md) | `pointIntervalPlot` | 从分组样本估计区间或展示外部估计结果。 |
 | [配对比较图](plots/pairedComparisonPlot.md) | `pairedComparisonPlot` | 比较同一对象干预前后的两次观测。 |
-| [散点图](plots/scatterPlot.md) | `scatterPlot` | 查看两个数值变量的关系。 |
+| [散点图](plots/scatterPlot.md) | `scatterPlot` | 查看原始 x/y 关系，可内部回归或展示外部曲线。 |
 | [六边形分箱图](plots/hexbinPlot.md) | `hexbinPlot` | 汇总大量二维散点的局部分布，颜色表示每个六边形箱内的观测数。 |
 | [相关矩阵图](plots/correlationMatrix.md) | `correlationMatrix` | 从原始表格计算变量相关方向和强度。 |
 | [散点矩阵图](plots/pairPlot.md)                | `pairPlot`              | 从原始观测查看多个数值变量的两两关系和自动计算的对角分布。   |
@@ -23,7 +23,7 @@
 | [自相关图](plots/autocorrelationPlot.md) | `autocorrelationPlot` | 查看时间序列各滞后阶的自相关。 |
 | [碎石图](plots/screePlot.md) | `screePlot` | 查看各成分解释方差比例。 |
 | [降维散点图](plots/embeddingPlot.md) | `embeddingPlot` | 展示已计算的二维降维坐标。 |
-| [残差图](plots/residualPlot.md) | `residualPlot` | 检查残差随拟合值变化是否存在结构。 |
+| [残差图](plots/residualPlot.md) | `residualPlot` | 从原始 x/y 回归后检查残差结构，也支持外部预测/残差。 |
 | [Q–Q 图](plots/qqPlot.md) | `qqPlot` | 比较样本分位数与给定理论分布分位数。 |
 | [混淆矩阵](plots/confusionMatrix.md) | `confusionMatrix` | 检查实际类别与预测类别的错误分布。 |
 | [ROC 曲线](plots/rocCurve.md) | `rocCurve` | 比较不同分类阈值的真阳性率与假阳性率。 |

@@ -1,9 +1,28 @@
 import type { ResidualPlotSpec } from './types';
 import { StatPlotValidationError } from '../../errors';
 import { issue } from '../../common/validation';
+import { buildRegressionPredictions } from '../../common/regression';
+import type { SeriesRow } from '../../common/types';
+export interface ResidualDisplayRow extends SeriesRow {
+  id?: string;
+  x?: number;
+  y?: number;
+  actual?: number;
+  fittedValue: number;
+  residual: number;
+  residualKind: string;
+  method?: string;
+  trend?: string;
+}
 export function buildResidualRows(spec: ResidualPlotSpec) {
-  const kind = spec.input === 'predictions' ? 'raw' : spec.residualKind;
+  const kind = spec.input === 'residuals' ? spec.residualKind : 'raw';
   const label = { raw: '原始残差', standardized: '标准化残差', studentized: '学生化残差' }[kind];
+  if (spec.input === 'observations') {
+    return buildRegressionPredictions(spec.data, spec.regression ?? { method: 'linear' }).map(row => ({
+      ...row,
+      residualKind: label
+    }));
+  }
   if (spec.input === 'residuals') {
     return spec.data.map(row => ({ ...row, residualKind: label }));
   }

@@ -250,14 +250,14 @@
       "variant": "minimal",
       "file": "minimal/residualPlot.json",
       "documentation": "../../docs/plots/residual.md",
-      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
     },
     {
       "type": "residualPlot",
       "variant": "grouped",
       "file": "grouped/residualPlot.json",
       "documentation": "../../docs/plots/residual.md",
-      "computation": "外部模型残差直接展示"
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
     },
     {
       "type": "rocCurve",
@@ -278,14 +278,14 @@
       "variant": "minimal",
       "file": "minimal/scatterPlot.json",
       "documentation": "../../docs/plots/scatter.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
     },
     {
       "type": "scatterPlot",
       "variant": "grouped",
       "file": "grouped/scatterPlot.json",
       "documentation": "../../docs/plots/scatter.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
     },
     {
       "type": "screePlot",
@@ -721,7 +721,56 @@
       "variant": "studentized",
       "file": "variants/residualPlot-studentized.json",
       "documentation": "../../docs/plots/residualPlot.md",
-      "computation": "见逐图契约；显式输入模式与参数"
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "polynomial",
+      "file": "variants/scatterPlot-polynomial.json",
+      "documentation": "../../docs/plots/scatterPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "lowess",
+      "file": "variants/scatterPlot-lowess.json",
+      "documentation": "../../docs/plots/scatterPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "external",
+      "file": "variants/scatterPlot-external.json",
+      "documentation": "../../docs/plots/scatterPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "polynomial",
+      "file": "variants/residualPlot-polynomial.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "lowess",
+      "file": "variants/residualPlot-lowess.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "smooth",
+      "file": "variants/residualPlot-smooth.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "predictions",
+      "file": "variants/residualPlot-predictions.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
     }
   ],
   "invalid": [

@@ -51,7 +51,7 @@ test.each([
   {
     type: 'scatterPlot',
     data: [{ x: 0, y: 1 }],
-    fit: { method: 'OLS', data: [{ x: 0, estimate: 1, lower: 0, upper: 2 }] }
+    fit: { input: 'estimates', method: 'OLS', data: [{ x: 0, estimate: 1, lower: 0, upper: 2 }] }
   },
   {
     type: 'precisionRecallCurve',

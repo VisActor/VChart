@@ -2,7 +2,7 @@
 "use strict";
 export const validate = validate10;
 export default validate10;
-const schema11 = {"definitions":{"PairPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairPlot"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/PairPlotObservation"}}},"additionalProperties":false,"required":["observations"]},"diagonal":{"anyOf":[{"type":"object","properties":{"type":{"const":"histogram","type":"string"},"binning":{"$ref":"#/definitions/PairPlotBinningSpec"}},"additionalProperties":false},{"type":"object","properties":{"type":{"type":"string","const":"none"}},"additionalProperties":false,"required":["type"]}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"PairPlotObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","values"]},"PairPlotBinningSpec":{"type":"object","properties":{"binCount":{"description":"每个非恒定变量的等宽箱数；省略时按有效观测数选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"StatPlotColors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","type":"object","properties":{"categorical":{"description":"无序分组，默认 colorblind；vchart 使用原生主题分类色。","anyOf":[{"minItems":1,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["colorblind","deep","vchart"],"type":"string"}]},"sequential":{"description":"从低到高，默认 viridis；数组停靠点等距。","anyOf":[{"minItems":2,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["cividis","viridis"],"type":"string"}]},"diverging":{"description":"从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。","anyOf":[{"minItems":3,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"const":"RdBu_r","type":"string"}]}},"additionalProperties":false},"ShapBeeswarmPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"shapBeeswarmPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ShapBeeswarmPlotRow"}},"featureOrder":{"type":"array","items":{"type":"string"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"shapValue":{"type":"string"},"featureValue":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","featureOrder","type"]},"ShapBeeswarmPlotRow":{"type":"object","properties":{"id":{"type":"string"},"feature":{"type":"string"},"shapValue":{"type":"number"},"featureValue":{"type":["null","number"]}},"additionalProperties":false,"required":["feature","featureValue","id","shapValue"]},"HexbinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"hexbinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/HexbinPlotRow"}},"binning":{"description":"原始散点的分箱规则；重复坐标按多条观测计数。","$ref":"#/definitions/HexbinBinningSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"},"count":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HexbinPlotRow":{"type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"}},"additionalProperties":false,"required":["x","y"]},"HexbinBinningSpec":{"type":"object","properties":{"xBins":{"description":"水平方向的分箱分辨率，默认 30；不是非空箱总数，边缘可增加一列。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"FeatureImportancePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"featureImportancePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/FeatureImportancePlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"FeatureImportancePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["feature","importance"]},"LearningCurveFoldsSpec":{"type":"object","properties":{"input":{"type":"string","const":"folds"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveFoldRow"}},"spread":{"anyOf":[{"type":"object","properties":{"multiplier":{"type":"number"}},"additionalProperties":false},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]},"LearningCurveFoldRow":{"type":"object","properties":{"trainSize":{"type":"number"},"fold":{"type":"string"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fold","score","split","trainSize"]},"LearningCurveSummariesSpec":{"type":"object","properties":{"input":{"type":"string","const":"summaries"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]},"LearningCurveRow":{"type":"object","properties":{"trainSize":{"type":"number"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["score","split","trainSize"]},"QqPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"qqPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/QqPlotRow"}},"distribution":{"description":"第一版支持正态分布，不自动拟合参数。","type":"object","properties":{"type":{"type":"string","const":"normal"},"mean":{"type":"number"},"standardDeviation":{"type":"number"}},"additionalProperties":false,"required":["type"]},"referenceLine":{"description":"默认 none；quartiles / regression 按系列独立计算。","enum":["identity","none","quartiles","regression"],"type":"string"},"fieldLabels":{"type":"object","properties":{"theoreticalQuantile":{"type":"string"},"sampleQuantile":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"QqPlotRow":{"description":"原始一维样本，无序和重复值有效。","type":"object","properties":{"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"ResidualPredictionsSpec":{"type":"object","properties":{"input":{"type":"string","const":"predictions"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPredictionRow"}},"type":{"type":"string","const":"residualPlot"},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]},"ResidualPredictionRow":{"type":"object","properties":{"id":{"type":"string"},"actual":{"type":"number"},"fittedValue":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","fittedValue","id"]},"ResidualResultsSpec":{"type":"object","properties":{"input":{"type":"string","const":"residuals"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPlotRow"}},"residualKind":{"enum":["raw","standardized","studentized"],"type":"string"},"type":{"type":"string","const":"residualPlot"},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","residualKind","type"]},"ResidualPlotRow":{"type":"object","properties":{"id":{"type":"string"},"fittedValue":{"type":"number"},"residual":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fittedValue","id","residual"]},"EmbeddingPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"embeddingPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EmbeddingPlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["pca","tsne","umap"],"type":"string"},"dimensions":{"type":"object","properties":{"x":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]},"y":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]}},"additionalProperties":false,"required":["x","y"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"EmbeddingPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"id":{"type":"string"},"x":{"type":"number"},"y":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","x","y"]},"ScreePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"screePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScreePlotRow"}},"showCumulative":{"description":"是否显示累计解释方差比例，默认 false。","type":"boolean"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"component":{"type":"string"},"explainedVarianceRatio":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScreePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"component":{"type":"number"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["component","explainedVarianceRatio"]},"AutocorrelationPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"autocorrelationPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/AutocorrelationPlotRow"}},"method":{"description":"默认 acf；pacf 采用 Yule–Walker MLE。","enum":["acf","pacf"],"type":"string"},"maxLag":{"description":"最高滞后，整数 1–512，另受每组样本量限制。","type":"number"},"confidence":{"description":"默认 95% 零中心置信带；false 关闭。","anyOf":[{"type":"object","properties":{"level":{"type":"number"}},"additionalProperties":false},{"const":false,"type":"boolean"}]},"fieldLabels":{"type":"object","properties":{"lag":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"AutocorrelationPlotRow":{"description":"按每系列的输入顺序表示等间隔原始序列，不能按数值排序。","type":"object","properties":{"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"SeasonalPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"seasonalPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/SeasonalPlotRow"}},"cycleOrder":{"description":"非空、无重复，覆盖输入的周期；可声明无观测的位置。","type":"array","items":{"type":"string"}},"phaseOrder":{"description":"非空、无重复，覆盖输入的周期内位置；可声明无观测的位置。","type":"array","items":{"type":"string"}},"layout":{"description":"默认 overlay；subseries 按 phase 分面、横轴为 cycle。","enum":["overlay","subseries"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"cycle":{"type":"string"},"phase":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["cycleOrder","data","phaseOrder","type"]},"SeasonalPlotRow":{"description":"按 cycle/phase 标注的原始观测，不要求统计汇总。","type":"object","properties":{"cycle":{"description":"完整周期编号，例如年份。","type":"string"},"phase":{"description":"周期内位置，例如月份或季度。","type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["cycle","phase","value"]},"TimeSeriesPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"timeSeriesPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/TimeSeriesPlotRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"time":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"TimeSeriesPlotRow":{"description":"原始时间观测；可选区间结果由外部提供。","type":"object","properties":{"time":{"description":"带时区的 ISO 8601 时间。","type":"string"},"value":{"type":["null","number"]},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["time","value"]},"CalibrationCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"calibrationCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/CalibrationCurveRow"}},"binning":{"type":"object","properties":{"binCount":{"description":"箱数，默认 5，整数范围 1–512。","type":"number"},"strategy":{"description":"默认 uniform；quantile 按系列独立确定边界。","enum":["quantile","uniform"],"type":"string"}},"additionalProperties":false},"fieldLabels":{"type":"object","properties":{"meanPredictedProbability":{"type":"string"},"observedRate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CalibrationCurveRow":{"description":"每行是一条真实二分类标签与预测正例概率。","type":"object","properties":{"actual":{"type":"boolean"},"probability":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","probability"]},"RocCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/BinaryScoreRow"}},"fieldLabels":{"description":"展示生成的曲线统计量，不改变原始输入字段。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"BinaryScoreRow":{"description":"逐样本二分类预测；true 为正例，较大分数表示更倾向正例。","type":"object","properties":{"actual":{"type":"boolean"},"score":{"description":"任意有限预测分数，不要求为概率。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","score"]},"PrecisionRecallCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"precisionRecallCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/BinaryScoreRow"}},"baseline":{"description":"绘制各系列自己的正例比例基线，默认 false。","type":"boolean"},"fieldLabels":{"type":"object","properties":{"recall":{"type":"string"},"precision":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ConfusionMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"confusionMatrix"},"data":{"type":"array","items":{"$ref":"#/definitions/ConfusionMatrixRow"}},"classOrder":{"description":"完整显示顺序；可包含本批未出现类别，须覆盖所有输入类别。","type":"array","items":{"type":"string"}},"normalization":{"description":"默认 none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化。","enum":["actual","all","none","predicted"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ConfusionMatrixRow":{"description":"每行是一条实际类别与预测类别观测，内部计数。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"}},"additionalProperties":false,"required":["actual","predicted"]},"ScatterPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"scatterPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScatterPlotRow"}},"fit":{"type":"object","properties":{"method":{"type":"string"},"data":{"type":"array","items":{"$ref":"#/definitions/FitRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]}},"additionalProperties":false,"required":["data","method"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScatterPlotRow":{"description":"原始逐条观测；可选拟合或区间结果由外部提供。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]},"FitRow":{"type":"object","properties":{"x":{"type":"number"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["estimate","x"]},"PairedComparisonPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairedComparisonPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PairedComparisonPlotRow"}},"categoryOrder":{"description":"同一对象比较的两个不同状态，数组顺序即显示顺序。","type":"array","items":[{"type":"string"},{"type":"string"}],"minItems":2,"maxItems":2},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["categoryOrder","data","type"]},"PairedComparisonPlotRow":{"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"StripPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"stripPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/StripPlotRow"}},"layout":{"enum":["jitter","strip","swarm"],"type":"string"},"jitterRatio":{"description":"最大偏移占完整分类带宽的比例，0–0.5；仅 jitter 布局允许，默认 0.3。","type":"number"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"StripPlotRow":{"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"MissingValueMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"missingValueMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/TableObservation"}}},"additionalProperties":false,"required":["observations"]},"fieldLabels":{"type":"object","properties":{"observationId":{"type":"string"},"variable":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"TableObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"$ref":"#/definitions/ObservationValue"}}},"additionalProperties":false,"required":["id","values"]},"ObservationValue":{"description":"JSON 原始单元格；null 是唯一缺失标记。","type":["null","string","number","boolean"]},"CountPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"countPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/CountPlotRow"}},"statistic":{"description":"显示统计量，默认 count。","enum":["count","proportion"],"type":"string"},"normalizationScope":{"description":"proportion 的分母范围，默认 all；仅 proportion 模式可配置。","enum":["all","series"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CountPlotRow":{"description":"每行表示一条原始分类观测，重复行分别计数。","type":"object","properties":{"category":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category"]},"BoxPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"boxPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/BoxPlotRow"}},"whiskers":{"description":"编译阶段计算须和异常值的规则。","$ref":"#/definitions/BoxPlotWhiskersSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"BoxPlotRow":{"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；重复值分别参与统计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]},"BoxPlotWhiskersSpec":{"type":"object","properties":{"iqrMultiplier":{"description":"IQR 围栏倍数，默认 1.5；有限且非负。","minimum":0,"type":"number"}},"additionalProperties":false},"CorrelationMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"correlationMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/NumericObservation"}}},"additionalProperties":false,"required":["observations"]},"method":{"description":"默认 pearson；kendall 为 tau-b。","enum":["kendall","pearson","spearman"],"type":"string"},"minSamples":{"description":"最少有效配对数，默认 2。","type":"integer","minimum":2},"triangle":{"enum":["full","lower","upper"],"type":"string"},"fieldLabels":{"type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"NumericObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}}},"additionalProperties":false,"required":["id","values"]},"EcdfPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"ecdfPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EcdfPlotRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"cumulativeProbability":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"EcdfPlotRow":{"type":"object","properties":{"value":{"description":"原始观测；无序和重复值均有效。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"PointIntervalObservationsSpec":{"type":"object","properties":{"input":{"type":"string","const":"observations"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalObservation"}},"estimator":{"enum":["mean","median"],"type":"string"},"errorBar":{"anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"percentile"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardError"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardDeviation"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]},"PointIntervalObservation":{"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]},"PointIntervalEstimatesSpec":{"type":"object","properties":{"input":{"type":"string","const":"estimates"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalPlotRow"}},"interval":{"$ref":"#/definitions/Interval"},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","interval","type"]},"PointIntervalPlotRow":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","estimate","lower","upper"]},"Interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"HistogramSpec":{"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"binning":{"description":"原始观测的分箱规则；重复值分别计数。","$ref":"#/definitions/HistogramBinningSpec"},"statistic":{"description":"显示统计量，默认 count；proportion 为样本比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HistogramRow":{"type":"object","properties":{"value":{"type":"number"}},"additionalProperties":false,"required":["value"]},"HistogramBinningSpec":{"type":"object","properties":{"binCount":{"description":"非恒定数据的等宽箱数；省略时按样本量选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"KdePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"编译阶段的核密度估计配置。单样本和常数系列须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"绘制采样配置；不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"KdePlotRow":{"type":"object","properties":{"value":{"description":"原始观测；重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"KdeEstimationSpec":{"type":"object","properties":{"kernel":{"description":"默认 gaussian。","enum":["epanechnikov","gaussian"],"type":"string"},"bandwidth":{"description":"正数为固定带宽，单位与 value 相同；默认 scott，各分布组独立估计。","anyOf":[{"enum":["scott","silverman"],"type":"string"},{"type":"number"}]}},"additionalProperties":false},"KdeSamplingSpec":{"type":"object","properties":{"points":{"description":"每组等距绘制点数，默认 256；仅控制曲线离散精度。","type":"integer","minimum":2,"maximum":2048}},"additionalProperties":false},"ViolinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"estimation":{"description":"各 category + series 独立计算 KDE；单样本和常数组须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"每组轮廓的绘制采样配置，不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ViolinPlotRow":{"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；允许乱序，重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]},"LearningCurveSpec":{"anyOf":[{"$ref":"#/definitions/LearningCurveFoldsSpec"},{"$ref":"#/definitions/LearningCurveSummariesSpec"}],"type":"object","properties":{"type":{"const":"learningCurve"}},"required":["type","input"]},"ResidualPlotSpec":{"anyOf":[{"$ref":"#/definitions/ResidualPredictionsSpec"},{"$ref":"#/definitions/ResidualResultsSpec"}],"type":"object","properties":{"type":{"const":"residualPlot"}},"required":["type","input"]},"PointIntervalPlotSpec":{"anyOf":[{"$ref":"#/definitions/PointIntervalObservationsSpec"},{"$ref":"#/definitions/PointIntervalEstimatesSpec"}],"type":"object","properties":{"type":{"const":"pointIntervalPlot"}},"required":["type","input"]}},"$schema":"http://json-schema.org/draft-07/schema#","$id":"https://visactor.io/schemas/vchart-statplots/2.1.7/statplot.schema.json","type":"object","required":["type"],"oneOf":[{"$ref":"#/definitions/PairPlotSpec"},{"$ref":"#/definitions/ShapBeeswarmPlotSpec"},{"$ref":"#/definitions/HexbinPlotSpec"},{"$ref":"#/definitions/FeatureImportancePlotSpec"},{"type":"object","properties":{"type":{"const":"learningCurve"}},"required":["type","input"],"oneOf":[{"$ref":"#/definitions/LearningCurveFoldsSpec"},{"$ref":"#/definitions/LearningCurveSummariesSpec"}],"discriminator":{"propertyName":"input"}},{"$ref":"#/definitions/QqPlotSpec"},{"type":"object","properties":{"type":{"const":"residualPlot"}},"required":["type","input"],"oneOf":[{"$ref":"#/definitions/ResidualPredictionsSpec"},{"$ref":"#/definitions/ResidualResultsSpec"}],"discriminator":{"propertyName":"input"}},{"$ref":"#/definitions/EmbeddingPlotSpec"},{"$ref":"#/definitions/ScreePlotSpec"},{"$ref":"#/definitions/AutocorrelationPlotSpec"},{"$ref":"#/definitions/SeasonalPlotSpec"},{"$ref":"#/definitions/TimeSeriesPlotSpec"},{"$ref":"#/definitions/CalibrationCurveSpec"},{"$ref":"#/definitions/PrecisionRecallCurveSpec"},{"$ref":"#/definitions/ConfusionMatrixSpec"},{"$ref":"#/definitions/ScatterPlotSpec"},{"$ref":"#/definitions/PairedComparisonPlotSpec"},{"$ref":"#/definitions/StripPlotSpec"},{"$ref":"#/definitions/MissingValueMatrixSpec"},{"$ref":"#/definitions/CountPlotSpec"},{"$ref":"#/definitions/BoxPlotSpec"},{"$ref":"#/definitions/CorrelationMatrixSpec"},{"$ref":"#/definitions/EcdfPlotSpec"},{"type":"object","properties":{"type":{"const":"pointIntervalPlot"}},"required":["type","input"],"oneOf":[{"$ref":"#/definitions/PointIntervalObservationsSpec"},{"$ref":"#/definitions/PointIntervalEstimatesSpec"}],"discriminator":{"propertyName":"input"}},{"$ref":"#/definitions/HistogramSpec"},{"$ref":"#/definitions/KdePlotSpec"},{"$ref":"#/definitions/RocCurveSpec"},{"$ref":"#/definitions/ViolinPlotSpec"}],"discriminator":{"propertyName":"type"}};
+const schema11 = {"definitions":{"PairPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairPlot"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/PairPlotObservation"}}},"additionalProperties":false,"required":["observations"]},"diagonal":{"anyOf":[{"type":"object","properties":{"type":{"const":"histogram","type":"string"},"binning":{"$ref":"#/definitions/PairPlotBinningSpec"}},"additionalProperties":false},{"type":"object","properties":{"type":{"type":"string","const":"none"}},"additionalProperties":false,"required":["type"]}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"PairPlotObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","values"]},"PairPlotBinningSpec":{"type":"object","properties":{"binCount":{"description":"每个非恒定变量的等宽箱数；省略时按有效观测数选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"StatPlotColors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","type":"object","properties":{"categorical":{"description":"无序分组，默认 colorblind；vchart 使用原生主题分类色。","anyOf":[{"minItems":1,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["colorblind","deep","vchart"],"type":"string"}]},"sequential":{"description":"从低到高，默认 viridis；数组停靠点等距。","anyOf":[{"minItems":2,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"enum":["cividis","viridis"],"type":"string"}]},"diverging":{"description":"从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。","anyOf":[{"minItems":3,"items":{"type":"string","pattern":"^#[0-9a-fA-F]{6}$"},"type":"array"},{"const":"RdBu_r","type":"string"}]}},"additionalProperties":false},"ShapBeeswarmPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"shapBeeswarmPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ShapBeeswarmPlotRow"}},"featureOrder":{"type":"array","items":{"type":"string"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"shapValue":{"type":"string"},"featureValue":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","featureOrder","type"]},"ShapBeeswarmPlotRow":{"type":"object","properties":{"id":{"type":"string"},"feature":{"type":"string"},"shapValue":{"type":"number"},"featureValue":{"type":["null","number"]}},"additionalProperties":false,"required":["feature","featureValue","id","shapValue"]},"HexbinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"hexbinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/HexbinPlotRow"}},"binning":{"description":"原始散点的分箱规则；重复坐标按多条观测计数。","$ref":"#/definitions/HexbinBinningSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"},"count":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HexbinPlotRow":{"type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"}},"additionalProperties":false,"required":["x","y"]},"HexbinBinningSpec":{"type":"object","properties":{"xBins":{"description":"水平方向的分箱分辨率，默认 30；不是非空箱总数，边缘可增加一列。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"FeatureImportancePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"featureImportancePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/FeatureImportancePlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","type":"string"},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"FeatureImportancePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"feature":{"type":"string"},"importance":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["feature","importance"]},"LearningCurveFoldsSpec":{"type":"object","properties":{"input":{"type":"string","const":"folds"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveFoldRow"}},"spread":{"anyOf":[{"type":"object","properties":{"multiplier":{"type":"number"}},"additionalProperties":false},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]},"LearningCurveFoldRow":{"type":"object","properties":{"trainSize":{"type":"number"},"fold":{"type":"string"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fold","score","split","trainSize"]},"LearningCurveSummariesSpec":{"type":"object","properties":{"input":{"type":"string","const":"summaries"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]},"LearningCurveRow":{"type":"object","properties":{"trainSize":{"type":"number"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["score","split","trainSize"]},"QqPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"qqPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/QqPlotRow"}},"distribution":{"description":"第一版支持正态分布，不自动拟合参数。","type":"object","properties":{"type":{"type":"string","const":"normal"},"mean":{"type":"number"},"standardDeviation":{"type":"number"}},"additionalProperties":false,"required":["type"]},"referenceLine":{"description":"默认 none；quartiles / regression 按系列独立计算。","enum":["identity","none","quartiles","regression"],"type":"string"},"fieldLabels":{"type":"object","properties":{"theoreticalQuantile":{"type":"string"},"sampleQuantile":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"QqPlotRow":{"description":"原始一维样本，无序和重复值有效。","type":"object","properties":{"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"ResidualObservationsSpec":{"type":"object","properties":{"input":{"type":"string","const":"observations"},"data":{"type":"array","items":{"$ref":"#/definitions/RegressionObservation"}},"regression":{"anyOf":[{"$ref":"#/definitions/LinearRegressionOptions"},{"$ref":"#/definitions/PolynomialRegressionOptions"},{"$ref":"#/definitions/LowessRegressionOptions"}]},"xAxis":{"enum":["fitted","predictor"],"type":"string"},"fieldLabels":{"type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"},"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"type":{"type":"string","const":"residualPlot"},"smooth":{"description":"残差趋势线；不改变生成残差的模型。","anyOf":[{"$ref":"#/definitions/LowessRegressionOptions"},{"const":false,"type":"boolean"}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]},"RegressionObservation":{"description":"原始配对观测；重复 x/y 保留，不接收统计结果。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]},"LinearRegressionOptions":{"type":"object","properties":{"method":{"type":"string","const":"linear"}},"additionalProperties":false,"required":["method"]},"PolynomialRegressionOptions":{"type":"object","properties":{"method":{"type":"string","const":"polynomial"},"degree":{"type":"number"}},"additionalProperties":false,"required":["degree","method"]},"LowessRegressionOptions":{"type":"object","properties":{"method":{"type":"string","const":"lowess"},"span":{"type":"number"},"iterations":{"type":"number"},"delta":{"description":"与 x 同单位；0 精确求值，正值显式插值加速，全量观测仍参与。","type":"number"}},"additionalProperties":false,"required":["method"]},"ResidualPredictionsSpec":{"type":"object","properties":{"input":{"type":"string","const":"predictions"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPredictionRow"}},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"type":{"type":"string","const":"residualPlot"},"smooth":{"description":"残差趋势线；不改变生成残差的模型。","anyOf":[{"$ref":"#/definitions/LowessRegressionOptions"},{"const":false,"type":"boolean"}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]},"ResidualPredictionRow":{"type":"object","properties":{"id":{"type":"string"},"actual":{"type":"number"},"fittedValue":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","fittedValue","id"]},"ResidualResultsSpec":{"type":"object","properties":{"input":{"type":"string","const":"residuals"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPlotRow"}},"residualKind":{"enum":["raw","standardized","studentized"],"type":"string"},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"type":{"type":"string","const":"residualPlot"},"smooth":{"description":"残差趋势线；不改变生成残差的模型。","anyOf":[{"$ref":"#/definitions/LowessRegressionOptions"},{"const":false,"type":"boolean"}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","residualKind","type"]},"ResidualPlotRow":{"type":"object","properties":{"id":{"type":"string"},"fittedValue":{"type":"number"},"residual":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fittedValue","id","residual"]},"EmbeddingPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"embeddingPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EmbeddingPlotRow"}},"method":{"description":"外部计算方法或结果类型说明；本包不重新拟合或估计。","enum":["pca","tsne","umap"],"type":"string"},"dimensions":{"type":"object","properties":{"x":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]},"y":{"type":"object","properties":{"name":{"type":"string"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["name"]}},"additionalProperties":false,"required":["x","y"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","method","type"]},"EmbeddingPlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"id":{"type":"string"},"x":{"type":"number"},"y":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","x","y"]},"ScreePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"screePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScreePlotRow"}},"showCumulative":{"description":"是否显示累计解释方差比例，默认 false。","type":"boolean"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"component":{"type":"string"},"explainedVarianceRatio":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScreePlotRow":{"description":"统计量由调用方计算；只负责可视化。","type":"object","properties":{"component":{"type":"number"},"explainedVarianceRatio":{"type":"number"}},"additionalProperties":false,"required":["component","explainedVarianceRatio"]},"AutocorrelationPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"autocorrelationPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/AutocorrelationPlotRow"}},"method":{"description":"默认 acf；pacf 采用 Yule–Walker MLE。","enum":["acf","pacf"],"type":"string"},"maxLag":{"description":"最高滞后，整数 1–512，另受每组样本量限制。","type":"number"},"confidence":{"description":"默认 95% 零中心置信带；false 关闭。","anyOf":[{"type":"object","properties":{"level":{"type":"number"}},"additionalProperties":false},{"const":false,"type":"boolean"}]},"fieldLabels":{"type":"object","properties":{"lag":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"AutocorrelationPlotRow":{"description":"按每系列的输入顺序表示等间隔原始序列，不能按数值排序。","type":"object","properties":{"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"SeasonalPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"seasonalPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/SeasonalPlotRow"}},"cycleOrder":{"description":"非空、无重复，覆盖输入的周期；可声明无观测的位置。","type":"array","items":{"type":"string"}},"phaseOrder":{"description":"非空、无重复，覆盖输入的周期内位置；可声明无观测的位置。","type":"array","items":{"type":"string"}},"layout":{"description":"默认 overlay；subseries 按 phase 分面、横轴为 cycle。","enum":["overlay","subseries"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"cycle":{"type":"string"},"phase":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["cycleOrder","data","phaseOrder","type"]},"SeasonalPlotRow":{"description":"按 cycle/phase 标注的原始观测，不要求统计汇总。","type":"object","properties":{"cycle":{"description":"完整周期编号，例如年份。","type":"string"},"phase":{"description":"周期内位置，例如月份或季度。","type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["cycle","phase","value"]},"TimeSeriesPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"timeSeriesPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/TimeSeriesPlotRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"time":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"TimeSeriesPlotRow":{"description":"原始时间观测；可选区间结果由外部提供。","type":"object","properties":{"time":{"description":"带时区的 ISO 8601 时间。","type":"string"},"value":{"type":["null","number"]},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["time","value"]},"CalibrationCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"calibrationCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/CalibrationCurveRow"}},"binning":{"type":"object","properties":{"binCount":{"description":"箱数，默认 5，整数范围 1–512。","type":"number"},"strategy":{"description":"默认 uniform；quantile 按系列独立确定边界。","enum":["quantile","uniform"],"type":"string"}},"additionalProperties":false},"fieldLabels":{"type":"object","properties":{"meanPredictedProbability":{"type":"string"},"observedRate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CalibrationCurveRow":{"description":"每行是一条真实二分类标签与预测正例概率。","type":"object","properties":{"actual":{"type":"boolean"},"probability":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","probability"]},"RocCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/BinaryScoreRow"}},"fieldLabels":{"description":"展示生成的曲线统计量，不改变原始输入字段。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"BinaryScoreRow":{"description":"逐样本二分类预测；true 为正例，较大分数表示更倾向正例。","type":"object","properties":{"actual":{"type":"boolean"},"score":{"description":"任意有限预测分数，不要求为概率。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","score"]},"PrecisionRecallCurveSpec":{"type":"object","properties":{"type":{"type":"string","const":"precisionRecallCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/BinaryScoreRow"}},"baseline":{"description":"绘制各系列自己的正例比例基线，默认 false。","type":"boolean"},"fieldLabels":{"type":"object","properties":{"recall":{"type":"string"},"precision":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ConfusionMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"confusionMatrix"},"data":{"type":"array","items":{"$ref":"#/definitions/ConfusionMatrixRow"}},"classOrder":{"description":"完整显示顺序；可包含本批未出现类别，须覆盖所有输入类别。","type":"array","items":{"type":"string"}},"normalization":{"description":"默认 none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化。","enum":["actual","all","none","predicted"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ConfusionMatrixRow":{"description":"每行是一条实际类别与预测类别观测，内部计数。","type":"object","properties":{"actual":{"type":"string"},"predicted":{"type":"string"}},"additionalProperties":false,"required":["actual","predicted"]},"ScatterPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"scatterPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScatterPlotRow"}},"fit":{"anyOf":[{"additionalProperties":false,"type":"object","properties":{"method":{"type":"string","const":"linear"},"input":{"type":"string","const":"observations"},"confidence":{"description":"均值响应的逐点 percentile bootstrap CI，不是预测区间。","anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"sampling":{"type":"object","properties":{"points":{"type":"number"}},"additionalProperties":false}},"required":["input","method"]},{"additionalProperties":false,"type":"object","properties":{"method":{"type":"string","const":"polynomial"},"degree":{"type":"number"},"input":{"type":"string","const":"observations"},"confidence":{"description":"均值响应的逐点 percentile bootstrap CI，不是预测区间。","anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"sampling":{"type":"object","properties":{"points":{"type":"number"}},"additionalProperties":false}},"required":["degree","input","method"]},{"additionalProperties":false,"type":"object","properties":{"method":{"type":"string","const":"lowess"},"span":{"type":"number"},"iterations":{"type":"number"},"delta":{"description":"与 x 同单位；0 精确求值，正值显式插值加速，全量观测仍参与。","type":"number"},"input":{"type":"string","const":"observations"},"confidence":{"const":false,"type":"boolean"}},"required":["input","method"]},{"$ref":"#/definitions/ScatterEstimatesFit"}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ScatterPlotRow":{"description":"原始逐条观测；可选内部拟合或外部估计。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]},"ScatterEstimatesFit":{"type":"object","properties":{"input":{"type":"string","const":"estimates"},"method":{"type":"string"},"data":{"type":"array","items":{"$ref":"#/definitions/FitRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]}},"additionalProperties":false,"required":["data","input","method"]},"FitRow":{"type":"object","properties":{"x":{"type":"number"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["estimate","x"]},"PairedComparisonPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"pairedComparisonPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PairedComparisonPlotRow"}},"categoryOrder":{"description":"同一对象比较的两个不同状态，数组顺序即显示顺序。","type":"array","items":[{"type":"string"},{"type":"string"}],"minItems":2,"maxItems":2},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["categoryOrder","data","type"]},"PairedComparisonPlotRow":{"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"StripPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"stripPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/StripPlotRow"}},"layout":{"enum":["jitter","strip","swarm"],"type":"string"},"jitterRatio":{"description":"最大偏移占完整分类带宽的比例，0–0.5；仅 jitter 布局允许，默认 0.3。","type":"number"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"StripPlotRow":{"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]},"MissingValueMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"missingValueMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/TableObservation"}}},"additionalProperties":false,"required":["observations"]},"fieldLabels":{"type":"object","properties":{"observationId":{"type":"string"},"variable":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"TableObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"$ref":"#/definitions/ObservationValue"}}},"additionalProperties":false,"required":["id","values"]},"ObservationValue":{"description":"JSON 原始单元格；null 是唯一缺失标记。","type":["null","string","number","boolean"]},"CountPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"countPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/CountPlotRow"}},"statistic":{"description":"显示统计量，默认 count。","enum":["count","proportion"],"type":"string"},"normalizationScope":{"description":"proportion 的分母范围，默认 all；仅 proportion 模式可配置。","enum":["all","series"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"CountPlotRow":{"description":"每行表示一条原始分类观测，重复行分别计数。","type":"object","properties":{"category":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category"]},"BoxPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"boxPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/BoxPlotRow"}},"whiskers":{"description":"编译阶段计算须和异常值的规则。","$ref":"#/definitions/BoxPlotWhiskersSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"BoxPlotRow":{"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；重复值分别参与统计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]},"BoxPlotWhiskersSpec":{"type":"object","properties":{"iqrMultiplier":{"description":"IQR 围栏倍数，默认 1.5；有限且非负。","minimum":0,"type":"number"}},"additionalProperties":false},"CorrelationMatrixSpec":{"type":"object","properties":{"type":{"type":"string","const":"correlationMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/NumericObservation"}}},"additionalProperties":false,"required":["observations"]},"method":{"description":"默认 pearson；kendall 为 tau-b。","enum":["kendall","pearson","spearman"],"type":"string"},"minSamples":{"description":"最少有效配对数，默认 2。","type":"integer","minimum":2},"triangle":{"enum":["full","lower","upper"],"type":"string"},"fieldLabels":{"type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]},"NumericObservation":{"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}}},"additionalProperties":false,"required":["id","values"]},"EcdfPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"ecdfPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EcdfPlotRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"cumulativeProbability":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"EcdfPlotRow":{"type":"object","properties":{"value":{"description":"原始观测；无序和重复值均有效。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"PointIntervalObservationsSpec":{"type":"object","properties":{"input":{"type":"string","const":"observations"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalObservation"}},"estimator":{"enum":["mean","median"],"type":"string"},"errorBar":{"anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"percentile"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardError"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardDeviation"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]},"PointIntervalObservation":{"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]},"PointIntervalEstimatesSpec":{"type":"object","properties":{"input":{"type":"string","const":"estimates"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalPlotRow"}},"interval":{"$ref":"#/definitions/Interval"},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","interval","type"]},"PointIntervalPlotRow":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","estimate","lower","upper"]},"Interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"HistogramSpec":{"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"binning":{"description":"原始观测的分箱规则；重复值分别计数。","$ref":"#/definitions/HistogramBinningSpec"},"statistic":{"description":"显示统计量，默认 count；proportion 为样本比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"HistogramRow":{"type":"object","properties":{"value":{"type":"number"}},"additionalProperties":false,"required":["value"]},"HistogramBinningSpec":{"type":"object","properties":{"binCount":{"description":"非恒定数据的等宽箱数；省略时按样本量选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false},"KdePlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"编译阶段的核密度估计配置。单样本和常数系列须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"绘制采样配置；不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"KdePlotRow":{"type":"object","properties":{"value":{"description":"原始观测；重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]},"KdeEstimationSpec":{"type":"object","properties":{"kernel":{"description":"默认 gaussian。","enum":["epanechnikov","gaussian"],"type":"string"},"bandwidth":{"description":"正数为固定带宽，单位与 value 相同；默认 scott，各分布组独立估计。","anyOf":[{"enum":["scott","silverman"],"type":"string"},{"type":"number"}]}},"additionalProperties":false},"KdeSamplingSpec":{"type":"object","properties":{"points":{"description":"每组等距绘制点数，默认 256；仅控制曲线离散精度。","type":"integer","minimum":2,"maximum":2048}},"additionalProperties":false},"ViolinPlotSpec":{"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"estimation":{"description":"各 category + series 独立计算 KDE；单样本和常数组须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"每组轮廓的绘制采样配置，不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]},"ViolinPlotRow":{"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；允许乱序，重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]},"LearningCurveSpec":{"anyOf":[{"$ref":"#/definitions/LearningCurveFoldsSpec"},{"$ref":"#/definitions/LearningCurveSummariesSpec"}],"type":"object","properties":{"type":{"const":"learningCurve"}},"required":["type","input"]},"ResidualPlotSpec":{"anyOf":[{"$ref":"#/definitions/ResidualObservationsSpec"},{"$ref":"#/definitions/ResidualPredictionsSpec"},{"$ref":"#/definitions/ResidualResultsSpec"}],"type":"object","properties":{"type":{"const":"residualPlot"}},"required":["type","input"]},"PointIntervalPlotSpec":{"anyOf":[{"$ref":"#/definitions/PointIntervalObservationsSpec"},{"$ref":"#/definitions/PointIntervalEstimatesSpec"}],"type":"object","properties":{"type":{"const":"pointIntervalPlot"}},"required":["type","input"]}},"$schema":"http://json-schema.org/draft-07/schema#","$id":"https://visactor.io/schemas/vchart-statplots/2.1.7/statplot.schema.json","type":"object","required":["type"],"oneOf":[{"$ref":"#/definitions/PairPlotSpec"},{"$ref":"#/definitions/ShapBeeswarmPlotSpec"},{"$ref":"#/definitions/HexbinPlotSpec"},{"$ref":"#/definitions/FeatureImportancePlotSpec"},{"type":"object","properties":{"type":{"const":"learningCurve"}},"required":["type","input"],"oneOf":[{"$ref":"#/definitions/LearningCurveFoldsSpec"},{"$ref":"#/definitions/LearningCurveSummariesSpec"}],"discriminator":{"propertyName":"input"}},{"$ref":"#/definitions/QqPlotSpec"},{"type":"object","properties":{"type":{"const":"residualPlot"}},"required":["type","input"],"oneOf":[{"$ref":"#/definitions/ResidualObservationsSpec"},{"$ref":"#/definitions/ResidualPredictionsSpec"},{"$ref":"#/definitions/ResidualResultsSpec"}],"discriminator":{"propertyName":"input"}},{"$ref":"#/definitions/EmbeddingPlotSpec"},{"$ref":"#/definitions/ScreePlotSpec"},{"$ref":"#/definitions/AutocorrelationPlotSpec"},{"$ref":"#/definitions/SeasonalPlotSpec"},{"$ref":"#/definitions/TimeSeriesPlotSpec"},{"$ref":"#/definitions/CalibrationCurveSpec"},{"$ref":"#/definitions/PrecisionRecallCurveSpec"},{"$ref":"#/definitions/ConfusionMatrixSpec"},{"$ref":"#/definitions/ScatterPlotSpec"},{"$ref":"#/definitions/PairedComparisonPlotSpec"},{"$ref":"#/definitions/StripPlotSpec"},{"$ref":"#/definitions/MissingValueMatrixSpec"},{"$ref":"#/definitions/CountPlotSpec"},{"$ref":"#/definitions/BoxPlotSpec"},{"$ref":"#/definitions/CorrelationMatrixSpec"},{"$ref":"#/definitions/EcdfPlotSpec"},{"type":"object","properties":{"type":{"const":"pointIntervalPlot"}},"required":["type","input"],"oneOf":[{"$ref":"#/definitions/PointIntervalObservationsSpec"},{"$ref":"#/definitions/PointIntervalEstimatesSpec"}],"discriminator":{"propertyName":"input"}},{"$ref":"#/definitions/HistogramSpec"},{"$ref":"#/definitions/KdePlotSpec"},{"$ref":"#/definitions/RocCurveSpec"},{"$ref":"#/definitions/ViolinPlotSpec"}],"discriminator":{"propertyName":"type"}};
 const schema12 = {"type":"object","properties":{"type":{"type":"string","const":"pairPlot"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/PairPlotObservation"}}},"additionalProperties":false,"required":["observations"]},"diagonal":{"anyOf":[{"type":"object","properties":{"type":{"const":"histogram","type":"string"},"binning":{"$ref":"#/definitions/PairPlotBinningSpec"}},"additionalProperties":false},{"type":"object","properties":{"type":{"type":"string","const":"none"}},"additionalProperties":false,"required":["type"]}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]};
 const schema13 = {"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["id","values"]};
 const schema14 = {"type":"object","properties":{"binCount":{"description":"每个非恒定变量的等宽箱数；省略时按有效观测数选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false};
@@ -2159,10 +2159,10 @@ validate18.errors = vErrors;
 return errors === 0;
 }
 
-const schema73 = {"type":"object","properties":{"input":{"type":"string","const":"folds"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveFoldRow"}},"spread":{"anyOf":[{"type":"object","properties":{"multiplier":{"type":"number"}},"additionalProperties":false},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]};
-const schema74 = {"type":"object","properties":{"trainSize":{"type":"number"},"fold":{"type":"string"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fold","score","split","trainSize"]};
+const schema74 = {"type":"object","properties":{"input":{"type":"string","const":"folds"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveFoldRow"}},"spread":{"anyOf":[{"type":"object","properties":{"multiplier":{"type":"number"}},"additionalProperties":false},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]};
+const schema75 = {"type":"object","properties":{"trainSize":{"type":"number"},"fold":{"type":"string"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fold","score","split","trainSize"]};
 
-function validate68(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate70(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -2207,7 +2207,7 @@ vErrors.push(err3);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema73.properties, key0))){
+if(!(func2.call(schema74.properties, key0))){
 const err4 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err4];
@@ -2338,7 +2338,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!((data5 === "train") || (data5 === "validation"))){
-const err15 = {instancePath:instancePath+"/data/" + i0+"/split",schemaPath:"#/definitions/LearningCurveFoldRow/properties/split/enum",keyword:"enum",params:{allowedValues: schema74.properties.split.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/data/" + i0+"/split",schemaPath:"#/definitions/LearningCurveFoldRow/properties/split/enum",keyword:"enum",params:{allowedValues: schema75.properties.split.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -2611,7 +2611,7 @@ vErrors.push(err35);
 errors++;
 }
 if(!((data17 === "dark") || (data17 === "light"))){
-const err36 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema73.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err36 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema74.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err36];
 }
@@ -2638,14 +2638,14 @@ vErrors.push(err37);
 }
 errors++;
 }
-validate68.errors = vErrors;
+validate70.errors = vErrors;
 return errors === 0;
 }
 
-const schema75 = {"type":"object","properties":{"input":{"type":"string","const":"summaries"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]};
-const schema76 = {"type":"object","properties":{"trainSize":{"type":"number"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["score","split","trainSize"]};
+const schema76 = {"type":"object","properties":{"input":{"type":"string","const":"summaries"},"data":{"type":"array","items":{"$ref":"#/definitions/LearningCurveRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]},"type":{"type":"string","const":"learningCurve"},"metric":{"type":"string"},"fieldLabels":{"type":"object","properties":{"trainSize":{"type":"string"},"score":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","metric","type"]};
+const schema77 = {"type":"object","properties":{"trainSize":{"type":"number"},"split":{"enum":["train","validation"],"type":"string"},"score":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["score","split","trainSize"]};
 
-function validate70(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate72(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -2690,7 +2690,7 @@ vErrors.push(err3);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema75.properties, key0))){
+if(!(func2.call(schema76.properties, key0))){
 const err4 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err4];
@@ -2799,7 +2799,7 @@ vErrors.push(err12);
 errors++;
 }
 if(!((data4 === "train") || (data4 === "validation"))){
-const err13 = {instancePath:instancePath+"/data/" + i0+"/split",schemaPath:"#/definitions/LearningCurveRow/properties/split/enum",keyword:"enum",params:{allowedValues: schema76.properties.split.enum},message:"must be equal to one of the allowed values"};
+const err13 = {instancePath:instancePath+"/data/" + i0+"/split",schemaPath:"#/definitions/LearningCurveRow/properties/split/enum",keyword:"enum",params:{allowedValues: schema77.properties.split.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err13];
 }
@@ -2935,7 +2935,7 @@ vErrors.push(err23);
 errors++;
 }
 if(!(((data10 === "confidence") || (data10 === "credible")) || (data10 === "prediction"))){
-const err24 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema75.properties.interval.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err24 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema76.properties.interval.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err24];
 }
@@ -3019,7 +3019,7 @@ vErrors.push(err30);
 errors++;
 }
 if(!((data12 === "standardDeviation") || (data12 === "standardError"))){
-const err31 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema75.properties.interval.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err31 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema76.properties.interval.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err31];
 }
@@ -3263,7 +3263,7 @@ vErrors.push(err49);
 errors++;
 }
 if(!((data22 === "dark") || (data22 === "light"))){
-const err50 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema75.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err50 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema76.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err50];
 }
@@ -3290,7 +3290,7 @@ vErrors.push(err51);
 }
 errors++;
 }
-validate70.errors = vErrors;
+validate72.errors = vErrors;
 return errors === 0;
 }
 
@@ -3662,10 +3662,13 @@ validate20.errors = vErrors;
 return errors === 0;
 }
 
-const schema77 = {"type":"object","properties":{"input":{"type":"string","const":"predictions"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPredictionRow"}},"type":{"type":"string","const":"residualPlot"},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]};
-const schema78 = {"type":"object","properties":{"id":{"type":"string"},"actual":{"type":"number"},"fittedValue":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","fittedValue","id"]};
+const schema78 = {"type":"object","properties":{"input":{"type":"string","const":"observations"},"data":{"type":"array","items":{"$ref":"#/definitions/RegressionObservation"}},"regression":{"anyOf":[{"$ref":"#/definitions/LinearRegressionOptions"},{"$ref":"#/definitions/PolynomialRegressionOptions"},{"$ref":"#/definitions/LowessRegressionOptions"}]},"xAxis":{"enum":["fitted","predictor"],"type":"string"},"fieldLabels":{"type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"},"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"type":{"type":"string","const":"residualPlot"},"smooth":{"description":"残差趋势线；不改变生成残差的模型。","anyOf":[{"$ref":"#/definitions/LowessRegressionOptions"},{"const":false,"type":"boolean"}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]};
+const schema79 = {"description":"原始配对观测；重复 x/y 保留，不接收统计结果。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]};
+const schema80 = {"type":"object","properties":{"method":{"type":"string","const":"linear"}},"additionalProperties":false,"required":["method"]};
+const schema81 = {"type":"object","properties":{"method":{"type":"string","const":"polynomial"},"degree":{"type":"number"}},"additionalProperties":false,"required":["degree","method"]};
+const schema82 = {"type":"object","properties":{"method":{"type":"string","const":"lowess"},"span":{"type":"number"},"iterations":{"type":"number"},"delta":{"description":"与 x 同单位；0 精确求值，正值显式插值加速，全量观测仍参与。","type":"number"}},"additionalProperties":false,"required":["method"]};
 
-function validate75(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate77(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -3700,7 +3703,803 @@ vErrors.push(err2);
 errors++;
 }
 for(const key0 in data){
-if(!((((((((key0 === "input") || (key0 === "data")) || (key0 === "type")) || (key0 === "fieldLabels")) || (key0 === "title")) || (key0 === "description")) || (key0 === "theme")) || (key0 === "colors"))){
+if(!(func2.call(schema78.properties, key0))){
+const err3 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err3];
+}
+else {
+vErrors.push(err3);
+}
+errors++;
+}
+}
+if(data.input !== undefined){
+let data0 = data.input;
+if(typeof data0 !== "string"){
+const err4 = {instancePath:instancePath+"/input",schemaPath:"#/properties/input/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err4];
+}
+else {
+vErrors.push(err4);
+}
+errors++;
+}
+if("observations" !== data0){
+const err5 = {instancePath:instancePath+"/input",schemaPath:"#/properties/input/const",keyword:"const",params:{allowedValue: "observations"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err5];
+}
+else {
+vErrors.push(err5);
+}
+errors++;
+}
+}
+if(data.data !== undefined){
+let data1 = data.data;
+if(Array.isArray(data1)){
+const len0 = data1.length;
+for(let i0=0; i0<len0; i0++){
+let data2 = data1[i0];
+if(data2 && typeof data2 == "object" && !Array.isArray(data2)){
+if(data2.x === undefined){
+const err6 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/RegressionObservation/required",keyword:"required",params:{missingProperty: "x"},message:"must have required property '"+"x"+"'"};
+if(vErrors === null){
+vErrors = [err6];
+}
+else {
+vErrors.push(err6);
+}
+errors++;
+}
+if(data2.y === undefined){
+const err7 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/RegressionObservation/required",keyword:"required",params:{missingProperty: "y"},message:"must have required property '"+"y"+"'"};
+if(vErrors === null){
+vErrors = [err7];
+}
+else {
+vErrors.push(err7);
+}
+errors++;
+}
+for(const key1 in data2){
+if(!((((key1 === "x") || (key1 === "y")) || (key1 === "id")) || (key1 === "series"))){
+const err8 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/RegressionObservation/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key1},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err8];
+}
+else {
+vErrors.push(err8);
+}
+errors++;
+}
+}
+if(data2.x !== undefined){
+let data3 = data2.x;
+if(!((typeof data3 == "number") && (isFinite(data3)))){
+const err9 = {instancePath:instancePath+"/data/" + i0+"/x",schemaPath:"#/definitions/RegressionObservation/properties/x/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err9];
+}
+else {
+vErrors.push(err9);
+}
+errors++;
+}
+}
+if(data2.y !== undefined){
+let data4 = data2.y;
+if(!((typeof data4 == "number") && (isFinite(data4)))){
+const err10 = {instancePath:instancePath+"/data/" + i0+"/y",schemaPath:"#/definitions/RegressionObservation/properties/y/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err10];
+}
+else {
+vErrors.push(err10);
+}
+errors++;
+}
+}
+if(data2.id !== undefined){
+if(typeof data2.id !== "string"){
+const err11 = {instancePath:instancePath+"/data/" + i0+"/id",schemaPath:"#/definitions/RegressionObservation/properties/id/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err11];
+}
+else {
+vErrors.push(err11);
+}
+errors++;
+}
+}
+if(data2.series !== undefined){
+if(typeof data2.series !== "string"){
+const err12 = {instancePath:instancePath+"/data/" + i0+"/series",schemaPath:"#/definitions/RegressionObservation/properties/series/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err12];
+}
+else {
+vErrors.push(err12);
+}
+errors++;
+}
+}
+}
+else {
+const err13 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/RegressionObservation/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err13];
+}
+else {
+vErrors.push(err13);
+}
+errors++;
+}
+}
+}
+else {
+const err14 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/type",keyword:"type",params:{type: "array"},message:"must be array"};
+if(vErrors === null){
+vErrors = [err14];
+}
+else {
+vErrors.push(err14);
+}
+errors++;
+}
+}
+if(data.regression !== undefined){
+let data7 = data.regression;
+const _errs19 = errors;
+let valid5 = false;
+const _errs20 = errors;
+if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
+if(data7.method === undefined){
+const err15 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/LinearRegressionOptions/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
+if(vErrors === null){
+vErrors = [err15];
+}
+else {
+vErrors.push(err15);
+}
+errors++;
+}
+for(const key2 in data7){
+if(!(key2 === "method")){
+const err16 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/LinearRegressionOptions/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err16];
+}
+else {
+vErrors.push(err16);
+}
+errors++;
+}
+}
+if(data7.method !== undefined){
+let data8 = data7.method;
+if(typeof data8 !== "string"){
+const err17 = {instancePath:instancePath+"/regression/method",schemaPath:"#/definitions/LinearRegressionOptions/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err17];
+}
+else {
+vErrors.push(err17);
+}
+errors++;
+}
+if("linear" !== data8){
+const err18 = {instancePath:instancePath+"/regression/method",schemaPath:"#/definitions/LinearRegressionOptions/properties/method/const",keyword:"const",params:{allowedValue: "linear"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err18];
+}
+else {
+vErrors.push(err18);
+}
+errors++;
+}
+}
+}
+else {
+const err19 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/LinearRegressionOptions/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err19];
+}
+else {
+vErrors.push(err19);
+}
+errors++;
+}
+var _valid0 = _errs20 === errors;
+valid5 = valid5 || _valid0;
+if(!valid5){
+const _errs26 = errors;
+if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
+if(data7.degree === undefined){
+const err20 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/PolynomialRegressionOptions/required",keyword:"required",params:{missingProperty: "degree"},message:"must have required property '"+"degree"+"'"};
+if(vErrors === null){
+vErrors = [err20];
+}
+else {
+vErrors.push(err20);
+}
+errors++;
+}
+if(data7.method === undefined){
+const err21 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/PolynomialRegressionOptions/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
+if(vErrors === null){
+vErrors = [err21];
+}
+else {
+vErrors.push(err21);
+}
+errors++;
+}
+for(const key3 in data7){
+if(!((key3 === "method") || (key3 === "degree"))){
+const err22 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/PolynomialRegressionOptions/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key3},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err22];
+}
+else {
+vErrors.push(err22);
+}
+errors++;
+}
+}
+if(data7.method !== undefined){
+let data9 = data7.method;
+if(typeof data9 !== "string"){
+const err23 = {instancePath:instancePath+"/regression/method",schemaPath:"#/definitions/PolynomialRegressionOptions/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err23];
+}
+else {
+vErrors.push(err23);
+}
+errors++;
+}
+if("polynomial" !== data9){
+const err24 = {instancePath:instancePath+"/regression/method",schemaPath:"#/definitions/PolynomialRegressionOptions/properties/method/const",keyword:"const",params:{allowedValue: "polynomial"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err24];
+}
+else {
+vErrors.push(err24);
+}
+errors++;
+}
+}
+if(data7.degree !== undefined){
+let data10 = data7.degree;
+if(!((typeof data10 == "number") && (isFinite(data10)))){
+const err25 = {instancePath:instancePath+"/regression/degree",schemaPath:"#/definitions/PolynomialRegressionOptions/properties/degree/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err25];
+}
+else {
+vErrors.push(err25);
+}
+errors++;
+}
+}
+}
+else {
+const err26 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/PolynomialRegressionOptions/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err26];
+}
+else {
+vErrors.push(err26);
+}
+errors++;
+}
+var _valid0 = _errs26 === errors;
+valid5 = valid5 || _valid0;
+if(!valid5){
+const _errs34 = errors;
+if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
+if(data7.method === undefined){
+const err27 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/LowessRegressionOptions/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
+if(vErrors === null){
+vErrors = [err27];
+}
+else {
+vErrors.push(err27);
+}
+errors++;
+}
+for(const key4 in data7){
+if(!((((key4 === "method") || (key4 === "span")) || (key4 === "iterations")) || (key4 === "delta"))){
+const err28 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/LowessRegressionOptions/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key4},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err28];
+}
+else {
+vErrors.push(err28);
+}
+errors++;
+}
+}
+if(data7.method !== undefined){
+let data11 = data7.method;
+if(typeof data11 !== "string"){
+const err29 = {instancePath:instancePath+"/regression/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err29];
+}
+else {
+vErrors.push(err29);
+}
+errors++;
+}
+if("lowess" !== data11){
+const err30 = {instancePath:instancePath+"/regression/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/const",keyword:"const",params:{allowedValue: "lowess"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err30];
+}
+else {
+vErrors.push(err30);
+}
+errors++;
+}
+}
+if(data7.span !== undefined){
+let data12 = data7.span;
+if(!((typeof data12 == "number") && (isFinite(data12)))){
+const err31 = {instancePath:instancePath+"/regression/span",schemaPath:"#/definitions/LowessRegressionOptions/properties/span/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err31];
+}
+else {
+vErrors.push(err31);
+}
+errors++;
+}
+}
+if(data7.iterations !== undefined){
+let data13 = data7.iterations;
+if(!((typeof data13 == "number") && (isFinite(data13)))){
+const err32 = {instancePath:instancePath+"/regression/iterations",schemaPath:"#/definitions/LowessRegressionOptions/properties/iterations/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err32];
+}
+else {
+vErrors.push(err32);
+}
+errors++;
+}
+}
+if(data7.delta !== undefined){
+let data14 = data7.delta;
+if(!((typeof data14 == "number") && (isFinite(data14)))){
+const err33 = {instancePath:instancePath+"/regression/delta",schemaPath:"#/definitions/LowessRegressionOptions/properties/delta/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err33];
+}
+else {
+vErrors.push(err33);
+}
+errors++;
+}
+}
+}
+else {
+const err34 = {instancePath:instancePath+"/regression",schemaPath:"#/definitions/LowessRegressionOptions/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err34];
+}
+else {
+vErrors.push(err34);
+}
+errors++;
+}
+var _valid0 = _errs34 === errors;
+valid5 = valid5 || _valid0;
+}
+}
+if(!valid5){
+const err35 = {instancePath:instancePath+"/regression",schemaPath:"#/properties/regression/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(vErrors === null){
+vErrors = [err35];
+}
+else {
+vErrors.push(err35);
+}
+errors++;
+}
+else {
+errors = _errs19;
+if(vErrors !== null){
+if(_errs19){
+vErrors.length = _errs19;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+if(data.xAxis !== undefined){
+let data15 = data.xAxis;
+if(typeof data15 !== "string"){
+const err36 = {instancePath:instancePath+"/xAxis",schemaPath:"#/properties/xAxis/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err36];
+}
+else {
+vErrors.push(err36);
+}
+errors++;
+}
+if(!((data15 === "fitted") || (data15 === "predictor"))){
+const err37 = {instancePath:instancePath+"/xAxis",schemaPath:"#/properties/xAxis/enum",keyword:"enum",params:{allowedValues: schema78.properties.xAxis.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err37];
+}
+else {
+vErrors.push(err37);
+}
+errors++;
+}
+}
+if(data.fieldLabels !== undefined){
+let data16 = data.fieldLabels;
+if(data16 && typeof data16 == "object" && !Array.isArray(data16)){
+for(const key5 in data16){
+if(!((((key5 === "x") || (key5 === "y")) || (key5 === "fittedValue")) || (key5 === "residual"))){
+const err38 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key5},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err38];
+}
+else {
+vErrors.push(err38);
+}
+errors++;
+}
+}
+if(data16.x !== undefined){
+if(typeof data16.x !== "string"){
+const err39 = {instancePath:instancePath+"/fieldLabels/x",schemaPath:"#/properties/fieldLabels/properties/x/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err39];
+}
+else {
+vErrors.push(err39);
+}
+errors++;
+}
+}
+if(data16.y !== undefined){
+if(typeof data16.y !== "string"){
+const err40 = {instancePath:instancePath+"/fieldLabels/y",schemaPath:"#/properties/fieldLabels/properties/y/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err40];
+}
+else {
+vErrors.push(err40);
+}
+errors++;
+}
+}
+if(data16.fittedValue !== undefined){
+if(typeof data16.fittedValue !== "string"){
+const err41 = {instancePath:instancePath+"/fieldLabels/fittedValue",schemaPath:"#/properties/fieldLabels/properties/fittedValue/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err41];
+}
+else {
+vErrors.push(err41);
+}
+errors++;
+}
+}
+if(data16.residual !== undefined){
+if(typeof data16.residual !== "string"){
+const err42 = {instancePath:instancePath+"/fieldLabels/residual",schemaPath:"#/properties/fieldLabels/properties/residual/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err42];
+}
+else {
+vErrors.push(err42);
+}
+errors++;
+}
+}
+}
+else {
+const err43 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err43];
+}
+else {
+vErrors.push(err43);
+}
+errors++;
+}
+}
+if(data.type !== undefined){
+let data21 = data.type;
+if(typeof data21 !== "string"){
+const err44 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err44];
+}
+else {
+vErrors.push(err44);
+}
+errors++;
+}
+if("residualPlot" !== data21){
+const err45 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/const",keyword:"const",params:{allowedValue: "residualPlot"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err45];
+}
+else {
+vErrors.push(err45);
+}
+errors++;
+}
+}
+if(data.smooth !== undefined){
+let data22 = data.smooth;
+const _errs62 = errors;
+let valid13 = false;
+const _errs63 = errors;
+if(data22 && typeof data22 == "object" && !Array.isArray(data22)){
+if(data22.method === undefined){
+const err46 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
+if(vErrors === null){
+vErrors = [err46];
+}
+else {
+vErrors.push(err46);
+}
+errors++;
+}
+for(const key6 in data22){
+if(!((((key6 === "method") || (key6 === "span")) || (key6 === "iterations")) || (key6 === "delta"))){
+const err47 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key6},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err47];
+}
+else {
+vErrors.push(err47);
+}
+errors++;
+}
+}
+if(data22.method !== undefined){
+let data23 = data22.method;
+if(typeof data23 !== "string"){
+const err48 = {instancePath:instancePath+"/smooth/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err48];
+}
+else {
+vErrors.push(err48);
+}
+errors++;
+}
+if("lowess" !== data23){
+const err49 = {instancePath:instancePath+"/smooth/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/const",keyword:"const",params:{allowedValue: "lowess"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err49];
+}
+else {
+vErrors.push(err49);
+}
+errors++;
+}
+}
+if(data22.span !== undefined){
+let data24 = data22.span;
+if(!((typeof data24 == "number") && (isFinite(data24)))){
+const err50 = {instancePath:instancePath+"/smooth/span",schemaPath:"#/definitions/LowessRegressionOptions/properties/span/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err50];
+}
+else {
+vErrors.push(err50);
+}
+errors++;
+}
+}
+if(data22.iterations !== undefined){
+let data25 = data22.iterations;
+if(!((typeof data25 == "number") && (isFinite(data25)))){
+const err51 = {instancePath:instancePath+"/smooth/iterations",schemaPath:"#/definitions/LowessRegressionOptions/properties/iterations/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err51];
+}
+else {
+vErrors.push(err51);
+}
+errors++;
+}
+}
+if(data22.delta !== undefined){
+let data26 = data22.delta;
+if(!((typeof data26 == "number") && (isFinite(data26)))){
+const err52 = {instancePath:instancePath+"/smooth/delta",schemaPath:"#/definitions/LowessRegressionOptions/properties/delta/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err52];
+}
+else {
+vErrors.push(err52);
+}
+errors++;
+}
+}
+}
+else {
+const err53 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err53];
+}
+else {
+vErrors.push(err53);
+}
+errors++;
+}
+var _valid1 = _errs63 === errors;
+valid13 = valid13 || _valid1;
+if(!valid13){
+const _errs75 = errors;
+if(typeof data22 !== "boolean"){
+const err54 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf/1/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
+if(vErrors === null){
+vErrors = [err54];
+}
+else {
+vErrors.push(err54);
+}
+errors++;
+}
+if(false !== data22){
+const err55 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf/1/const",keyword:"const",params:{allowedValue: false},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err55];
+}
+else {
+vErrors.push(err55);
+}
+errors++;
+}
+var _valid1 = _errs75 === errors;
+valid13 = valid13 || _valid1;
+}
+if(!valid13){
+const err56 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(vErrors === null){
+vErrors = [err56];
+}
+else {
+vErrors.push(err56);
+}
+errors++;
+}
+else {
+errors = _errs62;
+if(vErrors !== null){
+if(_errs62){
+vErrors.length = _errs62;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+if(data.title !== undefined){
+if(typeof data.title !== "string"){
+const err57 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err57];
+}
+else {
+vErrors.push(err57);
+}
+errors++;
+}
+}
+if(data.description !== undefined){
+if(typeof data.description !== "string"){
+const err58 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err58];
+}
+else {
+vErrors.push(err58);
+}
+errors++;
+}
+}
+if(data.theme !== undefined){
+let data29 = data.theme;
+if(typeof data29 !== "string"){
+const err59 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err59];
+}
+else {
+vErrors.push(err59);
+}
+errors++;
+}
+if(!((data29 === "dark") || (data29 === "light"))){
+const err60 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema78.properties.theme.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err60];
+}
+else {
+vErrors.push(err60);
+}
+errors++;
+}
+}
+if(data.colors !== undefined){
+if(!(validate12(data.colors, {instancePath:instancePath+"/colors",parentData:data,parentDataProperty:"colors",rootData}))){
+vErrors = vErrors === null ? validate12.errors : vErrors.concat(validate12.errors);
+errors = vErrors.length;
+}
+}
+}
+else {
+const err61 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err61];
+}
+else {
+vErrors.push(err61);
+}
+errors++;
+}
+validate77.errors = vErrors;
+return errors === 0;
+}
+
+const schema84 = {"type":"object","properties":{"input":{"type":"string","const":"predictions"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPredictionRow"}},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"type":{"type":"string","const":"residualPlot"},"smooth":{"description":"残差趋势线；不改变生成残差的模型。","anyOf":[{"$ref":"#/definitions/LowessRegressionOptions"},{"const":false,"type":"boolean"}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]};
+const schema85 = {"type":"object","properties":{"id":{"type":"string"},"actual":{"type":"number"},"fittedValue":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["actual","fittedValue","id"]};
+
+function validate79(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+let vErrors = null;
+let errors = 0;
+if(data && typeof data == "object" && !Array.isArray(data)){
+if(data.data === undefined){
+const err0 = {instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: "data"},message:"must have required property '"+"data"+"'"};
+if(vErrors === null){
+vErrors = [err0];
+}
+else {
+vErrors.push(err0);
+}
+errors++;
+}
+if(data.input === undefined){
+const err1 = {instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: "input"},message:"must have required property '"+"input"+"'"};
+if(vErrors === null){
+vErrors = [err1];
+}
+else {
+vErrors.push(err1);
+}
+errors++;
+}
+if(data.type === undefined){
+const err2 = {instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: "type"},message:"must have required property '"+"type"+"'"};
+if(vErrors === null){
+vErrors = [err2];
+}
+else {
+vErrors.push(err2);
+}
+errors++;
+}
+for(const key0 in data){
+if(!(func2.call(schema84.properties, key0))){
 const err3 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err3];
@@ -3857,10 +4656,12 @@ vErrors.push(err15);
 errors++;
 }
 }
-if(data.type !== undefined){
-let data7 = data.type;
-if(typeof data7 !== "string"){
-const err16 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data.fieldLabels !== undefined){
+let data7 = data.fieldLabels;
+if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
+for(const key2 in data7){
+if(!((key2 === "fittedValue") || (key2 === "residual"))){
+const err16 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err16];
 }
@@ -3869,8 +4670,10 @@ vErrors.push(err16);
 }
 errors++;
 }
-if("residualPlot" !== data7){
-const err17 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/const",keyword:"const",params:{allowedValue: "residualPlot"},message:"must be equal to constant"};
+}
+if(data7.fittedValue !== undefined){
+if(typeof data7.fittedValue !== "string"){
+const err17 = {instancePath:instancePath+"/fieldLabels/fittedValue",schemaPath:"#/properties/fieldLabels/properties/fittedValue/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err17];
 }
@@ -3880,12 +4683,9 @@ vErrors.push(err17);
 errors++;
 }
 }
-if(data.fieldLabels !== undefined){
-let data8 = data.fieldLabels;
-if(data8 && typeof data8 == "object" && !Array.isArray(data8)){
-for(const key2 in data8){
-if(!((key2 === "fittedValue") || (key2 === "residual"))){
-const err18 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
+if(data7.residual !== undefined){
+if(typeof data7.residual !== "string"){
+const err18 = {instancePath:instancePath+"/fieldLabels/residual",schemaPath:"#/properties/fieldLabels/properties/residual/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err18];
 }
@@ -3895,9 +4695,9 @@ vErrors.push(err18);
 errors++;
 }
 }
-if(data8.fittedValue !== undefined){
-if(typeof data8.fittedValue !== "string"){
-const err19 = {instancePath:instancePath+"/fieldLabels/fittedValue",schemaPath:"#/properties/fieldLabels/properties/fittedValue/type",keyword:"type",params:{type: "string"},message:"must be string"};
+}
+else {
+const err19 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err19];
 }
@@ -3907,9 +4707,10 @@ vErrors.push(err19);
 errors++;
 }
 }
-if(data8.residual !== undefined){
-if(typeof data8.residual !== "string"){
-const err20 = {instancePath:instancePath+"/fieldLabels/residual",schemaPath:"#/properties/fieldLabels/properties/residual/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data.type !== undefined){
+let data10 = data.type;
+if(typeof data10 !== "string"){
+const err20 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err20];
 }
@@ -3918,10 +4719,8 @@ vErrors.push(err20);
 }
 errors++;
 }
-}
-}
-else {
-const err21 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if("residualPlot" !== data10){
+const err21 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/const",keyword:"const",params:{allowedValue: "residualPlot"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err21];
 }
@@ -3931,9 +4730,14 @@ vErrors.push(err21);
 errors++;
 }
 }
-if(data.title !== undefined){
-if(typeof data.title !== "string"){
-const err22 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data.smooth !== undefined){
+let data11 = data.smooth;
+const _errs28 = errors;
+let valid6 = false;
+const _errs29 = errors;
+if(data11 && typeof data11 == "object" && !Array.isArray(data11)){
+if(data11.method === undefined){
+const err22 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
 if(vErrors === null){
 vErrors = [err22];
 }
@@ -3942,10 +4746,9 @@ vErrors.push(err22);
 }
 errors++;
 }
-}
-if(data.description !== undefined){
-if(typeof data.description !== "string"){
-const err23 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+for(const key3 in data11){
+if(!((((key3 === "method") || (key3 === "span")) || (key3 === "iterations")) || (key3 === "delta"))){
+const err23 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key3},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err23];
 }
@@ -3955,10 +4758,10 @@ vErrors.push(err23);
 errors++;
 }
 }
-if(data.theme !== undefined){
-let data13 = data.theme;
-if(typeof data13 !== "string"){
-const err24 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data11.method !== undefined){
+let data12 = data11.method;
+if(typeof data12 !== "string"){
+const err24 = {instancePath:instancePath+"/smooth/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err24];
 }
@@ -3967,13 +4770,159 @@ vErrors.push(err24);
 }
 errors++;
 }
-if(!((data13 === "dark") || (data13 === "light"))){
-const err25 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema77.properties.theme.enum},message:"must be equal to one of the allowed values"};
+if("lowess" !== data12){
+const err25 = {instancePath:instancePath+"/smooth/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/const",keyword:"const",params:{allowedValue: "lowess"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err25];
 }
 else {
 vErrors.push(err25);
+}
+errors++;
+}
+}
+if(data11.span !== undefined){
+let data13 = data11.span;
+if(!((typeof data13 == "number") && (isFinite(data13)))){
+const err26 = {instancePath:instancePath+"/smooth/span",schemaPath:"#/definitions/LowessRegressionOptions/properties/span/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err26];
+}
+else {
+vErrors.push(err26);
+}
+errors++;
+}
+}
+if(data11.iterations !== undefined){
+let data14 = data11.iterations;
+if(!((typeof data14 == "number") && (isFinite(data14)))){
+const err27 = {instancePath:instancePath+"/smooth/iterations",schemaPath:"#/definitions/LowessRegressionOptions/properties/iterations/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err27];
+}
+else {
+vErrors.push(err27);
+}
+errors++;
+}
+}
+if(data11.delta !== undefined){
+let data15 = data11.delta;
+if(!((typeof data15 == "number") && (isFinite(data15)))){
+const err28 = {instancePath:instancePath+"/smooth/delta",schemaPath:"#/definitions/LowessRegressionOptions/properties/delta/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err28];
+}
+else {
+vErrors.push(err28);
+}
+errors++;
+}
+}
+}
+else {
+const err29 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err29];
+}
+else {
+vErrors.push(err29);
+}
+errors++;
+}
+var _valid0 = _errs29 === errors;
+valid6 = valid6 || _valid0;
+if(!valid6){
+const _errs41 = errors;
+if(typeof data11 !== "boolean"){
+const err30 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf/1/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
+if(vErrors === null){
+vErrors = [err30];
+}
+else {
+vErrors.push(err30);
+}
+errors++;
+}
+if(false !== data11){
+const err31 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf/1/const",keyword:"const",params:{allowedValue: false},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err31];
+}
+else {
+vErrors.push(err31);
+}
+errors++;
+}
+var _valid0 = _errs41 === errors;
+valid6 = valid6 || _valid0;
+}
+if(!valid6){
+const err32 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(vErrors === null){
+vErrors = [err32];
+}
+else {
+vErrors.push(err32);
+}
+errors++;
+}
+else {
+errors = _errs28;
+if(vErrors !== null){
+if(_errs28){
+vErrors.length = _errs28;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+if(data.title !== undefined){
+if(typeof data.title !== "string"){
+const err33 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err33];
+}
+else {
+vErrors.push(err33);
+}
+errors++;
+}
+}
+if(data.description !== undefined){
+if(typeof data.description !== "string"){
+const err34 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err34];
+}
+else {
+vErrors.push(err34);
+}
+errors++;
+}
+}
+if(data.theme !== undefined){
+let data18 = data.theme;
+if(typeof data18 !== "string"){
+const err35 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err35];
+}
+else {
+vErrors.push(err35);
+}
+errors++;
+}
+if(!((data18 === "dark") || (data18 === "light"))){
+const err36 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema84.properties.theme.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err36];
+}
+else {
+vErrors.push(err36);
 }
 errors++;
 }
@@ -3986,23 +4935,23 @@ errors = vErrors.length;
 }
 }
 else {
-const err26 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
+const err37 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
-vErrors = [err26];
+vErrors = [err37];
 }
 else {
-vErrors.push(err26);
+vErrors.push(err37);
 }
 errors++;
 }
-validate75.errors = vErrors;
+validate79.errors = vErrors;
 return errors === 0;
 }
 
-const schema79 = {"type":"object","properties":{"input":{"type":"string","const":"residuals"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPlotRow"}},"residualKind":{"enum":["raw","standardized","studentized"],"type":"string"},"type":{"type":"string","const":"residualPlot"},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","residualKind","type"]};
-const schema80 = {"type":"object","properties":{"id":{"type":"string"},"fittedValue":{"type":"number"},"residual":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fittedValue","id","residual"]};
+const schema87 = {"type":"object","properties":{"input":{"type":"string","const":"residuals"},"data":{"type":"array","items":{"$ref":"#/definitions/ResidualPlotRow"}},"residualKind":{"enum":["raw","standardized","studentized"],"type":"string"},"fieldLabels":{"type":"object","properties":{"fittedValue":{"type":"string"},"residual":{"type":"string"}},"additionalProperties":false},"type":{"type":"string","const":"residualPlot"},"smooth":{"description":"残差趋势线；不改变生成残差的模型。","anyOf":[{"$ref":"#/definitions/LowessRegressionOptions"},{"const":false,"type":"boolean"}]},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","residualKind","type"]};
+const schema88 = {"type":"object","properties":{"id":{"type":"string"},"fittedValue":{"type":"number"},"residual":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["fittedValue","id","residual"]};
 
-function validate77(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate81(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -4047,7 +4996,7 @@ vErrors.push(err3);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema79.properties, key0))){
+if(!(func2.call(schema87.properties, key0))){
 const err4 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err4];
@@ -4217,7 +5166,7 @@ vErrors.push(err17);
 errors++;
 }
 if(!(((data7 === "raw") || (data7 === "standardized")) || (data7 === "studentized"))){
-const err18 = {instancePath:instancePath+"/residualKind",schemaPath:"#/properties/residualKind/enum",keyword:"enum",params:{allowedValues: schema79.properties.residualKind.enum},message:"must be equal to one of the allowed values"};
+const err18 = {instancePath:instancePath+"/residualKind",schemaPath:"#/properties/residualKind/enum",keyword:"enum",params:{allowedValues: schema87.properties.residualKind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err18];
 }
@@ -4227,10 +5176,12 @@ vErrors.push(err18);
 errors++;
 }
 }
-if(data.type !== undefined){
-let data8 = data.type;
-if(typeof data8 !== "string"){
-const err19 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data.fieldLabels !== undefined){
+let data8 = data.fieldLabels;
+if(data8 && typeof data8 == "object" && !Array.isArray(data8)){
+for(const key2 in data8){
+if(!((key2 === "fittedValue") || (key2 === "residual"))){
+const err19 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err19];
 }
@@ -4239,8 +5190,10 @@ vErrors.push(err19);
 }
 errors++;
 }
-if("residualPlot" !== data8){
-const err20 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/const",keyword:"const",params:{allowedValue: "residualPlot"},message:"must be equal to constant"};
+}
+if(data8.fittedValue !== undefined){
+if(typeof data8.fittedValue !== "string"){
+const err20 = {instancePath:instancePath+"/fieldLabels/fittedValue",schemaPath:"#/properties/fieldLabels/properties/fittedValue/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err20];
 }
@@ -4250,12 +5203,9 @@ vErrors.push(err20);
 errors++;
 }
 }
-if(data.fieldLabels !== undefined){
-let data9 = data.fieldLabels;
-if(data9 && typeof data9 == "object" && !Array.isArray(data9)){
-for(const key2 in data9){
-if(!((key2 === "fittedValue") || (key2 === "residual"))){
-const err21 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
+if(data8.residual !== undefined){
+if(typeof data8.residual !== "string"){
+const err21 = {instancePath:instancePath+"/fieldLabels/residual",schemaPath:"#/properties/fieldLabels/properties/residual/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err21];
 }
@@ -4265,9 +5215,9 @@ vErrors.push(err21);
 errors++;
 }
 }
-if(data9.fittedValue !== undefined){
-if(typeof data9.fittedValue !== "string"){
-const err22 = {instancePath:instancePath+"/fieldLabels/fittedValue",schemaPath:"#/properties/fieldLabels/properties/fittedValue/type",keyword:"type",params:{type: "string"},message:"must be string"};
+}
+else {
+const err22 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err22];
 }
@@ -4277,9 +5227,10 @@ vErrors.push(err22);
 errors++;
 }
 }
-if(data9.residual !== undefined){
-if(typeof data9.residual !== "string"){
-const err23 = {instancePath:instancePath+"/fieldLabels/residual",schemaPath:"#/properties/fieldLabels/properties/residual/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data.type !== undefined){
+let data11 = data.type;
+if(typeof data11 !== "string"){
+const err23 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err23];
 }
@@ -4288,10 +5239,8 @@ vErrors.push(err23);
 }
 errors++;
 }
-}
-}
-else {
-const err24 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if("residualPlot" !== data11){
+const err24 = {instancePath:instancePath+"/type",schemaPath:"#/properties/type/const",keyword:"const",params:{allowedValue: "residualPlot"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err24];
 }
@@ -4301,9 +5250,14 @@ vErrors.push(err24);
 errors++;
 }
 }
-if(data.title !== undefined){
-if(typeof data.title !== "string"){
-const err25 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data.smooth !== undefined){
+let data12 = data.smooth;
+const _errs30 = errors;
+let valid6 = false;
+const _errs31 = errors;
+if(data12 && typeof data12 == "object" && !Array.isArray(data12)){
+if(data12.method === undefined){
+const err25 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
 if(vErrors === null){
 vErrors = [err25];
 }
@@ -4312,10 +5266,9 @@ vErrors.push(err25);
 }
 errors++;
 }
-}
-if(data.description !== undefined){
-if(typeof data.description !== "string"){
-const err26 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+for(const key3 in data12){
+if(!((((key3 === "method") || (key3 === "span")) || (key3 === "iterations")) || (key3 === "delta"))){
+const err26 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key3},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err26];
 }
@@ -4325,10 +5278,10 @@ vErrors.push(err26);
 errors++;
 }
 }
-if(data.theme !== undefined){
-let data14 = data.theme;
-if(typeof data14 !== "string"){
-const err27 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data12.method !== undefined){
+let data13 = data12.method;
+if(typeof data13 !== "string"){
+const err27 = {instancePath:instancePath+"/smooth/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err27];
 }
@@ -4337,13 +5290,159 @@ vErrors.push(err27);
 }
 errors++;
 }
-if(!((data14 === "dark") || (data14 === "light"))){
-const err28 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema79.properties.theme.enum},message:"must be equal to one of the allowed values"};
+if("lowess" !== data13){
+const err28 = {instancePath:instancePath+"/smooth/method",schemaPath:"#/definitions/LowessRegressionOptions/properties/method/const",keyword:"const",params:{allowedValue: "lowess"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err28];
 }
 else {
 vErrors.push(err28);
+}
+errors++;
+}
+}
+if(data12.span !== undefined){
+let data14 = data12.span;
+if(!((typeof data14 == "number") && (isFinite(data14)))){
+const err29 = {instancePath:instancePath+"/smooth/span",schemaPath:"#/definitions/LowessRegressionOptions/properties/span/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err29];
+}
+else {
+vErrors.push(err29);
+}
+errors++;
+}
+}
+if(data12.iterations !== undefined){
+let data15 = data12.iterations;
+if(!((typeof data15 == "number") && (isFinite(data15)))){
+const err30 = {instancePath:instancePath+"/smooth/iterations",schemaPath:"#/definitions/LowessRegressionOptions/properties/iterations/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err30];
+}
+else {
+vErrors.push(err30);
+}
+errors++;
+}
+}
+if(data12.delta !== undefined){
+let data16 = data12.delta;
+if(!((typeof data16 == "number") && (isFinite(data16)))){
+const err31 = {instancePath:instancePath+"/smooth/delta",schemaPath:"#/definitions/LowessRegressionOptions/properties/delta/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err31];
+}
+else {
+vErrors.push(err31);
+}
+errors++;
+}
+}
+}
+else {
+const err32 = {instancePath:instancePath+"/smooth",schemaPath:"#/definitions/LowessRegressionOptions/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err32];
+}
+else {
+vErrors.push(err32);
+}
+errors++;
+}
+var _valid0 = _errs31 === errors;
+valid6 = valid6 || _valid0;
+if(!valid6){
+const _errs43 = errors;
+if(typeof data12 !== "boolean"){
+const err33 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf/1/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
+if(vErrors === null){
+vErrors = [err33];
+}
+else {
+vErrors.push(err33);
+}
+errors++;
+}
+if(false !== data12){
+const err34 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf/1/const",keyword:"const",params:{allowedValue: false},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err34];
+}
+else {
+vErrors.push(err34);
+}
+errors++;
+}
+var _valid0 = _errs43 === errors;
+valid6 = valid6 || _valid0;
+}
+if(!valid6){
+const err35 = {instancePath:instancePath+"/smooth",schemaPath:"#/properties/smooth/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(vErrors === null){
+vErrors = [err35];
+}
+else {
+vErrors.push(err35);
+}
+errors++;
+}
+else {
+errors = _errs30;
+if(vErrors !== null){
+if(_errs30){
+vErrors.length = _errs30;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+if(data.title !== undefined){
+if(typeof data.title !== "string"){
+const err36 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err36];
+}
+else {
+vErrors.push(err36);
+}
+errors++;
+}
+}
+if(data.description !== undefined){
+if(typeof data.description !== "string"){
+const err37 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err37];
+}
+else {
+vErrors.push(err37);
+}
+errors++;
+}
+}
+if(data.theme !== undefined){
+let data19 = data.theme;
+if(typeof data19 !== "string"){
+const err38 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err38];
+}
+else {
+vErrors.push(err38);
+}
+errors++;
+}
+if(!((data19 === "dark") || (data19 === "light"))){
+const err39 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema87.properties.theme.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err39];
+}
+else {
+vErrors.push(err39);
 }
 errors++;
 }
@@ -4356,16 +5455,16 @@ errors = vErrors.length;
 }
 }
 else {
-const err29 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
+const err40 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
-vErrors = [err29];
+vErrors = [err40];
 }
 else {
-vErrors.push(err29);
+vErrors.push(err40);
 }
 errors++;
 }
-validate77.errors = vErrors;
+validate81.errors = vErrors;
 return errors === 0;
 }
 
@@ -7502,9 +8601,490 @@ validate36.errors = vErrors;
 return errors === 0;
 }
 
-const schema41 = {"type":"object","properties":{"type":{"type":"string","const":"scatterPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScatterPlotRow"}},"fit":{"type":"object","properties":{"method":{"type":"string"},"data":{"type":"array","items":{"$ref":"#/definitions/FitRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]}},"additionalProperties":false,"required":["data","method"]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema42 = {"description":"原始逐条观测；可选拟合或区间结果由外部提供。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]};
-const schema43 = {"type":"object","properties":{"x":{"type":"number"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["estimate","x"]};
+const schema41 = {"type":"object","properties":{"type":{"type":"string","const":"scatterPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ScatterPlotRow"}},"fit":{"anyOf":[{"additionalProperties":false,"type":"object","properties":{"method":{"type":"string","const":"linear"},"input":{"type":"string","const":"observations"},"confidence":{"description":"均值响应的逐点 percentile bootstrap CI，不是预测区间。","anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"sampling":{"type":"object","properties":{"points":{"type":"number"}},"additionalProperties":false}},"required":["input","method"]},{"additionalProperties":false,"type":"object","properties":{"method":{"type":"string","const":"polynomial"},"degree":{"type":"number"},"input":{"type":"string","const":"observations"},"confidence":{"description":"均值响应的逐点 percentile bootstrap CI，不是预测区间。","anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"sampling":{"type":"object","properties":{"points":{"type":"number"}},"additionalProperties":false}},"required":["degree","input","method"]},{"additionalProperties":false,"type":"object","properties":{"method":{"type":"string","const":"lowess"},"span":{"type":"number"},"iterations":{"type":"number"},"delta":{"description":"与 x 同单位；0 精确求值，正值显式插值加速，全量观测仍参与。","type":"number"},"input":{"type":"string","const":"observations"},"confidence":{"const":false,"type":"boolean"}},"required":["input","method"]},{"$ref":"#/definitions/ScatterEstimatesFit"}]},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"x":{"type":"string"},"y":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema42 = {"description":"原始逐条观测；可选内部拟合或外部估计。","type":"object","properties":{"x":{"type":"number"},"y":{"type":"number"},"id":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["x","y"]};
+const schema43 = {"type":"object","properties":{"input":{"type":"string","const":"estimates"},"method":{"type":"string"},"data":{"type":"array","items":{"$ref":"#/definitions/FitRow"}},"interval":{"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]}},"additionalProperties":false,"required":["data","input","method"]};
+const schema44 = {"type":"object","properties":{"x":{"type":"number"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["estimate","x"]};
+
+function validate39(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+let vErrors = null;
+let errors = 0;
+if(data && typeof data == "object" && !Array.isArray(data)){
+if(data.data === undefined){
+const err0 = {instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: "data"},message:"must have required property '"+"data"+"'"};
+if(vErrors === null){
+vErrors = [err0];
+}
+else {
+vErrors.push(err0);
+}
+errors++;
+}
+if(data.input === undefined){
+const err1 = {instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: "input"},message:"must have required property '"+"input"+"'"};
+if(vErrors === null){
+vErrors = [err1];
+}
+else {
+vErrors.push(err1);
+}
+errors++;
+}
+if(data.method === undefined){
+const err2 = {instancePath,schemaPath:"#/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
+if(vErrors === null){
+vErrors = [err2];
+}
+else {
+vErrors.push(err2);
+}
+errors++;
+}
+for(const key0 in data){
+if(!((((key0 === "input") || (key0 === "method")) || (key0 === "data")) || (key0 === "interval"))){
+const err3 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err3];
+}
+else {
+vErrors.push(err3);
+}
+errors++;
+}
+}
+if(data.input !== undefined){
+let data0 = data.input;
+if(typeof data0 !== "string"){
+const err4 = {instancePath:instancePath+"/input",schemaPath:"#/properties/input/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err4];
+}
+else {
+vErrors.push(err4);
+}
+errors++;
+}
+if("estimates" !== data0){
+const err5 = {instancePath:instancePath+"/input",schemaPath:"#/properties/input/const",keyword:"const",params:{allowedValue: "estimates"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err5];
+}
+else {
+vErrors.push(err5);
+}
+errors++;
+}
+}
+if(data.method !== undefined){
+if(typeof data.method !== "string"){
+const err6 = {instancePath:instancePath+"/method",schemaPath:"#/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err6];
+}
+else {
+vErrors.push(err6);
+}
+errors++;
+}
+}
+if(data.data !== undefined){
+let data2 = data.data;
+if(Array.isArray(data2)){
+const len0 = data2.length;
+for(let i0=0; i0<len0; i0++){
+let data3 = data2[i0];
+if(data3 && typeof data3 == "object" && !Array.isArray(data3)){
+if(data3.estimate === undefined){
+const err7 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/FitRow/required",keyword:"required",params:{missingProperty: "estimate"},message:"must have required property '"+"estimate"+"'"};
+if(vErrors === null){
+vErrors = [err7];
+}
+else {
+vErrors.push(err7);
+}
+errors++;
+}
+if(data3.x === undefined){
+const err8 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/FitRow/required",keyword:"required",params:{missingProperty: "x"},message:"must have required property '"+"x"+"'"};
+if(vErrors === null){
+vErrors = [err8];
+}
+else {
+vErrors.push(err8);
+}
+errors++;
+}
+for(const key1 in data3){
+if(!(((((key1 === "x") || (key1 === "estimate")) || (key1 === "lower")) || (key1 === "upper")) || (key1 === "series"))){
+const err9 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/FitRow/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key1},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err9];
+}
+else {
+vErrors.push(err9);
+}
+errors++;
+}
+}
+if(data3.x !== undefined){
+let data4 = data3.x;
+if(!((typeof data4 == "number") && (isFinite(data4)))){
+const err10 = {instancePath:instancePath+"/data/" + i0+"/x",schemaPath:"#/definitions/FitRow/properties/x/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err10];
+}
+else {
+vErrors.push(err10);
+}
+errors++;
+}
+}
+if(data3.estimate !== undefined){
+let data5 = data3.estimate;
+if(!((typeof data5 == "number") && (isFinite(data5)))){
+const err11 = {instancePath:instancePath+"/data/" + i0+"/estimate",schemaPath:"#/definitions/FitRow/properties/estimate/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err11];
+}
+else {
+vErrors.push(err11);
+}
+errors++;
+}
+}
+if(data3.lower !== undefined){
+let data6 = data3.lower;
+if(!((typeof data6 == "number") && (isFinite(data6)))){
+const err12 = {instancePath:instancePath+"/data/" + i0+"/lower",schemaPath:"#/definitions/FitRow/properties/lower/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err12];
+}
+else {
+vErrors.push(err12);
+}
+errors++;
+}
+}
+if(data3.upper !== undefined){
+let data7 = data3.upper;
+if(!((typeof data7 == "number") && (isFinite(data7)))){
+const err13 = {instancePath:instancePath+"/data/" + i0+"/upper",schemaPath:"#/definitions/FitRow/properties/upper/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err13];
+}
+else {
+vErrors.push(err13);
+}
+errors++;
+}
+}
+if(data3.series !== undefined){
+if(typeof data3.series !== "string"){
+const err14 = {instancePath:instancePath+"/data/" + i0+"/series",schemaPath:"#/definitions/FitRow/properties/series/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err14];
+}
+else {
+vErrors.push(err14);
+}
+errors++;
+}
+}
+}
+else {
+const err15 = {instancePath:instancePath+"/data/" + i0,schemaPath:"#/definitions/FitRow/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err15];
+}
+else {
+vErrors.push(err15);
+}
+errors++;
+}
+}
+}
+else {
+const err16 = {instancePath:instancePath+"/data",schemaPath:"#/properties/data/type",keyword:"type",params:{type: "array"},message:"must be array"};
+if(vErrors === null){
+vErrors = [err16];
+}
+else {
+vErrors.push(err16);
+}
+errors++;
+}
+}
+if(data.interval !== undefined){
+let data9 = data.interval;
+const _errs23 = errors;
+let valid5 = false;
+const _errs24 = errors;
+if(data9 && typeof data9 == "object" && !Array.isArray(data9)){
+if(data9.kind === undefined){
+const err17 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/0/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
+if(vErrors === null){
+vErrors = [err17];
+}
+else {
+vErrors.push(err17);
+}
+errors++;
+}
+if(data9.level === undefined){
+const err18 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/0/required",keyword:"required",params:{missingProperty: "level"},message:"must have required property '"+"level"+"'"};
+if(vErrors === null){
+vErrors = [err18];
+}
+else {
+vErrors.push(err18);
+}
+errors++;
+}
+for(const key2 in data9){
+if(!((key2 === "kind") || (key2 === "level"))){
+const err19 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/0/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err19];
+}
+else {
+vErrors.push(err19);
+}
+errors++;
+}
+}
+if(data9.kind !== undefined){
+let data10 = data9.kind;
+if(typeof data10 !== "string"){
+const err20 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/0/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err20];
+}
+else {
+vErrors.push(err20);
+}
+errors++;
+}
+if(!(((data10 === "confidence") || (data10 === "credible")) || (data10 === "prediction"))){
+const err21 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema43.properties.interval.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err21];
+}
+else {
+vErrors.push(err21);
+}
+errors++;
+}
+}
+if(data9.level !== undefined){
+let data11 = data9.level;
+if(!((typeof data11 == "number") && (isFinite(data11)))){
+const err22 = {instancePath:instancePath+"/interval/level",schemaPath:"#/properties/interval/anyOf/0/properties/level/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err22];
+}
+else {
+vErrors.push(err22);
+}
+errors++;
+}
+}
+}
+else {
+const err23 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/0/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err23];
+}
+else {
+vErrors.push(err23);
+}
+errors++;
+}
+var _valid0 = _errs24 === errors;
+valid5 = valid5 || _valid0;
+if(!valid5){
+const _errs31 = errors;
+if(data9 && typeof data9 == "object" && !Array.isArray(data9)){
+if(data9.kind === undefined){
+const err24 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/1/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
+if(vErrors === null){
+vErrors = [err24];
+}
+else {
+vErrors.push(err24);
+}
+errors++;
+}
+if(data9.multiplier === undefined){
+const err25 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/1/required",keyword:"required",params:{missingProperty: "multiplier"},message:"must have required property '"+"multiplier"+"'"};
+if(vErrors === null){
+vErrors = [err25];
+}
+else {
+vErrors.push(err25);
+}
+errors++;
+}
+for(const key3 in data9){
+if(!((key3 === "kind") || (key3 === "multiplier"))){
+const err26 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/1/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key3},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err26];
+}
+else {
+vErrors.push(err26);
+}
+errors++;
+}
+}
+if(data9.kind !== undefined){
+let data12 = data9.kind;
+if(typeof data12 !== "string"){
+const err27 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/1/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err27];
+}
+else {
+vErrors.push(err27);
+}
+errors++;
+}
+if(!((data12 === "standardDeviation") || (data12 === "standardError"))){
+const err28 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema43.properties.interval.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err28];
+}
+else {
+vErrors.push(err28);
+}
+errors++;
+}
+}
+if(data9.multiplier !== undefined){
+let data13 = data9.multiplier;
+if(!((typeof data13 == "number") && (isFinite(data13)))){
+const err29 = {instancePath:instancePath+"/interval/multiplier",schemaPath:"#/properties/interval/anyOf/1/properties/multiplier/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err29];
+}
+else {
+vErrors.push(err29);
+}
+errors++;
+}
+}
+}
+else {
+const err30 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/1/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err30];
+}
+else {
+vErrors.push(err30);
+}
+errors++;
+}
+var _valid0 = _errs31 === errors;
+valid5 = valid5 || _valid0;
+if(!valid5){
+const _errs38 = errors;
+if(data9 && typeof data9 == "object" && !Array.isArray(data9)){
+if(data9.kind === undefined){
+const err31 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/2/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
+if(vErrors === null){
+vErrors = [err31];
+}
+else {
+vErrors.push(err31);
+}
+errors++;
+}
+for(const key4 in data9){
+if(!(key4 === "kind")){
+const err32 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/2/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key4},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err32];
+}
+else {
+vErrors.push(err32);
+}
+errors++;
+}
+}
+if(data9.kind !== undefined){
+let data14 = data9.kind;
+if(typeof data14 !== "string"){
+const err33 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/2/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err33];
+}
+else {
+vErrors.push(err33);
+}
+errors++;
+}
+if("range" !== data14){
+const err34 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/properties/interval/anyOf/2/properties/kind/const",keyword:"const",params:{allowedValue: "range"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err34];
+}
+else {
+vErrors.push(err34);
+}
+errors++;
+}
+}
+}
+else {
+const err35 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf/2/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err35];
+}
+else {
+vErrors.push(err35);
+}
+errors++;
+}
+var _valid0 = _errs38 === errors;
+valid5 = valid5 || _valid0;
+}
+}
+if(!valid5){
+const err36 = {instancePath:instancePath+"/interval",schemaPath:"#/properties/interval/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(vErrors === null){
+vErrors = [err36];
+}
+else {
+vErrors.push(err36);
+}
+errors++;
+}
+else {
+errors = _errs23;
+if(vErrors !== null){
+if(_errs23){
+vErrors.length = _errs23;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+}
+else {
+const err37 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err37];
+}
+else {
+vErrors.push(err37);
+}
+errors++;
+}
+validate39.errors = vErrors;
+return errors === 0;
+}
+
 
 function validate38(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
@@ -7680,9 +9260,12 @@ errors++;
 }
 if(data.fit !== undefined){
 let data7 = data.fit;
+const _errs19 = errors;
+let valid5 = false;
+const _errs20 = errors;
 if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
-if(data7.data === undefined){
-const err14 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/required",keyword:"required",params:{missingProperty: "data"},message:"must have required property '"+"data"+"'"};
+if(data7.input === undefined){
+const err14 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/0/required",keyword:"required",params:{missingProperty: "input"},message:"must have required property '"+"input"+"'"};
 if(vErrors === null){
 vErrors = [err14];
 }
@@ -7692,7 +9275,7 @@ vErrors.push(err14);
 errors++;
 }
 if(data7.method === undefined){
-const err15 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
+const err15 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/0/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -7702,8 +9285,8 @@ vErrors.push(err15);
 errors++;
 }
 for(const key2 in data7){
-if(!(((key2 === "method") || (key2 === "data")) || (key2 === "interval"))){
-const err16 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
+if(!((((key2 === "method") || (key2 === "input")) || (key2 === "confidence")) || (key2 === "sampling"))){
+const err16 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/0/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key2},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err16];
 }
@@ -7714,8 +9297,9 @@ errors++;
 }
 }
 if(data7.method !== undefined){
-if(typeof data7.method !== "string"){
-const err17 = {instancePath:instancePath+"/fit/method",schemaPath:"#/properties/fit/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
+let data8 = data7.method;
+if(typeof data8 !== "string"){
+const err17 = {instancePath:instancePath+"/fit/method",schemaPath:"#/properties/fit/anyOf/0/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err17];
 }
@@ -7724,16 +9308,8 @@ vErrors.push(err17);
 }
 errors++;
 }
-}
-if(data7.data !== undefined){
-let data9 = data7.data;
-if(Array.isArray(data9)){
-const len1 = data9.length;
-for(let i1=0; i1<len1; i1++){
-let data10 = data9[i1];
-if(data10 && typeof data10 == "object" && !Array.isArray(data10)){
-if(data10.estimate === undefined){
-const err18 = {instancePath:instancePath+"/fit/data/" + i1,schemaPath:"#/definitions/FitRow/required",keyword:"required",params:{missingProperty: "estimate"},message:"must have required property '"+"estimate"+"'"};
+if("linear" !== data8){
+const err18 = {instancePath:instancePath+"/fit/method",schemaPath:"#/properties/fit/anyOf/0/properties/method/const",keyword:"const",params:{allowedValue: "linear"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err18];
 }
@@ -7742,8 +9318,11 @@ vErrors.push(err18);
 }
 errors++;
 }
-if(data10.x === undefined){
-const err19 = {instancePath:instancePath+"/fit/data/" + i1,schemaPath:"#/definitions/FitRow/required",keyword:"required",params:{missingProperty: "x"},message:"must have required property '"+"x"+"'"};
+}
+if(data7.input !== undefined){
+let data9 = data7.input;
+if(typeof data9 !== "string"){
+const err19 = {instancePath:instancePath+"/fit/input",schemaPath:"#/properties/fit/anyOf/0/properties/input/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err19];
 }
@@ -7752,9 +9331,8 @@ vErrors.push(err19);
 }
 errors++;
 }
-for(const key3 in data10){
-if(!(((((key3 === "x") || (key3 === "estimate")) || (key3 === "lower")) || (key3 === "upper")) || (key3 === "series"))){
-const err20 = {instancePath:instancePath+"/fit/data/" + i1,schemaPath:"#/definitions/FitRow/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key3},message:"must NOT have additional properties"};
+if("observations" !== data9){
+const err20 = {instancePath:instancePath+"/fit/input",schemaPath:"#/properties/fit/anyOf/0/properties/input/const",keyword:"const",params:{allowedValue: "observations"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err20];
 }
@@ -7764,10 +9342,14 @@ vErrors.push(err20);
 errors++;
 }
 }
-if(data10.x !== undefined){
-let data11 = data10.x;
-if(!((typeof data11 == "number") && (isFinite(data11)))){
-const err21 = {instancePath:instancePath+"/fit/data/" + i1+"/x",schemaPath:"#/definitions/FitRow/properties/x/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(data7.confidence !== undefined){
+let data10 = data7.confidence;
+const _errs28 = errors;
+let valid7 = false;
+const _errs29 = errors;
+if(data10 && typeof data10 == "object" && !Array.isArray(data10)){
+if(data10.kind === undefined){
+const err21 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
 if(vErrors === null){
 vErrors = [err21];
 }
@@ -7776,11 +9358,9 @@ vErrors.push(err21);
 }
 errors++;
 }
-}
-if(data10.estimate !== undefined){
-let data12 = data10.estimate;
-if(!((typeof data12 == "number") && (isFinite(data12)))){
-const err22 = {instancePath:instancePath+"/fit/data/" + i1+"/estimate",schemaPath:"#/definitions/FitRow/properties/estimate/type",keyword:"type",params:{type: "number"},message:"must be number"};
+for(const key3 in data10){
+if(!((((key3 === "kind") || (key3 === "level")) || (key3 === "resamples")) || (key3 === "seed"))){
+const err22 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key3},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err22];
 }
@@ -7790,10 +9370,10 @@ vErrors.push(err22);
 errors++;
 }
 }
-if(data10.lower !== undefined){
-let data13 = data10.lower;
-if(!((typeof data13 == "number") && (isFinite(data13)))){
-const err23 = {instancePath:instancePath+"/fit/data/" + i1+"/lower",schemaPath:"#/definitions/FitRow/properties/lower/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(data10.kind !== undefined){
+let data11 = data10.kind;
+if(typeof data11 !== "string"){
+const err23 = {instancePath:instancePath+"/fit/confidence/kind",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err23];
 }
@@ -7802,11 +9382,8 @@ vErrors.push(err23);
 }
 errors++;
 }
-}
-if(data10.upper !== undefined){
-let data14 = data10.upper;
-if(!((typeof data14 == "number") && (isFinite(data14)))){
-const err24 = {instancePath:instancePath+"/fit/data/" + i1+"/upper",schemaPath:"#/definitions/FitRow/properties/upper/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if("confidence" !== data11){
+const err24 = {instancePath:instancePath+"/fit/confidence/kind",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/properties/kind/const",keyword:"const",params:{allowedValue: "confidence"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err24];
 }
@@ -7816,9 +9393,10 @@ vErrors.push(err24);
 errors++;
 }
 }
-if(data10.series !== undefined){
-if(typeof data10.series !== "string"){
-const err25 = {instancePath:instancePath+"/fit/data/" + i1+"/series",schemaPath:"#/definitions/FitRow/properties/series/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data10.level !== undefined){
+let data12 = data10.level;
+if(!((typeof data12 == "number") && (isFinite(data12)))){
+const err25 = {instancePath:instancePath+"/fit/confidence/level",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/properties/level/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err25];
 }
@@ -7828,9 +9406,10 @@ vErrors.push(err25);
 errors++;
 }
 }
-}
-else {
-const err26 = {instancePath:instancePath+"/fit/data/" + i1,schemaPath:"#/definitions/FitRow/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(data10.resamples !== undefined){
+let data13 = data10.resamples;
+if(!((typeof data13 == "number") && (isFinite(data13)))){
+const err26 = {instancePath:instancePath+"/fit/confidence/resamples",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/properties/resamples/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err26];
 }
@@ -7840,9 +9419,10 @@ vErrors.push(err26);
 errors++;
 }
 }
-}
-else {
-const err27 = {instancePath:instancePath+"/fit/data",schemaPath:"#/properties/fit/properties/data/type",keyword:"type",params:{type: "array"},message:"must be array"};
+if(data10.seed !== undefined){
+let data14 = data10.seed;
+if(!((typeof data14 == "number") && (isFinite(data14)))){
+const err27 = {instancePath:instancePath+"/fit/confidence/seed",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/properties/seed/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err27];
 }
@@ -7852,14 +9432,9 @@ vErrors.push(err27);
 errors++;
 }
 }
-if(data7.interval !== undefined){
-let data16 = data7.interval;
-const _errs40 = errors;
-let valid10 = false;
-const _errs41 = errors;
-if(data16 && typeof data16 == "object" && !Array.isArray(data16)){
-if(data16.kind === undefined){
-const err28 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/0/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
+}
+else {
+const err28 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/0/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err28];
 }
@@ -7868,8 +9443,12 @@ vErrors.push(err28);
 }
 errors++;
 }
-if(data16.level === undefined){
-const err29 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/0/required",keyword:"required",params:{missingProperty: "level"},message:"must have required property '"+"level"+"'"};
+var _valid1 = _errs29 === errors;
+valid7 = valid7 || _valid1;
+if(!valid7){
+const _errs40 = errors;
+if(typeof data10 !== "boolean"){
+const err29 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/1/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
 if(vErrors === null){
 vErrors = [err29];
 }
@@ -7878,9 +9457,8 @@ vErrors.push(err29);
 }
 errors++;
 }
-for(const key4 in data16){
-if(!((key4 === "kind") || (key4 === "level"))){
-const err30 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/0/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key4},message:"must NOT have additional properties"};
+if(false !== data10){
+const err30 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf/1/const",keyword:"const",params:{allowedValue: false},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -7889,11 +9467,11 @@ vErrors.push(err30);
 }
 errors++;
 }
+var _valid1 = _errs40 === errors;
+valid7 = valid7 || _valid1;
 }
-if(data16.kind !== undefined){
-let data17 = data16.kind;
-if(typeof data17 !== "string"){
-const err31 = {instancePath:instancePath+"/fit/interval/kind",schemaPath:"#/properties/fit/properties/interval/anyOf/0/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(!valid7){
+const err31 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/0/properties/confidence/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
 if(vErrors === null){
 vErrors = [err31];
 }
@@ -7902,8 +9480,24 @@ vErrors.push(err31);
 }
 errors++;
 }
-if(!(((data17 === "confidence") || (data17 === "credible")) || (data17 === "prediction"))){
-const err32 = {instancePath:instancePath+"/fit/interval/kind",schemaPath:"#/properties/fit/properties/interval/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema41.properties.fit.properties.interval.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+else {
+errors = _errs28;
+if(vErrors !== null){
+if(_errs28){
+vErrors.length = _errs28;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+if(data7.sampling !== undefined){
+let data15 = data7.sampling;
+if(data15 && typeof data15 == "object" && !Array.isArray(data15)){
+for(const key4 in data15){
+if(!(key4 === "points")){
+const err32 = {instancePath:instancePath+"/fit/sampling",schemaPath:"#/properties/fit/anyOf/0/properties/sampling/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key4},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err32];
 }
@@ -7913,10 +9507,10 @@ vErrors.push(err32);
 errors++;
 }
 }
-if(data16.level !== undefined){
-let data18 = data16.level;
-if(!((typeof data18 == "number") && (isFinite(data18)))){
-const err33 = {instancePath:instancePath+"/fit/interval/level",schemaPath:"#/properties/fit/properties/interval/anyOf/0/properties/level/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(data15.points !== undefined){
+let data16 = data15.points;
+if(!((typeof data16 == "number") && (isFinite(data16)))){
+const err33 = {instancePath:instancePath+"/fit/sampling/points",schemaPath:"#/properties/fit/anyOf/0/properties/sampling/properties/points/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err33];
 }
@@ -7928,7 +9522,7 @@ errors++;
 }
 }
 else {
-const err34 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/0/type",keyword:"type",params:{type: "object"},message:"must be object"};
+const err34 = {instancePath:instancePath+"/fit/sampling",schemaPath:"#/properties/fit/anyOf/0/properties/sampling/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err34];
 }
@@ -7937,13 +9531,10 @@ vErrors.push(err34);
 }
 errors++;
 }
-var _valid0 = _errs41 === errors;
-valid10 = valid10 || _valid0;
-if(!valid10){
-const _errs48 = errors;
-if(data16 && typeof data16 == "object" && !Array.isArray(data16)){
-if(data16.kind === undefined){
-const err35 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/1/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
+}
+}
+else {
+const err35 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/0/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err35];
 }
@@ -7952,8 +9543,13 @@ vErrors.push(err35);
 }
 errors++;
 }
-if(data16.multiplier === undefined){
-const err36 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/1/required",keyword:"required",params:{missingProperty: "multiplier"},message:"must have required property '"+"multiplier"+"'"};
+var _valid0 = _errs20 === errors;
+valid5 = valid5 || _valid0;
+if(!valid5){
+const _errs47 = errors;
+if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
+if(data7.degree === undefined){
+const err36 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/1/required",keyword:"required",params:{missingProperty: "degree"},message:"must have required property '"+"degree"+"'"};
 if(vErrors === null){
 vErrors = [err36];
 }
@@ -7962,9 +9558,8 @@ vErrors.push(err36);
 }
 errors++;
 }
-for(const key5 in data16){
-if(!((key5 === "kind") || (key5 === "multiplier"))){
-const err37 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/1/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key5},message:"must NOT have additional properties"};
+if(data7.input === undefined){
+const err37 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/1/required",keyword:"required",params:{missingProperty: "input"},message:"must have required property '"+"input"+"'"};
 if(vErrors === null){
 vErrors = [err37];
 }
@@ -7973,11 +9568,8 @@ vErrors.push(err37);
 }
 errors++;
 }
-}
-if(data16.kind !== undefined){
-let data19 = data16.kind;
-if(typeof data19 !== "string"){
-const err38 = {instancePath:instancePath+"/fit/interval/kind",schemaPath:"#/properties/fit/properties/interval/anyOf/1/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data7.method === undefined){
+const err38 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/1/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
 if(vErrors === null){
 vErrors = [err38];
 }
@@ -7986,8 +9578,9 @@ vErrors.push(err38);
 }
 errors++;
 }
-if(!((data19 === "standardDeviation") || (data19 === "standardError"))){
-const err39 = {instancePath:instancePath+"/fit/interval/kind",schemaPath:"#/properties/fit/properties/interval/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema41.properties.fit.properties.interval.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+for(const key5 in data7){
+if(!(((((key5 === "method") || (key5 === "degree")) || (key5 === "input")) || (key5 === "confidence")) || (key5 === "sampling"))){
+const err39 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/1/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key5},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err39];
 }
@@ -7997,10 +9590,10 @@ vErrors.push(err39);
 errors++;
 }
 }
-if(data16.multiplier !== undefined){
-let data20 = data16.multiplier;
-if(!((typeof data20 == "number") && (isFinite(data20)))){
-const err40 = {instancePath:instancePath+"/fit/interval/multiplier",schemaPath:"#/properties/fit/properties/interval/anyOf/1/properties/multiplier/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(data7.method !== undefined){
+let data17 = data7.method;
+if(typeof data17 !== "string"){
+const err40 = {instancePath:instancePath+"/fit/method",schemaPath:"#/properties/fit/anyOf/1/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err40];
 }
@@ -8009,10 +9602,8 @@ vErrors.push(err40);
 }
 errors++;
 }
-}
-}
-else {
-const err41 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/1/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if("polynomial" !== data17){
+const err41 = {instancePath:instancePath+"/fit/method",schemaPath:"#/properties/fit/anyOf/1/properties/method/const",keyword:"const",params:{allowedValue: "polynomial"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err41];
 }
@@ -8021,13 +9612,11 @@ vErrors.push(err41);
 }
 errors++;
 }
-var _valid0 = _errs48 === errors;
-valid10 = valid10 || _valid0;
-if(!valid10){
-const _errs55 = errors;
-if(data16 && typeof data16 == "object" && !Array.isArray(data16)){
-if(data16.kind === undefined){
-const err42 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/2/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
+}
+if(data7.degree !== undefined){
+let data18 = data7.degree;
+if(!((typeof data18 == "number") && (isFinite(data18)))){
+const err42 = {instancePath:instancePath+"/fit/degree",schemaPath:"#/properties/fit/anyOf/1/properties/degree/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err42];
 }
@@ -8036,9 +9625,11 @@ vErrors.push(err42);
 }
 errors++;
 }
-for(const key6 in data16){
-if(!(key6 === "kind")){
-const err43 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/2/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key6},message:"must NOT have additional properties"};
+}
+if(data7.input !== undefined){
+let data19 = data7.input;
+if(typeof data19 !== "string"){
+const err43 = {instancePath:instancePath+"/fit/input",schemaPath:"#/properties/fit/anyOf/1/properties/input/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err43];
 }
@@ -8047,11 +9638,8 @@ vErrors.push(err43);
 }
 errors++;
 }
-}
-if(data16.kind !== undefined){
-let data21 = data16.kind;
-if(typeof data21 !== "string"){
-const err44 = {instancePath:instancePath+"/fit/interval/kind",schemaPath:"#/properties/fit/properties/interval/anyOf/2/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if("observations" !== data19){
+const err44 = {instancePath:instancePath+"/fit/input",schemaPath:"#/properties/fit/anyOf/1/properties/input/const",keyword:"const",params:{allowedValue: "observations"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err44];
 }
@@ -8060,8 +9648,15 @@ vErrors.push(err44);
 }
 errors++;
 }
-if("range" !== data21){
-const err45 = {instancePath:instancePath+"/fit/interval/kind",schemaPath:"#/properties/fit/properties/interval/anyOf/2/properties/kind/const",keyword:"const",params:{allowedValue: "range"},message:"must be equal to constant"};
+}
+if(data7.confidence !== undefined){
+let data20 = data7.confidence;
+const _errs57 = errors;
+let valid11 = false;
+const _errs58 = errors;
+if(data20 && typeof data20 == "object" && !Array.isArray(data20)){
+if(data20.kind === undefined){
+const err45 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/required",keyword:"required",params:{missingProperty: "kind"},message:"must have required property '"+"kind"+"'"};
 if(vErrors === null){
 vErrors = [err45];
 }
@@ -8070,10 +9665,9 @@ vErrors.push(err45);
 }
 errors++;
 }
-}
-}
-else {
-const err46 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf/2/type",keyword:"type",params:{type: "object"},message:"must be object"};
+for(const key6 in data20){
+if(!((((key6 === "kind") || (key6 === "level")) || (key6 === "resamples")) || (key6 === "seed"))){
+const err46 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key6},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err46];
 }
@@ -8082,12 +9676,11 @@ vErrors.push(err46);
 }
 errors++;
 }
-var _valid0 = _errs55 === errors;
-valid10 = valid10 || _valid0;
 }
-}
-if(!valid10){
-const err47 = {instancePath:instancePath+"/fit/interval",schemaPath:"#/properties/fit/properties/interval/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(data20.kind !== undefined){
+let data21 = data20.kind;
+if(typeof data21 !== "string"){
+const err47 = {instancePath:instancePath+"/fit/confidence/kind",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/properties/kind/type",keyword:"type",params:{type: "string"},message:"must be string"};
 if(vErrors === null){
 vErrors = [err47];
 }
@@ -8096,21 +9689,8 @@ vErrors.push(err47);
 }
 errors++;
 }
-else {
-errors = _errs40;
-if(vErrors !== null){
-if(_errs40){
-vErrors.length = _errs40;
-}
-else {
-vErrors = null;
-}
-}
-}
-}
-}
-else {
-const err48 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if("confidence" !== data21){
+const err48 = {instancePath:instancePath+"/fit/confidence/kind",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/properties/kind/const",keyword:"const",params:{allowedValue: "confidence"},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err48];
 }
@@ -8120,12 +9700,10 @@ vErrors.push(err48);
 errors++;
 }
 }
-if(data.fieldLabels !== undefined){
-let data22 = data.fieldLabels;
-if(data22 && typeof data22 == "object" && !Array.isArray(data22)){
-for(const key7 in data22){
-if(!((key7 === "x") || (key7 === "y"))){
-const err49 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key7},message:"must NOT have additional properties"};
+if(data20.level !== undefined){
+let data22 = data20.level;
+if(!((typeof data22 == "number") && (isFinite(data22)))){
+const err49 = {instancePath:instancePath+"/fit/confidence/level",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/properties/level/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err49];
 }
@@ -8135,9 +9713,10 @@ vErrors.push(err49);
 errors++;
 }
 }
-if(data22.x !== undefined){
-if(typeof data22.x !== "string"){
-const err50 = {instancePath:instancePath+"/fieldLabels/x",schemaPath:"#/properties/fieldLabels/properties/x/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data20.resamples !== undefined){
+let data23 = data20.resamples;
+if(!((typeof data23 == "number") && (isFinite(data23)))){
+const err50 = {instancePath:instancePath+"/fit/confidence/resamples",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/properties/resamples/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err50];
 }
@@ -8147,9 +9726,10 @@ vErrors.push(err50);
 errors++;
 }
 }
-if(data22.y !== undefined){
-if(typeof data22.y !== "string"){
-const err51 = {instancePath:instancePath+"/fieldLabels/y",schemaPath:"#/properties/fieldLabels/properties/y/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(data20.seed !== undefined){
+let data24 = data20.seed;
+if(!((typeof data24 == "number") && (isFinite(data24)))){
+const err51 = {instancePath:instancePath+"/fit/confidence/seed",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/properties/seed/type",keyword:"type",params:{type: "number"},message:"must be number"};
 if(vErrors === null){
 vErrors = [err51];
 }
@@ -8161,7 +9741,7 @@ errors++;
 }
 }
 else {
-const err52 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/type",keyword:"type",params:{type: "object"},message:"must be object"};
+const err52 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/0/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
 vErrors = [err52];
 }
@@ -8170,10 +9750,12 @@ vErrors.push(err52);
 }
 errors++;
 }
-}
-if(data.title !== undefined){
-if(typeof data.title !== "string"){
-const err53 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+var _valid2 = _errs58 === errors;
+valid11 = valid11 || _valid2;
+if(!valid11){
+const _errs69 = errors;
+if(typeof data20 !== "boolean"){
+const err53 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/1/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
 if(vErrors === null){
 vErrors = [err53];
 }
@@ -8182,10 +9764,8 @@ vErrors.push(err53);
 }
 errors++;
 }
-}
-if(data.description !== undefined){
-if(typeof data.description !== "string"){
-const err54 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(false !== data20){
+const err54 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf/1/const",keyword:"const",params:{allowedValue: false},message:"must be equal to constant"};
 if(vErrors === null){
 vErrors = [err54];
 }
@@ -8194,11 +9774,11 @@ vErrors.push(err54);
 }
 errors++;
 }
+var _valid2 = _errs69 === errors;
+valid11 = valid11 || _valid2;
 }
-if(data.theme !== undefined){
-let data27 = data.theme;
-if(typeof data27 !== "string"){
-const err55 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(!valid11){
+const err55 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/1/properties/confidence/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
 if(vErrors === null){
 vErrors = [err55];
 }
@@ -8207,13 +9787,354 @@ vErrors.push(err55);
 }
 errors++;
 }
-if(!((data27 === "dark") || (data27 === "light"))){
-const err56 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema41.properties.theme.enum},message:"must be equal to one of the allowed values"};
+else {
+errors = _errs57;
+if(vErrors !== null){
+if(_errs57){
+vErrors.length = _errs57;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+if(data7.sampling !== undefined){
+let data25 = data7.sampling;
+if(data25 && typeof data25 == "object" && !Array.isArray(data25)){
+for(const key7 in data25){
+if(!(key7 === "points")){
+const err56 = {instancePath:instancePath+"/fit/sampling",schemaPath:"#/properties/fit/anyOf/1/properties/sampling/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key7},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err56];
 }
 else {
 vErrors.push(err56);
+}
+errors++;
+}
+}
+if(data25.points !== undefined){
+let data26 = data25.points;
+if(!((typeof data26 == "number") && (isFinite(data26)))){
+const err57 = {instancePath:instancePath+"/fit/sampling/points",schemaPath:"#/properties/fit/anyOf/1/properties/sampling/properties/points/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err57];
+}
+else {
+vErrors.push(err57);
+}
+errors++;
+}
+}
+}
+else {
+const err58 = {instancePath:instancePath+"/fit/sampling",schemaPath:"#/properties/fit/anyOf/1/properties/sampling/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err58];
+}
+else {
+vErrors.push(err58);
+}
+errors++;
+}
+}
+}
+else {
+const err59 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/1/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err59];
+}
+else {
+vErrors.push(err59);
+}
+errors++;
+}
+var _valid0 = _errs47 === errors;
+valid5 = valid5 || _valid0;
+if(!valid5){
+const _errs76 = errors;
+if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
+if(data7.input === undefined){
+const err60 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/2/required",keyword:"required",params:{missingProperty: "input"},message:"must have required property '"+"input"+"'"};
+if(vErrors === null){
+vErrors = [err60];
+}
+else {
+vErrors.push(err60);
+}
+errors++;
+}
+if(data7.method === undefined){
+const err61 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/2/required",keyword:"required",params:{missingProperty: "method"},message:"must have required property '"+"method"+"'"};
+if(vErrors === null){
+vErrors = [err61];
+}
+else {
+vErrors.push(err61);
+}
+errors++;
+}
+for(const key8 in data7){
+if(!((((((key8 === "method") || (key8 === "span")) || (key8 === "iterations")) || (key8 === "delta")) || (key8 === "input")) || (key8 === "confidence"))){
+const err62 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/2/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key8},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err62];
+}
+else {
+vErrors.push(err62);
+}
+errors++;
+}
+}
+if(data7.method !== undefined){
+let data27 = data7.method;
+if(typeof data27 !== "string"){
+const err63 = {instancePath:instancePath+"/fit/method",schemaPath:"#/properties/fit/anyOf/2/properties/method/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err63];
+}
+else {
+vErrors.push(err63);
+}
+errors++;
+}
+if("lowess" !== data27){
+const err64 = {instancePath:instancePath+"/fit/method",schemaPath:"#/properties/fit/anyOf/2/properties/method/const",keyword:"const",params:{allowedValue: "lowess"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err64];
+}
+else {
+vErrors.push(err64);
+}
+errors++;
+}
+}
+if(data7.span !== undefined){
+let data28 = data7.span;
+if(!((typeof data28 == "number") && (isFinite(data28)))){
+const err65 = {instancePath:instancePath+"/fit/span",schemaPath:"#/properties/fit/anyOf/2/properties/span/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err65];
+}
+else {
+vErrors.push(err65);
+}
+errors++;
+}
+}
+if(data7.iterations !== undefined){
+let data29 = data7.iterations;
+if(!((typeof data29 == "number") && (isFinite(data29)))){
+const err66 = {instancePath:instancePath+"/fit/iterations",schemaPath:"#/properties/fit/anyOf/2/properties/iterations/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err66];
+}
+else {
+vErrors.push(err66);
+}
+errors++;
+}
+}
+if(data7.delta !== undefined){
+let data30 = data7.delta;
+if(!((typeof data30 == "number") && (isFinite(data30)))){
+const err67 = {instancePath:instancePath+"/fit/delta",schemaPath:"#/properties/fit/anyOf/2/properties/delta/type",keyword:"type",params:{type: "number"},message:"must be number"};
+if(vErrors === null){
+vErrors = [err67];
+}
+else {
+vErrors.push(err67);
+}
+errors++;
+}
+}
+if(data7.input !== undefined){
+let data31 = data7.input;
+if(typeof data31 !== "string"){
+const err68 = {instancePath:instancePath+"/fit/input",schemaPath:"#/properties/fit/anyOf/2/properties/input/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err68];
+}
+else {
+vErrors.push(err68);
+}
+errors++;
+}
+if("observations" !== data31){
+const err69 = {instancePath:instancePath+"/fit/input",schemaPath:"#/properties/fit/anyOf/2/properties/input/const",keyword:"const",params:{allowedValue: "observations"},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err69];
+}
+else {
+vErrors.push(err69);
+}
+errors++;
+}
+}
+if(data7.confidence !== undefined){
+let data32 = data7.confidence;
+if(typeof data32 !== "boolean"){
+const err70 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/2/properties/confidence/type",keyword:"type",params:{type: "boolean"},message:"must be boolean"};
+if(vErrors === null){
+vErrors = [err70];
+}
+else {
+vErrors.push(err70);
+}
+errors++;
+}
+if(false !== data32){
+const err71 = {instancePath:instancePath+"/fit/confidence",schemaPath:"#/properties/fit/anyOf/2/properties/confidence/const",keyword:"const",params:{allowedValue: false},message:"must be equal to constant"};
+if(vErrors === null){
+vErrors = [err71];
+}
+else {
+vErrors.push(err71);
+}
+errors++;
+}
+}
+}
+else {
+const err72 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf/2/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err72];
+}
+else {
+vErrors.push(err72);
+}
+errors++;
+}
+var _valid0 = _errs76 === errors;
+valid5 = valid5 || _valid0;
+if(!valid5){
+const _errs91 = errors;
+if(!(validate39(data7, {instancePath:instancePath+"/fit",parentData:data,parentDataProperty:"fit",rootData}))){
+vErrors = vErrors === null ? validate39.errors : vErrors.concat(validate39.errors);
+errors = vErrors.length;
+}
+var _valid0 = _errs91 === errors;
+valid5 = valid5 || _valid0;
+}
+}
+}
+if(!valid5){
+const err73 = {instancePath:instancePath+"/fit",schemaPath:"#/properties/fit/anyOf",keyword:"anyOf",params:{},message:"must match a schema in anyOf"};
+if(vErrors === null){
+vErrors = [err73];
+}
+else {
+vErrors.push(err73);
+}
+errors++;
+}
+else {
+errors = _errs19;
+if(vErrors !== null){
+if(_errs19){
+vErrors.length = _errs19;
+}
+else {
+vErrors = null;
+}
+}
+}
+}
+if(data.fieldLabels !== undefined){
+let data33 = data.fieldLabels;
+if(data33 && typeof data33 == "object" && !Array.isArray(data33)){
+for(const key9 in data33){
+if(!((key9 === "x") || (key9 === "y"))){
+const err74 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key9},message:"must NOT have additional properties"};
+if(vErrors === null){
+vErrors = [err74];
+}
+else {
+vErrors.push(err74);
+}
+errors++;
+}
+}
+if(data33.x !== undefined){
+if(typeof data33.x !== "string"){
+const err75 = {instancePath:instancePath+"/fieldLabels/x",schemaPath:"#/properties/fieldLabels/properties/x/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err75];
+}
+else {
+vErrors.push(err75);
+}
+errors++;
+}
+}
+if(data33.y !== undefined){
+if(typeof data33.y !== "string"){
+const err76 = {instancePath:instancePath+"/fieldLabels/y",schemaPath:"#/properties/fieldLabels/properties/y/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err76];
+}
+else {
+vErrors.push(err76);
+}
+errors++;
+}
+}
+}
+else {
+const err77 = {instancePath:instancePath+"/fieldLabels",schemaPath:"#/properties/fieldLabels/type",keyword:"type",params:{type: "object"},message:"must be object"};
+if(vErrors === null){
+vErrors = [err77];
+}
+else {
+vErrors.push(err77);
+}
+errors++;
+}
+}
+if(data.title !== undefined){
+if(typeof data.title !== "string"){
+const err78 = {instancePath:instancePath+"/title",schemaPath:"#/properties/title/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err78];
+}
+else {
+vErrors.push(err78);
+}
+errors++;
+}
+}
+if(data.description !== undefined){
+if(typeof data.description !== "string"){
+const err79 = {instancePath:instancePath+"/description",schemaPath:"#/properties/description/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err79];
+}
+else {
+vErrors.push(err79);
+}
+errors++;
+}
+}
+if(data.theme !== undefined){
+let data38 = data.theme;
+if(typeof data38 !== "string"){
+const err80 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/type",keyword:"type",params:{type: "string"},message:"must be string"};
+if(vErrors === null){
+vErrors = [err80];
+}
+else {
+vErrors.push(err80);
+}
+errors++;
+}
+if(!((data38 === "dark") || (data38 === "light"))){
+const err81 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema41.properties.theme.enum},message:"must be equal to one of the allowed values"};
+if(vErrors === null){
+vErrors = [err81];
+}
+else {
+vErrors.push(err81);
 }
 errors++;
 }
@@ -8226,12 +10147,12 @@ errors = vErrors.length;
 }
 }
 else {
-const err57 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
+const err82 = {instancePath,schemaPath:"#/type",keyword:"type",params:{type: "object"},message:"must be object"};
 if(vErrors === null){
-vErrors = [err57];
+vErrors = [err82];
 }
 else {
-vErrors.push(err57);
+vErrors.push(err82);
 }
 errors++;
 }
@@ -8239,10 +10160,10 @@ validate38.errors = vErrors;
 return errors === 0;
 }
 
-const schema44 = {"type":"object","properties":{"type":{"type":"string","const":"pairedComparisonPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PairedComparisonPlotRow"}},"categoryOrder":{"description":"同一对象比较的两个不同状态，数组顺序即显示顺序。","type":"array","items":[{"type":"string"},{"type":"string"}],"minItems":2,"maxItems":2},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["categoryOrder","data","type"]};
-const schema45 = {"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]};
+const schema45 = {"type":"object","properties":{"type":{"type":"string","const":"pairedComparisonPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/PairedComparisonPlotRow"}},"categoryOrder":{"description":"同一对象比较的两个不同状态，数组顺序即显示顺序。","type":"array","items":[{"type":"string"},{"type":"string"}],"minItems":2,"maxItems":2},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["categoryOrder","data","type"]};
+const schema46 = {"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]};
 
-function validate40(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate42(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -8581,7 +10502,7 @@ vErrors.push(err27);
 errors++;
 }
 if(!((data15 === "dark") || (data15 === "light"))){
-const err28 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema44.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err28 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema45.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err28];
 }
@@ -8608,14 +10529,14 @@ vErrors.push(err29);
 }
 errors++;
 }
-validate40.errors = vErrors;
+validate42.errors = vErrors;
 return errors === 0;
 }
 
-const schema46 = {"type":"object","properties":{"type":{"type":"string","const":"stripPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/StripPlotRow"}},"layout":{"enum":["jitter","strip","swarm"],"type":"string"},"jitterRatio":{"description":"最大偏移占完整分类带宽的比例，0–0.5；仅 jitter 布局允许，默认 0.3。","type":"number"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema47 = {"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]};
+const schema47 = {"type":"object","properties":{"type":{"type":"string","const":"stripPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/StripPlotRow"}},"layout":{"enum":["jitter","strip","swarm"],"type":"string"},"jitterRatio":{"description":"最大偏移占完整分类带宽的比例，0–0.5；仅 jitter 布局允许，默认 0.3。","type":"number"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema48 = {"description":"原始逐条观测，保留个体标识。","type":"object","properties":{"id":{"type":"string"},"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","id","value"]};
 
-function validate42(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate44(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -8640,7 +10561,7 @@ vErrors.push(err1);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema46.properties, key0))){
+if(!(func2.call(schema47.properties, key0))){
 const err2 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err2];
@@ -8809,7 +10730,7 @@ vErrors.push(err15);
 errors++;
 }
 if(!(((data7 === "jitter") || (data7 === "strip")) || (data7 === "swarm"))){
-const err16 = {instancePath:instancePath+"/layout",schemaPath:"#/properties/layout/enum",keyword:"enum",params:{allowedValues: schema46.properties.layout.enum},message:"must be equal to one of the allowed values"};
+const err16 = {instancePath:instancePath+"/layout",schemaPath:"#/properties/layout/enum",keyword:"enum",params:{allowedValues: schema47.properties.layout.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err16];
 }
@@ -8920,7 +10841,7 @@ vErrors.push(err24);
 errors++;
 }
 if(!((data14 === "dark") || (data14 === "light"))){
-const err25 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema46.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err25 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema47.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err25];
 }
@@ -8947,15 +10868,15 @@ vErrors.push(err26);
 }
 errors++;
 }
-validate42.errors = vErrors;
+validate44.errors = vErrors;
 return errors === 0;
 }
 
-const schema48 = {"type":"object","properties":{"type":{"type":"string","const":"missingValueMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/TableObservation"}}},"additionalProperties":false,"required":["observations"]},"fieldLabels":{"type":"object","properties":{"observationId":{"type":"string"},"variable":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]};
-const schema49 = {"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"$ref":"#/definitions/ObservationValue"}}},"additionalProperties":false,"required":["id","values"]};
-const schema50 = {"description":"JSON 原始单元格；null 是唯一缺失标记。","type":["null","string","number","boolean"]};
+const schema49 = {"type":"object","properties":{"type":{"type":"string","const":"missingValueMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/TableObservation"}}},"additionalProperties":false,"required":["observations"]},"fieldLabels":{"type":"object","properties":{"observationId":{"type":"string"},"variable":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]};
+const schema50 = {"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"$ref":"#/definitions/ObservationValue"}}},"additionalProperties":false,"required":["id","values"]};
+const schema51 = {"description":"JSON 原始单元格；null 是唯一缺失标记。","type":["null","string","number","boolean"]};
 
-function validate45(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate47(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -9009,7 +10930,7 @@ if(data1 && typeof data1 == "object" && !Array.isArray(data1)){
 for(const key1 in data1){
 let data2 = data1[key1];
 if((((data2 !== null) && (typeof data2 !== "string")) && (!((typeof data2 == "number") && (isFinite(data2))))) && (typeof data2 !== "boolean")){
-const err4 = {instancePath:instancePath+"/values/" + key1.replace(/~/g, "~0").replace(/\//g, "~1"),schemaPath:"#/definitions/ObservationValue/type",keyword:"type",params:{type: schema50.type},message:"must be null,string,number,boolean"};
+const err4 = {instancePath:instancePath+"/values/" + key1.replace(/~/g, "~0").replace(/\//g, "~1"),schemaPath:"#/definitions/ObservationValue/type",keyword:"type",params:{type: schema51.type},message:"must be null,string,number,boolean"};
 if(vErrors === null){
 vErrors = [err4];
 }
@@ -9042,12 +10963,12 @@ vErrors.push(err6);
 }
 errors++;
 }
-validate45.errors = vErrors;
+validate47.errors = vErrors;
 return errors === 0;
 }
 
 
-function validate44(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate46(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -9174,8 +11095,8 @@ let data4 = data3.observations;
 if(Array.isArray(data4)){
 const len1 = data4.length;
 for(let i1=0; i1<len1; i1++){
-if(!(validate45(data4[i1], {instancePath:instancePath+"/data/observations/" + i1,parentData:data4,parentDataProperty:i1,rootData}))){
-vErrors = vErrors === null ? validate45.errors : vErrors.concat(validate45.errors);
+if(!(validate47(data4[i1], {instancePath:instancePath+"/data/observations/" + i1,parentData:data4,parentDataProperty:i1,rootData}))){
+vErrors = vErrors === null ? validate47.errors : vErrors.concat(validate47.errors);
 errors = vErrors.length;
 }
 }
@@ -9291,7 +11212,7 @@ vErrors.push(err18);
 errors++;
 }
 if(!((data11 === "dark") || (data11 === "light"))){
-const err19 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema48.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err19 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema49.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err19];
 }
@@ -9318,14 +11239,14 @@ vErrors.push(err20);
 }
 errors++;
 }
-validate44.errors = vErrors;
+validate46.errors = vErrors;
 return errors === 0;
 }
 
-const schema51 = {"type":"object","properties":{"type":{"type":"string","const":"countPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/CountPlotRow"}},"statistic":{"description":"显示统计量，默认 count。","enum":["count","proportion"],"type":"string"},"normalizationScope":{"description":"proportion 的分母范围，默认 all；仅 proportion 模式可配置。","enum":["all","series"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema52 = {"description":"每行表示一条原始分类观测，重复行分别计数。","type":"object","properties":{"category":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category"]};
+const schema52 = {"type":"object","properties":{"type":{"type":"string","const":"countPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/CountPlotRow"}},"statistic":{"description":"显示统计量，默认 count。","enum":["count","proportion"],"type":"string"},"normalizationScope":{"description":"proportion 的分母范围，默认 all；仅 proportion 模式可配置。","enum":["all","series"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema53 = {"description":"每行表示一条原始分类观测，重复行分别计数。","type":"object","properties":{"category":{"type":"string"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category"]};
 
-function validate48(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate50(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -9350,7 +11271,7 @@ vErrors.push(err1);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema51.properties, key0))){
+if(!(func2.call(schema52.properties, key0))){
 const err2 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err2];
@@ -9474,7 +11395,7 @@ vErrors.push(err11);
 errors++;
 }
 if(!((data5 === "count") || (data5 === "proportion"))){
-const err12 = {instancePath:instancePath+"/statistic",schemaPath:"#/properties/statistic/enum",keyword:"enum",params:{allowedValues: schema51.properties.statistic.enum},message:"must be equal to one of the allowed values"};
+const err12 = {instancePath:instancePath+"/statistic",schemaPath:"#/properties/statistic/enum",keyword:"enum",params:{allowedValues: schema52.properties.statistic.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err12];
 }
@@ -9497,7 +11418,7 @@ vErrors.push(err13);
 errors++;
 }
 if(!((data6 === "all") || (data6 === "series"))){
-const err14 = {instancePath:instancePath+"/normalizationScope",schemaPath:"#/properties/normalizationScope/enum",keyword:"enum",params:{allowedValues: schema51.properties.normalizationScope.enum},message:"must be equal to one of the allowed values"};
+const err14 = {instancePath:instancePath+"/normalizationScope",schemaPath:"#/properties/normalizationScope/enum",keyword:"enum",params:{allowedValues: schema52.properties.normalizationScope.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err14];
 }
@@ -9607,7 +11528,7 @@ vErrors.push(err22);
 errors++;
 }
 if(!((data13 === "dark") || (data13 === "light"))){
-const err23 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema51.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err23 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema52.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err23];
 }
@@ -9634,15 +11555,15 @@ vErrors.push(err24);
 }
 errors++;
 }
-validate48.errors = vErrors;
+validate50.errors = vErrors;
 return errors === 0;
 }
 
-const schema53 = {"type":"object","properties":{"type":{"type":"string","const":"boxPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/BoxPlotRow"}},"whiskers":{"description":"编译阶段计算须和异常值的规则。","$ref":"#/definitions/BoxPlotWhiskersSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema54 = {"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；重复值分别参与统计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]};
-const schema55 = {"type":"object","properties":{"iqrMultiplier":{"description":"IQR 围栏倍数，默认 1.5；有限且非负。","minimum":0,"type":"number"}},"additionalProperties":false};
+const schema54 = {"type":"object","properties":{"type":{"type":"string","const":"boxPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/BoxPlotRow"}},"whiskers":{"description":"编译阶段计算须和异常值的规则。","$ref":"#/definitions/BoxPlotWhiskersSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema55 = {"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；重复值分别参与统计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]};
+const schema56 = {"type":"object","properties":{"iqrMultiplier":{"description":"IQR 围栏倍数，默认 1.5；有限且非负。","minimum":0,"type":"number"}},"additionalProperties":false};
 
-function validate50(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate52(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -9941,7 +11862,7 @@ vErrors.push(err23);
 errors++;
 }
 if(!((data13 === "dark") || (data13 === "light"))){
-const err24 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema53.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err24 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema54.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err24];
 }
@@ -9968,14 +11889,14 @@ vErrors.push(err25);
 }
 errors++;
 }
-validate50.errors = vErrors;
+validate52.errors = vErrors;
 return errors === 0;
 }
 
-const schema56 = {"type":"object","properties":{"type":{"type":"string","const":"correlationMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/NumericObservation"}}},"additionalProperties":false,"required":["observations"]},"method":{"description":"默认 pearson；kendall 为 tau-b。","enum":["kendall","pearson","spearman"],"type":"string"},"minSamples":{"description":"最少有效配对数，默认 2。","type":"integer","minimum":2},"triangle":{"enum":["full","lower","upper"],"type":"string"},"fieldLabels":{"type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]};
-const schema57 = {"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}}},"additionalProperties":false,"required":["id","values"]};
+const schema57 = {"type":"object","properties":{"type":{"type":"string","const":"correlationMatrix"},"variables":{"type":"array","items":{"type":"string"}},"data":{"type":"object","properties":{"observations":{"type":"array","items":{"$ref":"#/definitions/NumericObservation"}}},"additionalProperties":false,"required":["observations"]},"method":{"description":"默认 pearson；kendall 为 tau-b。","enum":["kendall","pearson","spearman"],"type":"string"},"minSamples":{"description":"最少有效配对数，默认 2。","type":"integer","minimum":2},"triangle":{"enum":["full","lower","upper"],"type":"string"},"fieldLabels":{"type":"object","properties":{"row":{"type":"string"},"column":{"type":"string"},"correlation":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type","variables"]};
+const schema58 = {"type":"object","properties":{"id":{"type":"string"},"values":{"type":"object","additionalProperties":{"type":["null","number"]}}},"additionalProperties":false,"required":["id","values"]};
 
-function validate52(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate54(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -10010,7 +11931,7 @@ vErrors.push(err2);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema56.properties, key0))){
+if(!(func2.call(schema57.properties, key0))){
 const err3 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err3];
@@ -10154,7 +12075,7 @@ if(data7 && typeof data7 == "object" && !Array.isArray(data7)){
 for(const key3 in data7){
 let data8 = data7[key3];
 if((data8 !== null) && (!((typeof data8 == "number") && (isFinite(data8))))){
-const err14 = {instancePath:instancePath+"/data/observations/" + i1+"/values/" + key3.replace(/~/g, "~0").replace(/\//g, "~1"),schemaPath:"#/definitions/NumericObservation/properties/values/additionalProperties/type",keyword:"type",params:{type: schema57.properties.values.additionalProperties.type},message:"must be null,number"};
+const err14 = {instancePath:instancePath+"/data/observations/" + i1+"/values/" + key3.replace(/~/g, "~0").replace(/\//g, "~1"),schemaPath:"#/definitions/NumericObservation/properties/values/additionalProperties/type",keyword:"type",params:{type: schema58.properties.values.additionalProperties.type},message:"must be null,number"};
 if(vErrors === null){
 vErrors = [err14];
 }
@@ -10225,7 +12146,7 @@ vErrors.push(err19);
 errors++;
 }
 if(!(((data9 === "kendall") || (data9 === "pearson")) || (data9 === "spearman"))){
-const err20 = {instancePath:instancePath+"/method",schemaPath:"#/properties/method/enum",keyword:"enum",params:{allowedValues: schema56.properties.method.enum},message:"must be equal to one of the allowed values"};
+const err20 = {instancePath:instancePath+"/method",schemaPath:"#/properties/method/enum",keyword:"enum",params:{allowedValues: schema57.properties.method.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err20];
 }
@@ -10273,7 +12194,7 @@ vErrors.push(err23);
 errors++;
 }
 if(!(((data11 === "full") || (data11 === "lower")) || (data11 === "upper"))){
-const err24 = {instancePath:instancePath+"/triangle",schemaPath:"#/properties/triangle/enum",keyword:"enum",params:{allowedValues: schema56.properties.triangle.enum},message:"must be equal to one of the allowed values"};
+const err24 = {instancePath:instancePath+"/triangle",schemaPath:"#/properties/triangle/enum",keyword:"enum",params:{allowedValues: schema57.properties.triangle.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err24];
 }
@@ -10383,7 +12304,7 @@ vErrors.push(err32);
 errors++;
 }
 if(!((data18 === "dark") || (data18 === "light"))){
-const err33 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema56.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err33 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema57.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err33];
 }
@@ -10410,14 +12331,14 @@ vErrors.push(err34);
 }
 errors++;
 }
-validate52.errors = vErrors;
+validate54.errors = vErrors;
 return errors === 0;
 }
 
-const schema58 = {"type":"object","properties":{"type":{"type":"string","const":"ecdfPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EcdfPlotRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"cumulativeProbability":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema59 = {"type":"object","properties":{"value":{"description":"原始观测；无序和重复值均有效。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]};
+const schema59 = {"type":"object","properties":{"type":{"type":"string","const":"ecdfPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/EcdfPlotRow"}},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"cumulativeProbability":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema60 = {"type":"object","properties":{"value":{"description":"原始观测；无序和重复值均有效。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]};
 
-function validate54(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate56(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -10642,7 +12563,7 @@ vErrors.push(err17);
 errors++;
 }
 if(!((data10 === "dark") || (data10 === "light"))){
-const err18 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema58.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err18 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema59.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err18];
 }
@@ -10669,14 +12590,14 @@ vErrors.push(err19);
 }
 errors++;
 }
-validate54.errors = vErrors;
+validate56.errors = vErrors;
 return errors === 0;
 }
 
-const schema81 = {"type":"object","properties":{"input":{"type":"string","const":"observations"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalObservation"}},"estimator":{"enum":["mean","median"],"type":"string"},"errorBar":{"anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"percentile"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardError"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardDeviation"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]};
-const schema82 = {"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]};
+const schema90 = {"type":"object","properties":{"input":{"type":"string","const":"observations"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalObservation"}},"estimator":{"enum":["mean","median"],"type":"string"},"errorBar":{"anyOf":[{"type":"object","properties":{"kind":{"type":"string","const":"confidence"},"level":{"type":"number"},"resamples":{"type":"number"},"seed":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"percentile"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardError"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"standardDeviation"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]},{"const":false,"type":"boolean"}]},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","type"]};
+const schema91 = {"type":"object","properties":{"category":{"type":"string"},"value":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]};
 
-function validate97(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate102(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -10711,7 +12632,7 @@ vErrors.push(err2);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema81.properties, key0))){
+if(!(func2.call(schema90.properties, key0))){
 const err3 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err3];
@@ -10858,7 +12779,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!((data6 === "mean") || (data6 === "median"))){
-const err15 = {instancePath:instancePath+"/estimator",schemaPath:"#/properties/estimator/enum",keyword:"enum",params:{allowedValues: schema81.properties.estimator.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/estimator",schemaPath:"#/properties/estimator/enum",keyword:"enum",params:{allowedValues: schema90.properties.estimator.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -11403,7 +13324,7 @@ vErrors.push(err57);
 errors++;
 }
 if(!((data23 === "linear") || (data23 === "log"))){
-const err58 = {instancePath:instancePath+"/valueScale",schemaPath:"#/properties/valueScale/enum",keyword:"enum",params:{allowedValues: schema81.properties.valueScale.enum},message:"must be equal to one of the allowed values"};
+const err58 = {instancePath:instancePath+"/valueScale",schemaPath:"#/properties/valueScale/enum",keyword:"enum",params:{allowedValues: schema90.properties.valueScale.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err58];
 }
@@ -11501,7 +13422,7 @@ vErrors.push(err65);
 errors++;
 }
 if(!((data29 === "dark") || (data29 === "light"))){
-const err66 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema81.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err66 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema90.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err66];
 }
@@ -11528,15 +13449,15 @@ vErrors.push(err67);
 }
 errors++;
 }
-validate97.errors = vErrors;
+validate102.errors = vErrors;
 return errors === 0;
 }
 
-const schema83 = {"type":"object","properties":{"input":{"type":"string","const":"estimates"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalPlotRow"}},"interval":{"$ref":"#/definitions/Interval"},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","interval","type"]};
-const schema84 = {"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","estimate","lower","upper"]};
-const schema85 = {"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]};
+const schema92 = {"type":"object","properties":{"input":{"type":"string","const":"estimates"},"data":{"type":"array","items":{"$ref":"#/definitions/PointIntervalPlotRow"}},"interval":{"$ref":"#/definitions/Interval"},"type":{"type":"string","const":"pointIntervalPlot"},"referenceLine":{"type":"object","properties":{"value":{"type":"number"},"label":{"type":"string"}},"additionalProperties":false,"required":["value"]},"valueScale":{"enum":["linear","log"],"type":"string"},"fieldLabels":{"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","input","interval","type"]};
+const schema93 = {"type":"object","properties":{"category":{"type":"string"},"estimate":{"type":"number"},"lower":{"type":"number"},"upper":{"type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","estimate","lower","upper"]};
+const schema94 = {"description":"显示区间的统计含义；数值由计算端提供。","anyOf":[{"type":"object","properties":{"kind":{"enum":["confidence","credible","prediction"],"type":"string"},"level":{"type":"number"}},"additionalProperties":false,"required":["kind","level"]},{"type":"object","properties":{"kind":{"enum":["standardDeviation","standardError"],"type":"string"},"multiplier":{"type":"number"}},"additionalProperties":false,"required":["kind","multiplier"]},{"type":"object","properties":{"kind":{"type":"string","const":"range"}},"additionalProperties":false,"required":["kind"]}]};
 
-function validate99(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate104(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -11581,7 +13502,7 @@ vErrors.push(err3);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema83.properties, key0))){
+if(!(func2.call(schema92.properties, key0))){
 const err4 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err4];
@@ -11812,7 +13733,7 @@ vErrors.push(err22);
 errors++;
 }
 if(!(((data9 === "confidence") || (data9 === "credible")) || (data9 === "prediction"))){
-const err23 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/definitions/Interval/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema85.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err23 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/definitions/Interval/anyOf/0/properties/kind/enum",keyword:"enum",params:{allowedValues: schema94.anyOf[0].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err23];
 }
@@ -11896,7 +13817,7 @@ vErrors.push(err29);
 errors++;
 }
 if(!((data11 === "standardDeviation") || (data11 === "standardError"))){
-const err30 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/definitions/Interval/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema85.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
+const err30 = {instancePath:instancePath+"/interval/kind",schemaPath:"#/definitions/Interval/anyOf/1/properties/kind/enum",keyword:"enum",params:{allowedValues: schema94.anyOf[1].properties.kind.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err30];
 }
@@ -12115,7 +14036,7 @@ vErrors.push(err46);
 errors++;
 }
 if(!((data18 === "linear") || (data18 === "log"))){
-const err47 = {instancePath:instancePath+"/valueScale",schemaPath:"#/properties/valueScale/enum",keyword:"enum",params:{allowedValues: schema83.properties.valueScale.enum},message:"must be equal to one of the allowed values"};
+const err47 = {instancePath:instancePath+"/valueScale",schemaPath:"#/properties/valueScale/enum",keyword:"enum",params:{allowedValues: schema92.properties.valueScale.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err47];
 }
@@ -12213,7 +14134,7 @@ vErrors.push(err54);
 errors++;
 }
 if(!((data24 === "dark") || (data24 === "light"))){
-const err55 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema83.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err55 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema92.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err55];
 }
@@ -12240,15 +14161,15 @@ vErrors.push(err56);
 }
 errors++;
 }
-validate99.errors = vErrors;
+validate104.errors = vErrors;
 return errors === 0;
 }
 
-const schema60 = {"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"binning":{"description":"原始观测的分箱规则；重复值分别计数。","$ref":"#/definitions/HistogramBinningSpec"},"statistic":{"description":"显示统计量，默认 count；proportion 为样本比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema61 = {"type":"object","properties":{"value":{"type":"number"}},"additionalProperties":false,"required":["value"]};
-const schema62 = {"type":"object","properties":{"binCount":{"description":"非恒定数据的等宽箱数；省略时按样本量选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false};
+const schema61 = {"type":"object","properties":{"type":{"type":"string","const":"histogram"},"data":{"type":"array","items":{"$ref":"#/definitions/HistogramRow"}},"binning":{"description":"原始观测的分箱规则；重复值分别计数。","$ref":"#/definitions/HistogramBinningSpec"},"statistic":{"description":"显示统计量，默认 count；proportion 为样本比例，density 为单位数值区间的概率密度。","enum":["count","density","proportion"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"count":{"type":"string"},"proportion":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema62 = {"type":"object","properties":{"value":{"type":"number"}},"additionalProperties":false,"required":["value"]};
+const schema63 = {"type":"object","properties":{"binCount":{"description":"非恒定数据的等宽箱数；省略时按样本量选择。","type":"integer","minimum":1,"maximum":200}},"additionalProperties":false};
 
-function validate56(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate58(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -12273,7 +14194,7 @@ vErrors.push(err1);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema60.properties, key0))){
+if(!(func2.call(schema61.properties, key0))){
 const err2 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err2];
@@ -12448,7 +14369,7 @@ vErrors.push(err15);
 errors++;
 }
 if(!(((data6 === "count") || (data6 === "density")) || (data6 === "proportion"))){
-const err16 = {instancePath:instancePath+"/statistic",schemaPath:"#/properties/statistic/enum",keyword:"enum",params:{allowedValues: schema60.properties.statistic.enum},message:"must be equal to one of the allowed values"};
+const err16 = {instancePath:instancePath+"/statistic",schemaPath:"#/properties/statistic/enum",keyword:"enum",params:{allowedValues: schema61.properties.statistic.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err16];
 }
@@ -12570,7 +14491,7 @@ vErrors.push(err25);
 errors++;
 }
 if(!((data14 === "dark") || (data14 === "light"))){
-const err26 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema60.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err26 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema61.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err26];
 }
@@ -12597,16 +14518,16 @@ vErrors.push(err27);
 }
 errors++;
 }
-validate56.errors = vErrors;
+validate58.errors = vErrors;
 return errors === 0;
 }
 
-const schema63 = {"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"编译阶段的核密度估计配置。单样本和常数系列须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"绘制采样配置；不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema64 = {"type":"object","properties":{"value":{"description":"原始观测；重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]};
-const schema65 = {"type":"object","properties":{"kernel":{"description":"默认 gaussian。","enum":["epanechnikov","gaussian"],"type":"string"},"bandwidth":{"description":"正数为固定带宽，单位与 value 相同；默认 scott，各分布组独立估计。","anyOf":[{"enum":["scott","silverman"],"type":"string"},{"type":"number"}]}},"additionalProperties":false};
-const schema66 = {"type":"object","properties":{"points":{"description":"每组等距绘制点数，默认 256；仅控制曲线离散精度。","type":"integer","minimum":2,"maximum":2048}},"additionalProperties":false};
+const schema64 = {"type":"object","properties":{"type":{"type":"string","const":"kdePlot"},"data":{"type":"array","items":{"$ref":"#/definitions/KdePlotRow"}},"estimation":{"description":"编译阶段的核密度估计配置。单样本和常数系列须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"绘制采样配置；不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema65 = {"type":"object","properties":{"value":{"description":"原始观测；重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["value"]};
+const schema66 = {"type":"object","properties":{"kernel":{"description":"默认 gaussian。","enum":["epanechnikov","gaussian"],"type":"string"},"bandwidth":{"description":"正数为固定带宽，单位与 value 相同；默认 scott，各分布组独立估计。","anyOf":[{"enum":["scott","silverman"],"type":"string"},{"type":"number"}]}},"additionalProperties":false};
+const schema67 = {"type":"object","properties":{"points":{"description":"每组等距绘制点数，默认 256；仅控制曲线离散精度。","type":"integer","minimum":2,"maximum":2048}},"additionalProperties":false};
 
-function validate58(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate60(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -12631,7 +14552,7 @@ vErrors.push(err1);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema63.properties, key0))){
+if(!(func2.call(schema64.properties, key0))){
 const err2 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err2];
@@ -12771,7 +14692,7 @@ vErrors.push(err12);
 errors++;
 }
 if(!((data6 === "epanechnikov") || (data6 === "gaussian"))){
-const err13 = {instancePath:instancePath+"/estimation/kernel",schemaPath:"#/definitions/KdeEstimationSpec/properties/kernel/enum",keyword:"enum",params:{allowedValues: schema65.properties.kernel.enum},message:"must be equal to one of the allowed values"};
+const err13 = {instancePath:instancePath+"/estimation/kernel",schemaPath:"#/definitions/KdeEstimationSpec/properties/kernel/enum",keyword:"enum",params:{allowedValues: schema66.properties.kernel.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err13];
 }
@@ -12797,7 +14718,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!((data7 === "scott") || (data7 === "silverman"))){
-const err15 = {instancePath:instancePath+"/estimation/bandwidth",schemaPath:"#/definitions/KdeEstimationSpec/properties/bandwidth/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema65.properties.bandwidth.anyOf[0].enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/estimation/bandwidth",schemaPath:"#/definitions/KdeEstimationSpec/properties/bandwidth/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema66.properties.bandwidth.anyOf[0].enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -13007,7 +14928,7 @@ vErrors.push(err30);
 errors++;
 }
 if(!((data15 === "dark") || (data15 === "light"))){
-const err31 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema63.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err31 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema64.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err31];
 }
@@ -13034,13 +14955,13 @@ vErrors.push(err32);
 }
 errors++;
 }
-validate58.errors = vErrors;
+validate60.errors = vErrors;
 return errors === 0;
 }
 
-const schema67 = {"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/BinaryScoreRow"}},"fieldLabels":{"description":"展示生成的曲线统计量，不改变原始输入字段。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema68 = {"type":"object","properties":{"type":{"type":"string","const":"rocCurve"},"data":{"type":"array","items":{"$ref":"#/definitions/BinaryScoreRow"}},"fieldLabels":{"description":"展示生成的曲线统计量，不改变原始输入字段。","type":"object","properties":{"fpr":{"type":"string"},"tpr":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
 
-function validate60(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate62(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -13287,7 +15208,7 @@ vErrors.push(err19);
 errors++;
 }
 if(!((data11 === "dark") || (data11 === "light"))){
-const err20 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema67.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err20 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema68.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err20];
 }
@@ -13314,14 +15235,14 @@ vErrors.push(err21);
 }
 errors++;
 }
-validate60.errors = vErrors;
+validate62.errors = vErrors;
 return errors === 0;
 }
 
-const schema69 = {"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"estimation":{"description":"各 category + series 独立计算 KDE；单样本和常数组须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"每组轮廓的绘制采样配置，不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
-const schema70 = {"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；允许乱序，重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]};
+const schema70 = {"type":"object","properties":{"type":{"type":"string","const":"violinPlot"},"data":{"type":"array","items":{"$ref":"#/definitions/ViolinPlotRow"}},"estimation":{"description":"各 category + series 独立计算 KDE；单样本和常数组须显式提供正带宽。","$ref":"#/definitions/KdeEstimationSpec"},"sampling":{"description":"每组轮廓的绘制采样配置，不改变估计方法和带宽。","$ref":"#/definitions/KdeSamplingSpec"},"densityNormalization":{"description":"密度轮廓归一化：width 等最大宽度（默认），area 等面积。","enum":["area","width"],"type":"string"},"fieldLabels":{"description":"字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。","type":"object","properties":{"category":{"type":"string"},"value":{"type":"string"},"density":{"type":"string"}},"additionalProperties":false},"title":{"description":"图表标题。","type":"string"},"description":{"description":"数据范围或统计方法说明。","type":"string"},"theme":{"enum":["dark","light"],"type":"string"},"colors":{"description":"全图共用的颜色角色；省略时使用各角色默认色板。","$ref":"#/definitions/StatPlotColors"}},"additionalProperties":false,"required":["data","type"]};
+const schema71 = {"type":"object","properties":{"category":{"type":"string"},"value":{"description":"原始观测；允许乱序，重复值分别参与估计。","type":"number"},"series":{"description":"同一数据表要么全部提供系列名称，要么全部省略。","type":"string"}},"additionalProperties":false,"required":["category","value"]};
 
-function validate62(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
+function validate64(data, {instancePath="", parentData, parentDataProperty, rootData=data}={}){
 let vErrors = null;
 let errors = 0;
 if(data && typeof data == "object" && !Array.isArray(data)){
@@ -13346,7 +15267,7 @@ vErrors.push(err1);
 errors++;
 }
 for(const key0 in data){
-if(!(func2.call(schema69.properties, key0))){
+if(!(func2.call(schema70.properties, key0))){
 const err2 = {instancePath,schemaPath:"#/additionalProperties",keyword:"additionalProperties",params:{additionalProperty: key0},message:"must NOT have additional properties"};
 if(vErrors === null){
 vErrors = [err2];
@@ -13508,7 +15429,7 @@ vErrors.push(err14);
 errors++;
 }
 if(!((data7 === "epanechnikov") || (data7 === "gaussian"))){
-const err15 = {instancePath:instancePath+"/estimation/kernel",schemaPath:"#/definitions/KdeEstimationSpec/properties/kernel/enum",keyword:"enum",params:{allowedValues: schema65.properties.kernel.enum},message:"must be equal to one of the allowed values"};
+const err15 = {instancePath:instancePath+"/estimation/kernel",schemaPath:"#/definitions/KdeEstimationSpec/properties/kernel/enum",keyword:"enum",params:{allowedValues: schema66.properties.kernel.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err15];
 }
@@ -13534,7 +15455,7 @@ vErrors.push(err16);
 errors++;
 }
 if(!((data8 === "scott") || (data8 === "silverman"))){
-const err17 = {instancePath:instancePath+"/estimation/bandwidth",schemaPath:"#/definitions/KdeEstimationSpec/properties/bandwidth/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema65.properties.bandwidth.anyOf[0].enum},message:"must be equal to one of the allowed values"};
+const err17 = {instancePath:instancePath+"/estimation/bandwidth",schemaPath:"#/definitions/KdeEstimationSpec/properties/bandwidth/anyOf/0/enum",keyword:"enum",params:{allowedValues: schema66.properties.bandwidth.anyOf[0].enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err17];
 }
@@ -13669,7 +15590,7 @@ vErrors.push(err26);
 errors++;
 }
 if(!((data11 === "area") || (data11 === "width"))){
-const err27 = {instancePath:instancePath+"/densityNormalization",schemaPath:"#/properties/densityNormalization/enum",keyword:"enum",params:{allowedValues: schema69.properties.densityNormalization.enum},message:"must be equal to one of the allowed values"};
+const err27 = {instancePath:instancePath+"/densityNormalization",schemaPath:"#/properties/densityNormalization/enum",keyword:"enum",params:{allowedValues: schema70.properties.densityNormalization.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err27];
 }
@@ -13779,7 +15700,7 @@ vErrors.push(err35);
 errors++;
 }
 if(!((data18 === "dark") || (data18 === "light"))){
-const err36 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema69.properties.theme.enum},message:"must be equal to one of the allowed values"};
+const err36 = {instancePath:instancePath+"/theme",schemaPath:"#/properties/theme/enum",keyword:"enum",params:{allowedValues: schema70.properties.theme.enum},message:"must be equal to one of the allowed values"};
 if(vErrors === null){
 vErrors = [err36];
 }
@@ -13806,7 +15727,7 @@ vErrors.push(err37);
 }
 errors++;
 }
-validate62.errors = vErrors;
+validate64.errors = vErrors;
 return errors === 0;
 }
 
@@ -13889,14 +15810,14 @@ errors++;
 const tag1 = data.input;
 if(typeof tag1 == "string"){
 if(tag1 === "folds"){
-if(!(validate68(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate68.errors : vErrors.concat(validate68.errors);
+if(!(validate70(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate70.errors : vErrors.concat(validate70.errors);
 errors = vErrors.length;
 }
 }
 else if(tag1 === "summaries"){
-if(!(validate70(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate70.errors : vErrors.concat(validate70.errors);
+if(!(validate72(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate72.errors : vErrors.concat(validate72.errors);
 errors = vErrors.length;
 }
 }
@@ -13975,15 +15896,21 @@ errors++;
 }
 const tag2 = data.input;
 if(typeof tag2 == "string"){
-if(tag2 === "predictions"){
-if(!(validate75(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate75.errors : vErrors.concat(validate75.errors);
+if(tag2 === "observations"){
+if(!(validate77(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate77.errors : vErrors.concat(validate77.errors);
+errors = vErrors.length;
+}
+}
+else if(tag2 === "predictions"){
+if(!(validate79(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate79.errors : vErrors.concat(validate79.errors);
 errors = vErrors.length;
 }
 }
 else if(tag2 === "residuals"){
-if(!(validate77(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate77.errors : vErrors.concat(validate77.errors);
+if(!(validate81(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate81.errors : vErrors.concat(validate81.errors);
 errors = vErrors.length;
 }
 }
@@ -14075,44 +16002,44 @@ errors = vErrors.length;
 }
 }
 else if(tag0 === "pairedComparisonPlot"){
-if(!(validate40(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate40.errors : vErrors.concat(validate40.errors);
-errors = vErrors.length;
-}
-}
-else if(tag0 === "stripPlot"){
 if(!(validate42(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate42.errors : vErrors.concat(validate42.errors);
 errors = vErrors.length;
 }
 }
-else if(tag0 === "missingValueMatrix"){
+else if(tag0 === "stripPlot"){
 if(!(validate44(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate44.errors : vErrors.concat(validate44.errors);
 errors = vErrors.length;
 }
 }
-else if(tag0 === "countPlot"){
-if(!(validate48(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate48.errors : vErrors.concat(validate48.errors);
+else if(tag0 === "missingValueMatrix"){
+if(!(validate46(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate46.errors : vErrors.concat(validate46.errors);
 errors = vErrors.length;
 }
 }
-else if(tag0 === "boxPlot"){
+else if(tag0 === "countPlot"){
 if(!(validate50(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate50.errors : vErrors.concat(validate50.errors);
 errors = vErrors.length;
 }
 }
-else if(tag0 === "correlationMatrix"){
+else if(tag0 === "boxPlot"){
 if(!(validate52(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate52.errors : vErrors.concat(validate52.errors);
 errors = vErrors.length;
 }
 }
-else if(tag0 === "ecdfPlot"){
+else if(tag0 === "correlationMatrix"){
 if(!(validate54(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate54.errors : vErrors.concat(validate54.errors);
+errors = vErrors.length;
+}
+}
+else if(tag0 === "ecdfPlot"){
+if(!(validate56(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate56.errors : vErrors.concat(validate56.errors);
 errors = vErrors.length;
 }
 }
@@ -14153,14 +16080,14 @@ errors++;
 const tag3 = data.input;
 if(typeof tag3 == "string"){
 if(tag3 === "observations"){
-if(!(validate97(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate97.errors : vErrors.concat(validate97.errors);
+if(!(validate102(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate102.errors : vErrors.concat(validate102.errors);
 errors = vErrors.length;
 }
 }
 else if(tag3 === "estimates"){
-if(!(validate99(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate99.errors : vErrors.concat(validate99.errors);
+if(!(validate104(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate104.errors : vErrors.concat(validate104.errors);
 errors = vErrors.length;
 }
 }
@@ -14198,26 +16125,26 @@ errors++;
 }
 }
 else if(tag0 === "histogram"){
-if(!(validate56(data, {instancePath,parentData,parentDataProperty,rootData}))){
-vErrors = vErrors === null ? validate56.errors : vErrors.concat(validate56.errors);
-errors = vErrors.length;
-}
-}
-else if(tag0 === "kdePlot"){
 if(!(validate58(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate58.errors : vErrors.concat(validate58.errors);
 errors = vErrors.length;
 }
 }
-else if(tag0 === "rocCurve"){
+else if(tag0 === "kdePlot"){
 if(!(validate60(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate60.errors : vErrors.concat(validate60.errors);
 errors = vErrors.length;
 }
 }
-else if(tag0 === "violinPlot"){
+else if(tag0 === "rocCurve"){
 if(!(validate62(data, {instancePath,parentData,parentDataProperty,rootData}))){
 vErrors = vErrors === null ? validate62.errors : vErrors.concat(validate62.errors);
+errors = vErrors.length;
+}
+}
+else if(tag0 === "violinPlot"){
+if(!(validate64(data, {instancePath,parentData,parentDataProperty,rootData}))){
+vErrors = vErrors === null ? validate64.errors : vErrors.concat(validate64.errors);
 errors = vErrors.length;
 }
 }

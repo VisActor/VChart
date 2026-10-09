@@ -229,7 +229,8 @@
         "lower": 11.299999999999999,
         "upper": 15.299999999999999
       }
-    ]
+    ],
+    "input": "estimates"
   },
   "xField": "guessed"
 }

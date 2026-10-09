@@ -953,6 +953,177 @@
         "value"
       ]
     },
+    "ResidualObservationsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "observations"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RegressionObservation"
+          }
+        },
+        "regression": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LinearRegressionOptions"
+            },
+            {
+              "$ref": "#/definitions/PolynomialRegressionOptions"
+            },
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            }
+          ]
+        },
+        "xAxis": {
+          "enum": [
+            "fitted",
+            "predictor"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            },
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "smooth": {
+          "description": "残差趋势线；不改变生成残差的模型。",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "type"
+      ]
+    },
+    "RegressionObservation": {
+      "description": "原始配对观测；重复 x/y 保留，不接收统计结果。",
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "LinearRegressionOptions": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "linear"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ]
+    },
+    "PolynomialRegressionOptions": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "polynomial"
+        },
+        "degree": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "degree",
+        "method"
+      ]
+    },
+    "LowessRegressionOptions": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "lowess"
+        },
+        "span": {
+          "type": "number"
+        },
+        "iterations": {
+          "type": "number"
+        },
+        "delta": {
+          "description": "与 x 同单位；0 精确求值，正值显式插值加速，全量观测仍参与。",
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ]
+    },
     "ResidualPredictionsSpec": {
       "type": "object",
       "properties": {
@@ -966,10 +1137,6 @@
             "$ref": "#/definitions/ResidualPredictionRow"
           }
         },
-        "type": {
-          "type": "string",
-          "const": "residualPlot"
-        },
         "fieldLabels": {
           "type": "object",
           "properties": {
@@ -981,6 +1148,22 @@
             }
           },
           "additionalProperties": false
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "smooth": {
+          "description": "残差趋势线；不改变生成残差的模型。",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
         },
         "title": {
           "description": "图表标题。",
@@ -1054,10 +1237,6 @@
           ],
           "type": "string"
         },
-        "type": {
-          "type": "string",
-          "const": "residualPlot"
-        },
         "fieldLabels": {
           "type": "object",
           "properties": {
@@ -1069,6 +1248,22 @@
             }
           },
           "additionalProperties": false
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "smooth": {
+          "description": "残差趋势线；不改变生成残差的模型。",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
         },
         "title": {
           "description": "图表标题。",
@@ -1993,81 +2188,162 @@
           }
         },
         "fit": {
-          "type": "object",
-          "properties": {
-            "method": {
-              "type": "string"
-            },
-            "data": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/FitRow"
-              }
-            },
-            "interval": {
-              "description": "显示区间的统计含义；数值由计算端提供。",
-              "anyOf": [
-                {
+          "anyOf": [
+            {
+              "additionalProperties": false,
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "linear"
+                },
+                "input": {
+                  "type": "string",
+                  "const": "observations"
+                },
+                "confidence": {
+                  "description": "均值响应的逐点 percentile bootstrap CI，不是预测区间。",
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "const": "confidence"
+                        },
+                        "level": {
+                          "type": "number"
+                        },
+                        "resamples": {
+                          "type": "number"
+                        },
+                        "seed": {
+                          "type": "number"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "kind"
+                      ]
+                    },
+                    {
+                      "const": false,
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "sampling": {
                   "type": "object",
                   "properties": {
-                    "kind": {
-                      "enum": [
-                        "confidence",
-                        "credible",
-                        "prediction"
-                      ],
-                      "type": "string"
-                    },
-                    "level": {
+                    "points": {
                       "type": "number"
                     }
                   },
-                  "additionalProperties": false,
-                  "required": [
-                    "kind",
-                    "level"
-                  ]
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "kind": {
-                      "enum": [
-                        "standardDeviation",
-                        "standardError"
-                      ],
-                      "type": "string"
-                    },
-                    "multiplier": {
-                      "type": "number"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "kind",
-                    "multiplier"
-                  ]
-                },
-                {
-                  "type": "object",
-                  "properties": {
-                    "kind": {
-                      "type": "string",
-                      "const": "range"
-                    }
-                  },
-                  "additionalProperties": false,
-                  "required": [
-                    "kind"
-                  ]
+                  "additionalProperties": false
                 }
+              },
+              "required": [
+                "input",
+                "method"
               ]
+            },
+            {
+              "additionalProperties": false,
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "polynomial"
+                },
+                "degree": {
+                  "type": "number"
+                },
+                "input": {
+                  "type": "string",
+                  "const": "observations"
+                },
+                "confidence": {
+                  "description": "均值响应的逐点 percentile bootstrap CI，不是预测区间。",
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "const": "confidence"
+                        },
+                        "level": {
+                          "type": "number"
+                        },
+                        "resamples": {
+                          "type": "number"
+                        },
+                        "seed": {
+                          "type": "number"
+                        }
+                      },
+                      "additionalProperties": false,
+                      "required": [
+                        "kind"
+                      ]
+                    },
+                    {
+                      "const": false,
+                      "type": "boolean"
+                    }
+                  ]
+                },
+                "sampling": {
+                  "type": "object",
+                  "properties": {
+                    "points": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "required": [
+                "degree",
+                "input",
+                "method"
+              ]
+            },
+            {
+              "additionalProperties": false,
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "string",
+                  "const": "lowess"
+                },
+                "span": {
+                  "type": "number"
+                },
+                "iterations": {
+                  "type": "number"
+                },
+                "delta": {
+                  "description": "与 x 同单位；0 精确求值，正值显式插值加速，全量观测仍参与。",
+                  "type": "number"
+                },
+                "input": {
+                  "type": "string",
+                  "const": "observations"
+                },
+                "confidence": {
+                  "const": false,
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "input",
+                "method"
+              ]
+            },
+            {
+              "$ref": "#/definitions/ScatterEstimatesFit"
             }
-          },
-          "additionalProperties": false,
-          "required": [
-            "data",
-            "method"
           ]
         },
         "fieldLabels": {
@@ -2110,7 +2386,7 @@
       ]
     },
     "ScatterPlotRow": {
-      "description": "原始逐条观测；可选拟合或区间结果由外部提供。",
+      "description": "原始逐条观测；可选内部拟合或外部估计。",
       "type": "object",
       "properties": {
         "x": {
@@ -2131,6 +2407,89 @@
       "required": [
         "x",
         "y"
+      ]
+    },
+    "ScatterEstimatesFit": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "estimates"
+        },
+        "method": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/FitRow"
+          }
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "method"
       ]
     },
     "FitRow": {
@@ -3486,6 +3845,9 @@
     },
     "ResidualPlotSpec": {
       "anyOf": [
+        {
+          "$ref": "#/definitions/ResidualObservationsSpec"
+        },
         {
           "$ref": "#/definitions/ResidualPredictionsSpec"
         },

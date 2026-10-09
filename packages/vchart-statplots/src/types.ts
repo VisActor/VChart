@@ -1,4 +1,5 @@
 import type { PairPlotSpec } from './plots/pair-plot/types';
+export * from './common/regression-types';
 export * from './plots/pair-plot/types';
 import type { ShapBeeswarmPlotSpec } from './plots/shap-beeswarm/types';
 export * from './plots/shap-beeswarm/types';

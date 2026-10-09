@@ -79,7 +79,7 @@ const fieldCases = [
   ['correlationMatrix', 'observations', 'values', 'correlation'],
   ['correlationMatrix', '', 'variables', 'order'],
   ['autocorrelationPlot', 'data', 'value', 'correlation'],
-  ['residualPlot', 'data', 'fittedValue', 'fitted'],
+  ['residualPlot', 'data', 'y', 'actual'],
   ['qqPlot', 'data', 'value', 'theoretical'],
   ['qqPlot', 'data', 'value', 'observed'],
   ['qqPlot', '', 'referenceLine', 'reference'],

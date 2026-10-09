@@ -1,6 +1,6 @@
 # 计算契约
 
-`vchart-statplots` 按图义接收原始观测或外部模型结果。count、histogram、KDE、ECDF、box、violin、hexbin、pair、confusion、ROC、PR、calibration、QQ、ACF/PACF、缺失判断、相关矩阵、分组估计区间、普通残差和学习曲线跨折汇总的统计计算在编译阶段完成，渲染、resize 和 hover 不重新扫描原始输入。模型训练、PCA/UMAP/t-SNE、SHAP、标准化/学生化残差、特征重要度、外部模型估计区间仍由调用方提供明确结果。
+`vchart-statplots` 按图义接收原始观测或外部模型结果。count、histogram、KDE、ECDF、box、violin、hexbin、pair、confusion、ROC、PR、calibration、QQ、ACF/PACF、缺失判断、相关矩阵、分组估计区间、原始配对探索性回归、普通残差和学习曲线跨折汇总的统计计算在编译阶段完成，渲染、resize 和 hover 不重新扫描原始输入。模型训练、PCA/UMAP/t-SNE、SHAP、标准化/学生化残差、特征重要度、外部模型估计区间仍由调用方提供明确结果。
 
 输入不通用化：count 是 category，confusion 是类别 actual/predicted，ROC/PR 是布尔 actual/有限 score，calibration 是布尔 actual/[0,1] probability，QQ 与 ACF 是 value/series。ACF 按序，QQ 排序；不能共用一种数据清洗策略。
 
@@ -54,6 +54,12 @@ with open("rocCurve.json", "w", encoding="utf-8") as output:
 
 ## 本轮表格与模型结果入口
 
-missingValueMatrix 与 correlationMatrix 从 variables/data.observations 生成私有绘图结果；pointIntervalPlot 明确 observations/estimates，residualPlot 明确 predictions/residuals，learningCurve 明确 folds/summaries。各模式的精确边界见对应逐图契约。validate 仅执行结构和廉价参数校验，完整统计只在 compile 执行一次；resize/hover/图例不会扫描原始数据。
+missingValueMatrix 与 correlationMatrix 从 variables/data.observations 生成私有绘图结果；pointIntervalPlot 明确 observations/estimates，residualPlot 明确 observations/predictions/residuals，learningCurve 明确 folds/summaries。各模式的精确边界见对应逐图契约。validate 仅执行结构和廉价参数校验，完整统计只在 compile 执行一次；resize/hover/图例不会扫描原始数据。
 
 `__tests__/fixtures/input-alignment-python.json` 固定 numpy=1.26.4、scipy=1.13.1、sklearn=1.5.2、pandas=2.2.2，记录 21 组输入、参数与容差 5e−8。使用 `scripts/generate-input-alignment-fixtures.py` 复现；涵盖逐对相关性、并列秩、tau-b、样本区间与总体折间 SD。bootstrap 使用相同 LCG 重采样索引与 NumPy 分位数对照，不承诺 NumPy 相同 seed 的随机输出一致。
+
+## 探索性回归边界
+
+一元线性、多项式和 LOWESS 属于图内统计，在 compile 阶段按系列独立执行。scatterPlot 内部 fit 从同一 data 原始 x/y 拟合；外部 estimates 只展示。residualPlot 原始模式直接在观测 x 上预测，regression 控制生成残差的模型，smooth 单独控制趋势。外部预测和标准化/学生化模型残差继续保留。两图共用 vutils 标准求解路径与私有分组适配，不把模型对象存入图元数据，不在交互阶段重算。
+
+线性/多项式均值响应置信带为成对 percentile bootstrap；LOWESS 无内部置信带。全量 LOWESS 的 delta 是显式插值策略，不丢观测或自动关闭稳健迭代。依赖 vutils 1.0.26 的稳定回归和 regressionBootstrap，正式依赖下限为 `~1.0.26`。

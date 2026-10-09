@@ -23,7 +23,7 @@
 
 confidence、prediction、credible 要求 0 < level < 1；standardError、standardDeviation 要求 multiplier > 0；range 不接受 level 或 multiplier。lower/upper 同时提供且 lower ≤ upper；不预设为 95% 置信区间。
 
-模型图的 method、metric 是外部结果说明。qqPlot.distribution / referenceLine、autocorrelationPlot.method / maxLag / confidence、calibrationCurve.binning、countPlot.statistic / normalizationScope 是实际计算配置，更新会重算。kdePlot.estimation 是实际核密度估计配置，修改 kernel / bandwidth 会重新计算；sampling.points 只控制绘制精度。boxPlot.whiskers.iqrMultiplier 是有效须规则，改变倍数会重新计算须与异常值。referenceLine 只在明确提供时绘制，ROC/校准对角线、残差/SHAP 零线等由图义确定的参考线继续内置。
+外部模型结果的 method、metric 是结果说明；scatterPlot.fit.input=observations 的 method 与 residualPlot.regression.method 是实际回归算法配置。qqPlot.distribution / referenceLine、autocorrelationPlot.method / maxLag / confidence、calibrationCurve.binning、countPlot.statistic / normalizationScope 是实际计算配置，更新会重算。kdePlot.estimation 是实际核密度估计配置，修改 kernel / bandwidth 会重新计算；sampling.points 只控制绘制精度。boxPlot.whiskers.iqrMultiplier 是有效须规则，改变倍数会重新计算须与异常值。referenceLine 只在明确提供时绘制，ROC/校准对角线、残差/SHAP 零线等由图义确定的参考线继续内置。
 
 ## 显示统计量与默认值
 
@@ -70,6 +70,10 @@ ROC / PR 接收布尔 actual 和有限 score，所有不同阈值参与计算；
 
 ## 显式输入模式与迁移
 
-pointIntervalPlot 必填 input=observations/estimates；residualPlot 必填 input=predictions/residuals；learningCurve 必填 input=folds/summaries。Schema 禁止跨模式字段，不自动识别旧数据。点区间原始样本默认 mean + 95% bootstrap（1000 次，seed=0），学习曲线默认均值 ± 1 倍总体 SD，普通残差为 actual−fittedValue。外部结果添加对应 input，保留其原有统计含义。
+pointIntervalPlot 必填 input=observations/estimates；residualPlot 必填 input=observations/predictions/residuals；learningCurve 必填 input=folds/summaries。Schema 禁止跨模式字段，不自动识别旧数据。点区间原始样本默认 mean + 95% bootstrap（1000 次，seed=0），学习曲线默认均值 ± 1 倍总体 SD，原始残差按 regression 拟合后为 y−predict(x)，外部预测残差为 actual−fittedValue。外部结果添加对应 input，保留其原有统计含义。
 
 缺失和相关矩阵迁移为 variables/data.observations；每行 values 必须恰好匹配变量集合，null 是唯一缺失标记。删除旧掩码/系数结果行及 variableOrder。相关矩阵 method 现在控制计算，不只是元数据。完整迁移边界见五类逐图文档。
+
+## 原始配对回归
+
+scatterPlot 的 fit.input 明确 observations/estimates，不配置 fit 仍为纯散点。内部支持 linear、polynomial（degree=2–5）、lowess；线性/多项式默认 95% 成对 bootstrap，LOWESS 无置信带。residualPlot 的 observations 默认 linear 与原始 x 横轴，可显式 xAxis=fitted；外部预测/残差保持拟合值横轴。smooth 仅拟合残差趋势。详见[散点契约](plots/scatterPlot.md)与[残差契约](plots/residualPlot.md)。
