@@ -3,17 +3,19 @@ import type { PointIntervalPlotSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { categoryAxis, numberAxis } from '../../common/axes';
 import { semanticTooltip } from '../../common/tooltip';
-import { intervalLabel } from '../../common/interval';
+import { summarizePointIntervals } from './statistics';
 
 export function compileEstimateInterval(spec: PointIntervalPlotSpec): ICommonChartSpec {
   const grouped = spec.data.some(row => row.series !== undefined);
   const yField = grouped ? ['category', 'series'] : 'category';
-  const values = spec.data.map(row => ({ ...row, interval: intervalLabel(spec.interval) }));
-  const tooltip = semanticTooltip(['category', 'estimate', 'lower', 'upper', 'interval'], {
+  const values = summarizePointIntervals(spec);
+  const intervals = values.filter(row => row.lower !== null);
+  const tooltip = semanticTooltip(['category', 'estimate', 'lower', 'upper', 'interval', 'sampleCount'], {
     ...spec.fieldLabels,
     lower: '下界',
     upper: '上界',
-    interval: '区间定义'
+    interval: '区间定义',
+    sampleCount: '样本数'
   });
   const axis = {
     ...numberAxis('bottom', spec.fieldLabels?.estimate ?? '估计值'),
@@ -26,7 +28,7 @@ export function compileEstimateInterval(spec: PointIntervalPlotSpec): ICommonCha
         type: 'rangeColumn',
         id: 'intervals',
         direction: 'horizontal',
-        data: { id: 'intervals', values },
+        data: { id: 'intervals', values: intervals },
         xField: ['lower', 'upper'],
         yField,
         minField: 'lower',
@@ -50,7 +52,7 @@ export function compileEstimateInterval(spec: PointIntervalPlotSpec): ICommonCha
         id: 'caps',
         data: {
           id: 'caps',
-          values: values.flatMap(row => [
+          values: intervals.flatMap(row => [
             { ...row, bound: row.lower },
             { ...row, bound: row.upper }
           ])
@@ -64,7 +66,7 @@ export function compileEstimateInterval(spec: PointIntervalPlotSpec): ICommonCha
     ],
     [axis, categoryAxis('left', spec.fieldLabels?.category ?? '分组')]
   );
-  chart.legends = { visible: grouped, orient: 'top', seriesId: ['estimates'] };
+  chart.legends = { visible: grouped, orient: 'top', seriesId: ['estimates', 'intervals', 'caps'] };
   if (spec.referenceLine) {
     chart.markLine = {
       x: spec.referenceLine.value,

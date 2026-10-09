@@ -12,11 +12,11 @@
 | [箱线图](plots/boxPlot.md) | `boxPlot` | 从原始分类观测计算四分位数、须和异常值，比较组间分布。 |
 | [小提琴图](plots/violinPlot.md) | `violinPlot` | 从原始样本比较不同组的核密度分布形状。 |
 | [条带图](plots/stripPlot.md) | `stripPlot` | 查看各类别中每条观测的数值。 |
-| [点估计区间图](plots/pointIntervalPlot.md) | `pointIntervalPlot` | 比较各组点估计与已经计算的区间。 |
+| [点估计区间图](plots/pointIntervalPlot.md) | `pointIntervalPlot` | 从分组样本估计区间或展示外部估计结果。 |
 | [配对比较图](plots/pairedComparisonPlot.md) | `pairedComparisonPlot` | 比较同一对象干预前后的两次观测。 |
 | [散点图](plots/scatterPlot.md) | `scatterPlot` | 查看两个数值变量的关系。 |
 | [六边形分箱图](plots/hexbinPlot.md) | `hexbinPlot` | 汇总大量二维散点的局部分布，颜色表示每个六边形箱内的观测数。 |
-| [相关矩阵图](plots/correlationMatrix.md) | `correlationMatrix` | 比较多个变量的相关方向和强度。 |
+| [相关矩阵图](plots/correlationMatrix.md) | `correlationMatrix` | 从原始表格计算变量相关方向和强度。 |
 | [散点矩阵图](plots/pairPlot.md)                | `pairPlot`              | 从原始观测查看多个数值变量的两两关系和自动计算的对角分布。   |
 | [时间序列图](plots/timeSeriesPlot.md) | `timeSeriesPlot` | 查看随时间变化的数值及已有区间。 |
 | [季节图](plots/seasonalPlot.md) | `seasonalPlot` | 比较不同年份的季度形状。 |

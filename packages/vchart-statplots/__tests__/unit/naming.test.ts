@@ -70,14 +70,14 @@ test.each(oldTypes)('rejects legacy public type %s', type => {
 const fieldCases = [
   ['countPlot', '', 'statistic', 'normalization'],
   ['histogram', '', 'statistic', 'normalization'],
-  ['missingValueMatrix', 'data', 'observationId', 'observation'],
-  ['missingValueMatrix', 'data', 'isMissing', 'missing'],
+  ['missingValueMatrix', 'observations', 'id', 'observation'],
+  ['missingValueMatrix', '', 'variables', 'order'],
   ['violinPlot', '', 'densityNormalization', 'widthScale'],
   ['stripPlot', '', 'jitterRatio', 'jitter'],
   ['pointIntervalPlot', '', 'referenceLine', 'reference'],
   ['pairedComparisonPlot', '', 'categoryOrder', 'categories'],
-  ['correlationMatrix', 'data', 'correlation', 'value'],
-  ['correlationMatrix', '', 'variableOrder', 'order'],
+  ['correlationMatrix', 'observations', 'values', 'correlation'],
+  ['correlationMatrix', '', 'variables', 'order'],
   ['autocorrelationPlot', 'data', 'value', 'correlation'],
   ['residualPlot', 'data', 'fittedValue', 'fitted'],
   ['qqPlot', 'data', 'value', 'theoretical'],
@@ -92,16 +92,18 @@ const fieldCases = [
 test.each(fieldCases)('%s rejects legacy %s field %s → %s', (type, scope, canonical, old) => {
   const spec = fixture(type);
   if (canonical === 'jitterRatio') spec.jitterRatio = 0.3;
-  if (canonical === 'variableOrder') spec.variableOrder = [...new Set(spec.data.map((row: any) => row.row))];
   expect(validateStatPlot(spec).valid).toBe(true);
-  const target = scope === 'data' ? spec.data[0] : spec;
+  const target = scope === 'observations' ? spec.data.observations[0] : scope === 'data' ? spec.data[0] : spec;
   target[old] = target[canonical];
   delete target[canonical];
   const result = validateStatPlot(spec);
   expect(result.valid).toBe(false);
   expect(result.errors).toEqual(
     expect.arrayContaining([
-      expect.objectContaining({ code: 'SCHEMA_ERROR', path: `${scope ? '/data/0' : ''}/${old}` })
+      expect.objectContaining({
+        code: 'SCHEMA_ERROR',
+        path: `${scope === 'observations' ? '/data/observations/0' : scope ? '/data/0' : ''}/${old}`
+      })
     ])
   );
 });

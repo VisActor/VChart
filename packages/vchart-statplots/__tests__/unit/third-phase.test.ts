@@ -36,7 +36,7 @@ test.each([
     data: []
   },
   { type: 'autocorrelationPlot', method: 'acf', data: [{ lag: 0.5, correlation: 0.8 }] },
-  { type: 'learningCurve', metric: 'MSE', data: [{ trainSize: 0, split: 'train', score: 2 }] },
+  { type: 'learningCurve', input: 'summaries', metric: 'MSE', data: [{ trainSize: 0, split: 'train', score: 2 }] },
   {
     type: 'featureImportancePlot',
     method: 'permutation',

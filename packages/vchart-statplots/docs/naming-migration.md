@@ -1,6 +1,6 @@
 # 命名与配置迁移
 
-> 下文先记录历史命名迁移；本次七类图表的数据迁移见末尾「原始观测迁移」。不得继续使用历史表格中的预计算输入。
+> 下文先记录历史命名迁移；原始输入迁移见末尾「原始观测迁移」与「表格和模型结果模式迁移」。不得继续使用历史表格中的预计算输入。
 
 本包发布前统一公共契约。新接口只接受以下规范名称；旧 type、字段与枚举值会报 SCHEMA_ERROR。图库旧 URL 和浏览记录可恢复到新类型，但编辑器不会转换旧 JSON。
 
@@ -152,3 +152,17 @@ boxPlot 不再接收五数摘要或异常值数组。提供完整原始 `{catego
 | autocorrelationPlot  | lag/correlation/lower/upper/interval              | 按序 value/series；method/maxLag/confidence             |
 
 旧数据直接报错，没有兼容推断。持有统计结果而没有原始观测时，改用对应 VChart 原生图表；不能伪造样本。count 的历史系列内比例须显式设置 normalizationScope=series。QQ 当前只支持正态；ACF/PACF 固定估计口径，不能仅给方法名就视为兼容任意 Python 默认值。
+
+## 表格和模型结果模式迁移（2026-10-09）
+
+以下规则取代历史表格中对应五类的数据契约：
+
+| 图表 | 当前输入 | 迁移 |
+| --- | --- | --- |
+| missingValueMatrix | variables + data.observations 的原始 values/null | 删除 observationId/variable/isMissing 掩码行 |
+| correlationMatrix | variables + data.observations 的数值表格 | 删除 row/column/correlation 行与 variableOrder；method 参与计算 |
+| pointIntervalPlot | input=observations 或 estimates | 原结果增加 input=estimates；原始样本使用 category/value/series |
+| residualPlot | input=predictions 或 residuals | 原残差增加 input=residuals；真实值/预测使用 actual/fittedValue |
+| learningCurve | input=folds 或 summaries | 原汇总增加 input=summaries；各折分数包含 fold |
+
+不猜测模式、不展开统计结果伪造原始样本。跨模式字段和缺少 input 会拒绝；完整参数与 Python 边界见对应逐图契约。

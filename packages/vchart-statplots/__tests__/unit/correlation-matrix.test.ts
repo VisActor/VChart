@@ -1,23 +1,23 @@
 import { compileStatPlot } from '../../src/compile';
 import { validateStatPlot } from '../../src/validate';
 import type { CorrelationMatrixSpec } from '../../src/types';
-import { names, correlationExample as example } from '../fixtures/correlation-matrix';
+import { names, coefficients, correlationExample as example } from '../fixtures/correlation-matrix';
 
 describe('correlation matrix display semantics', () => {
   it.each(['full', 'lower', 'upper'] as const)(
     '%s preserves coefficients, null and the full ordered domain',
     triangle => {
-      const spec = { ...example, triangle, variableOrder: names.slice().reverse() };
+      const spec = { ...example, triangle, variables: names.slice().reverse() };
       const before = JSON.stringify(spec);
       expect(validateStatPlot(spec).valid).toBe(true);
       const native = compileStatPlot(spec);
       const rows = native.series!.flatMap(series => (series as any).data.values);
       expect(rows).toHaveLength(triangle === 'full' ? 25 : 15);
-      expect(native.axes!.map(axis => (axis as any).domain)).toEqual([spec.variableOrder, spec.variableOrder]);
+      expect(native.axes!.map(axis => (axis as any).domain)).toEqual([spec.variables, spec.variables]);
       for (const row of rows) {
-        expect(row.correlation).toBe(example.data.find(d => d.row === row.row && d.column === row.column)!.correlation);
-        const r = spec.variableOrder.indexOf(row.row);
-        const c = spec.variableOrder.indexOf(row.column);
+        expect(row.correlation).toBe(coefficients[names.indexOf(row.row)][names.indexOf(row.column)]);
+        const r = spec.variables.indexOf(row.row);
+        const c = spec.variables.indexOf(row.column);
         if (triangle === 'lower') expect(r).toBeGreaterThanOrEqual(c);
         if (triangle === 'upper') expect(r).toBeLessThanOrEqual(c);
       }
@@ -39,7 +39,15 @@ describe('correlation matrix display semantics', () => {
   );
 
   it('does not reinterpret an all-null matrix as zero or empty', () => {
-    const spec: CorrelationMatrixSpec = { ...example, data: example.data.map(row => ({ ...row, correlation: null })) };
+    const spec: CorrelationMatrixSpec = {
+      ...example,
+      data: {
+        observations: example.data.observations.map(row => ({
+          ...row,
+          values: Object.fromEntries(names.map(name => [name, null]))
+        }))
+      }
+    };
     expect(validateStatPlot(spec).valid).toBe(true);
     const native = compileStatPlot(spec);
     expect((native.series![0] as any).data.values).toHaveLength(0);
@@ -49,7 +57,7 @@ describe('correlation matrix display semantics', () => {
   });
 
   it('empty data keeps the empty-state message without a colorbar', () => {
-    const native = compileStatPlot({ ...example, data: [] });
+    const native = compileStatPlot({ ...example, data: { observations: [] } });
     expect(native.customMark).toBeUndefined();
     expect(native.title!.subtext).toContain('暂无可绘制数据');
   });

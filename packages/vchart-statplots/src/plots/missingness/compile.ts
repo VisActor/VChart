@@ -1,4 +1,5 @@
 import type { MissingValueMatrixSpec } from './types';
+import { buildMissingnessCells } from './statistics';
 import type { IHeatmapSeriesSpec } from '@visactor/vchart';
 import { commonChart } from '../../common/chart';
 import { categoryAxis } from '../../common/axes';
@@ -14,7 +15,7 @@ export function compileMissingness(spec: MissingValueMatrixSpec) {
         id: 'missingness',
         data: {
           id: 'missingness',
-          values: spec.data.map(row => ({ ...row, status: row.isMissing ? '缺失' : '已观测' }))
+          values: buildMissingnessCells(spec)
         },
         xField: 'variable',
         yField: 'observationId',
@@ -26,9 +27,7 @@ export function compileMissingness(spec: MissingValueMatrixSpec) {
     ],
     [
       {
-        ...categoryAxis('bottom', spec.fieldLabels?.variable ?? '变量', [
-          ...new Set(spec.data.map(row => row.variable))
-        ]),
+        ...categoryAxis('bottom', spec.fieldLabels?.variable ?? '变量', spec.variables),
         sampling: false,
         grid: {
           visible: true,
@@ -38,9 +37,11 @@ export function compileMissingness(spec: MissingValueMatrixSpec) {
         }
       },
       {
-        ...categoryAxis('left', spec.fieldLabels?.observationId ?? '观测', [
-          ...new Set(spec.data.map(row => row.observationId))
-        ]),
+        ...categoryAxis(
+          'left',
+          spec.fieldLabels?.observationId ?? '观测',
+          spec.data.observations.map(row => row.id)
+        ),
         sampling: true
       }
     ].map(axis => ({

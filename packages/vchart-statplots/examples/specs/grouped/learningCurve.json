@@ -166,5 +166,6 @@
       "upper": 0.88,
       "series": "B"
     }
-  ]
+  ],
+  "input": "summaries"
 }

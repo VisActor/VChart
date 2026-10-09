@@ -178,5 +178,6 @@
       "residual": -0.3620799594196403
     }
   ],
-  "xField": "guessed"
+  "xField": "guessed",
+  "input": "residuals"
 }

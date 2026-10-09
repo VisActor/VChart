@@ -93,3 +93,5 @@ export type StatPlotSpec =
   | KdePlotSpec
   | RocCurveSpec
   | ViolinPlotSpec;
+
+export type { ObservationValue, TableObservation, NumericObservation } from './common/observation-table-types';

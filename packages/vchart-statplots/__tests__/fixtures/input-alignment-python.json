@@ -1,0 +1,1533 @@
+{
+  "python": "3.9.6",
+  "versions": {
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "pandas": "2.2.2",
+    "sklearn": "1.5.2"
+  },
+  "absoluteTolerance": 5e-08,
+  "cases": [
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "pearson",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 2,
+                "B": null,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": 3,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": 4,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "4",
+              "values": {
+                "A": 5,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 0.9999999999999999,
+          "sampleCount": 5
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 0.8664002254439633,
+          "sampleCount": 4
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 5
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 0.8664002254439633,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 5
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "spearman",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 2,
+                "B": null,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": 3,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": 4,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "4",
+              "values": {
+                "A": 5,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 0.9999999999999999,
+          "sampleCount": 5
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 0.9486832980505139,
+          "sampleCount": 4
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 5
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 0.9486832980505139,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 5
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "kendall",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 2,
+                "B": null,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": 3,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": 4,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "4",
+              "values": {
+                "A": 5,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 0.9999999999999999,
+          "sampleCount": 5
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 0.9128709291752769,
+          "sampleCount": 4
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 5
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 0.912870929175277,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 5
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "pearson",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 1,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 1,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": 2,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": null,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 0.8660254037844387,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 0.8660254037844387,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "spearman",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 1,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 1,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": 2,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": null,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 0.8660254037844387,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 0.8660254037844387,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "kendall",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 1,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 1,
+                "B": 2,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": 2,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": null,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 0.9999999999999999,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 0.816496580927726,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 0.816496580927726,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 4
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 4
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "pearson",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 1,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 2,
+                "B": null,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": null,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": 4,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 2
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 1.0,
+          "sampleCount": 2
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "spearman",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 1,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 2,
+                "B": null,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": null,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": 4,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 0.9999999999999999,
+          "sampleCount": 2
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 0.9999999999999999,
+          "sampleCount": 2
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "correlationMatrix",
+        "variables": [
+          "A",
+          "B",
+          "常量"
+        ],
+        "method": "kendall",
+        "data": {
+          "observations": [
+            {
+              "id": "0",
+              "values": {
+                "A": 1,
+                "B": 1,
+                "常量": 5
+              }
+            },
+            {
+              "id": "1",
+              "values": {
+                "A": 2,
+                "B": null,
+                "常量": 5
+              }
+            },
+            {
+              "id": "2",
+              "values": {
+                "A": null,
+                "B": 3,
+                "常量": 5
+              }
+            },
+            {
+              "id": "3",
+              "values": {
+                "A": 4,
+                "B": 4,
+                "常量": 5
+              }
+            }
+          ]
+        }
+      },
+      "expected": [
+        {
+          "row": "A",
+          "column": "A",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "A",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 2
+        },
+        {
+          "row": "A",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "A",
+          "correlation": 1.0,
+          "sampleCount": 2
+        },
+        {
+          "row": "B",
+          "column": "B",
+          "correlation": 1.0,
+          "sampleCount": 3
+        },
+        {
+          "row": "B",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "A",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "B",
+          "correlation": null,
+          "sampleCount": 3
+        },
+        {
+          "row": "常量",
+          "column": "常量",
+          "correlation": null,
+          "sampleCount": 4
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "mean",
+        "errorBar": {
+          "kind": "confidence",
+          "resamples": 1000,
+          "seed": 7
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.8,
+          "lower": 2.0,
+          "upper": 8.2,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "mean",
+        "errorBar": {
+          "kind": "percentile"
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.8,
+          "lower": 1.1,
+          "upper": 9.7,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "mean",
+        "errorBar": {
+          "kind": "standardDeviation"
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.8,
+          "lower": 1.0986488953356504,
+          "upper": 8.50135110466435,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "mean",
+        "errorBar": {
+          "kind": "standardError"
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.8,
+          "lower": 3.144705464275315,
+          "upper": 6.4552945357246845,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "mean",
+        "errorBar": {
+          "kind": "range"
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.8,
+          "lower": 1.0,
+          "upper": 10.0,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "mean",
+        "errorBar": false,
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.8,
+          "lower": null,
+          "upper": null,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "median",
+        "errorBar": {
+          "kind": "confidence",
+          "resamples": 1000,
+          "seed": 7
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.0,
+          "lower": 1.0,
+          "upper": 10.0,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "median",
+        "errorBar": {
+          "kind": "percentile"
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.0,
+          "lower": 1.1,
+          "upper": 9.7,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "median",
+        "errorBar": {
+          "kind": "standardDeviation"
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.0,
+          "lower": 0.29864889533565053,
+          "upper": 7.701351104664349,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "median",
+        "errorBar": {
+          "kind": "range"
+        },
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.0,
+          "lower": 1.0,
+          "upper": 10.0,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "pointIntervalPlot",
+        "input": "observations",
+        "estimator": "median",
+        "errorBar": false,
+        "data": [
+          {
+            "category": "A",
+            "value": 1.0
+          },
+          {
+            "category": "A",
+            "value": 2.0
+          },
+          {
+            "category": "A",
+            "value": 4.0
+          },
+          {
+            "category": "A",
+            "value": 7.0
+          },
+          {
+            "category": "A",
+            "value": 10.0
+          }
+        ]
+      },
+      "expected": [
+        {
+          "category": "A",
+          "estimate": 4.0,
+          "lower": null,
+          "upper": null,
+          "sampleCount": 5
+        }
+      ]
+    },
+    {
+      "spec": {
+        "type": "learningCurve",
+        "input": "folds",
+        "metric": "Accuracy",
+        "data": [
+          {
+            "trainSize": 100,
+            "split": "validation",
+            "fold": "2",
+            "score": 0.9
+          },
+          {
+            "trainSize": 100,
+            "split": "validation",
+            "fold": "1",
+            "score": 0.8
+          },
+          {
+            "trainSize": 100,
+            "split": "validation",
+            "fold": "0",
+            "score": 0.7
+          },
+          {
+            "trainSize": 50,
+            "split": "validation",
+            "fold": "2",
+            "score": 0.7
+          },
+          {
+            "trainSize": 50,
+            "split": "validation",
+            "fold": "1",
+            "score": 0.6
+          },
+          {
+            "trainSize": 50,
+            "split": "validation",
+            "fold": "0",
+            "score": 0.5
+          },
+          {
+            "trainSize": 100,
+            "split": "train",
+            "fold": "2",
+            "score": 0.89
+          },
+          {
+            "trainSize": 100,
+            "split": "train",
+            "fold": "1",
+            "score": 0.85
+          },
+          {
+            "trainSize": 100,
+            "split": "train",
+            "fold": "0",
+            "score": 0.8
+          },
+          {
+            "trainSize": 50,
+            "split": "train",
+            "fold": "2",
+            "score": 0.99
+          },
+          {
+            "trainSize": 50,
+            "split": "train",
+            "fold": "1",
+            "score": 0.95
+          },
+          {
+            "trainSize": 50,
+            "split": "train",
+            "fold": "0",
+            "score": 0.9
+          }
+        ]
+      },
+      "expected": [
+        {
+          "trainSize": 50,
+          "split": "train",
+          "score": 0.9466666666666667,
+          "lower": 0.9098487966093758,
+          "upper": 0.9834845367239575,
+          "foldCount": 3,
+          "standardDeviation": 0.036817870057290855
+        },
+        {
+          "trainSize": 50,
+          "split": "validation",
+          "score": 0.6,
+          "lower": 0.5183503419072274,
+          "upper": 0.6816496580927726,
+          "foldCount": 3,
+          "standardDeviation": 0.08164965809277258
+        },
+        {
+          "trainSize": 100,
+          "split": "train",
+          "score": 0.8466666666666667,
+          "lower": 0.8098487966093758,
+          "upper": 0.8834845367239575,
+          "foldCount": 3,
+          "standardDeviation": 0.036817870057290855
+        },
+        {
+          "trainSize": 100,
+          "split": "validation",
+          "score": 0.7999999999999999,
+          "lower": 0.7183503419072274,
+          "upper": 0.8816496580927725,
+          "foldCount": 3,
+          "standardDeviation": 0.08164965809277262
+        }
+      ]
+    }
+  ]
+}

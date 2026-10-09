@@ -2,13 +2,13 @@ import { test, expect } from '@playwright/test';
 import path from 'path';
 
 const outputDir = path.resolve(__dirname, '../../../../.vchart-statplots/missingness-pixels');
-const data = Array.from({ length: 12 }, (_, r) =>
-  Array.from({ length: 4 }, (_, c) => ({
-    observationId: String(r + 1),
-    variable: `变量${c + 1}`,
-    isMissing: false
+const variables = Array.from({ length: 4 }, (_, c) => `变量${c + 1}`);
+const data = {
+  observations: Array.from({ length: 12 }, (_, r) => ({
+    id: String(r + 1),
+    values: Object.fromEntries(variables.map(v => [v, 0]))
   }))
-).flat();
+};
 
 for (const dpr of [1, 1.25, 1.5, 2, 3]) {
   test.describe(`missing-value matrix device pixel ratio ${dpr}`, () => {
@@ -17,6 +17,7 @@ for (const dpr of [1, 1.25, 1.5, 2, 3]) {
       await page.goto('/__tests__/browser/page.html');
       await page.evaluate(async spec => (window as any).renderStatPlot(spec), {
         type: 'missingValueMatrix',
+        variables,
         colors: { categorical: ['#1264a3'] },
         data
       });
@@ -27,7 +28,7 @@ for (const dpr of [1, 1.25, 1.5, 2, 3]) {
             const w = window as any;
             await w.chart.updateSpec(w.VChartStatPlots.compileStatPlot(spec));
           },
-          { type: 'missingValueMatrix', colors: { categorical: ['#1264a3'] }, data, theme }
+          { type: 'missingValueMatrix', variables, colors: { categorical: ['#1264a3'] }, data, theme }
         );
         for (const size of [
           [800, 601],
@@ -75,16 +76,16 @@ for (const dpr of [1, 1.25, 1.5, 2, 3]) {
     });
     test('dense observed and missing runs keep their exact colors across row boundaries', async ({ page }) => {
       await page.goto('/__tests__/browser/page.html');
-      const dense = Array.from({ length: 300 }, (_, r) =>
-        Array.from({ length: 4 }, (_, c) => ({
-          observationId: String(r + 1),
-          variable: `变量${c + 1}`,
-          isMissing: r % 5 < 2
+      const dense = {
+        observations: Array.from({ length: 300 }, (_, r) => ({
+          id: String(r + 1),
+          values: Object.fromEntries(variables.map(v => [v, r % 5 < 2 ? null : 0]))
         }))
-      ).flat();
+      };
       for (const theme of ['light', 'dark']) {
         await page.evaluate(async spec => (window as any).renderStatPlot(spec), {
           type: 'missingValueMatrix',
+          variables,
           data: dense,
           theme
         });

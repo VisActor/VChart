@@ -1,181 +1,181 @@
 {
   "type": "residualPlot",
-  "residualKind": "raw",
   "data": [
     {
       "id": "0",
       "fittedValue": 0.0,
-      "residual": 0.0
+      "actual": 0.0
     },
     {
       "id": "1",
       "fittedValue": 0.2,
-      "residual": 0.07391099235586378
+      "actual": 0.2739109923558638
     },
     {
       "id": "2",
       "fittedValue": 0.4,
-      "residual": 0.1238259194618588
+      "actual": 0.5238259194618589
     },
     {
       "id": "3",
       "fittedValue": 0.6,
-      "residual": 0.1150401502987077
+      "actual": 0.7150401502987077
     },
     {
       "id": "4",
       "fittedValue": 0.8,
-      "residual": 0.04063586824618036
+      "actual": 0.8406358682461804
     },
     {
       "id": "5",
       "fittedValue": 1.0,
-      "residual": -0.06957968379312454
+      "actual": 0.9304203162068755
     },
     {
       "id": "6",
       "fittedValue": 1.2,
-      "residual": -0.16039127088523591
+      "actual": 1.039608729114764
     },
     {
       "id": "7",
       "fittedValue": 1.4,
-      "residual": -0.17882862239240097
+      "actual": 1.221171377607599
     },
     {
       "id": "8",
       "fittedValue": 1.6,
-      "residual": -0.10431020041738237
+      "actual": 1.4956897995826177
     },
     {
       "id": "9",
       "fittedValue": 1.8,
-      "residual": 0.03556308631434647
+      "actual": 1.8355630863143466
     },
     {
       "id": "10",
       "fittedValue": 2.0,
-      "residual": 0.17412540335052504
+      "actual": 2.174125403350525
     },
     {
       "id": "11",
       "fittedValue": 2.2,
-      "residual": 0.2373860376629237
+      "actual": 2.437386037662924
     },
     {
       "id": "12",
       "fittedValue": 2.4,
-      "residual": 0.18329758001832305
+      "actual": 2.583297580018323
     },
     {
       "id": "13",
       "fittedValue": 2.6,
-      "residual": 0.027821721834678674
+      "actual": 2.6278217218346787
     },
     {
       "id": "14",
       "fittedValue": 2.8,
-      "residual": -0.15768001479736632
+      "actual": 2.6423199852026333
     },
     {
       "id": "15",
       "fittedValue": 3.0,
-      "residual": -0.27902889401702685
+      "actual": 2.720971105982973
     },
     {
       "id": "16",
       "fittedValue": 3.2,
-      "residual": -0.26699868131005006
+      "actual": 2.93300131868995
     },
     {
       "id": "17",
       "fittedValue": 3.4,
-      "residual": -0.11606378169940319
+      "actual": 3.283936218300597
     },
     {
       "id": "18",
       "fittedValue": 3.6,
-      "residual": 0.10724701834397916
+      "actual": 3.7072470183439794
     },
     {
       "id": "19",
       "fittedValue": 3.8,
-      "residual": 0.29327594272230456
+      "actual": 4.093275942722304
     },
     {
       "id": "20",
       "fittedValue": 4.0,
-      "residual": 0.343083880804109
+      "actual": 4.343083880804109
     },
     {
       "id": "21",
       "fittedValue": 4.2,
-      "residual": 0.22077845793269354
+      "actual": 4.420778457932694
     },
     {
       "id": "22",
       "fittedValue": 4.4,
-      "residual": -0.023220126471021493
+      "actual": 4.376779873528979
     },
     {
       "id": "23",
       "fittedValue": 4.6,
-      "residual": -0.27218301691123126
+      "actual": 4.327816983088768
     },
     {
       "id": "24",
       "fittedValue": 4.8,
-      "residual": -0.39886931550963195
+      "actual": 4.401130684490368
     },
     {
       "id": "25",
       "fittedValue": 5.0,
-      "residual": -0.3304680205109418
+      "actual": 4.669531979489058
     },
     {
       "id": "26",
       "fittedValue": 5.2,
-      "residual": -0.0895819530075814
+      "actual": 5.110418046992419
     },
     {
       "id": "27",
       "fittedValue": 5.4,
-      "residual": 0.21145160472973365
+      "actual": 5.611451604729734
     },
     {
       "id": "28",
       "fittedValue": 5.6,
-      "residual": 0.422788525006469
+      "actual": 6.022788525006469
     },
     {
       "id": "29",
       "fittedValue": 5.8,
-      "residual": 0.4316557363272192
+      "actual": 6.231655736327219
     },
     {
       "id": "30",
       "fittedValue": 6.0,
-      "residual": 0.2221662962128105
+      "actual": 6.22216629621281
     },
     {
       "id": "31",
       "fittedValue": 6.2,
-      "residual": -0.11118978458909483
+      "actual": 6.088810215410906
     },
     {
       "id": "32",
       "fittedValue": 6.4,
-      "residual": -0.4058104986824872
+      "actual": 5.994189501317513
     },
     {
       "id": "33",
       "fittedValue": 6.6,
-      "residual": -0.5102881472510279
+      "actual": 6.089711852748971
     },
     {
       "id": "34",
       "fittedValue": 6.8,
-      "residual": -0.3620799594196403
+      "actual": 6.43792004058036
     }
-  ]
+  ],
+  "input": "predictions"
 }

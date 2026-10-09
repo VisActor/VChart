@@ -92,14 +92,13 @@ for (const type of ['correlationMatrix', 'confusionMatrix', 'hexbinPlot', 'shapB
     await page.goto('/__tests__/browser/page.html');
     const base = fixture(type);
     if (type === 'correlationMatrix') {
-      const names = ['A', 'B', 'C', 'missing'];
-      base.data = names.flatMap((row, i) =>
-        names.map((column, j) => ({
-          row,
-          column,
-          correlation: i === 3 || j === 3 ? null : i === j ? 1 : i + j === 1 ? -1 : 0
+      base.variables = ['A', 'B', 'C', 'missing'];
+      base.data = {
+        observations: Array.from({ length: 4 }, (_, i) => ({
+          id: String(i),
+          values: { A: i & 1 ? 1 : -1, B: i & 1 ? -1 : 1, C: i & 2 ? 1 : -1, missing: null }
         }))
-      );
+      };
     }
     for (const theme of ['light', 'dark']) {
       for (const colors of [undefined, custom, { sequential: 'cividis' }]) {
@@ -261,9 +260,11 @@ test('gallery applies named palettes and recognizes custom arrays without losing
   await page.waitForFunction(() => {
     let ready = false;
     (window as any).VChart.default.InstanceManager.forEach((chart: any) => {
-      const labels = chart
-        .getStage()
-        .findAll((g: any) => g.type === 'text' && ['1.00', '0.42', 'NA'].includes(g.attribute.text), true);
+      const values = chart.getSpec().series.flatMap((series: any) => series.data.values);
+      const labelTexts = new Set(
+        values.map((row: any) => (row.correlation === null ? 'NA' : row.correlation.toFixed(2)))
+      );
+      const labels = chart.getStage().findAll((g: any) => g.type === 'text' && labelTexts.has(g.attribute.text), true);
       ready =
         labels.length === 6 &&
         labels.every((g: any) => (g.attribute.opacity ?? 1) === 1 && (g.attribute.fillOpacity ?? 1) === 1);

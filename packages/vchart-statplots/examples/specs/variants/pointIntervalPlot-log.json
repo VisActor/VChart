@@ -23,5 +23,6 @@
       "upper": 1.1
     }
   ],
-  "valueScale": "log"
+  "valueScale": "log",
+  "input": "estimates"
 }

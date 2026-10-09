@@ -77,5 +77,6 @@
       "upper": 0.88
     }
   ],
-  "xField": "guessed"
+  "xField": "guessed",
+  "input": "summaries"
 }

@@ -54,21 +54,21 @@
       "variant": "minimal",
       "file": "minimal/correlationMatrix.json",
       "documentation": "../../docs/plots/correlationMatrix.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
     },
     {
       "type": "correlationMatrix",
       "variant": "upper",
       "file": "variants/correlationMatrix-upper.json",
       "documentation": "../../docs/plots/correlationMatrix.md",
-      "computation": "已有系数的上三角显示；null 表示不可计算"
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
     },
     {
       "type": "correlationMatrix",
       "variant": "signed",
       "file": "variants/correlationMatrix-signed.json",
       "documentation": "../../docs/plots/correlationMatrix.md",
-      "computation": "合成显示数据，验证正负、零和 NA，不代表统计估计"
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
     },
     {
       "type": "countPlot",
@@ -117,14 +117,14 @@
       "variant": "minimal",
       "file": "minimal/pointIntervalPlot.json",
       "documentation": "../../docs/plots/estimateInterval.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
     },
     {
       "type": "pointIntervalPlot",
       "variant": "grouped",
       "file": "grouped/pointIntervalPlot.json",
       "documentation": "../../docs/plots/estimateInterval.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "外部估计区间直接展示"
     },
     {
       "type": "featureImportancePlot",
@@ -173,21 +173,21 @@
       "variant": "minimal",
       "file": "minimal/learningCurve.json",
       "documentation": "../../docs/plots/learningCurve.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
     },
     {
       "type": "learningCurve",
       "variant": "grouped",
       "file": "grouped/learningCurve.json",
       "documentation": "../../docs/plots/learningCurve.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "外部学习曲线汇总直接展示"
     },
     {
       "type": "missingValueMatrix",
       "variant": "minimal",
       "file": "minimal/missingValueMatrix.json",
       "documentation": "../../docs/plots/missingness.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
     },
     {
       "type": "pairPlot",
@@ -250,14 +250,14 @@
       "variant": "minimal",
       "file": "minimal/residualPlot.json",
       "documentation": "../../docs/plots/residual.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
     },
     {
       "type": "residualPlot",
       "variant": "grouped",
       "file": "grouped/residualPlot.json",
       "documentation": "../../docs/plots/residual.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "外部模型残差直接展示"
     },
     {
       "type": "rocCurve",
@@ -404,7 +404,7 @@
       "variant": "log",
       "file": "variants/pointIntervalPlot-log.json",
       "documentation": "../../docs/plots/estimateInterval.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "外部估计区间直接展示"
     },
     {
       "type": "countPlot",
@@ -680,6 +680,48 @@
       "file": "variants/autocorrelationPlot-no-confidence.json",
       "documentation": "../../docs/plots/autocorrelationPlot.md",
       "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "correlationMatrix",
+      "variant": "spearman-ties",
+      "file": "variants/correlationMatrix-spearman-ties.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "standard-error",
+      "file": "variants/pointIntervalPlot-standard-error.json",
+      "documentation": "../../docs/plots/pointIntervalPlot.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "median-percentile",
+      "file": "variants/pointIntervalPlot-median-percentile.json",
+      "documentation": "../../docs/plots/pointIntervalPlot.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "single-sample",
+      "file": "variants/pointIntervalPlot-single-sample.json",
+      "documentation": "../../docs/plots/pointIntervalPlot.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "learningCurve",
+      "variant": "folds-no-spread",
+      "file": "variants/learningCurve-folds-no-spread.json",
+      "documentation": "../../docs/plots/learningCurve.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "studentized",
+      "file": "variants/residualPlot-studentized.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "见逐图契约；显式输入模式与参数"
     }
   ],
   "invalid": [

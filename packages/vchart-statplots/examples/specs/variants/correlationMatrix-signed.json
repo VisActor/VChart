@@ -3,131 +3,75 @@
   "method": "pearson",
   "title": "相关矩阵：正负与零",
   "description": "合成数据，仅演示颜色与 NA，不代表样本估计结果",
-  "data": [
-    {
-      "row": "A",
-      "column": "A",
-      "correlation": 1
-    },
-    {
-      "row": "A",
-      "column": "B",
-      "correlation": 0.5
-    },
-    {
-      "row": "A",
-      "column": "C",
-      "correlation": -0.5
-    },
-    {
-      "row": "A",
-      "column": "D",
-      "correlation": 0
-    },
-    {
-      "row": "A",
-      "column": "常量",
-      "correlation": null
-    },
-    {
-      "row": "B",
-      "column": "A",
-      "correlation": 0.5
-    },
-    {
-      "row": "B",
-      "column": "B",
-      "correlation": 1
-    },
-    {
-      "row": "B",
-      "column": "C",
-      "correlation": 0
-    },
-    {
-      "row": "B",
-      "column": "D",
-      "correlation": -0.5
-    },
-    {
-      "row": "B",
-      "column": "常量",
-      "correlation": null
-    },
-    {
-      "row": "C",
-      "column": "A",
-      "correlation": -0.5
-    },
-    {
-      "row": "C",
-      "column": "B",
-      "correlation": 0
-    },
-    {
-      "row": "C",
-      "column": "C",
-      "correlation": 1
-    },
-    {
-      "row": "C",
-      "column": "D",
-      "correlation": 0.5
-    },
-    {
-      "row": "C",
-      "column": "常量",
-      "correlation": null
-    },
-    {
-      "row": "D",
-      "column": "A",
-      "correlation": 0
-    },
-    {
-      "row": "D",
-      "column": "B",
-      "correlation": -0.5
-    },
-    {
-      "row": "D",
-      "column": "C",
-      "correlation": 0.5
-    },
-    {
-      "row": "D",
-      "column": "D",
-      "correlation": 1
-    },
-    {
-      "row": "D",
-      "column": "常量",
-      "correlation": null
-    },
-    {
-      "row": "常量",
-      "column": "A",
-      "correlation": null
-    },
-    {
-      "row": "常量",
-      "column": "B",
-      "correlation": null
-    },
-    {
-      "row": "常量",
-      "column": "C",
-      "correlation": null
-    },
-    {
-      "row": "常量",
-      "column": "D",
-      "correlation": null
-    },
-    {
-      "row": "常量",
-      "column": "常量",
-      "correlation": null
-    }
+  "data": {
+    "observations": [
+      {
+        "id": "0",
+        "values": {
+          "A": 1,
+          "B": 2,
+          "C": 1,
+          "D": 2,
+          "常量": 5
+        }
+      },
+      {
+        "id": "1",
+        "values": {
+          "A": 2,
+          "B": 1,
+          "C": 2,
+          "D": 1,
+          "常量": 5
+        }
+      },
+      {
+        "id": "2",
+        "values": {
+          "A": 3,
+          "B": 4,
+          "C": 3,
+          "D": 4,
+          "常量": 5
+        }
+      },
+      {
+        "id": "3",
+        "values": {
+          "A": 4,
+          "B": 3,
+          "C": 4,
+          "D": 3,
+          "常量": 5
+        }
+      },
+      {
+        "id": "4",
+        "values": {
+          "A": 5,
+          "B": 6,
+          "C": 5,
+          "D": 6,
+          "常量": 5
+        }
+      },
+      {
+        "id": "5",
+        "values": {
+          "A": 6,
+          "B": 5,
+          "C": 6,
+          "D": 5,
+          "常量": 5
+        }
+      }
+    ]
+  },
+  "variables": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "常量"
   ]
 }
