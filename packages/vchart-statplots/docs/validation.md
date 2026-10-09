@@ -1,5 +1,20 @@
 # 实现与验收记录
 
+## VUtil 正式依赖升级（2026-10-09）
+
+仓库中 8 个包的 14 处直接依赖已从 `~1.0.24` 更新为 `~1.0.25`，涉及 `@visactor/vutils`、`@visactor/vdataset`、`@visactor/vscale`、`@visactor/vlayouts`。通过标准 `Rush update` 更新锁文件；VRender 的兼容间接依赖也解析到 1.0.25。历史第三方包要求的旧版本保留原契约，没有添加全局强制覆盖。Rush 依赖一致性检查通过，全部直接依赖的实际安装路径均指向 npm 发布的 1.0.25。
+
+- 独立临时目录从 npm 安装四个 1.0.25 包，验证根入口 normalQuantile/mean/correlation/bootstrapEstimate 的运行与严格类型声明；bootstrap 固定 seed 可复现。
+- 使用本分支 VChart、vutils-extension、StatPlots 的全新打包产物隔离安装，所有 VUtil 依赖使用 npm 1.0.25，未链接工作区源码。CJS 无 DOM 编译 28 个主例通过，原始样本均值和样本数正确；严格类型检查以及 ESM/UMD 实际绘制与 release 通过，释放后 canvas=0。这没有把已有 npm VChart 2.1.7 视为支持本分支新增核心能力。
+- `Rush build` 对 StatPlots、VChart Extension、React、OpenInula、Story Player 及其依赖的 11 个构建任务全部完成。保留既有 Rollup circular/sourcemap、OpenInula ReactNode 类型及 tslib 警告，未关闭检查。VChart、vutils-extension 和 StatPlots 的独立 TypeScript 检查通过。
+- StatPlots 单元测试 32 套、595 项通过；构建结束后的完整 Chromium 回归 315 项全部通过。Schema、28 主例、105 有效变体、28 无效例及 28 类目录/89 条意图检查通过。
+- 原生全量命令已运行，官方 develop 基线仍为 d169be9f3d63ed1e998dead9711dac5fb5af91fc。基线阶段的 band-axis-update-spec、legend-piecewise-domain、brush-link-data-key 和 update-resize 断言失败，正式报告保持 error / 完整比较 false。报告：`.vchart-visual/runs/1791527138258-ed34c982/agent-summary.md`。
+- 在独立目录使用该次冻结 suite、UMD 与基线截图，通过相同 executePhase 补跑全部 260 个 current 用例：255 项无差异；theme-runtime-switch 存在既有 240 像素标签差异，当前截图与升级前本地截图逐字节一致；上述 4 项当前语义/交互检查通过，但缺少有效基线截图，保留 missing_artifact 错误，未跳过、更新基线或放宽阈值。补充结果不是全量官方比较通过。
+
+正式发布包替代了本地开发链接，之前的 `.vchart-statplots/vutils-input-alignment` 临时联调工作树已清理；相邻 VUtil 任务的分支和文件未改动。清理了指向旧链接的 Vite 优化缓存。一轮浏览器测试在并行构建替换 UMD 时出现 7 项加载/导航失败，不计为通过；所有构建结束后重跑完整浏览器回归。首次单元运行因原生构建仅生成 vutils-extension ES 产物而缺少 CJS，按完整依赖顺序构建后复验通过；初次隔离浏览器验收使用 macOS 临时目录别名遇到 Vite HTML 代理问题，改用 realpath 后 ESM/UMD 验收通过，均未修改产品代码。
+
+本轮证据位于 `.vchart-statplots/vutils-1.0.25/`，相关日志同步保留于该目录的 `logs/`。下文的旧版本及“等待上游发版”说明是历史阶段记录；统计工具发布依赖阻断已解除，其余 VChart 核心发布与 PR 视觉验收要求仍按实际结果核对。
+
 ## 表格与模型结果入口优化（2026-10-09）
 
 五类改造已完成：missingValueMatrix/correlationMatrix 接收 variables/data.observations；pointIntervalPlot、residualPlot、learningCurve 分别以 input 区分样本/外部估计、预测/外部残差、各折/汇总。统计在 compile 执行一次，不进入 resize/hover；类型、生成 Schema、目录、示例与中文迁移文档同步。
@@ -16,7 +31,7 @@
 
 证据保留于 `.vchart-statplots/input-alignment/`；Python fixture 固定版本与解释器写入 input-alignment-python.json。最终 ESM/CJS/UMD 构建后，新入口与配色浏览器验证再次 16 项通过；ESLint 0 errors、888 warnings，主要为既有及测试 any/非空断言警告。
 
-### 本地依赖与发布边界
+### 当时的本地依赖与发布边界（已由 1.0.25 替代）
 
 另一任务切换 VUtil 分支后，本轮改用 `.vchart-statplots/vutils-input-alignment` 中的 detached 联调 worktree（fb6a7f5 + 本轮三项通用工具），保留既有 normalQuantile；消费者开发链接指向该 package，版本为 1.0.24-dev.input-alignment，避免 TypeScript 将不同本地内容视为同一个旧包。未覆盖另一任务的分支或源码，也未把通用算法复制到 StatPlots。工作树需保留到真实依赖版本可用。
 
