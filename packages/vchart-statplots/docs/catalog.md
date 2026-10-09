@@ -10,7 +10,7 @@
 | [核密度估计图](plots/kdePlot.md) | `kdePlot` | 从原始样本估计一维概率密度，比较不同系列的分布。 |
 | [经验累积分布图](plots/ecdfPlot.md) | `ecdfPlot` | 从原始样本计算经验累积概率，保留真实跳点并比较不同系列。 |
 | [箱线图](plots/boxPlot.md) | `boxPlot` | 从原始分类观测计算四分位数、须和异常值，比较组间分布。 |
-| [小提琴图](plots/violinPlot.md) | `violinPlot` | 比较不同组预计算密度的分布形状。 |
+| [小提琴图](plots/violinPlot.md) | `violinPlot` | 从原始样本比较不同组的核密度分布形状。 |
 | [条带图](plots/stripPlot.md) | `stripPlot` | 查看各类别中每条观测的数值。 |
 | [点估计区间图](plots/pointIntervalPlot.md) | `pointIntervalPlot` | 比较各组点估计与已经计算的区间。 |
 | [配对比较图](plots/pairedComparisonPlot.md) | `pairedComparisonPlot` | 比较同一对象干预前后的两次观测。 |

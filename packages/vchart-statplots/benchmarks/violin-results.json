@@ -1,0 +1,74 @@
+{
+  "date": "2026-10-08",
+  "runtime": "Node.js 22; Chromium; macOS arm64; DPR=1; animation=false",
+  "input": "value=(i*37)%1009; single category A or 10 categories String(i%10); each group 256 drawing points",
+  "measurement": "compile warmup once then 9 samples; median and maximum. renderMs and updateMs include compilation; resize/release once. dashboard=20 charts x 1000 raw observations. Local measurements, no cross-device SLA.",
+  "timings": [
+    {
+      "count": 10000,
+      "mode": "single",
+      "curveCount": 1,
+      "drawingPoints": 256,
+      "compileMedianMs": 10.099999904632568,
+      "compileMaxMs": 10.400000095367432,
+      "renderMs": 39.700000047683716,
+      "updateMs": 18.899999856948853,
+      "resizeMs": 3.9000000953674316,
+      "releaseMs": 1.2000000476837158,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 10000,
+      "mode": "grouped",
+      "curveCount": 10,
+      "drawingPoints": 2560,
+      "compileMedianMs": 10.5,
+      "compileMaxMs": 10.700000047683716,
+      "renderMs": 21,
+      "updateMs": 18.799999952316284,
+      "resizeMs": 5.200000047683716,
+      "releaseMs": 0.40000009536743164,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 100000,
+      "mode": "single",
+      "curveCount": 1,
+      "drawingPoints": 256,
+      "compileMedianMs": 100.90000009536743,
+      "compileMaxMs": 103.70000004768372,
+      "renderMs": 104.29999995231628,
+      "updateMs": 104.09999990463257,
+      "resizeMs": 2.299999952316284,
+      "releaseMs": 0.3000001907348633,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 100000,
+      "mode": "grouped",
+      "curveCount": 10,
+      "drawingPoints": 2560,
+      "compileMedianMs": 95.20000004768372,
+      "compileMaxMs": 98.5,
+      "renderMs": 101.40000009536743,
+      "updateMs": 102,
+      "resizeMs": 3.3000001907348633,
+      "releaseMs": 0.20000004768371582,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    }
+  ],
+  "dashboard": {
+    "chartCount": 20,
+    "canvasCount": 20,
+    "renderMs": 72.90000009536743,
+    "releaseMs": 1.3999998569488525
+  }
+}

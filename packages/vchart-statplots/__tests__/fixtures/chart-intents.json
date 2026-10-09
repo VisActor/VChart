@@ -111,7 +111,7 @@
     }
   },
   {
-    "prompt": "比较不同组预计算密度的分布形状。",
+    "prompt": "从原始样本比较不同组的核密度分布形状。",
     "expected": {
       "type": "violinPlot",
       "options": {}

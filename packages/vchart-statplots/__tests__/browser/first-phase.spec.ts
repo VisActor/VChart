@@ -49,7 +49,7 @@ for (const type of [
       const areas = geometry.filter((g: any) => g.name === 'area');
       expect(areas).toHaveLength(4);
       for (const area of areas) {
-        expect(area.points).toHaveLength(71);
+        expect(area.points).toHaveLength(spec.sampling?.points ?? 256);
         const center = (area.points[0].x + area.points[0].x1) / 2;
         for (const point of area.points) {
           expect((point.x + point.x1) / 2).toBeCloseTo(center, 5);

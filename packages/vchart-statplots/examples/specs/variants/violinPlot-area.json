@@ -1,1711 +1,207 @@
 {
   "type": "violinPlot",
-  "title": "分组密度轮廓",
+  "title": "等面积小提琴",
   "densityNormalization": "area",
   "data": [
     {
       "category": "A",
-      "series": "对照",
-      "value": -3.5,
-      "density": 0.0008726826950457602
+      "value": -2,
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": -3.4,
-      "density": 0.00123221916847302
+      "value": -1,
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": -3.3,
-      "density": 0.0017225689390536812
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -3.2,
-      "density": 0.0023840882014648404
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -3.1,
-      "density": 0.0032668190561999186
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -3.0,
-      "density": 0.0044318484119380075
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.9,
-      "density": 0.005952532419775854
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.8,
-      "density": 0.007915451582979969
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.7,
-      "density": 0.010420934814422592
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.6,
-      "density": 0.013582969233685615
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.5,
-      "density": 0.01752830049356854
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.4,
-      "density": 0.0223945302948429
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.3,
-      "density": 0.02832703774160119
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.2,
-      "density": 0.035474592846231424
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.1,
-      "density": 0.0439835959804272
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -2.0,
-      "density": 0.05399096651318806
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.9,
-      "density": 0.0656158147746766
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.8,
-      "density": 0.07895015830089415
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.7,
-      "density": 0.09404907737688695
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.6,
-      "density": 0.11092083467945554
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.5,
-      "density": 0.12951759566589174
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.4,
-      "density": 0.14972746563574488
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.3,
-      "density": 0.17136859204780736
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.2,
-      "density": 0.19418605498321298
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.1,
-      "density": 0.21785217703255055
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -1.0,
-      "density": 0.24197072451914337
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -0.9,
-      "density": 0.2660852498987548
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -0.8,
-      "density": 0.28969155276148273
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -0.7,
-      "density": 0.31225393336676127
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -0.6,
-      "density": 0.33322460289179967
-    },
-    {
-      "category": "A",
-      "series": "对照",
       "value": -0.5,
-      "density": 0.3520653267642995
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": -0.4,
-      "density": 0.36827014030332333
+      "value": 0,
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": -0.3,
-      "density": 0.38138781546052414
+      "value": 0,
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": -0.2,
-      "density": 0.3910426939754559
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": -0.1,
-      "density": 0.3969525474770118
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": 0.0,
-      "density": 0.3989422804014327
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": 0.1,
-      "density": 0.3969525474770118
-    },
-    {
-      "category": "A",
-      "series": "对照",
       "value": 0.2,
-      "density": 0.3910426939754559
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
       "value": 0.3,
-      "density": 0.38138781546052414
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 0.4,
-      "density": 0.36827014030332333
-    },
-    {
-      "category": "A",
-      "series": "对照",
       "value": 0.5,
-      "density": 0.3520653267642995
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 0.6,
-      "density": 0.33322460289179967
+      "value": 1,
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 0.7,
-      "density": 0.31225393336676127
+      "value": 2,
+      "series": "对照"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 0.8,
-      "density": 0.28969155276148273
+      "value": -1,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 0.9,
-      "density": 0.2660852498987548
+      "value": 0,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.0,
-      "density": 0.24197072451914337
+      "value": 0.5,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.1,
-      "density": 0.21785217703255055
+      "value": 1,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.2,
-      "density": 0.19418605498321298
+      "value": 1,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.3,
-      "density": 0.17136859204780736
+      "value": 1,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.4,
-      "density": 0.14972746563574488
-    },
-    {
-      "category": "A",
-      "series": "对照",
       "value": 1.5,
-      "density": 0.12951759566589174
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.6,
-      "density": 0.11092083467945554
+      "value": 2,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.7,
-      "density": 0.09404907737688695
+      "value": 3,
+      "series": "实验"
     },
     {
       "category": "A",
-      "series": "对照",
-      "value": 1.8,
-      "density": 0.07895015830089415
+      "value": 4,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 1.9,
-      "density": 0.0656158147746766
+      "category": "B",
+      "value": -3,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.0,
-      "density": 0.05399096651318806
+      "category": "B",
+      "value": -2,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.1,
-      "density": 0.0439835959804272
+      "category": "B",
+      "value": -1,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.2,
-      "density": 0.035474592846231424
+      "category": "B",
+      "value": -1,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.3,
-      "density": 0.02832703774160119
+      "category": "B",
+      "value": 0,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.4,
-      "density": 0.0223945302948429
+      "category": "B",
+      "value": 0,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.5,
-      "density": 0.01752830049356854
+      "category": "B",
+      "value": 1,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.6,
-      "density": 0.013582969233685615
+      "category": "B",
+      "value": 1,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.7,
-      "density": 0.010420934814422592
+      "category": "B",
+      "value": 2,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.8,
-      "density": 0.007915451582979969
+      "category": "B",
+      "value": 3,
+      "series": "对照"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 2.9,
-      "density": 0.005952532419775854
+      "category": "B",
+      "value": -2,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "对照",
-      "value": 3.0,
-      "density": 0.0044318484119380075
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": 3.1,
-      "density": 0.0032668190561999186
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": 3.2,
-      "density": 0.0023840882014648404
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": 3.3,
-      "density": 0.0017225689390536812
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": 3.4,
-      "density": 0.00123221916847302
-    },
-    {
-      "category": "A",
-      "series": "对照",
-      "value": 3.5,
-      "density": 0.0008726826950457602
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -3.5,
-      "density": 5.269606373656068e-10
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -3.4,
-      "density": 1.407224177497541e-09
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -3.3,
-      "density": 3.6700268467506842e-09
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -3.2,
-      "density": 9.34751207665121e-09
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -3.1,
-      "density": 2.3251108850354768e-08
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -3.0,
-      "density": 5.648227024208622e-08
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.9,
-      "density": 1.3399896999612967e-07
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.8,
-      "density": 3.104642629920236e-07
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.7,
-      "density": 7.024939907319735e-07
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.6,
-      "density": 1.5523671761567611e-06
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.5,
-      "density": 3.3501721935838187e-06
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.4,
-      "density": 7.060909557847859e-06
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.3,
-      "density": 1.4533660412597059e-05
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.2,
-      "density": 2.921529048479162e-05
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.1,
-      "density": 5.735433515863552e-05
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -2.0,
-      "density": 0.00010996212693767875
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -1.9,
-      "density": 0.0002058926550229013
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -1.8,
-      "density": 0.0003764951768663851
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -1.7,
-      "density": 0.0006723552814946517
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -1.6,
-      "density": 0.0011726247734724932
-    },
-    {
-      "category": "A",
-      "series": "处理",
+      "category": "B",
       "value": -1.5,
-      "density": 0.0019972855046345795
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": -1.4,
-      "density": 0.0033223247062751492
+      "category": "B",
+      "value": -1,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": -1.3,
-      "density": 0.005397154397331349
+      "category": "B",
+      "value": -1,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": -1.2,
-      "density": 0.008562655061164855
+      "category": "B",
+      "value": 1,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": -1.1,
-      "density": 0.013267005125148168
+      "category": "B",
+      "value": 1,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": -1.0,
-      "density": 0.020075121631618145
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.9,
-      "density": 0.029666363533898534
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.8,
-      "density": 0.042814540165115225
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.7,
-      "density": 0.060344694690140185
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.6,
-      "density": 0.08306302540490478
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.5,
-      "density": 0.11165990063977116
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.4,
-      "density": 0.1465910884122283
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.3,
-      "density": 0.1879484473884909
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.2,
-      "density": 0.23533729435330636
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": -0.1,
-      "density": 0.28778198938123895
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.0,
-      "density": 0.34368241029978325
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.1,
-      "density": 0.4008407270126694
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.2,
-      "density": 0.4565698378215343
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.3,
-      "density": 0.5078827172883246
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.4,
-      "density": 0.551747650098128
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.5,
-      "density": 0.5853806876831557
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.6,
-      "density": 0.6065367634804254
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.7,
-      "density": 0.6137573544637426
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.8,
-      "density": 0.6065367634804254
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 0.9,
-      "density": 0.5853806876831555
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 1.0,
-      "density": 0.551747650098128
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 1.1,
-      "density": 0.5078827172883245
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 1.2,
-      "density": 0.4565698378215343
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 1.3,
-      "density": 0.4008407270126694
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 1.4,
-      "density": 0.34368241029978325
-    },
-    {
-      "category": "A",
-      "series": "处理",
+      "category": "B",
       "value": 1.5,
-      "density": 0.28778198938123883
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": 1.6,
-      "density": 0.23533729435330622
+      "category": "B",
+      "value": 2,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": 1.7,
-      "density": 0.1879484473884909
+      "category": "B",
+      "value": 2,
+      "series": "实验"
     },
     {
-      "category": "A",
-      "series": "处理",
-      "value": 1.8,
-      "density": 0.1465910884122283
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 1.9,
-      "density": 0.11165990063977116
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.0,
-      "density": 0.0830630254049047
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.1,
-      "density": 0.06034469469014013
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.2,
-      "density": 0.04281454016511516
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.3,
-      "density": 0.029666363533898572
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.4,
-      "density": 0.020075121631618145
-    },
-    {
-      "category": "A",
-      "series": "处理",
+      "category": "B",
       "value": 2.5,
-      "density": 0.013267005125148168
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.6,
-      "density": 0.00856265506116484
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.7,
-      "density": 0.005397154397331349
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.8,
-      "density": 0.0033223247062751492
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 2.9,
-      "density": 0.0019972855046345795
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 3.0,
-      "density": 0.0011726247734724932
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 3.1,
-      "density": 0.0006723552814946505
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 3.2,
-      "density": 0.0003764951768663851
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 3.3,
-      "density": 0.0002058926550229013
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 3.4,
-      "density": 0.00010996212693767875
-    },
-    {
-      "category": "A",
-      "series": "处理",
-      "value": 3.5,
-      "density": 5.735433515863552e-05
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -3.5,
-      "density": 4.4271698475365053e-07
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -3.4,
-      "density": 1.0620228369451424e-06
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -3.3,
-      "density": 2.4778658578904965e-06
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -3.2,
-      "density": 5.622869343577999e-06
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -3.1,
-      "density": 1.2410076451049985e-05
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -3.0,
-      "density": 2.6639568511509035e-05
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.9,
-      "density": 5.561810399273051e-05
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.8,
-      "density": 0.00011293834981469607
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.7,
-      "density": 0.00022305037627480816
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.6,
-      "density": 0.00042845059177051023
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.5,
-      "density": 0.0008004510860346997
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.4,
-      "density": 0.0014544711584095977
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.3,
-      "density": 0.0025704649938185133
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.2,
-      "density": 0.004418293257383502
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.1,
-      "density": 0.007386414019896679
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -2.0,
-      "density": 0.012010166274348706
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.9,
-      "density": 0.018993310039662405
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.8,
-      "density": 0.02921383415594757
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.7,
-      "density": 0.04370314848951581
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.6,
-      "density": 0.06358770584402991
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.5,
-      "density": 0.08998494418864678
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.4,
-      "density": 0.12385193926498851
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.3,
-      "density": 0.1657952313212478
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.2,
-      "density": 0.21586265944315292
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.1,
-      "density": 0.27335012445998935
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -1.0,
-      "density": 0.33666447592343146
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.9,
-      "density": 0.4032845408652389
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.8,
-      "density": 0.46985312568383764
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.7,
-      "density": 0.5324133425372538
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.6,
-      "density": 0.5867755446071659
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.5,
-      "density": 0.6289720461549887
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.4,
-      "density": 0.6557328601699
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.3,
-      "density": 0.6649038006690545
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.2,
-      "density": 0.6557328601699
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": -0.1,
-      "density": 0.6289720461549887
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.0,
-      "density": 0.5867755446071659
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.1,
-      "density": 0.5324133425372538
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.2,
-      "density": 0.46985312568383764
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.3,
-      "density": 0.40328454086523896
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.4,
-      "density": 0.33666447592343146
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.5,
-      "density": 0.27335012445998935
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.6,
-      "density": 0.21586265944315292
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.7,
-      "density": 0.1657952313212478
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.8,
-      "density": 0.12385193926498846
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 0.9,
-      "density": 0.08998494418864678
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.0,
-      "density": 0.06358770584402991
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.1,
-      "density": 0.04370314848951581
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.2,
-      "density": 0.02921383415594757
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.3,
-      "density": 0.018993310039662387
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.4,
-      "density": 0.012010166274348706
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.5,
-      "density": 0.007386414019896679
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.6,
-      "density": 0.004418293257383502
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.7,
-      "density": 0.002570464993818509
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.8,
-      "density": 0.0014544711584095977
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 1.9,
-      "density": 0.0008004510860347012
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.0,
-      "density": 0.00042845059177051137
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.1,
-      "density": 0.00022305037627480895
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.2,
-      "density": 0.00011293834981469607
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.3,
-      "density": 5.561810399273071e-05
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.4,
-      "density": 2.663956851150913e-05
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.5,
-      "density": 1.2410076451049985e-05
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.6,
-      "density": 5.622869343578027e-06
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.7,
-      "density": 2.4778658578904965e-06
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.8,
-      "density": 1.0620228369451462e-06
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 2.9,
-      "density": 4.427169847536521e-07
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 3.0,
-      "density": 1.7949600070905462e-07
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 3.1,
-      "density": 7.078147910758145e-08
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 3.2,
-      "density": 2.7146932012642373e-08
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 3.3,
-      "density": 1.0126471416372145e-08
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 3.4,
-      "density": 3.6739377329360497e-09
-    },
-    {
-      "category": "B",
-      "series": "对照",
-      "value": 3.5,
-      "density": 1.2964080113449493e-09
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -3.5,
-      "density": 0.0006759626871616387
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -3.4,
-      "density": 0.0009291960000801553
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -3.3,
-      "density": 0.001266784465203166
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -3.2,
-      "density": 0.00171280891832165
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -3.1,
-      "density": 0.0022968143437308492
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -3.0,
-      "density": 0.003054595145287455
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.9,
-      "density": 0.004028953101761832
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.8,
-      "density": 0.005270375473166391
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.7,
-      "density": 0.006837568498826663
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.6,
-      "density": 0.008797770186781824
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.5,
-      "density": 0.011226757083201014
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.4,
-      "density": 0.014208454069868747
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.3,
-      "density": 0.017834055714315837
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.2,
-      "density": 0.022200573818426866
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.1,
-      "density": 0.027408739924364246
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -2.0,
-      "density": 0.03356021462084419
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.9,
-      "density": 0.04075408796235706
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.8,
-      "density": 0.049082696830170955
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.7,
-      "density": 0.058626834382666186
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.6,
-      "density": 0.06945048162278795
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.5,
-      "density": 0.08159524831029481
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.4,
-      "density": 0.09507476582601927
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.3,
-      "density": 0.10986932333772628
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.2,
-      "density": 0.1259210755672255
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.1,
-      "density": 0.14313017056258517
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -1.0,
-      "density": 0.16135214469511602
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.9,
-      "density": 0.1803969063300775
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.8,
-      "density": 0.2000295776090824
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.7,
-      "density": 0.21997338592649396
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.6,
-      "density": 0.23991469567611817
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.5,
-      "density": 0.25951015172582276
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.4,
-      "density": 0.27839577603463656
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.3,
-      "density": 0.29619772676153644
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.2,
-      "density": 0.3125443050835862
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": -0.1,
-      "density": 0.32707868892056663
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.0,
-      "density": 0.3394717943217989
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.1,
-      "density": 0.34943462223387173
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.2,
-      "density": 0.356729446082824
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.3,
-      "density": 0.3611792363015834
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.4,
-      "density": 0.36267480036493877
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.5,
-      "density": 0.3611792363015834
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.6,
-      "density": 0.35672944608282403
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.7,
-      "density": 0.34943462223387173
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.8,
-      "density": 0.3394717943217989
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 0.9,
-      "density": 0.32707868892056663
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.0,
-      "density": 0.31254430508358627
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.1,
-      "density": 0.2961977267615364
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.2,
-      "density": 0.27839577603463656
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.3,
-      "density": 0.25951015172582276
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.4,
-      "density": 0.2399146956761182
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.5,
-      "density": 0.21997338592649396
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.6,
-      "density": 0.2000295776090824
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.7,
-      "density": 0.1803969063300775
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.8,
-      "density": 0.16135214469511602
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 1.9,
-      "density": 0.14313017056258517
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.0,
-      "density": 0.1259210755672255
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.1,
-      "density": 0.10986932333772628
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.2,
-      "density": 0.09507476582601922
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.3,
-      "density": 0.08159524831029481
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.4,
-      "density": 0.06945048162278795
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.5,
-      "density": 0.058626834382666186
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.6,
-      "density": 0.049082696830170955
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.7,
-      "density": 0.04075408796235703
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.8,
-      "density": 0.03356021462084419
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 2.9,
-      "density": 0.027408739924364246
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 3.0,
-      "density": 0.022200573818426866
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 3.1,
-      "density": 0.017834055714315823
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 3.2,
-      "density": 0.014208454069868735
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 3.3,
-      "density": 0.011226757083201014
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 3.4,
-      "density": 0.008797770186781824
-    },
-    {
-      "category": "B",
-      "series": "处理",
-      "value": 3.5,
-      "density": 0.006837568498826663
+      "series": "实验"
     }
   ]
 }

@@ -49,7 +49,7 @@
 | `kdePlot` | data 仅接收原始 value / series；拒绝旧 density | estimation.kernel / bandwidth 真正参与估计；bandwidth 为正数或 scott / silverman，sampling.points 控制绘制精度 |
 | `ecdfPlot` | data 仅接收原始 value / series；拒绝 probability / cumulativeProbability | 重复值分别计入，库内生成右连续累计概率及真实跳点 |
 | `boxPlot` | 五数摘要 → 原始 category/value/series；whiskerRule → whiskers.iqrMultiplier | 默认 1.5×IQR；q1/median/q3/whiskerLower/whiskerUpper/outliers 只存在于内部绘图数据，旧预计算输入拒绝 |
-| `violinPlot` | `widthScale` → `densityNormalization`，枚举 width/area 保留 | category/value/density；控制密度轮廓归一化，默认 width，不表示像素宽度 |
+| `violinPlot` | `widthScale` → `densityNormalization`，枚举 width/area 保留 | 原始 category/value/series；内部计算 KDE，控制密度轮廓归一化，默认 width，不表示像素宽度 |
 | `stripPlot` | `jitter` → `jitterRatio` | layout=strip/jitter/swarm；jitterRatio 是最大偏移与完整分类带宽的比，0–0.5，默认 0.3，仅 jitter 布局可用 |
 | `pointIntervalPlot` | `reference` → `referenceLine` | estimate/lower/upper、interval、valueScale、referenceLine.value/label；valueScale 控制数值轴，不固定为 xScale |
 | `pairedComparisonPlot` | `categories` → `categoryOrder`，仍为两个不同字符串的元组 | id/category/value；显式顺序，不引入额外的 before/after 数据结构 |
@@ -132,3 +132,7 @@ binning 可省略，默认箱数只依赖样本量；显式 binCount 为 1–200
 ## 箱线图原始输入
 
 boxPlot 不再接收五数摘要或异常值数组。提供完整原始 `{category,value,series?}` 观测，按 category + series 独立计算；须规则说明字符串改为实际配置 `whiskers.iqrMultiplier`，默认 1.5。四分位数采用 vutils 的线性插值；小样本须不向箱体内反向延伸，必要时取 Q1 / Q3。仅有预计算摘要的调用方使用原生 VChart boxPlot，不能从摘要构造伪造样本。
+
+## violinPlot 原始样本迁移
+
+删除公共 density，提供原始 category / value / series；可用 estimation.kernel / bandwidth 和 sampling.points 控制估计及轮廓绘制。旧密度采样点不能作为原始观测；不能从预计算轮廓反推完整样本。单样本和常数组须显式指定正带宽。详见[小提琴图契约](plots/violinPlot.md)。

@@ -11,6 +11,14 @@
         "$ref": "#/definitions/ViolinPlotRow"
       }
     },
+    "estimation": {
+      "description": "各 category + series 独立计算 KDE；单样本和常数组须显式提供正带宽。",
+      "$ref": "#/definitions/KdeEstimationSpec"
+    },
+    "sampling": {
+      "description": "每组轮廓的绘制采样配置，不改变估计方法和带宽。",
+      "$ref": "#/definitions/KdeSamplingSpec"
+    },
     "densityNormalization": {
       "description": "密度轮廓归一化：width 等最大宽度（默认），area 等面积。",
       "enum": [
@@ -68,10 +76,7 @@
           "type": "string"
         },
         "value": {
-          "type": "number"
-        },
-        "density": {
-          "description": "已计算的概率密度，不是样本数量。",
+          "description": "原始观测；允许乱序，重复值分别参与估计。",
           "type": "number"
         },
         "series": {
@@ -82,9 +87,49 @@
       "additionalProperties": false,
       "required": [
         "category",
-        "density",
         "value"
       ]
+    },
+    "KdeEstimationSpec": {
+      "type": "object",
+      "properties": {
+        "kernel": {
+          "description": "默认 gaussian。",
+          "enum": [
+            "epanechnikov",
+            "gaussian"
+          ],
+          "type": "string"
+        },
+        "bandwidth": {
+          "description": "正数为固定带宽，单位与 value 相同；默认 scott，各分布组独立估计。",
+          "anyOf": [
+            {
+              "enum": [
+                "scott",
+                "silverman"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "number"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "KdeSamplingSpec": {
+      "type": "object",
+      "properties": {
+        "points": {
+          "description": "每组等距绘制点数，默认 256；仅控制曲线离散精度。",
+          "type": "integer",
+          "minimum": 2,
+          "maximum": 2048
+        }
+      },
+      "additionalProperties": false
     },
     "StatPlotColors": {
       "description": "全图共用的颜色角色；省略时使用各角色默认色板。",

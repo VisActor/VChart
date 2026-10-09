@@ -15,7 +15,7 @@ test('50 updates keep custom geometry, tooltip and one event subscription; relea
         w.VChartStatPlots.compileStatPlot({
           ...spec,
           title: `Update ${i}`,
-          data: spec.data.map(row => ({ ...row, density: row.density * (1 + i / 100) }))
+          data: spec.data.map(row => ({ ...row, value: row.value * (1 + i / 100) }))
         })
       );
     }

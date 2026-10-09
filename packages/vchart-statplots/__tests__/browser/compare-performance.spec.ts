@@ -16,8 +16,7 @@ test('measures equivalent native ROC and statplots ROC, and custom violin densit
       data: Array.from({ length: 10 }, (_, group) =>
         Array.from({ length: 1000 }, (_, i) => ({
           category: String(group),
-          value: i / 100 - 5,
-          density: Math.exp(-((i / 100 - 5) ** 2) / 2)
+          value: ((i * 37) % 1009) / 100
         }))
       ).flat()
     };
@@ -61,7 +60,10 @@ test('measures equivalent native ROC and statplots ROC, and custom violin densit
     return [
       await measure(native, 'native ROC line'),
       await measure(() => w.VChartStatPlots.compileStatPlot(roc), 'statplots ROC'),
-      await measure(() => w.VChartStatPlots.compileStatPlot(violin), 'violin 10 groups × 1000 density samples')
+      await measure(
+        () => w.VChartStatPlots.compileStatPlot(violin),
+        'violin 10 groups × 1000 raw observations, 256 points per group'
+      )
     ];
   });
   await expect(page.locator('canvas')).toHaveCount(0);

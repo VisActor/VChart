@@ -36,6 +36,8 @@ method、metric、distribution 是已有结果的说明；修改这些配置不�
 | kdePlot.sampling.points | 256；每系列 2–2048 个等距绘制点，不改变带宽 |
 | ecdfPlot.data | 原始 value / series，按真实跳点计算右连续累计概率，不分箱 |
 | boxPlot.whiskers.iqrMultiplier | 1.5；有限非负，按 category + series 独立计算，四分位数采用线性插值 |
+| violinPlot.estimation | 按 category + series 独立估计；核函数、固定带宽及 Scott / Silverman 与 kdePlot 相同 |
+| violinPlot.sampling.points | 每组 2–2048 整数，默认 256，仅控制轮廓绘制精度 |
 | violinPlot.densityNormalization | width 等最大宽度；area 等面积                                                |
 | stripPlot.layout / jitterRatio  | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5                           |
 | pointIntervalPlot.valueScale    | linear；log 的估计、区间和参考值必须为正                                     |

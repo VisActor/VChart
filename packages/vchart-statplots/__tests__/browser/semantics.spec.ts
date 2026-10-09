@@ -194,9 +194,10 @@ test('violin tooltip describes the density group and legend filters entire group
   await expect(page.locator('.vchart-tooltip-element')).toBeVisible();
   const text = await page.locator('.vchart-tooltip-element').innerText();
   expect(text).toContain('概率密度');
-  expect(text).toContain('采样下界');
+  expect(text).toContain('原始最小值');
   expect(text).toContain('峰值');
-  expect(text).toContain('-3.5');
+  expect(text).toContain('实际带宽');
+  expect(text).toContain('样本数');
   const legend = await page.evaluate(() => {
     const component = (window as any).chart
       .getChart()

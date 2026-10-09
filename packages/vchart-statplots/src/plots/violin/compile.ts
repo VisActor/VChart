@@ -1,37 +1,12 @@
-import type { IAreaSeriesSpec, ICommonChartSpec } from '@visactor/vchart';
+import type { IAreaSeriesSpec, ICommonChartSpec, ICartesianLinearAxisSpec } from '@visactor/vchart';
 import type { ViolinPlotSpec } from './types';
-import { violinGroups } from './validate';
+import { prepareViolin, estimateViolin } from './estimation';
 import { commonChart } from '../../common/chart';
 import { categoryAxis, numberAxis } from '../../common/axes';
 
 export function compileViolin(spec: ViolinPlotSpec): ICommonChartSpec {
-  const groups = violinGroups(spec.data);
-  const widths = new Map<string, number>();
-  let largest = 0;
-  const summaries = new Map<string, { minimum: number; maximum: number; peakDensity: number }>();
-  for (const [key, points] of groups) {
-    let area = 0;
-    let maximum = 0;
-    points.forEach(({ row }, i) => {
-      maximum = Math.max(maximum, row.density);
-      if (i) {
-        const previous = points[i - 1].row;
-        area += ((row.value - previous.value) * (row.density + previous.density)) / 2;
-      }
-    });
-    summaries.set(key, {
-      minimum: points[0].row.value,
-      maximum: points[points.length - 1].row.value,
-      peakDensity: maximum
-    });
-    const divisor = spec.densityNormalization === 'area' ? area : maximum;
-    widths.set(key, divisor);
-    largest = Math.max(largest, maximum / divisor);
-  }
-  const values = spec.data.map(row => {
-    const key = JSON.stringify([row.category, row.series]);
-    return { ...row, __violinGroup: key, __densityWidth: row.density / widths.get(key)! / largest };
-  });
+  const prepared = prepareViolin(spec);
+  const { values, summaries } = estimateViolin(prepared, spec.densityNormalization ?? 'width');
   const grouped = spec.data.some(row => row.series !== undefined);
   const fieldLabels = { category: '分组', value: '数值', density: '概率密度', ...spec.fieldLabels };
   // 面积图元携带整组采样数据，tooltip 展示组摘要，避免误把首个采样点当作指针位置。
@@ -45,10 +20,14 @@ export function compileViolin(spec: ViolinPlotSpec): ICommonChartSpec {
           return [row.category, row.series].filter(Boolean).join(' · ');
         }
       },
-      content: (['minimum', 'maximum', 'peakDensity'] as const).map((field, i) => ({
-        key: [fieldLabels.value + '（采样下界）', fieldLabels.value + '（采样上界）', fieldLabels.density + '（峰值）'][
-          i
-        ],
+      content: (['count', 'minimum', 'maximum', 'bandwidth', 'peakDensity'] as const).map((field, i) => ({
+        key: [
+          '样本数',
+          fieldLabels.value + '（原始最小值）',
+          fieldLabels.value + '（原始最大值）',
+          '实际带宽',
+          fieldLabels.density + '（峰值）'
+        ][i],
         value: datum => String(summaries.get(first(datum!).__violinGroup)![field])
       }))
     }
@@ -72,6 +51,11 @@ export function compileViolin(spec: ViolinPlotSpec): ICommonChartSpec {
     [series],
     [categoryAxis('bottom', fieldLabels.category), numberAxis('left', fieldLabels.value)]
   );
+  Object.assign(chart.axes![1] as ICartesianLinearAxisSpec, {
+    min: prepared.domain[0],
+    max: prepared.domain[1],
+    nice: false
+  });
   chart.legends = { visible: grouped, orient: 'top' };
   return chart;
 }
