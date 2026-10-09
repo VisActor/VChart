@@ -20,7 +20,7 @@ const results = [];
 for (const size of [10000, 50000]) {
   const spec = {
     type: 'rocCurve',
-    data: Array.from({ length: size }, (_, i) => ({ fpr: i / (size - 1), tpr: Math.sqrt(i / (size - 1)) }))
+    data: Array.from({ length: size }, (_, i) => ({ actual: i % 3 === 0, score: i / (size - 1) }))
   };
   results.push(
     measure(`validate ROC ${size}`, () => validateStatPlot(spec)),

@@ -1,6 +1,6 @@
 # @visactor/vchart-statplots
 
-以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，模型拟合与统计推断留在 Python 或调用方 JavaScript；本包负责校验、显示归一化、确定性分箱、KDE / ECDF / 箱线统计 / 小提琴轮廓、几何布局与交互。`kdePlot`、`ecdfPlot` 接受原始 `{value, series?}` 样本，复用 vutils 按系列独立计算；KDE 的核函数和带宽参与估计，ECDF 保留真实跳点及重复值权重。`boxPlot` 接受原始 `{category, value, series?}` 观测，复用 vutils 计算四分位数，默认按 1.5×IQR 判定须与异常值，可用 `whiskers.iqrMultiplier` 调整。`violinPlot` 接受原始 `{category, value, series?}` 观测，与 kdePlot 共用核密度估计，保留等宽与等面积轮廓。`histogram` 接受单变量原始 `{value}` 观测，通过可选 `binning.binCount` 计算分箱频数（默认按样本量使用 Sturges 候选数）；不支持 series 或预分箱输入。`hexbinPlot` 接受原始 x/y 散点，在编译阶段按 `binning.xBins`（默认 30）计算六边形分箱计数。`pairPlot` 只需 `variables` 与 `data.observations`，默认内部计算对角直方图，可用 `diagonal.binning.binCount` 调整箱数或 `diagonal: { type: 'none' }` 关闭对角分布。
+以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，模型拟合与统计推断留在 Python 或调用方 JavaScript；本包从原始观测完成计数、混淆矩阵、ROC / PR / 校准曲线、正态 Q–Q、ACF / PACF、分箱与分布估计，并负责几何布局和交互。`kdePlot`、`ecdfPlot` 接受原始 `{value, series?}` 样本，复用 vutils 按系列独立计算；KDE 的核函数和带宽参与估计，ECDF 保留真实跳点及重复值权重。`boxPlot` 接受原始 `{category, value, series?}` 观测，复用 vutils 计算四分位数，默认按 1.5×IQR 判定须与异常值，可用 `whiskers.iqrMultiplier` 调整。`violinPlot` 接受原始 `{category, value, series?}` 观测，与 kdePlot 共用核密度估计，保留等宽与等面积轮廓。`histogram` 接受单变量原始 `{value}` 观测，通过可选 `binning.binCount` 计算分箱频数（默认按样本量使用 Sturges 候选数）；不支持 series 或预分箱输入。`hexbinPlot` 接受原始 x/y 散点，在编译阶段按 `binning.xBins`（默认 30）计算六边形分箱计数。`pairPlot` 只需 `variables` 与 `data.observations`，默认内部计算对角直方图，可用 `diagonal.binning.binCount` 调整箱数或 `diagonal: { type: 'none' }` 关闭对角分布。
 
 ```ts
 import VChart from '@visactor/vchart';
@@ -11,9 +11,10 @@ const spec = {
   type: 'rocCurve' as const,
   title: '分类器表现',
   data: [
-    { fpr: 0, tpr: 0 },
-    { fpr: 0.1, tpr: 0.8 },
-    { fpr: 1, tpr: 1 }
+    { actual: true, score: 0.9 },
+    { actual: false, score: 0.4 },
+    { actual: true, score: 0.6 },
+    { actual: false, score: 0.1 }
   ]
 };
 const result = validateStatPlot(spec); // 可选；compile 内部也会校验
@@ -73,3 +74,9 @@ npm run eslint --prefix packages/vchart-statplots
 ```
 
 统计图需要原始统计意义正确的输入；Schema 只能保证结构，跨字段规则由 `validateStatPlot` 补充。输入不修改，编译后的 series/data ID 和辅助字段不构成公共承诺。更新应重新编译完整语义 spec。
+
+## Q–Q / ACF 的上游依赖
+
+本次使用 vutils 根入口的公共 `normalQuantile`。npm 已发布的 1.0.24 尚无此 API；需要先发布 VUtil 的公共导出，再同步这里的 dependencies 和 Rush 锁文件，才可发布本包。目前 package.json 保留已存在的版本范围，不能把 fresh install 视为已验证。
+
+本地联调：在相邻 VUtil 中构建 packages/vutils（本地开发版本 `1.0.24-dev.normal-quantile` 避免 TypeScript 把类型重定向到同版本的旧安装包），然后在 StatPlots 包目录执行 `node ../../common/scripts/install-run-rush-pnpm.js link /绝对路径/VUtil/packages/vutils`。链接不替代发版依赖。详见[验收记录](docs/validation.md)。

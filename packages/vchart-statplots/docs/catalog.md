@@ -32,3 +32,7 @@
 | [学习曲线](plots/learningCurve.md) | `learningCurve` | 比较训练样本数变化时的训练与验证分数。 |
 | [特征重要性图](plots/featureImportancePlot.md) | `featureImportancePlot` | 比较给定方法算出的各特征重要性。 |
 | [SHAP 蜂群图](plots/shapBeeswarmPlot.md) | `shapBeeswarmPlot` | 查看各特征逐观测的 SHAP 贡献与特征值。 |
+
+## 原始输入选型
+
+count 传原始类别；confusion 传每个样本的实际/预测类别；ROC、PR 传布尔标签和评分；calibration 传布尔标签和概率；QQ 传一维样本；ACF/PACF 传按序一维序列。统计结果由编译器生成，修改有效计算参数会重算。其余模型结果图的外部计算职责见[计算契约](computation-contract.md)。

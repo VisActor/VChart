@@ -1,19 +1,40 @@
 # 类别计数图 `countPlot`
 
-比较各客户类别有多少条观测。
+`data: [{category, series?}]`，每行是一条类别观测，重复类别分别计数。不接受 count、proportion 或权重。
 
-statistic 默认为 count；proportion 按同一 series 的计数总和归一化。输入仍为非负整数计数；总计数为零的系列没有可定义的比例。fieldLabels.proportion 同时用于轴与 tooltip。
+## 计算与配置
 
-## 输入与配置
+- `statistic` 默认 `count`，可选 `proportion`。
+- 比例默认 `normalizationScope: "all"`，分母是全表观测数；`"series"` 以对应系列样本数为分母。仅比例模式可指定该配置。
+- 类别、系列保留首次出现顺序。分组数据补齐类别 × 系列交叉的零计数，缺失类别不会挤走其他柱。
+- 不计算均值或其他汇总；任意数值柱图使用 VChart 原生 bar。
 
-语义输入字段：`category`、`count`。字段、必填项和单位以 [JSON Schema](../../schema/plots/countPlot.schema.json) 为准；未知属性会被拒绝。
+## 示例
 
-最小示例中的配置：无额外必填图表选项。完整可选配置、默认值见 [Spec 协议](../spec.md) 和 Schema。fieldLabels 仅使用该图声明的键，改变坐标轴与 tooltip 展示名称，不改变统计数据。
+```json
+{
+  "type": "countPlot",
+  "data": [
+    {
+      "category": "A"
+    },
+    {
+      "category": "A"
+    },
+    {
+      "category": "A"
+    },
+    {
+      "category": "B"
+    },
+    {
+      "category": "B"
+    },
+    {
+      "category": "C"
+    }
+  ]
+}
+```
 
-[最小示例](../../examples/specs/minimal/countPlot.json)；[完整主例](../../examples/specs/countPlot.json)。
-
-## 选型边界
-
-- 任意数值柱状图
-- 各组均值
-- 连续变量分箱
+[分图 Schema](../../schema/plots/countPlot.schema.json) · [主例](../../examples/specs/countPlot.json) · [公共配置](../spec.md)。输入保持不可变，空数据显示空态；更新重新调用 `compileStatPlot(nextSpec)` 后执行 `chart.updateSpec`。内部绘图结果不是可传回的公共输入。

@@ -46,10 +46,10 @@ test.each([
 ])('rejects unsupported semantics: $type', spec => {
   expect(validateStatPlot(spec).valid).toBe(false);
 });
-test('does not reject unbiased ACF outside [-1,1] or negative importance', () => {
+test('rejects prepared ACF while allowing negative importance', () => {
   expect(
     validateStatPlot({ type: 'autocorrelationPlot', method: 'acf', data: [{ lag: 1, correlation: 1.2 }] }).valid
-  ).toBe(true);
+  ).toBe(false);
   expect(
     validateStatPlot({
       type: 'featureImportancePlot',

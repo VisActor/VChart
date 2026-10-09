@@ -4,49 +4,130 @@
   "normalization": "actual",
   "data": [
     {
-      "actual": "猫",
-      "predicted": "猫",
-      "count": 38
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "猫",
-      "predicted": "狗",
-      "count": 2
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "猫",
-      "predicted": "其他",
-      "count": 0
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "狗",
-      "predicted": "猫",
-      "count": 3
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "狗",
-      "predicted": "狗",
-      "count": 27
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "狗",
-      "predicted": "其他",
-      "count": 0
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "其他",
-      "predicted": "猫",
-      "count": 0
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "其他",
-      "predicted": "狗",
-      "count": 0
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "其他",
-      "predicted": "其他",
-      "count": 0
+      "actual": "A",
+      "predicted": "B"
+    },
+    {
+      "actual": "A",
+      "predicted": "C"
+    },
+    {
+      "actual": "B",
+      "predicted": "A"
+    },
+    {
+      "actual": "B",
+      "predicted": "A"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "A"
+    },
+    {
+      "actual": "C",
+      "predicted": "B"
+    },
+    {
+      "actual": "C",
+      "predicted": "B"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
     }
-  ]
+  ],
+  "classOrder": [
+    "A",
+    "B",
+    "C"
+  ],
+  "description": "按实际类别归一化，每行合计 100%"
 }

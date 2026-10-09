@@ -4,7 +4,7 @@ import { registerStripSeries } from './series/swarm/strip';
 import { registerViolinSeries } from './series/violin/violin';
 import { registerMissingnessSeries } from './series/missingness/missingness';
 import { registerCustomMark } from '@visactor/vchart';
-import { registerCorrelationMatrixLayout } from './layout/correlation-matrix';
+import { registerMatrixLayout } from './layout/matrix';
 import { registerHexbinLayout } from './layout/hexbin';
 
 let registered = false;
@@ -18,7 +18,7 @@ export function registerStatPlots(): void {
   registerSwarmSeries();
   registerHexbinSeries();
   registerMissingnessSeries();
-  registerCorrelationMatrixLayout();
+  registerMatrixLayout();
   registerHexbinLayout();
   registerCustomMark();
   registered = true;

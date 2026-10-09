@@ -78,13 +78,13 @@ const fieldCases = [
   ['pairedComparisonPlot', '', 'categoryOrder', 'categories'],
   ['correlationMatrix', 'data', 'correlation', 'value'],
   ['correlationMatrix', '', 'variableOrder', 'order'],
-  ['autocorrelationPlot', 'data', 'correlation', 'value'],
+  ['autocorrelationPlot', 'data', 'value', 'correlation'],
   ['residualPlot', 'data', 'fittedValue', 'fitted'],
-  ['qqPlot', 'data', 'theoreticalQuantile', 'theoretical'],
-  ['qqPlot', 'data', 'sampleQuantile', 'observed'],
+  ['qqPlot', 'data', 'value', 'theoretical'],
+  ['qqPlot', 'data', 'value', 'observed'],
   ['qqPlot', '', 'referenceLine', 'reference'],
-  ['precisionRecallCurve', '', 'positiveRate', 'prevalence'],
-  ['calibrationCurve', 'data', 'meanPredictedProbability', 'meanPredicted'],
+  ['precisionRecallCurve', '', 'baseline', 'prevalence'],
+  ['calibrationCurve', 'data', 'probability', 'meanPredicted'],
   ['seasonalPlot', 'data', 'cycle', 'season'],
   ['seasonalPlot', 'data', 'phase', 'period'],
   ['seasonalPlot', '', 'phaseOrder', 'periodOrder']
@@ -116,12 +116,15 @@ test('rejects retired enum values without silently normalizing', () => {
 });
 test('count statistic normalizes separately within each series', () => {
   const data = [
-    { category: 'A', series: 'one', count: 30 },
-    { category: 'B', series: 'one', count: 70 },
-    { category: 'A', series: 'two', count: 20 },
-    { category: 'B', series: 'two', count: 20 }
+    ...Array.from('AAABBBBBBB', category => ({ category, series: 'one' })),
+    ...Array.from('AABB', category => ({ category, series: 'two' }))
   ];
-  const compiled = compileStatPlot({ type: 'countPlot', statistic: 'proportion', data }) as any;
+  const compiled = compileStatPlot({
+    type: 'countPlot',
+    statistic: 'proportion',
+    normalizationScope: 'series',
+    data
+  }) as any;
   expect(compiled.series[0].data.values.map((row: any) => row.proportion)).toEqual([0.3, 0.7, 0.5, 0.5]);
   expect((compileStatPlot({ type: 'countPlot', data }) as any).series[0].yField).toBe('count');
 });
@@ -134,27 +137,21 @@ test.each([
     type: 'confusionMatrix',
     normalization,
     data: [
-      { actual: 'A', predicted: 'A', count: 8 },
-      { actual: 'A', predicted: 'B', count: 2 },
-      { actual: 'B', predicted: 'A', count: 1 },
-      { actual: 'B', predicted: 'B', count: 9 }
+      ...Array.from('AAAAAAAABB', predicted => ({ actual: 'A', predicted })),
+      ...Array.from('ABBBBBBBBB', predicted => ({ actual: 'B', predicted }))
     ]
   } as any) as any;
   expect(chart.series[0].data.values.map((row: any) => row.value)).toEqual(expected);
 });
-test('QQ keeps theoretical and sample directions with its external reference line', () => {
+test('QQ keeps theoretical and sample directions with its computed reference line', () => {
   const chart = compileStatPlot({
     type: 'qqPlot',
-    distribution: 'normal',
-    referenceLine: { method: 'given', slope: 2, intercept: 3 },
-    data: [-1, 0, 1].map(x => ({ theoreticalQuantile: x, sampleQuantile: 2 * x + 3 }))
+    referenceLine: 'regression',
+    data: [1, 3, 5].map(value => ({ value }))
   }) as any;
   expect(chart.series[0].xField).toBe('theoreticalQuantile');
   expect(chart.series[0].yField).toBe('sampleQuantile');
-  expect(chart.markLine.coordinates).toEqual([
-    { theoreticalQuantile: -1, sampleQuantile: 1 },
-    { theoreticalQuantile: 1, sampleQuantile: 5 }
-  ]);
+  expect(chart.series[1].data.values.map((row: any) => row.sampleQuantile)).toEqual([1, 5]);
 });
 test('jitterRatio validates units and does not turn other layouts into jitter', () => {
   for (const value of [0, 0.5])
@@ -165,13 +162,11 @@ test('jitterRatio validates units and does not turn other layouts into jitter', 
     );
   expect(validateStatPlot({ ...fixture('stripPlot'), layout: 'swarm', jitterRatio: 0.3 }).valid).toBe(false);
 });
-test.each([0, 0.2, 1])('PR positiveRate %s remains the explicit reference probability', positiveRate => {
-  const spec = { ...fixture('precisionRecallCurve'), positiveRate };
-  expect(validateStatPlot(spec).valid).toBe(true);
-  expect((compileStatPlot(spec) as any).markLine.y).toBe(positiveRate);
-});
-test.each([-0.01, 1.01])('PR rejects positiveRate %s at the new field path', positiveRate => {
-  expect(validateStatPlot({ ...fixture('precisionRecallCurve'), positiveRate }).errors).toEqual(
-    expect.arrayContaining([expect.objectContaining({ code: 'INVALID_RANGE', path: '/positiveRate' })])
+test('PR derives its baseline and rejects external positiveRate', () => {
+  const spec = { ...fixture('precisionRecallCurve'), baseline: true };
+  const chart = compileStatPlot(spec) as any;
+  expect(chart.series[1].data.values.every((row: any) => row.precision === 0.5)).toBe(true);
+  expect(validateStatPlot({ ...spec, positiveRate: 0.2 }).errors).toEqual(
+    expect.arrayContaining([expect.objectContaining({ code: 'SCHEMA_ERROR', path: '/positiveRate' })])
   );
 });

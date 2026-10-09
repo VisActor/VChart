@@ -148,12 +148,18 @@ for (const type of ['correlationMatrix', 'confusionMatrix', 'hexbinPlot', 'shapB
                 };
               });
             let colorGuide;
-            if (spec.type === 'correlationMatrix') {
-              const rail = chart.getMarkByUserName('correlation-colorbar-rail')[0].getGraphics()[0];
+            if (spec.type === 'correlationMatrix' || spec.type === 'confusionMatrix') {
+              const prefix = spec.type === 'correlationMatrix' ? 'correlation-colorbar' : 'confusion-colorbar';
+              const rail = chart.getMarkByUserName(`${prefix}-rail`)[0].getGraphics()[0];
               const ticks = chart
                 .getAllMarks()
-                .filter((m: any) => m.name === 'correlation-colorbar-tick')
-                .flatMap((m: any) => m.getGraphics().map((g: any) => Number(g.attribute.text.replace('−', '-'))));
+                .filter((m: any) => m.name === `${prefix}-tick`)
+                .flatMap((m: any) =>
+                  m.getGraphics().map((g: any) => {
+                    const text = String(g.attribute.text);
+                    return parseFloat(text.replace('−', '-')) / (text.endsWith('%') ? 100 : 1);
+                  })
+                );
               colorGuide = {
                 min: Math.min(...ticks),
                 max: Math.max(...ticks),

@@ -112,7 +112,9 @@ test('gallery keeps the latest choice when an older example finishes loading lat
 test('gallery updates navigation after a valid edited spec and supports keyboard links', async ({ page }) => {
   await page.goto('/examples/index.html');
   await expect(page.locator('#status')).toContainText('violinPlot ·');
-  await page.locator('#input').fill('{"type":"rocCurve","data":[{"fpr":0,"tpr":0},{"fpr":1,"tpr":1}]}');
+  await page
+    .locator('#input')
+    .fill('{"type":"rocCurve","data":[{"actual":false,"score":0},{"actual":true,"score":1}]}');
   await page.locator('#render').click();
   await expect(page.locator('#status')).toContainText('rocCurve ·');
   await expect(page).toHaveURL(/\?type=rocCurve$/);

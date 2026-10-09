@@ -16,6 +16,7 @@ test('roc renders curves, responds to updates and resizes', async ({ page }, tes
       .getMarkInName('line')
       .getGraphics()
       .map((graphic: any) => ({
+        series: graphic.context.data[0].series,
         points: graphic.attribute.points.map((p: any) => ({ x: p.x, y: p.y })),
         width: graphic.AABBBounds.width(),
         height: graphic.AABBBounds.height()
@@ -23,7 +24,9 @@ test('roc renders curves, responds to updates and resizes', async ({ page }, tes
   });
   expect(lines).toHaveLength(2);
   for (const line of lines) {
-    expect(line.points).toHaveLength(4);
+    const scores = roc.data.filter(row => row.series === line.series).map(row => row.score);
+    // 每个不同分数对应一个阈值点，另加 (0,0) 起点。
+    expect(line.points).toHaveLength(new Set(scores).size + 1);
     expect(line.width).toBeGreaterThan(100);
     expect(line.height).toBeGreaterThan(100);
   }
@@ -37,8 +40,8 @@ test('roc renders curves, responds to updates and resizes', async ({ page }, tes
       w.VChartStatPlots.compileStatPlot({
         type: 'rocCurve',
         data: [
-          { fpr: 0, tpr: 0 },
-          { fpr: 1, tpr: 1 }
+          { actual: true, score: 1 },
+          { actual: false, score: 0 }
         ]
       })
     );

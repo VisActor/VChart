@@ -1,28 +1,19 @@
 import type { CalibrationCurveSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { numberAxis } from '../../common/axes';
-import { curve, band, diagonal } from '../../common/marks';
-import { intervalLabel } from '../../common/interval';
+import { curve, diagonal } from '../../common/marks';
+import { computeCalibration } from './binning';
 export function compileCalibration(spec: CalibrationCurveSpec) {
-  const values = spec.data.map(row => ({ ...row, interval: spec.interval ? intervalLabel(spec.interval) : undefined }));
+  const values = computeCalibration(spec);
   const chart = commonChart(
     spec,
     [
-      ...(values.some(row => row.lower !== undefined)
-        ? [
-            band(
-              'uncertainty',
-              values.filter(row => row.lower !== undefined),
-              'meanPredictedProbability'
-            )
-          ]
-        : []),
       curve(
         'calibration',
         values,
         'meanPredictedProbability',
         'observedRate',
-        ['meanPredictedProbability', 'observedRate', 'binStart', 'binEnd', 'count', 'lower', 'upper', 'interval'],
+        ['meanPredictedProbability', 'observedRate', 'binStart', 'binEnd', 'count'],
         spec.fieldLabels
       )
     ],

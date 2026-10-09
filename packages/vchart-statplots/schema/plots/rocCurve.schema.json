@@ -8,11 +8,11 @@
     "data": {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/RocCurveRow"
+        "$ref": "#/definitions/BinaryScoreRow"
       }
     },
     "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+      "description": "展示生成的曲线统计量，不改变原始输入字段。",
       "type": "object",
       "properties": {
         "fpr": {
@@ -23,25 +23,6 @@
         }
       },
       "additionalProperties": false
-    },
-    "metrics": {
-      "description": "预先计算的曲线面积；本包不推算 AUC。",
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "series": {
-            "type": "string"
-          },
-          "auc": {
-            "type": "number"
-          }
-        },
-        "additionalProperties": false,
-        "required": [
-          "auc"
-        ]
-      }
     },
     "title": {
       "description": "图表标题。",
@@ -69,19 +50,15 @@
     "type"
   ],
   "definitions": {
-    "RocCurveRow": {
+    "BinaryScoreRow": {
+      "description": "逐样本二分类预测；true 为正例，较大分数表示更倾向正例。",
       "type": "object",
       "properties": {
-        "fpr": {
-          "description": "假阳性率，0–1。",
-          "type": "number"
+        "actual": {
+          "type": "boolean"
         },
-        "tpr": {
-          "description": "真阳性率，0–1。",
-          "type": "number"
-        },
-        "threshold": {
-          "description": "有限决策阈值；无穷阈值省略。",
+        "score": {
+          "description": "任意有限预测分数，不要求为概率。",
           "type": "number"
         },
         "series": {
@@ -91,8 +68,8 @@
       },
       "additionalProperties": false,
       "required": [
-        "fpr",
-        "tpr"
+        "actual",
+        "score"
       ]
     },
     "StatPlotColors": {

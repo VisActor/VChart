@@ -1,11 +1,15 @@
 import { MarkTypeEnum } from '@visactor/vchart';
 import type { Datum, IChart, ICustomMarkGroupSpec } from '@visactor/vchart';
-import type { CorrelationMatrixSpec } from './types';
-import type { continuousColorScale } from '../../common/colors';
-import { paletteColor } from '../../common/theme';
+import type { BaseSpec } from './types';
+import type { continuousColorScale } from './colors';
+import { paletteColor } from './theme';
 
-const titles = { pearson: 'Pearson r', spearman: 'Spearman ρ', kendall: 'Kendall τ' };
-const ticks = [-1, -0.5, 0, 0.5, 1];
+export interface MatrixColorBarOptions {
+  name: 'correlation-colorbar' | 'confusion-colorbar';
+  title: string;
+  ticks: readonly number[];
+  formatTick: (value: number) => string;
+}
 const titleHeight = 24;
 const barWidth = 12;
 type MarkContext = Record<string, unknown>;
@@ -20,15 +24,18 @@ function barHeight(context: MarkContext): number {
 }
 
 /** 静态装饰共用矩阵的色标；坐标依赖最终 region，resize 无需额外更新。 */
-export function createCorrelationColorBar(
-  spec: CorrelationMatrixSpec,
-  scale: ReturnType<typeof continuousColorScale>
+export function createMatrixColorBar(
+  spec: BaseSpec,
+  scale: ReturnType<typeof continuousColorScale>,
+  options: MatrixColorBarOptions
 ): ICustomMarkGroupSpec {
   const color = paletteColor(spec.theme, 'primaryFontColor');
-  const stops = scale.range.map((color, i) => ({ offset: (scale.domain[i] + 1) / 2, color }));
+  const min = scale.domain[0];
+  const max = scale.domain[scale.domain.length - 1];
+  const stops = scale.range.map((color, i) => ({ offset: (scale.domain[i] - min) / (max - min), color }));
   return {
     type: MarkTypeEnum.group,
-    name: 'correlation-colorbar',
+    name: options.name,
     style: {
       pickable: false,
       childrenPickable: false,
@@ -45,9 +52,11 @@ export function createCorrelationColorBar(
     children: [
       {
         type: 'text',
-        name: 'correlation-colorbar-title',
+        name: `${options.name}-title`,
         style: {
-          text: titles[spec.method],
+          text: options.title,
+          maxLineWidth: 80,
+          ellipsis: true,
           x: 0,
           y: 0,
           fill: color,
@@ -59,7 +68,7 @@ export function createCorrelationColorBar(
       },
       {
         type: 'rect',
-        name: 'correlation-colorbar-rail',
+        name: `${options.name}-rail`,
         style: {
           x: 0,
           y: titleHeight,
@@ -69,15 +78,17 @@ export function createCorrelationColorBar(
           pickable: false
         }
       },
-      ...ticks.flatMap(value => [
+      ...options.ticks.flatMap(value => [
         {
           type: 'rule' as const,
-          name: 'correlation-colorbar-rule',
+          name: `${options.name}-rule`,
           style: {
             x: barWidth,
             x1: barWidth + 4,
-            y: (_datum: Datum, context: MarkContext) => titleHeight + ((1 - value) / 2) * barHeight(context),
-            y1: (_datum: Datum, context: MarkContext) => titleHeight + ((1 - value) / 2) * barHeight(context),
+            y: (_datum: Datum, context: MarkContext) =>
+              titleHeight + ((max - value) / (max - min)) * barHeight(context),
+            y1: (_datum: Datum, context: MarkContext) =>
+              titleHeight + ((max - value) / (max - min)) * barHeight(context),
             stroke: color,
             lineWidth: 1,
             pickable: false
@@ -85,11 +96,12 @@ export function createCorrelationColorBar(
         },
         {
           type: 'text' as const,
-          name: 'correlation-colorbar-tick',
+          name: `${options.name}-tick`,
           style: {
-            text: String(value).replace('-', '−'),
+            text: options.formatTick(value),
             x: barWidth + 10,
-            y: (_datum: Datum, context: MarkContext) => titleHeight + ((1 - value) / 2) * barHeight(context),
+            y: (_datum: Datum, context: MarkContext) =>
+              titleHeight + ((max - value) / (max - min)) * barHeight(context),
             fill: color,
             fontSize: 11,
             textAlign: 'left' as const,

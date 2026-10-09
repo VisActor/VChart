@@ -22,11 +22,11 @@ test.each(types)('%s example is valid, immutable and compilable', type => {
 });
 test('confusion matrix keeps count and marks zero denominators undefined', () => {
   const spec = JSON.parse(
-    fs.readFileSync(path.resolve(__dirname, '../../examples/specs/confusionMatrix.json'), 'utf8')
+    fs.readFileSync(path.resolve(__dirname, '../../examples/specs/variants/confusionMatrix-actual.json'), 'utf8')
   );
   const chart = compileStatPlot(spec) as any;
   expect(chart.series[1].data.values).toHaveLength(3);
-  expect(chart.series[0].data.values[0]).toMatchObject({ count: 38, value: 0.95 });
+  expect(chart.series[0].data.values[0]).toMatchObject({ count: 1, value: 1 / 3 });
 });
 test('jitter is deterministic, bounded and keyed by id', () => {
   expect(jitterOffset('patient-1')).toBe(jitterOffset('patient-1'));

@@ -1,17 +1,14 @@
 import type { BaseSpec, SeriesRow } from '../../common/types';
-/** 统计量由调用方计算；只负责可视化。 */
+/** 原始一维样本，无序和重复值有效。 */
 export interface QqPlotRow extends SeriesRow {
-  /** 给定理论分布的分位数，作为横轴；系列内非递减。 */
-  theoreticalQuantile: number;
-  /** 对应样本分位数，作为纵轴；系列内非递减。 */
-  sampleQuantile: number;
+  value: number;
 }
 export interface QqPlotSpec extends BaseSpec {
   type: 'qqPlot';
   data: QqPlotRow[];
-  distribution: string;
-  /** 显式参考线；数值及统计含义由调用方提供。 */
-  referenceLine?: { method: string; intercept: number; slope: number };
-  /** 字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。 */
+  /** 第一版支持正态分布，不自动拟合参数。 */
+  distribution?: { type: 'normal'; mean?: number; standardDeviation?: number };
+  /** 默认 none；quartiles / regression 按系列独立计算。 */
+  referenceLine?: 'none' | 'identity' | 'quartiles' | 'regression';
   fieldLabels?: { theoreticalQuantile?: string; sampleQuantile?: string };
 }

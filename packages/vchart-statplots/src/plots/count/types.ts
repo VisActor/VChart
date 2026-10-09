@@ -1,14 +1,15 @@
 import type { BaseSpec, SeriesRow } from '../../common/types';
-/** 预计算统计结果；本包不拟合模型。 */
+/** 每行表示一条原始分类观测，重复行分别计数。 */
 export interface CountPlotRow extends SeriesRow {
   category: string;
-  count: number;
 }
 export interface CountPlotSpec extends BaseSpec {
   type: 'countPlot';
   data: CountPlotRow[];
-  /** 显示统计量，默认 count；proportion 为同一 series 内的计数比例。 */
+  /** 显示统计量，默认 count。 */
   statistic?: 'count' | 'proportion';
+  /** proportion 的分母范围，默认 all；仅 proportion 模式可配置。 */
+  normalizationScope?: 'all' | 'series';
   /** 字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。 */
   fieldLabels?: { category?: string; count?: string; proportion?: string };
 }

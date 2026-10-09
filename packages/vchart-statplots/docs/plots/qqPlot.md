@@ -1,19 +1,42 @@
 # Q–Q 图 `qqPlot`
 
-比较样本分位数与给定理论分布分位数。
+`data: [{value: number, series?}]`，原始有限数值，顺序任意、重复值有效。每系列独立排序，保留全部样本。
 
-横轴 theoreticalQuantile，纵轴 sampleQuantile。distribution 必须说明理论分布；referenceLine 的斜率、截距由外部提供。不是 P–P 图或两样本 Q–Q。
+## 计算与配置
 
-## 输入与配置
+- `distribution` 默认 `{type: "normal", mean: 0, standardDeviation: 1}`。第一版只支持正态，标准差须为有限正数；不从样本自动拟合理论参数。
+- 第 i 个排序样本使用 pᵢ=i/(N+1)，理论分位数为 mean + standardDeviation × normalQuantile(pᵢ)，与 Statsmodels ProbPlot(a=0, fit=False) 对齐。
+- `referenceLine` 默认 `none`。`identity` 为共享 y=x；`quartiles` 用样本与理论的 25% / 75% 分位数计算；`regression` 用标准 OLS 拟合，每系列独立。
+- 单样本可绘制；quartiles / regression 至少需两个。常数样本可绘制水平参考线。理论参数导致分位点不可区分、参考线不可表示时明确报错，请调整数值单位。
+- Q–Q 点横轴理论、纵轴样本；辅助参考线不增加图例项。不是 P–P 图或两样本 Q–Q。
+- 不接收 theoreticalQuantile/sampleQuantile 或外部 slope/intercept。
 
-语义输入字段：`theoreticalQuantile`、`sampleQuantile`。字段、必填项和单位以 [JSON Schema](../../schema/plots/qqPlot.schema.json) 为准；未知属性会被拒绝。
+## 示例
 
-最小示例中的配置：`distribution`、`referenceLine`。完整可选配置、默认值见 [Spec 协议](../spec.md) 和 Schema。fieldLabels 仅使用该图声明的键，改变坐标轴与 tooltip 展示名称，不改变统计数据。
+```json
+{
+  "type": "qqPlot",
+  "data": [
+    {
+      "value": 3
+    },
+    {
+      "value": -1
+    },
+    {
+      "value": 0
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 5
+    }
+  ]
+}
+```
 
-[最小示例](../../examples/specs/minimal/qqPlot.json)；[完整主例](../../examples/specs/qqPlot.json)。
-
-## 选型边界
-
-- P–P 图
-- 两样本 Q–Q
-- 缺少理论分布说明
+[分图 Schema](../../schema/plots/qqPlot.schema.json) · [主例](../../examples/specs/qqPlot.json) · [公共配置](../spec.md)。输入保持不可变，空数据显示空态；更新重新调用 `compileStatPlot(nextSpec)` 后执行 `chart.updateSpec`。内部绘图结果不是可传回的公共输入。

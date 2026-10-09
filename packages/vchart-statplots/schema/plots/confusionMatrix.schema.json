@@ -11,6 +11,13 @@
         "$ref": "#/definitions/ConfusionMatrixRow"
       }
     },
+    "classOrder": {
+      "description": "完整显示顺序；可包含本批未出现类别，须覆盖所有输入类别。",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
     "normalization": {
       "description": "默认 none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化。",
       "enum": [
@@ -67,7 +74,7 @@
   ],
   "definitions": {
     "ConfusionMatrixRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "每行是一条实际类别与预测类别观测，内部计数。",
       "type": "object",
       "properties": {
         "actual": {
@@ -75,15 +82,11 @@
         },
         "predicted": {
           "type": "string"
-        },
-        "count": {
-          "type": "number"
         }
       },
       "additionalProperties": false,
       "required": [
         "actual",
-        "count",
         "predicted"
       ]
     },

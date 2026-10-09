@@ -2,27 +2,25 @@ import type { AutocorrelationPlotSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { numberAxis } from '../../common/axes';
 import { points, band, zeroLine, curve } from '../../common/marks';
-import { intervalLabel } from '../../common/interval';
-import { paletteColor } from '../../common/theme';
+import { computeAutocorrelation } from './estimation';
 export function compileAutocorrelation(spec: AutocorrelationPlotSpec) {
-  const values = spec.data.map(row => ({
-    ...row,
-    zero: 0,
-    interval: spec.interval ? intervalLabel(spec.interval) : undefined,
-    method: spec.method
-  }));
+  const values = computeAutocorrelation(spec);
+  const confidenceGroups = new Map<string | undefined, typeof values>();
+  for (const row of values) {
+    if (row.lower === undefined) continue;
+    let group = confidenceGroups.get(row.series);
+    if (!group) confidenceGroups.set(row.series, (group = []));
+    group.push(row);
+  }
+  const confidenceValues = Array.from(confidenceGroups.values()).flatMap(group => [
+    { ...group[0], lag: group[0].lag - 0.5 },
+    ...group,
+    { ...group[group.length - 1], lag: group[group.length - 1].lag + 0.5 }
+  ]);
   const chart = commonChart(
     spec,
     [
-      ...(values.some(row => row.lower !== undefined)
-        ? [
-            band(
-              'uncertainty',
-              values.map(row => ({ ...row, lower: row.lower ?? null, upper: row.upper ?? null })),
-              'lag'
-            )
-          ]
-        : []),
+      ...(confidenceValues.length ? [band('uncertainty', confidenceValues, 'lag')] : []),
       {
         ...curve(
           'stems',
@@ -36,7 +34,7 @@ export function compileAutocorrelation(spec: AutocorrelationPlotSpec) {
         ),
         seriesField: '__stem',
         point: { visible: false },
-        line: { style: { stroke: paletteColor(spec.theme, 'infoColor'), lineWidth: 1.5 } },
+        line: { style: { stroke: { scale: 'color', field: 'series' }, lineWidth: 1.5 } },
         tooltip: { visible: false }
       },
       points(
@@ -44,16 +42,33 @@ export function compileAutocorrelation(spec: AutocorrelationPlotSpec) {
         values.map(row => ({ ...row })),
         'lag',
         'correlation',
-        ['lag', 'correlation', 'lower', 'upper', 'method', 'interval'],
-        spec.fieldLabels
+        ['lag', 'correlation', 'lower', 'upper', 'method', 'confidenceLevel', 'sampleCount'],
+        {
+          lower: '零中心下界',
+          upper: '零中心上界',
+          confidenceLevel: '置信水平',
+          sampleCount: '样本数',
+          ...spec.fieldLabels
+        }
       )
     ],
     [
-      { ...numberAxis('bottom', spec.fieldLabels?.lag ?? '滞后阶数'), min: 0 },
-      numberAxis('left', spec.fieldLabels?.correlation ?? spec.method.toUpperCase())
+      { ...numberAxis('bottom', spec.fieldLabels?.lag ?? '滞后阶数'), min: 0, tick: { noDecimals: true } },
+      numberAxis('left', spec.fieldLabels?.correlation ?? (spec.method ?? 'acf').toUpperCase())
     ]
   );
   chart.markLine = zeroLine;
-  chart.legends = { visible: spec.data.some(row => row.series !== undefined), seriesId: ['values'], orient: 'top' };
+  // 每个滞后独立成竖线；颜色和图例仍按原始样本系列绑定。
+  chart.color = {
+    type: 'ordinal',
+    domain: [...new Set(values.map(row => row.series))],
+    range: (chart.color as string[]) ?? []
+  };
+  chart.legends = {
+    visible: spec.data.some(row => row.series !== undefined),
+    orient: 'top',
+    scaleName: 'color',
+    field: 'series'
+  };
   return chart;
 }

@@ -10,7 +10,7 @@
       "类别频数",
       "countplot"
     ],
-    "useWhen": "比较各客户类别有多少条观测。",
+    "useWhen": "从原始观测比较各客户类别有多少条观测。",
     "avoidWhen": [
       "任意数值柱状图",
       "各组均值",
@@ -29,6 +29,17 @@
           "statistic": "proportion"
         },
         "example": "examples/specs/variants/countPlot-proportion.json"
+      },
+      {
+        "name": "系列内比例图",
+        "aliases": [
+          "series-proportion countPlot"
+        ],
+        "options": {
+          "statistic": "proportion",
+          "normalizationScope": "series"
+        },
+        "example": "examples/specs/variants/countPlot-series-proportion.json"
       }
     ]
   },
@@ -555,10 +566,10 @@
       "ACF",
       "acf plot"
     ],
-    "useWhen": "查看时间序列各滞后阶的自相关。",
+    "useWhen": "从原始观测查看时间序列各滞后阶的自相关。",
     "avoidWhen": [
-      "偏自相关需 method=pacf",
-      "要求库内计算相关量"
+      "缺失值或常量序列",
+      "要求使用其他 ACF/PACF 估计方法"
     ],
     "schema": "schema/plots/autocorrelationPlot.schema.json",
     "example": "examples/specs/minimal/autocorrelationPlot.json",
@@ -583,6 +594,16 @@
           "method": "pacf"
         },
         "example": "examples/specs/variants/autocorrelationPlot-pacf.json"
+      },
+      {
+        "name": "不带置信区间的 ACF 图",
+        "aliases": [
+          "no-confidence autocorrelationPlot"
+        ],
+        "options": {
+          "confidence": false
+        },
+        "example": "examples/specs/variants/autocorrelationPlot-no-confidence.json"
       }
     ]
   },
@@ -690,15 +711,60 @@
       "qqplot",
       "分位数比较图"
     ],
-    "useWhen": "比较样本分位数与给定理论分布分位数。",
+    "useWhen": "从原始观测比较样本分位数与给定理论分布分位数。",
     "avoidWhen": [
       "P–P 图",
       "两样本 Q–Q",
-      "缺少理论分布说明"
+      "非正态理论分布"
     ],
     "schema": "schema/plots/qqPlot.schema.json",
     "example": "examples/specs/minimal/qqPlot.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "四分位参考线 Q–Q 图",
+        "aliases": [
+          "quartiles qqPlot"
+        ],
+        "options": {
+          "referenceLine": "quartiles"
+        },
+        "example": "examples/specs/variants/qqPlot-quartiles.json"
+      },
+      {
+        "name": "回归参考线 Q–Q 图",
+        "aliases": [
+          "regression qqPlot"
+        ],
+        "options": {
+          "referenceLine": "regression"
+        },
+        "example": "examples/specs/variants/qqPlot-regression.json"
+      },
+      {
+        "name": "恒等参考线 Q–Q 图",
+        "aliases": [
+          "identity qqPlot"
+        ],
+        "options": {
+          "referenceLine": "identity"
+        },
+        "example": "examples/specs/variants/qqPlot-identity.json"
+      },
+      {
+        "name": "指定正态参数 Q–Q 图",
+        "aliases": [
+          "normal-parameters qqPlot"
+        ],
+        "options": {
+          "distribution": {
+            "type": "normal",
+            "mean": 2,
+            "standardDeviation": 3
+          }
+        },
+        "example": "examples/specs/variants/qqPlot-normal-parameters.json"
+      }
+    ]
   },
   {
     "type": "confusionMatrix",
@@ -710,9 +776,10 @@
       "混淆矩阵",
       "分类混淆矩阵"
     ],
-    "useWhen": "检查实际类别与预测类别的错误分布。",
+    "useWhen": "从原始观测检查实际类别与预测类别的错误分布；方形网格展示计数或归一化比例，灰色 NA 区分零分母。",
     "avoidWhen": [
-      "未提供完整类别组合计数"
+      "只有汇总矩阵而没有逐样本标签",
+      "要求在一个矩阵中比较多个模型"
     ],
     "schema": "schema/plots/confusionMatrix.schema.json",
     "example": "examples/specs/minimal/confusionMatrix.json",
@@ -760,9 +827,9 @@
       "ROC",
       "roc_curve"
     ],
-    "useWhen": "比较不同分类阈值的真阳性率与假阳性率。",
+    "useWhen": "从原始观测比较不同分类阈值的真阳性率与假阳性率。",
     "avoidWhen": [
-      "原始概率尚未计算曲线",
+      "多分类评估未转换为明确的二分类任务",
       "精确率召回率曲线"
     ],
     "schema": "schema/plots/rocCurve.schema.json",
@@ -780,14 +847,25 @@
       "PR curve",
       "precision_recall_curve"
     ],
-    "useWhen": "比较不同阈值的精确率与召回率。",
+    "useWhen": "从原始观测比较不同阈值的精确率与召回率。",
     "avoidWhen": [
       "单个指标",
       "把 AP 当作梯形积分面积"
     ],
     "schema": "schema/plots/precisionRecallCurve.schema.json",
     "example": "examples/specs/minimal/precisionRecallCurve.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "带正例率基线的 PR 图",
+        "aliases": [
+          "baseline precisionRecallCurve"
+        ],
+        "options": {
+          "baseline": true
+        },
+        "example": "examples/specs/variants/precisionRecallCurve-baseline.json"
+      }
+    ]
   },
   {
     "type": "calibrationCurve",
@@ -800,14 +878,28 @@
       "reliability diagram",
       "可靠性图"
     ],
-    "useWhen": "检查预测概率与实际正例比例是否一致。",
+    "useWhen": "从原始观测检查预测概率与实际正例比例是否一致。",
     "avoidWhen": [
-      "要求重新校准模型",
-      "没有分箱统计"
+      "要求重新训练或校准模型",
+      "只有分箱后的统计结果"
     ],
     "schema": "schema/plots/calibrationCurve.schema.json",
     "example": "examples/specs/minimal/calibrationCurve.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "等频校准曲线",
+        "aliases": [
+          "quantile calibrationCurve"
+        ],
+        "options": {
+          "binning": {
+            "binCount": 4,
+            "strategy": "quantile"
+          }
+        },
+        "example": "examples/specs/variants/calibrationCurve-quantile.json"
+      }
+    ]
   },
   {
     "type": "learningCurve",

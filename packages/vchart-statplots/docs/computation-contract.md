@@ -1,6 +1,8 @@
 # 计算契约
 
-`vchart-statplots` 通常接受可解释的预计算结果。Python 或调用方 JS 负责数据清洗、缺失策略、拟合、bootstrap、PCA/UMAP/t-SNE、ACF/PACF、SHAP、模型评价和统计推断。histogram 的单变量分箱、kdePlot 的一维核密度估计、ecdfPlot 的经验累积概率、boxPlot 的四分位数及须/异常值、violinPlot 的分组 KDE 由本包完成。其余本包计算包括计数归一化、比率累加、密度轮廓宽度、坐标布局和颜色映射。
+`vchart-statplots` 按图义接收原始观测或外部模型结果。count、histogram、KDE、ECDF、box、violin、hexbin、pair、confusion、ROC、PR、calibration、QQ、ACF/PACF 的统计计算在编译阶段完成，渲染、resize 和 hover 不重新扫描原始输入。模型训练、PCA/UMAP/t-SNE、SHAP、残差、特征重要度、外部估计区间及相关矩阵仍由调用方提供明确结果。
+
+输入不通用化：count 是 category，confusion 是类别 actual/predicted，ROC/PR 是布尔 actual/有限 score，calibration 是布尔 actual/[0,1] probability，QQ 与 ACF 是 value/series。ACF 按序，QQ 排序；不能共用一种数据清洗策略。
 
 `hexbinPlot` 是明确的计算例外：输入原始 x/y 散点与 `binning.xBins`（默认 30），编译阶段完成固定归一化、六边形分箱和计数。每条观测恰好入一个箱，重复坐标重复计数，仅生成非空箱；颜色表示计数，面积保持一致。resize、hover、主题和配色切换不改变分箱结果。原始数值轴和 tooltip 保留原单位，保形布局在屏幕中维持正六边形。完整规则和数值边界见[逐图契约](plots/hexbinPlot.md)。
 
@@ -12,20 +14,17 @@
 
 ```python
 import json
-from sklearn.metrics import roc_curve, roc_auc_score
-
-fpr, tpr, thresholds = roc_curve(y_true, y_score)
 spec = {
     "type": "rocCurve",
     "description": "独立验证集；正例定义为目标事件发生",
-    "data": [{"fpr": float(x), "tpr": float(y)} for x, y in zip(fpr, tpr)],
-    "metrics": [{"auc": float(roc_auc_score(y_true, y_score))}]
+    "data": [{"actual": bool(label == positive_label), "score": float(score)}
+             for label, score in zip(y_true, y_score)]
 }
 with open("rocCurve.json", "w", encoding="utf-8") as output:
     json.dump(spec, output, ensure_ascii=False, allow_nan=False)
 ```
 
-阈值首项可能无限，非必要可省略；若保留 threshold，仅输出有限值。不能依赖 Python 默认允许的 NaN JSON。该片段是外部计算示例，不引入 Python 运行依赖。JavaScript 调用方输出同样 JSON 即可，不需要 Python。
+无需输出阈值、坐标或 AUC；库从全部阈值计算。不能依赖 Python 默认允许的 NaN JSON。该片段是原始样本交接示例，不引入 Python 运行依赖。JavaScript 调用方输出同样 JSON 即可，不需要 Python。
 
 ## 必须保留的统计含义
 
@@ -35,7 +34,7 @@ with open("rocCurve.json", "w", encoding="utf-8") as output:
 - 箱线图：原始 category/value/series，重复值分别计入；四分位数复用 vutils 线性插值，whiskers.iqrMultiplier 默认 1.5。小样本须候选落入箱体时取对应四分位数；零 IQR 不自动改为 min/max。详见[箱线图契约](plots/boxPlot.md)。
 - 小提琴：原始 category/value/series，复用与 kdePlot 相同的 KDE；width 等最大宽度、area 等绘制面积，均不表示样本数；采样密度为私有绘图结果。
 - 区间：计算方法放 description，区间种类及水平/倍数放 interval。
-- 模型：训练/验证来源、正例定义、指标名称、外部 AUC/AP；不能从画出的折线代替原评估结果。
+- 模型：训练/验证来源、正例定义、指标名称、ROC AUC 与 PR AP 由原始标签和分数内部计算；其他模型指标由外部提供。
 - 相关矩阵：方法、常量等导致的 null；不要把不可计算替换为 0。
 - 降维：坐标、方法及仅 PCA 允许的解释率；不要把 UMAP 轴命名为解释方差。
 - SHAP：每行独立的 shapValue 与 featureValue；不同特征的原单位不可直接混合比较颜色。
@@ -48,3 +47,7 @@ with open("rocCurve.json", "w", encoding="utf-8") as output:
 在包目录执行 `python3 examples/python/histogram.py > histogram.json`，将文件内容粘贴到示例页的 Spec 输入框并绘制。Python 只输出原始 value=[0,1,2,3,4]、binCount=2 与 density，不预先分箱。浏览器计算边界 [0,2,4]、计数 [2,3]，密度高度 [0.2,0.3]，面积和为 1。
 
 浏览器同样提交原始观测，调用 `chart.updateSpec(compileStatPlot(nextSpec))`；交接测试改为 value=[0,1,2,4]，两箱密度均为 0.25，并验证实例未更换。Python 不参与前端渲染，也不是运行依赖。只持有预分箱计数的调用方应使用 VChart 原生 histogram，不能通过展开 count 伪造原始样本。
+
+## 数值基准复现
+
+`__tests__/fixtures/raw-input-python.json` 固定 numpy=1.26.4、scipy=1.13.1、scikit-learn=1.5.2、statsmodels=0.14.4。使用相同版本运行 `scripts/generate-raw-input-fixtures.py`，再运行 raw-input-python 单元测试。ROC 保留全部阈值；PR 逆转 sklearn 输出为 recall 升序并保留无阈值起点；calibration 对照等宽/等频；QQ 对照 ProbPlot(a=0,fit=False)；ACF 对照 adjusted=False、fft=False，PACF 对照 ywm。正态逆 CDF 对照 scipy，绝对误差上限 5e-8（包括 1e-12 尾部与算法分段边界）。这些 Python 包仅用于生成测试基准，不是运行依赖。

@@ -1,0 +1,1035 @@
+{
+  "versions": {
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "sklearn": "1.5.2",
+    "statsmodels": "0.14.4"
+  },
+  "absoluteTolerance": 5e-08,
+  "cases": [
+    {
+      "spec": {
+        "type": "rocCurve",
+        "data": [
+          {
+            "actual": false,
+            "score": 0.1
+          },
+          {
+            "actual": false,
+            "score": 0.4
+          },
+          {
+            "actual": true,
+            "score": 0.35
+          },
+          {
+            "actual": true,
+            "score": 0.8
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            1.0
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ],
+        "metric": 0.75,
+        "thresholds": [
+          null,
+          0.8,
+          0.4,
+          0.35,
+          0.1
+        ]
+      },
+      "parameters": {
+        "drop_intermediate": false,
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "precisionRecallCurve",
+        "data": [
+          {
+            "actual": false,
+            "score": 0.1
+          },
+          {
+            "actual": false,
+            "score": 0.4
+          },
+          {
+            "actual": true,
+            "score": 0.35
+          },
+          {
+            "actual": true,
+            "score": 0.8
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.5,
+            1.0
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            1.0,
+            0.6666666666666666
+          ],
+          [
+            1.0,
+            0.5
+          ]
+        ],
+        "metric": 0.8333333333333333,
+        "thresholds": [
+          null,
+          0.8,
+          0.4,
+          0.35,
+          0.1
+        ]
+      },
+      "parameters": {
+        "drop_intermediate": false,
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "rocCurve",
+        "data": [
+          {
+            "actual": true,
+            "score": -2
+          },
+          {
+            "actual": false,
+            "score": -2
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ],
+        "metric": 0.5,
+        "thresholds": [
+          null,
+          -2.0
+        ]
+      },
+      "parameters": {
+        "drop_intermediate": false,
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "precisionRecallCurve",
+        "data": [
+          {
+            "actual": true,
+            "score": -2
+          },
+          {
+            "actual": false,
+            "score": -2
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            1.0,
+            0.5
+          ]
+        ],
+        "metric": 0.5,
+        "thresholds": [
+          null,
+          -2
+        ]
+      },
+      "parameters": {
+        "drop_intermediate": false,
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "rocCurve",
+        "data": [
+          {
+            "actual": false,
+            "score": 8
+          },
+          {
+            "actual": true,
+            "score": 8
+          },
+          {
+            "actual": false,
+            "score": -2
+          },
+          {
+            "actual": true,
+            "score": 4
+          },
+          {
+            "actual": true,
+            "score": 4
+          },
+          {
+            "actual": false,
+            "score": 3
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.3333333333333333,
+            0.3333333333333333
+          ],
+          [
+            0.3333333333333333,
+            1.0
+          ],
+          [
+            0.6666666666666666,
+            1.0
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ],
+        "metric": 0.7222222222222223,
+        "thresholds": [
+          null,
+          8.0,
+          4.0,
+          3.0,
+          -2.0
+        ]
+      },
+      "parameters": {
+        "drop_intermediate": false,
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "precisionRecallCurve",
+        "data": [
+          {
+            "actual": false,
+            "score": 8
+          },
+          {
+            "actual": true,
+            "score": 8
+          },
+          {
+            "actual": false,
+            "score": -2
+          },
+          {
+            "actual": true,
+            "score": 4
+          },
+          {
+            "actual": true,
+            "score": 4
+          },
+          {
+            "actual": false,
+            "score": 3
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.3333333333333333,
+            0.5
+          ],
+          [
+            1.0,
+            0.75
+          ],
+          [
+            1.0,
+            0.6
+          ],
+          [
+            1.0,
+            0.5
+          ]
+        ],
+        "metric": 0.6666666666666666,
+        "thresholds": [
+          null,
+          8,
+          4,
+          3,
+          -2
+        ]
+      },
+      "parameters": {
+        "drop_intermediate": false,
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "calibrationCurve",
+        "binning": {
+          "binCount": 4,
+          "strategy": "uniform"
+        },
+        "data": [
+          {
+            "actual": false,
+            "probability": 0
+          },
+          {
+            "actual": true,
+            "probability": 0.5
+          },
+          {
+            "actual": false,
+            "probability": 0.5
+          },
+          {
+            "actual": true,
+            "probability": 1
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ]
+      },
+      "parameters": {
+        "n_bins": 4,
+        "strategy": "uniform",
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "calibrationCurve",
+        "binning": {
+          "binCount": 4,
+          "strategy": "quantile"
+        },
+        "data": [
+          {
+            "actual": false,
+            "probability": 0
+          },
+          {
+            "actual": true,
+            "probability": 0.5
+          },
+          {
+            "actual": false,
+            "probability": 0.5
+          },
+          {
+            "actual": true,
+            "probability": 1
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            1.0,
+            1.0
+          ]
+        ]
+      },
+      "parameters": {
+        "n_bins": 4,
+        "strategy": "quantile",
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "calibrationCurve",
+        "binning": {
+          "binCount": 4,
+          "strategy": "uniform"
+        },
+        "data": [
+          {
+            "actual": true,
+            "probability": 0.5
+          },
+          {
+            "actual": true,
+            "probability": 0.5
+          },
+          {
+            "actual": false,
+            "probability": 0.5
+          },
+          {
+            "actual": false,
+            "probability": 0.5
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.5,
+            0.5
+          ]
+        ]
+      },
+      "parameters": {
+        "n_bins": 4,
+        "strategy": "uniform",
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "calibrationCurve",
+        "binning": {
+          "binCount": 4,
+          "strategy": "quantile"
+        },
+        "data": [
+          {
+            "actual": true,
+            "probability": 0.5
+          },
+          {
+            "actual": true,
+            "probability": 0.5
+          },
+          {
+            "actual": false,
+            "probability": 0.5
+          },
+          {
+            "actual": false,
+            "probability": 0.5
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.5,
+            0.5
+          ]
+        ]
+      },
+      "parameters": {
+        "n_bins": 4,
+        "strategy": "quantile",
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "calibrationCurve",
+        "binning": {
+          "binCount": 4,
+          "strategy": "uniform"
+        },
+        "data": [
+          {
+            "actual": false,
+            "probability": 0
+          },
+          {
+            "actual": false,
+            "probability": 0.1
+          },
+          {
+            "actual": true,
+            "probability": 0.1
+          },
+          {
+            "actual": true,
+            "probability": 0.6
+          },
+          {
+            "actual": false,
+            "probability": 0.9
+          },
+          {
+            "actual": true,
+            "probability": 1
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.06666666666666667,
+            0.3333333333333333
+          ],
+          [
+            0.6,
+            1.0
+          ],
+          [
+            0.95,
+            0.5
+          ]
+        ]
+      },
+      "parameters": {
+        "n_bins": 4,
+        "strategy": "uniform",
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "calibrationCurve",
+        "binning": {
+          "binCount": 4,
+          "strategy": "quantile"
+        },
+        "data": [
+          {
+            "actual": false,
+            "probability": 0
+          },
+          {
+            "actual": false,
+            "probability": 0.1
+          },
+          {
+            "actual": true,
+            "probability": 0.1
+          },
+          {
+            "actual": true,
+            "probability": 0.6
+          },
+          {
+            "actual": false,
+            "probability": 0.9
+          },
+          {
+            "actual": true,
+            "probability": 1
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.06666666666666667,
+            0.3333333333333333
+          ],
+          [
+            0.6,
+            1.0
+          ],
+          [
+            0.95,
+            0.5
+          ]
+        ]
+      },
+      "parameters": {
+        "n_bins": 4,
+        "strategy": "quantile",
+        "pos_label": true
+      }
+    },
+    {
+      "spec": {
+        "type": "qqPlot",
+        "distribution": {
+          "type": "normal",
+          "mean": 0,
+          "standardDeviation": 1
+        },
+        "data": [
+          {
+            "value": 3
+          },
+          {
+            "value": 1
+          },
+          {
+            "value": 2
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            -0.6744897501960817,
+            1.0
+          ],
+          [
+            0.0,
+            2.0
+          ],
+          [
+            0.6744897501960817,
+            3.0
+          ]
+        ]
+      },
+      "parameters": {
+        "a": 0,
+        "fit": false,
+        "loc": 0,
+        "scale": 1
+      }
+    },
+    {
+      "spec": {
+        "type": "qqPlot",
+        "distribution": {
+          "type": "normal",
+          "mean": 3,
+          "standardDeviation": 2
+        },
+        "data": [
+          {
+            "value": 5
+          },
+          {
+            "value": 2
+          },
+          {
+            "value": 2
+          },
+          {
+            "value": 7
+          },
+          {
+            "value": -1
+          },
+          {
+            "value": 0
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            0.8648589522437167,
+            -1.0
+          ],
+          [
+            1.8681023561342738,
+            0.0
+          ],
+          [
+            2.6399752604145896,
+            2.0
+          ],
+          [
+            3.36002473958541,
+            2.0
+          ],
+          [
+            4.131897643865726,
+            5.0
+          ],
+          [
+            5.135141047756283,
+            7.0
+          ]
+        ]
+      },
+      "parameters": {
+        "a": 0,
+        "fit": false,
+        "loc": 3,
+        "scale": 2
+      }
+    },
+    {
+      "spec": {
+        "type": "qqPlot",
+        "distribution": {
+          "type": "normal",
+          "mean": 0,
+          "standardDeviation": 1
+        },
+        "data": [
+          {
+            "value": 4
+          },
+          {
+            "value": 4
+          },
+          {
+            "value": 4
+          }
+        ]
+      },
+      "expected": {
+        "points": [
+          [
+            -0.6744897501960817,
+            4.0
+          ],
+          [
+            0.0,
+            4.0
+          ],
+          [
+            0.6744897501960817,
+            4.0
+          ]
+        ]
+      },
+      "parameters": {
+        "a": 0,
+        "fit": false,
+        "loc": 0,
+        "scale": 1
+      }
+    },
+    {
+      "spec": {
+        "type": "autocorrelationPlot",
+        "method": "acf",
+        "maxLag": 3,
+        "data": [
+          {
+            "value": 1
+          },
+          {
+            "value": 3
+          },
+          {
+            "value": 2
+          },
+          {
+            "value": 5
+          },
+          {
+            "value": 4
+          },
+          {
+            "value": 7
+          },
+          {
+            "value": 1
+          },
+          {
+            "value": 6
+          },
+          {
+            "value": 3
+          },
+          {
+            "value": 8
+          }
+        ]
+      },
+      "expected": {
+        "correlations": [
+          1.0,
+          -0.3333333333333333,
+          0.4629629629629629,
+          -0.5
+        ],
+        "widths": [
+          0.0,
+          0.6197950323045616,
+          0.6852091896934783,
+          0.7963562157219481
+        ]
+      },
+      "parameters": {
+        "nlags": 3,
+        "alpha": 0.05,
+        "method": "non-adjusted/Bartlett"
+      }
+    },
+    {
+      "spec": {
+        "type": "autocorrelationPlot",
+        "method": "pacf",
+        "maxLag": 3,
+        "data": [
+          {
+            "value": 1
+          },
+          {
+            "value": 3
+          },
+          {
+            "value": 2
+          },
+          {
+            "value": 5
+          },
+          {
+            "value": 4
+          },
+          {
+            "value": 7
+          },
+          {
+            "value": 1
+          },
+          {
+            "value": 6
+          },
+          {
+            "value": 3
+          },
+          {
+            "value": 8
+          }
+        ]
+      },
+      "expected": {
+        "correlations": [
+          1.0,
+          -0.3333333333333333,
+          0.39583333333333326,
+          -0.36661519986275526
+        ],
+        "widths": [
+          0.0,
+          0.6197950323045616,
+          0.6197950323045616,
+          0.6197950323045616
+        ]
+      },
+      "parameters": {
+        "nlags": 3,
+        "alpha": 0.05,
+        "method": "ywm"
+      }
+    },
+    {
+      "spec": {
+        "type": "autocorrelationPlot",
+        "method": "acf",
+        "maxLag": 3,
+        "data": [
+          {
+            "value": 0
+          },
+          {
+            "value": 3
+          },
+          {
+            "value": 1
+          },
+          {
+            "value": 5
+          },
+          {
+            "value": 2
+          },
+          {
+            "value": 7
+          },
+          {
+            "value": 4
+          },
+          {
+            "value": 8
+          }
+        ]
+      },
+      "expected": {
+        "correlations": [
+          1.0,
+          -0.08220720720720721,
+          0.5698198198198198,
+          -0.3502252252252252
+        ],
+        "widths": [
+          0.0,
+          0.692951912174839,
+          0.6976191806376543,
+          0.8935870304458153
+        ]
+      },
+      "parameters": {
+        "nlags": 3,
+        "alpha": 0.05,
+        "method": "non-adjusted/Bartlett"
+      }
+    },
+    {
+      "spec": {
+        "type": "autocorrelationPlot",
+        "method": "pacf",
+        "maxLag": 3,
+        "data": [
+          {
+            "value": 0
+          },
+          {
+            "value": 3
+          },
+          {
+            "value": 1
+          },
+          {
+            "value": 5
+          },
+          {
+            "value": 2
+          },
+          {
+            "value": 7
+          },
+          {
+            "value": 4
+          },
+          {
+            "value": 8
+          }
+        ]
+      },
+      "expected": {
+        "correlations": [
+          1.0,
+          -0.08220720720720721,
+          0.5668928710507332,
+          -0.4203485693731164
+        ],
+        "widths": [
+          0.0,
+          0.692951912174839,
+          0.692951912174839,
+          0.692951912174839
+        ]
+      },
+      "parameters": {
+        "nlags": 3,
+        "alpha": 0.05,
+        "method": "ywm"
+      }
+    }
+  ],
+  "normalQuantiles": [
+    [
+      1e-12,
+      -7.034483825301131
+    ],
+    [
+      1e-09,
+      -5.9978070150076865
+    ],
+    [
+      0.02424,
+      -1.9731366119445441
+    ],
+    [
+      0.02425,
+      -1.972961051311885
+    ],
+    [
+      0.25,
+      -0.6744897501960817
+    ],
+    [
+      0.5,
+      0.0
+    ],
+    [
+      0.97575,
+      1.972961051311885
+    ],
+    [
+      0.97576,
+      1.9731366119445437
+    ],
+    [
+      0.999999999,
+      5.997807019601637
+    ],
+    [
+      0.999999999999,
+      7.0344869100478356
+    ]
+  ]
+}

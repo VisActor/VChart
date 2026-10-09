@@ -1,521 +1,57 @@
 {
   "type": "qqPlot",
-  "distribution": "标准正态",
-  "referenceLine": {
-    "method": "外部四分位拟合",
-    "intercept": 1,
-    "slope": 2
+  "distribution": {
+    "type": "normal"
   },
+  "referenceLine": "quartiles",
   "data": [
     {
-      "theoreticalQuantile": -2.5,
-      "sampleQuantile": -5.5625,
-      "series": "A"
+      "value": 3,
+      "series": "组 A"
     },
     {
-      "theoreticalQuantile": -2.4,
-      "sampleQuantile": -5.1823999999999995,
-      "series": "A"
+      "value": -1,
+      "series": "组 A"
     },
     {
-      "theoreticalQuantile": -2.3,
-      "sampleQuantile": -4.816699999999999,
-      "series": "A"
+      "value": 0,
+      "series": "组 A"
     },
     {
-      "theoreticalQuantile": -2.2,
-      "sampleQuantile": -4.4648,
-      "series": "A"
+      "value": 2,
+      "series": "组 A"
     },
     {
-      "theoreticalQuantile": -2.1,
-      "sampleQuantile": -4.1261,
-      "series": "A"
+      "value": 2,
+      "series": "组 A"
     },
     {
-      "theoreticalQuantile": -2.0,
-      "sampleQuantile": -3.8,
-      "series": "A"
+      "value": 5,
+      "series": "组 A"
     },
     {
-      "theoreticalQuantile": -1.9,
-      "sampleQuantile": -3.4859,
-      "series": "A"
+      "value": 0,
+      "series": "组 B"
     },
     {
-      "theoreticalQuantile": -1.8,
-      "sampleQuantile": -3.1832000000000003,
-      "series": "A"
+      "value": 1,
+      "series": "组 B"
     },
     {
-      "theoreticalQuantile": -1.7,
-      "sampleQuantile": -2.8912999999999998,
-      "series": "A"
+      "value": 2,
+      "series": "组 B"
     },
     {
-      "theoreticalQuantile": -1.6,
-      "sampleQuantile": -2.6096000000000004,
-      "series": "A"
+      "value": 4,
+      "series": "组 B"
     },
     {
-      "theoreticalQuantile": -1.5,
-      "sampleQuantile": -2.3375,
-      "series": "A"
+      "value": 7,
+      "series": "组 B"
     },
     {
-      "theoreticalQuantile": -1.4,
-      "sampleQuantile": -2.0744,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -1.3,
-      "sampleQuantile": -1.8197,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -1.2,
-      "sampleQuantile": -1.5728,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -1.1,
-      "sampleQuantile": -1.3331000000000002,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -1.0,
-      "sampleQuantile": -1.1,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.9,
-      "sampleQuantile": -0.8729,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.8,
-      "sampleQuantile": -0.6512000000000001,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.7,
-      "sampleQuantile": -0.4342999999999999,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.6,
-      "sampleQuantile": -0.22159999999999996,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.5,
-      "sampleQuantile": -0.0125,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.4,
-      "sampleQuantile": 0.19359999999999997,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.3,
-      "sampleQuantile": 0.39730000000000004,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.2,
-      "sampleQuantile": 0.5992,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -0.1,
-      "sampleQuantile": 0.7999,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.0,
-      "sampleQuantile": 1.0,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.1,
-      "sampleQuantile": 1.2001,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.2,
-      "sampleQuantile": 1.4007999999999998,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.3,
-      "sampleQuantile": 1.6027,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.4,
-      "sampleQuantile": 1.8064,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.5,
-      "sampleQuantile": 2.0125,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.6,
-      "sampleQuantile": 2.2216,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.7,
-      "sampleQuantile": 2.4343,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.8,
-      "sampleQuantile": 2.6512000000000002,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 0.9,
-      "sampleQuantile": 2.8729,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.0,
-      "sampleQuantile": 3.1,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.1,
-      "sampleQuantile": 3.3331000000000004,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.2,
-      "sampleQuantile": 3.5728,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.3,
-      "sampleQuantile": 3.8197,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.4,
-      "sampleQuantile": 4.0744,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.5,
-      "sampleQuantile": 4.3375,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.6,
-      "sampleQuantile": 4.6096,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.7,
-      "sampleQuantile": 4.8913,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.8,
-      "sampleQuantile": 5.183199999999999,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 1.9,
-      "sampleQuantile": 5.4859,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 2.0,
-      "sampleQuantile": 5.8,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 2.1,
-      "sampleQuantile": 6.1261,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 2.2,
-      "sampleQuantile": 6.4648,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 2.3,
-      "sampleQuantile": 6.816699999999999,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 2.4,
-      "sampleQuantile": 7.1823999999999995,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": 2.5,
-      "sampleQuantile": 7.5625,
-      "series": "A"
-    },
-    {
-      "theoreticalQuantile": -2.5,
-      "sampleQuantile": -5.5625,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -2.4,
-      "sampleQuantile": -5.1823999999999995,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -2.3,
-      "sampleQuantile": -4.816699999999999,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -2.2,
-      "sampleQuantile": -4.4648,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -2.1,
-      "sampleQuantile": -4.1261,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -2.0,
-      "sampleQuantile": -3.8,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.9,
-      "sampleQuantile": -3.4859,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.8,
-      "sampleQuantile": -3.1832000000000003,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.7,
-      "sampleQuantile": -2.8912999999999998,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.6,
-      "sampleQuantile": -2.6096000000000004,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.5,
-      "sampleQuantile": -2.3375,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.4,
-      "sampleQuantile": -2.0744,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.3,
-      "sampleQuantile": -1.8197,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.2,
-      "sampleQuantile": -1.5728,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.1,
-      "sampleQuantile": -1.3331000000000002,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -1.0,
-      "sampleQuantile": -1.1,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.9,
-      "sampleQuantile": -0.8729,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.8,
-      "sampleQuantile": -0.6512000000000001,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.7,
-      "sampleQuantile": -0.4342999999999999,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.6,
-      "sampleQuantile": -0.22159999999999996,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.5,
-      "sampleQuantile": -0.0125,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.4,
-      "sampleQuantile": 0.19359999999999997,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.3,
-      "sampleQuantile": 0.39730000000000004,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.2,
-      "sampleQuantile": 0.5992,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": -0.1,
-      "sampleQuantile": 0.7999,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.0,
-      "sampleQuantile": 1.0,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.1,
-      "sampleQuantile": 1.2001,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.2,
-      "sampleQuantile": 1.4007999999999998,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.3,
-      "sampleQuantile": 1.6027,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.4,
-      "sampleQuantile": 1.8064,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.5,
-      "sampleQuantile": 2.0125,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.6,
-      "sampleQuantile": 2.2216,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.7,
-      "sampleQuantile": 2.4343,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.8,
-      "sampleQuantile": 2.6512000000000002,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 0.9,
-      "sampleQuantile": 2.8729,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.0,
-      "sampleQuantile": 3.1,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.1,
-      "sampleQuantile": 3.3331000000000004,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.2,
-      "sampleQuantile": 3.5728,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.3,
-      "sampleQuantile": 3.8197,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.4,
-      "sampleQuantile": 4.0744,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.5,
-      "sampleQuantile": 4.3375,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.6,
-      "sampleQuantile": 4.6096,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.7,
-      "sampleQuantile": 4.8913,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.8,
-      "sampleQuantile": 5.183199999999999,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 1.9,
-      "sampleQuantile": 5.4859,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 2.0,
-      "sampleQuantile": 5.8,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 2.1,
-      "sampleQuantile": 6.1261,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 2.2,
-      "sampleQuantile": 6.4648,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 2.3,
-      "sampleQuantile": 6.816699999999999,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 2.4,
-      "sampleQuantile": 7.1823999999999995,
-      "series": "B"
-    },
-    {
-      "theoreticalQuantile": 2.5,
-      "sampleQuantile": 7.5625,
-      "series": "B"
+      "value": 8,
+      "series": "组 B"
     }
   ]
 }

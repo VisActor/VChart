@@ -43,7 +43,7 @@ test('time gaps break both curve and band, and ACF stems reach zero', async ({ p
   await render(page, fixture('autocorrelationPlot'));
   const acf = await marks(page);
   const stems = acf.find((s: any) => s.id === 'stems').marks.filter((m: any) => m.name === 'line');
-  expect(stems).toHaveLength(12);
+  expect(stems).toHaveLength(4);
   for (const stem of stems) {
     expect(stem.points).toHaveLength(2);
     expect(stem.points[0].x).toBeCloseTo(stem.points[1].x, 5);
@@ -236,14 +236,21 @@ test('box plots include whiskers and outliers in the axis domain, and reference 
   expect(new Set(box.outliers).size).toBe(3);
   for (const type of ['calibrationCurve', 'qqPlot']) {
     await render(page, fixture(type));
-    const geometry = await page.evaluate(() => {
-      const marker = (window as any).chart
-        .getChart()
+    const geometry = await page.evaluate(type => {
+      const chart = (window as any).chart.getChart();
+      if (type === 'qqPlot')
+        return chart
+          .getAllSeries()
+          .find((s: any) => s.userId === 'qq-reference')
+          .getMarkInName('line')
+          .getGraphics()
+          .flatMap((g: any) => g.attribute.points);
+      const marker = chart
         .getAllComponents()
         .find((c: any) => c.type === 'markLine')
         .getVRenderComponents()[0];
       return marker.findAll((g: any) => g.type === 'line', true).flatMap((g: any) => g.attribute.points ?? []);
-    });
+    }, type);
     expect(geometry.length).toBeGreaterThanOrEqual(2);
     expect(geometry.every((p: any) => Number.isFinite(p.x) && Number.isFinite(p.y))).toBe(true);
     expect(new Set(geometry.map((p: any) => p.x)).size).toBeGreaterThan(1);
@@ -292,10 +299,7 @@ test('fieldLabels appear on the rendered axes and the real hover tooltip', async
     type: 'countPlot',
     statistic: 'proportion',
     fieldLabels: { category: '客户类型', count: '客户数', proportion: '客户占比' },
-    data: [
-      { category: 'A', count: 3 },
-      { category: 'B', count: 7 }
-    ]
+    data: Array.from('AAABBBBBBB', category => ({ category }))
   });
   const texts = await page.evaluate(() =>
     (window as any).chart

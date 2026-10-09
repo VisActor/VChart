@@ -1,52 +1,29 @@
 {
   "type": "confusionMatrix",
-  "title": "confusionMatrix",
+  "title": "按实际类别归一化的混淆矩阵",
   "normalization": "actual",
   "data": [
     {
-      "actual": "猫",
-      "predicted": "猫",
-      "count": 38
+      "actual": "A",
+      "predicted": "A"
     },
     {
-      "actual": "猫",
-      "predicted": "狗",
-      "count": 2
+      "actual": "A",
+      "predicted": "B"
     },
     {
-      "actual": "猫",
-      "predicted": "其他",
-      "count": 0
+      "actual": "A",
+      "predicted": "B"
     },
     {
-      "actual": "狗",
-      "predicted": "猫",
-      "count": 3
-    },
-    {
-      "actual": "狗",
-      "predicted": "狗",
-      "count": 27
-    },
-    {
-      "actual": "狗",
-      "predicted": "其他",
-      "count": 0
-    },
-    {
-      "actual": "其他",
-      "predicted": "猫",
-      "count": 0
-    },
-    {
-      "actual": "其他",
-      "predicted": "狗",
-      "count": 0
-    },
-    {
-      "actual": "其他",
-      "predicted": "其他",
-      "count": 0
+      "actual": "B",
+      "predicted": "B"
     }
-  ]
+  ],
+  "classOrder": [
+    "A",
+    "B",
+    "C"
+  ],
+  "description": "C 类无实际样本，整行比例不可计算；NA 与零值分开显示"
 }

@@ -17,7 +17,7 @@
 { "type": "rocCurve", "data": [{ "x": 0.1, "y": 0.8 }] }
 ```
 
-会报结构错误，应使用 fpr/tpr。`{"type":"rocCurve","data":[{"fpr":1.2,"tpr":0.8}]}` 的错误指向 `/data/0/fpr`；这应回到计算端检查，不能把概率裁剪到 1。
+会报结构错误，应使用布尔 actual 与有限 score。`{"type":"rocCurve","data":[{"actual":true,"score":"0.8"}]}` 的错误指向 `/data/0/score`；这应回到计算端检查，不能把概率裁剪到 1。
 
 若 lower/upper 缺少 interval，不自动填写 confidence/0.95。histogram 当前只计算等宽箱数；只有预分箱结果或需要自定义不等宽边界时使用 VChart 原生 histogram。若没有观测 id，先让计算端生成稳定标识再请求蜂群或配对图。
 
@@ -29,7 +29,7 @@
 
 - 普通蜂群：stripPlot + layout=swarm；SHAP 蜂群：shapBeeswarmPlot。
 - 偏自相关：autocorrelationPlot + method=pacf。
-- 类别比例：countPlot + statistic=proportion，输入仍然是计数。
+- 类别比例：countPlot + statistic=proportion，输入为原始类别观测，默认全表比例，系列内比例需 normalizationScope=series。
 - UMAP：embeddingPlot + method=umap；仅说 PCA 时须明确得分、解释方差还是载荷。
 - 配对前后：pairedComparisonPlot；多变量两两关系：pairPlot。
 - 训练规模学习曲线：learningCurve；epoch–loss 不属于这一契约。
@@ -37,3 +37,5 @@
 fieldLabels 为展示文字；区间含义、计算方法、统计量和顺序需要由分析结果确定，不从名称猜测。旧 JSON 的迁移见 [迁移表](naming-migration.md)。
 
 仓库中的 chart-intents.json 是 81 条选型预期，check:catalog 只检查预期与可执行契约的一致性，未执行模型命中率评测。
+
+分类评估直接输出原始标签/分数（calibration 使用 probability）；QQ、ACF 输出原始 value/series。无需模型生成阈值、AP、AUC、分位数、滞后系数或置信带。

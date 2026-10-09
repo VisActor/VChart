@@ -1,5 +1,5 @@
 import type { BaseSpec, SeriesRow, Interval } from '../../common/types';
-/** 统计量由调用方计算；只负责可视化。 */
+/** 原始时间观测；可选区间结果由外部提供。 */
 export interface TimeSeriesPlotRow extends SeriesRow {
   /** 带时区的 ISO 8601 时间。 */ time: string;
   value: number | null;

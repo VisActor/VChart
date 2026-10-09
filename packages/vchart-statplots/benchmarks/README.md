@@ -1,5 +1,11 @@
 # 性能基准
 
+## 七类原始输入（2026-10-09）
+
+`node packages/vchart-statplots/benchmarks/raw-input.mjs` 暖机后九次记录 count / confusion / ROC / PR / calibration / QQ / ACF 的 10k、100k 编译和独立校验，另测同分 PR、512 阶 ACF/PACF。浏览器 `raw-input-performance.spec.ts` 记录对应规模的首绘、重编译更新、resize、release 和 20 图表页面。
+
+[结果](raw-input-results.json)包含绘图规模和生命周期记录。ROC/PR 使用不同评分，QQ 保留全部点；update 包含统计重算，resize 保留计算结果。本机冒烟，不设毫秒 SLA。脚本仅重写 Node 部分，浏览器记录从 `.vchart-statplots/raw-input/*lifecycle.json` 归档；可发版依赖前置项见[验收](../docs/validation.md)。
+
 首版测试环境与实际数值见同目录 `results.json`。2026-09-30 命名优化的同环境前后测量见 [验收记录](../docs/validation.md)。数值是本机测量，不作为跨设备 SLA。
 
 ```sh

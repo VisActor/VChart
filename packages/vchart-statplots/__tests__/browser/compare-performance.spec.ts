@@ -9,7 +9,7 @@ test('measures equivalent native ROC and statplots ROC, and custom violin densit
     w.VChartStatPlots.registerStatPlots();
     const roc = {
       type: 'rocCurve',
-      data: Array.from({ length: 10000 }, (_, i) => ({ fpr: i / 9999, tpr: Math.sqrt(i / 9999) }))
+      data: Array.from({ length: 10000 }, (_, i) => ({ actual: i % 3 === 0, score: i / 9999 }))
     };
     const violin = {
       type: 'violinPlot',

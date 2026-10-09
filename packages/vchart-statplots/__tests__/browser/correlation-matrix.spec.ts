@@ -152,6 +152,9 @@ test('correlation matrix uses square contiguous cells and a static five-tick col
     )
   ).toBe(0);
   await page.screenshot({ path: path.join(outputDir, 'light-full-800.png') });
+  for (let round = 1; round <= 5; round++) {
+    await page.screenshot({ path: path.join(outputDir, `stable-full-${round}.png`) });
+  }
 });
 
 test('the gallery main example retains constant-variable NA in its lower triangle', async ({ page }) => {

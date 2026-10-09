@@ -40,6 +40,9 @@
       "$ref": "#/definitions/CalibrationCurveSpec"
     },
     {
+      "$ref": "#/definitions/RocCurveSpec"
+    },
+    {
       "$ref": "#/definitions/PrecisionRecallCurveSpec"
     },
     {
@@ -77,9 +80,6 @@
     },
     {
       "$ref": "#/definitions/KdePlotSpec"
-    },
-    {
-      "$ref": "#/definitions/RocCurveSpec"
     },
     {
       "$ref": "#/definitions/ViolinPlotSpec"
@@ -760,31 +760,36 @@
           }
         },
         "distribution": {
-          "type": "string"
-        },
-        "referenceLine": {
-          "description": "显式参考线；数值及统计含义由调用方提供。",
+          "description": "第一版支持正态分布，不自动拟合参数。",
           "type": "object",
           "properties": {
-            "method": {
-              "type": "string"
+            "type": {
+              "type": "string",
+              "const": "normal"
             },
-            "intercept": {
+            "mean": {
               "type": "number"
             },
-            "slope": {
+            "standardDeviation": {
               "type": "number"
             }
           },
           "additionalProperties": false,
           "required": [
-            "intercept",
-            "method",
-            "slope"
+            "type"
           ]
         },
+        "referenceLine": {
+          "description": "默认 none；quartiles / regression 按系列独立计算。",
+          "enum": [
+            "identity",
+            "none",
+            "quartiles",
+            "regression"
+          ],
+          "type": "string"
+        },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "theoreticalQuantile": {
@@ -819,20 +824,14 @@
       "additionalProperties": false,
       "required": [
         "data",
-        "distribution",
         "type"
       ]
     },
     "QqPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "原始一维样本，无序和重复值有效。",
       "type": "object",
       "properties": {
-        "theoreticalQuantile": {
-          "description": "给定理论分布的分位数，作为横轴；系列内非递减。",
-          "type": "number"
-        },
-        "sampleQuantile": {
-          "description": "对应样本分位数，作为纵轴；系列内非递减。",
+        "value": {
           "type": "number"
         },
         "series": {
@@ -842,8 +841,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "sampleQuantile",
-        "theoreticalQuantile"
+        "value"
       ]
     },
     "ResidualPlotSpec": {
@@ -1148,74 +1146,36 @@
           }
         },
         "method": {
-          "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+          "description": "默认 acf；pacf 采用 Yule–Walker MLE。",
           "enum": [
             "acf",
             "pacf"
           ],
           "type": "string"
         },
-        "interval": {
-          "description": "显示区间的统计含义；数值由计算端提供。",
+        "maxLag": {
+          "description": "最高滞后，整数 1–512，另受每组样本量限制。",
+          "type": "number"
+        },
+        "confidence": {
+          "description": "默认 95% 零中心置信带；false 关闭。",
           "anyOf": [
             {
               "type": "object",
               "properties": {
-                "kind": {
-                  "enum": [
-                    "confidence",
-                    "credible",
-                    "prediction"
-                  ],
-                  "type": "string"
-                },
                 "level": {
                   "type": "number"
                 }
               },
-              "additionalProperties": false,
-              "required": [
-                "kind",
-                "level"
-              ]
+              "additionalProperties": false
             },
             {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "enum": [
-                    "standardDeviation",
-                    "standardError"
-                  ],
-                  "type": "string"
-                },
-                "multiplier": {
-                  "type": "number"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "kind",
-                "multiplier"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "range"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "kind"
-              ]
+              "const": false,
+              "type": "boolean"
             }
           ]
         },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "lag": {
@@ -1250,25 +1210,14 @@
       "additionalProperties": false,
       "required": [
         "data",
-        "method",
         "type"
       ]
     },
     "AutocorrelationPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "按每系列的输入顺序表示等间隔原始序列，不能按数值排序。",
       "type": "object",
       "properties": {
-        "lag": {
-          "type": "number"
-        },
-        "correlation": {
-          "description": "外部 ACF/PACF 估计值；保留无偏估计可能超出 [-1,1] 的结果。",
-          "type": "number"
-        },
-        "lower": {
-          "type": "number"
-        },
-        "upper": {
+        "value": {
           "type": "number"
         },
         "series": {
@@ -1278,8 +1227,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "correlation",
-        "lag"
+        "value"
       ]
     },
     "SeasonalPlotSpec": {
@@ -1362,7 +1310,7 @@
       ]
     },
     "SeasonalPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "按 cycle/phase 标注的原始观测，不要求统计汇总。",
       "type": "object",
       "properties": {
         "cycle": {
@@ -1500,7 +1448,7 @@
       ]
     },
     "TimeSeriesPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "原始时间观测；可选区间结果由外部提供。",
       "type": "object",
       "properties": {
         "time": {
@@ -1543,67 +1491,25 @@
             "$ref": "#/definitions/CalibrationCurveRow"
           }
         },
-        "interval": {
-          "description": "显示区间的统计含义；数值由计算端提供。",
-          "anyOf": [
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "enum": [
-                    "confidence",
-                    "credible",
-                    "prediction"
-                  ],
-                  "type": "string"
-                },
-                "level": {
-                  "type": "number"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "kind",
-                "level"
-              ]
+        "binning": {
+          "type": "object",
+          "properties": {
+            "binCount": {
+              "description": "箱数，默认 5，整数范围 1–512。",
+              "type": "number"
             },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "enum": [
-                    "standardDeviation",
-                    "standardError"
-                  ],
-                  "type": "string"
-                },
-                "multiplier": {
-                  "type": "number"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "kind",
-                "multiplier"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "kind": {
-                  "type": "string",
-                  "const": "range"
-                }
-              },
-              "additionalProperties": false,
-              "required": [
-                "kind"
-              ]
+            "strategy": {
+              "description": "默认 uniform；quantile 按系列独立确定边界。",
+              "enum": [
+                "quantile",
+                "uniform"
+              ],
+              "type": "string"
             }
-          ]
+          },
+          "additionalProperties": false
         },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "meanPredictedProbability": {
@@ -1642,30 +1548,13 @@
       ]
     },
     "CalibrationCurveRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "每行是一条真实二分类标签与预测正例概率。",
       "type": "object",
       "properties": {
-        "binStart": {
-          "type": "number"
+        "actual": {
+          "type": "boolean"
         },
-        "binEnd": {
-          "type": "number"
-        },
-        "meanPredictedProbability": {
-          "description": "箱内平均预测概率，0–1，必须位于 binStart 与 binEnd 内。",
-          "type": "number"
-        },
-        "observedRate": {
-          "description": "箱内实际正例比例，范围 0–1。",
-          "type": "number"
-        },
-        "count": {
-          "type": "number"
-        },
-        "lower": {
-          "type": "number"
-        },
-        "upper": {
+        "probability": {
           "type": "number"
         },
         "series": {
@@ -1675,11 +1564,82 @@
       },
       "additionalProperties": false,
       "required": [
-        "binEnd",
-        "binStart",
-        "count",
-        "meanPredictedProbability",
-        "observedRate"
+        "actual",
+        "probability"
+      ]
+    },
+    "RocCurveSpec": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "rocCurve"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/BinaryScoreRow"
+          }
+        },
+        "fieldLabels": {
+          "description": "展示生成的曲线统计量，不改变原始输入字段。",
+          "type": "object",
+          "properties": {
+            "fpr": {
+              "type": "string"
+            },
+            "tpr": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "type"
+      ]
+    },
+    "BinaryScoreRow": {
+      "description": "逐样本二分类预测；true 为正例，较大分数表示更倾向正例。",
+      "type": "object",
+      "properties": {
+        "actual": {
+          "type": "boolean"
+        },
+        "score": {
+          "description": "任意有限预测分数，不要求为概率。",
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "actual",
+        "score"
       ]
     },
     "PrecisionRecallCurveSpec": {
@@ -1692,33 +1652,14 @@
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/PrecisionRecallCurveRow"
+            "$ref": "#/definitions/BinaryScoreRow"
           }
         },
-        "positiveRate": {
-          "description": "评价数据中的正例比例，0–1；提供时绘制 PR 基线，不由曲线推算。",
-          "type": "number"
-        },
-        "metrics": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "series": {
-                "type": "string"
-              },
-              "averagePrecision": {
-                "type": "number"
-              }
-            },
-            "additionalProperties": false,
-            "required": [
-              "averagePrecision"
-            ]
-          }
+        "baseline": {
+          "description": "绘制各系列自己的正例比例基线，默认 false。",
+          "type": "boolean"
         },
         "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
           "properties": {
             "recall": {
@@ -1756,30 +1697,6 @@
         "type"
       ]
     },
-    "PrecisionRecallCurveRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
-      "type": "object",
-      "properties": {
-        "recall": {
-          "type": "number"
-        },
-        "precision": {
-          "type": "number"
-        },
-        "threshold": {
-          "type": "number"
-        },
-        "series": {
-          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "precision",
-        "recall"
-      ]
-    },
     "ConfusionMatrixSpec": {
       "type": "object",
       "properties": {
@@ -1791,6 +1708,13 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/ConfusionMatrixRow"
+          }
+        },
+        "classOrder": {
+          "description": "完整显示顺序；可包含本批未出现类别，须覆盖所有输入类别。",
+          "type": "array",
+          "items": {
+            "type": "string"
           }
         },
         "normalization": {
@@ -1849,7 +1773,7 @@
       ]
     },
     "ConfusionMatrixRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "每行是一条实际类别与预测类别观测，内部计数。",
       "type": "object",
       "properties": {
         "actual": {
@@ -1857,15 +1781,11 @@
         },
         "predicted": {
           "type": "string"
-        },
-        "count": {
-          "type": "number"
         }
       },
       "additionalProperties": false,
       "required": [
         "actual",
-        "count",
         "predicted"
       ]
     },
@@ -2000,7 +1920,7 @@
       ]
     },
     "ScatterPlotRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "原始逐条观测；可选拟合或区间结果由外部提供。",
       "type": "object",
       "properties": {
         "x": {
@@ -2117,7 +2037,7 @@
       ]
     },
     "PairedComparisonPlotRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "原始逐条观测，保留个体标识。",
       "type": "object",
       "properties": {
         "id": {
@@ -2206,7 +2126,7 @@
       ]
     },
     "StripPlotRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "原始逐条观测，保留个体标识。",
       "type": "object",
       "properties": {
         "id": {
@@ -2319,10 +2239,18 @@
           }
         },
         "statistic": {
-          "description": "显示统计量，默认 count；proportion 为同一 series 内的计数比例。",
+          "description": "显示统计量，默认 count。",
           "enum": [
             "count",
             "proportion"
+          ],
+          "type": "string"
+        },
+        "normalizationScope": {
+          "description": "proportion 的分母范围，默认 all；仅 proportion 模式可配置。",
+          "enum": [
+            "all",
+            "series"
           ],
           "type": "string"
         },
@@ -2369,14 +2297,11 @@
       ]
     },
     "CountPlotRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "每行表示一条原始分类观测，重复行分别计数。",
       "type": "object",
       "properties": {
         "category": {
           "type": "string"
-        },
-        "count": {
-          "type": "number"
         },
         "series": {
           "description": "同一数据表要么全部提供系列名称，要么全部省略。",
@@ -2385,8 +2310,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "category",
-        "count"
+        "category"
       ]
     },
     "BoxPlotSpec": {
@@ -3031,103 +2955,6 @@
         }
       },
       "additionalProperties": false
-    },
-    "RocCurveSpec": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string",
-          "const": "rocCurve"
-        },
-        "data": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/RocCurveRow"
-          }
-        },
-        "fieldLabels": {
-          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
-          "type": "object",
-          "properties": {
-            "fpr": {
-              "type": "string"
-            },
-            "tpr": {
-              "type": "string"
-            }
-          },
-          "additionalProperties": false
-        },
-        "metrics": {
-          "description": "预先计算的曲线面积；本包不推算 AUC。",
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "series": {
-                "type": "string"
-              },
-              "auc": {
-                "type": "number"
-              }
-            },
-            "additionalProperties": false,
-            "required": [
-              "auc"
-            ]
-          }
-        },
-        "title": {
-          "description": "图表标题。",
-          "type": "string"
-        },
-        "description": {
-          "description": "数据范围或统计方法说明。",
-          "type": "string"
-        },
-        "theme": {
-          "enum": [
-            "dark",
-            "light"
-          ],
-          "type": "string"
-        },
-        "colors": {
-          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
-          "$ref": "#/definitions/StatPlotColors"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "data",
-        "type"
-      ]
-    },
-    "RocCurveRow": {
-      "type": "object",
-      "properties": {
-        "fpr": {
-          "description": "假阳性率，0–1。",
-          "type": "number"
-        },
-        "tpr": {
-          "description": "真阳性率，0–1。",
-          "type": "number"
-        },
-        "threshold": {
-          "description": "有限决策阈值；无穷阈值省略。",
-          "type": "number"
-        },
-        "series": {
-          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "required": [
-        "fpr",
-        "tpr"
-      ]
     },
     "ViolinPlotSpec": {
       "type": "object",
