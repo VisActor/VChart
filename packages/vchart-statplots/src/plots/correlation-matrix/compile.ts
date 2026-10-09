@@ -1,12 +1,14 @@
 import type { CorrelationMatrixSpec } from './types';
 import { commonChart } from '../../common/chart';
-import { categoryAxis } from '../../common/axes';
+import { matrixAxis } from '../../common/axes';
 import { semanticTooltip } from '../../common/tooltip';
 import { paletteColor } from '../../common/theme';
 import { continuousColorScale } from '../../common/colors';
 import type { ILayoutSpec } from '@visactor/vchart';
-import { CorrelationMatrixLayout } from '../../layout/correlation-matrix';
-import { createCorrelationColorBar } from './colorbar';
+import { MatrixLayout } from '../../layout/matrix';
+import { createMatrixColorBar } from '../../common/matrix-colorbar';
+
+const titles = { pearson: 'Pearson r', spearman: 'Spearman ρ', kendall: 'Kendall τ' };
 
 export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
   const missingColor = paletteColor(spec.theme, 'disableFontColor');
@@ -67,24 +69,22 @@ export function compileCorrelationMatrix(spec: CorrelationMatrixSpec) {
       }
     ],
     [
-      categoryAxis('bottom', spec.fieldLabels?.column ?? '', variableOrder),
-      categoryAxis('left', spec.fieldLabels?.row ?? '', variableOrder)
-    ].map(axis => ({
-      ...axis,
-      paddingInner: 0,
-      paddingOuter: 0,
-      title: { ...axis.title, visible: Boolean(axis.title?.text) },
-      domainLine: { visible: false },
-      tick: { visible: false },
-      grid: { visible: false },
-      label: { autoLimit: true, autoHide: true }
-    }))
+      matrixAxis('bottom', spec.fieldLabels?.column ?? '', variableOrder),
+      matrixAxis('left', spec.fieldLabels?.row ?? '', variableOrder)
+    ]
   );
   const scale = continuousColorScale(spec, 'diverging', 'correlation', -1, 1);
   chart.scales = [scale];
-  chart.layout = { type: CorrelationMatrixLayout.type } as ILayoutSpec;
+  chart.layout = { type: MatrixLayout.type } as ILayoutSpec;
   if (spec.data.length) {
-    chart.customMark = [createCorrelationColorBar(spec, scale)];
+    chart.customMark = [
+      createMatrixColorBar(spec, scale, {
+        name: 'correlation-colorbar',
+        title: titles[spec.method],
+        ticks: [-1, -0.5, 0, 0.5, 1],
+        formatTick: value => String(value).replace('-', '−')
+      })
+    ];
   }
   return chart;
 }

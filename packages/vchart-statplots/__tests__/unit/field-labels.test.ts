@@ -4,10 +4,7 @@ test('fieldLabels names axes and tooltip quantities consistently', () => {
     type: 'countPlot',
     statistic: 'proportion',
     fieldLabels: { category: '客户类型', count: '客户数', proportion: '客户占比' },
-    data: [
-      { category: 'A', count: 3 },
-      { category: 'B', count: 7 }
-    ]
+    data: Array.from('AAABBBBBBB', category => ({ category }))
   }) as any;
   expect(chart.axes[0].title.text).toBe('客户类型');
   expect(chart.axes[1].title.text).toBe('客户占比');
@@ -50,12 +47,8 @@ test('confusion matrix uses proportion labels for defined and undefined cells', 
     type: 'confusionMatrix',
     normalization: 'actual',
     fieldLabels: { count: '样本数', proportion: '实际类别内占比' },
-    data: [
-      { actual: 'A', predicted: 'A', count: 8 },
-      { actual: 'A', predicted: 'B', count: 2 },
-      { actual: 'B', predicted: 'A', count: 0 },
-      { actual: 'B', predicted: 'B', count: 0 }
-    ]
+    classOrder: ['A', 'B'],
+    data: Array.from('AAAAAAAABB', predicted => ({ actual: 'A', predicted }))
   }) as any;
   for (const series of chart.series) {
     expect(series.tooltip.mark.content.map((item: any) => item.key)).toEqual([

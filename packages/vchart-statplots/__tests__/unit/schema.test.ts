@@ -5,7 +5,7 @@ import { compileStatPlot } from '../../src/compile';
 import { StatPlotValidationError } from '../../src/errors';
 const directory = path.resolve(__dirname, '../../examples/specs');
 test('uses the new public type and rejects its legacy spelling', () => {
-  const data = [{ category: 'A', count: 3 }];
+  const data = [{ category: 'A' }];
   expect(validateStatPlot({ type: 'countPlot', data })).toEqual({ valid: true, errors: [] });
   expect(validateStatPlot({ type: 'count', data }).errors).toEqual(
     expect.arrayContaining([expect.objectContaining({ code: 'SCHEMA_ERROR', path: '/type' })])
@@ -45,15 +45,15 @@ test.each(examples)('$type rejects unknown options and produces an explicit empt
   expect(compiled.title.subtext).toContain('暂无可绘制数据');
 });
 test.each([NaN, Infinity, -Infinity])('rejects non-JSON number %s', value => {
-  expect(validateStatPlot({ type: 'rocCurve', data: [{ fpr: value, tpr: 0.5 }] }).valid).toBe(false);
+  expect(validateStatPlot({ type: 'rocCurve', data: [{ actual: true, score: value }] }).valid).toBe(false);
 });
 test('compile exposes structured validation errors and runtime validator needs no eval', () => {
   try {
-    compileStatPlot({ type: 'rocCurve', data: [{ fpr: 2, tpr: 0.5 }] });
+    compileStatPlot({ type: 'rocCurve', data: [{ actual: true, score: Infinity }] });
     throw new Error('missing error');
   } catch (error) {
     expect(error).toBeInstanceOf(StatPlotValidationError);
-    expect((error as StatPlotValidationError).issues[0].path).toBe('/data/0/fpr');
+    expect((error as StatPlotValidationError).issues[0].path).toBe('/data/0/score');
   }
   const generated = fs.readFileSync(path.resolve(__dirname, '../../src/generated/validate.js'), 'utf8');
   expect(generated).not.toMatch(/\beval\s*\(|new Function\s*\(/);

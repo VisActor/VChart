@@ -1,35 +1,21 @@
 {
   "type": "precisionRecallCurve",
-  "positiveRate": 0.2,
-  "metrics": [
-    {
-      "averagePrecision": 0.71
-    }
-  ],
   "data": [
     {
-      "recall": 0,
-      "precision": 1
+      "actual": false,
+      "score": 0.1
     },
     {
-      "recall": 0.1,
-      "precision": 0.9
+      "actual": false,
+      "score": 0.4
     },
     {
-      "recall": 0.3,
-      "precision": 0.82
+      "actual": true,
+      "score": 0.35
     },
     {
-      "recall": 0.6,
-      "precision": 0.65
-    },
-    {
-      "recall": 0.8,
-      "precision": 0.48
-    },
-    {
-      "recall": 1,
-      "precision": 0.2
+      "actual": true,
+      "score": 0.8
     }
   ]
 }

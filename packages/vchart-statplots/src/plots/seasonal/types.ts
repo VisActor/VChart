@@ -1,5 +1,5 @@
 import type { BaseSpec, SeriesRow } from '../../common/types';
-/** 统计量由调用方计算；只负责可视化。 */
+/** 按 cycle/phase 标注的原始观测，不要求统计汇总。 */
 export interface SeasonalPlotRow extends SeriesRow {
   /** 完整周期编号，例如年份。 */
   cycle: string;

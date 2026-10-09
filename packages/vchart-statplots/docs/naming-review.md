@@ -1,5 +1,7 @@
 # 28 类图表命名审查
 
+> 此文记录命名评审历史。原始输入重构后的 API 以 [Spec](spec.md) 与[逐图契约](catalog.md) 为准，历史的预计算输入和外部参考线要求已废止。
+
 后续已采用新的图表与配置契约，当前可执行接口见 [迁移说明](naming-migration.md)；下文保留当时的审查过程。
 
 日期：2026-09-29。状态：审查建议，尚未修改公共 type、Schema、示例或运行时。
@@ -21,36 +23,36 @@
 
 “保留”表示保留英文 type，不代表中文展示和选型说明无需改进。
 
-| 当前 type | 建议 type | 建议中文主名称 | 审查理由与能力边界 |
-| --- | --- | --- | --- |
-| `count` | `countPlot` | 类别计数图 | 避免与计数操作混淆；支持由类别计数归一化得到比例，不是任意数值柱状图。 |
-| `missingness` | `missingValueMatrix` | 缺失值矩阵图 | 当前是观测 × 变量的缺失状态矩阵；原名泛指整个缺失数据分析任务。 |
-| `histogram` | 保留 | 直方图 | 已是完整、常见的图表名；当前输入为连续变量原始 value，编译时分箱；2026-10-08 已覆盖预计算输入的旧决定。 |
-| `kde` | `kdePlot` | 核密度估计图 | 区分密度估计方法与图表；当前支持从原始样本估计一维密度曲线。 |
-| `ecdf` | `ecdfPlot` | 经验累积分布图 | 补齐图表名称；中文必须体现“累积”，不能仅称经验分布。 |
-| `boxPlot` | 保留 | 箱线图 | 已是清楚、常用的完整名称。 |
-| `violin` | `violinPlot` | 小提琴图 | 与 `boxPlot` 使用同一命名方式，补齐常见术语 violin plot。 |
-| `stripPlot` | 保留，明确变体 | 条带图 | 当前还包含 jitter、swarm 布局；具体变体分别展示为抖动散点图、蜂群图，详见下文。 |
-| `estimateInterval` | `pointIntervalPlot` | 点估计区间图 | 原名容易被理解为“估计区间”的计算操作；新名表达点与区间，不能统称置信区间图。 |
-| `paired` | `pairedComparisonPlot` | 配对比较图 | 明确同一对象两个状态的比较；与多变量的 `pairPlot` 拉开区别。 |
-| `scatter` | `scatterPlot` | 散点图 | 补齐完整术语；拟合曲线可选，主名称不应暗示一定有拟合。 |
-| `hexbin` | `hexbinPlot` | 六边形分箱图 | 区分分箱操作与图表；接收原始 x/y 散点和分箱分辨率。 |
-| `correlationMatrix` | 保留 | 相关矩阵图 | 明确且通用；不是任意数值热力图或缺失状态矩阵。 |
-| `pairPlot` | 保留 | 散点矩阵图 | 对应常见 pair plot；当前为两两散点与对角线直方图。 |
-| `timeSeries` | `timeSeriesPlot` | 时间序列图 | 区分数据类型与图表；区间带属于可选能力。 |
-| `seasonal` | `seasonalPlot` | 季节图 | 补齐 seasonal plot；`subseries` 的实现语义需修正，不能只改 type。 |
-| `autocorrelation` | `autocorrelationPlot` | 自相关图 | 区分统计量与图表；`method: pacf` 时展示为偏自相关图。 |
-| `scree` | `screePlot` | 碎石图 | 使用完整术语 scree plot；当前纵轴为解释方差比例，累计比例可选。 |
-| `embedding` | `embeddingPlot` | 降维散点图 | 明确展示已计算的嵌入坐标；具体方法由 pca、tsne、umap 指定。 |
-| `residual` | `residualPlot` | 残差图 | 使用完整术语；当前具体指残差对拟合值，不代表全部残差诊断图。 |
-| `qq` | `qqPlot` | Q–Q 图 | 补齐通用术语；当前为样本分位数对理论分位数，不限定正态分布。 |
-| `confusionMatrix` | 保留 | 混淆矩阵 | 已是标准名称。 |
-| `roc` | `rocCurve` | ROC 曲线 | 使用完整术语，明确为 FPR–TPR 曲线。 |
-| `precisionRecall` | `precisionRecallCurve` | PR 曲线 | 明确为精确率–召回率曲线，而非单个指标或表格。 |
-| `calibration` | `calibrationCurve` | 概率校准曲线 | 区分校准操作与图表；识别 reliability diagram、可靠性图等叫法。 |
-| `learningCurve` | 保留 | 学习曲线 | 当前指训练样本数与训练/验证分数的关系，不能匹配到 epoch–loss 曲线。 |
-| `featureImportance` | `featureImportancePlot` | 特征重要性图 | 区分统计结果与图表；具体含义由计算方法决定。 |
-| `shapBeeswarm` | `shapBeeswarmPlot` | SHAP 蜂群图 | 保留 SHAP 限定以区分普通蜂群图，并补齐图表名。 |
+| 当前 type           | 建议 type               | 建议中文主名称 | 审查理由与能力边界                                                                                      |
+| ------------------- | ----------------------- | -------------- | ------------------------------------------------------------------------------------------------------- |
+| `count`             | `countPlot`             | 类别计数图     | 避免与计数操作混淆；支持由类别计数归一化得到比例，不是任意数值柱状图。                                  |
+| `missingness`       | `missingValueMatrix`    | 缺失值矩阵图   | 当前是观测 × 变量的缺失状态矩阵；原名泛指整个缺失数据分析任务。                                         |
+| `histogram`         | 保留                    | 直方图         | 已是完整、常见的图表名；当前输入为连续变量原始 value，编译时分箱；2026-10-08 已覆盖预计算输入的旧决定。 |
+| `kde`               | `kdePlot`               | 核密度估计图   | 区分密度估计方法与图表；当前支持从原始样本估计一维密度曲线。                                            |
+| `ecdf`              | `ecdfPlot`              | 经验累积分布图 | 补齐图表名称；中文必须体现“累积”，不能仅称经验分布。                                                    |
+| `boxPlot`           | 保留                    | 箱线图         | 已是清楚、常用的完整名称。                                                                              |
+| `violin`            | `violinPlot`            | 小提琴图       | 与 `boxPlot` 使用同一命名方式，补齐常见术语 violin plot。                                               |
+| `stripPlot`         | 保留，明确变体          | 条带图         | 当前还包含 jitter、swarm 布局；具体变体分别展示为抖动散点图、蜂群图，详见下文。                         |
+| `estimateInterval`  | `pointIntervalPlot`     | 点估计区间图   | 原名容易被理解为“估计区间”的计算操作；新名表达点与区间，不能统称置信区间图。                            |
+| `paired`            | `pairedComparisonPlot`  | 配对比较图     | 明确同一对象两个状态的比较；与多变量的 `pairPlot` 拉开区别。                                            |
+| `scatter`           | `scatterPlot`           | 散点图         | 补齐完整术语；拟合曲线可选，主名称不应暗示一定有拟合。                                                  |
+| `hexbin`            | `hexbinPlot`            | 六边形分箱图   | 区分分箱操作与图表；接收原始 x/y 散点和分箱分辨率。                                                     |
+| `correlationMatrix` | 保留                    | 相关矩阵图     | 明确且通用；不是任意数值热力图或缺失状态矩阵。                                                          |
+| `pairPlot`          | 保留                    | 散点矩阵图     | 对应常见 pair plot；当前为两两散点与对角线直方图。                                                      |
+| `timeSeries`        | `timeSeriesPlot`        | 时间序列图     | 区分数据类型与图表；区间带属于可选能力。                                                                |
+| `seasonal`          | `seasonalPlot`          | 季节图         | 补齐 seasonal plot；`subseries` 的实现语义需修正，不能只改 type。                                       |
+| `autocorrelation`   | `autocorrelationPlot`   | 自相关图       | 区分统计量与图表；`method: pacf` 时展示为偏自相关图。                                                   |
+| `scree`             | `screePlot`             | 碎石图         | 使用完整术语 scree plot；当前纵轴为解释方差比例，累计比例可选。                                         |
+| `embedding`         | `embeddingPlot`         | 降维散点图     | 明确展示已计算的嵌入坐标；具体方法由 pca、tsne、umap 指定。                                             |
+| `residual`          | `residualPlot`          | 残差图         | 使用完整术语；当前具体指残差对拟合值，不代表全部残差诊断图。                                            |
+| `qq`                | `qqPlot`                | Q–Q 图         | 补齐通用术语；当前为样本分位数对理论分位数，不限定正态分布。                                            |
+| `confusionMatrix`   | 保留                    | 混淆矩阵       | 已是标准名称。                                                                                          |
+| `roc`               | `rocCurve`              | ROC 曲线       | 使用完整术语，明确为 FPR–TPR 曲线。                                                                     |
+| `precisionRecall`   | `precisionRecallCurve`  | PR 曲线        | 明确为精确率–召回率曲线，而非单个指标或表格。                                                           |
+| `calibration`       | `calibrationCurve`      | 概率校准曲线   | 区分校准操作与图表；识别 reliability diagram、可靠性图等叫法。                                          |
+| `learningCurve`     | 保留                    | 学习曲线       | 当前指训练样本数与训练/验证分数的关系，不能匹配到 epoch–loss 曲线。                                     |
+| `featureImportance` | `featureImportancePlot` | 特征重要性图   | 区分统计结果与图表；具体含义由计算方法决定。                                                            |
+| `shapBeeswarm`      | `shapBeeswarmPlot`      | SHAP 蜂群图    | 保留 SHAP 限定以区分普通蜂群图，并补齐图表名。                                                          |
 
 ## 优先处理的语义问题
 
@@ -98,19 +100,19 @@ Seaborn 明确区分了 `countplot` 与汇总估计值的 `barplot`。本库可�
 
 以下使用建议名称，表示选型结果片段，不是完整可运行 Spec：
 
-| 用户意图 | 应生成的 type 与选项 | 必须区分 |
-| --- | --- | --- |
-| 类别频数、count plot、countplot | `countPlot` | 输入是类别计数。 |
-| 根据计数比较类别比例 | `countPlot` + `normalization: proportion` | 不能把任意已有百分比当作整数 count。 |
-| 条带图、strip plot | `stripPlot` + `layout: strip` | 与抖动、非重叠蜂群布局区分。 |
-| 抖动散点图、jitter plot（分类轴） | `stripPlot` + `layout: jitter` | 当前契约为类别与数值。 |
-| 蜂群图、swarm plot、beeswarm（普通观测） | `stripPlot` + `layout: swarm` | 若展示 SHAP 值，则选择 `shapBeeswarmPlot`。 |
-| ACF、自相关图 | `autocorrelationPlot` + `method: acf` | 接收外部计算的自相关统计量。 |
-| PACF、偏自相关图 | `autocorrelationPlot` + `method: pacf` | 不能仅匹配 type 后使用错误 method。 |
-| PCA 得分散点图 | `embeddingPlot` + `method: pca` | PCA 碎石图应选择 `screePlot`。 |
-| UMAP 二维散点图 | `embeddingPlot` + `method: umap` | 需要已计算的坐标。 |
-| 干预前后同一对象变化 | `pairedComparisonPlot` | 需要同一对象标识和两个状态。 |
-| 多个变量两两关系矩阵 | `pairPlot` | 需要多个变量及观测。 |
+| 用户意图                                 | 应生成的 type 与选项                      | 必须区分                                    |
+| ---------------------------------------- | ----------------------------------------- | ------------------------------------------- |
+| 类别频数、count plot、countplot          | `countPlot`                               | 输入是类别计数。                            |
+| 根据计数比较类别比例                     | `countPlot` + `normalization: proportion` | 不能把任意已有百分比当作整数 count。        |
+| 条带图、strip plot                       | `stripPlot` + `layout: strip`             | 与抖动、非重叠蜂群布局区分。                |
+| 抖动散点图、jitter plot（分类轴）        | `stripPlot` + `layout: jitter`            | 当前契约为类别与数值。                      |
+| 蜂群图、swarm plot、beeswarm（普通观测） | `stripPlot` + `layout: swarm`             | 若展示 SHAP 值，则选择 `shapBeeswarmPlot`。 |
+| ACF、自相关图                            | `autocorrelationPlot` + `method: acf`     | 接收外部计算的自相关统计量。                |
+| PACF、偏自相关图                         | `autocorrelationPlot` + `method: pacf`    | 不能仅匹配 type 后使用错误 method。         |
+| PCA 得分散点图                           | `embeddingPlot` + `method: pca`           | PCA 碎石图应选择 `screePlot`。              |
+| UMAP 二维散点图                          | `embeddingPlot` + `method: umap`          | 需要已计算的坐标。                          |
+| 干预前后同一对象变化                     | `pairedComparisonPlot`                    | 需要同一对象标识和两个状态。                |
+| 多个变量两两关系矩阵                     | `pairPlot`                                | 需要多个变量及观测。                        |
 
 检验命中能力时，应使用中文任务描述、英文标准名、Python 函数习惯名及相近反例，分别检查 type、必要选项和输入契约。不要只检查模型是否输出合法枚举值。本轮未运行模型选型评测，不能量化改名收益。
 

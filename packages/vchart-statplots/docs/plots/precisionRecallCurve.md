@@ -1,18 +1,40 @@
 # PR 曲线 `precisionRecallCurve`
 
-比较不同阈值的精确率与召回率。
+`data: [{actual: boolean, score: number, series?}]`，与 ROC 使用相同的二分类原始输入；每系列至少一个正样本，全正允许，全负拒绝。
 
-positiveRate 是 0–1 的正例比例参考线。averagePrecision 必须由计算端提供，不能用画出的折线面积替代。
+## 计算与配置
 
-## 输入与配置
+- 从 (recall=0, precision=1) 开始，按分数降序合并同分阈值，保留同召回率的点。无阈值起点不填 Infinity。
+- 图线采用 stepBefore。AP = Σ(本次召回率 − 上次召回率) × 本次精确率，不用梯形面积替代；tooltip 显示库计算的 AP、样本数、正例率。
+- `baseline` 默认 false；true 按系列生成 positiveCount / sampleCount 水平线。基线与对应曲线颜色一致，图例同时过滤二者。
+- 不接收 recall/precision/threshold/metrics/positiveRate。
 
-语义输入字段：`recall`、`precision`。字段、必填项和单位以 [JSON Schema](../../schema/plots/precisionRecallCurve.schema.json) 为准；未知属性会被拒绝。
+## 示例
 
-最小示例中的配置：`positiveRate`、`metrics`。完整可选配置、默认值见 [Spec 协议](../spec.md) 和 Schema。fieldLabels 仅使用该图声明的键，改变坐标轴与 tooltip 展示名称，不改变统计数据。
+```json
+{
+  "type": "precisionRecallCurve",
+  "data": [
+    {
+      "actual": false,
+      "score": 0.1
+    },
+    {
+      "actual": false,
+      "score": 0.4
+    },
+    {
+      "actual": true,
+      "score": 0.35
+    },
+    {
+      "actual": true,
+      "score": 0.8
+    }
+  ]
+}
+```
 
-[最小示例](../../examples/specs/minimal/precisionRecallCurve.json)；[完整主例](../../examples/specs/precisionRecallCurve.json)。
+[分图 Schema](../../schema/plots/precisionRecallCurve.schema.json) · [主例](../../examples/specs/precisionRecallCurve.json) · [公共配置](../spec.md)。输入保持不可变，空数据显示空态；更新重新调用 `compileStatPlot(nextSpec)` 后执行 `chart.updateSpec`。内部绘图结果不是可传回的公共输入。
 
-## 选型边界
-
-- 单个指标
-- 把 AP 当作梯形积分面积
+参考 [sklearn precision_recall_curve](https://scikit-learn.org/1.5/modules/generated/sklearn.metrics.precision_recall_curve.html)。

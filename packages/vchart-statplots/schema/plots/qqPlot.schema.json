@@ -12,31 +12,36 @@
       }
     },
     "distribution": {
-      "type": "string"
-    },
-    "referenceLine": {
-      "description": "显式参考线；数值及统计含义由调用方提供。",
+      "description": "第一版支持正态分布，不自动拟合参数。",
       "type": "object",
       "properties": {
-        "method": {
-          "type": "string"
+        "type": {
+          "type": "string",
+          "const": "normal"
         },
-        "intercept": {
+        "mean": {
           "type": "number"
         },
-        "slope": {
+        "standardDeviation": {
           "type": "number"
         }
       },
       "additionalProperties": false,
       "required": [
-        "intercept",
-        "method",
-        "slope"
+        "type"
       ]
     },
+    "referenceLine": {
+      "description": "默认 none；quartiles / regression 按系列独立计算。",
+      "enum": [
+        "identity",
+        "none",
+        "quartiles",
+        "regression"
+      ],
+      "type": "string"
+    },
     "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
       "type": "object",
       "properties": {
         "theoreticalQuantile": {
@@ -71,20 +76,14 @@
   "additionalProperties": false,
   "required": [
     "data",
-    "distribution",
     "type"
   ],
   "definitions": {
     "QqPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "原始一维样本，无序和重复值有效。",
       "type": "object",
       "properties": {
-        "theoreticalQuantile": {
-          "description": "给定理论分布的分位数，作为横轴；系列内非递减。",
-          "type": "number"
-        },
-        "sampleQuantile": {
-          "description": "对应样本分位数，作为纵轴；系列内非递减。",
+        "value": {
           "type": "number"
         },
         "series": {
@@ -94,8 +93,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "sampleQuantile",
-        "theoreticalQuantile"
+        "value"
       ]
     },
     "StatPlotColors": {

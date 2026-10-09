@@ -110,7 +110,7 @@
   ],
   "definitions": {
     "TimeSeriesPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "原始时间观测；可选区间结果由外部提供。",
       "type": "object",
       "properties": {
         "time": {

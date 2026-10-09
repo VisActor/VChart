@@ -12,10 +12,18 @@
       }
     },
     "statistic": {
-      "description": "显示统计量，默认 count；proportion 为同一 series 内的计数比例。",
+      "description": "显示统计量，默认 count。",
       "enum": [
         "count",
         "proportion"
+      ],
+      "type": "string"
+    },
+    "normalizationScope": {
+      "description": "proportion 的分母范围，默认 all；仅 proportion 模式可配置。",
+      "enum": [
+        "all",
+        "series"
       ],
       "type": "string"
     },
@@ -62,14 +70,11 @@
   ],
   "definitions": {
     "CountPlotRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "每行表示一条原始分类观测，重复行分别计数。",
       "type": "object",
       "properties": {
         "category": {
           "type": "string"
-        },
-        "count": {
-          "type": "number"
         },
         "series": {
           "description": "同一数据表要么全部提供系列名称，要么全部省略。",
@@ -78,8 +83,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "category",
-        "count"
+        "category"
       ]
     },
     "StatPlotColors": {

@@ -12,74 +12,36 @@
       }
     },
     "method": {
-      "description": "外部计算方法或结果类型说明；本包不重新拟合或估计。",
+      "description": "默认 acf；pacf 采用 Yule–Walker MLE。",
       "enum": [
         "acf",
         "pacf"
       ],
       "type": "string"
     },
-    "interval": {
-      "description": "显示区间的统计含义；数值由计算端提供。",
+    "maxLag": {
+      "description": "最高滞后，整数 1–512，另受每组样本量限制。",
+      "type": "number"
+    },
+    "confidence": {
+      "description": "默认 95% 零中心置信带；false 关闭。",
       "anyOf": [
         {
           "type": "object",
           "properties": {
-            "kind": {
-              "enum": [
-                "confidence",
-                "credible",
-                "prediction"
-              ],
-              "type": "string"
-            },
             "level": {
               "type": "number"
             }
           },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "level"
-          ]
+          "additionalProperties": false
         },
         {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "standardDeviation",
-                "standardError"
-              ],
-              "type": "string"
-            },
-            "multiplier": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "multiplier"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "range"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind"
-          ]
+          "const": false,
+          "type": "boolean"
         }
       ]
     },
     "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
       "type": "object",
       "properties": {
         "lag": {
@@ -114,25 +76,14 @@
   "additionalProperties": false,
   "required": [
     "data",
-    "method",
     "type"
   ],
   "definitions": {
     "AutocorrelationPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "按每系列的输入顺序表示等间隔原始序列，不能按数值排序。",
       "type": "object",
       "properties": {
-        "lag": {
-          "type": "number"
-        },
-        "correlation": {
-          "description": "外部 ACF/PACF 估计值；保留无偏估计可能超出 [-1,1] 的结果。",
-          "type": "number"
-        },
-        "lower": {
-          "type": "number"
-        },
-        "upper": {
+        "value": {
           "type": "number"
         },
         "series": {
@@ -142,8 +93,7 @@
       },
       "additionalProperties": false,
       "required": [
-        "correlation",
-        "lag"
+        "value"
       ]
     },
     "StatPlotColors": {

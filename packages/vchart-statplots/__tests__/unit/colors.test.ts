@@ -3,7 +3,7 @@ import path from 'path';
 import { compileStatPlot } from '../../src/compile';
 import { validateStatPlot } from '../../src/validate';
 
-const count = { type: 'countPlot' as const, data: [{ category: 'A', count: 1 }] };
+const count = { type: 'countPlot' as const, data: [{ category: 'A' }] };
 const colors = {
   categorical: ['#123456', '#abcdef'],
   sequential: ['#000000', '#ffffff'],
@@ -67,8 +67,9 @@ test.each(examples)('$type accepts a shared custom palette without mutating call
   freeze(spec);
   expect(validateStatPlot(spec)).toEqual({ valid: true, errors: [] });
   const chart = compileStatPlot(spec);
-  expect(chart.color).toEqual(colors.categorical);
-  expect(chart.color).not.toBe(colors.categorical);
+  const range = Array.isArray(chart.color) ? chart.color : chart.color!.range;
+  expect(range).toEqual(colors.categorical);
+  expect(range).not.toBe(colors.categorical);
 });
 
 test('continuous scales preserve every stop, direction, center and input independence', () => {

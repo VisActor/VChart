@@ -2,16 +2,22 @@
   "type": "countPlot",
   "data": [
     {
-      "category": "A",
-      "count": 35
+      "category": "A"
     },
     {
-      "category": "B",
-      "count": 45
+      "category": "A"
     },
     {
-      "category": "C",
-      "count": 20
+      "category": "A"
+    },
+    {
+      "category": "B"
+    },
+    {
+      "category": "B"
+    },
+    {
+      "category": "C"
     }
   ]
 }

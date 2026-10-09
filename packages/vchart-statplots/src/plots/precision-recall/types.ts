@@ -1,16 +1,11 @@
-import type { BaseSpec, SeriesRow } from '../../common/types';
-/** 预计算统计结果；本包不拟合模型。 */
-export interface PrecisionRecallCurveRow extends SeriesRow {
-  recall: number;
-  precision: number;
-  threshold?: number;
-}
+import type { BaseSpec } from '../../common/types';
+import type { BinaryScoreRow } from '../roc/types';
+/** 原始二分类标签和预测分数；重复样本分别计入。 */
+export type PrecisionRecallCurveRow = BinaryScoreRow;
 export interface PrecisionRecallCurveSpec extends BaseSpec {
   type: 'precisionRecallCurve';
   data: PrecisionRecallCurveRow[];
-  /** 评价数据中的正例比例，0–1；提供时绘制 PR 基线，不由曲线推算。 */
-  positiveRate?: number;
-  metrics?: { series?: string; averagePrecision: number }[];
-  /** 字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。 */
+  /** 绘制各系列自己的正例比例基线，默认 false。 */
+  baseline?: boolean;
   fieldLabels?: { recall?: string; precision?: string };
 }

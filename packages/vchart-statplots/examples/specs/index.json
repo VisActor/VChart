@@ -4,15 +4,15 @@
       "type": "autocorrelationPlot",
       "variant": "minimal",
       "file": "minimal/autocorrelationPlot.json",
-      "documentation": "../../docs/plots/autocorrelation.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "autocorrelationPlot",
       "variant": "grouped",
       "file": "grouped/autocorrelationPlot.json",
-      "documentation": "../../docs/plots/autocorrelation.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "boxPlot",
@@ -32,22 +32,22 @@
       "type": "calibrationCurve",
       "variant": "minimal",
       "file": "minimal/calibrationCurve.json",
-      "documentation": "../../docs/plots/calibration.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/calibrationCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "calibrationCurve",
       "variant": "grouped",
       "file": "grouped/calibrationCurve.json",
-      "documentation": "../../docs/plots/calibration.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/calibrationCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "confusionMatrix",
       "variant": "minimal",
       "file": "minimal/confusionMatrix.json",
       "documentation": "../../docs/plots/confusionMatrix.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "correlationMatrix",
@@ -74,15 +74,15 @@
       "type": "countPlot",
       "variant": "minimal",
       "file": "minimal/countPlot.json",
-      "documentation": "../../docs/plots/count.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "countPlot",
       "variant": "grouped",
       "file": "grouped/countPlot.json",
-      "documentation": "../../docs/plots/count.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "ecdfPlot",
@@ -221,29 +221,29 @@
       "type": "precisionRecallCurve",
       "variant": "minimal",
       "file": "minimal/precisionRecallCurve.json",
-      "documentation": "../../docs/plots/precisionRecall.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/precisionRecallCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "precisionRecallCurve",
       "variant": "grouped",
       "file": "grouped/precisionRecallCurve.json",
-      "documentation": "../../docs/plots/precisionRecall.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/precisionRecallCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "qqPlot",
       "variant": "minimal",
       "file": "minimal/qqPlot.json",
-      "documentation": "../../docs/plots/qq.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "qqPlot",
       "variant": "grouped",
       "file": "grouped/qqPlot.json",
-      "documentation": "../../docs/plots/qq.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "residualPlot",
@@ -263,15 +263,15 @@
       "type": "rocCurve",
       "variant": "minimal",
       "file": "minimal/rocCurve.json",
-      "documentation": "../../docs/plots/roc.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/rocCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "rocCurve",
       "variant": "grouped",
       "file": "grouped/rocCurve.json",
-      "documentation": "../../docs/plots/roc.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "documentation": "../../docs/plots/rocCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "scatterPlot",
@@ -368,8 +368,8 @@
       "type": "autocorrelationPlot",
       "variant": "pacf",
       "file": "variants/autocorrelationPlot-pacf.json",
-      "documentation": "../../docs/plots/autocorrelation.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "seasonalPlot",
@@ -390,14 +390,14 @@
       "variant": "predicted",
       "file": "variants/confusionMatrix-predicted.json",
       "documentation": "../../docs/plots/confusionMatrix.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "confusionMatrix",
       "variant": "all",
       "file": "variants/confusionMatrix-all.json",
       "documentation": "../../docs/plots/confusionMatrix.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "pointIntervalPlot",
@@ -409,7 +409,9 @@
     {
       "type": "countPlot",
       "variant": "proportion",
-      "file": "variants/countPlot-proportion.json"
+      "file": "variants/countPlot-proportion.json",
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "histogram",
@@ -436,7 +438,9 @@
     {
       "type": "autocorrelationPlot",
       "variant": "acf",
-      "file": "variants/autocorrelationPlot-acf.json"
+      "file": "variants/autocorrelationPlot-acf.json",
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
     },
     {
       "type": "embeddingPlot",
@@ -456,7 +460,9 @@
     {
       "type": "confusionMatrix",
       "variant": "actual",
-      "file": "variants/confusionMatrix-actual.json"
+      "file": "variants/confusionMatrix-actual.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "逐样本计数，按实际类别归一化；classOrder 声明未出现的 C 类，零分母为 NA"
     },
     {
       "type": "hexbinPlot",
@@ -618,15 +624,71 @@
       "file": "variants/violinPlot-epanechnikov.json",
       "documentation": "../../docs/plots/violinPlot.md",
       "computation": "紧支撑核及轮廓采样数真实参与编译"
+    },
+    {
+      "type": "countPlot",
+      "variant": "series-proportion",
+      "file": "variants/countPlot-series-proportion.json",
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "variant": "baseline",
+      "file": "variants/precisionRecallCurve-baseline.json",
+      "documentation": "../../docs/plots/precisionRecallCurve.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "calibrationCurve",
+      "variant": "quantile",
+      "file": "variants/calibrationCurve-quantile.json",
+      "documentation": "../../docs/plots/calibrationCurve.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "quartiles",
+      "file": "variants/qqPlot-quartiles.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "regression",
+      "file": "variants/qqPlot-regression.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "identity",
+      "file": "variants/qqPlot-identity.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "normal-parameters",
+      "file": "variants/qqPlot-normal-parameters.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "no-confidence",
+      "file": "variants/autocorrelationPlot-no-confidence.json",
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
     }
   ],
   "invalid": [
     {
       "type": "autocorrelationPlot",
       "file": "invalid/autocorrelationPlot.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "INVALID_RANGE",
+      "path": "/data/0/value",
+      "reason": "常量序列没有可定义的相关系数"
     },
     {
       "type": "boxPlot",
@@ -638,16 +700,16 @@
     {
       "type": "calibrationCurve",
       "file": "invalid/calibrationCurve.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "INVALID_RANGE",
+      "path": "/data/0/probability",
+      "reason": "预测概率必须在 [0,1]"
     },
     {
       "type": "confusionMatrix",
       "file": "invalid/confusionMatrix.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "INVALID_RANGE",
+      "path": "/data/0/predicted",
+      "reason": "classOrder 必须覆盖所有实际和预测类别"
     },
     {
       "type": "correlationMatrix",
@@ -659,9 +721,9 @@
     {
       "type": "countPlot",
       "file": "invalid/countPlot.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "UNSUPPORTED_COMBINATION",
+      "path": "/normalizationScope",
+      "reason": "计数模式不能指定比例分母"
     },
     {
       "type": "ecdfPlot",
@@ -743,16 +805,16 @@
     {
       "type": "precisionRecallCurve",
       "file": "invalid/precisionRecallCurve.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "INVALID_RANGE",
+      "path": "/data/0/actual",
+      "reason": "每个 PR 系列至少需要一个正样本"
     },
     {
       "type": "qqPlot",
       "file": "invalid/qqPlot.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "INVALID_RANGE",
+      "path": "/distribution/standardDeviation",
+      "reason": "理论正态标准差必须为正"
     },
     {
       "type": "residualPlot",
@@ -764,9 +826,9 @@
     {
       "type": "rocCurve",
       "file": "invalid/rocCurve.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "INVALID_RANGE",
+      "path": "/data/0/actual",
+      "reason": "每个 ROC 系列需要正负样本"
     },
     {
       "type": "scatterPlot",

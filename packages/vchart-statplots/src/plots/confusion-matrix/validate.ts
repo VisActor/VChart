@@ -1,11 +1,18 @@
 import type { ConfusionMatrixSpec } from './types';
-import { checkUnique, checkCount, issue } from '../../common/validation';
+import type { StatPlotIssue } from '../../common/types';
+import { issue } from '../../common/validation';
 export function validateConfusionMatrix(spec: ConfusionMatrixSpec) {
-  const errors = checkUnique(spec.data, row => JSON.stringify([row.actual, row.predicted]));
-  const classes = new Set(spec.data.flatMap(row => [row.actual, row.predicted]));
-  if (spec.data.length !== classes.size * classes.size) {
-    errors.push(issue('INVALID_RANGE', '/data', '混淆矩阵须显式提供所有类别组合，包括 count=0'));
+  if (!spec.classOrder) return [];
+  const order = new Set(spec.classOrder);
+  const errors: StatPlotIssue[] = [];
+  if (!order.size || order.size !== spec.classOrder.length) {
+    errors.push(issue('INVALID_ORDER', '/classOrder', '类别顺序须非空且没有重复'));
   }
-  spec.data.forEach((row, i) => errors.push(...checkCount(row.count, `/data/${i}/count`)));
+  spec.data.forEach((row, index) => {
+    for (const field of ['actual', 'predicted'] as const) {
+      if (!order.has(row[field]))
+        errors.push(issue('INVALID_RANGE', `/data/${index}/${field}`, '类别不在 classOrder 中'));
+    }
+  });
   return errors;
 }

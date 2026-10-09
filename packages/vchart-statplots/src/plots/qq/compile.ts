@@ -1,39 +1,37 @@
 import type { QqPlotSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { numberAxis } from '../../common/axes';
-import { points } from '../../common/marks';
+import { points, curve } from '../../common/marks';
+import { computeQq } from './distribution';
 export function compileQq(spec: QqPlotSpec) {
+  const result = computeQq(spec);
+  const reference = curve('qq-reference', result.referenceLines, 'theoreticalQuantile', 'sampleQuantile', []);
+  reference.point = { visible: false };
+  reference.line = { style: { lineDash: [4, 4], lineWidth: 1 } };
+  reference.tooltip = { visible: false };
+  if (spec.referenceLine === 'identity') reference.seriesField = undefined;
   const chart = commonChart(
     spec,
     [
       points(
         'quantiles',
-        spec.data.map(row => ({ ...row, distribution: spec.distribution })),
+        result.points,
         'theoreticalQuantile',
         'sampleQuantile',
-        ['theoreticalQuantile', 'sampleQuantile', 'distribution'],
-        spec.fieldLabels
-      )
+        ['theoreticalQuantile', 'sampleQuantile', 'probability'],
+        { probability: '分位点位置', ...spec.fieldLabels }
+      ),
+      ...(spec.referenceLine && spec.referenceLine !== 'none' ? [reference] : [])
     ],
     [
-      numberAxis('bottom', spec.fieldLabels?.theoreticalQuantile ?? `${spec.distribution} 理论分位数`),
+      numberAxis('bottom', spec.fieldLabels?.theoreticalQuantile ?? '正态理论分位数'),
       numberAxis('left', spec.fieldLabels?.sampleQuantile ?? '样本分位数')
     ]
   );
-  if (spec.referenceLine && spec.data.length) {
-    const min = spec.data.reduce((m, r) => Math.min(m, r.theoreticalQuantile), Infinity),
-      max = spec.data.reduce((m, r) => Math.max(m, r.theoreticalQuantile), -Infinity);
-    chart.markLine = {
-      relativeSeriesId: 'quantiles',
-      coordinates: [
-        { theoreticalQuantile: min, sampleQuantile: spec.referenceLine.intercept + spec.referenceLine.slope * min },
-        { theoreticalQuantile: max, sampleQuantile: spec.referenceLine.intercept + spec.referenceLine.slope * max }
-      ],
-      endSymbol: { visible: false },
-      line: { style: { lineDash: [4, 4] } },
-      label: { visible: true, text: spec.referenceLine.method }
-    };
-  }
-  chart.legends = { visible: spec.data.some(row => row.series !== undefined), orient: 'top' };
+  chart.legends = {
+    visible: spec.data.some(row => row.series !== undefined),
+    orient: 'top',
+    ...(spec.referenceLine === 'identity' ? { seriesId: ['quantiles'] } : {})
+  };
   return chart;
 }

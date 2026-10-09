@@ -1,18 +1,16 @@
-import type { BaseSpec, SeriesRow, Interval } from '../../common/types';
-/** 统计量由调用方计算；只负责可视化。 */
+import type { BaseSpec, SeriesRow } from '../../common/types';
+/** 按每系列的输入顺序表示等间隔原始序列，不能按数值排序。 */
 export interface AutocorrelationPlotRow extends SeriesRow {
-  lag: number;
-  /** 外部 ACF/PACF 估计值；保留无偏估计可能超出 [-1,1] 的结果。 */
-  correlation: number;
-  lower?: number;
-  upper?: number;
+  value: number;
 }
 export interface AutocorrelationPlotSpec extends BaseSpec {
   type: 'autocorrelationPlot';
   data: AutocorrelationPlotRow[];
-  /** 外部计算方法或结果类型说明；本包不重新拟合或估计。 */
-  method: 'acf' | 'pacf';
-  interval?: Interval;
-  /** 字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。 */
+  /** 默认 acf；pacf 采用 Yule–Walker MLE。 */
+  method?: 'acf' | 'pacf';
+  /** 最高滞后，整数 1–512，另受每组样本量限制。 */
+  maxLag?: number;
+  /** 默认 95% 零中心置信带；false 关闭。 */
+  confidence?: false | { level?: number };
   fieldLabels?: { lag?: string; correlation?: string };
 }

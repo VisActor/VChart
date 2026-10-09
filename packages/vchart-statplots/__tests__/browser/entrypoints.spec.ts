@@ -50,6 +50,22 @@ test('ESM consumer registers against its own VChart engine', async ({ page }) =>
   expect(boxes.rows[0]).toMatchObject({ q1: 2, median: 4, q3: 6, whiskerLower: 0, whiskerUpper: 7, outliers: [100] });
   expect(boxes.boxes).toBe(1);
   expect(boxes.outliers).toBe(1);
+  const raw = await page.evaluate(async () => {
+    const w = window as any;
+    await w.esmChart.updateSpec(
+      w.esmCompile({ type: 'qqPlot', referenceLine: 'quartiles', data: [3, 1, 2].map(value => ({ value })) })
+    );
+    const qq = w.esmChart.getSpec().series[0].data.values;
+    await w.esmChart.updateSpec(
+      w.esmCompile({ type: 'autocorrelationPlot', maxLag: 2, data: [1, 2, 3, 4].map(value => ({ value })) })
+    );
+    const acf = w.esmChart.getSpec().series.find((s: any) => s.id === 'values').data.values;
+    return { qq, acf };
+  });
+  expect(raw.qq.map((r: any) => r.sampleQuantile)).toEqual([1, 2, 3]);
+  expect(raw.qq[0].theoreticalQuantile).toBeCloseTo(-0.6744897501960817, 7);
+  expect(raw.acf[1].correlation).toBeCloseTo(0.25, 14);
+  expect(raw.acf[1].upper).toBeCloseTo(0.979981992270027, 7);
   expect(errors).toEqual([]);
   await page.evaluate(() => (window as any).esmChart.release());
   await expect(page.locator('canvas')).toHaveCount(0);

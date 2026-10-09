@@ -318,3 +318,55 @@ boxPlot 接受原始 `{category,value,series?}`，按 category + series 独立�
 本次未创建 PR；提交 PR 前仍需按工程规范运行原生全量官方 develop 比较。
 
 原生面积图三图报告为 `.vchart-visual/runs/1791453548482-715e69b8/index.html`，`agent-summary.md` 已审阅。目录比较不替代新统计契约的数学和浏览器验证；原生视觉构建结束后恢复 vutils-extension 的 ESM / CJS 双格式，保留可用开发环境。
+
+## 七类图表的原始输入重构（2026-10-09）
+
+countPlot、confusionMatrix、rocCurve、precisionRecallCurve、calibrationCurve、qqPlot、autocorrelationPlot 已改为原始观测入口，旧统计结果直接拒绝。count 比例默认全表分母，可显式切换系列内分母；混淆矩阵补完整方阵、允许 classOrder 声明未出现类别、零分母保持 NA。ROC 合并同分、保留全部阈值并计算 AUC；PR 使用 stepBefore，AP 按召回增量计算，基线来自每组正例率。校准等宽/等频、边界相等入左箱，空箱省略。QQ 使用正态参数、i/(N+1) 位置及内部参考线；ACF 使用有偏自协方差，PACF 使用 Yule–Walker MLE，置信带围绕零。
+
+Schema、standalone 校验器、主例/最小/分组/反例、8 个新配置变体、机器目录、中文逐图契约及 Python 交接同步迁移。固定 numpy 1.26.4 / scipy 1.13.1 / scikit-learn 1.5.2 / statsmodels 0.14.4 生成 19 组独立对照；另检查标准正态逆 CDF 尾部和分段边界，绝对误差上限 5e-8。
+
+本地验收（Node.js 22.23.3）：
+
+- StatPlots 全部单元：29 suites / **528 tests**；Chromium 全包：**257 passed**。覆盖真实图元、hover、图例同步过滤辅助图层、同实例更新、主题、resize、空态和 release。
+- build（ESM/CJS/UMD）、Schema 一致性通过；28 主例、99 有效变体、28 反例及 28 类目录 / 89 意图预期通过。ESLint **0 errors / 747 warnings**，警告包括现有和测试代码中的 any / 非空断言，没有关闭规则。
+- 七图截图各重复五轮，PNG SHA-256 一致，已审查外观。七个数学变异（拆同分、AP 梯形积分、校准边界、QQ 位置、ACF 分母、count 比例分母、NA→0）均触发断言失败，之后恢复源码。
+- [性能记录](../benchmarks/raw-input-results.json)：10k/100k 各九次 compile，另测独立 validate；全部七图浏览器生命周期及 20 图表 × 1000 样本通过，释放后 canvas=0。ROC/PR 使用不同评分，QQ 保留全部点，ACF/PACF 另测 512 滞后。属于本机冒烟，不设时间阈值，不与旧预计算输入做虚假等价对比。
+- 官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc` 的 **charts 目录 107 / 107 通过，零视觉差异和执行错误**。报告 `.vchart-visual/runs/1791512131030-62dd3e29/index.html` 与 agent-summary.md 已审阅；其余 153 个原生用例未运行。本次没有创建 PR，PR 前仍需全量比较；结束后恢复 vutils-extension 的 ESM / CJS 构建产物。
+
+初轮全包浏览器 255 通过、2 失败：ESM 预打包缓存没有新的 normalQuantile 导出；另外工作区重建导致图库导航被中断。Vite 显式预打包根入口 vutils，恢复依赖产物，在稳定工作区完成上述全包回归。ACF 最终使用原生 line：每根竖线按内部键分段，颜色 scale / 图例 field 明确绑定原始 series，与点和置信带同步，不维护手工显隐。单个非零滞后的区间增加半滞后绘图边缘，防止面积退化。
+
+证据位于 `.vchart-statplots/{build-raw-input.log,unit-raw-input.log,browser-all-raw-input-final.log,contracts-raw-input.log,lint-raw-input.log,counter-raw-results.json}`，截图、稳定性和生命周期记录在 `.vchart-statplots/raw-input/`。
+
+收尾移除 ACF 未使用的 zero 字段及多余复制，修正 classOrder / normalization 的注释归属。重建、528 项单元及相关图表/ESM 的 16 项浏览器检查通过，记录为 `browser-raw-input-cleanup.log`；35 张截图再次核对一致。
+
+### 上游发布前置项
+
+相邻 VUtil 仓库把回归区间原有的 Acklam 实现提取为公共 normalQuantile，回归区间复用该工具；端点为 ±Infinity，非法概率为 NaN。46 suites / **206 tests**、独立 compile 和构建通过，根入口声明及运行导出均已核对；构建保留原有 Rollup TS6304 警告，源 tsc 无错误。源/test/lint 使用对应的 TypeScript 项目边界，避免测试文件位于 source rootDir 外。
+
+当前 npm 1.0.24 尚无该公共导出。本地使用 Rush PNPM 标准 link 和明确未发布的开发版本 `1.0.24-dev.normal-quantile`，避免 TypeScript 将同版本类型重定向到旧安装包；没有深层导入、复制算法或直接编辑 node_modules。StatPlots 依赖范围及 Rush 锁文件仍指向原已发布版本，**不能把 fresh install 或可发版交付写成通过**。须先发布 VUtil API，再更新依赖下限及锁文件到实际版本并重新验收。本轮未提交、未发布。
+
+## 混淆矩阵与相关矩阵的显示对齐（2026-10-09）
+
+两图共用私有 MatrixLayout、matrixAxis 和 createMatrixColorBar，移除相关矩阵专属的重复布局／色条实现。混淆矩阵改为方形紧密网格、主题背景色 1 CSS px 边界和原生标签避让；色条最大值在上，计数采用整数刻度，归一化固定 0%～100%。计算结果、classOrder、灰色 NA 和原始 count Tooltip 保持原契约。主例为 30 条观测的完整三分类矩阵，对角行比例 80%、70%、70%；零分母场景留在 actual 变体，并登记验证目的。
+
+Node.js 22.23.3 本地验收：
+
+- 完整单元 **30 suites / 539 tests 通过**；ESM / CJS / UMD 构建、Schema、28 主例／99 有效变体／28 反例以及 28 类目录／89 意图校验通过。公开类型和 Schema 的本次样式契约未改变。
+- 初轮专项浏览器 **49 项通过**。完整浏览器共执行 **266 项，265 通过、1 项 ROC 旧断言失败**：此前 ROC 示例从每模型 4 条观测增至 10 条，旧测试仍写死 5 个曲线点，实际应为 11 个。断言修正为“不同分数数量 + 起点”，同一用例复测通过。其余 265 项没有因该测试修改重新全跑；266 项用例已分别验证通过，不能把初轮全量写成零失败。
+- 混淆矩阵专项覆盖 2×2、3×3、20×20，三种容器尺寸、light/dark、四种 normalization、类别反序、NA／零、真实 hover、空态往返、resize、release、自定义色板、计数上限 1／3／10、百分比刻度；新增长色条标题的窄屏截断断言，单例复测通过。
+- 两种矩阵在 DPR 1／1.25／2 的色条与实际格子像素一致。相关矩阵现有三角、NA、长轴标签、密集布局及 10,000 格生命周期回归通过。重构前后 **41 张相关矩阵截图 SHA-256 完全相同**；两图各连续 **5 次**代表截图一致，已查看主例、深色 NA 和密集截图。
+- 反例在本地 UMD 产物中受控注入：恢复单元格间隙触发真实格子尺寸断言，反转渐变触发色条／单元格像素断言。两例准确失败后恢复原产物，不提交故障注入。
+- 混淆矩阵 **10,000 格**同实例 render、比例／类别方向／主题 update、resize、release 通过；真实格数与颜色装饰数量保持正确，释放后 canvas=0。本机一次冒烟计时：包含导航的首次渲染 329 ms、浅色 update+resize 129 ms、深色 update+resize 270 ms；不设时间阈值，不当作跨环境性能承诺。
+- 原生 `charts/heatmap` 对官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc` 的 **1 / 1 用例通过，无差异、无执行错误**；报告 `.vchart-visual/runs/1791514780717-1433ca31/index.html` 和 agent-summary.md 已审阅。其余 259 个原生用例未运行，PR 前仍需全量。此原生用例验证 heatmap 集成，新增 StatPlots 显示由专项浏览器和重构前后截图验证。
+
+原生视觉构建清理了 vutils-extension 的开发产物，导致并行启动的后续契约校验找不到该包的 CJS 入口；通过该包标准 `npm run build` 恢复双格式产物，再运行全部契约检查通过。没有复制入口或编辑 node_modules。ESLint 无错误，警告包括既有和测试代码的 any／非空断言，未关闭规则。
+
+证据：`.vchart-statplots/{matrix-build.log,matrix-unit-all.log,matrix-contracts.log,matrix-lint.log,matrix-browser.log,matrix-browser-all.log,matrix-browser-roc-fix.log,matrix-browser-title.log,matrix-native-visual.log}`；截图、两图稳定性、反例报告及 10,000 格计时位于 `.vchart-statplots/matrix-style/`，相关矩阵连续五轮截图位于 `.vchart-statplots/correlation-matrix/stable-full-*.png`。
+
+本次没有提交或创建 PR。前述 VUtil 公共导出发版前置项仍然存在，不由样式优化解决。
+
+## 本地提交整理（2026-10-09）
+
+用户已要求整理并提交全部本地改动，范围包括七类统计图的原始输入、ROC 对比示例、共用矩阵样式、生成的 Schema／校验器、中文文档、计划、Python fixtures 和性能记录。VChart 使用 codex/vchart-statplots，VUtil 的 normalQuantile 改动从发布分支切到 codex/normal-quantile 保存；两个仓库分别提交。
+
+上述“未提交”是对应阶段的验收时状态；提交整理不新增发布动作或 PR。保留明确未发布的 VUtil 开发版本用于本地联调，实际发布后仍须更新 StatPlots 的依赖下限和 Rush 锁文件。提交检查复用近期 539 项单元、266 项浏览器用例的验证结果及原生视觉报告；VUtil 的源码／测试配置整理后重新执行 compile 和完整单元测试。

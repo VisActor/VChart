@@ -1,5 +1,5 @@
 import type { BaseSpec, SeriesRow, Interval } from '../../common/types';
-/** 预计算统计结果；本包不拟合模型。 */
+/** 原始逐条观测；可选拟合或区间结果由外部提供。 */
 export interface ScatterPlotRow extends SeriesRow {
   x: number;
   y: number;

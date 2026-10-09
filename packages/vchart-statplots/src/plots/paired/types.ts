@@ -1,5 +1,5 @@
 import type { BaseSpec, SeriesRow } from '../../common/types';
-/** 预计算统计结果；本包不拟合模型。 */
+/** 原始逐条观测，保留个体标识。 */
 export interface PairedComparisonPlotRow extends SeriesRow {
   id: string;
   category: string;

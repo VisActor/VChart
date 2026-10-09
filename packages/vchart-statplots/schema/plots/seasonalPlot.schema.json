@@ -78,7 +78,7 @@
   ],
   "definitions": {
     "SeasonalPlotRow": {
-      "description": "统计量由调用方计算；只负责可视化。",
+      "description": "按 cycle/phase 标注的原始观测，不要求统计汇总。",
       "type": "object",
       "properties": {
         "cycle": {

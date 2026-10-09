@@ -2,13 +2,11 @@ import type { CountPlotSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { categoryAxis, numberAxis } from '../../common/axes';
 import { semanticTooltip } from '../../common/tooltip';
+import { aggregateCounts } from './aggregation';
 export function compileCount(spec: CountPlotSpec) {
-  const totals = new Map<string | undefined, number>();
-  spec.data.forEach(row => totals.set(row.series, (totals.get(row.series) ?? 0) + row.count));
   const proportion = spec.statistic === 'proportion';
-  const values = spec.data
-    .filter(row => !proportion || totals.get(row.series)! > 0)
-    .map(row => ({ ...row, proportion: row.count / (totals.get(row.series) || 1) }));
+  const values = aggregateCounts(spec);
+  const proportionLabel = spec.normalizationScope === 'series' ? '系列内比例' : '全表比例';
   const chart = commonChart(
     spec,
     [
@@ -21,7 +19,7 @@ export function compileCount(spec: CountPlotSpec) {
         seriesField: 'series',
         stack: false,
         tooltip: semanticTooltip(['category', 'count', ...(proportion ? ['proportion'] : [])], {
-          proportion: '系列内比例',
+          proportion: proportionLabel,
           ...spec.fieldLabels
         })
       }
@@ -31,7 +29,7 @@ export function compileCount(spec: CountPlotSpec) {
       {
         ...numberAxis(
           'left',
-          proportion ? spec.fieldLabels?.proportion ?? '系列内比例' : spec.fieldLabels?.count ?? '计数',
+          proportion ? spec.fieldLabels?.proportion ?? proportionLabel : spec.fieldLabels?.count ?? '计数',
           proportion
         ),
         zero: true

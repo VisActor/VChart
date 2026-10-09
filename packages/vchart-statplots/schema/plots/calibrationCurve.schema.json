@@ -11,67 +11,25 @@
         "$ref": "#/definitions/CalibrationCurveRow"
       }
     },
-    "interval": {
-      "description": "显示区间的统计含义；数值由计算端提供。",
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "confidence",
-                "credible",
-                "prediction"
-              ],
-              "type": "string"
-            },
-            "level": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "level"
-          ]
+    "binning": {
+      "type": "object",
+      "properties": {
+        "binCount": {
+          "description": "箱数，默认 5，整数范围 1–512。",
+          "type": "number"
         },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "standardDeviation",
-                "standardError"
-              ],
-              "type": "string"
-            },
-            "multiplier": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "multiplier"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "range"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind"
-          ]
+        "strategy": {
+          "description": "默认 uniform；quantile 按系列独立确定边界。",
+          "enum": [
+            "quantile",
+            "uniform"
+          ],
+          "type": "string"
         }
-      ]
+      },
+      "additionalProperties": false
     },
     "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
       "type": "object",
       "properties": {
         "meanPredictedProbability": {
@@ -110,30 +68,13 @@
   ],
   "definitions": {
     "CalibrationCurveRow": {
-      "description": "预计算统计结果；本包不拟合模型。",
+      "description": "每行是一条真实二分类标签与预测正例概率。",
       "type": "object",
       "properties": {
-        "binStart": {
-          "type": "number"
+        "actual": {
+          "type": "boolean"
         },
-        "binEnd": {
-          "type": "number"
-        },
-        "meanPredictedProbability": {
-          "description": "箱内平均预测概率，0–1，必须位于 binStart 与 binEnd 内。",
-          "type": "number"
-        },
-        "observedRate": {
-          "description": "箱内实际正例比例，范围 0–1。",
-          "type": "number"
-        },
-        "count": {
-          "type": "number"
-        },
-        "lower": {
-          "type": "number"
-        },
-        "upper": {
+        "probability": {
           "type": "number"
         },
         "series": {
@@ -143,11 +84,8 @@
       },
       "additionalProperties": false,
       "required": [
-        "binEnd",
-        "binStart",
-        "count",
-        "meanPredictedProbability",
-        "observedRate"
+        "actual",
+        "probability"
       ]
     },
     "StatPlotColors": {

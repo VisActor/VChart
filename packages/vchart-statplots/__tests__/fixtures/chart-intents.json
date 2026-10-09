@@ -600,5 +600,85 @@
         }
       }
     }
+  },
+  {
+    "prompt": "系列内比例图",
+    "expected": {
+      "type": "countPlot",
+      "options": {
+        "statistic": "proportion",
+        "normalizationScope": "series"
+      }
+    }
+  },
+  {
+    "prompt": "带正例率基线的 PR 图",
+    "expected": {
+      "type": "precisionRecallCurve",
+      "options": {
+        "baseline": true
+      }
+    }
+  },
+  {
+    "prompt": "等频校准曲线",
+    "expected": {
+      "type": "calibrationCurve",
+      "options": {
+        "binning": {
+          "binCount": 4,
+          "strategy": "quantile"
+        }
+      }
+    }
+  },
+  {
+    "prompt": "四分位参考线 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "referenceLine": "quartiles"
+      }
+    }
+  },
+  {
+    "prompt": "回归参考线 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "referenceLine": "regression"
+      }
+    }
+  },
+  {
+    "prompt": "恒等参考线 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "referenceLine": "identity"
+      }
+    }
+  },
+  {
+    "prompt": "指定正态参数 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "distribution": {
+          "type": "normal",
+          "mean": 2,
+          "standardDeviation": 3
+        }
+      }
+    }
+  },
+  {
+    "prompt": "不带置信区间的 ACF 图",
+    "expected": {
+      "type": "autocorrelationPlot",
+      "options": {
+        "confidence": false
+      }
+    }
   }
 ]

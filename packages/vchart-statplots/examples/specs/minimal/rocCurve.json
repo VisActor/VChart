@@ -2,22 +2,20 @@
   "type": "rocCurve",
   "data": [
     {
-      "fpr": 0,
-      "tpr": 0
+      "actual": false,
+      "score": 0.1
     },
     {
-      "fpr": 0.08,
-      "tpr": 0.72,
-      "threshold": 0.7
+      "actual": false,
+      "score": 0.4
     },
     {
-      "fpr": 0.25,
-      "tpr": 0.9,
-      "threshold": 0.4
+      "actual": true,
+      "score": 0.35
     },
     {
-      "fpr": 1,
-      "tpr": 1
+      "actual": true,
+      "score": 0.8
     }
   ]
 }
