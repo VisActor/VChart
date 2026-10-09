@@ -244,10 +244,10 @@
       "小提琴图",
       "violinplot"
     ],
-    "useWhen": "比较不同组预计算密度的分布形状。",
+    "useWhen": "从原始样本比较不同组的核密度分布形状。",
     "avoidWhen": [
       "只有五数概括",
-      "没有密度采样"
+      "仅持有预计算密度曲线"
     ],
     "schema": "schema/plots/violinPlot.schema.json",
     "example": "examples/specs/minimal/violinPlot.json",

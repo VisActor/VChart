@@ -10,7 +10,7 @@ npm run test:browser --prefix packages/vchart-statplots -- --grep 'performance|u
 
 Node 场景暖机一次后测量 9 次，报告中位数及样本最大值（近似 p95）；compile 包含边界校验。包括 1 万 / 5 万 ROC 点、1 千 / 1 万蜂群点和 1 万完全重复值。UMD gzip 大小不包含外部 VChart。
 
-浏览器关闭动画、DPR=1、UTC、本地资源。ROC 原生 line 与 statplots 使用相同轴、点、线、主题和画布；对照暖机后各测一次。浏览器时间含测量噪声，不能据单次差异推断回归。小提琴明确为 10 组、每组 1,000 个密度采样点。
+浏览器关闭动画、DPR=1、UTC、本地资源。ROC 原生 line 与 statplots 使用相同轴、点、线、主题和画布；对照暖机后各测一次。浏览器时间含测量噪声，不能据单次差异推断回归。首版小提琴测量为 10 组、每组 1,000 个预计算密度采样点；本轮原始输入测量另行记录，不能直接比较。当前 compare-performance 使用每组 1,000 条原始观测、256 个绘制点。
 
 散点场景测量 1 万点的首绘、更新、resize、导出、释放，以及 20 个图表各 1,000 点的创建和释放。Pair Plot 使用 4 / 8 变量、1 千 / 1 万观测，画布 1200×1000，记录面板数、总点数和反转记录顺序后的更新。刷选时间含 Playwright 指针往返及等待 brushEnd，不是纯绘制时间。
 
@@ -87,3 +87,15 @@ npm run test:browser --prefix packages/vchart-statplots -- box-plot-performance.
 ```
 
 原始性能与截图证据保留在 `.vchart-statplots/box-plot/`。实际统计和交互验收见 [验收记录](../docs/validation.md)。
+
+## ViolinPlot 原始样本生命周期（2026-10-08）
+
+[测量记录](violin-results.json) 使用 10k / 100k 确定性原始样本，value=(i×37)%1009；单组与十组分别生成 256 / 2560 个轮廓采样点。复用 vutils KDE，编译复杂度 O(N×points)，内存 O(N + 组数×points)，绘图规模 O(组数×points)。不去重或抽样原始数据。
+
+暖机一次后 compile 测量九次，中位数约 10 / 101 ms（单组）；首绘和 update 记录包含重新编译，resize / hover 不计算 KDE。100k 单组约 104 ms 首绘/更新、2.3 ms resize。20 图表各 1000 原始样本，共 20 个 canvas，释放后 canvas=0。本机测量不作为跨设备 SLA，不能与历史预计算密度的首版耗时直接比较。
+
+```sh
+npm run test:browser --prefix packages/vchart-statplots -- violin-performance.spec.ts
+```
+
+原始证据位于 `.vchart-statplots/violin/timings.json`；测量记录采用定向性能测试结果，后续全包回归运行也会生成自己的性能报告。数学、交互和截图验收见[验收记录](../docs/validation.md)。

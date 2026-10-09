@@ -1,6 +1,6 @@
 # 计算契约
 
-`vchart-statplots` 通常接受可解释的预计算结果。Python 或调用方 JS 负责数据清洗、缺失策略、拟合、bootstrap、PCA/UMAP/t-SNE、ACF/PACF、SHAP、模型评价和统计推断。histogram 的单变量分箱、kdePlot 的一维核密度估计、ecdfPlot 的经验累积概率、boxPlot 的四分位数及须/异常值由本包完成。其余本包计算包括计数归一化、比率累加、密度轮廓宽度、坐标布局和颜色映射。
+`vchart-statplots` 通常接受可解释的预计算结果。Python 或调用方 JS 负责数据清洗、缺失策略、拟合、bootstrap、PCA/UMAP/t-SNE、ACF/PACF、SHAP、模型评价和统计推断。histogram 的单变量分箱、kdePlot 的一维核密度估计、ecdfPlot 的经验累积概率、boxPlot 的四分位数及须/异常值、violinPlot 的分组 KDE 由本包完成。其余本包计算包括计数归一化、比率累加、密度轮廓宽度、坐标布局和颜色映射。
 
 `hexbinPlot` 是明确的计算例外：输入原始 x/y 散点与 `binning.xBins`（默认 30），编译阶段完成固定归一化、六边形分箱和计数。每条观测恰好入一个箱，重复坐标重复计数，仅生成非空箱；颜色表示计数，面积保持一致。resize、hover、主题和配色切换不改变分箱结果。原始数值轴和 tooltip 保留原单位，保形布局在屏幕中维持正六边形。完整规则和数值边界见[逐图契约](plots/hexbinPlot.md)。
 
@@ -33,7 +33,7 @@ with open("rocCurve.json", "w", encoding="utf-8") as output:
 - KDE：保留原始样本、核函数及实际带宽规则；Gaussian 绘制范围截断尾部，不重新归一化。
 - ECDF：重复值分别计入分母，真实跳点全部保留，右连续；边界连接点不计入样本量。
 - 箱线图：原始 category/value/series，重复值分别计入；四分位数复用 vutils 线性插值，whiskers.iqrMultiplier 默认 1.5。小样本须候选落入箱体时取对应四分位数；零 IQR 不自动改为 min/max。详见[箱线图契约](plots/boxPlot.md)。
-- 小提琴：密度采样、可选方法说明放 description。
+- 小提琴：原始 category/value/series，复用与 kdePlot 相同的 KDE；width 等最大宽度、area 等绘制面积，均不表示样本数；采样密度为私有绘图结果。
 - 区间：计算方法放 description，区间种类及水平/倍数放 interval。
 - 模型：训练/验证来源、正例定义、指标名称、外部 AUC/AP；不能从画出的折线代替原评估结果。
 - 相关矩阵：方法、常量等导致的 null；不要把不可计算替换为 0。

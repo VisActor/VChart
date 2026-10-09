@@ -1,6 +1,6 @@
 # @visactor/vchart-statplots
 
-以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，模型拟合与统计推断留在 Python 或调用方 JavaScript；本包负责校验、显示归一化、确定性分箱、KDE / ECDF / 箱线统计、几何布局与交互。`kdePlot`、`ecdfPlot` 接受原始 `{value, series?}` 样本，复用 vutils 按系列独立计算；KDE 的核函数和带宽参与估计，ECDF 保留真实跳点及重复值权重。`boxPlot` 接受原始 `{category, value, series?}` 观测，复用 vutils 计算四分位数，默认按 1.5×IQR 判定须与异常值，可用 `whiskers.iqrMultiplier` 调整。`histogram` 接受单变量原始 `{value}` 观测，通过可选 `binning.binCount` 计算分箱频数（默认按样本量使用 Sturges 候选数）；不支持 series 或预分箱输入。`hexbinPlot` 接受原始 x/y 散点，在编译阶段按 `binning.xBins`（默认 30）计算六边形分箱计数。`pairPlot` 只需 `variables` 与 `data.observations`，默认内部计算对角直方图，可用 `diagonal.binning.binCount` 调整箱数或 `diagonal: { type: 'none' }` 关闭对角分布。
+以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，模型拟合与统计推断留在 Python 或调用方 JavaScript；本包负责校验、显示归一化、确定性分箱、KDE / ECDF / 箱线统计 / 小提琴轮廓、几何布局与交互。`kdePlot`、`ecdfPlot` 接受原始 `{value, series?}` 样本，复用 vutils 按系列独立计算；KDE 的核函数和带宽参与估计，ECDF 保留真实跳点及重复值权重。`boxPlot` 接受原始 `{category, value, series?}` 观测，复用 vutils 计算四分位数，默认按 1.5×IQR 判定须与异常值，可用 `whiskers.iqrMultiplier` 调整。`violinPlot` 接受原始 `{category, value, series?}` 观测，与 kdePlot 共用核密度估计，保留等宽与等面积轮廓。`histogram` 接受单变量原始 `{value}` 观测，通过可选 `binning.binCount` 计算分箱频数（默认按样本量使用 Sturges 候选数）；不支持 series 或预分箱输入。`hexbinPlot` 接受原始 x/y 散点，在编译阶段按 `binning.xBins`（默认 30）计算六边形分箱计数。`pairPlot` 只需 `variables` 与 `data.observations`，默认内部计算对角直方图，可用 `diagonal.binning.binCount` 调整箱数或 `diagonal: { type: 'none' }` 关闭对角分布。
 
 ```ts
 import VChart from '@visactor/vchart';

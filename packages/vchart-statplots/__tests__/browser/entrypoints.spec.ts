@@ -11,6 +11,10 @@ test('ESM consumer registers against its own VChart engine', async ({ page }) =>
         (window as any).esmChart.getChart().getAllSeries()[0].getSeriesMark().getGraphics()[0].attribute.points.length
     )
   ).toBe(3);
+  const violinRows = await page.evaluate(() => (window as any).esmChart.getSpec().series[0].data.values);
+  expect(violinRows.map((row: any) => row.value)).toEqual([-3, 0, 3]);
+  expect(violinRows[1].density).toBeCloseTo(1 / Math.sqrt(2 * Math.PI), 12);
+  expect(violinRows[1].__densityWidth).toBe(1);
   const distributions = await page.evaluate(async () => {
     const w = window as any;
     const results = [];

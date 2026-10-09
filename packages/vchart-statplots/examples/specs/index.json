@@ -348,14 +348,14 @@
       "variant": "minimal",
       "file": "minimal/violinPlot.json",
       "documentation": "../../docs/plots/violin.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始 category/value/series，按组使用 vutils KDE；宽度归一化不修改概率密度"
     },
     {
       "type": "violinPlot",
       "variant": "grouped",
       "file": "grouped/violinPlot.json",
       "documentation": "../../docs/plots/violin.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "原始 category/value/series，按组使用 vutils KDE；宽度归一化不修改概率密度"
     },
     {
       "type": "stripPlot",
@@ -383,7 +383,7 @@
       "variant": "area",
       "file": "variants/violinPlot-area.json",
       "documentation": "../../docs/plots/violin.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "原始 category/value/series，按组使用 vutils KDE；宽度归一化不修改概率密度"
     },
     {
       "type": "confusionMatrix",
@@ -597,6 +597,27 @@
       "variant": "boxPlot-small-sample",
       "documentation": "../../docs/plots/boxPlot.md",
       "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "fixed",
+      "file": "variants/violinPlot-fixed.json",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "固定带宽改变原始样本 KDE 平滑尺度"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "constant",
+      "file": "variants/violinPlot-constant.json",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "常数组和单样本显式指定正带宽"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "epanechnikov",
+      "file": "variants/violinPlot-epanechnikov.json",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "紧支撑核及轮廓采样数真实参与编译"
     }
   ],
   "invalid": [
@@ -792,9 +813,9 @@
     {
       "type": "violinPlot",
       "file": "invalid/violinPlot.json",
-      "code": "SCHEMA_ERROR",
-      "path": "/xField",
-      "reason": "语义协议不接受原生字段映射"
+      "code": "INVALID_RANGE",
+      "path": "/estimation/bandwidth",
+      "reason": "固定带宽必须为正数"
     }
   ]
 }

@@ -286,3 +286,35 @@ boxPlot 接受原始 `{category,value,series?}`，按 category + series 独立�
 原生箱线图三图报告为 `.vchart-visual/runs/1791451732479-31d8ad04/index.html`；标题报告为 `.vchart-visual/runs/1791451755857-3b4c3b1b/index.html`。两个目录的 `agent-summary.md` 均已审阅，基线为官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc`。这些目录比较不替代新统计契约的包级数学和浏览器验证。
 
 本次未创建 PR；提交 PR 前仍需执行全量官方 develop 比较。最终原生视觉构建会清理共享依赖的部分格式，结束后恢复了 vutils-extension 的 ESM / CJS 双格式，保留可用的开发环境。
+
+
+## ViolinPlot 原始样本重构（2026-10-08）
+
+输入改为原始 `{category,value,series?}`，旧 density 明确拒绝；按 category + series 独立使用 vutils KDE。KDE 模型、网格和数值边界提取为共享模块，保留 kdePlot 公共类型和统计行为。Gaussian / Scott 默认与 kdePlot 一致，宽度归一化仅修改私有绘图宽度；tooltip 展示样本数、原始范围、实际带宽和采样峰值。
+
+| 检查 | 结果 |
+| --- | --- |
+| TypeScript / 完整 build | 通过，生成 ESM / CJS / UMD |
+| Schema / examples / catalog | 通过，28 主例、91 变体、28 反例、81 条选型意图 |
+| Jest | 23 套 / 466 项通过；反例恢复后 KDE / violin 51 项再次通过 |
+| Chromium 全包 | 219 项通过，包括 KDE / ECDF / boxPlot 既有回归 |
+| 定向重复 | violin 3 项 × 5 轮，15 项通过 |
+| 截图稳定性 | constant、epanechnikov、width、area、area-dark 各五轮字节一致，已审阅 |
+| 反例检查 | 错误带宽、丢失重复样本、忽略 area 的临时修改均触发目标统计断言失败，已恢复 |
+| 官方 develop 原生视觉比较 | charts/area 10/10 通过，0 差异、0 执行错误 |
+
+数学测试使用解析 Gaussian / Epanechnikov 公式，断言 Scott / Silverman 的总体标准差规则，验证与 kdePlot 的网格和密度一致；等面积测试同时检查实际梯形积分和不同分布峰宽关系。边界包括乱序/重复观测、冻结输入、独立分类/系列、组合键、常数组显式带宽、空表、非法旧字段/参数、不可表示网格，以及稀疏采样造成零面积时的编译错误。
+
+真实浏览器验证轮廓采样数、坐标和核尾部轴域、hover 摘要、原始值/带宽/核/采样数/归一化更新、系列颜色和位置、图例真实过滤、空表往返、theme、resize、release，以及连续 50 次更新事件不重复订阅。ESM 用自己的 VChart 引擎注册并断言原始 violin 密度，CJS 实际编译输出和浏览器 UMD 同样有效。
+
+与 Python 的对照依据官方文档及源码，未运行 SciPy 环境或宣称与 Python 输出逐点一致。原始样本和分组 KDE 流程一致；固定带宽单位、总体/样本标准差、默认 width/area、采样数与尾部范围、实际轮廓面积归一、常数组行为等差异已在[逐图文档](plots/violinPlot.md)列明。优先保证本包 violinPlot / kdePlot 的同样配置得到同样密度。
+
+[性能记录](../benchmarks/violin-results.json)包含 10k / 100k 单组/十组，每组 256 个绘制点，compile 暖机后九次测量；单组中位数约 10 / 101 ms，首绘和更新包含重新编译，resize 不计算 KDE。20 图表各 1000 观测，释放后 canvas=0。UMD min 370668 bytes / gzip 42656 bytes，较 boxPlot 验收记录增加 3909 / 901 bytes；没有新增依赖或改锁文件。
+
+首次全包浏览器 218 项通过、1 项性能用例失败：从 boxPlot 沿用的更新测试新增了单样本类别却没有带宽，违反新 KDE 契约。修正为向现有组追加原始观测后定向性能用例通过，再执行全包回归；没有在实现中增加单样本自动带宽或放宽断言。
+
+原始证据位于 `.vchart-statplots/violin/`：build.log、eslint.log、unit-final.log、browser-first.log、browser-complete.log、mutation-*.log、screenshot-stability.json、timings.json、cjs-size.json 和截图。性能归档使用定向运行结果；后续全包运行会生成自己的 timings.json。
+
+本次未创建 PR；提交 PR 前仍需按工程规范运行原生全量官方 develop 比较。
+
+原生面积图三图报告为 `.vchart-visual/runs/1791453548482-715e69b8/index.html`，`agent-summary.md` 已审阅。目录比较不替代新统计契约的数学和浏览器验证；原生视觉构建结束后恢复 vutils-extension 的 ESM / CJS 双格式，保留可用开发环境。
