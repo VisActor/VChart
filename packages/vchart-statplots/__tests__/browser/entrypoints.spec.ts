@@ -66,6 +66,31 @@ test('ESM consumer registers against its own VChart engine', async ({ page }) =>
   expect(raw.qq[0].theoreticalQuantile).toBeCloseTo(-0.6744897501960817, 7);
   expect(raw.acf[1].correlation).toBeCloseTo(0.25, 14);
   expect(raw.acf[1].upper).toBeCloseTo(0.979981992270027, 7);
+  const regressions = await page.evaluate(async () => {
+    const w = window as any;
+    const results = [];
+    const data = [0, 1, 2, 3, 4, 5].map(x => ({ x, y: 1 + 2 * x + (x * x) / 2 }));
+    for (const regression of [
+      { method: 'linear' },
+      { method: 'polynomial', degree: 2 },
+      { method: 'lowess', span: 1, iterations: 0 }
+    ]) {
+      await w.esmChart.updateSpec(
+        w.esmCompile({ type: 'scatterPlot', data, fit: { input: 'observations', ...regression, confidence: false } })
+      );
+      const curve = w.esmChart.getSpec().series.find((s: any) => s.id === 'fit').data.values;
+      await w.esmChart.updateSpec(w.esmCompile({ type: 'residualPlot', input: 'observations', data, regression }));
+      const rows = w.esmChart.getSpec().series[0].data.values;
+      results.push({ method: regression.method, curve, rows });
+    }
+    return results;
+  });
+  regressions.forEach(result => {
+    expect(result.curve.length).toBeGreaterThan(1);
+    expect(result.rows).toHaveLength(6);
+    result.rows.forEach((r: any) => expect(r.residual).toBeCloseTo(r.y - r.fittedValue, 12));
+  });
+  regressions[1].rows.forEach((r: any) => expect(r.residual).toBeCloseTo(0, 12));
   expect(errors).toEqual([]);
   await page.evaluate(() => (window as any).esmChart.release());
   await expect(page.locator('canvas')).toHaveCount(0);

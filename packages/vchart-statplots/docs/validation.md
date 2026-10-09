@@ -1,6 +1,58 @@
 # 实现与验收记录
 
-## VUtil 正式依赖升级（2026-10-09）
+## 原始散点回归与残差图（2026-10-09）
+
+源码与本地联调已完成，正式依赖已升级为 VUtil 1.0.26。scatterPlot 新增显式 fit.input=observations / estimates，支持原始 x/y 的线性、2–5 次多项式和 LOWESS 拟合；不传 fit 仍为纯散点。residualPlot 新增 observations，默认按原始 x 绘制 y−predict(x)，另可选 fitted 横轴。predictions / residuals 外部用途保留，独立 smooth LOWESS 只拟合残差趋势。
+
+线性/多项式默认使用成对 bootstrap 均值响应置信带；LOWESS 不画带。按系列独立计算，点、线、带共用颜色与图例筛选。类型、生成 Schema/校验器、主例与分组例、7 个新变体、目录和中文契约已同步。
+
+### 上游修复及交付边界
+
+VUtil 1.0.25 的大偏移线性/多项式预测错误、LOWESS predict/grid 稳健状态不一致、隐藏采样/减少迭代已在隔离工作树修复；新增根导出 regressionBootstrap。使用中心化/缩放、增量 QR 与退化最小范数解，不在 StatPlots 重写数学算法。LOWESS 保留局部 x/y 精度，距离或插值区间溢出时使用归一化坐标；保留全量观测；曲线网格保留正常整数步长，避免破坏柱状回归组件的类别索引。
+
+- 上游实现来源：[VUtil PR #291](https://github.com/VisActor/VUtil/pull/291)，已合并为 `f963e37`。npm 1.0.26 已提供稳定回归、LOWESS fitted 和 regressionBootstrap 公共 API。
+- 可应用补丁：`.vchart-statplots/regression/vutils-regression.patch`；已对相邻 VUtil 基线执行 `git apply --check`。补丁不包含开发 node_modules 链接。
+- 本地开发包链接已通过标准 Rush update 替换；StatPlots 和 VChart 的 vutils 实际路径均指向 Rush 安装的 npm 1.0.26。
+- 8 个项目的 14 处直接依赖下限及 Rush 锁文件已统一更新为 1.0.26，涉及 vutils、vdataset、vscale、vlayouts；本轮不执行 npm 发布。
+- 开发阶段使用 `1.0.25-dev.regression` 完成 CJS 140 份主例/有效变体、严格类型与三模型 ESM/UMD 绘制及 release 验证；当前改用正式依赖，隔离验收结果见下方 1.0.26 升级记录。
+
+### 数值与契约验证
+
+- VUtil：53 套、276 项测试通过，compile/build 通过，ESLint 0 errors、8 条既有 warnings。先保存三个缺陷的失败测试，再修复；旧 LOWESS 测试中依赖隐藏近似或模型不一致的断言改为明确参数和真实模型一致性断言，没有放宽误差/性能预算。
+- 上游 PR 的 CI 补充修复：`fbb4e6f` 迁移 labeler 配置并固定 v6.2.0 提交；`ee963ab` 将 Rush 包级测试与 VUtils Jest worker 串行执行，消除 CPU 争用对 LOWESS 墙钟预算的影响。[GitHub 单测任务](https://github.com/VisActor/VUtil/actions/runs/37907797390) 四个包共 101 套 / 816 项通过；保留全部用例及原性能阈值。Labeler 配置已随 PR 合并。
+- StatPlots：36 套、636 项单元测试通过；compile、Schema 一致性、28 主例/112 有效变体/28 无效例和 28 类目录/89 条意图通过。ESLint 0 errors、962 warnings，主要为已有及测试类型警告。
+- 固定数值对照共 11 组：线性与 2/3/5 次多项式（含大偏移）、LOWESS iterations=0/3 与 delta=0/0.7、三组同一配对索引的 bootstrap。参考环境为 Python 3.9.6、NumPy 1.26.4、statsmodels 0.14.4；容限 5e-8，版本记录在 JSON 中。仓库仅提交固定 JSON 与 TypeScript 测试，不包含 Python 生成脚本或运行依赖。seaborn 未参与数值执行；只对齐其公开输入和统计含义。
+- VChart 数学端点回归的大偏移预测、Extension 散点三方法和柱状多项式调用检查通过。保留旧 confidenceInterval API，但没有将旧多项式/LOWESS 区间声称为新的 bootstrap CI。
+- 有限输入导致无法表示的结果会报告原始 JSON Pointer；残差平滑跳过不可识别组后，错误仍定位原始行和 residual 字段。
+
+### 浏览器、性能与原生视觉
+
+完整 Chromium 回归 **339 项通过**；最终上游网格兼容修正后重新构建，回归、根 ESM 入口和全部变体 **131 项定向复验通过**。覆盖三种方法、真实 Tooltip、图例点/线/带联动、输入/方法切换、两个残差横轴、数据更新、resize 和 release。浏览器截图已审阅，五次重复截图一致。
+
+性能结果见 [regression-results.json](../benchmarks/regression-results.json)：10k/100k 线性、多项式；10k 默认 1000 次 CI；5k 精确 LOWESS；100k 显式 delta=0.1；4 张 10k 残差图。记录 compile/render/重新编译/resize/真实 hover/release 和 CDP 堆使用量。原始样本 getter 在编译后改为抛错，生命周期和 hover 仍通过；全部原始图元保留。精确 LOWESS 的二次成本没有伪装为抽样性能，delta 的含义写入文档。单次测量不作为 SLA。
+
+新增 statplots-regression / statplots-residual 原生用例已登记，共 262 例。两例各五轮 self-compare 稳定；对官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc` 各单例比较通过。六项反例（抑制实际点击、图例只绑定点、曲线颜色错误）均被真实语义断言拒绝，未填写虚构 BugServer ID。
+
+- `charts/scatter` 8/8、`components/marker` 21/21、`data` 4/4 官方比较通过。
+- `components/legend` 基线在既有 legend-piecewise-domain 失败，报告保持 error：`.vchart-visual/runs/1791532672261-05b0a20c/agent-summary.md`。
+- 已执行官方全量 262 例；基线仍在 band-axis-update-spec、legend-piecewise-domain、brush-link-data-key、update-resize 失败，完整比较 false：`.vchart-visual/runs/1791531941425-939b6351/agent-summary.md`。
+- 使用同次冻结 suite/UMD 补跑全部 current：257 项无差异，4 项当前语义通过但缺合法基线截图，保留 missing_artifact；theme-runtime-switch 存在既有 240 像素标签颜色差异，已审阅三图，当前截图与本轮之前逐字节一致。补跑不等于全量官方通过。
+
+一次并行原生构建清理了 vutils-extension CJS/ES 产物，打断单元/浏览器验收；已按顺序完成构建后重新运行。一次 data 目录运行因编译期间编辑源码被 WORKSPACE_CHANGED 拒绝，已在源码稳定后完整复跑通过。未跳过用例、改变阈值或关闭检查。提交前额外复核了远处大观测导致近邻精度丢失的混合尺度情形，并修复局部响应与插值。276 项上游测试、636 项下游单测及 18 项回归/性能/ESM 浏览器检查重新通过。迁移到正式 1.0.25 基点后，开发包采用独立版本，避免 TypeScript 将其与 npm 1.0.25 的旧声明按相同包 ID 合并；提交到上游的正式 package.json 版本保持 1.0.25。所有日志、截图、反例、隔离包和原生补跑证据位于 `.vchart-statplots/regression/`。
+
+## VUtil 1.0.26 正式依赖升级（2026-10-09）
+
+8 个项目的 14 处直接依赖已统一升级为 `~1.0.26`，涵盖 vutils、vdataset、vscale、vlayouts，Rush 锁文件通过标准 update 生成。依赖一致性检查通过，14 处实际安装路径均为 npm 1.0.26；此前的开发包链接已替换。
+
+- 11 个 Rush 构建任务全部完成；VChart、vutils-extension 与 StatPlots 的 TypeScript 检查通过。构建保留既有 circular/sourcemap、OpenInula 类型等警告；构建产生的受跟踪 bundle 和 VChart Schema 不纳入本次提交。
+- StatPlots 36 套 / 636 项单测、完整 Chromium 339 项通过；ESLint 0 errors、962 条既有及测试类型 warnings。Schema、28 主例、112 有效变体、28 无效例及 28 类目录/89 条意图检查通过。
+- 使用本分支 VChart、vutils-extension、StatPlots 的全新 tarball 在独立目录安装，四个 VUtil 包均来自 npm 1.0.26，无源码链接或开发版本覆盖。CJS 无 DOM 编译 140 份示例、根入口严格 types、线性/多项式/LOWESS 三模型 ESM/UMD 绘制、混合尺度精度与 release 检查通过。
+- VChart Extension 的既有散点三方法与柱状回归调用检查通过；浏览器验证后的性能结果已更新至 benchmarks/regression-results.json，记录正式 vutils 版本。
+- 官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc` 视觉比较：散点 8/8、标记 21/21、数据 4/4 通过。对应报告为 `.vchart-visual/runs/1791537939938-f7574fa4/agent-summary.md`、`1791537966504-826db319/agent-summary.md`、`1791538003785-114ae0f2/agent-summary.md`。本次未新建 PR，未重复核心全量；既有全量基线阻断仍按上文真实记录保留。
+
+本轮证据位于 `.vchart-statplots/regression/vutils-1.0.26-*` 与 `packed/result.json`。仅提交固定 JSON 数值参考与 TypeScript 测试，不包含 Python 数据生成脚本。本轮不推送 VChart 分支、不创建 PR、不执行 npm 发布；旧版本及开发包说明属于历史阶段记录。
+
+## VUtil 1.0.25 正式依赖升级（2026-10-09，历史阶段）
 
 仓库中 8 个包的 14 处直接依赖已从 `~1.0.24` 更新为 `~1.0.25`，涉及 `@visactor/vutils`、`@visactor/vdataset`、`@visactor/vscale`、`@visactor/vlayouts`。通过标准 `Rush update` 更新锁文件；VRender 的兼容间接依赖也解析到 1.0.25。历史第三方包要求的旧版本保留原契约，没有添加全局强制覆盖。Rush 依赖一致性检查通过，全部直接依赖的实际安装路径均指向 npm 发布的 1.0.25。
 

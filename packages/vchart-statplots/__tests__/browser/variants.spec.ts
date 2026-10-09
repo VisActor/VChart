@@ -32,7 +32,7 @@ test('all types render an explicit empty state', async ({ page }) => {
     const spec = JSON.parse(fs.readFileSync(path.join(directory, item.file), 'utf8'));
     spec.data = ['pairPlot', 'correlationMatrix', 'missingValueMatrix'].includes(spec.type) ? { observations: [] } : [];
     delete spec.metrics;
-    if (spec.fit) spec.fit.data = [];
+    if (spec.fit?.input === 'estimates') spec.fit.data = [];
     await page.evaluate(async spec => {
       await (window as any).renderStatPlot(spec);
     }, spec);

@@ -1,427 +1,246 @@
 {
   "type": "residualPlot",
-  "residualKind": "raw",
+  "input": "observations",
   "data": [
     {
-      "id": "A-0",
-      "fittedValue": 0.0,
-      "residual": 0.0,
-      "series": "A"
+      "id": "0",
+      "x": 0.0,
+      "y": 1.0,
+      "series": "模型 A"
     },
     {
-      "id": "A-1",
-      "fittedValue": 0.2,
-      "residual": 0.07391099235586378,
-      "series": "A"
+      "id": "1",
+      "x": 0.3333333333333333,
+      "y": 1.7291657385595678,
+      "series": "模型 A"
     },
     {
-      "id": "A-2",
-      "fittedValue": 0.4,
-      "residual": 0.1238259194618588,
-      "series": "A"
+      "id": "2",
+      "x": 0.6666666666666666,
+      "y": 1.338896115653251,
+      "series": "模型 A"
     },
     {
-      "id": "A-3",
-      "fittedValue": 0.6,
-      "residual": 0.1150401502987077,
-      "series": "A"
+      "id": "3",
+      "x": 1.0,
+      "y": 1.2370926588361335,
+      "series": "模型 A"
     },
     {
-      "id": "A-4",
-      "fittedValue": 0.8,
-      "residual": 0.04063586824618036,
-      "series": "A"
+      "id": "4",
+      "x": 1.3333333333333333,
+      "y": 2.1803900089026373,
+      "series": "模型 A"
     },
     {
-      "id": "A-5",
-      "fittedValue": 1.0,
-      "residual": -0.06957968379312454,
-      "series": "A"
+      "id": "5",
+      "x": 1.6666666666666667,
+      "y": 2.5659102229784123,
+      "series": "模型 A"
     },
     {
-      "id": "A-6",
-      "fittedValue": 1.2,
-      "residual": -0.16039127088523591,
-      "series": "A"
+      "id": "6",
+      "x": 2.0,
+      "y": 2.0500626562032283,
+      "series": "模型 A"
     },
     {
-      "id": "A-7",
-      "fittedValue": 1.4,
-      "residual": -0.17882862239240097,
-      "series": "A"
+      "id": "7",
+      "x": 2.3333333333333335,
+      "y": 2.3242647772148164,
+      "series": "模型 A"
     },
     {
-      "id": "A-8",
-      "fittedValue": 1.6,
-      "residual": -0.10431020041738237,
-      "series": "A"
+      "id": "8",
+      "x": 2.6666666666666665,
+      "y": 3.296247574094914,
+      "series": "模型 A"
     },
     {
-      "id": "A-9",
-      "fittedValue": 1.8,
-      "residual": 0.03556308631434647,
-      "series": "A"
+      "id": "9",
+      "x": 3.0,
+      "y": 3.298370286565307,
+      "series": "模型 A"
     },
     {
-      "id": "A-10",
-      "fittedValue": 2.0,
-      "residual": 0.17412540335052504,
-      "series": "A"
+      "id": "10",
+      "x": 3.3333333333333335,
+      "y": 2.8526345873935552,
+      "series": "模型 A"
     },
     {
-      "id": "A-11",
-      "fittedValue": 2.2,
-      "residual": 0.2373860376629237,
-      "series": "A"
+      "id": "11",
+      "x": 3.6666666666666665,
+      "y": 3.492167153759567,
+      "series": "模型 A"
     },
     {
-      "id": "A-12",
-      "fittedValue": 2.4,
-      "residual": 0.18329758001832305,
-      "series": "A"
+      "id": "12",
+      "x": 4.0,
+      "y": 4.299896450071334,
+      "series": "模型 A"
     },
     {
-      "id": "A-13",
-      "fittedValue": 2.6,
-      "residual": 0.027821721834678674,
-      "series": "A"
+      "id": "13",
+      "x": 4.333333333333333,
+      "y": 3.979015035621295,
+      "series": "模型 A"
     },
     {
-      "id": "A-14",
-      "fittedValue": 2.8,
-      "residual": -0.15768001479736632,
-      "series": "A"
+      "id": "14",
+      "x": 4.666666666666667,
+      "y": 3.7807674437947343,
+      "series": "模型 A"
     },
     {
-      "id": "A-15",
-      "fittedValue": 3.0,
-      "residual": -0.27902889401702685,
-      "series": "A"
+      "id": "15",
+      "x": 5.0,
+      "y": 4.6795291770110845,
+      "series": "模型 A"
     },
     {
-      "id": "A-16",
-      "fittedValue": 3.2,
-      "residual": -0.26699868131005006,
-      "series": "A"
+      "id": "16",
+      "x": 5.333333333333333,
+      "y": 5.172969864158695,
+      "series": "模型 A"
     },
     {
-      "id": "A-17",
-      "fittedValue": 3.4,
-      "residual": -0.11606378169940319,
-      "series": "A"
+      "id": "17",
+      "x": 5.666666666666667,
+      "y": 4.673847996679518,
+      "series": "模型 A"
     },
     {
-      "id": "A-18",
-      "fittedValue": 3.6,
-      "residual": 0.10724701834397916,
-      "series": "A"
+      "id": "18",
+      "x": 6.0,
+      "y": 4.835819616084202,
+      "series": "模型 A"
     },
     {
-      "id": "A-19",
-      "fittedValue": 3.8,
-      "residual": 0.29327594272230456,
-      "series": "A"
+      "id": "19",
+      "x": 6.333333333333333,
+      "y": 5.819997278116443,
+      "series": "模型 A"
     },
     {
-      "id": "A-20",
-      "fittedValue": 4.0,
-      "residual": 0.343083880804109,
-      "series": "A"
+      "id": "0",
+      "x": 0.0,
+      "y": 5.0,
+      "series": "模型 B"
     },
     {
-      "id": "A-21",
-      "fittedValue": 4.2,
-      "residual": 0.22077845793269354,
-      "series": "A"
+      "id": "1",
+      "x": 0.3333333333333333,
+      "y": 5.379165738559568,
+      "series": "模型 B"
     },
     {
-      "id": "A-22",
-      "fittedValue": 4.4,
-      "residual": -0.023220126471021493,
-      "series": "A"
+      "id": "2",
+      "x": 0.6666666666666666,
+      "y": 4.638896115653251,
+      "series": "模型 B"
     },
     {
-      "id": "A-23",
-      "fittedValue": 4.6,
-      "residual": -0.27218301691123126,
-      "series": "A"
+      "id": "3",
+      "x": 1.0,
+      "y": 4.187092658836134,
+      "series": "模型 B"
     },
     {
-      "id": "A-24",
-      "fittedValue": 4.8,
-      "residual": -0.39886931550963195,
-      "series": "A"
+      "id": "4",
+      "x": 1.3333333333333333,
+      "y": 4.780390008902637,
+      "series": "模型 B"
     },
     {
-      "id": "A-25",
-      "fittedValue": 5.0,
-      "residual": -0.3304680205109418,
-      "series": "A"
+      "id": "5",
+      "x": 1.6666666666666667,
+      "y": 4.815910222978412,
+      "series": "模型 B"
     },
     {
-      "id": "A-26",
-      "fittedValue": 5.2,
-      "residual": -0.0895819530075814,
-      "series": "A"
+      "id": "6",
+      "x": 2.0,
+      "y": 3.9500626562032286,
+      "series": "模型 B"
     },
     {
-      "id": "A-27",
-      "fittedValue": 5.4,
-      "residual": 0.21145160472973365,
-      "series": "A"
+      "id": "7",
+      "x": 2.3333333333333335,
+      "y": 3.874264777214817,
+      "series": "模型 B"
     },
     {
-      "id": "A-28",
-      "fittedValue": 5.6,
-      "residual": 0.422788525006469,
-      "series": "A"
+      "id": "8",
+      "x": 2.6666666666666665,
+      "y": 4.496247574094914,
+      "series": "模型 B"
     },
     {
-      "id": "A-29",
-      "fittedValue": 5.8,
-      "residual": 0.4316557363272192,
-      "series": "A"
+      "id": "9",
+      "x": 3.0,
+      "y": 4.148370286565307,
+      "series": "模型 B"
     },
     {
-      "id": "A-30",
-      "fittedValue": 6.0,
-      "residual": 0.2221662962128105,
-      "series": "A"
+      "id": "10",
+      "x": 3.3333333333333335,
+      "y": 3.352634587393555,
+      "series": "模型 B"
     },
     {
-      "id": "A-31",
-      "fittedValue": 6.2,
-      "residual": -0.11118978458909483,
-      "series": "A"
+      "id": "11",
+      "x": 3.6666666666666665,
+      "y": 3.6421671537595675,
+      "series": "模型 B"
     },
     {
-      "id": "A-32",
-      "fittedValue": 6.4,
-      "residual": -0.4058104986824872,
-      "series": "A"
+      "id": "12",
+      "x": 4.0,
+      "y": 4.099896450071335,
+      "series": "模型 B"
     },
     {
-      "id": "A-33",
-      "fittedValue": 6.6,
-      "residual": -0.5102881472510279,
-      "series": "A"
+      "id": "13",
+      "x": 4.333333333333333,
+      "y": 3.4290150356212954,
+      "series": "模型 B"
     },
     {
-      "id": "A-34",
-      "fittedValue": 6.8,
-      "residual": -0.3620799594196403,
-      "series": "A"
+      "id": "14",
+      "x": 4.666666666666667,
+      "y": 2.8807674437947357,
+      "series": "模型 B"
     },
     {
-      "id": "B-0",
-      "fittedValue": 0.0,
-      "residual": 0.0,
-      "series": "B"
+      "id": "15",
+      "x": 5.0,
+      "y": 3.429529177011084,
+      "series": "模型 B"
     },
     {
-      "id": "B-1",
-      "fittedValue": 0.2,
-      "residual": 0.07391099235586378,
-      "series": "B"
+      "id": "16",
+      "x": 5.333333333333333,
+      "y": 3.5729698641586958,
+      "series": "模型 B"
     },
     {
-      "id": "B-2",
-      "fittedValue": 0.4,
-      "residual": 0.1238259194618588,
-      "series": "B"
+      "id": "17",
+      "x": 5.666666666666667,
+      "y": 2.7238479966795177,
+      "series": "模型 B"
     },
     {
-      "id": "B-3",
-      "fittedValue": 0.6,
-      "residual": 0.1150401502987077,
-      "series": "B"
+      "id": "18",
+      "x": 6.0,
+      "y": 2.535819616084202,
+      "series": "模型 B"
     },
     {
-      "id": "B-4",
-      "fittedValue": 0.8,
-      "residual": 0.04063586824618036,
-      "series": "B"
-    },
-    {
-      "id": "B-5",
-      "fittedValue": 1.0,
-      "residual": -0.06957968379312454,
-      "series": "B"
-    },
-    {
-      "id": "B-6",
-      "fittedValue": 1.2,
-      "residual": -0.16039127088523591,
-      "series": "B"
-    },
-    {
-      "id": "B-7",
-      "fittedValue": 1.4,
-      "residual": -0.17882862239240097,
-      "series": "B"
-    },
-    {
-      "id": "B-8",
-      "fittedValue": 1.6,
-      "residual": -0.10431020041738237,
-      "series": "B"
-    },
-    {
-      "id": "B-9",
-      "fittedValue": 1.8,
-      "residual": 0.03556308631434647,
-      "series": "B"
-    },
-    {
-      "id": "B-10",
-      "fittedValue": 2.0,
-      "residual": 0.17412540335052504,
-      "series": "B"
-    },
-    {
-      "id": "B-11",
-      "fittedValue": 2.2,
-      "residual": 0.2373860376629237,
-      "series": "B"
-    },
-    {
-      "id": "B-12",
-      "fittedValue": 2.4,
-      "residual": 0.18329758001832305,
-      "series": "B"
-    },
-    {
-      "id": "B-13",
-      "fittedValue": 2.6,
-      "residual": 0.027821721834678674,
-      "series": "B"
-    },
-    {
-      "id": "B-14",
-      "fittedValue": 2.8,
-      "residual": -0.15768001479736632,
-      "series": "B"
-    },
-    {
-      "id": "B-15",
-      "fittedValue": 3.0,
-      "residual": -0.27902889401702685,
-      "series": "B"
-    },
-    {
-      "id": "B-16",
-      "fittedValue": 3.2,
-      "residual": -0.26699868131005006,
-      "series": "B"
-    },
-    {
-      "id": "B-17",
-      "fittedValue": 3.4,
-      "residual": -0.11606378169940319,
-      "series": "B"
-    },
-    {
-      "id": "B-18",
-      "fittedValue": 3.6,
-      "residual": 0.10724701834397916,
-      "series": "B"
-    },
-    {
-      "id": "B-19",
-      "fittedValue": 3.8,
-      "residual": 0.29327594272230456,
-      "series": "B"
-    },
-    {
-      "id": "B-20",
-      "fittedValue": 4.0,
-      "residual": 0.343083880804109,
-      "series": "B"
-    },
-    {
-      "id": "B-21",
-      "fittedValue": 4.2,
-      "residual": 0.22077845793269354,
-      "series": "B"
-    },
-    {
-      "id": "B-22",
-      "fittedValue": 4.4,
-      "residual": -0.023220126471021493,
-      "series": "B"
-    },
-    {
-      "id": "B-23",
-      "fittedValue": 4.6,
-      "residual": -0.27218301691123126,
-      "series": "B"
-    },
-    {
-      "id": "B-24",
-      "fittedValue": 4.8,
-      "residual": -0.39886931550963195,
-      "series": "B"
-    },
-    {
-      "id": "B-25",
-      "fittedValue": 5.0,
-      "residual": -0.3304680205109418,
-      "series": "B"
-    },
-    {
-      "id": "B-26",
-      "fittedValue": 5.2,
-      "residual": -0.0895819530075814,
-      "series": "B"
-    },
-    {
-      "id": "B-27",
-      "fittedValue": 5.4,
-      "residual": 0.21145160472973365,
-      "series": "B"
-    },
-    {
-      "id": "B-28",
-      "fittedValue": 5.6,
-      "residual": 0.422788525006469,
-      "series": "B"
-    },
-    {
-      "id": "B-29",
-      "fittedValue": 5.8,
-      "residual": 0.4316557363272192,
-      "series": "B"
-    },
-    {
-      "id": "B-30",
-      "fittedValue": 6.0,
-      "residual": 0.2221662962128105,
-      "series": "B"
-    },
-    {
-      "id": "B-31",
-      "fittedValue": 6.2,
-      "residual": -0.11118978458909483,
-      "series": "B"
-    },
-    {
-      "id": "B-32",
-      "fittedValue": 6.4,
-      "residual": -0.4058104986824872,
-      "series": "B"
-    },
-    {
-      "id": "B-33",
-      "fittedValue": 6.6,
-      "residual": -0.5102881472510279,
-      "series": "B"
-    },
-    {
-      "id": "B-34",
-      "fittedValue": 6.8,
-      "residual": -0.3620799594196403,
-      "series": "B"
+      "id": "19",
+      "x": 6.333333333333333,
+      "y": 3.169997278116444,
+      "series": "模型 B"
     }
-  ],
-  "input": "residuals"
+  ]
 }

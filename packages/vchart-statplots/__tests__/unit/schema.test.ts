@@ -37,7 +37,7 @@ test.each(examples)('$type rejects unknown options and produces an explicit empt
   };
   delete empty.metrics;
   delete empty.variableOrder;
-  if (empty.fit) {
+  if (empty.fit?.input === 'estimates') {
     empty.fit = { ...empty.fit, data: [] };
   }
   expect(validateStatPlot(empty)).toEqual({ valid: true, errors: [] });

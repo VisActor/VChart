@@ -1,15 +1,24 @@
-import type { ScatterPlotSpec } from './types';
+import type { ScatterPlotSpec, FitRow } from './types';
 import { commonChart } from '../../common/chart';
 import { numberAxis } from '../../common/axes';
 import { points, curve, band } from '../../common/marks';
 import { intervalLabel } from '../../common/interval';
+import { buildRegressionCurves } from '../../common/regression';
 export function compileScatter(spec: ScatterPlotSpec) {
-  const fit =
-    spec.fit?.data.map(row => ({
-      ...row,
-      method: spec.fit!.method,
-      interval: spec.fit!.interval ? intervalLabel(spec.fit!.interval) : undefined
-    })) ?? [];
+  const config = spec.fit;
+  const fit: (FitRow & { method: string; interval?: string; sampleCount?: number })[] =
+    config?.input === 'observations'
+      ? buildRegressionCurves(
+          spec.data,
+          config,
+          config.confidence,
+          config.method === 'lowess' ? undefined : config.sampling?.points
+        )
+      : config?.data.map(row => ({
+          ...row,
+          method: config.method,
+          interval: config.interval ? intervalLabel(config.interval) : undefined
+        })) ?? [];
   const chart = commonChart(
     spec,
     [
@@ -24,14 +33,31 @@ export function compileScatter(spec: ScatterPlotSpec) {
         : []),
       ...(spec.fit
         ? [
-            curve(
-              'fit',
-              fit,
-              'x',
-              'estimate',
-              ['x', 'estimate', 'lower', 'upper', 'method', 'interval'],
-              spec.fieldLabels
-            )
+            {
+              ...curve(
+                'fit',
+                fit,
+                'x',
+                'estimate',
+                [
+                  'x',
+                  'estimate',
+                  'lower',
+                  'upper',
+                  'method',
+                  'interval',
+                  ...(config?.input === 'observations' ? ['sampleCount'] : [])
+                ],
+                {
+                  ...spec.fieldLabels,
+                  estimate: spec.fieldLabels?.y ?? '预测值',
+                  method: '拟合方法',
+                  interval: '区间',
+                  sampleCount: '样本数'
+                }
+              ),
+              ...(config?.input === 'observations' ? { point: { visible: false } } : {})
+            }
           ]
         : []),
       points(
@@ -47,7 +73,7 @@ export function compileScatter(spec: ScatterPlotSpec) {
   );
   chart.legends = {
     visible: spec.data.some(row => row.series !== undefined),
-    seriesId: ['observations'],
+    seriesId: chart.series!.map(item => item.id!),
     orient: 'top'
   };
   return chart;

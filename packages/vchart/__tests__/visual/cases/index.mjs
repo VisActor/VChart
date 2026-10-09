@@ -1297,6 +1297,18 @@ export const cases = [
     id: 'media-query-width',
     purpose: '来源媒体查询注册、缩窄后隐藏左侧坐标轴标签',
     file: './layout/media-query-width.mjs'
+  },
+  {
+    id: 'statplots-regression',
+    purpose: '统计回归编译产物的点、曲线和置信带共享颜色及真实图例筛选',
+    file: './charts/scatter/statplots-regression.mjs',
+    sourceExample: 'packages/vchart-statplots/examples/specs/grouped/scatterPlot.json'
+  },
+  {
+    id: 'statplots-residual',
+    purpose: '原始 x 残差编译产物与趋势共用图例筛选、颜色及零参考线',
+    file: './charts/scatter/statplots-residual.mjs',
+    sourceExample: 'packages/vchart-statplots/examples/specs/grouped/residualPlot.json'
   }
 ];
 

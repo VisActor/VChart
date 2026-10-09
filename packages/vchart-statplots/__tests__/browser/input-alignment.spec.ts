@@ -33,7 +33,7 @@ for (const [type, seriesId, tooltipText] of [
     await page.mouse.move(990, 790);
     const update = JSON.parse(JSON.stringify(spec));
     if (type === 'pointIntervalPlot') update.data[0].value += 3;
-    if (type === 'residualPlot') update.data[0].actual += 3;
+    if (type === 'residualPlot') update.data[0].y += 3;
     if (type === 'learningCurve') update.data[0].score += 0.03;
     if (type === 'correlationMatrix') update.data.observations[0].values[update.variables[0]] += 3;
     if (type === 'missingValueMatrix')
