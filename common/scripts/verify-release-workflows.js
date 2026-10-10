@@ -112,6 +112,20 @@ function run() {
     updateNpmStep && updateNpmStep.run === 'npm install -g npm@^11.5.1',
     'release.yml must use the npm 11 line required for trusted publishing'
   );
+  const statplotsBuildStep = getStep(release, 'release', 'Build vchart-statplots');
+  assertRunIncludes(
+    statplotsBuildStep,
+    'node common/scripts/install-run-rush.js build --only @visactor/vchart-statplots',
+    'release.yml statplots build'
+  );
+  assert(!statplotsBuildStep.if, 'release.yml must build statplots for every release branch');
+  const releaseSteps = getSteps(release, 'release');
+  const statplotsBuildIndex = releaseSteps.indexOf(statplotsBuildStep);
+  assert(
+    statplotsBuildIndex > releaseSteps.indexOf(getStep(release, 'release', 'Build vutils-extension && vchart')) &&
+      statplotsBuildIndex < releaseSteps.indexOf(getStep(release, 'release', 'Check npm version (release)')),
+    'release.yml must build statplots after VChart and before publication checks'
+  );
   assert(getStep(release, 'release', 'Check npm version (release)'), 'release.yml must check npm before stable publish');
   assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (release)'), 'release npm check');
   assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (hotfix)'), 'hotfix npm check');
