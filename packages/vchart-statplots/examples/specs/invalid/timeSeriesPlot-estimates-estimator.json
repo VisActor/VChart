@@ -1,0 +1,6 @@
+{
+  "type": "timeSeriesPlot",
+  "input": "estimates",
+  "estimator": "mean",
+  "data": []
+}

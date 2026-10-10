@@ -159,14 +159,14 @@
       "variant": "minimal",
       "file": "minimal/kdePlot.json",
       "documentation": "../../docs/plots/kdePlot.md",
-      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
     },
     {
       "type": "kdePlot",
       "variant": "grouped",
       "file": "grouped/kdePlot.json",
       "documentation": "../../docs/plots/kdePlot.md",
-      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
     },
     {
       "type": "learningCurve",
@@ -334,28 +334,28 @@
       "variant": "minimal",
       "file": "minimal/timeSeriesPlot.json",
       "documentation": "../../docs/plots/timeSeries.md",
-      "computation": "见对应逐图契约，统计结果由调用方提供"
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
     },
     {
       "type": "timeSeriesPlot",
       "variant": "grouped",
       "file": "grouped/timeSeriesPlot.json",
       "documentation": "../../docs/plots/timeSeries.md",
-      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
     },
     {
       "type": "violinPlot",
       "variant": "minimal",
       "file": "minimal/violinPlot.json",
       "documentation": "../../docs/plots/violin.md",
-      "computation": "原始 category/value/series，按组使用 vutils KDE；宽度归一化不修改概率密度"
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
     },
     {
       "type": "violinPlot",
       "variant": "grouped",
       "file": "grouped/violinPlot.json",
       "documentation": "../../docs/plots/violin.md",
-      "computation": "原始 category/value/series，按组使用 vutils KDE；宽度归一化不修改概率密度"
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
     },
     {
       "type": "stripPlot",
@@ -383,7 +383,7 @@
       "variant": "area",
       "file": "variants/violinPlot-area.json",
       "documentation": "../../docs/plots/violin.md",
-      "computation": "原始 category/value/series，按组使用 vutils KDE；宽度归一化不修改概率密度"
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
     },
     {
       "type": "confusionMatrix",
@@ -546,21 +546,21 @@
       "variant": "fixed",
       "file": "variants/kdePlot-fixed.json",
       "documentation": "../../docs/plots/kdePlot.md",
-      "computation": "本包复用 vutils，从原始观测计算统计曲线"
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
     },
     {
       "type": "kdePlot",
       "variant": "epanechnikov",
       "file": "variants/kdePlot-epanechnikov.json",
       "documentation": "../../docs/plots/kdePlot.md",
-      "computation": "本包复用 vutils，从原始观测计算统计曲线"
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
     },
     {
       "type": "kdePlot",
       "variant": "constant",
       "file": "variants/kdePlot-constant.json",
       "documentation": "../../docs/plots/kdePlot.md",
-      "computation": "本包复用 vutils，从原始观测计算统计曲线"
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
     },
     {
       "type": "ecdfPlot",
@@ -609,21 +609,21 @@
       "variant": "fixed",
       "file": "variants/violinPlot-fixed.json",
       "documentation": "../../docs/plots/violinPlot.md",
-      "computation": "固定带宽改变原始样本 KDE 平滑尺度"
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
     },
     {
       "type": "violinPlot",
       "variant": "constant",
       "file": "variants/violinPlot-constant.json",
       "documentation": "../../docs/plots/violinPlot.md",
-      "computation": "常数组和单样本显式指定正带宽"
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
     },
     {
       "type": "violinPlot",
       "variant": "epanechnikov",
       "file": "variants/violinPlot-epanechnikov.json",
       "documentation": "../../docs/plots/violinPlot.md",
-      "computation": "紧支撑核及轮廓采样数真实参与编译"
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
     },
     {
       "type": "countPlot",
@@ -771,6 +771,76 @@
       "file": "variants/residualPlot-predictions.json",
       "documentation": "../../docs/plots/residualPlot.md",
       "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "file": "variants/timeSeriesPlot-standard-error.json",
+      "type": "timeSeriesPlot",
+      "variant": "standard-error",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "file": "variants/timeSeriesPlot-direct.json",
+      "type": "timeSeriesPlot",
+      "variant": "direct",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "file": "variants/kdePlot-series.json",
+      "type": "kdePlot",
+      "variant": "series",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "file": "variants/violinPlot-legacy.json",
+      "type": "violinPlot",
+      "variant": "legacy",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "file": "variants/violinPlot-count.json",
+      "type": "violinPlot",
+      "variant": "count",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "file": "variants/timeSeriesPlot-median.json",
+      "type": "timeSeriesPlot",
+      "variant": "median",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "file": "variants/kdePlot-cut-zero.json",
+      "type": "kdePlot",
+      "variant": "cut-zero",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "file": "variants/kdePlot-legacy.json",
+      "type": "kdePlot",
+      "variant": "legacy",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "file": "variants/violinPlot-all.json",
+      "type": "violinPlot",
+      "variant": "all",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "file": "variants/timeSeriesPlot-estimates.json",
+      "type": "timeSeriesPlot",
+      "variant": "estimates",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
     }
   ],
   "invalid": [
@@ -969,6 +1039,54 @@
       "code": "INVALID_RANGE",
       "path": "/estimation/bandwidth",
       "reason": "固定带宽必须为正数"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-missing-input.json",
+      "path": "/input",
+      "code": "SCHEMA_ERROR"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-raw-bounds.json",
+      "path": "/data/0/lower",
+      "code": "SCHEMA_ERROR"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-duplicate-estimate.json",
+      "path": "/data/1/time",
+      "code": "DUPLICATE_KEY"
+    },
+    {
+      "type": "kdePlot",
+      "file": "invalid/kdePlot-fixed-deviation.json",
+      "path": "/estimation/standardDeviation",
+      "code": "UNSUPPORTED_COMBINATION"
+    },
+    {
+      "type": "kdePlot",
+      "file": "invalid/kdePlot-adjust.json",
+      "path": "/estimation/bandwidthAdjust",
+      "code": "INVALID_RANGE"
+    },
+    {
+      "type": "violinPlot",
+      "file": "invalid/violinPlot-cut.json",
+      "path": "/sampling/cut",
+      "code": "INVALID_RANGE"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-direct-interval.json",
+      "path": "/errorBar",
+      "code": "SCHEMA_ERROR"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-estimates-estimator.json",
+      "path": "/estimator",
+      "code": "SCHEMA_ERROR"
     }
   ]
 }

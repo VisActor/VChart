@@ -18,7 +18,7 @@ const base: ViolinPlotSpec = {
   type: 'violinPlot',
   data: [{ category: 'A', value: 0 }],
   estimation: { bandwidth: 1 },
-  sampling: { points: 3 }
+  sampling: { points: 3, cut: 3 }
 };
 
 test('原始单样本计算高斯密度，峰值等宽，轴包含核尾部', () => {
@@ -32,7 +32,11 @@ test('原始单样本计算高斯密度，峰值等宽，轴包含核尾部', ()
 });
 
 test('Epanechnikov 紧支撑，密度不被轮廓归一化改变', () => {
-  const spec: ViolinPlotSpec = { ...base, estimation: { bandwidth: 1, kernel: 'epanechnikov' } };
+  const spec: ViolinPlotSpec = {
+    ...base,
+    estimation: { bandwidth: 1, kernel: 'epanechnikov' },
+    sampling: { points: 3 }
+  };
   expect(rows(spec).map(({ value, density, __densityWidth }) => ({ value, density, __densityWidth }))).toEqual([
     { value: -1, density: 0, __densityWidth: 0 },
     { value: 0, density: 0.75, __densityWidth: 1 },
@@ -45,7 +49,7 @@ test.each(['gaussian', 'epanechnikov'] as const)('与 kdePlot 共享 %s 网格�
     ...base,
     data: [1, 0, 0].map(value => ({ category: 'A', value })),
     estimation: { kernel, bandwidth: 1 },
-    sampling: { points: 8 }
+    sampling: { points: 8, cut: 3 }
   };
   const curve = rows(spec).map(({ value, density }) => ({ value, density }));
   const kde = compileStatPlot({
@@ -54,7 +58,12 @@ test.each(['gaussian', 'epanechnikov'] as const)('与 kdePlot 共享 %s 网格�
     estimation: spec.estimation,
     sampling: spec.sampling
   }) as ICommonChartSpec;
-  expect(curve).toEqual(((kde.series![0] as IAreaSeriesSpec).data as IDataValues).values);
+  expect(curve).toEqual(
+    (((kde.series![0] as IAreaSeriesSpec).data as IDataValues).values as any[]).map(({ value, density }: any) => ({
+      value,
+      density
+    }))
+  );
   if (kernel === 'gaussian') {
     expect(curve.find(row => row.value === 0)!.density).toBeCloseTo(
       (2 + Math.exp(-0.5)) / (3 * Math.sqrt(2 * Math.PI)),
@@ -63,20 +72,20 @@ test.each(['gaussian', 'epanechnikov'] as const)('与 kdePlot 共享 %s 网格�
   }
 });
 
-test('Scott 和 Silverman 使用总体标准差，采样数不改变统计模型', () => {
+test('Scott 和 Silverman 使用样本标准差，采样数不改变统计模型', () => {
   const spec: ViolinPlotSpec = {
     ...base,
     estimation: undefined,
     data: [-1, 0, 1].map(value => ({ category: 'A', value }))
   };
-  const h = Math.sqrt(2 / 3) * Math.pow(3, -1 / 5);
+  const h = Math.pow(3, -1 / 5);
   expect(rows(spec)[0].value).toBeCloseTo(-1 - 3 * h, 14);
   expect(rows({ ...spec, estimation: { bandwidth: 'scott' } })).toEqual(rows(spec));
   expect(rows({ ...spec, estimation: { bandwidth: 'silverman' } })[0].value).toBeCloseTo(
     -1 - 3 * h * Math.pow(4 / 3, 1 / 5),
     14
   );
-  expect(rows({ ...spec, sampling: { points: 5 } }).filter((_, i) => i % 2 === 0)).toEqual(rows(spec));
+  expect(rows({ ...spec, sampling: { points: 5, cut: 3 } }).filter((_, i) => i % 2 === 0)).toEqual(rows(spec));
 });
 
 test('分类与系列独立统计，组合键无碰撞，不补不存在的组合', () => {
@@ -106,7 +115,7 @@ test('width 等最大宽度，area 等绘制面积，均不修改概率密度', 
       ...[-2, 0, 2].map(value => ({ category: 'B', value }))
     ]
   };
-  const width = rows(spec),
+  const width = rows({ ...spec, densityNormalization: 'width' }),
     area = rows({ ...spec, densityNormalization: 'area' });
   expect(width[32].__densityWidth).toBe(1);
   expect(width[97].__densityWidth).toBe(1);

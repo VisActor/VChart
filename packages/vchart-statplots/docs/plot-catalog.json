@@ -188,6 +188,16 @@
           }
         },
         "example": "examples/specs/variants/kdePlot-constant.json"
+      },
+      {
+        "name": "系列内独立归一化",
+        "aliases": [
+          "系列内独立归一化"
+        ],
+        "options": {
+          "normalizationScope": "series"
+        },
+        "example": "examples/specs/variants/kdePlot-series.json"
       }
     ]
   },
@@ -272,6 +282,26 @@
           "densityNormalization": "area"
         },
         "example": "examples/specs/variants/violinPlot-area.json"
+      },
+      {
+        "name": "样本数缩放小提琴图",
+        "aliases": [
+          "样本数缩放小提琴图"
+        ],
+        "options": {
+          "densityNormalization": "count"
+        },
+        "example": "examples/specs/variants/violinPlot-count.json"
+      },
+      {
+        "name": "全体共享归一化",
+        "aliases": [
+          "全体共享归一化"
+        ],
+        "options": {
+          "normalizationScope": "all"
+        },
+        "example": "examples/specs/variants/violinPlot-all.json"
       }
     ]
   },
@@ -725,14 +755,36 @@
       "时间序列图",
       "时间趋势图"
     ],
-    "useWhen": "查看随时间变化的数值及已有区间。",
+    "useWhen": "从原始重复时间观测估计趋势和区间，或展示外部估计。",
     "avoidWhen": [
       "时间没有时区",
       "训练轮次直接作为时间"
     ],
     "schema": "schema/plots/timeSeriesPlot.schema.json",
     "example": "examples/specs/minimal/timeSeriesPlot.json",
-    "variants": []
+    "variants": [
+      {
+        "name": "外部区间时间序列",
+        "aliases": [
+          "外部区间时间序列"
+        ],
+        "options": {
+          "input": "estimates"
+        },
+        "example": "examples/specs/variants/timeSeriesPlot-estimates.json"
+      },
+      {
+        "name": "原始观测直接连线",
+        "aliases": [
+          "原始观测直接连线"
+        ],
+        "options": {
+          "input": "observations",
+          "estimator": false
+        },
+        "example": "examples/specs/variants/timeSeriesPlot-direct.json"
+      }
+    ]
   },
   {
     "type": "seasonalPlot",

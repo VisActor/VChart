@@ -6,7 +6,11 @@ import { categoryAxis, numberAxis } from '../../common/axes';
 
 export function compileViolin(spec: ViolinPlotSpec): ICommonChartSpec {
   const prepared = prepareViolin(spec);
-  const { values, summaries } = estimateViolin(prepared, spec.densityNormalization ?? 'width');
+  const { values, summaries } = estimateViolin(
+    prepared,
+    spec.densityNormalization ?? 'area',
+    spec.normalizationScope ?? 'series'
+  );
   const grouped = spec.data.some(row => row.series !== undefined);
   const fieldLabels = { category: '分组', value: '数值', density: '概率密度', ...spec.fieldLabels };
   // 面积图元携带整组采样数据，tooltip 展示组摘要，避免误把首个采样点当作指针位置。
@@ -20,16 +24,22 @@ export function compileViolin(spec: ViolinPlotSpec): ICommonChartSpec {
           return [row.category, row.series].filter(Boolean).join(' · ');
         }
       },
-      content: (['count', 'minimum', 'maximum', 'bandwidth', 'peakDensity'] as const).map((field, i) => ({
-        key: [
-          '样本数',
-          fieldLabels.value + '（原始最小值）',
-          fieldLabels.value + '（原始最大值）',
-          '实际带宽',
-          fieldLabels.density + '（峰值）'
-        ][i],
-        value: datum => String(summaries.get(first(datum!).__violinGroup)![field])
-      }))
+      content: (['count', 'minimum', 'maximum', 'bandwidth', 'peakDensity'] as const)
+        .map((field, i) => ({
+          key: [
+            '样本数',
+            fieldLabels.value + '（原始最小值）',
+            fieldLabels.value + '（原始最大值）',
+            '实际带宽',
+            fieldLabels.density + '（峰值）'
+          ][i],
+          value: (datum: import('@visactor/vchart').Datum | undefined) =>
+            String(summaries.get(first(datum!).__violinGroup)![field])
+        }))
+        .concat([
+          { key: '宽度归一化', value: () => spec.densityNormalization ?? 'area' },
+          { key: '归一化范围', value: () => spec.normalizationScope ?? 'series' }
+        ])
     }
   };
   // CommonChart 的 TS 联合仅列内建系列，注册系列在这里跨越一次类型边界。

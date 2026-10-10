@@ -4,14 +4,14 @@
 
 ## 公共配置
 
-| 字段                | 含义                                                                                                                                                                                     |
-| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 字段                | 含义                                                                                                                                                                                                                                   |
+| ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | type / data         | 必填，类型和对应数据；histogram、kdePlot、ecdfPlot 使用原始 value 观测，boxPlot 使用原始 category/value/series 观测，hexbinPlot 使用原始 x/y 散点，pairPlot、missingValueMatrix、correlationMatrix 使用 variables 与 data.observations |
-| title / description | 标题及数据范围、统计方法说明                                                                                                                                                             |
-| theme               | VChart 原生 light（默认）或 dark                                                                                                                                                         |
-| colors              | 共用 categorical / sequential / diverging，支持名称与色号数组；见[公共配色](colors.md)                                                                                                   |
-| fieldLabels         | 该图允许的字段展示名，供轴和 tooltip 使用；不控制图元标签                                                                                                                                |
-| 行级 series         | 在该图 Schema 支持时比较系列，同一表全部提供非空系列名或全部省略；histogram、hexbinPlot 不支持分组                                                                                       |
+| title / description | 标题及数据范围、统计方法说明                                                                                                                                                                                                           |
+| theme               | VChart 原生 light（默认）或 dark                                                                                                                                                                                                       |
+| colors              | 共用 categorical / sequential / diverging，支持名称与色号数组；见[公共配色](colors.md)                                                                                                                                                 |
+| fieldLabels         | 该图允许的字段展示名，供轴和 tooltip 使用；不控制图元标签                                                                                                                                                                              |
+| 行级 series         | 在该图 Schema 支持时比较系列，同一表全部提供非空系列名或全部省略；histogram、hexbinPlot 不支持分组                                                                                                                                     |
 
 观测 id 为字符串，category 为类别。缺失值只在明确允许 null 的字段中接受。数值必须有限，不接受数值字符串；未知字段、NaN、Infinity 不做静默归一化。缺少下界或上界时不能推断另一端。
 
@@ -23,32 +23,38 @@
 
 confidence、prediction、credible 要求 0 < level < 1；standardError、standardDeviation 要求 multiplier > 0；range 不接受 level 或 multiplier。lower/upper 同时提供且 lower ≤ upper；不预设为 95% 置信区间。
 
-外部模型结果的 method、metric 是结果说明；scatterPlot.fit.input=observations 的 method 与 residualPlot.regression.method 是实际回归算法配置。qqPlot.distribution / referenceLine、autocorrelationPlot.method / maxLag / confidence、calibrationCurve.binning、countPlot.statistic / normalizationScope 是实际计算配置，更新会重算。kdePlot.estimation 是实际核密度估计配置，修改 kernel / bandwidth 会重新计算；sampling.points 只控制绘制精度。boxPlot.whiskers.iqrMultiplier 是有效须规则，改变倍数会重新计算须与异常值。referenceLine 只在明确提供时绘制，ROC/校准对角线、残差/SHAP 零线等由图义确定的参考线继续内置。
+外部模型结果的 method、metric 是结果说明；scatterPlot.fit.input=observations 的 method 与 residualPlot.regression.method 是实际回归算法配置。qqPlot.distribution / referenceLine、autocorrelationPlot.method / maxLag / confidence、calibrationCurve.binning、countPlot.statistic / normalizationScope 是实际计算配置，更新会重算。kdePlot.estimation 是实际核密度估计配置，修改 kernel / bandwidth / bandwidthAdjust / standardDeviation 会重新计算；sampling.points 只控制绘制精度。boxPlot.whiskers.iqrMultiplier 是有效须规则，改变倍数会重新计算须与异常值。referenceLine 只在明确提供时绘制，ROC/校准对角线、残差/SHAP 零线等由图义确定的参考线继续内置。
 
 ## 显示统计量与默认值
 
-| 选项                                  | 默认值及含义                                                                        |
-| ------------------------------------- | ----------------------------------------------------------------------------------- |
-| countPlot.statistic                   | count；proportion 默认全表比例，normalizationScope=series 才为系列内比例            |
-| histogram.binning.binCount            | 可选 1–200 整数；省略时使用 Sturges 候选数，恒定观测一个箱                          |
-| histogram.statistic                   | count；proportion 为样本比例，density 的柱面积和为 1；输入原始 value                |
-| kdePlot.estimation.kernel / bandwidth | gaussian / scott；kernel 可选 epanechnikov，bandwidth 可为正数或 scott / silverman  |
-| kdePlot.sampling.points               | 256；每系列 2–2048 个等距绘制点，不改变带宽                                         |
-| ecdfPlot.data                         | 原始 value / series，按真实跳点计算右连续累计概率，不分箱                           |
-| boxPlot.whiskers.iqrMultiplier        | 1.5；有限非负，按 category + series 独立计算，四分位数采用线性插值                  |
-| violinPlot.estimation                 | 按 category + series 独立估计；核函数、固定带宽及 Scott / Silverman 与 kdePlot 相同 |
-| violinPlot.sampling.points            | 每组 2–2048 整数，默认 256，仅控制轮廓绘制精度                                      |
-| violinPlot.densityNormalization       | width 等最大宽度；area 等面积                                                       |
-| stripPlot.layout / jitterRatio        | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5                                  |
-| pointIntervalPlot.valueScale          | linear；log 的估计、区间和参考值必须为正                                            |
-| correlationMatrix.triangle            | full；原始观测内部生成对称矩阵                                                              |
-| correlationMatrix.variables / method / minSamples | 有序变量必填；pearson / 2，支持 spearman、kendall tau-b |
-| confusionMatrix.normalization         | none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化                 |
-| seasonalPlot.layout                   | overlay；subseries 按 phase 分面、横轴 cycle                                        |
-| screePlot.showCumulative              | false                                                                               |
-| pairPlot.diagonal.type                | histogram；none 保留对角槽位但关闭对角分布                                          |
-| pairPlot.diagonal.binning.binCount    | 可选的 1–200 整数；省略时按各变量有效 N 使用 Sturges 箱数，恒定变量一个箱           |
-| hexbinPlot.binning.xBins              | 30；1–200 的整数，水平方向分箱分辨率，非总箱数                                      |
+| 选项                                              | 默认值及含义                                                                                                  |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| countPlot.statistic                               | count；proportion 默认全表比例，normalizationScope=series 才为系列内比例                                      |
+| histogram.binning.binCount                        | 可选 1–200 整数；省略时使用 Sturges 候选数，恒定观测一个箱                                                    |
+| histogram.statistic                               | count；proportion 为样本比例，density 的柱面积和为 1；输入原始 value                                          |
+| kdePlot.estimation.kernel / bandwidth             | gaussian / scott；kernel 可选 epanechnikov，bandwidth 可为正数或 scott / silverman                            |
+| kdePlot.sampling.points                           | 256；每系列 2–2048 个等距绘制点，不改变带宽                                                                   |
+| kdePlot.normalizationScope                        | all（默认）按组样本比例缩放；series 各组独立概率密度                                                          |
+| kdePlot / violinPlot.estimation.standardDeviation | sample（默认）或 population；固定数值 bandwidth 时不可配置                                                    |
+| kdePlot / violinPlot.estimation.bandwidthAdjust   | 1；有限正数，同时作用于自动和固定带宽                                                                         |
+| kdePlot / violinPlot.sampling.cut                 | 高斯分别为 3 / 2；Epanechnikov 为 1；有限非负                                                                 |
+| violinPlot.normalizationScope                     | series（默认）同系列跨分类，all 所有组；width 不受范围影响                                                    |
+| timeSeriesPlot.input / estimator / errorBar       | 必填 observations 或 estimates；原始默认 mean + 95% bootstrap CI（1000 次，seed 0）；estimator=false 直接连线 |
+| ecdfPlot.data                                     | 原始 value / series，按真实跳点计算右连续累计概率，不分箱                                                     |
+| boxPlot.whiskers.iqrMultiplier                    | 1.5；有限非负，按 category + series 独立计算，四分位数采用线性插值                                            |
+| violinPlot.estimation                             | 按 category + series 独立估计；核函数、固定带宽及 Scott / Silverman 与 kdePlot 相同                           |
+| violinPlot.sampling.points                        | 每组 2–2048 整数，默认 256，仅控制轮廓绘制精度                                                                |
+| violinPlot.densityNormalization                   | area（默认）等面积；count 按样本数缩放峰宽；width 等最大宽度                                                  |
+| stripPlot.layout / jitterRatio                    | strip；jitter 布局最大偏移比例默认 0.3，范围 0–0.5                                                            |
+| pointIntervalPlot.valueScale                      | linear；log 的估计、区间和参考值必须为正                                                                      |
+| correlationMatrix.triangle                        | full；原始观测内部生成对称矩阵                                                                                |
+| correlationMatrix.variables / method / minSamples | 有序变量必填；pearson / 2，支持 spearman、kendall tau-b                                                       |
+| confusionMatrix.normalization                     | none；actual 按实际类别、predicted 按预测类别、all 按全部计数归一化                                           |
+| seasonalPlot.layout                               | overlay；subseries 按 phase 分面、横轴 cycle                                                                  |
+| screePlot.showCumulative                          | false                                                                                                         |
+| pairPlot.diagonal.type                            | histogram；none 保留对角槽位但关闭对角分布                                                                    |
+| pairPlot.diagonal.binning.binCount                | 可选的 1–200 整数；省略时按各变量有效 N 使用 Sturges 箱数，恒定变量一个箱                                     |
+| hexbinPlot.binning.xBins                          | 30；1–200 的整数，水平方向分箱分辨率，非总箱数                                                                |
 
 statistic 选择计数的显示形式。countPlot 接收原始 category/series 观测，默认以全表 N 归一化，可指定系列内分母；未出现的类别 × 系列补 0。histogram 先对原始观测分箱，再按唯一分布的样本总量归一化；保留零频次箱，原始全零值仍是有效观测。混淆矩阵的零分母显示 NA。fieldLabels.proportion 改变名称，不改变数值单位。
 

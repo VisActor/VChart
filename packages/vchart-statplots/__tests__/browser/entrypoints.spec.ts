@@ -12,7 +12,7 @@ test('ESM consumer registers against its own VChart engine', async ({ page }) =>
     )
   ).toBe(3);
   const violinRows = await page.evaluate(() => (window as any).esmChart.getSpec().series[0].data.values);
-  expect(violinRows.map((row: any) => row.value)).toEqual([-3, 0, 3]);
+  expect(violinRows.map((row: any) => row.value)).toEqual([-2, 0, 2]);
   expect(violinRows[1].density).toBeCloseTo(1 / Math.sqrt(2 * Math.PI), 12);
   expect(violinRows[1].__densityWidth).toBe(1);
   const distributions = await page.evaluate(async () => {
@@ -91,6 +91,32 @@ test('ESM consumer registers against its own VChart engine', async ({ page }) =>
     result.rows.forEach((r: any) => expect(r.residual).toBeCloseTo(r.y - r.fittedValue, 12));
   });
   regressions[1].rows.forEach((r: any) => expect(r.residual).toBeCloseTo(0, 12));
+  const statistics = await page.evaluate(async () => {
+    const w = window as any;
+    await w.esmChart.updateSpec(
+      w.esmCompile({
+        type: 'timeSeriesPlot',
+        input: 'observations',
+        errorBar: { kind: 'standardError' },
+        data: [
+          { time: '2026-01-01T00:00:00Z', value: 1 },
+          { time: '2026-01-01T08:00:00+08:00', value: 5 }
+        ]
+      })
+    );
+    const time = w.esmChart.getSpec().series.at(-1).data.values;
+    await w.esmChart.updateSpec(
+      w.esmCompile({
+        type: 'kdePlot',
+        data: [-1, 0, 1].map(value => ({ value })),
+        estimation: { bandwidthAdjust: 2 },
+        sampling: { points: 3 }
+      })
+    );
+    return { time, kde: w.esmChart.getSpec().series[0].data.values };
+  });
+  expect(statistics.time[0]).toMatchObject({ value: 3, lower: 1, upper: 5, sampleCount: 2 });
+  expect(statistics.kde[0].bandwidth).toBeCloseTo(2 * Math.pow(3, -0.2), 12);
   expect(errors).toEqual([]);
   await page.evaluate(() => (window as any).esmChart.release());
   await expect(page.locator('canvas')).toHaveCount(0);

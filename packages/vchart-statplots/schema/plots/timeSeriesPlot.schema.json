@@ -1,120 +1,236 @@
 {
-  "type": "object",
-  "properties": {
-    "type": {
-      "type": "string",
-      "const": "timeSeriesPlot"
-    },
-    "data": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/TimeSeriesPlotRow"
-      }
-    },
-    "interval": {
-      "description": "显示区间的统计含义；数值由计算端提供。",
-      "anyOf": [
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "confidence",
-                "credible",
-                "prediction"
-              ],
-              "type": "string"
-            },
-            "level": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "level"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "enum": [
-                "standardDeviation",
-                "standardError"
-              ],
-              "type": "string"
-            },
-            "multiplier": {
-              "type": "number"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind",
-            "multiplier"
-          ]
-        },
-        {
-          "type": "object",
-          "properties": {
-            "kind": {
-              "type": "string",
-              "const": "range"
-            }
-          },
-          "additionalProperties": false,
-          "required": [
-            "kind"
-          ]
-        }
-      ]
-    },
-    "fieldLabels": {
-      "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+  "anyOf": [
+    {
+      "additionalProperties": false,
       "type": "object",
       "properties": {
-        "time": {
+        "input": {
+          "type": "string",
+          "const": "observations"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesObservation"
+          }
+        },
+        "type": {
+          "type": "string",
+          "const": "timeSeriesPlot"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "time": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
           "type": "string"
         },
-        "value": {
+        "description": {
+          "description": "数据范围或统计方法说明。",
           "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        },
+        "estimator": {
+          "enum": [
+            "mean",
+            "median"
+          ],
+          "type": "string"
+        },
+        "errorBar": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "confidence"
+                },
+                "level": {
+                  "type": "number"
+                },
+                "resamples": {
+                  "type": "number"
+                },
+                "seed": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "percentile"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "standardError"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "standardDeviation"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
         }
       },
-      "additionalProperties": false
+      "required": [
+        "data",
+        "input",
+        "type"
+      ]
     },
-    "title": {
-      "description": "图表标题。",
-      "type": "string"
+    {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "observations"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesObservation"
+          }
+        },
+        "type": {
+          "type": "string",
+          "const": "timeSeriesPlot"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "time": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        },
+        "estimator": {
+          "type": "boolean",
+          "const": false
+        },
+        "errorBar": {
+          "const": false,
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "data",
+        "estimator",
+        "input",
+        "type"
+      ]
     },
-    "description": {
-      "description": "数据范围或统计方法说明。",
-      "type": "string"
-    },
-    "theme": {
-      "enum": [
-        "dark",
-        "light"
-      ],
-      "type": "string"
-    },
-    "colors": {
-      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
-      "$ref": "#/definitions/StatPlotColors"
+    {
+      "$ref": "#/definitions/TimeSeriesEstimatesSpec"
     }
-  },
-  "additionalProperties": false,
-  "required": [
-    "data",
-    "type"
   ],
   "definitions": {
-    "TimeSeriesPlotRow": {
-      "description": "原始时间观测；可选区间结果由外部提供。",
+    "TimeSeriesObservation": {
       "type": "object",
       "properties": {
         "time": {
-          "description": "带时区的 ISO 8601 时间。",
+          "description": "带时区的 ISO 8601 时间；允许乱序及重复时刻。",
           "type": "string"
         },
         "value": {
@@ -122,12 +238,6 @@
             "null",
             "number"
           ]
-        },
-        "lower": {
-          "type": "number"
-        },
-        "upper": {
-          "type": "number"
         },
         "series": {
           "description": "同一数据表要么全部提供系列名称，要么全部省略。",
@@ -204,7 +314,163 @@
         }
       },
       "additionalProperties": false
+    },
+    "TimeSeriesEstimatesSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "estimates"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TimeSeriesEstimate"
+          }
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "const": "timeSeriesPlot"
+        },
+        "fieldLabels": {
+          "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+          "type": "object",
+          "properties": {
+            "time": {
+              "type": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "type"
+      ]
+    },
+    "TimeSeriesEstimate": {
+      "type": "object",
+      "properties": {
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "time": {
+          "description": "带时区的 ISO 8601 时间；允许乱序及重复时刻。",
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "time",
+        "value"
+      ]
     }
   },
-  "$schema": "http://json-schema.org/draft-07/schema#"
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "timeSeriesPlot"
+    }
+  },
+  "required": [
+    "type",
+    "input"
+  ]
 }

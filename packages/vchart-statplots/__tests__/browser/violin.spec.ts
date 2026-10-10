@@ -10,7 +10,7 @@ const example: ViolinPlotSpec = {
   type: 'violinPlot',
   data: [0, 0, 0].map(value => ({ category: 'A', value })),
   estimation: { bandwidth: 1 },
-  sampling: { points: 33 },
+  sampling: { points: 33, cut: 3 },
   fieldLabels: { category: '实验组', value: '时长', density: '估计密度' }
 };
 async function render(page: Page, spec: ViolinPlotSpec) {
@@ -97,7 +97,9 @@ test('原始常数组生成真实轮廓和摘要 hover，参数更新改变统�
     '0',
     '0',
     '1',
-    String(result.rows[16].density)
+    String(result.rows[16].density),
+    'area',
+    'series'
   ]);
   await screenshot(page, 'constant', info.repeatEachIndex);
   await update(page, {
@@ -127,6 +129,8 @@ test('原始常数组生成真实轮廓和摘要 hover，参数更新改变统�
 test('等宽和等面积更新真实改变轮廓，分类/系列位置颜色与图例一致', async ({ page }, info) => {
   const spec: ViolinPlotSpec = {
     type: 'violinPlot',
+    densityNormalization: 'width',
+    normalizationScope: 'all',
     sampling: { points: 65 },
     colors: { categorical: ['#bb4422', '#3366aa'] },
     data: [
@@ -182,6 +186,36 @@ test('同实例分类增删、空表往返、resize 和 release 保持统计和�
   expect(restored.areas[0].category).toBe('C');
   expect(restored.yDomain).toEqual([2, 8]);
   expect(restored.errors).toEqual([]);
+  await page.evaluate(() => (window as any).chart.release());
+  await expect(page.locator('canvas')).toHaveCount(0);
+});
+
+test('默认 area 跨分类同系列归一化，更新 count/all 使用对应样本数和峰值尺度', async ({ page }) => {
+  const reference = JSON.parse(
+    fs.readFileSync(path.resolve(__dirname, '../fixtures/time-kde-python-reference.json'), 'utf8')
+  );
+  const spec: ViolinPlotSpec = {
+    type: 'violinPlot',
+    data: reference.violinData,
+    sampling: { points: 9 },
+    densityNormalization: 'width'
+  };
+  await render(page, spec);
+  const width = await read(page);
+  for (const expected of reference.violin) {
+    await update(page, { ...spec, densityNormalization: expected.normalization, normalizationScope: expected.scope });
+    const actual = await read(page);
+    actual.areas.forEach((area: any, i: number) =>
+      expect(area.width / width.areas[i].width).toBeCloseTo(expected.peakWidths[i], 10)
+    );
+    expect(actual.rows.map((row: any) => row.density)).toEqual(width.rows.map((row: any) => row.density));
+  }
+  await update(page, { ...spec, densityNormalization: undefined });
+  const defaults = await read(page);
+  const expected = reference.violin.find((r: any) => r.normalization === 'area' && r.scope === 'series');
+  defaults.areas.forEach((area: any, i: number) =>
+    expect(area.width / width.areas[i].width).toBeCloseTo(expected.peakWidths[i], 10)
+  );
   await page.evaluate(() => (window as any).chart.release());
   await expect(page.locator('canvas')).toHaveCount(0);
 });

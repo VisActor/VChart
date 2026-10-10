@@ -96,3 +96,5 @@ export type StatPlotSpec =
   | ViolinPlotSpec;
 
 export type { ObservationValue, TableObservation, NumericObservation } from './common/observation-table-types';
+
+export type { SampleErrorBar, SampleEstimateOptions } from './common/sample-estimate-types';

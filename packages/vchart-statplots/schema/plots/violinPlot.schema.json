@@ -20,10 +20,19 @@
       "$ref": "#/definitions/KdeSamplingSpec"
     },
     "densityNormalization": {
-      "description": "密度轮廓归一化：width 等最大宽度（默认），area 等面积。",
+      "description": "默认 area 等面积；count 最大宽度按样本数缩放；width 等最大宽度。",
       "enum": [
         "area",
+        "count",
         "width"
+      ],
+      "type": "string"
+    },
+    "normalizationScope": {
+      "description": "默认 series，同系列跨分类共享归一化尺度；all 所有分布组共享。",
+      "enum": [
+        "all",
+        "series"
       ],
       "type": "string"
     },
@@ -115,6 +124,18 @@
               "type": "number"
             }
           ]
+        },
+        "standardDeviation": {
+          "description": "自动带宽的标准差约定，默认 sample；固定数值带宽时不能配置。",
+          "enum": [
+            "population",
+            "sample"
+          ],
+          "type": "string"
+        },
+        "bandwidthAdjust": {
+          "description": "正的带宽倍率，默认 1，同时作用于固定和自动带宽。",
+          "type": "number"
         }
       },
       "additionalProperties": false
@@ -127,6 +148,10 @@
           "type": "integer",
           "minimum": 2,
           "maximum": 2048
+        },
+        "cut": {
+          "description": "从观测极值向外扩展的带宽倍数；KDE 高斯默认 3，violin 高斯默认 2，Epanechnikov 默认 1。",
+          "type": "number"
         }
       },
       "additionalProperties": false

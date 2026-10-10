@@ -82,6 +82,7 @@ test('grouped density uses per-series sample size and keeps legends and colors a
 }, info) => {
   const spec: KdePlotSpec = {
     ...example,
+    normalizationScope: 'series',
     colors: { categorical: ['#bb4422', '#3366aa'] },
     data: [
       { series: 'B', value: 0 },
@@ -102,4 +103,41 @@ test('grouped density uses per-series sample size and keeps legends and colors a
   await updateDistribution(page, example);
   expect((await readDistribution(page)).legends).toEqual([]);
   expect((await readDistribution(page)).lines).toHaveLength(1);
+});
+
+test('default sample weighting and bandwidth adjustment update density and tooltip without changing instance', async ({
+  page
+}) => {
+  const spec: KdePlotSpec = {
+    ...example,
+    data: [{ value: 0, series: 'A' }, ...Array.from({ length: 4 }, () => ({ value: 4, series: 'B' }))]
+  };
+  await renderDistribution(page, spec);
+  const all = await readDistribution(page);
+  expect(all.rows[16].density! / all.rows[49].density!).toBeCloseTo(0.25, 12);
+  const peak = all.lines[0].points[16];
+  await page.mouse.move(peak.globalX, peak.globalY);
+  await expect(page.locator('.vchart-tooltip-element')).toContainText('样本数');
+  await expect(page.locator('.vchart-tooltip-element')).toContainText('实际带宽');
+  await updateDistribution(page, { ...spec, normalizationScope: 'series' });
+  const own = await readDistribution(page);
+  expect(own.sameInstance).toBe(true);
+  expect(own.rows[16].density).toBeCloseTo(own.rows[49].density!, 12);
+  expect(
+    await page.evaluate(
+      spec => (window as any).VChartStatPlots.validateStatPlot({ ...spec, sampling: { cut: 0 } }).valid,
+      spec
+    )
+  ).toBe(false);
+  await updateDistribution(page, {
+    ...spec,
+    normalizationScope: 'series',
+    estimation: { bandwidth: 1, bandwidthAdjust: 2 },
+    sampling: { points: 33, cut: 1 }
+  });
+  const adjusted = await readDistribution(page);
+  expect(adjusted.xDomain).toEqual([-2, 6]);
+  expect(adjusted.rows[16].density).toBeCloseTo(own.rows[16].density! / 2, 12);
+  await page.evaluate(() => (window as any).chart.release());
+  await expect(page.locator('canvas')).toHaveCount(0);
 });

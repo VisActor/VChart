@@ -1,7 +1,6 @@
 {
   "type": "violinPlot",
   "title": "小提琴图",
-  "densityNormalization": "width",
   "data": [
     {
       "category": "A",
@@ -101,6 +100,306 @@
     {
       "category": "A",
       "value": 4,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -6,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -4,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 0,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 0,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 4,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 6,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -4,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -3.0,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 3.0,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 4,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 4,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 5.0,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -3,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 0,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 0,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 3,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -1.5,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 1.5,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2.5,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -3,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 0,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 0,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": 3,
+      "series": "对照"
+    },
+    {
+      "category": "B",
+      "value": -2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -1.5,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": -1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 1,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 1.5,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2,
+      "series": "实验"
+    },
+    {
+      "category": "B",
+      "value": 2.5,
       "series": "实验"
     },
     {

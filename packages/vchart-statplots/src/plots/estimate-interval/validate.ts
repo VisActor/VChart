@@ -1,3 +1,4 @@
+import { validateSampleEstimateOptions } from '../../common/sample-estimate';
 import type { PointIntervalPlotSpec } from './types';
 import type { StatPlotIssue } from '../../common/types';
 import { validateInterval } from '../../common/interval';
@@ -18,27 +19,7 @@ export function validateEstimateInterval(spec: PointIntervalPlotSpec): StatPlotI
       }
     });
   } else {
-    const bar = spec.errorBar;
-    if (bar && 'level' in bar && bar.level !== undefined && !(bar.level > 0 && bar.level < 1)) {
-      errors.push(issue('INVALID_RANGE', '/errorBar/level', '区间水平须位于 0–1 之间'));
-    }
-    if (bar && 'multiplier' in bar && bar.multiplier !== undefined && bar.multiplier <= 0) {
-      errors.push(issue('INVALID_RANGE', '/errorBar/multiplier', '区间倍数须为正'));
-    }
-    if (bar && bar.kind === 'confidence') {
-      if (
-        bar.resamples !== undefined &&
-        (!Number.isInteger(bar.resamples) || bar.resamples < 100 || bar.resamples > 10000)
-      ) {
-        errors.push(issue('INVALID_RANGE', '/errorBar/resamples', '重采样次数须为 100–10000 整数'));
-      }
-      if (bar.seed !== undefined && (!Number.isInteger(bar.seed) || bar.seed < 0 || bar.seed > 0xffffffff)) {
-        errors.push(issue('INVALID_RANGE', '/errorBar/seed', '种子须为 uint32 整数'));
-      }
-    }
-    if (bar && bar.kind === 'standardError' && spec.estimator === 'median') {
-      errors.push(issue('UNSUPPORTED_COMBINATION', '/errorBar/kind', '标准误只支持均值估计'));
-    }
+    errors.push(...validateSampleEstimateOptions(spec));
   }
   spec.data.forEach((row, i) => {
     if (!row.category.length) {

@@ -1721,17 +1721,41 @@
         "value"
       ]
     },
-    "TimeSeriesPlotSpec": {
+    "TimeSeriesObservation": {
       "type": "object",
       "properties": {
-        "type": {
+        "time": {
+          "description": "带时区的 ISO 8601 时间；允许乱序及重复时刻。",
+          "type": "string"
+        },
+        "value": {
+          "type": [
+            "null",
+            "number"
+          ]
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "time",
+        "value"
+      ]
+    },
+    "TimeSeriesEstimatesSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
           "type": "string",
-          "const": "timeSeriesPlot"
+          "const": "estimates"
         },
         "data": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/TimeSeriesPlotRow"
+            "$ref": "#/definitions/TimeSeriesEstimate"
           }
         },
         "interval": {
@@ -1793,6 +1817,10 @@
             }
           ]
         },
+        "type": {
+          "type": "string",
+          "const": "timeSeriesPlot"
+        },
         "fieldLabels": {
           "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
@@ -1829,15 +1857,21 @@
       "additionalProperties": false,
       "required": [
         "data",
+        "input",
         "type"
       ]
     },
-    "TimeSeriesPlotRow": {
-      "description": "原始时间观测；可选区间结果由外部提供。",
+    "TimeSeriesEstimate": {
       "type": "object",
       "properties": {
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
         "time": {
-          "description": "带时区的 ISO 8601 时间。",
+          "description": "带时区的 ISO 8601 时间；允许乱序及重复时刻。",
           "type": "string"
         },
         "value": {
@@ -1845,12 +1879,6 @@
             "null",
             "number"
           ]
-        },
-        "lower": {
-          "type": "number"
-        },
-        "upper": {
-          "type": "number"
         },
         "series": {
           "description": "同一数据表要么全部提供系列名称，要么全部省略。",
@@ -3634,6 +3662,14 @@
           "description": "绘制采样配置；不改变估计方法和带宽。",
           "$ref": "#/definitions/KdeSamplingSpec"
         },
+        "normalizationScope": {
+          "description": "默认 all 按组样本比例缩放密度；series 各组概率密度独立积分为 1。",
+          "enum": [
+            "all",
+            "series"
+          ],
+          "type": "string"
+        },
         "fieldLabels": {
           "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
           "type": "object",
@@ -3715,6 +3751,18 @@
               "type": "number"
             }
           ]
+        },
+        "standardDeviation": {
+          "description": "自动带宽的标准差约定，默认 sample；固定数值带宽时不能配置。",
+          "enum": [
+            "population",
+            "sample"
+          ],
+          "type": "string"
+        },
+        "bandwidthAdjust": {
+          "description": "正的带宽倍率，默认 1，同时作用于固定和自动带宽。",
+          "type": "number"
         }
       },
       "additionalProperties": false
@@ -3727,6 +3775,10 @@
           "type": "integer",
           "minimum": 2,
           "maximum": 2048
+        },
+        "cut": {
+          "description": "从观测极值向外扩展的带宽倍数；KDE 高斯默认 3，violin 高斯默认 2，Epanechnikov 默认 1。",
+          "type": "number"
         }
       },
       "additionalProperties": false
@@ -3753,10 +3805,19 @@
           "$ref": "#/definitions/KdeSamplingSpec"
         },
         "densityNormalization": {
-          "description": "密度轮廓归一化：width 等最大宽度（默认），area 等面积。",
+          "description": "默认 area 等面积；count 最大宽度按样本数缩放；width 等最大宽度。",
           "enum": [
             "area",
+            "count",
             "width"
+          ],
+          "type": "string"
+        },
+        "normalizationScope": {
+          "description": "默认 series，同系列跨分类共享归一化尺度；all 所有分布组共享。",
+          "enum": [
+            "all",
+            "series"
           ],
           "type": "string"
         },
@@ -3859,6 +3920,244 @@
       "properties": {
         "type": {
           "const": "residualPlot"
+        }
+      },
+      "required": [
+        "type",
+        "input"
+      ]
+    },
+    "TimeSeriesPlotSpec": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "input": {
+              "type": "string",
+              "const": "observations"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TimeSeriesObservation"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "timeSeriesPlot"
+            },
+            "fieldLabels": {
+              "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "title": {
+              "description": "图表标题。",
+              "type": "string"
+            },
+            "description": {
+              "description": "数据范围或统计方法说明。",
+              "type": "string"
+            },
+            "theme": {
+              "enum": [
+                "dark",
+                "light"
+              ],
+              "type": "string"
+            },
+            "colors": {
+              "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+              "$ref": "#/definitions/StatPlotColors"
+            },
+            "estimator": {
+              "enum": [
+                "mean",
+                "median"
+              ],
+              "type": "string"
+            },
+            "errorBar": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "confidence"
+                    },
+                    "level": {
+                      "type": "number"
+                    },
+                    "resamples": {
+                      "type": "number"
+                    },
+                    "seed": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "percentile"
+                    },
+                    "level": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "standardError"
+                    },
+                    "multiplier": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "standardDeviation"
+                    },
+                    "multiplier": {
+                      "type": "number"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "kind": {
+                      "type": "string",
+                      "const": "range"
+                    }
+                  },
+                  "additionalProperties": false,
+                  "required": [
+                    "kind"
+                  ]
+                },
+                {
+                  "const": false,
+                  "type": "boolean"
+                }
+              ]
+            }
+          },
+          "required": [
+            "data",
+            "input",
+            "type"
+          ]
+        },
+        {
+          "additionalProperties": false,
+          "type": "object",
+          "properties": {
+            "input": {
+              "type": "string",
+              "const": "observations"
+            },
+            "data": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TimeSeriesObservation"
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "timeSeriesPlot"
+            },
+            "fieldLabels": {
+              "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            },
+            "title": {
+              "description": "图表标题。",
+              "type": "string"
+            },
+            "description": {
+              "description": "数据范围或统计方法说明。",
+              "type": "string"
+            },
+            "theme": {
+              "enum": [
+                "dark",
+                "light"
+              ],
+              "type": "string"
+            },
+            "colors": {
+              "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+              "$ref": "#/definitions/StatPlotColors"
+            },
+            "estimator": {
+              "type": "boolean",
+              "const": false
+            },
+            "errorBar": {
+              "const": false,
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "data",
+            "estimator",
+            "input",
+            "type"
+          ]
+        },
+        {
+          "$ref": "#/definitions/TimeSeriesEstimatesSpec"
+        }
+      ],
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "timeSeriesPlot"
         }
       },
       "required": [
