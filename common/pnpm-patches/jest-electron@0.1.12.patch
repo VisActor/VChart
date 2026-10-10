@@ -1,0 +1,809 @@
+diff --git a/lib/electron/main/index.js b/lib/electron/main/index.js
+index a97c6a2d24562e7988b31c867b461f5f6479a55d..96e75bb15eb463dec4846d75c9c66f684b133b0d 100644
+--- a/lib/electron/main/index.js
++++ b/lib/electron/main/index.js
+@@ -1,35 +1,28 @@
+ "use strict";
+ Object.defineProperty(exports, "__esModule", { value: true });
+-var electron_1 = require("electron");
+-var constant_1 = require("../../utils/constant");
+-var window_pool_1 = require("./window-pool");
+-var debugMode = !!process.env.DEBUG_MODE;
+-var concurrency = Number(process.env.CONCURRENCY);
+-// all browser window closed, then kill the while application
+-electron_1.app.on('window-all-closed', function () {
+-    electron_1.app.quit();
++const { app } = require("electron");
++const { EventsEnum } = require("../../utils/constant");
++const { WindowPool } = require("./window-pool");
++const debugMode = !!process.env.DEBUG_MODE;
++let windowPool;
++// Between test files there may be no windows. The parent runner owns normal shutdown.
++app.on("window-all-closed", () => {
++    if (windowPool && windowPool.shouldQuit()) app.quit();
+ });
+-electron_1.app.on('ready', function () {
+-    // create a window pool instance
+-    var windowPool = new window_pool_1.WindowPool(concurrency, debugMode);
+-    // redirect the test cases data, and redirect test result after running in electron
+-    process.on(constant_1.EventsEnum.ProcMessage, function (_a) {
+-        var test = _a.test, id = _a.id, type = _a.type;
+-        if (type === constant_1.EventsEnum.ProcRunTest) {
+-            // send test data into render proc for running
+-            windowPool.runTest(id, test).then(function (_a) {
+-                var result = _a.result, id = _a.id;
+-                process.send({ result: result, id: id, type: constant_1.EventsEnum.ProcRunTestResult });
++process.on("disconnect", () => app.quit());
++app.on("ready", () => {
++    windowPool = new WindowPool(Number(process.env.CONCURRENCY), debugMode);
++    process.on(EventsEnum.ProcMessage, ({ test, id, type }) => {
++        if (type === EventsEnum.ProcRunTest) {
++            windowPool.runTest(id, test).then(({ result }) => {
++                if (process.connected) process.send({ result, id, type: EventsEnum.ProcRunTestResult });
++            }, error => {
++                if (process.connected) process.send({ error: error.stack || error.message, id, type: EventsEnum.ProcRunTestResult });
+             });
+-        }
+-        else if (constant_1.EventsEnum.ProcInitialWin) {
++        } else if (type === EventsEnum.ProcInitialWin) {
+             windowPool.clearSaveTests();
+-            process.send({ type: constant_1.EventsEnum.ProcInitialWinEnd });
+-        }
+-        else {
+-            console.error('Invalid message type', type);
+-        }
++            if (process.connected) process.send({ id, type: EventsEnum.ProcInitialWinEnd });
++        } else console.error("Invalid message type", type);
+     });
+-    // electron proc ready
+-    process.send({ type: constant_1.EventsEnum.ProcReady });
++    process.send({ type: EventsEnum.ProcReady });
+ });
+diff --git a/lib/electron/main/window-pool.js b/lib/electron/main/window-pool.js
+index 7065ec46cecd17a08c061435b48e96f1080549ce..9accf1bbd09d5b283c8813f72c8c2a3b683eb1dc 100644
+--- a/lib/electron/main/window-pool.js
++++ b/lib/electron/main/window-pool.js
+@@ -1,288 +1,154 @@
+ "use strict";
+-var __assign = (this && this.__assign) || function () {
+-    __assign = Object.assign || function(t) {
+-        for (var s, i = 1, n = arguments.length; i < n; i++) {
+-            s = arguments[i];
+-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+-                t[p] = s[p];
+-        }
+-        return t;
+-    };
+-    return __assign.apply(this, arguments);
+-};
+-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+-    return new (P || (P = Promise))(function (resolve, reject) {
+-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+-    });
+-};
+-var __generator = (this && this.__generator) || function (thisArg, body) {
+-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+-    function verb(n) { return function (v) { return step([n, v]); }; }
+-    function step(op) {
+-        if (f) throw new TypeError("Generator is already executing.");
+-        while (_) try {
+-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+-            if (y = 0, t) op = [op[0] & 2, t.value];
+-            switch (op[0]) {
+-                case 0: case 1: t = op; break;
+-                case 4: _.label++; return { value: op[1], done: false };
+-                case 5: _.label++; y = op[1]; op = [0]; continue;
+-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+-                default:
+-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+-                    if (t[2]) _.ops.pop();
+-                    _.trys.pop(); continue;
+-            }
+-            op = body.call(thisArg, _);
+-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+-    }
+-};
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.WindowPool = void 0;
+-var path = require("path");
+-var url = require("url");
+-var throat_1 = require("throat");
+-var electron_1 = require("electron");
+-var constant_1 = require("../../utils/constant");
+-var delay_1 = require("../../utils/delay");
+-var uuid_1 = require("../../utils/uuid");
+-var config_1 = require("../../utils/config");
+-// configure save instance
+-var config = new config_1.Config(electron_1.app.getPath('userData'));
+-/**
+- * browser window (renderer) pool
+- */
+-var WindowPool = /** @class */ (function () {
+-    function WindowPool(maxSize, debugMode) {
+-        var _this = this;
+-        if (maxSize === void 0) { maxSize = 1; }
+-        if (debugMode === void 0) { debugMode = false; }
+-        this.pool = [];
+-        // create new browser window instance lock flag
+-        this.locked = false;
+-        // when debug mode, only 1 window can be work
++const path = require("path");
++const url = require("url");
++const throat = require("throat").default;
++const { app, ipcMain, BrowserWindow } = require("electron");
++const { EventsEnum } = require("../../utils/constant");
++const { uuid } = require("../../utils/uuid");
++const { Config } = require("../../utils/config");
++const config = new Config(app.getPath("userData"));
++
++class WindowPool {
++    constructor(maxSize = 1, debugMode = false) {
+         this.maxSize = debugMode ? 1 : maxSize;
+         this.debugMode = debugMode;
+-        electron_1.ipcMain.on(constant_1.EventsEnum.WebContentsReady, function () {
+-            _this.runAllTest();
+-        });
++        this.pool = [];
++        this.pending = 0;
++        this.disposing = false;
++        this.debugWindow = undefined;
++        this.schedule = throat(this.maxSize);
+     }
+-    /**
+-     * get a window with thread lock
+-     */
+-    WindowPool.prototype.get = function () {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var win;
+-            return __generator(this, function (_a) {
+-                switch (_a.label) {
+-                    case 0:
+-                        if (!this.locked) return [3 /*break*/, 3];
+-                        return [4 /*yield*/, delay_1.delay()];
+-                    case 1:
+-                        _a.sent();
+-                        return [4 /*yield*/, this.get()];
+-                    case 2: return [2 /*return*/, _a.sent()];
+-                    case 3:
+-                        this.locked = true;
+-                        return [4 /*yield*/, this.getAsync()];
+-                    case 4:
+-                        win = _a.sent();
+-                        this.locked = false;
+-                        return [2 /*return*/, win];
+-                }
+-            });
+-        });
+-    };
+-    /**
+-     * get a window from pool, if not exist, create one, if pool is full, wait and retry
+-     */
+-    WindowPool.prototype.getAsync = function () {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var info, win;
+-            return __generator(this, function (_a) {
+-                switch (_a.label) {
+-                    case 0:
+-                        info = this.pool.find(function (info) { return info.idle; });
+-                        // exist ide window, return it for usage
+-                        if (info)
+-                            return [2 /*return*/, info.win];
+-                        if (!this.isFull()) return [3 /*break*/, 3];
+-                        return [4 /*yield*/, delay_1.delay()];
+-                    case 1:
+-                        _a.sent();
+-                        return [4 /*yield*/, this.getAsync()];
+-                    case 2: return [2 /*return*/, _a.sent()];
+-                    case 3: return [4 /*yield*/, this.create()];
+-                    case 4:
+-                        win = _a.sent();
+-                        // put it into pool
+-                        this.pool.push({ win: win, idle: true, tests: [] });
+-                        return [2 /*return*/, win];
+-                }
++    shouldQuit() {
++        return this.debugMode && !this.disposing && this.pending === 0 && this.pool.length === 0;
++    }
++    removeWin(win) {
++        const idx = this.pool.findIndex(info => info.win === win);
++        if (idx !== -1) this.pool.splice(idx, 1);
++    }
++    destroy(win) {
++        this.disposing = true;
++        try {
++            if (!win.isDestroyed()) win.destroy();
++        } finally {
++            this.removeWin(win);
++            this.disposing = false;
++        }
++    }
++    clearSaveTests() {
++        if (this.debugWindow) {
++            ipcMain.removeListener(EventsEnum.WebContentsReady, this.debugWindow.onReady);
++            this.destroy(this.debugWindow.win);
++            this.debugWindow = undefined;
++        }
++    }
++    create(test) {
++        return new Promise((resolve, reject) => {
++            const win = new BrowserWindow({
++                ...config.read(), show: this.debugMode, focusable: this.debugMode,
++                webPreferences: { webSecurity: false, nodeIntegration: true }
+             });
+-        });
+-    };
+-    /**
+-     * create a valid electron browser window
+-     */
+-    WindowPool.prototype.create = function () {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var _this = this;
+-            return __generator(this, function (_a) {
+-                return [2 /*return*/, new Promise(function (resolve, reject) {
+-                        var winOpts = __assign(__assign({}, config.read()), { show: _this.debugMode, focusable: _this.debugMode, webPreferences: {
+-                                webSecurity: false,
+-                                nodeIntegration: true,
+-                            } });
+-                        var win = new electron_1.BrowserWindow(winOpts);
+-                        // when window close, save window size locally
+-                        win.on('close', function () {
+-                            var _a = win.getBounds(), width = _a.width, height = _a.height;
+-                            config.write({ width: width, height: height });
+-                        });
+-                        // after window closed, remove it from pool for gc
+-                        win.on('closed', function () {
+-                            _this.removeWin(win);
+-                            win = undefined;
+-                        });
+-                        var f = url.format({
+-                            hash: encodeURIComponent(JSON.stringify({ debugMode: _this.debugMode })),
+-                            pathname: path.join(__dirname, '/index.html'),
+-                            protocol: 'file:',
+-                            slashes: true,
+-                        });
+-                        win.loadURL(f);
+-                        if (_this.debugMode) {
+-                            // when debug mode, open dev tools
+-                            win.webContents.openDevTools();
+-                        }
+-                        win.webContents.on('did-finish-load', function () {
+-                            // win ready
+-                            resolve(win);
+-                        });
+-                    })];
++            this.pool.push({ win });
++            win.on("close", () => config.write(win.getBounds()));
++            win.on("closed", () => this.removeWin(win));
++            let settled = false;
++            const cleanup = () => {
++                clearTimeout(timer);
++                ipcMain.removeListener(EventsEnum.WebContentsReady, onReady);
++                win.removeListener("closed", onClosed);
++                win.webContents.removeListener("did-fail-load", onLoadError);
++                win.webContents.removeListener("render-process-gone", onCrash);
++            };
++            const finish = error => {
++                if (settled) return;
++                settled = true;
++                cleanup();
++                if (error) { this.destroy(win); reject(error); }
++                else resolve(win);
++            };
++            const onReady = event => { if (event.sender === win.webContents) finish(); };
++            const onClosed = () => finish(new Error(`${test.path}: window closed before renderer ready`));
++            const onLoadError = (event, code, description, failedURL, isMainFrame) => {
++                if (isMainFrame !== false) finish(new Error(`${test.path}: renderer load failed (${code}): ${description}`));
++            };
++            const onCrash = (event, details) => finish(new Error(`${test.path}: renderer exited before ready: ${details.reason}`));
++            const timer = setTimeout(() => finish(new Error(`${test.path}: renderer startup timed out after 30000ms`)), 30000);
++            ipcMain.on(EventsEnum.WebContentsReady, onReady);
++            win.once("closed", onClosed);
++            win.webContents.on("did-fail-load", onLoadError);
++            win.webContents.once("render-process-gone", onCrash);
++            const location = url.format({
++                hash: encodeURIComponent(JSON.stringify({ debugMode: this.debugMode })),
++                pathname: path.join(__dirname, "/index.html"), protocol: "file:", slashes: true
+             });
++            try {
++                win.loadURL(location).catch(finish);
++                if (this.debugMode) win.webContents.openDevTools();
++            } catch (error) { finish(error); }
+         });
+-    };
+-    /**
+-     * the proc size of pool
+-     */
+-    WindowPool.prototype.size = function () {
+-        return this.pool.length;
+-    };
+-    /**
+-     * whether the pool is full
+-     */
+-    WindowPool.prototype.isFull = function () {
+-        return this.size() >= this.maxSize;
+-    };
+-    /**
+-     * set the proc idle status
+-     * @param win
+-     * @param idle
+-     */
+-    WindowPool.prototype.setIdle = function (win, idle) {
+-        var idx = this.pool.findIndex(function (info) { return info.win === win; });
+-        this.pool[idx].idle = idle;
+-    };
+-    WindowPool.prototype.appendTest = function (win, test) {
+-        var idx = this.pool.findIndex(function (info) { return info.win === win; });
+-        this.pool[idx].tests.push(test);
+-    };
+-    /**
+-     * clear all the save tests in memory
+-     */
+-    WindowPool.prototype.clearSaveTests = function () {
+-        this.pool.forEach(function (info) {
+-            info.tests = [];
+-            // remove all test result dom
+-            info.win.webContents.send(constant_1.EventsEnum.ClearTestResults);
+-        });
+-    };
+-    WindowPool.prototype.removeWin = function (win) {
+-        var idx = this.pool.findIndex(function (info) { return info.win = win; });
+-        // remove from pool by index
+-        if (idx !== -1) {
+-            this.pool.splice(idx, 1);
+-        }
+-        win.destroy();
+-    };
+-    /**
+-     * run test case by send it to renderer
+-     * @param id
+-     * @param test
+-     */
+-    WindowPool.prototype.runTest = function (id, test) {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var win, result;
+-            return __generator(this, function (_a) {
+-                switch (_a.label) {
+-                    case 0: return [4 /*yield*/, this.get()];
+-                    case 1:
+-                        win = _a.sent();
+-                        return [4 /*yield*/, this.run(win, id, test)];
+-                    case 2:
+-                        result = _a.sent();
+-                        this.appendTest(win, test);
+-                        return [2 /*return*/, result];
+-                }
+-            });
++    }
++    run(win, id, test) {
++        return new Promise((resolve, reject) => {
++            if (win.isDestroyed()) { reject(new Error(`${test.path}: window closed before test started`)); return; }
++            const timeout = Number(process.env.JEST_ELECTRON_SUITE_TIMEOUT_MS || 120000);
++            if (!Number.isFinite(timeout) || timeout <= 0) {
++                reject(new Error("JEST_ELECTRON_SUITE_TIMEOUT_MS must be a positive number")); return;
++            }
++            let settled = false;
++            const cleanup = () => {
++                clearTimeout(timer);
++                ipcMain.removeListener(id, onResult);
++                win.removeListener("closed", onClosed);
++                win.webContents.removeListener("render-process-gone", onCrash);
++                win.webContents.removeListener("did-fail-load", onLoadError);
++            };
++            const finish = (error, result) => {
++                if (settled) return;
++                settled = true;
++                cleanup();
++                if (error) reject(error); else resolve({ result, id });
++            };
++            const onResult = (event, result) => { if (event.sender === win.webContents) finish(undefined, result); };
++            const onClosed = () => finish(new Error(`${test.path}: window closed while running test`));
++            const onCrash = (event, details) => finish(new Error(`${test.path}: renderer exited while running test: ${details.reason}`));
++            const onLoadError = (event, code, description, failedURL, isMainFrame) => {
++                if (isMainFrame !== false) finish(new Error(`${test.path}: renderer load failed (${code}): ${description}`));
++            };
++            const timer = setTimeout(() => finish(new Error(`${test.path}: test file timed out after ${timeout}ms`)), timeout);
++            ipcMain.on(id, onResult);
++            win.once("closed", onClosed);
++            win.webContents.once("render-process-gone", onCrash);
++            win.webContents.on("did-fail-load", onLoadError);
++            try { win.webContents.send(EventsEnum.StartRunTest, test, id); } catch (error) { finish(error); }
+         });
+-    };
+-    WindowPool.prototype.runAllTest = function () {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var _this = this;
+-            return __generator(this, function (_a) {
+-                this.pool.map(function (info) { return __awaiter(_this, void 0, void 0, function () {
+-                    var _this = this;
+-                    return __generator(this, function (_a) {
+-                        switch (_a.label) {
+-                            case 0: return [4 /*yield*/, Promise.all(info.tests.map(throat_1.default(1, function (test) { return __awaiter(_this, void 0, void 0, function () {
+-                                    return __generator(this, function (_a) {
+-                                        switch (_a.label) {
+-                                            case 0: return [4 /*yield*/, this.run(info.win, uuid_1.uuid(), test)];
+-                                            case 1: return [2 /*return*/, _a.sent()];
+-                                        }
+-                                    });
+-                                }); })))];
+-                            case 1:
+-                                _a.sent();
+-                                return [2 /*return*/];
+-                        }
++    }
++    runTest(id, test) {
++        this.pending++;
++        return this.schedule(async () => {
++            this.clearSaveTests();
++            let win;
++            let completed = false;
++            try {
++                win = await this.create(test);
++                const outcome = await this.run(win, id, test);
++                if (this.debugMode) {
++                    const onReady = event => {
++                        if (event.sender === win.webContents) this.runTest(uuid(), test).catch(error => console.error(error));
++                    };
++                    ipcMain.on(EventsEnum.WebContentsReady, onReady);
++                    win.once("closed", () => {
++                        ipcMain.removeListener(EventsEnum.WebContentsReady, onReady);
++                        if (this.debugWindow && this.debugWindow.win === win) this.debugWindow = undefined;
+                     });
+-                }); });
+-                return [2 /*return*/];
+-            });
+-        });
+-    };
+-    WindowPool.prototype.run = function (win, id, test) {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var _this = this;
+-            return __generator(this, function (_a) {
+-                return [2 /*return*/, new Promise(function (resolve, reject) {
+-                        _this.setIdle(win, false);
+-                        // redirect the test result ti proc
+-                        electron_1.ipcMain.once(id, function (event, result) {
+-                            // test case running end, set the window with idle status
+-                            _this.setIdle(win, true);
+-                            // resolve test result
+-                            resolve({ result: result, id: id });
+-                        });
+-                        // send test case into web contents for running
+-                        win.webContents.send(constant_1.EventsEnum.StartRunTest, test, id);
+-                    })];
+-            });
++                    this.debugWindow = { win, onReady };
++                }
++                completed = true;
++                return outcome;
++            } finally {
++                if (win && (!this.debugMode || !completed)) this.destroy(win);
++                this.pending--;
++            }
+         });
+-    };
+-    return WindowPool;
+-}());
++    }
++}
+ exports.WindowPool = WindowPool;
+diff --git a/lib/electron/proc/index.js b/lib/electron/proc/index.js
+index 29bffa27b0b5e76887749a42a2d0a37dc09668f2..3ddf1b4b4576a782eb2b2943dd2e53de2f530f7f 100644
+--- a/lib/electron/proc/index.js
++++ b/lib/electron/proc/index.js
+@@ -1,206 +1,114 @@
+ "use strict";
+-var __assign = (this && this.__assign) || function () {
+-    __assign = Object.assign || function(t) {
+-        for (var s, i = 1, n = arguments.length; i < n; i++) {
+-            s = arguments[i];
+-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+-                t[p] = s[p];
+-        }
+-        return t;
+-    };
+-    return __assign.apply(this, arguments);
+-};
+-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+-    return new (P || (P = Promise))(function (resolve, reject) {
+-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+-        step((generator = generator.apply(thisArg, _arguments || [])).next());
+-    });
+-};
+-var __generator = (this && this.__generator) || function (thisArg, body) {
+-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+-    function verb(n) { return function (v) { return step([n, v]); }; }
+-    function step(op) {
+-        if (f) throw new TypeError("Generator is already executing.");
+-        while (_) try {
+-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+-            if (y = 0, t) op = [op[0] & 2, t.value];
+-            switch (op[0]) {
+-                case 0: case 1: t = op; break;
+-                case 4: _.label++; return { value: op[1], done: false };
+-                case 5: _.label++; y = op[1]; op = [0]; continue;
+-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+-                default:
+-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+-                    if (t[2]) _.ops.pop();
+-                    _.trys.pop(); continue;
+-            }
+-            op = body.call(thisArg, _);
+-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+-    }
+-};
+-var __spreadArrays = (this && this.__spreadArrays) || function () {
+-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
+-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
+-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
+-            r[k] = a[j];
+-    return r;
+-};
+ Object.defineProperty(exports, "__esModule", { value: true });
+-exports.electronProc = exports.Electron = void 0;
+-var path = require("path");
+-var child_process_1 = require("child_process");
+-var electron = require("electron");
+-var constant_1 = require("../../utils/constant");
+-var uuid_1 = require("../../utils/uuid");
+-var delay_1 = require("../../utils/delay");
+-/**
+- * electron proc
+- */
+-var Electron = /** @class */ (function () {
+-    function Electron(debugMode, concurrency) {
+-        if (debugMode === void 0) { debugMode = false; }
+-        if (concurrency === void 0) { concurrency = 1; }
+-        this.onCloseCallback = function () { };
+-        // thread lock
+-        this.lock = false;
++const path = require("path");
++const { spawn } = require("child_process");
++const electron = require("electron");
++const { EventsEnum } = require("../../utils/constant");
++const { uuid } = require("../../utils/uuid");
++
++class Electron {
++    constructor(debugMode = false, concurrency = 1) {
+         this.debugMode = debugMode;
+         this.concurrency = concurrency;
++        this.requests = new Map();
++        this.onCloseCallback = () => {};
++    }
++    async get() {
++        if (this.proc) return this.proc;
++        if (!this.opening) {
++            this.opening = this.create().then(proc => {
++                this.proc = proc;
++                const onMessage = message => {
++                    const request = this.requests.get(message.id);
++                    if (!request || request.proc !== proc || message.type !== request.replyType) return;
++                    this.requests.delete(message.id);
++                    if (message.error) request.reject(new Error(message.error)); else request.resolve(message.result);
++                };
++                const onError = error => this.failRequests(proc, error);
++                const onDisconnect = () => this.failRequests(proc, new Error("Electron IPC disconnected"));
++                proc.on(EventsEnum.ProcMessage, onMessage);
++                proc.on("error", onError);
++                proc.once("disconnect", onDisconnect);
++                proc.once("close", (code, signal) => {
++                    proc.removeListener(EventsEnum.ProcMessage, onMessage);
++                    proc.removeListener("error", onError);
++                    proc.removeListener("disconnect", onDisconnect);
++                    if (this.proc === proc) this.proc = undefined;
++                    this.failRequests(proc, new Error(`Electron exited (code=${code}, signal=${signal})`));
++                    this.onCloseCallback();
++                });
++                return proc;
++            }).finally(() => { this.opening = undefined; });
++        }
++        return this.opening;
+     }
+-    /**
+-     * get a idle electron with lock
+-     */
+-    Electron.prototype.get = function () {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var _a;
+-            var _this = this;
+-            return __generator(this, function (_b) {
+-                switch (_b.label) {
+-                    case 0:
+-                        if (!!this.proc) return [3 /*break*/, 5];
+-                        if (!this.lock) return [3 /*break*/, 3];
+-                        return [4 /*yield*/, delay_1.delay()];
+-                    case 1:
+-                        _b.sent();
+-                        return [4 /*yield*/, this.get()];
+-                    case 2: return [2 /*return*/, _b.sent()];
+-                    case 3:
+-                        this.lock = true;
+-                        _a = this;
+-                        return [4 /*yield*/, this.create()];
+-                    case 4:
+-                        _a.proc = _b.sent();
+-                        // when proc close, kill all electrons
+-                        this.proc.on('close', function () {
+-                            _this.kill();
+-                            _this.onCloseCallback();
+-                        });
+-                        this.lock = false;
+-                        _b.label = 5;
+-                    case 5: return [2 /*return*/, this.proc];
+-                }
++    create() {
++        return new Promise((resolve, reject) => {
++            const args = [path.join(__dirname, "../main/index")];
++            if (process.env.JEST_ELECTRON_NO_SANDBOX) args.unshift("--no-sandbox");
++            if (process.env.JEST_ELECTRON_STARTUP_ARGS) args.unshift(...process.env.JEST_ELECTRON_STARTUP_ARGS.split(/\s+/));
++            const proc = spawn(electron, args, {
++                stdio: ["ipc"],
++                env: { ...process.env, DEBUG_MODE: this.debugMode ? "true" : "", CONCURRENCY: String(this.concurrency) }
+             });
++            let settled = false;
++            const cleanup = () => {
++                clearTimeout(timer);
++                proc.removeListener(EventsEnum.ProcMessage, onMessage);
++                proc.removeListener("error", onError);
++                proc.removeListener("close", onClose);
++                proc.removeListener("disconnect", onDisconnect);
++            };
++            const finish = error => {
++                if (settled) return;
++                settled = true;
++                cleanup();
++                if (error) { proc.kill(); reject(error); } else resolve(proc);
++            };
++            const onMessage = message => { if (message.type === EventsEnum.ProcReady) finish(); };
++            const onError = error => finish(error);
++            const onClose = (code, signal) => finish(new Error(`Electron exited before ready (code=${code}, signal=${signal})`));
++            const onDisconnect = () => finish(new Error("Electron IPC disconnected before ready"));
++            const timer = setTimeout(() => finish(new Error("Electron startup timed out after 30000ms")), 30000);
++            proc.on(EventsEnum.ProcMessage, onMessage);
++            proc.once("error", onError);
++            proc.once("close", onClose);
++            proc.once("disconnect", onDisconnect);
+         });
+-    };
+-    /**
+-     * create an idle electron proc
+-     */
+-    Electron.prototype.create = function () {
+-        return __awaiter(this, void 0, void 0, function () {
+-            var _this = this;
+-            return __generator(this, function (_a) {
+-                return [2 /*return*/, new Promise(function (resolve, reject) {
+-                        // electron starter
+-                        var entry = path.join(__dirname, '../main/index');
+-                        var args = [entry];
+-                        if (process.env.JEST_ELECTRON_NO_SANDBOX) {
+-                            args.splice(0, 0, '--no-sandbox');
+-                        }
+-                        ;
+-                        if (process.env.JEST_ELECTRON_STARTUP_ARGS) {
+-                            args.splice.apply(args, __spreadArrays([0, 0], process.env.JEST_ELECTRON_STARTUP_ARGS.split(/\s+/)));
+-                        }
+-                        ;
+-                        var proc = child_process_1.spawn(electron, args, {
+-                            stdio: ['ipc'],
+-                            env: __assign(__assign({}, process.env), { DEBUG_MODE: _this.debugMode ? 'true' : '', CONCURRENCY: "" + _this.concurrency })
+-                        });
+-                        var listener = function (m) {
+-                            if (m.type === constant_1.EventsEnum.ProcReady) {
+-                                proc.removeListener(constant_1.EventsEnum.ProcMessage, listener);
+-                                resolve(proc);
+-                            }
+-                        };
+-                        // send electron ready signal
+-                        proc.on(constant_1.EventsEnum.ProcMessage, listener);
+-                    })];
+-            });
++    }
++    failRequests(proc, error) {
++        for (const [id, request] of this.requests) {
++            if (request.proc === proc) { this.requests.delete(id); request.reject(error); }
++        }
++    }
++    async request(message, replyType) {
++        const proc = await this.get();
++        if (!proc.connected) throw new Error("Electron IPC disconnected before request");
++        const id = uuid();
++        return new Promise((resolve, reject) => {
++            this.requests.set(id, { proc, replyType, resolve, reject });
++            try {
++                proc.send({ ...message, id }, error => {
++                    if (error && this.requests.has(id)) { this.requests.delete(id); reject(error); }
++                });
++            } catch (error) { this.requests.delete(id); reject(error); }
+         });
+-    };
+-    /**
+-     * kill all electron proc
+-     */
+-    Electron.prototype.kill = function () {
+-        if (this.proc) {
+-            this.proc.kill();
++    }
++    runTest(test) {
++        return this.request({ type: EventsEnum.ProcRunTest, test }, EventsEnum.ProcRunTestResult);
++    }
++    initialWin() {
++        return this.request({ type: EventsEnum.ProcInitialWin }, EventsEnum.ProcInitialWinEnd);
++    }
++    kill() {
++        const proc = this.proc;
++        if (proc) {
+             this.proc = undefined;
++            this.failRequests(proc, new Error("Electron runner stopped"));
++            proc.kill();
+         }
+-    };
+-    /**
+-     * run test case
+-     * @param test
+-     */
+-    Electron.prototype.runTest = function (test) {
+-        var _this = this;
+-        var id = uuid_1.uuid();
+-        return new Promise(function (resolve, reject) {
+-            _this.get().then(function (proc) {
+-                var listener = function (_a) {
+-                    var result = _a.result, resultId = _a.id, type = _a.type;
+-                    if (type === constant_1.EventsEnum.ProcRunTestResult && resultId === id) {
+-                        proc.removeListener(constant_1.EventsEnum.ProcMessage, listener);
+-                        // return test result
+-                        resolve(result);
+-                    }
+-                };
+-                // listen the running result
+-                proc.on(constant_1.EventsEnum.ProcMessage, listener);
+-                // send test data into main thread
+-                proc.send({ type: constant_1.EventsEnum.ProcRunTest, test: test, id: id });
+-            });
+-        });
+-    };
+-    Electron.prototype.initialWin = function () {
+-        var _this = this;
+-        return new Promise(function (resolve, reject) {
+-            _this.get().then(function (proc) {
+-                var listener = function (_a) {
+-                    var type = _a.type;
+-                    if (type === constant_1.EventsEnum.ProcInitialWinEnd) {
+-                        proc.removeListener(constant_1.EventsEnum.ProcMessage, listener);
+-                        resolve();
+-                    }
+-                };
+-                proc.on(constant_1.EventsEnum.ProcMessage, listener);
+-                proc.send({ type: constant_1.EventsEnum.ProcInitialWin });
+-            });
+-        });
+-    };
+-    /**
+-     * when all close, do callback
+-     * @param cb
+-     */
+-    Electron.prototype.onClose = function (cb) {
+-        this.onCloseCallback = cb;
+-    };
+-    return Electron;
+-}());
++    }
++    onClose(cb) { this.onCloseCallback = cb; }
++}
+ exports.Electron = Electron;
+ exports.electronProc = new Electron();
