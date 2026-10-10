@@ -2,7 +2,7 @@
 
 ## 原始散点回归与残差图（2026-10-09）
 
-源码与本地联调已完成，正式依赖已升级为 VUtil 1.0.26。scatterPlot 新增显式 fit.input=observations / estimates，支持原始 x/y 的线性、2–5 次多项式和 LOWESS 拟合；不传 fit 仍为纯散点。residualPlot 新增 observations，默认按原始 x 绘制 y−predict(x)，另可选 fitted 横轴。predictions / residuals 外部用途保留，独立 smooth LOWESS 只拟合残差趋势。
+源码与联调已完成，正式依赖已升级为 VUtil 1.0.27。scatterPlot 新增显式 fit.input=observations / estimates，支持原始 x/y 的线性、2–5 次多项式和 LOWESS 拟合；不传 fit 仍为纯散点。residualPlot 新增 observations，默认按原始 x 绘制 y−predict(x)，另可选 fitted 横轴。predictions / residuals 外部用途保留，独立 smooth LOWESS 只拟合残差趋势。
 
 线性/多项式默认使用成对 bootstrap 均值响应置信带；LOWESS 不画带。按系列独立计算，点、线、带共用颜色与图例筛选。类型、生成 Schema/校验器、主例与分组例、7 个新变体、目录和中文契约已同步。
 
@@ -12,9 +12,9 @@ VUtil 1.0.25 的大偏移线性/多项式预测错误、LOWESS predict/grid 稳�
 
 - 上游实现来源：[VUtil PR #291](https://github.com/VisActor/VUtil/pull/291)，已合并为 `f963e37`。npm 1.0.26 已提供稳定回归、LOWESS fitted 和 regressionBootstrap 公共 API。
 - 可应用补丁：`.vchart-statplots/regression/vutils-regression.patch`；已对相邻 VUtil 基线执行 `git apply --check`。补丁不包含开发 node_modules 链接。
-- 本地开发包链接已通过标准 Rush update 替换；StatPlots 和 VChart 的 vutils 实际路径均指向 Rush 安装的 npm 1.0.26。
-- 8 个项目的 14 处直接依赖下限及 Rush 锁文件已统一更新为 1.0.26，涉及 vutils、vdataset、vscale、vlayouts；本轮不执行 npm 发布。
-- 开发阶段使用 `1.0.25-dev.regression` 完成 CJS 140 份主例/有效变体、严格类型与三模型 ESM/UMD 绘制及 release 验证；当前改用正式依赖，隔离验收结果见下方 1.0.26 升级记录。
+- 本地开发包链接已通过标准 Rush update 替换；StatPlots 和 VChart 的 vutils 实际路径均指向 Rush 安装的 npm 1.0.27。
+- 8 个项目的 14 处直接依赖下限及 Rush 锁文件已统一更新为 1.0.27，涉及 vutils、vdataset、vscale、vlayouts；本轮不执行 npm 发布。
+- 开发阶段使用 `1.0.25-dev.regression` 完成 CJS 140 份主例/有效变体、严格类型与三模型 ESM/UMD 绘制及 release 验证；当前改用正式依赖，隔离验收结果见下方 1.0.26 和 1.0.27 升级记录。
 
 ### 数值与契约验证
 
@@ -459,3 +459,47 @@ Node.js 22.23.3 本地验收：
 用户已要求整理并提交全部本地改动，范围包括七类统计图的原始输入、ROC 对比示例、共用矩阵样式、生成的 Schema／校验器、中文文档、计划、Python fixtures 和性能记录。VChart 使用 codex/vchart-statplots，VUtil 的 normalQuantile 改动从发布分支切到 codex/normal-quantile 保存；两个仓库分别提交。
 
 上述“未提交”是对应阶段的验收时状态；提交整理不新增发布动作或 PR。保留明确未发布的 VUtil 开发版本用于本地联调，实际发布后仍须更新 StatPlots 的依赖下限和 Rush 锁文件。提交检查复用近期 539 项单元、266 项浏览器用例的验证结果及原生视觉报告；VUtil 的源码／测试配置整理后重新执行 compile 和完整单元测试。
+
+## 时间序列与 KDE/violin 配置优化验收（2026-10-09）
+
+时间序列新增显式 observations/estimates，复用 pointInterval 的样本估计；原始观测按实际时刻分组、稳定排序，保留显式 null 断点。默认均值 + 95% bootstrap CI（1000 次，seed 0）；直接连线、median、SE/SD、percentile/range 和外部区间有独立契约。旧外部区间输入必须增加 input=estimates。
+
+KDE/violin 自动带宽采用样本标准差，支持倍率与 cut。KDE 默认全体样本比例缩放；violin 默认 area，同系列跨分类共享尺度，新增 count 和全体范围。area 采用范围最大 PDF 峰值，不再用截断曲线的梯形积分二次归一化；实际 PDF 不混入 violin 样本量权重。旧默认 population/series/width/cut 可显式恢复，旧显式 area 不承诺逐点兼容。
+
+VUtil 修改位于 `/Users/bytedance/Documents/opensource/VUtil` 的 `codex/statplots-kde-bandwidth`，从执行时最新 origin/main `929bcaf` 创建；该阶段尚未提交，随后已通过 [VUtil PR #293](https://github.com/VisActor/VUtil/pull/293) 合并。KDE 保留总体标准差默认，复用 mean/variance 与缩放中心差值；新配置在 factory 校验，倍率只乘一次；极端有限输入导致中心差值或 n×h 溢出的情况也有确定性测试。该阶段新增 KDE.md 和发布 change 记录，没有新增 Python 源码；上游整理后的实际交付以合并结果为准。
+
+- StatPlots 全量单测 38 suites / 664 tests 通过；type、Schema、standalone 校验器、28 类目录、89 条意图、28 主例、122 变体、36 反例检查通过。ESLint 为 0 errors，原有及同风格 warnings 保留。
+- VUtil 四包单测共 101 suites / 820 tests 通过，vutils 类型检查及构建通过。vdataset/vlayouts/vscale 原有 tsconfig 包含测试但 rootDir=src，标准 compile 报 TS6059；配置与 origin/main 相同，未扩大本轮修改范围，补用 `npm run compile -- --rootDir .` 全部通过。
+- 固定数值参考来自 SciPy 1.13.1、Seaborn 0.13.2、NumPy 1.26.4。4 组 Gaussian 带宽/PDF，三种 violin 模式 × 两种范围的真实 Python 图形峰宽，以及时间均值/中位数/样本 SE/SD 均通过；参考 JSON 记录版本、输入与参数，不承诺和 NumPy bootstrap 的随机端点一致。
+- 浏览器全量 358 项首轮 357 通过，唯一失败为 ESM 用例仍断言旧 violin cut=3；迁移断言后 ESM 入口复核通过。最终 16 项相关浏览器用例通过（包含新 VUtil 构建的性能复核），包括跨分类范围、样本权重、真实图元/hover、图例同时筛选曲线和带、null 断线、切换输入移除旧带、resize 保持统计及 release canvas=0。CJS、ESM、UMD 本地集成与隔离严格类型消费通过。
+- 人工查看主例截图：UTC 缺口、不同样本量的 KDE、跨分类 violin 宽度均符合数值契约。10k 样本性能及前版同机基线见[测量记录](../benchmarks/time-kde-results.json)，bootstrap 成本单独列出；render/resize/hover 不执行统计。
+
+当时的正式依赖限制（已由下方 1.0.27 升级解决）：npm 1.0.26 尚不包含本轮接口。联调使用真实 VUtil 分支构建的 es/cjs 副本，位于忽略目录 `.vchart-statplots/time-kde/node_modules/@visactor/vutils`，仅本地包标记为 1.0.26-kde-dev 以避免 TypeScript 把同版本正式声明与新声明合并；StatPlots 与 VChart 的本地 vutils 链接指向该构建。当时的 package.json 与 Rush 锁文件仍为 1.0.26，不能据此声称正式依赖已验收。原始链接信息保留在联调目录。
+
+原生视觉回归仅比较已有 VChart 渲染用例，不能证明 develop 支持本轮新的 StatPlots 入口。折线 7 项、区间面积 4 项、散点 8 项（包含 StatPlots 回归/残差）与官方 develop 比较通过，共 19 项。components/legend 的完整比较被官方基线的 legend-piecewise-domain 断言阻断：期望 [-1,1]，实际 [-1,0]，随后当前阶段未运行；该用例在 HEAD 已存在，本轮未改。另做当前工作区 10 项图例自比较通过，只用于断言和稳定性验证，不代替基线比较。提交 PR 前仍需运行全量基线比较。本轮不提交或创建 PR。
+
+## VUtil 1.0.27 正式依赖与本地提交（2026-10-10）
+
+8 个项目的 14 处直接依赖统一升级为 `~1.0.27`，涵盖 vutils、vdataset、vscale、vlayouts；Rush 锁文件通过标准 update 生成。14 处实际安装版本均为 npm 1.0.27，StatPlots 与 VChart 的临时开发链接已替换，Rush check 通过。正式包的 KDE standardDeviation / bandwidthAdjust 接口及其数值结果已验证。
+
+VUtil 的带宽改动已经通过 PR #293 合并，本轮检查该仓库的 release/1.0.27 工作区干净。VChart 整理范围包含此前时间序列原始观测输入、KDE/violin 带宽及归一化配置的全部源码、测试、固定参考 JSON、生成 Schema/校验器、示例、中文文档和计划，以及此次依赖升级。
+
+Node.js 22.23.3 验收：
+
+- 10 个 Rush 工程构建任务完成；VChart、vutils-extension 和 StatPlots 类型检查通过。构建保留既有 circular/sourcemap 和 OpenInula 类型警告；自动生成的跨端 bundle 与 VChart Schema 已恢复。
+- StatPlots 38 套 / 664 项单测通过；Schema/校验器一致性、28 份主例、122 份有效变体、36 份反例及 28 类目录的 89 条意图检查通过。ESLint 0 错误、1023 条警告。
+- StatPlots 浏览器全量 358 项通过，包含时间聚合、KDE/violin 参数更新、真实图元/Tooltip/图例、ESM/UMD 入口及大数据生命周期。Vite 预构建元数据确认 vutils 指向 Rush 安装的 npm 1.0.27。
+- 使用本分支 VChart、vutils-extension 和 StatPlots 的全新 tarball 在独立目录安装，四个 VUtil 包直接安装自 npm 1.0.27。CJS 编译 150 份有效示例、严格类型消费、线性/多项式/LOWESS 及原始时间序列/KDE/violin 的 ESM/UMD 绘制、数值与 release 检查通过。
+- charts 109 项及 data 4 项与官方 develop `d169be9f3d63ed1e998dead9711dac5fb5af91fc` 的视觉比较通过，共 113 项，无像素差异、执行错误或未完成用例。报告分别为 `.vchart-visual/runs/1791616240925-564b6d20/index.html` 和 `.vchart-visual/runs/1791616364218-ec3ea40f/index.html`；这是两个目录的比较，提交 PR 前仍须运行全量。
+
+本轮证据位于 `.vchart-statplots/time-kde/vutils-1.0.27-*` 与 `packed/result.json`。上述 2026-10-09 的开发包依赖限制已由正式 1.0.27 验收解决；历史阶段的性能测量、失败和基线限制保留原记录。
+
+原生视觉报告：
+
+- [折线](../../../.vchart-visual/runs/1791544491447-8032c99a/index.html)
+- [区间面积](../../../.vchart-visual/runs/1791544518105-cc731b3f/index.html)
+- [散点与统计回归](../../../.vchart-visual/runs/1791544541980-6b0563ae/index.html)
+- [图例基线阻断](../../../.vchart-visual/runs/1791544568797-1fc0727c/agent-summary.md)
+- [当前图例自比较](../../../.vchart-visual/runs/1791544632479-f66fe18e/index.html)
+
+中途 range-area 首次运行因修改了文档/清单而触发 WORKSPACE_CHANGED，已在工作区收敛后重跑通过。原生构建会清理 vutils-extension 的 CJS 产物，导致一轮包内检查出现 MODULE_NOT_FOUND；恢复其标准完整构建后重新检查通过，没有修改测试阈值或跳过用例。

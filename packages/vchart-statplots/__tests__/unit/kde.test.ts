@@ -31,7 +31,7 @@ test('Epanechnikov 使用紧支撑范围，不二次平滑或截断后归一化'
     estimation: { bandwidth: 1, kernel: 'epanechnikov' },
     sampling: { points: 3 }
   };
-  expect(rows(spec)).toEqual([
+  expect(rows(spec).map(({ value, density }) => ({ value, density }))).toEqual([
     { value: -1, density: 0 },
     { value: 0, density: 0.75 },
     { value: 1, density: 0 }
@@ -55,9 +55,9 @@ test('重复值分别参与核权重，带宽是真正的计算参数', () => {
   expect(peak(0.5)).toBeGreaterThan(peak(1));
 });
 
-test('默认 Scott 和 Silverman 沿用 vutils 的总体标准差公式', () => {
+test('默认 Scott 和 Silverman 对齐样本标准差公式', () => {
   const base: KdePlotSpec = { type: 'kdePlot', data: [-1, 0, 1].map(value => ({ value })), sampling: { points: 3 } };
-  const h = Math.sqrt(2 / 3) * Math.pow(3, -1 / 5);
+  const h = Math.pow(3, -1 / 5);
   const scott = rows(base);
   expect(scott[0].value).toBeCloseTo(-1 - 3 * h, 14);
   expect(scott[1].density).toBeCloseTo((1 + 2 * Math.exp(-0.5 / (h * h))) / (3 * h * Math.sqrt(2 * Math.PI)), 14);
@@ -70,6 +70,7 @@ test('默认 Scott 和 Silverman 沿用 vutils 的总体标准差公式', () => 
 test('分组独立归一化，同值不同样本量不改变密度，网格彼此独立', () => {
   const spec: KdePlotSpec = {
     type: 'kdePlot',
+    normalizationScope: 'series',
     estimation: { bandwidth: 1 },
     sampling: { points: 3 },
     data: [

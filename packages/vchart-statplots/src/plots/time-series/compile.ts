@@ -3,22 +3,23 @@ import type { TimeSeriesPlotSpec } from './types';
 import { commonChart } from '../../common/chart';
 import { numberAxis } from '../../common/axes';
 import { curve, band } from '../../common/marks';
-import { intervalLabel } from '../../common/interval';
+import { summarizeTimeSeries } from './statistics';
 export function compileTimeSeries(spec: TimeSeriesPlotSpec) {
-  const values = spec.data.map(row => ({
-    ...row,
-    __time: Date.parse(row.time),
-    lower: row.lower ?? null,
-    upper: row.upper ?? null,
-    interval: spec.interval ? intervalLabel(spec.interval) : undefined
-  }));
+  const values = summarizeTimeSeries(spec);
   const line = curve(
     'observations',
     values,
     '__time',
     'value',
-    ['time', 'value', 'lower', 'upper', 'interval'],
-    spec.fieldLabels
+    [
+      'time',
+      'value',
+      ...(spec.input === 'observations' && spec.estimator !== false ? ['sampleCount', 'estimator'] : []),
+      'lower',
+      'upper',
+      'interval'
+    ],
+    { sampleCount: '样本数', estimator: '估计方法', interval: '区间', ...spec.fieldLabels }
   );
   line.invalidType = 'break';
   const area = band('uncertainty', values, '__time');
@@ -32,7 +33,7 @@ export function compileTimeSeries(spec: TimeSeriesPlotSpec) {
   axis.label = { autoHide: true };
   const chart = commonChart(
     spec,
-    [...(spec.data.some(row => row.lower !== undefined) ? [area] : []), line],
+    [...(values.some(row => row.lower !== null) ? [area] : []), line],
     [axis, numberAxis('left', spec.fieldLabels?.value ?? '值')]
   );
   chart.legends = { visible: spec.data.some(row => row.series !== undefined), orient: 'top' };

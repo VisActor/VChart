@@ -1,8 +1,8 @@
 # @visactor/vchart-statplots
 
-以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，模型拟合留在 Python 或调用方 JavaScript；本包从原始观测完成计数、混淆矩阵、ROC / PR / 校准曲线、正态 Q–Q、ACF / PACF、分箱与分布估计，并负责几何布局和交互。`kdePlot`、`ecdfPlot` 接受原始 `{value, series?}` 样本，复用 vutils 按系列独立计算；KDE 的核函数和带宽参与估计，ECDF 保留真实跳点及重复值权重。`boxPlot` 接受原始 `{category, value, series?}` 观测，复用 vutils 计算四分位数，默认按 1.5×IQR 判定须与异常值，可用 `whiskers.iqrMultiplier` 调整。`violinPlot` 接受原始 `{category, value, series?}` 观测，与 kdePlot 共用核密度估计，保留等宽与等面积轮廓。`histogram` 接受单变量原始 `{value}` 观测，通过可选 `binning.binCount` 计算分箱频数（默认按样本量使用 Sturges 候选数）；不支持 series 或预分箱输入。`hexbinPlot` 接受原始 x/y 散点，在编译阶段按 `binning.xBins`（默认 30）计算六边形分箱计数。`pairPlot` 只需 `variables` 与 `data.observations`，默认内部计算对角直方图，可用 `diagonal.binning.binCount` 调整箱数或 `diagonal: { type: 'none' }` 关闭对角分布。
+以简洁的语义 JSON 描述数据科学图表，再编译为 VChart spec。覆盖 [28 类统计图](docs/catalog.md)，模型拟合留在 Python 或调用方 JavaScript；本包从原始观测完成计数、混淆矩阵、ROC / PR / 校准曲线、正态 Q–Q、ACF / PACF、分箱与分布估计，并负责几何布局和交互。`kdePlot`、`ecdfPlot` 接受原始 `{value, series?}` 样本，复用 vutils 按系列独立计算；KDE 的核函数和带宽参与估计，ECDF 保留真实跳点及重复值权重。`boxPlot` 接受原始 `{category, value, series?}` 观测，复用 vutils 计算四分位数，默认按 1.5×IQR 判定须与异常值，可用 `whiskers.iqrMultiplier` 调整。`violinPlot` 接受原始 `{category, value, series?}` 观测，与 kdePlot 共用核密度估计，默认等面积，支持等宽、按样本数缩放及归一化范围。`histogram` 接受单变量原始 `{value}` 观测，通过可选 `binning.binCount` 计算分箱频数（默认按样本量使用 Sturges 候选数）；不支持 series 或预分箱输入。`hexbinPlot` 接受原始 x/y 散点，在编译阶段按 `binning.xBins`（默认 30）计算六边形分箱计数。`pairPlot` 只需 `variables` 与 `data.observations`，默认内部计算对角直方图，可用 `diagonal.binning.binCount` 调整箱数或 `diagonal: { type: 'none' }` 关闭对角分布。
 
-`missingValueMatrix`、`correlationMatrix` 接收原始表格；`pointIntervalPlot` 支持原始分组样本与外部估计，`scatterPlot` 可从原始 x/y 内部拟合线性、多项式或 LOWESS；`residualPlot` 支持原始 x/y、真实值/预测与外部模型残差，`learningCurve` 支持各折分数与外部汇总。多用途图以必填 `input` 明确区分用途，详见[计算契约](docs/computation-contract.md)。
+`missingValueMatrix`、`correlationMatrix` 接收原始表格；`pointIntervalPlot` 支持原始分组样本与外部估计，`scatterPlot` 可从原始 x/y 内部拟合线性、多项式或 LOWESS；`residualPlot` 支持原始 x/y、真实值/预测与外部模型残差，`learningCurve` 支持各折分数与外部汇总；`timeSeriesPlot` 支持原始时间观测聚合与外部估计。多用途图以必填 `input` 明确区分用途，详见[计算契约](docs/computation-contract.md)。
 
 ```ts
 import VChart from '@visactor/vchart';
@@ -79,8 +79,10 @@ npm run eslint --prefix packages/vchart-statplots
 
 ## 统计工具依赖
 
-本包使用 `@visactor/vutils ~1.0.25` 根入口的公共 `normalQuantile`、`mean`、`correlation` 和 `bootstrapEstimate`。这些 API 已包含在 npm 发布的 `1.0.25` 中；仓库依赖和 Rush 锁文件已同步。执行标准 Rush 安装即可使用，无需本地 VUtil 开发链接。
+本包使用 `@visactor/vutils ~1.0.27` 根入口的公共 `normalQuantile`、`mean`、`correlation` 和 `bootstrapEstimate`。这些 API 自 npm `1.0.25` 起提供；仓库依赖和 Rush 锁文件已同步。执行标准 Rush 安装即可使用。
 
 已发布依赖的隔离安装、类型、构建与回归结果见[验收记录](docs/validation.md)。这项升级解决统计工具的依赖阻断；VChart 核心改动及其他发布要求仍须按验收记录核对。
 
-散点/残差图的内部回归依赖 vutils 1.0.26 的稳定回归与成对 bootstrap；依赖下限已更新为 `~1.0.26`。正式包验证与发布验收状态见[验收记录](docs/validation.md)。
+散点/残差图的内部回归使用 vutils 自 1.0.26 起提供的稳定回归与成对 bootstrap；当前依赖下限为 `~1.0.27`。正式包验证与发布验收状态见[验收记录](docs/validation.md)。
+
+KDE/violin 默认对齐 Seaborn 的样本标准差带宽；KDE 默认全体样本归一化，violin 默认等面积、同系列跨分类归一化。旧默认可显式配置，见对应逐图文档。此项使用 npm VUtil 1.0.27 提供的 standardDeviation/bandwidthAdjust 公共接口；相关依赖和 Rush 锁文件已同步。

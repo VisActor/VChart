@@ -126,10 +126,10 @@
     "@playwright/test": "1.63.0"
   },
   "dependencies": {
-    "@visactor/vutils": "~1.0.26",
-    "@visactor/vdataset": "~1.0.26",
-    "@visactor/vscale": "~1.0.26",
-    "@visactor/vlayouts": "~1.0.26",
+    "@visactor/vutils": "~1.0.27",
+    "@visactor/vdataset": "~1.0.27",
+    "@visactor/vscale": "~1.0.27",
+    "@visactor/vlayouts": "~1.0.27",
     "@visactor/vrender": "1.1.11",
     "@visactor/vrender-core": "1.1.11",
     "@visactor/vrender-kits": "1.1.11",

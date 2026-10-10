@@ -19,6 +19,14 @@
       "description": "绘制采样配置；不改变估计方法和带宽。",
       "$ref": "#/definitions/KdeSamplingSpec"
     },
+    "normalizationScope": {
+      "description": "默认 all 按组样本比例缩放密度；series 各组概率密度独立积分为 1。",
+      "enum": [
+        "all",
+        "series"
+      ],
+      "type": "string"
+    },
     "fieldLabels": {
       "description": "字段的轴和 tooltip 展示名称；不改输入字段，不控制图元数据标签。",
       "type": "object",
@@ -100,6 +108,18 @@
               "type": "number"
             }
           ]
+        },
+        "standardDeviation": {
+          "description": "自动带宽的标准差约定，默认 sample；固定数值带宽时不能配置。",
+          "enum": [
+            "population",
+            "sample"
+          ],
+          "type": "string"
+        },
+        "bandwidthAdjust": {
+          "description": "正的带宽倍率，默认 1，同时作用于固定和自动带宽。",
+          "type": "number"
         }
       },
       "additionalProperties": false
@@ -112,6 +132,10 @@
           "type": "integer",
           "minimum": 2,
           "maximum": 2048
+        },
+        "cut": {
+          "description": "从观测极值向外扩展的带宽倍数；KDE 高斯默认 3，violin 高斯默认 2，Epanechnikov 默认 1。",
+          "type": "number"
         }
       },
       "additionalProperties": false

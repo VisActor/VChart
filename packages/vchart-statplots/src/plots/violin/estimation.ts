@@ -37,43 +37,36 @@ export function prepareViolin(spec: ViolinPlotSpec) {
     }
     group.samples.push(row.value);
   });
-  return prepareKdeGroups(Array.from(groups.values()), spec);
+  return prepareKdeGroups(Array.from(groups.values()), spec, 2);
 }
 
 /** 密度每组仅评估一次；归一化只改变绘制半宽，不改变 KDE 概率密度。 */
-export function estimateViolin(prepared: ReturnType<typeof prepareViolin>, normalization: 'width' | 'area') {
+export function estimateViolin(
+  prepared: ReturnType<typeof prepareViolin>,
+  normalization: 'width' | 'area' | 'count',
+  scope: 'all' | 'series' = 'series'
+) {
   const summaries = new Map<string, ViolinSummary>();
-  let largest = 0;
+  const scales = new Map<string | undefined, { peak: number; count: number }>();
   const curves = prepared.groups.map(group => {
     const { model, grid, samples, label, minimum, maximum } = group;
     const densities = model.evaluate(grid);
     let peak = 0;
-    let area = 0;
-    for (let i = 0; i < grid.length; i++) {
-      peak = Math.max(peak, densities[i]);
-      if (i) {
-        area += (grid[i] - grid[i - 1]) * (densities[i] / 2 + densities[i - 1] / 2);
-      }
-    }
-    if (!(peak > 0) || !(area > 0) || !Number.isFinite(peak) || !Number.isFinite(area)) {
+    for (const density of densities) peak = Math.max(peak, density);
+    if (!(peak > 0) || !Number.isFinite(peak)) {
       throw new StatPlotValidationError([
         issue(
           'INVALID_RANGE',
           '/sampling/points',
-          `分布 ${label.category}${
-            label.series === undefined ? '' : ' · ' + label.series
-          } 的采样密度无法形成有限正面积，请增加采样点或调整带宽`
+          `分布 ${label.category} 的采样密度无法形成有限正峰值，请增加采样点或调整带宽`
         )
       ]);
     }
-    const divisor = normalization === 'area' ? area : peak;
-    const normalizedPeak = peak / divisor;
-    if (!Number.isFinite(normalizedPeak)) {
-      throw new StatPlotValidationError([
-        issue('INVALID_RANGE', `/data/${group.firstIndex}/value`, '轮廓宽度尺度无法用有限数值表示，请转换单位')
-      ]);
-    }
-    largest = Math.max(largest, normalizedPeak);
+    const key = scope === 'all' ? undefined : label.series;
+    const scale = scales.get(key) ?? { peak: 0, count: 0 };
+    scale.peak = Math.max(scale.peak, peak);
+    scale.count = Math.max(scale.count, samples.length);
+    scales.set(key, scale);
     summaries.set(label.__violinGroup, {
       count: samples.length,
       minimum,
@@ -81,15 +74,19 @@ export function estimateViolin(prepared: ReturnType<typeof prepareViolin>, norma
       bandwidth: model.bandwidth,
       peakDensity: peak
     });
-    return { label, grid, densities, divisor };
+    return { label, grid, densities, peak, count: samples.length, key };
   });
-  const values = curves.flatMap(({ label, grid, densities, divisor }) =>
-    grid.map((value, i) => ({
+  const values = curves.flatMap(({ label, grid, densities, peak, count, key }) => {
+    const scale = scales.get(key)!;
+    return grid.map((value, i) => ({
       ...label,
       value,
       density: densities[i],
-      __densityWidth: densities[i] / divisor / largest
-    }))
-  );
+      __densityWidth:
+        normalization === 'area'
+          ? densities[i] / scale.peak
+          : (densities[i] / peak) * (normalization === 'count' ? count / scale.count : 1)
+    }));
+  });
   return { values, summaries };
 }

@@ -1,0 +1,234 @@
+{
+  "type": "kdePlot",
+  "data": [
+    {
+      "value": -2,
+      "series": "小样本"
+    },
+    {
+      "value": -1.2,
+      "series": "小样本"
+    },
+    {
+      "value": -0.8,
+      "series": "小样本"
+    },
+    {
+      "value": -0.4,
+      "series": "小样本"
+    },
+    {
+      "value": -0.4,
+      "series": "小样本"
+    },
+    {
+      "value": 0,
+      "series": "小样本"
+    },
+    {
+      "value": 0.1,
+      "series": "小样本"
+    },
+    {
+      "value": 0.3,
+      "series": "小样本"
+    },
+    {
+      "value": 0.6,
+      "series": "小样本"
+    },
+    {
+      "value": 1.1,
+      "series": "小样本"
+    },
+    {
+      "value": 1.8,
+      "series": "小样本"
+    },
+    {
+      "value": 1,
+      "series": "大样本"
+    },
+    {
+      "value": 1,
+      "series": "大样本"
+    },
+    {
+      "value": 1,
+      "series": "大样本"
+    },
+    {
+      "value": 1,
+      "series": "大样本"
+    },
+    {
+      "value": 1.8,
+      "series": "大样本"
+    },
+    {
+      "value": 1.8,
+      "series": "大样本"
+    },
+    {
+      "value": 1.8,
+      "series": "大样本"
+    },
+    {
+      "value": 1.8,
+      "series": "大样本"
+    },
+    {
+      "value": 2.2,
+      "series": "大样本"
+    },
+    {
+      "value": 2.2,
+      "series": "大样本"
+    },
+    {
+      "value": 2.2,
+      "series": "大样本"
+    },
+    {
+      "value": 2.2,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 2.6,
+      "series": "大样本"
+    },
+    {
+      "value": 3,
+      "series": "大样本"
+    },
+    {
+      "value": 3,
+      "series": "大样本"
+    },
+    {
+      "value": 3,
+      "series": "大样本"
+    },
+    {
+      "value": 3,
+      "series": "大样本"
+    },
+    {
+      "value": 3.1,
+      "series": "大样本"
+    },
+    {
+      "value": 3.1,
+      "series": "大样本"
+    },
+    {
+      "value": 3.1,
+      "series": "大样本"
+    },
+    {
+      "value": 3.1,
+      "series": "大样本"
+    },
+    {
+      "value": 3.3,
+      "series": "大样本"
+    },
+    {
+      "value": 3.3,
+      "series": "大样本"
+    },
+    {
+      "value": 3.3,
+      "series": "大样本"
+    },
+    {
+      "value": 3.3,
+      "series": "大样本"
+    },
+    {
+      "value": 3.6,
+      "series": "大样本"
+    },
+    {
+      "value": 3.6,
+      "series": "大样本"
+    },
+    {
+      "value": 3.6,
+      "series": "大样本"
+    },
+    {
+      "value": 3.6,
+      "series": "大样本"
+    },
+    {
+      "value": 4.1,
+      "series": "大样本"
+    },
+    {
+      "value": 4.1,
+      "series": "大样本"
+    },
+    {
+      "value": 4.1,
+      "series": "大样本"
+    },
+    {
+      "value": 4.1,
+      "series": "大样本"
+    },
+    {
+      "value": 4.8,
+      "series": "大样本"
+    },
+    {
+      "value": 4.8,
+      "series": "大样本"
+    },
+    {
+      "value": 4.8,
+      "series": "大样本"
+    },
+    {
+      "value": 4.8,
+      "series": "大样本"
+    }
+  ],
+  "title": "原始样本的核密度估计",
+  "normalizationScope": "series",
+  "estimation": {
+    "bandwidth": "scott",
+    "standardDeviation": "population"
+  },
+  "sampling": {
+    "cut": 3
+  }
+}

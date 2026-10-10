@@ -77,11 +77,29 @@ for (const reference of references) {
   branches.push({ $ref: `#/definitions/${name}` });
   if (members.length > 1) {
     const modes = body.anyOf ?? body.oneOf;
+    // 一个 input 可以包含多个互斥配置（如时间序列估计与直接连线），先按 input 分派再校验其联合。
+    const byInput = new Map<string, any[]>();
+    for (const mode of modes) {
+      const definition = mode.$ref ? definitions[mode.$ref.split('/').pop()] : mode;
+      const input = definition.properties.input.const ?? definition.properties.input.enum[0];
+      const group = byInput.get(input) ?? [];
+      group.push(mode);
+      byInput.set(input, group);
+    }
     runtimeBranches.push({
       type: 'object',
       properties: { type: { const: type } },
       required: ['type', 'input'],
-      oneOf: modes,
+      oneOf: Array.from(byInput, ([input, group]) =>
+        group.length === 1
+          ? group[0]
+          : {
+              type: 'object',
+              properties: { input: { const: input } },
+              required: ['input'],
+              anyOf: group
+            }
+      ),
       discriminator: { propertyName: 'input' }
     });
   } else {

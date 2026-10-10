@@ -21,7 +21,7 @@ test.each(types)('%s example has immutable prepared results', type => {
   expect(JSON.stringify(spec)).toBe(original);
 });
 test.each([
-  { type: 'timeSeriesPlot', data: [{ time: '2026-01-01', value: 1 }] },
+  { type: 'timeSeriesPlot', input: 'estimates', data: [{ time: '2026-01-01', value: 1 }] },
   {
     type: 'screePlot',
     data: [
@@ -59,19 +59,22 @@ test('rejects prepared ACF while allowing negative importance', () => {
   ).toBe(true);
 });
 test('time validation rejects impossible calendar dates and equivalent instants in different zones', () => {
-  expect(validateStatPlot({ type: 'timeSeriesPlot', data: [{ time: '2026-02-30T12:00:00Z', value: 1 }] }).valid).toBe(
-    false
-  );
+  expect(
+    validateStatPlot({ type: 'timeSeriesPlot', input: 'estimates', data: [{ time: '2026-02-30T12:00:00Z', value: 1 }] })
+      .valid
+  ).toBe(false);
   expect(
     validateStatPlot({
       type: 'timeSeriesPlot',
+      input: 'estimates',
       data: [
         { time: '2026-01-01T12:00:00Z', value: 1 },
         { time: '2026-01-01T20:00:00+08:00', value: 2 }
       ]
     }).valid
   ).toBe(false);
-  expect(validateStatPlot({ type: 'timeSeriesPlot', data: [{ time: '2024-02-29T12:00:00Z', value: 1 }] }).valid).toBe(
-    true
-  );
+  expect(
+    validateStatPlot({ type: 'timeSeriesPlot', input: 'estimates', data: [{ time: '2024-02-29T12:00:00Z', value: 1 }] })
+      .valid
+  ).toBe(true);
 });

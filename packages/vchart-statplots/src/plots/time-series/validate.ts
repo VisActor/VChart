@@ -1,9 +1,14 @@
 import type { TimeSeriesPlotSpec } from './types';
 import { checkSeries, issue } from '../../common/validation';
 import { checkBounds } from '../../common/bounds';
+import { validateSampleEstimateOptions } from '../../common/sample-estimate';
 export function validateTimeSeries(spec: TimeSeriesPlotSpec) {
-  const errors = [...checkSeries(spec.data), ...checkBounds(spec.data, spec.interval)];
-  const previous = new Map<string | undefined, number>();
+  const errors = checkSeries(spec.data);
+  if (spec.input === 'estimates') errors.push(...checkBounds(spec.data, spec.interval));
+  else if (spec.estimator === false) {
+    if (spec.errorBar) errors.push(issue('UNSUPPORTED_COMBINATION', '/errorBar', '直接连线时不能配置估计区间'));
+  } else errors.push(...validateSampleEstimateOptions({ estimator: spec.estimator, errorBar: spec.errorBar }));
+  const seen = new Map<string | undefined, Set<number>>();
   spec.data.forEach((row, i) => {
     const t = Date.parse(row.time);
     const [year, month, day] = row.time.slice(0, 10).split('-').map(Number);
@@ -17,11 +22,16 @@ export function validateTimeSeries(spec: TimeSeriesPlotSpec) {
     ) {
       errors.push(issue('INVALID_RANGE', `/data/${i}/time`, 'time 必须为有效的带时区 ISO 时间'));
     }
-    if (previous.has(row.series) && t <= previous.get(row.series)!) {
-      errors.push(issue('INVALID_ORDER', `/data/${i}/time`, '每系列时间须严格递增'));
+    let times = seen.get(row.series);
+    if (!times) {
+      times = new Set();
+      seen.set(row.series, times);
     }
-    previous.set(row.series, t);
-    if (row.value === null && row.lower !== undefined) {
+    if (spec.input === 'estimates' && times.has(t)) {
+      errors.push(issue('DUPLICATE_KEY', `/data/${i}/time`, '外部估计每系列每时刻只能提供一个结果'));
+    }
+    times.add(t);
+    if (spec.input === 'estimates' && row.value === null && ('lower' in row || 'upper' in row)) {
       errors.push(issue('UNSUPPORTED_COMBINATION', `/data/${i}`, '缺失观测不能携带区间'));
     }
   });

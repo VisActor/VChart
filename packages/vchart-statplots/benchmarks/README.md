@@ -129,3 +129,21 @@ npm run test:browser --prefix packages/vchart-statplots -- violin-performance.sp
 ```sh
 npm run test:browser --prefix packages/vchart-statplots -- input-alignment-performance.spec.ts
 ```
+
+## 时间序列与 KDE/violin 默认配置（2026-10-09）
+
+[测量记录](time-kde-results.json) 来自 `time-kde-performance.spec.ts`，使用 Node 22 和本地 VUtil 新接口构建。暖机一次后 compile 测五次取中位数；render 不含 compile，update 包含重编译。KDE/violin 与本轮前 UMD 使用相同 10k 原始数据，外部时间估计使用相同 100 条结果。原始时间聚合为新增能力，不与历史预聚合输入的编译耗时混比。
+
+| 输入 | compile | render | update | resize |
+| --- | --- | --- | --- | --- |
+| KDE 10k / 4 系列 | 17 ms | 31 ms | 27 ms | 6 ms |
+| violin 10k / 20 组 | 12 ms | 32 ms | 36 ms | 10 ms |
+| 时间原始 10k / 100 时刻，默认 1000 次 CI | 208 ms | 25 ms | 220 ms | 7 ms |
+| 相同时间原始输入，errorBar=false | 8 ms | 25 ms | 21 ms | 7 ms |
+| 相同原始输入，estimator=false 直接显示 10k 点 | 8 ms | 61 ms | 54 ms | 39 ms |
+
+前版 KDE/violin 编译中位数分别约 16/11 ms，新增标准差口径和归一化没有增加 KDE 求值次数；此次测量不作为跨设备阈值。时间原始 bootstrap 为 O(BN)，关闭区间后仍聚合为 100 个点；直接连线保留 10k 图元，渲染与 resize 成本因而不同。全部配置 resize 保持统计结果，release 后 canvas=0，hover 不运行统计。完整 hover/release 和基线数据保留在 JSON。
+
+```sh
+npm run test:browser --prefix packages/vchart-statplots -- time-kde-performance.spec.ts
+```

@@ -1,3 +1,4 @@
+import type { SampleErrorBar } from '../../common/sample-estimate-types';
 import type { BaseSpec, Interval, SeriesRow } from '../../common/types';
 export interface PointIntervalPlotRow extends SeriesRow {
   category: string;
@@ -9,13 +10,7 @@ export interface PointIntervalObservation extends SeriesRow {
   category: string;
   value: number;
 }
-export type PointIntervalErrorBar =
-  | false
-  | { kind: 'confidence'; level?: number; resamples?: number; seed?: number }
-  | { kind: 'percentile'; level?: number }
-  | { kind: 'standardError'; multiplier?: number }
-  | { kind: 'standardDeviation'; multiplier?: number }
-  | { kind: 'range' };
+export type PointIntervalErrorBar = SampleErrorBar;
 interface PointIntervalBase extends BaseSpec {
   type: 'pointIntervalPlot';
   referenceLine?: { value: number; label?: string };
