@@ -8879,15 +8879,18 @@
       ]
     },
     "DataSet": {
+      "description": "数据集",
       "properties": {
         "_callMap": {
-          "$ref": "#/definitions/Map<Function,(...args:any[])=>void>"
+          "$ref": "#/definitions/Map<Function,(...args:any[])=>void>",
+          "description": "多 DataView消息监听工具"
         },
         "_logger": {
           "$ref": "#/definitions/ILogger"
         },
         "dataViewMap": {
           "additionalProperties": false,
+          "description": "所有挂在数据集上的数据视图（key-value 对）",
           "patternProperties": {
             "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/DataView"
@@ -8905,11 +8908,15 @@
           "$ref": "#/definitions/IDataSetOptions"
         },
         "parserMap": {
-          "$ref": "#/definitions/Record<string,any>"
+          "$ref": "#/definitions/Record<string,any>",
+          "description": "已注册的 Parser(key-value 对）"
         },
-        "target": {},
+        "target": {
+          "description": "消息的监听与触发"
+        },
         "transformMap": {
-          "$ref": "#/definitions/Record<string,any>"
+          "$ref": "#/definitions/Record<string,any>",
+          "description": "已注册的 Transform（key-value 对）"
         }
       },
       "required": [
@@ -8925,9 +8932,11 @@
       "type": "object"
     },
     "DataView": {
+      "description": "数据视图",
       "properties": {
         "_fields": {
-          "$ref": "#/definitions/IFields"
+          "$ref": "#/definitions/IFields",
+          "description": "数据维度信息"
         },
         "cloneParseData": {},
         "dataSet": {
@@ -8938,6 +8947,7 @@
           "type": "boolean"
         },
         "historyData": {
+          "description": "中间态数据，默认 history false 不存储",
           "items": {},
           "type": "array"
         },
@@ -8945,9 +8955,12 @@
           "type": "boolean"
         },
         "isRunning": {
+          "description": "是否正在运行 parse 和 transform",
           "type": "boolean"
         },
-        "latestData": {},
+        "latestData": {
+          "description": "最终数据"
+        },
         "latestDataAUD": {
           "typeof": "function"
         },
@@ -8964,16 +8977,22 @@
           "$ref": "#/definitions/IDataViewOptions"
         },
         "parseOption": {
-          "$ref": "#/definitions/IParserOptions"
+          "$ref": "#/definitions/IParserOptions",
+          "description": "当前parser"
         },
-        "parserData": {},
-        "rawData": {},
+        "parserData": {
+          "description": "parser后的数据"
+        },
+        "rawData": {
+          "description": "原始数据"
+        },
         "reRunAllTransform": {
           "typeof": "function"
         },
         "resetTransformData": {},
         "target": {},
         "transformsArr": {
+          "description": "已应用的 transform",
           "items": {
             "$ref": "#/definitions/ITransformOptions"
           },
@@ -10715,6 +10734,7 @@
       "type": "object"
     },
     "GeometricMaskShape": {
+      "description": "text mask of wordcloud",
       "properties": {
         "backgroundColor": {
           "type": "string"
@@ -35350,6 +35370,7 @@
           "type": "array"
         },
         "sort": {
+          "description": "排序简易配置\n当配置了 sort 时，sortIndex 默认为 0 ，sortReverse 跟随 sort 的值，'desc' 时为 true，'asc' 时为 false\n当配置了 sortIndex 和 sortReverser 时，优先级会高于 sort 的默认效果",
           "enum": [
             "asc",
             "desc"
@@ -54849,21 +54870,26 @@
     "IMatrix": {
       "properties": {
         "a": {
+          "description": "scale x",
           "type": "number"
         },
         "b": {
+          "description": "skew y",
           "type": "number"
         },
         "c": {
+          "description": "skewx",
           "type": "number"
         },
         "clone": {
           "typeof": "function"
         },
         "d": {
+          "description": "scale y",
           "type": "number"
         },
         "e": {
+          "description": "translate x",
           "type": "number"
         },
         "equalTo": {
@@ -54873,6 +54899,7 @@
           "typeof": "function"
         },
         "f": {
+          "description": "translate y",
           "type": "number"
         },
         "getInverse": {
@@ -54955,18 +54982,23 @@
           "type": "number"
         },
         "b": {
+          "description": "skew y",
           "type": "number"
         },
         "c": {
+          "description": "skewx",
           "type": "number"
         },
         "d": {
+          "description": "scale y",
           "type": "number"
         },
         "e": {
+          "description": "translate x",
           "type": "number"
         },
         "f": {
+          "description": "translate y",
           "type": "number"
         }
       },
@@ -80982,7 +81014,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -80990,14 +81022,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81005,14 +81037,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81020,14 +81052,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81035,14 +81067,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81050,14 +81082,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81065,14 +81097,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Record<string,any>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81080,14 +81112,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<any>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81095,14 +81127,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81110,14 +81142,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81125,14 +81157,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81140,14 +81172,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -81155,7 +81187,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
@@ -105384,34 +105416,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12863"
+        "__@toStringTag@12868"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12863"
+        "__@toStringTag@12868"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12863"
+        "__@toStringTag@12868"
       ],
       "type": "object"
     },
@@ -119479,7 +119511,7 @@
     },
     "Set<IGraphic<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -119487,14 +119519,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -119502,14 +119534,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -119517,14 +119549,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -119532,14 +119564,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<any>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12868": {
           "type": "string"
         },
         "size": {
@@ -119547,7 +119579,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12868",
         "size"
       ],
       "type": "object"
@@ -120275,6 +120307,7 @@
       "type": "string"
     },
     "TextShapeMask": {
+      "description": "text mask of wordcloud",
       "properties": {
         "backgroundColor": {
           "type": "string"

@@ -20,6 +20,7 @@ export declare class CartesianLinearAxis<T extends ICartesianLinearAxisSpec = IC
     protected _scale: LinearScale | LogScale;
     protected _scales: LinearScale[] | LogScale[];
     setAttrFromSpec(): void;
+    reInit(spec?: T): void;
     protected initScales(): void;
     updateScaleRange(): boolean;
     protected _tickTransformOption(): ICartesianTickDataOpt;

@@ -50,7 +50,7 @@ export declare class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfall
     };
     totalPositionX(datum: Datum, field: string, pos?: number): number;
     totalPositionY(datum: Datum, field: string, pos?: number): number;
-    protected _isCategoryAxisInverse(): boolean;
+    protected _isCategoryAxisReversed(): boolean;
     protected _getLeaderLineCategoryPos(isStart: boolean, isDecrease: boolean): number;
     initMarkStyle(): void;
     protected isVisibleLeaderLine(datum: Datum): boolean;
