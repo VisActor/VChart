@@ -2119,10 +2119,24 @@
           }
         },
         {
-          "path": "sequence-analysis",
+          "path": "sequence-analysis-step",
           "title": {
-            "zh": "时序分析图",
-            "en": "Sequence Analysis"
+            "zh": "时序分析：步骤模式",
+            "en": "Sequence Analysis: Step Mode"
+          }
+        },
+        {
+          "path": "sequence-analysis-medium",
+          "title": {
+            "zh": "时序分析：介质曲线连接",
+            "en": "Sequence Analysis: Medium Curves"
+          }
+        },
+        {
+          "path": "sequence-analysis-target",
+          "title": {
+            "zh": "时序分析：时间模式 + 目标头像",
+            "en": "Sequence Analysis: Time with Target Avatars"
           }
         }
       ]

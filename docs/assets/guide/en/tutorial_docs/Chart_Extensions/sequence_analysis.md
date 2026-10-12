@@ -4,7 +4,7 @@ Sequence Analysis places each user's events on a horizontal row, aligns events b
 
 The chart comes from `@visactor/vchart-extension` with type `sequenceAnalysis`. It is distinct from the built-in sequence chart and the sequenceScatterLink extension for training-process analysis.
 
-![Sequence Analysis](/vchart/preview/sequence-analysis.png)
+![Sequence Analysis](/vchart/preview/sequence-analysis-step.png)
 
 ## Choose a mode
 
@@ -105,7 +105,7 @@ Default vertical labels read userImageMap[user_id]. The image stored in an event
 
 With actionTarget enabled in time mode, the midpoint avatar reads actionData.user_image. Supplying actionData.user_id alone does not resolve the image. Disabling actionTarget hides avatars and arrows while keeping lines visible.
 
-Use accessible image URLs or data URLs. Use the dropdown in the demo to select target avatars. [Interactive example](/vchart/demo/extension-chart/sequence-analysis).
+Use accessible image URLs or data URLs. [Time with target avatars example](/vchart/demo/extension-chart/sequence-analysis-target).
 
 ## Customize appearance and zoom
 
@@ -151,5 +151,7 @@ When removing or renaming events, update actionData / patternData in the same co
 
 ## Examples and options
 
-- [Interactive example with four modes](/vchart/demo/extension-chart/sequence-analysis)
+- [Step mode](/vchart/demo/extension-chart/sequence-analysis-step)
+- [Medium curves](/vchart/demo/extension-chart/sequence-analysis-medium)
+- [Time with target avatars](/vchart/demo/extension-chart/sequence-analysis-target)
 - [All options](/vchart/option/sequenceAnalysisChart)

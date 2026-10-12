@@ -10,7 +10,7 @@ import { registerSequenceAnalysis } from '@visactor/vchart-extension';
 registerSequenceAnalysis();
 ```
 
-[教程](/vchart/guide/tutorial_docs/Chart_Extensions/sequence_analysis) · [完整示例](/vchart/demo/extension-chart/sequence-analysis)
+[教程](/vchart/guide/tutorial_docs/Chart_Extensions/sequence_analysis) · [步骤模式](/vchart/demo/extension-chart/sequence-analysis-step) · [介质曲线连接](/vchart/demo/extension-chart/sequence-analysis-medium) · [时间模式 + 目标头像](/vchart/demo/extension-chart/sequence-analysis-target)
 
 本图表使用以下专用数据字段，转换器会生成底层 common 图表、dot/link 系列、轴及缩放组件，无需自行配置 `data`、`series`、`xField` 或 `yField`。需要修改生成结果时使用 `customTransformSpec`。
 

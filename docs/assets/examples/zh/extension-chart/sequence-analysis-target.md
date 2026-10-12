@@ -1,18 +1,16 @@
 ---
 category: examples
 group: extension chart
-title: 时序分析图
-keywords: extension, sequenceAnalysis, time, step
-order: 14
-cover: /vchart/preview/sequence-analysis.png
+title: '时序分析：时间模式 + 目标头像'
+keywords: extension, sequenceAnalysis, target
+order: 16
+cover: /vchart/preview/sequence-analysis-target.png
 option: sequenceAnalysisChart
 ---
 
-# 时序分析图
+# 时序分析：时间模式 + 目标头像
 
-复用本地 sequence-analysis demo 的 10 位用户、111 个事件和连接配置。通过下拉框切换步骤、介质曲线、时间和目标头像四种展示方式。
-
-移植时去掉了连接端点不存在的演示数据，其余事件、头像地址和展示配置沿用本地 demo。
+按时间展示本地 demo 的用户事件，通过连接中点头像和目标端箭头表达事件关系。
 
 ## 代码演示
 
@@ -984,295 +982,9 @@ const userImageMap = {
   user_010: 'https://tosv.byted.org/obj/bit-cloud/user_010.png'
 };
 
-const stepMediumMap = {
-  step_1: {
-    medium_type: 'IP',
-    count: 0
-  },
-  step_2: {
-    medium_type: 'Device',
-    count: 1
-  },
-  step_3: {
-    medium_type: 'User',
-    count: 3
-  },
-  step_4: {
-    medium_type: 'Liveroom',
-    count: 3
-  },
-  step_5: {
-    medium_type: 'User',
-    count: 3
-  },
-  step_6: {
-    medium_type: 'User',
-    count: 3
-  },
-  step_7: {
-    medium_type: 'User',
-    count: 3
-  },
-  step_8: {
-    medium_type: 'Liveroom',
-    count: 3
-  },
-  step_9: {
-    medium_type: 'Email',
-    count: 3
-  },
-  step_10: {
-    medium_type: 'Tel',
-    count: 3
-  },
-  step_11: {
-    medium_type: 'Medium',
-    count: 3
-  },
-  step_12: {
-    medium_type: 'Medium',
-    count: 3
-  },
-  step_13: {
-    medium_type: 'Medium',
-    count: 3
-  },
-  step_14: {
-    medium_type: 'Medium',
-    count: 3
-  },
-  step_15: {
-    medium_type: 'Medium',
-    count: 3
-  }
-};
+const stepMediumMap = {};
 
-const patternData = [
-  {
-    from: 'event_002_1',
-    to: 'event_002_1',
-    pattern_type: 'pattern_001',
-    isExtend: 'right'
-  },
-  {
-    from: 'event_002_7',
-    to: 'event_002_7',
-    pattern_type: 'pattern_001',
-    isExtend: 'left'
-  },
-  {
-    from: 'event_004_2',
-    to: 'event_004_2',
-    pattern_type: 'pattern_001',
-    isExtend: 'right'
-  },
-  {
-    from: 'event_004_4',
-    to: 'event_004_6',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_004_7',
-    to: 'event_004_7',
-    pattern_type: 'pattern_001',
-    isExtend: 'left'
-  },
-  {
-    from: 'event_004_8',
-    to: 'event_004_8',
-    pattern_type: 'pattern_002',
-    isExtend: 'right'
-  },
-  {
-    from: 'event_005_3',
-    to: 'event_005_3',
-    pattern_type: 'pattern_001',
-    isExtend: 'left'
-  },
-  {
-    from: 'event_005_4',
-    to: 'event_005_5',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_005_6',
-    to: 'event_005_6',
-    pattern_type: 'pattern_001',
-    isExtend: 'left'
-  },
-  {
-    from: 'event_009_3',
-    to: 'event_009_3',
-    pattern_type: 'pattern_001',
-    isExtend: 'right'
-  },
-  {
-    from: 'event_009_4',
-    to: 'event_009_5',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_009_6',
-    to: 'event_009_6',
-    pattern_type: 'pattern_001',
-    isExtend: 'left'
-  },
-  {
-    from: 'event_010_5',
-    to: 'event_010_6',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_010_6',
-    to: 'event_010_6',
-    pattern_type: 'pattern_001',
-    isExtend: 'right'
-  },
-  {
-    from: 'event_010_8',
-    to: 'event_010_8',
-    pattern_type: 'pattern_002'
-  },
-  {
-    from: 'event_010_10',
-    to: 'event_010_10',
-    pattern_type: 'pattern_002',
-    isExtend: 'left'
-  }
-];
-
-const patternDataCurve = [
-  {
-    from: 'event_001_1',
-    to: 'event_002_2',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_001_1',
-    to: 'event_002_2',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_001_1',
-    to: 'event_002_2',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_002_2',
-    to: 'event_006_3',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_002_2',
-    to: 'event_006_3',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_002_2',
-    to: 'event_006_3',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_006_3',
-    to: 'event_006_4',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_006_4',
-    to: 'event_006_4',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_006_4',
-    to: 'event_004_9',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_006_4',
-    to: 'event_004_9',
-    pattern_type: 'pattern_002'
-  },
-  {
-    from: 'event_006_4',
-    to: 'event_004_9',
-    pattern_type: 'pattern_002'
-  },
-  {
-    from: 'event_006_1',
-    to: 'event_009_2',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_009_2',
-    to: 'event_008_3',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_009_2',
-    to: 'event_008_3',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_009_2',
-    to: 'event_008_3',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_008_3',
-    to: 'event_009_4',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_008_3',
-    to: 'event_009_4',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_008_3',
-    to: 'event_009_4',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_009_4',
-    to: 'event_002_9',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_009_4',
-    to: 'event_002_9',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_002_9',
-    to: 'event_003_10',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_002_9',
-    to: 'event_003_10',
-    pattern_type: 'pattern_002'
-  },
-  {
-    from: 'event_003_10',
-    to: 'event_002_11',
-    pattern_type: 'pattern_002'
-  },
-  {
-    from: 'event_006_1',
-    to: 'event_005_2',
-    pattern_type: 'pattern_002'
-  },
-  {
-    from: 'event_005_2',
-    to: 'event_006_3',
-    pattern_type: 'pattern_001'
-  },
-  {
-    from: 'event_006_3',
-    to: 'event_007_4',
-    pattern_type: 'pattern_001'
-  }
-];
+const patternData = [];
 
 const actionData = [
   {
@@ -1331,37 +1043,22 @@ const actionData = [
   }
 ];
 
-const baseSpec = {
+const spec = {
   type: 'sequenceAnalysis',
+  mode: 'time',
+  mediumConnection: true,
+  actionTarget: true,
+  height: 600,
   eventData,
   actionData,
   userImageMap,
   patternData,
   stepMediumMap
 };
-const specs = [
-  { ...baseSpec, mode: 'step', mediumConnection: false, actionTarget: false },
-  { ...baseSpec, mode: 'step', mediumConnection: true, actionTarget: true, patternData: patternDataCurve },
-  { ...baseSpec, mode: 'time', mediumConnection: true, actionTarget: false },
-  { ...baseSpec, mode: 'time', mediumConnection: true, actionTarget: true }
-];
 const container = document.getElementById(CONTAINER_ID);
-container.style.height = '660px';
-const modeSelect = document.createElement('select');
-modeSelect.setAttribute('aria-label', '展示模式');
-modeSelect.style.cssText = 'margin: 8px 0; padding: 6px 12px;';
-['步骤模式', '介质曲线连接', '时间模式', '时间模式 + 目标头像'].forEach((label, index) => {
-  const option = document.createElement('option');
-  option.value = String(index);
-  option.textContent = label;
-  modeSelect.appendChild(option);
-});
-const chartContainer = document.createElement('div');
-chartContainer.style.height = '600px';
-container.replaceChildren(modeSelect, chartContainer);
-const vchart = new VChart(specs[0], { dom: chartContainer });
+container.style.height = '600px';
+const vchart = new VChart(spec, { dom: container });
 vchart.renderSync();
-modeSelect.onchange = () => vchart.updateSpecSync(specs[Number(modeSelect.value)]);
 window.vchart = vchart;
 ```
 

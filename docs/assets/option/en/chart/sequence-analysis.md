@@ -10,7 +10,7 @@ import { registerSequenceAnalysis } from '@visactor/vchart-extension';
 registerSequenceAnalysis();
 ```
 
-[Tutorial](/vchart/guide/tutorial_docs/Chart_Extensions/sequence_analysis) · [Interactive example](/vchart/demo/extension-chart/sequence-analysis)
+[Tutorial](/vchart/guide/tutorial_docs/Chart_Extensions/sequence_analysis) · [Step mode](/vchart/demo/extension-chart/sequence-analysis-step) · [Medium curves](/vchart/demo/extension-chart/sequence-analysis-medium) · [Time with target avatars](/vchart/demo/extension-chart/sequence-analysis-target)
 
 The transformer generates a common chart, dot/link series, axes and zoom components from the fields below. You do not need to supply `data`, `series`, `xField` or `yField`. Customize the generated spec with `customTransformSpec`.
 

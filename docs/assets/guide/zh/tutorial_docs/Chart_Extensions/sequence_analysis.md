@@ -4,7 +4,7 @@
 
 它由 `@visactor/vchart-extension` 提供，类型为 `sequenceAnalysis`，与内置 `sequence` 和用于训练过程分析的 `sequenceScatterLink` 是不同图表。
 
-![时序分析图](/vchart/preview/sequence-analysis.png)
+![时序分析图](/vchart/preview/sequence-analysis-step.png)
 
 ## 选择展示模式
 
@@ -105,7 +105,7 @@ vchart.renderSync();
 
 时间模式开启 actionTarget 后，连接中点使用 `actionData.user_image`。只填写 `actionData.user_id` 不会自动查找头像地址。关闭 actionTarget 只隐藏连接头像和箭头，仍保留连接线。
 
-头像可以使用可访问的图片 URL 或 data URL；演示页可通过下拉框切换到目标头像模式。[查看完整示例](/vchart/demo/extension-chart/sequence-analysis)。
+头像可以使用可访问的图片 URL 或 data URL；[查看时间模式 + 目标头像示例](/vchart/demo/extension-chart/sequence-analysis-target)。
 
 ## 定制样式与缩放
 
@@ -151,5 +151,7 @@ vchart.updateSpecSync({ ...spec, mode: 'time', eventData: nextEvents });
 
 ## 完整示例与配置项
 
-- [完整示例（可切换四种模式）](/vchart/demo/extension-chart/sequence-analysis)
+- [步骤模式](/vchart/demo/extension-chart/sequence-analysis-step)
+- [介质曲线连接](/vchart/demo/extension-chart/sequence-analysis-medium)
+- [时间模式 + 目标头像](/vchart/demo/extension-chart/sequence-analysis-target)
 - [全部配置项](/vchart/option/sequenceAnalysisChart)
