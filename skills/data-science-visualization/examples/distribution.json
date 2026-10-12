@@ -61,46 +61,7 @@
             "binCount": 5
           }
         }
-      },
-      "caption": "演示数据；使用时替换为用户真实观测。"
+      }
     }
-  ],
-  "controls": {
-    "filters": [
-      {
-        "field": "region",
-        "kind": "category"
-      }
-    ],
-    "variableSwitch": [
-      {
-        "chartId": "distribution",
-        "role": "value",
-        "candidates": [
-          "income",
-          "spend"
-        ]
-      }
-    ],
-    "parameters": [
-      {
-        "chartId": "distribution",
-        "path": "binning.binCount",
-        "values": [
-          5,
-          10,
-          20
-        ]
-      },
-      {
-        "chartId": "distribution",
-        "path": "statistic",
-        "values": [
-          "count",
-          "proportion",
-          "density"
-        ]
-      }
-    ]
-  }
+  ]
 }

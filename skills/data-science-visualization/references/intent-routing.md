@@ -19,3 +19,5 @@
 常见别名：蜂群 → stripPlot + layout=swarm；SHAP 蜂群 → shapBeeswarmPlot；偏自相关 → autocorrelationPlot + method=pacf；UMAP → embeddingPlot + method=umap。详细变体从目录按需读，不复制另一套别名表。
 
 给数据但没有具体问题时，先选一张能揭示主要分布或质量的图，简短说明选择依据；需要完整自主分析和报告时使用分析工作流。数据含义不能确定时继续检查质量，同时澄清会影响图义的那个字段，不用方法名清单让用户选择。
+
+页面能力只来自明确需求：“看收入分布”生成无控件 histogram；“可调分箱”仅声明对应参数；“按地区切换”仅声明类别筛选；“只看东区”保存固定 initialFilters 并写入标题，不提供筛选器。“改成小提琴”读取现有 request 修改图型并生成新目录，不自动添加编辑面板、保存/导出按钮或丢掉已有范围。

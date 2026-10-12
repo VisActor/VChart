@@ -59,8 +59,7 @@
         "options": {
           "title": "收入分布"
         }
-      },
-      "caption": "演示数据；使用时替换为用户真实观测。"
+      }
     },
     {
       "id": "individuals",
@@ -74,9 +73,7 @@
           "title": "每条观测",
           "layout": "swarm"
         }
-      },
-      "caption": "演示数据；使用时替换为用户真实观测。"
+      }
     }
-  ],
-  "controls": {}
+  ]
 }

@@ -63,8 +63,7 @@
         "options": {
           "title": "两两关系"
         }
-      },
-      "caption": "演示数据；使用时替换为用户真实观测。"
+      }
     },
     {
       "id": "correlation",
@@ -80,27 +79,7 @@
         "options": {
           "title": "相关矩阵"
         }
-      },
-      "caption": "演示数据；使用时替换为用户真实观测。"
+      }
     }
-  ],
-  "controls": {
-    "filters": [
-      {
-        "field": "region",
-        "kind": "category"
-      }
-    ],
-    "parameters": [
-      {
-        "chartId": "correlation",
-        "path": "method",
-        "values": [
-          "pearson",
-          "spearman",
-          "kendall"
-        ]
-      }
-    ]
-  }
+  ]
 }
