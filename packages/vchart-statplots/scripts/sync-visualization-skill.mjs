@@ -5,12 +5,91 @@ import { mkdir, mkdtemp, readFile, writeFile, rm, rename, access } from 'node:fs
 import { tmpdir } from 'node:os';
 import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { posix } from 'node:path';
+import ts from 'typescript';
 
 export const version = '2.1.8-alpha.0';
 const repository = fileURLToPath(new URL('../../../', import.meta.url));
 const skill = join(repository, 'skills/data-science-visualization');
 const defaultRoot = join(skill, 'references/statplots');
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
+const releaseURL = name => `https://unpkg.com/@visactor/vchart-statplots@${version}/${name}`;
+function declarationPath(from, target) {
+  if (!target.startsWith('.')) throw new Error(`External declaration import: ${target}`);
+  const name = posix.normalize(posix.join(posix.dirname(from), target));
+  if (!name.startsWith('esm/')) throw new Error(`Declaration path escape: ${target}`);
+  return name.endsWith('.d.ts') ? name : `${name}.d.ts`;
+}
+export function collectTypeFiles(entry, readText) {
+  const files = new Map();
+  function visit(name) {
+    if (files.has(name)) return;
+    if (!name.startsWith('esm/') || !name.endsWith('.d.ts')) throw new Error(`Invalid declaration: ${name}`);
+    const content = readText(name);
+    const source = ts.createSourceFile(name, content, ts.ScriptTarget.Latest, true);
+    if (source.parseDiagnostics.length) throw new Error(`Invalid declaration syntax: ${name}`);
+    if (source.typeReferenceDirectives.length || source.referencedFiles.length) throw new Error(`External declaration reference: ${name}`);
+    files.set(name, content);
+    function walk(node) {
+      if ((ts.isImportDeclaration(node) || ts.isExportDeclaration(node)) && node.moduleSpecifier) {
+        visit(declarationPath(name, node.moduleSpecifier.text));
+      } else if (ts.isImportTypeNode(node) && ts.isLiteralTypeNode(node.argument)) {
+        visit(declarationPath(name, node.argument.literal.text));
+      } else if (ts.isImportEqualsDeclaration(node)) throw new Error(`External declaration import: ${name}`);
+      ts.forEachChild(node, walk);
+    }
+    walk(source);
+  }
+  visit(entry);
+  return files;
+}
+function typeProgram(files) {
+  const virtualRoot = '/__statplots_release__/';
+  const options = { strict: true, noEmit: true, types: [], target: ts.ScriptTarget.ES2020 };
+  const host = ts.createCompilerHost(options);
+  const originals = { fileExists: host.fileExists, readFile: host.readFile, getSourceFile: host.getSourceFile };
+  const content = name => files.get(name.replace(virtualRoot, ''));
+  host.fileExists = name => content(name) !== undefined || originals.fileExists(name);
+  host.readFile = name => content(name) ?? originals.readFile(name);
+  host.getSourceFile = (name, languageVersion) => content(name) === undefined ? originals.getSourceFile(name, languageVersion)
+    : ts.createSourceFile(name, content(name), languageVersion, true);
+  host.directoryExists = name => name.startsWith(virtualRoot) || ts.sys.directoryExists(name);
+  return ts.createProgram([...files.keys()].map(name => virtualRoot + name), options, host);
+}
+export function buildPlotIndex(catalog, typeFiles) {
+  const program = typeProgram(typeFiles);
+  const diagnostics = ts.getPreEmitDiagnostics(program);
+  if (diagnostics.length) throw new Error(ts.formatDiagnosticsWithColorAndContext(diagnostics, {
+    getCanonicalFileName: name => name, getCurrentDirectory: () => '/', getNewLine: () => '\n'
+  }));
+  const source = program.getSourceFile('/__statplots_release__/esm/types.d.ts');
+  const alias = source.statements.find(node => ts.isTypeAliasDeclaration(node) && node.name.text === 'StatPlotSpec');
+  if (!alias) throw new Error('Missing StatPlotSpec declaration');
+  const checker = program.getTypeChecker();
+  const mapping = new Map();
+  const references = ts.isUnionTypeNode(alias.type) ? alias.type.types : [alias.type];
+  for (const reference of references) {
+    if (!ts.isTypeReferenceNode(reference)) throw new Error('StatPlotSpec requires named references');
+    const property = checker.getTypeFromTypeNode(reference).getProperty('type');
+    if (!property) throw new Error('Missing plot type discriminant');
+    const discriminant = checker.getTypeOfSymbolAtLocation(property, reference);
+    if (!discriminant.isStringLiteral()) throw new Error('Plot type discriminant must be unique');
+    let symbol = checker.getSymbolAtLocation(reference.typeName);
+    if (symbol.flags & ts.SymbolFlags.Alias) symbol = checker.getAliasedSymbol(symbol);
+    const declaration = symbol.declarations[0];
+    const archivePath = declaration.getSourceFile().fileName.replace('/__statplots_release__/', '');
+    if (mapping.has(discriminant.value)) throw new Error('Duplicate plot declaration');
+    mapping.set(discriminant.value, { typeName: reference.typeName.getText(source), typeFile: archivePath.replace(/^esm\//, 'types/') });
+  }
+  if (mapping.size !== catalog.length || new Set(catalog.map(entry => entry.type)).size !== catalog.length) throw new Error('Declaration/catalog coverage mismatch');
+  return catalog.map(entry => {
+    if (!mapping.has(entry.type)) throw new Error(`Missing catalog declaration: ${entry.type}`);
+    return { type: entry.type, name: entry.name, useWhen: entry.useWhen, avoidWhen: entry.avoidWhen,
+      ...mapping.get(entry.type), guide: `guides/${entry.type}.md`, example: entry.example,
+      variants: entry.variants.map(({ name, aliases, options, example }) => ({ name, aliases, options, exampleUrl: releaseURL(example) })),
+      fullDocsUrl: releaseURL(`docs/plots/${entry.type}.md`) };
+  });
+}
 export function verifyTarball(bytes, integrity) {
   const [algorithm, expected] = integrity.split('-');
   if (createHash(algorithm).update(bytes).digest('base64') !== expected) throw new Error('npm tarball integrity mismatch');

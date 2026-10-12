@@ -6,6 +6,40 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const moduleURL = new URL('../../scripts/sync-visualization-skill.mjs', require('node:url').pathToFileURL(__filename));
 
+function typeFixture() {
+  return new Map([
+    ['esm/types.d.ts', "import type {A} from './plots/a/types'; import type {B} from './plots/b/types'; export type StatPlotSpec=A|B;"],
+    ['esm/plots/a/types.d.ts', "import type {Base} from '../../common/types'; export interface A extends Base {type:'a';data:number[];}"],
+    ['esm/plots/b/types.d.ts', "import type {Base} from '../../common/types'; interface BBase extends Base {type:'b'} export type B=BBase&({input:'raw';data:number[]}|{input:'results';data:string[]});"],
+    ['esm/common/types.d.ts', 'export interface Base {title?:string;}']
+  ]);
+}
+test('published declaration imports close exactly and map inherited discriminants', async () => {
+  const {collectTypeFiles,buildPlotIndex}=await import(moduleURL);
+  const files=typeFixture();
+  const closure=collectTypeFiles('esm/types.d.ts',name=>{
+    if(!files.has(name))throw new Error(`Missing declaration: ${name}`);
+    return files.get(name);
+  });
+  assert.equal(closure.size,4);
+  assert.equal(closure.get('esm/common/types.d.ts'),files.get('esm/common/types.d.ts'));
+  const catalog=['a','b'].map(type=>({type,name:type,useWhen:'真实输入',avoidWhen:[],example:`examples/specs/minimal/${type}.json`,variants:[]}));
+  const index=buildPlotIndex(catalog,closure);
+  assert.equal(index[0].typeName,'A');assert.equal(index[1].typeName,'B');
+  assert.equal(index[1].typeFile,'types/plots/b/types.d.ts');
+  assert.equal(index[0].schema,undefined);
+  assert.throws(()=>buildPlotIndex([...catalog,{...catalog[0],type:'missing'}],closure),/catalog|目录/);
+});
+test('declaration closure rejects external, escaping and absent imports',async()=>{
+  const {collectTypeFiles}=await import(moduleURL);
+  for(const target of ['outside-package','../../escape','./absent']){
+    assert.throws(()=>collectTypeFiles('esm/types.d.ts',name=>{
+      if(name==='esm/types.d.ts')return `export * from '${target}';`;
+      throw new Error('Missing declaration');
+    }),/External|escape|Missing/);
+  }
+});
+
 test('tarball integrity is checked before extraction', async () => {
   const { verifyTarball } = await import(moduleURL);
   const bytes = Buffer.from('fixed release');
