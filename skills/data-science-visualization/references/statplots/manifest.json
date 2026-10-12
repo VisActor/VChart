@@ -760,5 +760,10 @@
       "sha256": "c938403ee99774c305d734fe77774527fb20a90a5e896de4a83e2e513555b757"
     }
   },
-  "workspaceAssets": {}
+  "workspaceAssets": {
+    "skills/data-science-visualization/assets/statplot-controller.js": {
+      "source": "packages/vchart-statplots/examples/shared/statplot-controller.js",
+      "sha256": "d0f7ec2ac787ac5936c1411d2cbd5bda0c78faa40c0591b99ba0fae9fc1e903a"
+    }
+  }
 }

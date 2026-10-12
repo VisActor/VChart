@@ -21,10 +21,8 @@ async function initGallery() {
   const controls = document.querySelectorAll('.editor button, .editor select, #input');
   const colorControls = document.querySelectorAll('[data-color-role]');
   const colorDefaults = { categorical: 'colorblind', sequential: 'viridis', diverging: 'RdBu_r' };
-  let chart;
+  const controller = StatPlotController.create({ dom: 'plot' });
   let revision = 0;
-
-  VChartStatPlots.registerStatPlots();
 
   function typeUrl(type) {
     const url = new URL(window.location.href);
@@ -107,18 +105,7 @@ async function initGallery() {
   }
 
   async function draw(spec, current) {
-    const result = VChartStatPlots.validateStatPlot(spec);
-    if (!result.valid) {
-      error.textContent = result.errors.map(e => `${e.path}: ${e.message}`).join('\n');
-      return false;
-    }
-    const compiled = VChartStatPlots.compileStatPlot(spec);
-    if (chart) {
-      await chart.updateSpec(compiled);
-    } else {
-      chart = new VChart.default(compiled, { dom: 'plot', autoFit: true });
-      await chart.renderAsync();
-    }
+    await controller.update(spec);
     if (current !== revision) return false;
     colorControls.forEach(control => {
       const value = spec.colors?.[control.dataset.colorRole] ?? colorDefaults[control.dataset.colorRole];
@@ -202,11 +189,11 @@ async function initGallery() {
   colorControls.forEach(control =>
     control.addEventListener('change', () => drawInput(false, { [control.dataset.colorRole]: control.value }))
   );
-  document.getElementById('export').addEventListener('click', () => {
-    if (chart) chart.exportImg('png');
+  document.getElementById('export').addEventListener('click', async () => {
+    try { await controller.exportPNG(); } catch (e) { error.textContent = e.message; }
   });
   window.addEventListener('popstate', () => choose(resolveType(), 'replace'));
-  window.addEventListener('beforeunload', () => chart?.release());
+  window.addEventListener('beforeunload', () => controller.release());
   choose(resolveType(), 'replace');
 }
 initGallery().catch(error => {
