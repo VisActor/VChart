@@ -380,6 +380,11 @@ export const cases = [
     file: './components/datazoom/datazoom-preview.mjs'
   },
   {
+    id: 'datazoom-numeric-category',
+    purpose: '数字分类轴在更新和缩放后保持预览及分类顺序',
+    file: './components/datazoom/datazoom-numeric-category.mjs'
+  },
+  {
     id: 'waterfall-leader-line',
     purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
     file: './charts/waterfall/waterfall-leader-line.mjs'

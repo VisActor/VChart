@@ -120,7 +120,8 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
       return;
     }
     const series = seriesCollection[i];
-    if (series) {
+    // 关联轴已确定分类或连续类型；仅无关联轴时通过系列统计推断，避免额外统计和分类重排。
+    if (series && isCategoryState === undefined) {
       const statistics = series.getRawDataStatisticsByField(stateFields[i]);
       if (isValid(statistics?.max) && isValid(statistics?.min)) {
         isAllLinearValue = true;
