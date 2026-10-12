@@ -12,6 +12,8 @@ cover: https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/sequen
 The high complexity of time-series data makes it difficult for analysts to manually explore and find patterns, leading to an increasing need for visualization techniques to aid analysis in order to extract and communicate insights from event sequence datasets.
 For social media information, it is often necessary to show the different behaviors of different users at different times in the form of nodes and edges in the evolution of linear time, and in order to better discover the user's behavior preferences, it is also necessary to use histograms. The form of behavioral statistics is displayed. Time series diagrams based on linear time maps can show data in this scenario.
 
+The sequence chart is provided by `@visactor/vchart-extension`. Install the extension package with the same version as VChart and call `registerSequenceChart({ VChart })` before creating a chart. Existing `type: 'sequence'` and series configuration remain unchanged.
+
 ## Key option
 
 The whole sequence diagram is divided from top to bottom: thumbnail axis component, timeline component, several bar series, dot series & link series, scroll bar component
@@ -71,6 +73,11 @@ Scroll bar component configuration:
 ## Demo source
 
 ```javascript livedemo
+// import VChart from '@visactor/vchart';
+// import { registerSequenceChart } from '@visactor/vchart-extension';
+// registerSequenceChart({ VChart });
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   appendPadding: {

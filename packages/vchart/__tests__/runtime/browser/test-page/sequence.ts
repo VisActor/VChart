@@ -1,5 +1,8 @@
 import { isMobile } from 'react-device-detect';
 import { default as VChart } from '../../../../src/index';
+import { registerSequenceChart } from '../../../../../vchart-extension/src/charts/sequence';
+
+registerSequenceChart({ VChart });
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
 import { dataRegister } from '../../../data/data-sequence-register';
 import { dataIm } from '../../../data/data-sequence-im';

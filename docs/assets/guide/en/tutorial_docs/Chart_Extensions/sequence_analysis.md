@@ -2,7 +2,7 @@
 
 Sequence Analysis places each user's events on a horizontal row, aligns events by time, step or medium, and draws their relationships. It supports behavior paths, relationships across users and repeated patterns.
 
-The chart comes from `@visactor/vchart-extension` with type `sequenceAnalysis`. It is distinct from the built-in sequence chart and the sequenceScatterLink extension for training-process analysis.
+The chart comes from `@visactor/vchart-extension` with type `sequenceAnalysis`. It is distinct from the `sequence` extension chart and the sequenceScatterLink extension for training-process analysis.
 
 ![Sequence Analysis](/vchart/preview/sequence-analysis-step.png)
 

@@ -42,8 +42,6 @@ import type { ISankeyChartSpec } from './sankey';
 import { SankeyChart, registerSankeyChart } from './sankey';
 import type { IScatterChartSpec } from './scatter';
 import { ScatterChart, registerScatterChart } from './scatter';
-import type { ISequenceChartSpec } from './sequence';
-import { SequenceChart, registerSequenceChart } from './sequence';
 import type { ISunburstChartSpec } from './sunburst';
 import { SunburstChart, registerSunburstChart } from './sunburst';
 import type { ITreemapChartSpec } from './treemap';
@@ -96,7 +94,6 @@ export {
   SankeyChart,
   ScatterChart,
   SunburstChart,
-  SequenceChart,
   WaterfallChart,
   CorrelationChart,
   LiquidChart,
@@ -130,7 +127,6 @@ export {
   registerRoseChart,
   registerSankeyChart,
   registerScatterChart,
-  registerSequenceChart,
   registerSunburstChart,
   registerTreemapChart,
   registerWaterfallChart,
@@ -164,7 +160,6 @@ export type {
   IRoseChartSpec,
   IScatterChartSpec,
   ISankeyChartSpec,
-  ISequenceChartSpec,
   ISunburstChartSpec,
   ITreemapChartSpec,
   IWaterfallChartSpec,

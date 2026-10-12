@@ -13,6 +13,8 @@ option: sequenceChart
 时序数据的高复杂性使得分析人员很难手动探索和寻找模式, 导致越来越多地需要可视化技术来辅助分析, 以便从事件序列数据集中提取和交流见解。
 对于社交媒体信息而言, 往往需要在线性时间的演进中, 以节点和边的形式展示不同用户不同时间的不同行为, 并且为了更好地从中发现用户的行为偏好, 还需要以柱状图的形式展示行为统计信息. 基于线性时间映射的时序图可以展示这种场景下的数据。
 
+时序图由 `@visactor/vchart-extension` 提供。先安装与 VChart 版本一致的扩展包，并在创建图表前调用 `registerSequenceChart({ VChart })`。原有 `type: 'sequence'` 和 series 配置保持不变。
+
 ## 关键配置
 
 整个时序图从上到下分为: 缩略轴组件、时间轴组件、若干个柱系列(bar series)、dot 和 link 系列(dot series & link series)、滚动条组件
@@ -72,6 +74,11 @@ link 系列（link series）的数据依赖于事件（event series）系列
 ## 代码演示
 
 ```javascript livedemo
+// import VChart from '@visactor/vchart';
+// import { registerSequenceChart } from '@visactor/vchart-extension';
+// registerSequenceChart({ VChart });
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   appendPadding: {

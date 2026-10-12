@@ -2,7 +2,7 @@
 
 时序分析图（Sequence Analysis）把每个用户的事件放在同一条水平线上，通过时间、步骤或介质分类对齐事件，再用连接线表达事件之间的关系。适合展示行为路径、跨用户事件关联和重复模式。
 
-它由 `@visactor/vchart-extension` 提供，类型为 `sequenceAnalysis`，与内置 `sequence` 和用于训练过程分析的 `sequenceScatterLink` 是不同图表。
+它由 `@visactor/vchart-extension` 提供，类型为 `sequenceAnalysis`，与扩展时序图 `sequence` 和用于训练过程分析的 `sequenceScatterLink` 是不同图表。
 
 ![时序分析图](/vchart/preview/sequence-analysis-step.png)
 

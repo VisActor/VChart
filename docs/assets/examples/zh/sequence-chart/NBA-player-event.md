@@ -13,6 +13,8 @@ option: sequenceChart
 NBA 运动员时序图跟踪每个运动员的运球时间. 用户可以快速了解比赛时间、教练所做的改变以及参赛阵容.
 该用例仅配置 dot 或 link 系列, 而不包柱系列. 如果需要展示纯粹的时序数据, 可以参考该用例.
 
+时序图由 `@visactor/vchart-extension` 提供。先安装与 VChart 版本一致的扩展包，并在创建图表前调用 `registerSequenceChart({ VChart })`。原有 `type: 'sequence'` 和 series 配置保持不变。
+
 ## 关键配置
 
 整个时序图从上到下分为: 时间轴组件、dot 和 link 系列(dot series & link series)
@@ -47,6 +49,11 @@ link 系列（link series）的数据依赖于事件（event series）系列
 ## 代码演示
 
 ```javascript livedemo
+// import VChart from '@visactor/vchart';
+// import { registerSequenceChart } from '@visactor/vchart-extension';
+// registerSequenceChart({ VChart });
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   color: ['#64b5fc', '#ff8f62'],

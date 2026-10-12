@@ -44,3 +44,7 @@ You can directly get the source code of VChart-extension from GitHub:
 
 1. You can clone the source code directly from GitHub.
 2. You can also choose the corresponding version from the [release](https://github.com/VisActor/VChart/releases) page of VChart, click on the Source code under the Assets section, download it to your local machine, and extract it for use.
+
+## Sequence chart
+
+The [sequence chart](/vchart/guide/tutorial_docs/Chart_Types/Sequence) is now provided by the extension package. It combines events, links and statistics on a shared time axis. Import and call `registerSequenceChart({ VChart })` from the extension package before use; existing specs remain unchanged.

@@ -202,6 +202,9 @@ importers:
       '@visactor/vchart':
         specifier: workspace:2.1.7
         version: link:../vchart
+      '@visactor/vchart-extension':
+        specifier: workspace:2.1.7
+        version: link:../vchart-extension
       '@visactor/vrender-core':
         specifier: 1.1.11
         version: 1.1.11

@@ -1,4 +1,5 @@
 import { VChart } from './core';
+import { registerDotSeries, registerLinkSeries } from './series';
 
 import { registerLineChart } from './chart/line';
 import { registerAreaChart } from './chart/area';
@@ -9,7 +10,6 @@ import { registerPieChart } from './chart/pie';
 import { registerRoseChart } from './chart/rose';
 import { registerRadarChart } from './chart/radar';
 import { registerCommonChart } from './chart/common';
-import { registerSequenceChart } from './chart/sequence';
 import { registerHistogramChart } from './chart/histogram';
 import { registerCircularProgressChart } from './chart/progress/circular';
 import { registerGaugeChart } from './chart/gauge';
@@ -91,13 +91,14 @@ VChart.useRegisters([
   registerTreemapChart,
   registerSankeyChart,
   registerHeatmapChart,
-  registerSequenceChart,
   registerCorrelationChart,
   // 优化vchart-all体积, 默认不注册
   // registerTimelineChart,
   // registerLiquidChart,
   // registerVennChart,
   registerCommonChart,
+  registerDotSeries,
+  registerLinkSeries,
 
   // components
   registerCartesianLinearAxis,

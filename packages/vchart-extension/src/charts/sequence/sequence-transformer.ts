@@ -1,13 +1,13 @@
 import { array } from '@visactor/vutils';
 import { DataView } from '@visactor/vdataset';
-import { BaseChartSpecTransformer } from '../base';
+import {
+  BaseChartSpecTransformer,
+  SeriesTypeEnum,
+  normalizeLayoutPaddingSpec,
+  SCROLL_BAR_DEFAULT_SIZE
+} from '@visactor/vchart';
+import type { Datum, RegionSpec, ICartesianAxisSpec, IScrollBarSpec, IGridLayoutSpec } from '@visactor/vchart';
 import type { ISequenceChartSpec, ISequenceSeriesSpec } from './interface';
-import type { Datum, RegionSpec } from '../../typings';
-import type { ICartesianAxisSpec, IScrollBarSpec } from '../../component';
-import { SeriesTypeEnum } from '../../series';
-import { normalizeLayoutPaddingSpec } from '../../util';
-import type { IGridLayoutSpec } from '../../layout';
-import { SCROLL_BAR_DEFAULT_SIZE } from '../../constant/scroll-bar';
 
 export class SequenceChartSpecTransformer<
   T extends ISequenceChartSpec = ISequenceChartSpec

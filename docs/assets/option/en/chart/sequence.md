@@ -4,6 +4,10 @@
 
 Sequence Chart
 
+The sequence chart is provided by `@visactor/vchart-extension`. Install the extension package with the same version as VChart and call `registerSequenceChart({ VChart })` before creating a chart. Existing `type: 'sequence'` and series configuration remain unchanged.
+
+Import `ISequenceChartSpec` from the extension package as well. [Registration and migration](/vchart/guide/tutorial_docs/Chart_Types/Sequence).
+
 {{ use: common-chart-spec(
     prefix = '#',
     chartType = 'sequence'

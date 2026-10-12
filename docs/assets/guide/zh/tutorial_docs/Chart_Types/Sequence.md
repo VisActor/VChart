@@ -2,6 +2,22 @@
 
 [\[配置项\]](../../../option/sequenceChart)
 
+## 注册与迁移
+
+时序图由 `@visactor/vchart-extension` 提供。先安装与 VChart 版本一致的扩展包，并在创建图表前调用 `registerSequenceChart({ VChart })`。原有 `type: 'sequence'` 和 series 配置保持不变。
+
+```ts
+import VChart from '@visactor/vchart';
+import { registerSequenceChart } from '@visactor/vchart-extension';
+import type { ISequenceChartSpec } from '@visactor/vchart-extension';
+
+registerSequenceChart({ VChart });
+// const spec: ISequenceChartSpec = { type: 'sequence', ... };
+// new VChart(spec, { dom: 'chart' }).renderSync();
+```
+
+`ISequenceChartSpec` 和 `registerSequenceChart` 的导入来源由核心包改为扩展包。React/Taro/Openinula 的 `SequenceChart` 组件已封装注册逻辑；使用通用 `VChart` 组件时仍需先注册。此图展示时间轴上的事件及统计，与 `type: 'sequenceAnalysis'` 的时序分析图是两种独立的扩展图表。
+
 ## 简介
 
 在社交媒体、行为监测等场景中，往往需要在线性时间的演进中, 以节点和边的形式展示不同用户不同时间的不同行为, 并且为了更好地从中发现用户的行为偏好, 还需要以柱状图的形式展示行为统计信息。基于线性时间映射的时序图可以展示这种场景下的数据。
@@ -30,6 +46,8 @@
 ## 快速上手
 
 ```javascript livedemo
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   color: ['#64b5fc', '#ff8f62'],
@@ -1291,6 +1309,8 @@ data: [
 下面的例子展示了包含 tooltip 配置的社交媒体时序图:
 
 ```javascript livedemo
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   appendPadding: {

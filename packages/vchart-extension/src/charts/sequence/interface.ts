@@ -1,11 +1,14 @@
-import type { IChartSpec, ISeriesSpec } from '../../typings/spec/common';
-import type { ICartesianAxisSpec } from '../../component/axis/cartesian/interface';
-import type { IDataZoomSpec } from '../../component/data-zoom/data-zoom/interface';
-import type { IScrollBarSpec } from '../../component/data-zoom/scroll-bar/interface';
-import type { ICartesianCrosshairSpec } from '../../component/crosshair/interface';
-import type { ILayoutSpec } from '../../layout/interface';
-import type { RegionSpec } from '../../region/interface';
-import type { IPadding } from '../../typings';
+import type {
+  IChartSpec,
+  ISeriesSpec,
+  ICartesianAxisSpec,
+  IDataZoomSpec,
+  IScrollBarSpec,
+  ICartesianCrosshairSpec,
+  ILayoutSpec,
+  RegionSpec,
+  IPadding
+} from '@visactor/vchart';
 
 export interface ISequenceChartSpec extends IChartSpec {
   type: 'sequence';

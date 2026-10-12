@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "refactor: 将 sequence 时序图迁移至 vchart-extension，原 spec 保持不变，需从扩展包导入并调用 registerSequenceChart",
+      "type": "major"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
