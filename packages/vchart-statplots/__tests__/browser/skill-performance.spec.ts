@@ -24,7 +24,7 @@ test('10k rows and four charts reuse instances and do not recompile on resize', 
     { filters: [{ field: 'group', kind: 'category' }] },
     records()
   );
-  const html = generate(request);
+  const html = generate({ ...request, presentation: { actions: ['theme'] } });
   const timings: any = {};
   let start = Date.now();
   await openGenerated(page, html);

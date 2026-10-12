@@ -4,7 +4,11 @@ import path from 'path';
 import { generate, openGenerated, tableRequest, histogram, expectRendered, marks, artifacts } from './skill-helpers';
 
 test('generated HTML filters real counts, retains instance, hovers and exports current data', async ({ page }) => {
-  const html = generate(tableRequest([histogram()], { filters: [{ field: 'group', kind: 'category' }] }));
+  const request = {
+    ...tableRequest([histogram()], { filters: [{ field: 'group', kind: 'category' }] }),
+    presentation: { actions: ['theme', 'exportPNG', 'exportSpec'] }
+  };
+  const html = generate(request);
   await openGenerated(page, html);
   await expectRendered(page);
   await page.evaluate(() => {
@@ -45,7 +49,7 @@ test('range, variables and parameters rebuild data, labels and statistics', asyn
     variableSwitch: [{ chartId: 'hist', role: 'value', candidates: ['x', 'alt'] }],
     parameters: [{ chartId: 'hist', path: 'binning.binCount', values: [1, 2] }]
   });
-  await openGenerated(page, generate(request));
+  await openGenerated(page, generate({ ...request, presentation: { details: ['counts'] } }));
   await page.getByLabel('年龄 下界').fill('0');
   await page.getByLabel('年龄 上界').fill('1');
   await page.locator('#apply').click();
@@ -71,7 +75,11 @@ test('range, variables and parameters rebuild data, labels and statistics', asyn
 test('pairPlot brush links actual stable ids without compiling on hover or resize', async ({ page }) => {
   await openGenerated(
     page,
-    generate(tableRequest([{ id: 'pair', binding: { type: 'pairPlot', fields: { variables: ['x', 'y'] } } }]))
+    generate(
+      tableRequest([
+        { id: 'pair', interactions: ['brush'], binding: { type: 'pairPlot', fields: { variables: ['x', 'y'] } } }
+      ])
+    )
   );
   await page.evaluate(() => {
     const p = (window as any).VChartStatPlots;
@@ -109,7 +117,9 @@ test('pairPlot brush links actual stable ids without compiling on hover or resiz
   await page.setViewportSize({ width: 720, height: 700 });
   await page.mouse.move(5, 5);
   expect(await page.evaluate(() => (window as any).compileCalls)).toBe(0);
-  await expect(page.locator('.caption')).toContainText('图例为颜色说明');
+  expect(
+    await page.evaluate(() => (window as any).__DSV_CONTROLLERS__.get('pair').chart.getSpec().legends.interactive)
+  ).toBe(false);
 });
 
 test('compile failure rolls back an already updated chart and restores filter controls', async ({ page }) => {
@@ -188,7 +198,10 @@ test('saved view preserves all rows, units and initial filters across a real cha
   };
   await openGenerated(
     page,
-    generate(tableRequest([distribution, comparison], { filters: [{ field: 'group', kind: 'category' }] }))
+    generate({
+      ...tableRequest([distribution, comparison], { filters: [{ field: 'group', kind: 'category' }] }),
+      presentation: { actions: ['saveView'], details: ['counts'] }
+    })
   );
   await page.getByLabel('地区', { exact: true }).selectOption({ label: 'A' });
   await page.locator('#apply').click();

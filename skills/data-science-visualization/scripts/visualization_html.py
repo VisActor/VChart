@@ -23,27 +23,59 @@ def render_html(payload, asset_root):
     content = {name:(assets/name).read_text(encoding='utf-8') for name in
         ('page.html','page.css','statplot-controller.js','data-bindings.js','page-runtime.js')}
     esc = lambda value:html.escape(str(value), quote=True)
+    actions = payload['presentation']['actions']
+    details = payload['presentation']['details']
+    controls = payload['controls']
+    has_filters = bool(controls.get('filters'))
+    has_editors = bool(controls.get('variableSwitch') or controls.get('parameters'))
+    buttons = []
+    if has_filters:
+        buttons.extend(['<button type="button" id="apply" disabled>应用筛选</button>',
+                        '<button type="button" id="clear" disabled>清空筛选</button>'])
+    for action,ident,label in [('theme','theme','切换主题'),('exportSpec','download','下载输入配置'),
+                               ('saveView','save-view','保存当前视图请求')]:
+        if action in actions:
+            buttons.append(f'<button type="button" id="{ident}" disabled>{label}</button>')
+    summary = '<p id="summary" role="status"></p>' if has_filters or 'counts' in details else ''
+    toolbar = ''
+    if has_filters or has_editors or buttons:
+        editor_root = '<div id="controls"></div>' if has_filters or has_editors else ''
+        action_root = f'<div class="actions">{"".join(buttons)}</div>' if buttons else ''
+        toolbar = f'<section class="toolbar" aria-label="图表操作">{editor_root}{action_root}{summary}</section>'
+    else:
+        toolbar = summary
     cards = []
     for chart in payload['charts']:
         spec = chart.get('spec', chart.get('binding', {}))
         kind = spec['type']
         options = spec.get('options', spec)
-        title = options.get('title', kind)
+        title = options.get('title', chart['id'])
         source = payload['dataset']['source'] if 'binding' in chart else chart['source']
-        scope = '随表格筛选重算' if 'binding' in chart else '已有结果；不随表格筛选更新'
-        note = '框选只高亮观测；图例为颜色说明。' if kind == 'pairPlot' else ''
-        cards.append(f'<section class="card" data-chart="{esc(chart["id"])}"><header><h2>{esc(title)}</h2>'
-          f'<span class="scope">{esc(scope)}</span></header><div id="dsv-{esc(chart["id"])}" class="plot {"pair" if kind=="pairPlot" else ""}"'
-          f' role="img" aria-label="{esc(title)}">图表加载中</div>'
-          f'<p class="chart-meta" id="meta-{esc(chart["id"])}" role="status"></p>'
-          f'<p class="chart-error" id="error-{esc(chart["id"])}" role="alert"></p>'
-          f'<p class="caption">{esc(chart.get("caption", ""))} {esc(note)}</p>'
-          f'<p class="source">来源：{esc(source["label"])} {esc(source.get("note", ""))}</p>'
-          f'<button type="button" data-png="{esc(chart["id"])}" disabled>导出 PNG</button></section>')
+        heading = f'<h2>{esc(title)}</h2>' if len(payload['charts']) > 1 else ''
+        scope = '<p class="scope">已有结果；不随表格筛选更新</p>' if has_filters and 'spec' in chart else ''
+        meta = f'<p class="chart-meta" id="meta-{esc(chart["id"])}" role="status"></p>' if 'counts' in details else ''
+        units = ''
+        variables = chart.get('binding', {}).get('fields', {}).get('variables', [])
+        columns = {column['name']:column for column in (payload['dataset'] or {}).get('columns', [])}
+        labels = [f'{name}：{columns[name].get("label", name)}（{columns[name]["unit"]}）'
+                  for name in variables if columns[name].get('unit')]
+        if labels:
+            units = f'<p class="units">{esc("；".join(labels))}</p>'
+        caption = f'<p class="caption">{esc(chart["caption"])}</p>' if chart.get('caption') else ''
+        provenance = f'<p class="source">来源：{esc(source["label"])} {esc(source.get("note", ""))}</p>' if 'provenance' in details else ''
+        png = f'<button type="button" data-png="{esc(chart["id"])}" disabled>导出 PNG</button>' if 'exportPNG' in actions else ''
+        cards.append(f'<section class="card" data-chart="{esc(chart["id"])}">{heading}{scope}'
+          f'<div id="dsv-{esc(chart["id"])}" class="plot {"pair" if kind=="pairPlot" else ""}"'
+          f' role="img" aria-label="{esc(title if heading else payload["title"])}">图表加载中</div>'
+          f'{units}{meta}<p class="empty" id="empty-{esc(chart["id"])}" role="status" hidden></p>'
+          f'<p class="chart-error" id="error-{esc(chart["id"])}" role="alert" hidden></p>'
+          f'{caption}{provenance}{png}</section>')
     data = payload['dataset']
-    provenance = f'原始观测 {data["source"]["originalN"]} 条 · SHA-256 {esc(data["source"]["sha256"])}' if data else '绘制用户提供的已有结果；结果行数不等于原始样本量。'
+    provenance = ''
+    if 'provenance' in details and data:
+        provenance = f'<p class="provenance">来源：{esc(data["source"]["label"])} · SHA-256 {esc(data["source"]["sha256"])}</p>'
     replacements = {'TITLE':esc(payload['title']), 'CSS':content['page.css'], 'CARDS':''.join(cards),
-      'SOURCE':provenance, 'DATA':json_text(payload).replace('<','\\u003c'), 'VERSION':VERSION,
+      'SOURCE':provenance, 'TOOLBAR':toolbar, 'DATA':json_text(payload).replace('<','\\u003c'), 'VERSION':VERSION,
       'CONTROLLER':content['statplot-controller.js'], 'BINDINGS':content['data-bindings.js'], 'RUNTIME':content['page-runtime.js']}
     return re.sub(r'@@([A-Z]+)@@', lambda match:replacements[match[1]], content['page.html'])
 

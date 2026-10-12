@@ -2,16 +2,11 @@
 <html lang="zh-CN">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>@@TITLE@@</title><style>@@CSS@@</style></head>
-<body><main><header class="page-header"><p class="eyebrow">DATA SCIENCE / VISUALIZATION</p><h1>@@TITLE@@</h1>
-<p class="provenance">@@SOURCE@@</p></header>
-<section class="toolbar" aria-label="图表操作"><div id="controls"></div><div class="actions">
-<button type="button" id="apply" disabled>应用筛选</button><button type="button" id="clear" disabled>清空筛选</button>
-<button type="button" id="theme" disabled>切换主题</button><button type="button" id="download">下载输入配置</button>
-<button type="button" id="save-view" disabled>保存当前视图请求</button></div>
-<p id="summary" role="status"></p><p id="page-error" role="alert"></p></section>
+<body><main><header class="page-header"><h1>@@TITLE@@</h1>@@SOURCE@@</header>
+@@TOOLBAR@@
+<p id="page-error" role="alert" hidden></p>
 <div class="charts">@@CARDS@@</div>
-<details><summary>数据与复现说明</summary><p>数据内嵌于本页，不上传源文件。筛选后由 statplots 重新计算绑定图；图例隐藏和框选高亮保留原统计口径。当前配置可下载复现。</p></details>
-<footer>VChart / statplots @@VERSION@@ · 加载图表需要网络与外部脚本权限。</footer></main>
+</main>
 <script type="application/json" id="visualization-data">@@DATA@@</script>
 <script src="https://unpkg.com/@visactor/vchart@@@VERSION@@/build/index.min.js"></script>
 <script src="https://unpkg.com/@visactor/vchart-statplots@@@VERSION@@/build/index.min.js"></script>

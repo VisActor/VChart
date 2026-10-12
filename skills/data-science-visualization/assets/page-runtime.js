@@ -12,6 +12,7 @@
   let busy = false;
   const filterControls = [], editors = [];
   const pageError = document.getElementById('page-error');
+  const actions = Object.fromEntries(['apply','clear','theme','download','save-view'].map(id => [id, document.getElementById(id)]));
   const byColumn = new Map((payload.dataset?.columns || []).map(column => [column.name, column]));
   const titleOf = input => (input.spec || input.binding.options || {}).title || input.id;
   const columnLabel = name => byColumn.get(name).label || name;
@@ -93,11 +94,9 @@
   function setBusy(value) {
     busy = value; status.ready = !value;
     document.querySelectorAll('.toolbar input,.toolbar select,.toolbar button').forEach(element => { element.disabled = value; });
-    document.getElementById('apply').disabled = value || !filterControls.length;
-    document.getElementById('clear').disabled = value || !filterControls.length;
-    document.getElementById('save-view').disabled = value || !inputs.every(input => controllers.get(input.id)?.spec);
+    if (actions['save-view']) actions['save-view'].disabled = value || !inputs.every(input => controllers.get(input.id)?.spec);
     document.querySelectorAll('[data-png]').forEach(button => { button.disabled = value || !controllers.get(button.dataset.png)?.chart; });
-    if (!value) document.getElementById('download').textContent = inputs.every(input => controllers.get(input.id)?.spec) ? '下载当前图表配置' : '下载输入配置';
+    if (!value && actions.download) actions.download.textContent = inputs.every(input => controllers.get(input.id)?.spec) ? '下载当前图表配置' : '下载输入配置';
   }
   function chartState(id) { return status.charts.find(chart => chart.id === id); }
   function builtSpec(input, rows) {
@@ -105,40 +104,40 @@
       : { spec: input.spec, inputN: null, omittedN: 0 };
   }
   function showMetadata(state, input) {
+    const element = document.getElementById('meta-' + input.id);
+    if (!element) return;
     let text;
     if (state.inputN === null) {
       const data = input.spec.data;
       text = `语义输入 ${Array.isArray(data) ? data.length : data.observations.length} 行（不推断原始样本量）`;
     } else text = `本图输入 ${state.inputN} 条 · ${state.omittedN} 条缺少必要字段`;
-    if (input.binding?.fields.variables) {
-      text += ' · ' + input.binding.fields.variables.map(name => {
-        const column=byColumn.get(name);
-        return `${name}：${column.label || name}${column.unit ? `（${column.unit}）` : ''}`;
-      }).join('；');
-    }
-    document.getElementById('meta-' + input.id).textContent = text;
+    element.textContent = text;
   }
   function summary() {
-    const succeeded = status.charts.filter(chart => chart.status === 'rendered').length;
-    document.getElementById('summary').textContent = `${payload.dataset ? `原始 ${payload.dataset.source.originalN} 条 · 当前筛选 ${status.filteredN} 条 · ` : ''}${succeeded}/${inputs.length} 张图成功`;
+    const element = document.getElementById('summary');
+    if (element) element.textContent = payload.dataset ?
+      `${payload.presentation.details.includes('counts') ? `原始 ${payload.dataset.source.originalN} 条 · ` : ''}当前筛选 ${status.filteredN} 条` : '';
   }
   async function updateOne(input, built) {
     let controller = controllers.get(input.id);
     if (!controller) {
-      controller = StatPlotController.create({ dom: 'dsv-' + input.id, animation: false, confineTooltip: true });
+      controller = StatPlotController.create({ dom: 'dsv-' + input.id, animation: false, confineTooltip: true,
+        showTitle: false, interactions: input.interactions || [] });
       controllers.set(input.id, controller);
     }
     if (!controller.chart) document.getElementById('dsv-' + input.id).replaceChildren();
     await controller.update(built.spec);
+    message(document.getElementById('empty-' + input.id), built.inputN === 0 ? '暂无符合条件的数据' : '');
   }
+  function message(element, text) { element.textContent = text; element.hidden = !text; }
   function showFailure(id, error) {
     const state = chartState(id); state.status = 'failed'; state.error = error.message;
-    document.getElementById('error-' + id).textContent = error.message;
+    message(document.getElementById('error-' + id), '此图未能生成，请检查数据或图表配置。');
     if (!controllers.get(id)?.chart) document.getElementById('dsv-' + id).textContent = '此图未能生成';
   }
   async function perform(nextInputs, nextFilters, affected, nextTheme) {
     if (busy) return;
-    setBusy(true); pageError.textContent = '';
+    setBusy(true); message(pageError, ''); status.error = null;
     const previous = new Map(affected.map(id => [id, { spec: controllers.get(id)?.spec, state: { ...chartState(id) } }]));
     const touched = [];
     let updating;
@@ -156,7 +155,7 @@
       for (const { input, built } of pending) {
         const state = chartState(input.id);
         Object.assign(state, { status: 'rendered', error: null, inputN: built.inputN, omittedN: built.omittedN });
-        document.getElementById('error-' + input.id).textContent = '';
+        message(document.getElementById('error-' + input.id), '');
         showMetadata(state, input);
       }
       document.body.classList.toggle('dark', theme === 'dark');
@@ -169,11 +168,13 @@
           if (old.spec) await controllers.get(id).update(old.spec);
           else { await controllers.get(id).release(); controllers.delete(id); document.getElementById('dsv-' + id).textContent = '此图未能生成'; }
           Object.assign(chartState(id), old.state);
+          message(document.getElementById('empty-' + id), old.state.inputN === 0 ? '暂无符合条件的数据' : '');
         } catch (recovery) { recoveryErrors.push(`${id}: ${recovery.message}`); showFailure(id, recovery); }
       }
       if (updating) showFailure(updating, error);
       status.lastUpdateSucceeded = false;
-      pageError.textContent = `更新失败，已恢复上次成功条件。${error.message}${recoveryErrors.length ? '\n恢复失败：' + recoveryErrors.join('; ') : ''}`;
+      status.error = `${error.message}${recoveryErrors.length ? '\n恢复失败：' + recoveryErrors.join('; ') : ''}`;
+      message(pageError, recoveryErrors.length ? '更新失败，部分图表未能恢复。' : '更新失败，已恢复上次成功条件。');
     } finally {
       restoreControls(); summary(); setBusy(false);
     }
@@ -194,8 +195,9 @@
   document.body.classList.toggle('dark', theme === 'dark');
   status.lastUpdateSucceeded = status.charts.every(chart => chart.status === 'rendered');
   summary(); setBusy(false);
-  document.getElementById('apply').addEventListener('click', () => {
-    const nextFilters = [];
+  const fixedFilters = () => filters.filter(filter => !filterControls.some(control => control.field === filter.field && control.kind === filter.kind));
+  actions.apply?.addEventListener('click', () => {
+    const nextFilters = clone(fixedFilters());
     for (const control of filterControls) {
       if (control.kind === 'category') nextFilters.push({ field: control.field, kind: control.kind,
         value: control.element.value === 'all' ? null : control.values[Number(control.element.value)] });
@@ -204,30 +206,28 @@
     }
     perform(clone(inputs), nextFilters, inputs.filter(input => input.binding).map(input => input.id), theme);
   });
-  document.getElementById('clear').addEventListener('click', () => perform(clone(inputs), [], inputs.filter(input => input.binding).map(input => input.id), theme));
-  document.getElementById('theme').addEventListener('click', () => {
+  actions.clear?.addEventListener('click', () => perform(clone(inputs), clone(fixedFilters()), inputs.filter(input => input.binding).map(input => input.id), theme));
+  actions.theme?.addEventListener('click', () => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark'; const next = clone(inputs);
     for (const input of next) { if (input.spec) input.spec.theme = nextTheme; else { input.binding.options ||= {}; input.binding.options.theme = nextTheme; } }
     perform(next, filters, next.map(input => input.id), nextTheme);
   });
   document.querySelectorAll('[data-png]').forEach(button => button.addEventListener('click', async () => {
     try { await controllers.get(button.dataset.png).exportPNG(button.dataset.png); }
-    catch (error) { pageError.textContent = error.message; }
+    catch (error) { status.error = error.message; message(pageError, '图片导出失败，请重试。'); }
   }));
-  const download = document.getElementById('download');
-  download.textContent = status.charts.every(chart => controllers.get(chart.id)?.spec) ? '下载当前图表配置' : '下载输入配置';
   function downloadJSON(data, filename) {
     const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
     const link = node('a'); link.href = url; link.download = filename; link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
-  download.addEventListener('click', () => {
+  actions.download?.addEventListener('click', () => {
     const complete = inputs.every(input => controllers.get(input.id)?.spec);
     const data = complete ? inputs.map(input => controllers.get(input.id).spec) : payload;
     downloadJSON(data, complete ? 'statplots.json' : 'visualization.input.json');
   });
-  document.getElementById('save-view').addEventListener('click', () => {
-    const request = { version: 1, title: payload.title, charts: inputs, controls: { ...payload.controls,
+  actions['save-view']?.addEventListener('click', () => {
+    const request = { version: 1, title: payload.title, charts: inputs, presentation: payload.presentation, controls: { ...payload.controls,
       initialFilters: filters.map(filter => ({ ...filter,
         value: filter.kind === 'range' ? filter.value.map(bound => Number.isFinite(bound) ? bound : null) : filter.value })) } };
     if (payload.dataset) {

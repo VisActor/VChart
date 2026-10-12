@@ -27,7 +27,28 @@ class HtmlTests(unittest.TestCase):
         self.assertIn('\\u003c/script>',page)
         parser=DataParser();parser.feed(page)
         self.assertEqual(json.loads(parser.data),payload)
-        self.assertIn('&lt;b&gt;真实结果&lt;/b&gt;',page)
+        payload['presentation']['details']=['provenance']
+        self.assertIn('&lt;b&gt;真实结果&lt;/b&gt;',render_html(payload,ASSETS))
+    def test_minimal_page_has_no_tools_or_technical_content(self):
+        page=render_html(self.payload(),ASSETS)
+        parser=HTMLParser()
+        elements=[]
+        parser.handle_starttag=lambda tag,attrs:elements.append((tag,dict(attrs)))
+        parser.feed(page)
+        self.assertFalse(any(tag in {'button','select','input','details','footer','h2'} for tag,attrs in elements))
+        self.assertFalse(any('toolbar' in attrs.get('class','').split() for tag,attrs in elements))
+        self.assertEqual(sum(tag=='h1' for tag,attrs in elements),1)
+    def test_only_requested_actions_and_matrix_units_are_created(self):
+        payload=build_payload({'version':1,'title':'关系','presentation':{'actions':['exportPNG']},
+          'dataset':{'source':{'records':[{'x':0,'y':1},{'x':1,'y':2}]},'columns':[
+            {'name':'x','type':'number','label':'年龄','unit':'岁'},{'name':'y','type':'number','label':'收入','unit':'元'}]},
+          'charts':[{'id':'pair','binding':{'type':'pairPlot','fields':{'variables':['x','y']}}}]},Path('.'))
+        page=render_html(payload,ASSETS)
+        parser=HTMLParser();buttons=[]
+        parser.handle_starttag=lambda tag,attrs:buttons.append(dict(attrs)) if tag=='button' else None
+        parser.feed(page)
+        self.assertEqual(buttons,[{'type':'button','data-png':'pair','disabled':None}])
+        self.assertIn('年龄（岁）',page);self.assertIn('收入（元）',page)
     def test_three_portable_outputs_and_no_overwrite(self):
         with tempfile.TemporaryDirectory() as temp:
             out=Path(temp)/'result';files=write_outputs(self.payload(),out,ASSETS)

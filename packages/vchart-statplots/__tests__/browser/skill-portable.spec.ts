@@ -13,7 +13,7 @@ import {
   tableRequest,
   marks
 } from './skill-helpers';
-for (const name of ['distribution', 'comparison', 'relationships', 'quality', 'external']) {
+for (const name of ['distribution', 'comparison', 'relationships', 'quality', 'external', 'interactive']) {
   test(`copied skill generates and opens ${name} outside the repo`, async ({ page }) => {
     const temporary = fs.mkdtempSync(path.join(os.tmpdir(), 'dsv-portable-'));
     try {
@@ -84,6 +84,7 @@ test('layout fits 360px in light and dark, and live CDN works without intercepti
   test.setTimeout(90000);
   const request = JSON.parse(fs.readFileSync(path.join(skillRoot, 'examples/distribution.json'), 'utf8'));
   request.dataset.source.path = path.join(skillRoot, 'examples/observations.csv');
+  request.presentation = { actions: ['theme'] };
   const html = generate(request);
   await openGenerated(page, html, false);
   await expectRendered(page);
