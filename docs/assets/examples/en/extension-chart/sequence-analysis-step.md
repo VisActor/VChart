@@ -10,7 +10,17 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Step Mode
 
-Displays the local demo’s user events and pattern links by step.
+This chart demonstrates how to compare multiple users' event histories and highlight selected behavioral segments. Think of it as a user activity comparison table: each row is a user, columns show behavioral steps, and colored dots represent events such as registration, login, follow and private messaging.
+
+## What this example represents
+
+Imagine reviewing platform activity logs to understand which steps each user took and where selected behavioral segments appear across users. Aligning the records by step lets you compare them together instead of reading logs one record at a time.
+
+For example, `user_004` has a follow event at step 4 and a private-message event (`im`) at step 6. The line between them means the input data marks these events as a relationship to inspect together. For `user_005`, follow at step 4 is linked to private messaging at step 5. The chart makes the positions of these similar segments easy to compare. Intermediate events remain visible; a link does not mean that the user skipped those steps.
+
+Dots are event records; links are additional relationship annotations supplied through `patternData`. The chart displays these annotations and does not automatically discover behavioral patterns in the logs.
+
+**This dataset demonstrates visualization features.** The local demo does not define business rules for `pattern_001` or `pattern_002`, or a complete metric definition for the top `+N` labels. It cannot establish anomalous activity, a shared IP address or a causal relationship. A business application should supply clearly named relationships with defined criteria and use the chart to display those results.
 
 ## How to read the chart
 
@@ -18,9 +28,9 @@ This example shows 111 events from 10 users, organized by behavioral step, toget
 
 - **Vertical axis and left avatars:** each row represents a user (`user_id`), with an avatar from `userImageMap`. Follow a row to inspect that user's events across steps.
 - **Bottom axis:** `step_1`, `step_2`, and so on are event categories from `dots.step`. Steps are equally spaced; their distance does not encode elapsed time.
-- **Top labels:** each label shows the medium name and additional count supplied in `stepMediumMap`. For example, `+1` in `Device... +1` comes from the step's `count`. This is an application-supplied quantity, not the number of event dots.
+- **Top labels:** each label shows the medium name and additional count supplied in `stepMediumMap`. For example, `+1` in `Device... +1` comes from the step's `count`. This is a supplied additional count without a defined business metric in this demo; it is not the number of event dots.
 - **Colored dots:** each dot is an event record, colored by `action_type`, such as registration, login or comment. User and step determine its position. Multiple events for the same user and step can overlap.
-- **Links:** each line corresponds to a `patternData` record whose `from` and `to` reference event `node_name` values. It represents a supplied pattern relationship, colored by `pattern_type`. A link within one row relates events of one user; a link across rows relates events of different users.
+- **Links:** each line corresponds to a `patternData` record whose `from` and `to` reference event `node_name` values. It represents a supplied pattern relationship, colored by `pattern_type`. All links in this step example stay within a single user row and annotate that user’s event segments.
 - **Short segments beside dots:** this example enables link extension along step bands and includes pattern records that reference the same event at both ends. Such records can appear as short segments beside a dot. Segment length does not encode duration or relationship strength.
 
 Use the bottom range selector to filter steps, the horizontal gray scrollbar to pan across them, and the right scrollbar to browse users. The initial window shows only part of the steps and users.
