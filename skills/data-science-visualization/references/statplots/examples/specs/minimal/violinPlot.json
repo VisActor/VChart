@@ -1,0 +1,45 @@
+{
+  "type": "violinPlot",
+  "data": [
+    {
+      "category": "A",
+      "value": 2
+    },
+    {
+      "category": "A",
+      "value": 0
+    },
+    {
+      "category": "A",
+      "value": 0
+    },
+    {
+      "category": "A",
+      "value": -1
+    },
+    {
+      "category": "A",
+      "value": 1
+    },
+    {
+      "category": "B",
+      "value": 4
+    },
+    {
+      "category": "B",
+      "value": 2
+    },
+    {
+      "category": "B",
+      "value": 2
+    },
+    {
+      "category": "B",
+      "value": 1
+    },
+    {
+      "category": "B",
+      "value": 3
+    }
+  ]
+}

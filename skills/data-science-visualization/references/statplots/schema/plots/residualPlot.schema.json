@@ -1,0 +1,455 @@
+{
+  "anyOf": [
+    {
+      "$ref": "#/definitions/ResidualObservationsSpec"
+    },
+    {
+      "$ref": "#/definitions/ResidualPredictionsSpec"
+    },
+    {
+      "$ref": "#/definitions/ResidualResultsSpec"
+    }
+  ],
+  "definitions": {
+    "ResidualObservationsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "observations"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RegressionObservation"
+          }
+        },
+        "regression": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LinearRegressionOptions"
+            },
+            {
+              "$ref": "#/definitions/PolynomialRegressionOptions"
+            },
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            }
+          ]
+        },
+        "xAxis": {
+          "enum": [
+            "fitted",
+            "predictor"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "string"
+            },
+            "y": {
+              "type": "string"
+            },
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "smooth": {
+          "description": "残差趋势线；不改变生成残差的模型。",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "type"
+      ]
+    },
+    "RegressionObservation": {
+      "description": "原始配对观测；重复 x/y 保留，不接收统计结果。",
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "id": {
+          "type": "string"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "LinearRegressionOptions": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "linear"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ]
+    },
+    "PolynomialRegressionOptions": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "polynomial"
+        },
+        "degree": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "degree",
+        "method"
+      ]
+    },
+    "LowessRegressionOptions": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "type": "string",
+          "const": "lowess"
+        },
+        "span": {
+          "type": "number"
+        },
+        "iterations": {
+          "type": "number"
+        },
+        "delta": {
+          "description": "与 x 同单位；0 精确求值，正值显式插值加速，全量观测仍参与。",
+          "type": "number"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "method"
+      ]
+    },
+    "StatPlotColors": {
+      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+      "type": "object",
+      "properties": {
+        "categorical": {
+          "description": "无序分组，默认 colorblind；vchart 使用原生主题分类色。",
+          "anyOf": [
+            {
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "colorblind",
+                "deep",
+                "vchart"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "sequential": {
+          "description": "从低到高，默认 viridis；数组停靠点等距。",
+          "anyOf": [
+            {
+              "minItems": 2,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "cividis",
+                "viridis"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "diverging": {
+          "description": "从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。",
+          "anyOf": [
+            {
+              "minItems": 3,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "const": "RdBu_r",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "ResidualPredictionsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "predictions"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResidualPredictionRow"
+          }
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "smooth": {
+          "description": "残差趋势线；不改变生成残差的模型。",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "type"
+      ]
+    },
+    "ResidualPredictionRow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "actual": {
+          "type": "number"
+        },
+        "fittedValue": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "actual",
+        "fittedValue",
+        "id"
+      ]
+    },
+    "ResidualResultsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "residuals"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ResidualPlotRow"
+          }
+        },
+        "residualKind": {
+          "enum": [
+            "raw",
+            "standardized",
+            "studentized"
+          ],
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "fittedValue": {
+              "type": "string"
+            },
+            "residual": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "type": {
+          "type": "string",
+          "const": "residualPlot"
+        },
+        "smooth": {
+          "description": "残差趋势线；不改变生成残差的模型。",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/LowessRegressionOptions"
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "residualKind",
+        "type"
+      ]
+    },
+    "ResidualPlotRow": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "fittedValue": {
+          "type": "number"
+        },
+        "residual": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fittedValue",
+        "id",
+        "residual"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "residualPlot"
+    }
+  },
+  "required": [
+    "type",
+    "input"
+  ]
+}

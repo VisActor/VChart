@@ -1,0 +1,145 @@
+{
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string",
+      "const": "precisionRecallCurve"
+    },
+    "data": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/BinaryScoreRow"
+      }
+    },
+    "baseline": {
+      "description": "绘制各系列自己的正例比例基线，默认 false。",
+      "type": "boolean"
+    },
+    "fieldLabels": {
+      "type": "object",
+      "properties": {
+        "recall": {
+          "type": "string"
+        },
+        "precision": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "title": {
+      "description": "图表标题。",
+      "type": "string"
+    },
+    "description": {
+      "description": "数据范围或统计方法说明。",
+      "type": "string"
+    },
+    "theme": {
+      "enum": [
+        "dark",
+        "light"
+      ],
+      "type": "string"
+    },
+    "colors": {
+      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+      "$ref": "#/definitions/StatPlotColors"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "data",
+    "type"
+  ],
+  "definitions": {
+    "BinaryScoreRow": {
+      "description": "逐样本二分类预测；true 为正例，较大分数表示更倾向正例。",
+      "type": "object",
+      "properties": {
+        "actual": {
+          "type": "boolean"
+        },
+        "score": {
+          "description": "任意有限预测分数，不要求为概率。",
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "actual",
+        "score"
+      ]
+    },
+    "StatPlotColors": {
+      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+      "type": "object",
+      "properties": {
+        "categorical": {
+          "description": "无序分组，默认 colorblind；vchart 使用原生主题分类色。",
+          "anyOf": [
+            {
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "colorblind",
+                "deep",
+                "vchart"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "sequential": {
+          "description": "从低到高，默认 viridis；数组停靠点等距。",
+          "anyOf": [
+            {
+              "minItems": 2,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "cividis",
+                "viridis"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "diverging": {
+          "description": "从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。",
+          "anyOf": [
+            {
+              "minItems": 3,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "const": "RdBu_r",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

@@ -1,0 +1,350 @@
+{
+  "anyOf": [
+    {
+      "$ref": "#/definitions/LearningCurveFoldsSpec"
+    },
+    {
+      "$ref": "#/definitions/LearningCurveSummariesSpec"
+    }
+  ],
+  "definitions": {
+    "LearningCurveFoldsSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "folds"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LearningCurveFoldRow"
+          }
+        },
+        "spread": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "const": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "const": "learningCurve"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "trainSize": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "metric",
+        "type"
+      ]
+    },
+    "LearningCurveFoldRow": {
+      "type": "object",
+      "properties": {
+        "trainSize": {
+          "type": "number"
+        },
+        "fold": {
+          "type": "string"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation"
+          ],
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "fold",
+        "score",
+        "split",
+        "trainSize"
+      ]
+    },
+    "StatPlotColors": {
+      "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+      "type": "object",
+      "properties": {
+        "categorical": {
+          "description": "无序分组，默认 colorblind；vchart 使用原生主题分类色。",
+          "anyOf": [
+            {
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "colorblind",
+                "deep",
+                "vchart"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "sequential": {
+          "description": "从低到高，默认 viridis；数组停靠点等距。",
+          "anyOf": [
+            {
+              "minItems": 2,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "enum": [
+                "cividis",
+                "viridis"
+              ],
+              "type": "string"
+            }
+          ]
+        },
+        "diverging": {
+          "description": "从负到正，默认 RdBu_r（蓝→浅色→红）；数组中点对应统计中心。",
+          "anyOf": [
+            {
+              "minItems": 3,
+              "items": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "type": "array"
+            },
+            {
+              "const": "RdBu_r",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "LearningCurveSummariesSpec": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "type": "string",
+          "const": "summaries"
+        },
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LearningCurveRow"
+          }
+        },
+        "interval": {
+          "description": "显示区间的统计含义；数值由计算端提供。",
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "confidence",
+                    "credible",
+                    "prediction"
+                  ],
+                  "type": "string"
+                },
+                "level": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "level"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "standardDeviation",
+                    "standardError"
+                  ],
+                  "type": "string"
+                },
+                "multiplier": {
+                  "type": "number"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind",
+                "multiplier"
+              ]
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "const": "range"
+                }
+              },
+              "additionalProperties": false,
+              "required": [
+                "kind"
+              ]
+            }
+          ]
+        },
+        "type": {
+          "type": "string",
+          "const": "learningCurve"
+        },
+        "metric": {
+          "type": "string"
+        },
+        "fieldLabels": {
+          "type": "object",
+          "properties": {
+            "trainSize": {
+              "type": "string"
+            },
+            "score": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        "title": {
+          "description": "图表标题。",
+          "type": "string"
+        },
+        "description": {
+          "description": "数据范围或统计方法说明。",
+          "type": "string"
+        },
+        "theme": {
+          "enum": [
+            "dark",
+            "light"
+          ],
+          "type": "string"
+        },
+        "colors": {
+          "description": "全图共用的颜色角色；省略时使用各角色默认色板。",
+          "$ref": "#/definitions/StatPlotColors"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "data",
+        "input",
+        "metric",
+        "type"
+      ]
+    },
+    "LearningCurveRow": {
+      "type": "object",
+      "properties": {
+        "trainSize": {
+          "type": "number"
+        },
+        "split": {
+          "enum": [
+            "train",
+            "validation"
+          ],
+          "type": "string"
+        },
+        "score": {
+          "type": "number"
+        },
+        "lower": {
+          "type": "number"
+        },
+        "upper": {
+          "type": "number"
+        },
+        "series": {
+          "description": "同一数据表要么全部提供系列名称，要么全部省略。",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "score",
+        "split",
+        "trainSize"
+      ]
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "const": "learningCurve"
+    }
+  },
+  "required": [
+    "type",
+    "input"
+  ]
+}
