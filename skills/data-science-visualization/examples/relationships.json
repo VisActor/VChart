@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "title": "多变量关系",
+  "dataset": {
+    "source": {
+      "path": "observations.csv",
+      "format": "csv"
+    },
+    "columns": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "age",
+        "type": "number",
+        "label": "年龄",
+        "unit": "岁"
+      },
+      {
+        "name": "income",
+        "type": "number",
+        "label": "收入",
+        "unit": "元"
+      },
+      {
+        "name": "spend",
+        "type": "number",
+        "label": "消费",
+        "unit": "元"
+      },
+      {
+        "name": "region",
+        "type": "string",
+        "label": "地区"
+      },
+      {
+        "name": "department",
+        "type": "string",
+        "label": "部门"
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "label": "活跃"
+      }
+    ],
+    "idColumn": "id"
+  },
+  "charts": [
+    {
+      "id": "pairs",
+      "binding": {
+        "type": "pairPlot",
+        "fields": {
+          "variables": [
+            "age",
+            "income",
+            "spend"
+          ],
+          "series": "region"
+        },
+        "options": {
+          "title": "两两关系"
+        }
+      },
+      "caption": "演示数据；使用时替换为用户真实观测。"
+    },
+    {
+      "id": "correlation",
+      "binding": {
+        "type": "correlationMatrix",
+        "fields": {
+          "variables": [
+            "age",
+            "income",
+            "spend"
+          ]
+        },
+        "options": {
+          "title": "相关矩阵"
+        }
+      },
+      "caption": "演示数据；使用时替换为用户真实观测。"
+    }
+  ],
+  "controls": {
+    "filters": [
+      {
+        "field": "region",
+        "kind": "category"
+      }
+    ],
+    "parameters": [
+      {
+        "chartId": "correlation",
+        "path": "method",
+        "values": [
+          "pearson",
+          "spearman",
+          "kendall"
+        ]
+      }
+    ]
+  }
+}

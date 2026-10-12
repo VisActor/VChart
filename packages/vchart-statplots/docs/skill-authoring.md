@@ -1,5 +1,7 @@
 # Skill 生成协议
 
+仓库提供 [`data-science-visualization`](../../../skills/data-science-visualization/SKILL.md)：按用户目的从表格或已有语义结果生成便携交互 HTML。它复用本文、目录、逐图 Schema 和编译 API；图库与技能的渲染生命周期共享 `examples/shared/statplot-controller.js`。固定发布资源及副本由 `scripts/sync-visualization-skill.mjs` 同步，`--check` 离线核验；不要手改技能中的生成副本。
+
 先确定分析问题、实际持有的数据与区间含义，再生成最小语义 JSON。按契约提交原始样本或外部模型结果，不让模型猜测区间含义。
 
 1. 从 [28 类目录](catalog.md) 选择 type。

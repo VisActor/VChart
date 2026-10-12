@@ -1,0 +1,82 @@
+{
+  "version": 1,
+  "title": "部门分布与个体",
+  "dataset": {
+    "source": {
+      "path": "observations.csv",
+      "format": "csv"
+    },
+    "columns": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "age",
+        "type": "number",
+        "label": "年龄",
+        "unit": "岁"
+      },
+      {
+        "name": "income",
+        "type": "number",
+        "label": "收入",
+        "unit": "元"
+      },
+      {
+        "name": "spend",
+        "type": "number",
+        "label": "消费",
+        "unit": "元"
+      },
+      {
+        "name": "region",
+        "type": "string",
+        "label": "地区"
+      },
+      {
+        "name": "department",
+        "type": "string",
+        "label": "部门"
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "label": "活跃"
+      }
+    ],
+    "idColumn": "id"
+  },
+  "charts": [
+    {
+      "id": "distribution",
+      "binding": {
+        "type": "violinPlot",
+        "fields": {
+          "category": "department",
+          "value": "income"
+        },
+        "options": {
+          "title": "收入分布"
+        }
+      },
+      "caption": "演示数据；使用时替换为用户真实观测。"
+    },
+    {
+      "id": "individuals",
+      "binding": {
+        "type": "stripPlot",
+        "fields": {
+          "category": "department",
+          "value": "income"
+        },
+        "options": {
+          "title": "每条观测",
+          "layout": "swarm"
+        }
+      },
+      "caption": "演示数据；使用时替换为用户真实观测。"
+    }
+  ],
+  "controls": {}
+}
