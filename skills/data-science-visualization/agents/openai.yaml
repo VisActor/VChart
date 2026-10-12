@@ -1,4 +1,4 @@
 interface:
   display_name: "数据科学可视化"
-  short_description: "从真实表格与已有结果生成交互统计图，支持筛选、改图和导出 HTML"
-  default_prompt: "使用 $data-science-visualization 查看我的数据，并生成可以筛选和继续修改的交互图表。"
+  short_description: "从真实数据生成简洁的交互统计图，额外交互按需添加，支持对话改图"
+  default_prompt: "使用 $data-science-visualization 查看我的数据，生成简洁的数据科学图表。"
