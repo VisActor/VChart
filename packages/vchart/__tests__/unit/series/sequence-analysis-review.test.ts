@@ -8,6 +8,9 @@ import { linkDotInfo } from '../../../src/data/transforms/link-dot-info';
 // eslint-disable-next-line max-len
 import { SequenceAnalysisChartSpecTransformer } from '../../../../vchart-extension/src/charts/sequence-analysis/sequence-analysis-transformer';
 
+// eslint-disable-next-line max-len
+import type { ISequenceAnalysisSpec } from '../../../../vchart-extension/src/charts/sequence-analysis/interface';
+
 const events = (time: number) => [
   {
     user_id: 'U1',
@@ -101,5 +104,22 @@ describe('sequence analysis review regressions', () => {
       Object.assign(factoryRegistry.marks, marks);
       Object.assign(factoryRegistry.graphicComponents, graphics);
     }
+  });
+
+  it('accepts typed step medium objects and formats a zero count', () => {
+    const stepMediumMap: ISequenceAnalysisSpec['stepMediumMap'] = {
+      step_1: { medium_type: 'IP', count: 0 }
+    };
+    const spec: any = {
+      type: 'sequenceAnalysis',
+      mode: 'step',
+      mediumConnection: false,
+      eventData: [],
+      userImageMap: {},
+      stepMediumMap
+    };
+    new SequenceAnalysisChartSpecTransformer({ type: 'sequenceAnalysis' }).transformSpec(spec);
+    const label = spec.axes[0].label.formatMethod('step_1');
+    expect(label.text.map((part: { text: string }) => part.text)).toEqual(['IP... ', '+0']);
   });
 });

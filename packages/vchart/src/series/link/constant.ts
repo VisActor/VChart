@@ -6,8 +6,7 @@ import { SeriesMarkNameEnum } from '../interface/type';
 export const linkSeriesMark: SeriesMarkMap = {
   ...baseSeriesMark,
   [SeriesMarkNameEnum.group]: { name: SeriesMarkNameEnum.group, type: MarkTypeEnum.group },
-  [SeriesMarkNameEnum.link]: { name: SeriesMarkNameEnum.link, type: MarkTypeEnum.rule },
-  [SeriesMarkNameEnum.curveLink]: { name: SeriesMarkNameEnum.curveLink, type: MarkTypeEnum.path },
+  [SeriesMarkNameEnum.link]: { name: SeriesMarkNameEnum.link, type: [MarkTypeEnum.rule, MarkTypeEnum.path] },
   [SeriesMarkNameEnum.arrow]: { name: SeriesMarkNameEnum.arrow, type: MarkTypeEnum.symbol },
   [SeriesMarkNameEnum.imageLabel]: { name: SeriesMarkNameEnum.imageLabel, type: MarkTypeEnum.image }
 };

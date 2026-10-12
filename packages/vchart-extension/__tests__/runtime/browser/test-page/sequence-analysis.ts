@@ -988,7 +988,7 @@ const userImageMap: UserImageMap = {
   user_010: 'https://tosv.byted.org/obj/bit-cloud/user_010.png'
 };
 
-const stepMediumMap: Record<string, string> = {
+const stepMediumMap: ISequenceAnalysisSpec['stepMediumMap'] = {
   step_1: {
     medium_type: 'IP',
     count: 0
@@ -1500,11 +1500,11 @@ const spec1 = {
             type: 'rich',
             text: [
               {
-                text: `${(stepMediumMap[label] as any).medium_type}... `,
+                text: `${stepMediumMap[label].medium_type}... `,
                 fontSize: 12
               },
               {
-                text: `+${(stepMediumMap[label] as any).count}`,
+                text: `+${stepMediumMap[label].count}`,
                 fontSize: 12,
                 background: 'grey',
                 backgroundOpacity: 0.4,
@@ -1641,7 +1641,7 @@ const spec2 = {
       //           fontSize: 12
       //         },
       //         {
-      //           text: ` +${(stepMediumMap[label] as any).count}`,
+      //           text: ` +${stepMediumMap[label].count}`,
       //           fontSize: 12,
       //           background: 'grey',
       //           backgroundOpacity: 0.4,

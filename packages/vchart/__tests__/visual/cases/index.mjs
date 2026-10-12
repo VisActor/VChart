@@ -10,6 +10,11 @@ export const cases = [
     file: './api/update/sequence-link-data.mjs'
   },
   {
+    id: 'sequence-curve-link',
+    purpose: '曲线连接在配置与数据更新后保持路径稳定并应用公开 link 配置',
+    file: './api/update/sequence-curve-link.mjs'
+  },
+  {
     id: 'bar-stack',
     purpose: '正负值、堆叠与零基准线（bar）',
     file: './charts/bar/bar-stack.mjs',

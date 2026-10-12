@@ -1,5 +1,5 @@
 import { CommonChartSpecTransformer } from '@visactor/vchart';
-import type { EventData } from './interface';
+import type { EventData, ISequenceAnalysisSpec } from './interface';
 
 export class SequenceAnalysisChartSpecTransformer extends CommonChartSpecTransformer<any> {
   transformSpec(spec: any): void {
@@ -28,7 +28,8 @@ export class SequenceAnalysisChartSpecTransformer extends CommonChartSpecTransfo
     // delete spec.patternData;
 
     // 系列配置
-    const { mode, mediumConnection = false, actionTarget = false, stepMediumMap } = spec;
+    const { mode, mediumConnection = false, actionTarget = false } = spec;
+    const stepMediumMap: ISequenceAnalysisSpec['stepMediumMap'] = spec.stepMediumMap;
     spec.series = [
       {
         type: 'link',
@@ -144,11 +145,11 @@ export class SequenceAnalysisChartSpecTransformer extends CommonChartSpecTransfo
                 type: 'rich',
                 text: [
                   {
-                    text: `${(stepMediumMap[label] as any).medium_type}... `,
+                    text: `${stepMediumMap[label].medium_type}... `,
                     fontSize: 12
                   },
                   {
-                    text: `+${(stepMediumMap[label] as any).count}`,
+                    text: `+${stepMediumMap[label].count}`,
                     fontSize: 12,
                     background: 'grey',
                     backgroundOpacity: 0.4,

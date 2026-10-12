@@ -97,7 +97,8 @@ export interface ISequenceAnalysisSpec {
    * 用户头像数据(从eventData中抽取也可以, 但不建议在前端遍历数据)
    */
   userImageMap: UserImageMap;
-  stepMediumMap: Record<string, string>;
+  /** 步骤对应的介质名称和附加数量，用于非介质连接模式的轴标签。 */
+  stepMediumMap: Record<string, { medium_type: string; count: number }>;
   /**
    * @param spec 经过rankingList转化后的vchart原始spec
    * @description 获取vchart原始spec, 并根据业务自行添加转换逻辑

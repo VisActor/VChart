@@ -1,9 +1,9 @@
 /* eslint-disable no-duplicate-imports */
-import { DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
+import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_LINK_CURVE_INDEX } from '../../constant/data';
 import { CartesianSeries } from '../cartesian/cartesian';
 import type { Datum } from '../../typings';
 import { array, isValid } from '@visactor/vutils';
-import type { IGroupMark, IImageMark, IMark, IRuleMark, ISymbolMark } from '../../mark/interface';
+import type { IGroupMark, IImageMark, IMark, IPathMark, IRuleMark, ISymbolMark } from '../../mark/interface';
 import { SeriesTypeEnum } from '../interface/type';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IDotSeriesSpec } from '../dot/interface';
@@ -14,6 +14,7 @@ import { registerRuleMark } from '../../mark/rule';
 import { registerSymbolMark } from '../../mark/symbol';
 import { registerPathMark } from '../../mark/path';
 import { registerImageMark } from '../../mark/image';
+import { MarkTypeEnum } from '../../mark/interface/type';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
 import { Factory } from '../../core/factory';
@@ -28,9 +29,6 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   static readonly mark: SeriesMarkMap = linkSeriesMark;
   static readonly builtInTheme = { link };
-
-  // 记录起点和终点相同的曲线数量, 便于给不同曲线设置不同曲率
-  private _curveLinkCountMap: Record<string, number> = {};
 
   protected _fromField?: string;
   getFromField() {
@@ -89,6 +87,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         type: 'linkDotInfo',
         options: {
           infoKey: 'dots',
+          isCurve: () => this._spec.linkType === LinkType.curve,
           fields: () => {
             return {
               fromField: this._fromField,
@@ -119,7 +118,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 
   private _clipMark: IGroupMark;
   private _containerMark: IGroupMark;
-  private _linkMark: IRuleMark;
+  private _linkMark: IRuleMark | IPathMark;
   private _arrowMark: ISymbolMark;
   private _imageLabelMark: IImageMark;
   initMark(): void {
@@ -130,10 +129,10 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
       parent: this._clipMark
     }) as IGroupMark;
 
-    this._linkMark = this._createMark(linkType === LinkType.curve ? LinkSeries.mark.curveLink : LinkSeries.mark.link, {
-      skipBeforeLayouted: false,
-      parent: this._containerMark
-    }) as IRuleMark;
+    this._linkMark = this._createMark(
+      { ...LinkSeries.mark.link, type: linkType === LinkType.curve ? MarkTypeEnum.path : MarkTypeEnum.rule },
+      { skipBeforeLayouted: false, parent: this._containerMark }
+    ) as IRuleMark | IPathMark;
 
     this._arrowMark = this._createMark(LinkSeries.mark.arrow, {
       skipBeforeLayouted: false,
@@ -189,7 +188,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
         this.setMarkStyle(
           linkMark,
           {
-            stroke: this._spec.link?.style?.stroke ?? this.getColorAttribute(),
+            stroke: this.getColorAttribute(),
             strokeOpacity: this.dataToOpacity.bind(this),
             path: (datum: Datum) => {
               const fromX = this.dataToPositionXFrom(datum);
@@ -197,10 +196,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
               const toX = this.dataToPositionXTo(datum);
               const toY = this.dataToPositionYTo(datum);
 
-              // 计算曲率
-              const curveLinkCount = this._curveLinkCountMap[`${fromX}-${fromY}-${toX}-${toY}`] || 1;
-              this._curveLinkCountMap[`${fromX}-${fromY}-${toX}-${toY}`] = curveLinkCount + 1;
-              const curveRatio = 0.5 + curveLinkCount * 0.1;
+              // 重复连接的序号在数据转换阶段计算，重复求值和缩放不会改变曲率。
+              const curveRatio = 0.5 + datum[DEFAULT_LINK_CURVE_INDEX] * 0.1;
 
               // 计算控制点
               const controlX1 = fromX + (toX - fromX) * 0.7;
@@ -211,7 +208,7 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
               // 生成三次贝塞尔曲线路径
               return `M ${fromX} ${fromY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${toX} ${toY}`;
             },
-            lineWidth: this._spec.link.style?.lineWidth ?? 1
+            lineWidth: 1
           },
           'normal',
           AttributeLevel.Series
