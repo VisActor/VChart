@@ -52,6 +52,8 @@ strip/scatter 自动加入稳定内部 ID。标量图省略必需映射中的 nu
 
 这是 presentation 对象；可选 actions 枚举 theme/exportPNG/exportSpec/saveView，details 枚举 counts/provenance。两者默认空数组，未知/重复值拒绝。只生成所请求元素；exportPNG 每图一个按钮，其他 action 为页面按钮。直接设置图 theme=dark 不需要 theme 按钮。counts 展示原始/当前/每图输入和省略数；provenance 展示真实来源/哈希，不能推断原始样本量。详细状态与来源始终在 data/status 中。
 
+PNG 沿用原生绘图区导出，不包含 HTML 标题、图注与页面控件；规范 Spec 保留原语义 title/description。需要分享完整页面时交付 HTML。
+
 ## 控件
 
 controls 只声明用户明确要求在页面操作的能力；“调整分箱”只加入 parameters，“切换地区”只加入 filters。声明变量/参数不自动增加应用/清空按钮；只有 filters 非空才创建这两个按钮及简短当前计数。没有声明就没有 toolbar。
