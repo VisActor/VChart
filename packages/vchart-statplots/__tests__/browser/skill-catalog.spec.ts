@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { skillRoot, generate, openGenerated, expectRendered, marks } from './skill-helpers';
 const resource = path.join(skillRoot, 'references/statplots');
-const catalog = JSON.parse(fs.readFileSync(path.join(resource, 'docs/plot-catalog.json'), 'utf8'));
+const catalog = JSON.parse(fs.readFileSync(path.join(resource, 'index.json'), 'utf8'));
 for (const entry of catalog) {
   test(`published UMD renders generated ${entry.type} artifact`, async ({ page }) => {
     const spec = JSON.parse(fs.readFileSync(path.join(resource, entry.example), 'utf8'));

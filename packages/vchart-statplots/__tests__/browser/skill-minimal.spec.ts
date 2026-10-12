@@ -201,7 +201,7 @@ for (const enabled of [false, true]) {
 for (const type of ['pairPlot', 'seasonalPlot']) {
   test(`${type} uses titleless public layout and retains semantic title`, async ({ page }) => {
     const resource = path.join(skillRoot, 'references/statplots');
-    const catalog = JSON.parse(fs.readFileSync(path.join(resource, 'docs/plot-catalog.json'), 'utf8'));
+    const catalog = JSON.parse(fs.readFileSync(path.join(resource, 'index.json'), 'utf8'));
     const entry = catalog.find((entry: any) => entry.type === type);
     const spec = JSON.parse(fs.readFileSync(path.join(resource, entry.example), 'utf8'));
     spec.description = '真实结果范围';

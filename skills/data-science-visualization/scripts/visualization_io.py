@@ -132,7 +132,7 @@ def build_payload(request, base_dir):
         'details': choices(display.get('details', []), {'counts','provenance'}, 'presentation.details')}
     charts = request.get('charts')
     require(isinstance(charts, list) and 1 <= len(charts) <= 8, 'charts 需要 1–8 张图')
-    catalog = parse_json((ASSET_ROOT/'references/statplots/docs/plot-catalog.json').read_text())
+    catalog = parse_json((ASSET_ROOT/'references/statplots/index.json').read_text())
     types = {entry['type'] for entry in catalog}
     needed, chart_ids = set(), set()
     for chart in charts:
