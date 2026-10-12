@@ -10,21 +10,13 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Medium Curves
 
-Groups the local demo’s user events by medium and draws curved pattern links.
+Group events by the type of object they involve (their medium) and inspect relationships across users and object categories.
 
-## How to read the chart
+**Data example:** `event_001_1` is an IP-related registration record for `user_001`; `event_002_2` is a device-related login record for `user_002`. Their curve marks a supplied relationship for joint inspection. These categories alone do not establish a shared IP address or device.
 
-This example aligns the same user events by medium and uses curves to show pattern relationships across events, users and media.
-
-- **Vertical axis and left avatars:** each row represents a user (`user_id`), with an avatar from `userImageMap`.
-- **Top axis:** `IP`, `Device`, `User`, `Liveroom`, `Email` and `Tel` are event medium categories (`medium_type`). Categories are equally spaced and do not encode chronological order or elapsed time.
-- **Colored dots:** each dot is an event record, colored by `action_type`. User and medium determine its position. Events with the same user and medium overlap, so fewer dots may be visible than the total number of events.
-- **Curves:** each curve corresponds to a `patternData` record connecting the events referenced by `from` and `to`. A curve across rows relates different users' events; a curve across columns relates different media. Color groups links by `pattern_type`.
-- **Nearby curves:** the example includes repeated relationships with identical endpoints, such as three records from `event_001_1` to `event_002_2`. Different curvature separates these records visually; curvature does not encode relationship weight or strength.
-
-For example, `event_001_1` is in the IP column for `user_001`, and `event_002_2` is in the Device column for `user_002`. The curves between them show the supplied pattern relationships.
-
-Use the bottom range selector to filter media, the horizontal gray scrollbar to pan across categories, and the right scrollbar to browse users. The initial window shows only part of the data.
+- **Axes:** each row is a user; columns are medium categories such as IP, device, user and live room, rather than time.
+- **Dots and curves:** dot colors group activities; curve colors group relationships. Events for the same user and medium may overlap. Repeated relationships with identical endpoints receive distinct curvature.
+- **Controls:** select a range at the bottom, pan across media horizontally, and scroll vertically to see more users.
 
 ## Demo
 

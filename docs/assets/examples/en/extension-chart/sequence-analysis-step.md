@@ -10,71 +10,13 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Step Mode
 
-This chart demonstrates how to compare multiple users' event histories and highlight selected behavioral segments. Think of it as a user activity comparison table: each row is a user, columns show behavioral steps, and colored dots represent events such as registration, login, follow and private messaging.
+Compare users' behavioral steps and locate segments annotated as related.
 
-## What this example represents
+**Data example:** `event_004_4` is a room-related follow record for `user_004` at step 4, with a count of 7. Its link to the private-message record `event_004_6` at step 6 marks the pair for inspection together. The relationship is supplied by the example.
 
-Imagine reviewing platform activity logs to understand which steps each user took and where selected behavioral segments appear across users. Aligning the records by step lets you compare them together instead of reading logs one record at a time.
-
-For example, `user_004` has a follow event at step 4 and a private-message event (`im`) at step 6. The line between them means the input data marks these events as a relationship to inspect together. For `user_005`, follow at step 4 is linked to private messaging at step 5. The chart makes the positions of these similar segments easy to compare. Intermediate events remain visible; a link does not mean that the user skipped those steps.
-
-Dots are event records; links are additional relationship annotations supplied through `patternData`. The chart displays these annotations and does not automatically discover behavioral patterns in the logs.
-
-**This dataset demonstrates visualization features.** The local demo does not define business rules for `pattern_001` or `pattern_002`, or a complete metric definition for the top `+N` labels. It cannot establish anomalous activity, a shared IP address or a causal relationship. A business application should supply clearly named relationships with defined criteria and use the chart to display those results.
-
-## A concrete record and its scenario
-
-The following record is taken directly from this example. One possible business interpretation is live-streaming platform activity analysis: **the system records a room-related follow activity for `user_004`, assigns it to step 4, timestamps it at July 7, 2025, 12:00 in Beijing (UTC+8), and gives it an activity count of 7.** This provides a scenario for interpreting the synthetic fields.
-
-```js
-// An event excerpt for user_004 from eventData
-{
-  user_id: 'user_004',
-  dots: [
-    {
-      node_name: 'event_004_4',
-      step: 'step_4',
-      action_type: 'follow',
-      medium_type: 'Liveroom',
-      time_stamp: 1751860800000,
-      action_count: 7
-    }
-  ]
-}
-```
-
-| Field                       | Meaning in this record                      | Visual representation                                                          |
-| --------------------------- | ------------------------------------------- | ------------------------------------------------------------------------------ |
-| `user_id: 'user_004'`       | The user associated with the activity       | The row identified by that user's avatar                                       |
-| `node_name: 'event_004_4'`  | Unique identifier of the event record       | Referenced by link data; the identifier is not drawn                           |
-| `step: 'step_4'`            | The fourth step assigned by the application | The `step_4` column on the bottom axis                                         |
-| `action_type: 'follow'`     | A follow activity                           | Determines the dot's color category                                            |
-| `medium_type: 'Liveroom'`   | The related object category is a live room  | The `Liveroom` column in medium mode; step mode still positions it at `step_4` |
-| `time_stamp: 1751860800000` | July 7, 2025, 12:00 in Beijing (UTC+8)      | Determines the horizontal position in time mode, but not step mode             |
-| `action_count: 7`           | A follow-activity count of 7 in this record | Draws one dot; time mode adds 7 to the top total for that timestamp            |
-
-The dot at the intersection of the `user_004` row and `step_4` column represents this record. **The count of 7 does not mean seven users or necessarily seven distinct live rooms.** `Liveroom` specifies only an object category. A business application would need additional fields, such as a room ID, to identify the actual room.
-
-The example also supplies this link:
-
-```js
-{ from: 'event_004_4', to: 'event_004_6', pattern_type: 'pattern_001' }
-```
-
-`event_004_6` is a private-message record for the same user. The line means **these follow and private-message records are annotated as a relationship to inspect together**. It helps an analyst locate the pair for further log inspection. In this example, `pattern_001` is only a category identifier with no detection rule defined. The link does not establish causation or chronological order.
-
-## How to read the chart
-
-This example shows 111 events from 10 users, organized by behavioral step, together with explicitly supplied pattern relationships.
-
-- **Vertical axis and left avatars:** each row represents a user (`user_id`), with an avatar from `userImageMap`. Follow a row to inspect that user's events across steps.
-- **Bottom axis:** `step_1`, `step_2`, and so on are event categories from `dots.step`. Steps are equally spaced; their distance does not encode elapsed time.
-- **Top labels:** each label shows the medium name and additional count supplied in `stepMediumMap`. For example, `+1` in `Device... +1` comes from the step's `count`. This is a supplied additional count without a defined business metric in this demo; it is not the number of event dots.
-- **Colored dots:** each dot is an event record, colored by `action_type`, such as registration, login or comment. User and step determine its position. Multiple events for the same user and step can overlap.
-- **Links:** each line corresponds to a `patternData` record whose `from` and `to` reference event `node_name` values. It represents a supplied pattern relationship, colored by `pattern_type`. All links in this step example stay within a single user row and annotate that user’s event segments.
-- **Short segments beside dots:** this example enables link extension along step bands and includes pattern records that reference the same event at both ends. Such records can appear as short segments beside a dot. Segment length does not encode duration or relationship strength.
-
-Use the bottom range selector to filter steps, the horizontal gray scrollbar to pan across them, and the right scrollbar to browse users. The initial window shows only part of the steps and users.
+- **Axes:** each row is a user; columns are steps. Top labels show each step's configured medium category, such as room or device, and an additional `+N` count.
+- **Dots and links:** dots are event records colored by activity; links mark related segments and are colored by relationship category. A count of 7 still produces one dot.
+- **Controls:** select a range at the bottom, pan across steps horizontally, and scroll vertically to see more users.
 
 ## Demo
 
