@@ -4,7 +4,7 @@
 
 它由 `@visactor/vchart-extension` 提供，类型为 `sequenceAnalysis`，与内置 `sequence` 和用于训练过程分析的 `sequenceScatterLink` 是不同图表。
 
-![介质曲线连接](/vchart/preview/sequence-analysis-medium.png)
+![时序分析图](/vchart/preview/sequence-analysis.png)
 
 ## 选择展示模式
 
@@ -19,7 +19,7 @@
 
 安装与 VChart 版本一致、且包含 sequenceAnalysis 的扩展包，在创建图表前注册。页面需要提供 `id="chart"` 的容器。
 
-下面是完整的最小步骤示例。这里通过转换回调把纵轴头像改成用户名称，所以 `userImageMap` 可以为空；演示页则使用内置 SVG 头像。
+下面是完整的最小步骤示例。这里通过转换回调把纵轴头像改成用户名称，所以 `userImageMap` 可以为空；演示页沿用本地 demo 的用户头像地址。
 
 ```js
 import VChart from '@visactor/vchart';
@@ -105,7 +105,7 @@ vchart.renderSync();
 
 时间模式开启 actionTarget 后，连接中点使用 `actionData.user_image`。只填写 `actionData.user_id` 不会自动查找头像地址。关闭 actionTarget 只隐藏连接头像和箭头，仍保留连接线。
 
-头像可以使用可访问的图片 URL 或 data URL；示例使用内置数据，避免网络依赖。[查看目标头像示例](/vchart/demo/extension-chart/sequence-analysis-target)。
+头像可以使用可访问的图片 URL 或 data URL；演示页可通过下拉框切换到目标头像模式。[查看完整示例](/vchart/demo/extension-chart/sequence-analysis)。
 
 ## 定制样式与缩放
 
@@ -151,8 +151,5 @@ vchart.updateSpecSync({ ...spec, mode: 'time', eventData: nextEvents });
 
 ## 完整示例与配置项
 
-- [时间模式](/vchart/demo/extension-chart/sequence-analysis-time)
-- [目标头像](/vchart/demo/extension-chart/sequence-analysis-target)
-- [步骤模式](/vchart/demo/extension-chart/sequence-analysis-step)
-- [介质曲线连接](/vchart/demo/extension-chart/sequence-analysis-medium)
+- [完整示例（可切换四种模式）](/vchart/demo/extension-chart/sequence-analysis)
 - [全部配置项](/vchart/option/sequenceAnalysisChart)

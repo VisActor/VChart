@@ -4,7 +4,7 @@ Sequence Analysis places each user's events on a horizontal row, aligns events b
 
 The chart comes from `@visactor/vchart-extension` with type `sequenceAnalysis`. It is distinct from the built-in sequence chart and the sequenceScatterLink extension for training-process analysis.
 
-![Medium connections](/vchart/preview/sequence-analysis-medium.png)
+![Sequence Analysis](/vchart/preview/sequence-analysis.png)
 
 ## Choose a mode
 
@@ -19,7 +19,7 @@ The chart comes from `@visactor/vchart-extension` with type `sequenceAnalysis`. 
 
 Install matching VChart and extension versions that include sequenceAnalysis, and register before creating the chart. The page needs a container with id="chart".
 
-This complete minimal step example replaces image labels with user names through the transform callback, so userImageMap can be empty. The demo pages instead use embedded SVG avatars.
+This complete minimal step example replaces image labels with user names through the transform callback, so userImageMap can be empty. The demo page uses the avatar URLs from the local demo.
 
 ```js
 import VChart from '@visactor/vchart';
@@ -105,7 +105,7 @@ Default vertical labels read userImageMap[user_id]. The image stored in an event
 
 With actionTarget enabled in time mode, the midpoint avatar reads actionData.user_image. Supplying actionData.user_id alone does not resolve the image. Disabling actionTarget hides avatars and arrows while keeping lines visible.
 
-Use accessible image URLs or data URLs. The demos embed their images to avoid network dependencies. [Target avatar example](/vchart/demo/extension-chart/sequence-analysis-target).
+Use accessible image URLs or data URLs. Use the dropdown in the demo to select target avatars. [Interactive example](/vchart/demo/extension-chart/sequence-analysis).
 
 ## Customize appearance and zoom
 
@@ -151,8 +151,5 @@ When removing or renaming events, update actionData / patternData in the same co
 
 ## Examples and options
 
-- [Time mode](/vchart/demo/extension-chart/sequence-analysis-time)
-- [Target avatars](/vchart/demo/extension-chart/sequence-analysis-target)
-- [Step mode](/vchart/demo/extension-chart/sequence-analysis-step)
-- [Medium connections](/vchart/demo/extension-chart/sequence-analysis-medium)
+- [Interactive example with four modes](/vchart/demo/extension-chart/sequence-analysis)
 - [All options](/vchart/option/sequenceAnalysisChart)
