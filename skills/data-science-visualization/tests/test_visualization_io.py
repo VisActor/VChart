@@ -84,7 +84,7 @@ class InputTests(unittest.TestCase):
         self.assertEqual(payload['dataset']['rows'][0]['id'],'001')
         self.assertIn('Data',payload['dataset']['source']['label'])
 
-    def test_initial_filters_require_declared_valid_conditions(self):
+    def test_initial_filters_require_valid_conditions(self):
         request=copy.deepcopy(self.request)
         request['controls']={'filters':[{'field':'group','kind':'category'}],
           'initialFilters':[{'field':'group','kind':'category','value':'A'}]}
@@ -95,7 +95,42 @@ class InputTests(unittest.TestCase):
             invalid=copy.deepcopy(request);invalid['controls']['initialFilters'][0]['value']=value
             with self.assertRaises(ValueError):build_payload(invalid,self.root)
         invalid=copy.deepcopy(request);invalid['controls']['filters']=[]
-        with self.assertRaises(ValueError):build_payload(invalid,self.root)
+        self.assertEqual(len(build_payload(invalid,self.root)['dataset']['rows']),4)
+
+    def test_default_presentation_and_independent_fixed_filters(self):
+        request=copy.deepcopy(self.request)
+        request['controls']={'initialFilters':[{'field':'group','kind':'category','value':'A'}]}
+        payload=build_payload(request,self.root)
+        self.assertEqual(payload['presentation'],{'actions':[],'details':[]})
+        self.assertNotIn('filters',payload['controls'])
+        self.assertEqual(payload['dataset']['rows'][0]['values']['group'],'A')
+        self.assertEqual(len(payload['dataset']['rows']),4)
+        for change in [lambda r:r['controls']['initialFilters'][0].update(field='unknown'),
+                       lambda r:r['controls']['initialFilters'][0].update(kind='unknown'),
+                       lambda r:r['controls']['initialFilters'][0].update(field='income'),
+                       lambda r:r['controls']['initialFilters'].append(r['controls']['initialFilters'][0])]:
+            invalid=copy.deepcopy(request);change(invalid)
+            with self.assertRaises(ValueError):build_payload(invalid,self.root)
+
+    def test_optional_presentation_and_interactions_are_strict(self):
+        request=copy.deepcopy(self.request)
+        request['presentation']={'actions':['exportPNG','saveView'],'details':['counts']}
+        request['charts'][0]['interactions']=['legendFilter']
+        payload=build_payload(request,self.root)
+        self.assertEqual(payload['presentation'],request['presentation'])
+        self.assertEqual(payload['charts'][0]['interactions'],['legendFilter'])
+        for value in [{'actions':['unknown']},{'actions':['theme','theme']},{'details':['counts','counts']},
+                      {'actions':'theme'},{'unknown':[]},{'details':[False]}]:
+            invalid=copy.deepcopy(request);invalid['presentation']=value
+            with self.assertRaises(ValueError):build_payload(invalid,self.root)
+        for value in [['brush'],['unknown'],['legendFilter','legendFilter'],'brush']:
+            invalid=copy.deepcopy(request);invalid['charts'][0]['interactions']=value
+            with self.assertRaises(ValueError):build_payload(invalid,self.root)
+        request['charts'][0]['binding']={'type':'pairPlot','fields':{'variables':['income']}}
+        request['charts'][0]['interactions']=['brush']
+        build_payload(request,self.root)
+        request['charts'][0]['interactions']=['legendFilter']
+        with self.assertRaises(ValueError):build_payload(request,self.root)
 
     def test_initial_unbounded_range_and_reversed_range(self):
         request=copy.deepcopy(self.request)

@@ -26,6 +26,12 @@ def text(value, location):
     require(isinstance(value, str) and bool(value.strip()), f'{location}: 需要非空字符串')
     return value
 
+def choices(value, allowed, location):
+    require(isinstance(value,list) and all(isinstance(v,str) and v in allowed for v in value),
+            f'{location}: 需要合法枚举数组')
+    require(len(set(value)) == len(value), f'{location}: 不能重复')
+    return value
+
 def json_text(value):
     return json.dumps(value, ensure_ascii=False, allow_nan=False, sort_keys=True, separators=(',', ':'))
 
@@ -116,16 +122,21 @@ def check_plot_budget(spec):
         require(len(groups) <= 20, f'{kind} 最多 20 个分组，请明确范围')
 
 def build_payload(request, base_dir):
-    keys(request, {'version', 'title', 'dataset', 'charts', 'controls'}, '/')
+    keys(request, {'version', 'title', 'dataset', 'charts', 'controls', 'presentation'}, '/')
     require(type(request.get('version')) is int and request['version'] == 1, 'version 必须为 1')
     title = text(request.get('title'), 'title')
+    display = request.get('presentation', {})
+    keys(display, {'actions','details'}, 'presentation')
+    presentation = {
+        'actions': choices(display.get('actions', []), {'theme','exportPNG','exportSpec','saveView'}, 'presentation.actions'),
+        'details': choices(display.get('details', []), {'counts','provenance'}, 'presentation.details')}
     charts = request.get('charts')
     require(isinstance(charts, list) and 1 <= len(charts) <= 8, 'charts 需要 1–8 张图')
     catalog = parse_json((ASSET_ROOT/'references/statplots/docs/plot-catalog.json').read_text())
     types = {entry['type'] for entry in catalog}
     needed, chart_ids = set(), set()
     for chart in charts:
-        keys(chart, {'id', 'binding', 'spec', 'source', 'caption'}, '/charts')
+        keys(chart, {'id', 'binding', 'spec', 'source', 'caption', 'interactions'}, '/charts')
         ident = chart.get('id')
         require(isinstance(ident, str) and re.fullmatch(r'[a-zA-Z][a-zA-Z0-9_-]*', ident), 'chart.id 需要合法唯一 ID')
         require(ident not in chart_ids, f'重复 chart.id: {ident}')
@@ -153,6 +164,10 @@ def build_payload(request, base_dir):
             if 'note' in chart['source']:
                 require(isinstance(chart['source']['note'], str), 'source.note 需要字符串')
             check_plot_budget(chart['spec'])
+        kind = chart.get('binding', chart.get('spec', {}))['type']
+        interactions = choices(chart.get('interactions', []), {'brush','legendFilter'}, f'{ident}.interactions')
+        require('brush' not in interactions or kind == 'pairPlot', 'brush 仅支持 pairPlot')
+        require('legendFilter' not in interactions or kind != 'pairPlot', 'pairPlot 图例仅说明颜色')
     controls = request.get('controls', {})
     keys(controls, {'filters', 'initialFilters', 'variableSwitch', 'parameters'}, 'controls')
     for name in controls:
@@ -166,8 +181,10 @@ def build_payload(request, base_dir):
     initial_seen = set()
     for control in controls.get('initialFilters', []):
         keys(control, {'field','kind','value'}, 'initialFilters')
+        needed.add(text(control.get('field'), 'initialFilters.field'))
+        require(control.get('kind') in {'category','range'}, 'initialFilters.kind 需要 category/range')
         signature = (control.get('field'),control.get('kind'))
-        require(signature in declarations and signature not in initial_seen, 'initialFilters 需引用已声明筛选且不重复')
+        require(signature not in initial_seen, 'initialFilters 不能重复')
         initial_seen.add(signature)
         require('value' in control, 'initialFilters 需要 value')
         value = control['value']
@@ -218,7 +235,7 @@ def build_payload(request, base_dir):
             needed.add(data['idColumn'])
             require(column_map.get(data['idColumn'], {}).get('type') == 'string', 'idColumn 需要声明 string')
         require(needed <= column_map.keys(), f'引用了不存在的列: {sorted(needed-column_map.keys())}')
-        for control in controls.get('filters', []):
+        for control in controls.get('filters', []) + controls.get('initialFilters', []):
             expected = 'number' if control['kind'] == 'range' else 'string'
             require(column_map[control['field']]['type'] == expected, f'{control["field"]}: 筛选列需要 {expected}')
         for control in controls.get('variableSwitch', []):
@@ -251,6 +268,7 @@ def build_payload(request, base_dir):
     else:
         require(not needed, '表格绑定或控件需要 dataset')
     payload = {'version':1,'title':title,'libraries':{'vchart':VERSION,'statplots':VERSION},
-               'dataset':dataset,'charts':copy.deepcopy(charts),'controls':copy.deepcopy(controls)}
+               'dataset':dataset,'charts':copy.deepcopy(charts),'controls':copy.deepcopy(controls),
+               'presentation':copy.deepcopy(presentation)}
     require(len(json_text(payload).encode()) <= 10*1024*1024, '内嵌 payload 超过 10 MiB，请明确选择范围')
     return payload

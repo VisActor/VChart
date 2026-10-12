@@ -50,4 +50,12 @@ class HtmlTests(unittest.TestCase):
             files=write_outputs(payload,Path(temp)/'out',ASSETS)
             replay=build_payload(json.loads(files['request'].read_text()),Path(temp))
             self.assertEqual(replay['dataset']['rows'],payload['dataset']['rows'])
+    def test_optional_capabilities_and_conditions_replay(self):
+        payload=self.payload()
+        payload['presentation']={'actions':['exportSpec'],'details':['provenance']}
+        payload['charts'][0]['interactions']=['legendFilter']
+        with tempfile.TemporaryDirectory() as temp:
+            files=write_outputs(payload,Path(temp)/'out',ASSETS)
+            replay=build_payload(json.loads(files['request'].read_text()),Path(temp))
+            self.assertEqual(replay,payload)
 if __name__=='__main__':unittest.main()

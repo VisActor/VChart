@@ -10,7 +10,7 @@ import tempfile
 from visualization_io import VERSION, json_text
 
 def replay_request(payload):
-    request = {key:payload[key] for key in ('version','title','charts','controls')}
+    request = {key:payload[key] for key in ('version','title','charts','controls','presentation')}
     data = payload['dataset']
     if data is not None:
         request['dataset'] = {'source':{'records':[r['values'] for r in data['rows']]},'columns':data['columns']}
