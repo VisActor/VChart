@@ -763,7 +763,7 @@
   "workspaceAssets": {
     "skills/data-science-visualization/assets/statplot-controller.js": {
       "source": "packages/vchart-statplots/examples/shared/statplot-controller.js",
-      "sha256": "d0f7ec2ac787ac5936c1411d2cbd5bda0c78faa40c0591b99ba0fae9fc1e903a"
+      "sha256": "6809d93e219d98a0a81c76dda59ffb2f1b705f0704d4b565a1dae98da9c96bbc"
     }
   }
 }

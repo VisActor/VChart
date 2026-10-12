@@ -5,7 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const file = path.resolve(__dirname, '../../examples/shared/statplot-controller.js');
 function harness() {
-  const calls = { constructed:0, compiled:0, released:0, exports:[], fail:false, delay:null };
+  const calls = { constructed:0, compiled:0, released:0, exports:[], inputs:[], fail:false, delay:null };
   class Chart {
     constructor(spec) { calls.constructed++; this.value = spec; }
     async renderAsync() { if (calls.delay) await calls.delay; }
@@ -15,7 +15,7 @@ function harness() {
   }
   const context = {VChart:{default:Chart},VChartStatPlots:{registerStatPlots(){},
     validateStatPlot(spec){return {valid:!spec.invalid,errors:[{path:'/data',message:'invalid'}]};},
-    compileStatPlot(spec){calls.compiled++;if(spec.overflow)throw new Error('overflow');return {...spec};}}};
+    compileStatPlot(spec){calls.compiled++;calls.inputs.push(spec);if(spec.overflow)throw new Error('overflow');return structuredClone(spec);}}};
   vm.runInNewContext(fs.readFileSync(file,'utf8'),context);
   return {calls,create:context.StatPlotController.create};
 }
@@ -27,6 +27,33 @@ test('updates keep one instance and export uses a filename', async () => {
   await c.exportPNG('income');assert.deepEqual(calls.exports,['income']);
   await c.release();await c.release();assert.equal(calls.released,1);
   await assert.rejects(c.update({}),/released/);
+});
+test('presentation affects rendering only and recovery preserves the policy', async () => {
+  const {calls,create}=harness();
+  const input={type:'pairPlot',title:'变量关系',description:'真实样本',data:[],
+    legends:{interactive:true},brush:{visible:true}};
+  const c=create({dom:'plot',showTitle:false,interactions:[]});
+  await c.update(input);
+  assert.equal(c.spec,input);assert.equal(c.chart.value.title,undefined);
+  assert.equal(calls.inputs[0].description,undefined);
+  assert.equal(c.chart.value.legends.interactive,false);assert.equal(c.chart.value.brush.visible,false);
+  assert.equal(input.title,'变量关系');assert.equal(input.legends.interactive,true);
+  assert.equal(input.brush.visible,true);assert.equal(calls.compiled,1);
+  calls.fail=true;await assert.rejects(c.update({...input,title:'新标题'}),/native failure/);
+  assert.equal(c.spec,input);assert.equal(c.chart.value.legends.interactive,false);
+  assert.equal(c.chart.value.title,undefined);
+});
+test('native defaults and declared interactions preserve upstream component policy', async () => {
+  const {create}=harness();
+  const input={type:'histogram',title:'标题',data:[],legends:[{interactive:true},{interactive:false}],brush:{visible:true}};
+  const native=create({dom:'plot'});await native.update(input);
+  assert.deepEqual(native.chart.value,input);
+  const explicit=create({dom:'plot',interactions:['brush','legendFilter']});await explicit.update(input);
+  assert.deepEqual(explicit.chart.value,input);
+  const minimal=create({dom:'plot',interactions:[]});await minimal.update(input);
+  assert.deepEqual(JSON.parse(JSON.stringify(minimal.chart.value.legends)),[{interactive:false},{interactive:false}]);
+  await minimal.update({type:'histogram',data:[]});
+  assert.equal(minimal.chart.value.legends,undefined);assert.equal(minimal.chart.value.brush,undefined);
 });
 test('validation and compilation errors do not touch successful state',async()=>{
   const {create}=harness();const c=create({dom:'plot'});const good={type:'histogram',data:[]};

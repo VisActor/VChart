@@ -16,9 +16,24 @@
     function compile(spec) {
       const result = plots.validateStatPlot(spec);
       if (!result.valid) throw new Error(result.errors.map(e => `${e.path}: ${e.message}`).join('\n'));
-      const compiled = plots.compileStatPlot(spec);
+      let input = spec;
+      if (options.showTitle === false) {
+        const { title, description, ...withoutTitle } = spec;
+        input = withoutTitle;
+      }
+      const compiled = plots.compileStatPlot(input);
       if (options.animation !== undefined) compiled.animation = options.animation;
       if (options.confineTooltip) compiled.tooltip = { ...compiled.tooltip, confine: true };
+      if (options.interactions !== undefined) {
+        if (compiled.brush && !options.interactions.includes('brush')) {
+          if (Array.isArray(compiled.brush)) compiled.brush = compiled.brush.map(brush => ({ ...brush, visible: false }));
+          else compiled.brush = { ...compiled.brush, visible: false };
+        }
+        if (compiled.legends && !options.interactions.includes('legendFilter')) {
+          if (Array.isArray(compiled.legends)) compiled.legends = compiled.legends.map(legend => ({ ...legend, interactive: false }));
+          else compiled.legends = { ...compiled.legends, interactive: false };
+        }
+      }
       return compiled;
     }
     async function draw(compiled) {
