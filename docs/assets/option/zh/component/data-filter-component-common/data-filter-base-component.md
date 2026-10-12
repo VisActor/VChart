@@ -35,6 +35,14 @@
 
 关联的轴序号。
 
+#${prefix} linkedAxisId(string)
+
+联动的第二根轴 ID，仅 `filterMode: 'axis'` 生效。主轴窗口变化时同步相同的范围比例，不复制数据域；请让两根轴使用相容的方向和数据范围。该选项同时适用于 DataZoom 和 ScrollBar。与 linkedAxisIndex 同时配置时优先使用 ID。
+
+#${prefix} linkedAxisIndex(number)
+
+联动轴在 axes 数组中的索引（从 0 开始），仅 `filterMode: 'axis'` 生效。
+
 #${prefix} regionId(string)
 
 关联的 region ID。
@@ -104,15 +112,16 @@
 用于限制窗口大小的最大值, [0, 1]。自 `1.5.1` 版本开始支持。
 
 #${prefix} minValueSpan(number)
-用于限制窗口大小的最小数据值, 仅在continous scale生效，优先级高于minSpan。自 `1.5.1` 版本开始支持。
+用于限制窗口大小的最小数据值, 仅在 continous scale 生效，优先级高于 minSpan。自 `1.5.1` 版本开始支持。
 
 #${prefix} maxValueSpan(number)
-用于限制窗口大小的最大数据值, 仅在continous scale生效，优先级高于maxSpan。自 `1.5.1` 版本开始支持。
+用于限制窗口大小的最大数据值, 仅在 continous scale 生效，优先级高于 maxSpan。自 `1.5.1` 版本开始支持。
 
 #${prefix} delayType(string)
 事件触发延迟类型, 不配置视作不开启。自 `1.5.1` 版本开始支持。
 
 可选值：
+
 - `'throttle'`: 节流
 - `'debounce'`: 防抖
 
@@ -150,10 +159,11 @@ prefix = '#' + ${prefix}
 
 ### customDomain(array)
 
-支持自定义domain, 用于统一dataZoom domain与关联axis domain(当brush组件开启`zoomAfterBrush`时, 关联的dataZoom需要和axis保持一致, 否则刷取范围无法正确计算)。自 1.10.0 版本开始支持。
+支持自定义 domain, 用于统一 dataZoom domain 与关联 axis domain(当 brush 组件开启`zoomAfterBrush`时, 关联的 dataZoom 需要和 axis 保持一致, 否则刷取范围无法正确计算)。自 1.10.0 版本开始支持。
 
 ### updateDataAfterChange(Function)
-自定义datazoom更新时的回调。自 1.10.0 版本开始支持。
+
+自定义 datazoom 更新时的回调。自 1.10.0 版本开始支持。
 
 ```ts
 /**
