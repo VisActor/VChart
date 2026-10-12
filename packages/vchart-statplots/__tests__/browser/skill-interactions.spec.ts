@@ -178,3 +178,38 @@ test('external results keep their independent scope and mobile layout confines t
   fs.mkdirSync(path.join(artifacts, 'screenshots'), { recursive: true });
   await page.screenshot({ path: path.join(artifacts, 'screenshots/mobile.png'), fullPage: true });
 });
+
+test('saved view preserves all rows, units and initial filters across a real chart rewrite', async ({ page }) => {
+  const distribution = histogram();
+  distribution.binding.fields.value = 'y';
+  const comparison = {
+    id: 'comparison',
+    binding: { type: 'boxPlot', fields: { category: 'group', value: 'y' }, options: { title: '团队收入' } }
+  };
+  await openGenerated(
+    page,
+    generate(tableRequest([distribution, comparison], { filters: [{ field: 'group', kind: 'category' }] }))
+  );
+  await page.getByLabel('地区', { exact: true }).selectOption({ label: 'A' });
+  await page.locator('#apply').click();
+  await expect(page.locator('#summary')).toContainText('当前筛选 2 条');
+  const event = page.waitForEvent('download');
+  await page.getByRole('button', { name: '保存当前视图请求' }).click();
+  const request = JSON.parse(fs.readFileSync((await (await event).path())!, 'utf8'));
+  expect(request.dataset.source.records).toHaveLength(4);
+  expect(request.dataset.source.records.map((r: any) => r.id)).toEqual(['001', '002', '003', '004']);
+  expect(request.controls.initialFilters).toEqual([{ field: 'group', kind: 'category', value: 'A' }]);
+  request.charts.find((chart: any) => chart.id === 'comparison').binding.type = 'violinPlot';
+  await openGenerated(page, generate(request, 'rewritten-view'));
+  await expectRendered(page);
+  await expect(page.getByLabel('地区', { exact: true })).toHaveValue('0');
+  await expect(page.locator('#summary')).toContainText('原始 4 条 · 当前筛选 2 条');
+  expect(await page.evaluate(() => (window as any).__DSV_CONTROLLERS__.get('comparison').spec.fieldLabels.value)).toBe(
+    '收入（元）'
+  );
+  expect(
+    await page.evaluate(() => (window as any).__DSV_CONTROLLERS__.get('comparison').spec.data.map((r: any) => r.value))
+  ).toEqual([0, 1]);
+  await page.locator('#clear').click();
+  await expect(page.locator('#summary')).toContainText('当前筛选 4 条');
+});

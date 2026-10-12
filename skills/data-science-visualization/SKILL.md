@@ -53,6 +53,6 @@ python3 /实际技能目录/scripts/generate_visualization.py \
 
 生成后实际打开 HTML，等待加载结束，检查每图状态、真实 Tooltip 和所声明的控件。`window.__DSV_STATUS__.ready` 只表示加载结束，成功还需每图 `status === 'rendered'`。筛选要检查数据/计数确实变化；pairPlot 要真实拖动检查高亮。CDN 或宿主脚本受限时如实说明未完成图表/交互验收，不能只凭文件或 canvas 存在宣称可用。
 
-交付 HTML 链接和必要的数据范围说明；除非用户要求，避免长篇模型术语。多轮改图复用输出 request/data 与当前条件，保留稳定 ID 和来源，生成新版本后重新验收，不重新拟合已有模型。
+交付 HTML 链接和必要的数据范围说明；除非用户要求，避免长篇模型术语。多轮改图有已应用条件时，先“保存当前视图请求”，从该 request 修改图型，保留全部 records、单位和 controls.initialFilters；不要用仅含筛选子集的 Spec 替换原数据。生成新版本后检查首次打开就恢复条件，并检查清空后仍能恢复全部观测。不重新拟合已有模型；原始来源哈希保留在初次 data 中。
 
 维护资源时修改上游控制器源，使用仓库 `packages/vchart-statplots/scripts/sync-visualization-skill.mjs` 同步。`assets/statplot-controller.js` 是共享源码的副本，禁止手改。维护者可 `--check` 离线校验，使用者无需执行同步脚本。

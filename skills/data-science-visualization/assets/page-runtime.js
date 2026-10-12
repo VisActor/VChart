@@ -6,7 +6,8 @@
   window.__DSV_CONTROLLERS__ = controllers;
   const clone = value => structuredClone(value);
   let inputs = clone(payload.charts);
-  let filters = [];
+  let filters = (payload.controls.initialFilters || []).map(filter => ({ ...filter,
+    value: filter.kind === 'range' ? [filter.value[0] ?? -Infinity, filter.value[1] ?? Infinity] : filter.value }));
   let theme = (inputs[0].spec || inputs[0].binding.options || {}).theme || 'light';
   let busy = false;
   const filterControls = [], editors = [];
@@ -94,6 +95,7 @@
     document.querySelectorAll('.toolbar input,.toolbar select,.toolbar button').forEach(element => { element.disabled = value; });
     document.getElementById('apply').disabled = value || !filterControls.length;
     document.getElementById('clear').disabled = value || !filterControls.length;
+    document.getElementById('save-view').disabled = value || !inputs.every(input => controllers.get(input.id)?.spec);
     document.querySelectorAll('[data-png]').forEach(button => { button.disabled = value || !controllers.get(button.dataset.png)?.chart; });
     if (!value) document.getElementById('download').textContent = inputs.every(input => controllers.get(input.id)?.spec) ? '下载当前图表配置' : '下载输入配置';
   }
@@ -108,6 +110,12 @@
       const data = input.spec.data;
       text = `语义输入 ${Array.isArray(data) ? data.length : data.observations.length} 行（不推断原始样本量）`;
     } else text = `本图输入 ${state.inputN} 条 · ${state.omittedN} 条缺少必要字段`;
+    if (input.binding?.fields.variables) {
+      text += ' · ' + input.binding.fields.variables.map(name => {
+        const column=byColumn.get(name);
+        return `${name}：${column.label || name}${column.unit ? `（${column.unit}）` : ''}`;
+      }).join('；');
+    }
     document.getElementById('meta-' + input.id).textContent = text;
   }
   function summary() {
@@ -171,11 +179,13 @@
     }
   }
   buildControls(); restoreControls(); setBusy(true);
+  const initialRows = payload.dataset ? StatPlotData.filterRows(payload.dataset.rows, filters) : [];
+  status.filteredN = payload.dataset ? initialRows.length : null;
   for (const input of inputs) {
     const state = { id: input.id, status: 'pending', error: null, inputN: null, omittedN: 0 };
     status.charts.push(state);
     try {
-      const built = builtSpec(input, payload.dataset?.rows || []);
+      const built = builtSpec(input, initialRows);
       await updateOne(input, built);
       Object.assign(state, { status: 'rendered', inputN: built.inputN, omittedN: built.omittedN });
       showMetadata(state, input);
@@ -206,12 +216,25 @@
   }));
   const download = document.getElementById('download');
   download.textContent = status.charts.every(chart => controllers.get(chart.id)?.spec) ? '下载当前图表配置' : '下载输入配置';
+  function downloadJSON(data, filename) {
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+    const link = node('a'); link.href = url; link.download = filename; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
   download.addEventListener('click', () => {
     const complete = inputs.every(input => controllers.get(input.id)?.spec);
     const data = complete ? inputs.map(input => controllers.get(input.id).spec) : payload;
-    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
-    const link = node('a'); link.href = url; link.download = complete ? 'statplots.json' : 'visualization.input.json'; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    downloadJSON(data, complete ? 'statplots.json' : 'visualization.input.json');
+  });
+  document.getElementById('save-view').addEventListener('click', () => {
+    const request = { version: 1, title: payload.title, charts: inputs, controls: { ...payload.controls,
+      initialFilters: filters.map(filter => ({ ...filter,
+        value: filter.kind === 'range' ? filter.value.map(bound => Number.isFinite(bound) ? bound : null) : filter.value })) } };
+    if (payload.dataset) {
+      request.dataset = { source: { records: payload.dataset.rows.map(row => row.values) }, columns: payload.dataset.columns };
+      if (payload.dataset.source.idColumn) request.dataset.idColumn = payload.dataset.source.idColumn;
+    }
+    downloadJSON(request, 'visualization.request.json');
   });
   window.addEventListener('beforeunload', () => controllers.forEach(controller => controller.release()));
 })();

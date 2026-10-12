@@ -154,13 +154,29 @@ def build_payload(request, base_dir):
                 require(isinstance(chart['source']['note'], str), 'source.note 需要字符串')
             check_plot_budget(chart['spec'])
     controls = request.get('controls', {})
-    keys(controls, {'filters', 'variableSwitch', 'parameters'}, 'controls')
+    keys(controls, {'filters', 'initialFilters', 'variableSwitch', 'parameters'}, 'controls')
     for name in controls:
         require(isinstance(controls[name], list), f'controls.{name} 需要数组')
     for control in controls.get('filters', []):
         keys(control, {'field', 'kind'}, 'filter')
         require(control.get('kind') in {'category', 'range'}, 'filter.kind 需要 category/range')
         needed.add(text(control.get('field'), 'filter.field'))
+    declarations = {(c['field'],c['kind']) for c in controls.get('filters', [])}
+    require(len(declarations) == len(controls.get('filters', [])), '筛选控件不能重复')
+    initial_seen = set()
+    for control in controls.get('initialFilters', []):
+        keys(control, {'field','kind','value'}, 'initialFilters')
+        signature = (control.get('field'),control.get('kind'))
+        require(signature in declarations and signature not in initial_seen, 'initialFilters 需引用已声明筛选且不重复')
+        initial_seen.add(signature)
+        require('value' in control, 'initialFilters 需要 value')
+        value = control['value']
+        if control['kind'] == 'category':
+            require(value is None or isinstance(value,str), '初始类别需要 string 或 null（全部）')
+        else:
+            require(isinstance(value,list) and len(value)==2 and any(v is not None for v in value), '初始范围需要两个边界，至少一端有限；null 表示无界')
+            require(all(v is None or (type(v) in {int,float} and math.isfinite(v)) for v in value), '初始边界需有限数值或 null')
+            require(value[0] is None or value[1] is None or value[0] <= value[1], '初始范围下界不能大于上界')
     by_id = {c['id']: c for c in charts}
     for control in controls.get('variableSwitch', []):
         keys(control, {'chartId', 'role', 'candidates'}, 'variableSwitch')
@@ -224,6 +240,9 @@ def build_payload(request, base_dir):
             'originalN':len(records),'missingTokens':missing if csv_input else [],
             'conversions':[f'{c["name"]}: CSV → {c["type"]}' for c in selected] if csv_input else [],
             'idColumn':data.get('idColumn')}}
+        for initial in controls.get('initialFilters', []):
+            if initial['kind'] == 'category' and initial['value'] is not None:
+                require(any(row['values'][initial['field']] == initial['value'] for row in rows), '初始类别不在数据中')
         for chart in charts:
             if 'binding' in chart:
                 binding = chart['binding']

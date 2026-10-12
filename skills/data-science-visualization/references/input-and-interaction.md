@@ -45,6 +45,7 @@ strip/scatter 自动加入稳定内部 ID。标量图省略必需映射中的 nu
 ```json
 {
   "filters": [{"field":"region","kind":"category"},{"field":"income","kind":"range"}],
+  "initialFilters": [{"field":"region","kind":"category","value":"东区"}],
   "variableSwitch": [{"chartId":"income","role":"value","candidates":["income","spend"]}],
   "parameters": [{"chartId":"income","path":"binning.binCount","values":[10,20,30]}]
 }
@@ -55,6 +56,10 @@ strip/scatter 自动加入稳定内部 ID。标量图省略必需映射中的 nu
 variableSwitch 只支持已有 value/x/y 角色的数值候选，必须包含当前列。parameters 只支持 histogram 的 binning.binCount（1–200）、statistic（count/proportion/density），以及 correlationMatrix 的 method（pearson/spearman/kendall）。页面显示中文统计量名称，选“默认”删除显式选项。字段与参数选择立即更新，沿用上次已应用的筛选。
 
 表格筛选只更新 binding 图；外部 Spec 来源独立。多图更新全部成功后提交状态；失败恢复上次成功条件，无法恢复的图明确报错。图例的隐藏不会重算分母，pair 图例只说明颜色；框选只高亮。
+
+`initialFilters` 可选，用于新 HTML 首次打开时恢复已应用条件；只能引用已声明的 filter。类别值是存在于数据中的字符串或 null（全部）；范围 value=[lower,upper]，null 表示该端无界，至少有一端为有限数值。源 dataset 仍保留全部原始行，清空筛选恢复它们。
+
+“保存当前视图请求”下载可重放的 request：全部内嵌数据、当前字段/参数/主题，以及已成功应用的 initialFilters。后续改图从这个请求修改 chart binding/type，保留数据与 controls；不要把筛选后的 Spec 数组当原始完整数据，也不要仅在浏览器选中后声称新的 HTML 保存了该条件。框选高亮不保存为样本筛选。
 
 ## 预算、产物和验收
 

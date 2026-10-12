@@ -84,4 +84,26 @@ class InputTests(unittest.TestCase):
         self.assertEqual(payload['dataset']['rows'][0]['id'],'001')
         self.assertIn('Data',payload['dataset']['source']['label'])
 
+    def test_initial_filters_require_declared_valid_conditions(self):
+        request=copy.deepcopy(self.request)
+        request['controls']={'filters':[{'field':'group','kind':'category'}],
+          'initialFilters':[{'field':'group','kind':'category','value':'A'}]}
+        payload=build_payload(request,self.root)
+        self.assertEqual(len(payload['dataset']['rows']),4)
+        self.assertEqual(payload['controls']['initialFilters'][0]['value'],'A')
+        for value in ['unknown',True]:
+            invalid=copy.deepcopy(request);invalid['controls']['initialFilters'][0]['value']=value
+            with self.assertRaises(ValueError):build_payload(invalid,self.root)
+        invalid=copy.deepcopy(request);invalid['controls']['filters']=[]
+        with self.assertRaises(ValueError):build_payload(invalid,self.root)
+
+    def test_initial_unbounded_range_and_reversed_range(self):
+        request=copy.deepcopy(self.request)
+        request['controls']={'filters':[{'field':'income','kind':'range'}],
+          'initialFilters':[{'field':'income','kind':'range','value':[None,3]}]}
+        self.assertEqual(build_payload(request,self.root)['controls']['initialFilters'][0]['value'],[None,3])
+        for value in [[4,3],[None,None],[True,3]]:
+            invalid=copy.deepcopy(request);invalid['controls']['initialFilters'][0]['value']=value
+            with self.assertRaises(ValueError):build_payload(invalid,self.root)
+
 if __name__=='__main__':unittest.main()
