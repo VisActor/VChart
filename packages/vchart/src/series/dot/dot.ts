@@ -141,15 +141,6 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
       },
       false
     );
-
-    this.getRawData()?.transform(
-      {
-        type: 'objFlat',
-        options: 'dots',
-        level: TransformLevel.dotObjFlat
-      },
-      false
-    );
   }
 
   protected _statisticViewData() {
@@ -444,8 +435,8 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     return this._seriesGroupField
       ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-        ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-        : [];
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+      : [];
   }
 
   /**
@@ -467,10 +458,10 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     const colorDomain = this._dotTypeField
       ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesGroupField
-        ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
-        : this._seriesField
-          ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-          : [];
+      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
+      : this._seriesField
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+      : [];
     const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range(colorRange);
   }

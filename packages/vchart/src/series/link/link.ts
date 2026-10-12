@@ -12,6 +12,8 @@ import { LinkType, type ILinkSeriesSpec } from './interface';
 import type { SeriesMarkMap } from '../interface';
 import { registerRuleMark } from '../../mark/rule';
 import { registerSymbolMark } from '../../mark/symbol';
+import { registerPathMark } from '../../mark/path';
+import { registerImageMark } from '../../mark/image';
 import { linkSeriesMark } from './constant';
 import { linkDotInfo } from '../../data/transforms/link-dot-info';
 import { Factory } from '../../core/factory';
@@ -459,6 +461,8 @@ export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends Car
 export const registerLinkSeries = () => {
   registerRuleMark();
   registerSymbolMark();
+  registerPathMark();
+  registerImageMark();
   registerCartesianBandAxis();
   registerCartesianLinearAxis();
   Factory.registerSeries(LinkSeries.type, LinkSeries);

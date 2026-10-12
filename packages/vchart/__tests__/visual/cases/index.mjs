@@ -5,6 +5,11 @@
 /** 本地用例元数据的唯一清单；模块必须保持浏览器和 Node 均可导入。 */
 export const cases = [
   {
+    id: 'sequence-link-data',
+    purpose: 'dot 嵌套原始数据与更新后的连接端点',
+    file: './api/update/sequence-link-data.mjs'
+  },
+  {
     id: 'bar-stack',
     purpose: '正负值、堆叠与零基准线（bar）',
     file: './charts/bar/bar-stack.mjs',

@@ -52,10 +52,6 @@ export class SequenceAnalysisChartSpecTransformer extends CommonChartSpecTransfo
               strokeOpacity: 0.5,
               stroke: 'grey'
             }
-          },
-          style: {
-            // stroke: 'grey',
-            visible: mode === 'step' || actionTarget
           }
         },
         imageLabel: {
@@ -305,7 +301,7 @@ export class SequenceAnalysisChartSpecTransformer extends CommonChartSpecTransfo
           visible: false
         },
         label: {
-          formatMethod: label => {
+          formatMethod: (label: string) => {
             return {
               type: 'rich',
               text: [{ image: spec.userImageMap[label], width: 40, height: 40 }]
