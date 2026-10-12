@@ -1,5 +1,11 @@
 # 实现与验收记录
 
+## data-science-visualization 消费者（2026-10-12）
+
+新增 [技能](../../../skills/data-science-visualization/SKILL.md)，复用固定 2.1.8-alpha.0 发布契约与公共 API；图库和技能共享提取后的浏览器控制器。12 类表格入口、28 类规范 Spec、便携 HTML、筛选/字段/参数/主题与导出已实现。独立需求验收发现并修复改图丢失已应用条件：保存当前视图请求保留全部使用行及 initialFilters，改图后可重放。
+
+664 项单元、427 项完整浏览器通过；Python 3.11/3.12 各18项、Node12项、源码 compile/Schema/catalog/examples/资源校验通过。真实发布 UMD、真实 CDN、复制目录、鼠标交互、失败回滚和10k规模分别验收。官方全量262例仍被基线的band-axis-update-spec、legend-piecewise-domain、brush-link-data-key、update-resize四项阻断，不能声明全量视觉通过；宿主file预览/自动发现未验收，扩展测试项目tsc仍有既有错误。详细证据、命令与范围见 [验收文档](../../../docs/superpowers/validation/2026-10-12-data-science-visualization.md)。
+
 ## 原始散点回归与残差图（2026-10-09）
 
 源码与联调已完成，正式依赖已升级为 VUtil 1.0.27。scatterPlot 新增显式 fit.input=observations / estimates，支持原始 x/y 的线性、2–5 次多项式和 LOWESS 拟合；不传 fit 仍为纯散点。residualPlot 新增 observations，默认按原始 x 绘制 y−predict(x)，另可选 fitted 横轴。predictions / residuals 外部用途保留，独立 smooth LOWESS 只拟合残差趋势。

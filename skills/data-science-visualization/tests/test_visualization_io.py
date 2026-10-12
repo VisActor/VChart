@@ -106,4 +106,14 @@ class InputTests(unittest.TestCase):
             invalid=copy.deepcopy(request);invalid['controls']['initialFilters'][0]['value']=value
             with self.assertRaises(ValueError):build_payload(invalid,self.root)
 
+    def test_quoted_csv_and_tsv_keep_category_text(self):
+        request=copy.deepcopy(self.request)
+        request['charts']=[{'id':'counts','binding':{'type':'countPlot','fields':{'category':'group'}}}]
+        for name,kind,content in [('quoted.csv','csv','id,group\n001,"A,区\n跨行"\n'),
+                                  ('records.tsv','tsv','id\tgroup\n001\t东区\n')]:
+            (self.root/name).write_text(content)
+            request['dataset']['source']={'path':name,'format':kind}
+            value=build_payload(request,self.root)['dataset']['rows'][0]['values']['group']
+            self.assertEqual(value,'A,区\n跨行' if kind=='csv' else '东区')
+
 if __name__=='__main__':unittest.main()

@@ -32,3 +32,21 @@ test('offline check detects altered resources and missing files', async () => {
     await assert.rejects(checkResources(root), /histogram/);
   } finally { await fs.rm(root, { recursive: true, force: true }); }
 });
+
+test('a failed synchronization preserves the previous snapshot', async () => {
+  const { syncResources } = await import(moduleURL);
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), 'dsv-failed-sync-'));
+  const fetch = global.fetch;
+  try {
+    await fs.writeFile(path.join(root, 'manifest.json'), 'previous snapshot');
+    global.fetch = async url => String(url).includes('registry.npmjs.org')
+      ? new Response(JSON.stringify({name:'@visactor/vchart-statplots', dist:{tarball:'https://fixture.test/package.tgz',integrity:'sha512-invalid'}}))
+      : new Response(Buffer.from('not the expected tarball'));
+    await assert.rejects(syncResources(root), /integrity/);
+    assert.equal(await fs.readFile(path.join(root, 'manifest.json'), 'utf8'), 'previous snapshot');
+    assert.deepEqual(await fs.readdir(root), ['manifest.json']);
+  } finally {
+    global.fetch = fetch;
+    await fs.rm(root, {recursive:true,force:true});
+  }
+});

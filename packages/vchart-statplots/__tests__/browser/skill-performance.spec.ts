@@ -53,7 +53,12 @@ test('10k rows and four charts reuse instances and do not recompile on resize', 
   expect(
     await page.evaluate(() =>
       (window as any).initialCharts.every(
-        (chart: any, i: number) => chart === Array.from((window as any).__DSV_CONTROLLERS__.values())[i].chart
+        (chart: unknown, i: number) =>
+          chart ===
+          Array.from(
+            (window as any).__DSV_CONTROLLERS__.values(),
+            (controller: { chart: unknown }) => controller.chart
+          )[i]
       )
     )
   ).toBe(true);
