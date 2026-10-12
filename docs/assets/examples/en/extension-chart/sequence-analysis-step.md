@@ -10,9 +10,11 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Step Mode
 
-Compare users' behavioral steps and locate segments annotated as related.
+**Design meaning: risk behavior patterns.** Highlight or connect action nodes that match a business-defined risk pattern to compare behavioral segments across users.
 
-**Data example:** `event_004_4` is a room-related follow record for `user_004` at step 4, with a count of 7. Its link to the private-message record `event_004_6` at step 6 marks the pair for inspection together. The relationship is supplied by the example.
+**Hypothetical scenario:** a business marks “log in from a new device → change the linked email → send messages in bulk” as a pattern requiring review. Connecting the matching actions shows which users exhibit the pattern and at which steps. This rule is illustrative.
+
+**Example data:** `user_004` has follow record `event_004_4` at step 4 (count 7), linked to private-message record `event_004_6` at step 6. This demonstrates pattern annotation; no actual risk rule is defined for `pattern_001`.
 
 - **Axes:** each row is a user; columns are steps. Top labels show each step's configured medium category, such as room or device, and an additional `+N` count.
 - **Dots and links:** dots are event records colored by activity; links mark related segments and are colored by relationship category. A count of 7 still produces one dot.

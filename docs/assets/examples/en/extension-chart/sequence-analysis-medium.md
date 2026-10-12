@@ -10,9 +10,11 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Medium Curves
 
-Group events by the type of object they involve (their medium) and inspect relationships across users and object categories.
+**Design meaning: shared media.** Identify whether different users' activities pass through the same specific device, IP address or live room.
 
-**Data example:** `event_001_1` is an IP-related registration record for `user_001`; `event_002_2` is a device-related login record for `user_002`. Their curve marks a supplied relationship for joint inspection. These categories alone do not establish a shared IP address or device.
+**Hypothetical scenario:** user A connects through IP₁ and user B through IP₂, but both log in using device D. Their medium paths meet at D, providing a link between the accounts. The shared entity is the actual device D, not merely the Device category.
+
+**Example data:** a curve links `user_001`'s registration record `event_001_1` (IP category) to `user_002`'s login record `event_002_2` (device category). Only categories and endpoints are supplied, without concrete medium IDs. This demonstrates curve rendering but does not establish which medium the users share.
 
 - **Axes:** each row is a user; columns are medium categories such as IP, device, user and live room, rather than time.
 - **Dots and curves:** dot colors group activities; curve colors group relationships. Events for the same user and medium may overlap. Repeated relationships with identical endpoints receive distinct curvature.

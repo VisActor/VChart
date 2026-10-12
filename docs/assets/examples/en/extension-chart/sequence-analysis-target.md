@@ -10,9 +10,11 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Time with Target Avatars
 
-Inspect user activity over time and locate related events and associated users for further investigation.
+**Design meaning: action targets.** Inspect whether multiple users act on the same object at similar times, such as sending messages to the same user.
 
-**Data example:** at 10:00 on July 7, 2025 (Beijing, UTC+8), `user_002` has login record `event_002_2` (count 7), and `user_003` has private-message record `event_003_2` (count 2). The example links them, points an arrow to the message record and displays the configured `user_003` avatar at the midpoint. This is a supplied relationship, not an automatically detected real interaction.
+**Hypothetical scenario:** users A, B and C all message user T within the same minute. The time axis shows temporal concentration, while T's target avatar reveals concentration on the same recipient. T receives the actions rather than sending them.
+
+**Example data:** at 10:00 on July 7, 2025 (Beijing, UTC+8), `user_002`'s login record `event_002_2` (count 7) links to `user_003`'s private-message record `event_003_2` (count 2), with a configured `user_003` midpoint avatar. These mock records demonstrate arrows and avatars; they do not fully model the hypothetical group-message scenario above.
 
 - **Axes:** each row is a user; horizontal position shows occurrence time. Top numbers sum activity counts across all users at each timestamp.
 - **Dots and links:** dot colors group activities; arrows show link direction. Midpoint avatars are configured separately and can differ from the target event's user.
