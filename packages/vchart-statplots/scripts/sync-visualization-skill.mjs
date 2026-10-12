@@ -89,7 +89,7 @@ export function buildPlotIndex(catalog, typeFiles) {
     if (!mapping.has(entry.type)) throw new Error(`Missing catalog declaration: ${entry.type}`);
     return { type: entry.type, name: entry.name, useWhen: entry.useWhen, avoidWhen: entry.avoidWhen,
       ...mapping.get(entry.type), guide: `guides/${entry.type}.md`, example: entry.example,
-      variants: entry.variants.map(({ name, aliases, options, example, exampleUrl }) => ({ name, aliases, options, exampleUrl: exampleUrl ?? releaseURL(example) })),
+      ...(entry.variants.length ? { variantFile: 'variants.json' } : {}),
       fullDocsUrl: releaseURL(`docs/plots/${entry.type}.md`) };
   });
 }
@@ -188,7 +188,7 @@ export async function checkResources(root = defaultRoot, { checkWorkspace = true
   const expected = new Set(['manifest.json', ...Object.keys(manifest.files)]);
   for (const name of names) if (!expected.has(name)) throw new Error(`Unexpected/stale resource: ${name}`);
   for (const name of expected) {
-    if (!['manifest.json','index.json','package.json','LICENSE','THIRD_PARTY_LICENSES.md'].includes(name) &&
+    if (!['manifest.json','index.json','variants.json','package.json','LICENSE','THIRD_PARTY_LICENSES.md'].includes(name) &&
         !/^(types\/.+\.d\.ts|guides\/[a-zA-Z]+\.md|examples\/specs\/minimal\/[a-zA-Z]+\.json)$/.test(name)) {
       throw new Error(`Unexpected/stale resource: ${name}`);
     }
@@ -199,16 +199,22 @@ export async function checkResources(root = defaultRoot, { checkWorkspace = true
     return readFileSync(join(root, target), 'utf8');
   });
   const index = JSON.parse(await readFile(join(root, 'index.json'), 'utf8'));
-  const derived = buildPlotIndex(index, files);
+  const variants = JSON.parse(await readFile(join(root, 'variants.json'), 'utf8'));
+  if (Object.keys(variants).some(type => !index.some(entry => entry.type === type))) throw new Error('Unknown variant type');
+  const catalog = index.map(entry => {
+    if (entry.variantFile && (entry.variantFile !== 'variants.json' || !Array.isArray(variants[entry.type]) || !variants[entry.type].length)) throw new Error(`Missing variant metadata: ${entry.type}`);
+    return { ...entry, variants: variants[entry.type] ?? [] };
+  });
+  const derived = buildPlotIndex(catalog, files);
   for (let i = 0; i < index.length; i++) {
-    if (index[i].typeFile !== derived[i].typeFile || index[i].typeName !== derived[i].typeName) throw new Error(`Type index mismatch: ${index[i].type}`);
+    if (index[i].typeFile !== derived[i].typeFile || index[i].typeName !== derived[i].typeName || index[i].variantFile !== derived[i].variantFile) throw new Error(`Type index mismatch: ${index[i].type}`);
     for (const key of ['typeFile','guide','example']) if (!manifest.files[index[i][key]]) throw new Error(`Missing index target: ${index[i][key]}`);
-    for (const url of [index[i].fullDocsUrl, ...index[i].variants.map(variant => variant.exampleUrl)]) {
+    for (const url of [index[i].fullDocsUrl, ...catalog[i].variants.map(variant => variant.exampleUrl)]) {
       if (!url.startsWith(releaseURL(''))) throw new Error(`Unpinned resource link: ${url}`);
     }
   }
   if (JSON.stringify(index.map(entry => entry.type)) !== JSON.stringify(manifest.supportedTypes)) throw new Error('Supported type list mismatch');
-  const referenced = new Set(['manifest.json','index.json','package.json','LICENSE','THIRD_PARTY_LICENSES.md','guides/common.md',
+  const referenced = new Set(['manifest.json','index.json','variants.json','package.json','LICENSE','THIRD_PARTY_LICENSES.md','guides/common.md',
     ...[...files.keys()].map(name => name.replace(/^esm\//,'types/')),
     ...index.flatMap(entry => [entry.guide, entry.example])]);
   for (const name of expected) if (!referenced.has(name)) throw new Error(`Unreferenced resource: ${name}`);
@@ -279,6 +285,11 @@ export async function syncResources(root = defaultRoot) {
     });
     await write('index.json', Buffer.from('[\n' + index.map(entry => JSON.stringify(entry)).join(',\n') + '\n]\n'), {
       sources: [sourceRecord('docs/plot-catalog.json'), ...[...typeFiles.keys()].map(sourceRecord)], transform: { rule: 'type-index-v1' }
+    });
+    const variants = catalog.filter(entry => entry.variants.length).map(entry => [entry.type,
+      entry.variants.map(({name,aliases,options,example}) => ({name,aliases,options,exampleUrl:releaseURL(example)}))]);
+    await write('variants.json', Buffer.from('{\n' + variants.map(([type,values]) => `${JSON.stringify(type)}:${JSON.stringify(values)}`).join(',\n') + '\n}\n'), {
+      sources: [sourceRecord('docs/plot-catalog.json')], transform: { rule: 'variant-index-v1' }
     });
     const license = await readFile(join(repository, 'LICENSE'));
     await writeFile(join(staging, 'LICENSE'), license);

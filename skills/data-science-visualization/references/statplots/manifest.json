@@ -7,7 +7,7 @@
   "tarball": "https://registry.npmjs.org/@visactor/vchart-statplots/-/vchart-statplots-2.1.8-alpha.0.tgz",
   "generator": {
     "source": "packages/vchart-statplots/scripts/sync-visualization-skill.mjs",
-    "sha256": "4a99cf652466144db195445342b18006885efe550d09f7c01ce20a60367126c3",
+    "sha256": "49492193928e5c7aecdae0997390d0514de81446a947a933528cfa43a4490c69",
     "selectorsSha256": "af70367b5961bf0c5a274b509227ae8c5842010f91cc07621f49156715a13c3c"
   },
   "supportedTypes": [
@@ -1098,7 +1098,19 @@
       "transform": {
         "rule": "type-index-v1"
       },
-      "sha256": "e344623e60538fd0a59ee28a6a6edfe7fe131c1abbc3ca50b785d7c23b7deea0"
+      "sha256": "c27a9f452a3bc7b4f1400dc48b2507f1d087bdd43c18f06854fdb7df7ec5a358"
+    },
+    "variants.json": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plot-catalog.json",
+          "sourceSha256": "a80eac8fa20d29c54c0f6c861e2a98645e345ae40e317758248701ec50c1af97"
+        }
+      ],
+      "transform": {
+        "rule": "variant-index-v1"
+      },
+      "sha256": "824970051d537748e3d69301ba77e22b64730593ec84a20c33cafbf8034f0869"
     },
     "LICENSE": {
       "source": "workspace:LICENSE",

@@ -13,7 +13,7 @@ description: 从真实表格或已有统计与模型结果生成简洁的交互�
 
 按 [问题与数据条件](references/chart-selection.md) 选择图义。含义不足时只澄清会改变图义的问题。用户已指定图型时尊重选择；数据不满足契约则说明原因，不静默换图、猜带宽或伪造结果。
 
-定位 [索引](references/statplots/index.json) 中选中 type 的条目，读取其 guide、typeFile 及必要 import 依赖、example 最小输入。索引每行一图，可按 type 定位；不要读完整联合声明或全部指南。特殊变体才读取条目的固定版本外部文档。公共数值、区间或配色条件见 [公共约束](references/statplots/guides/common.md)。TS 是字段参考，最终仍由公共 validate/compile 校验。
+定位 [索引](references/statplots/index.json) 中选中 type 的条目，读取其 guide、typeFile 及必要 import 依赖、example 最小输入。索引每行一图，可按 type 定位；不要读完整联合声明或全部指南。特殊变体才读取 variantFile 中对应 type 的选项与固定链接。公共数值、区间或配色条件见 [公共约束](references/statplots/guides/common.md)。TS 是字段参考，最终仍由公共 validate/compile 校验。
 
 ## 生成与交付
 

@@ -19,6 +19,6 @@
 
 组间密度、频数和区间有不同口径：KDE 的 all/series、violin 的 area/count/width、样本百分位与置信/预测区间按选中图的短指南处理，不能凭图名推断。明确拟合请求才添加模型，并说明实际参数；不自动附显著性、p-value 或因果解释。
 
-普通蜂群是 stripPlot 的 swarm，SHAP 蜂群有自己的输入；UMAP 是 embeddingPlot 的 method 变体，PACF 是 autocorrelationPlot 的 method 变体。完整变体从索引选中条目的 options/固定链接按需读取，不另维护别名表。
+普通蜂群是 stripPlot 的 swarm，SHAP 蜂群有自己的输入；UMAP 是 embeddingPlot 的 method 变体，PACF 是 autocorrelationPlot 的 method 变体。特殊变体从索引的 variantFile 中读取对应 type 的 options/固定链接，不另维护别名表。
 
 默认图数和页面交互遵循入口与协议。标题如“东区各部门收入分布”比“箱线图”更明确；单位、范围、必要的小样本/区间短注不能省略。更多图不等于更多信息，只有新增视角能回答不同问题时才增加图。
