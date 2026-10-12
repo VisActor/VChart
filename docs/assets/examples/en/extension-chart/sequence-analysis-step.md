@@ -12,6 +12,19 @@ option: sequenceAnalysisChart
 
 Displays the local demo’s user events and pattern links by step.
 
+## How to read the chart
+
+This example shows 111 events from 10 users, organized by behavioral step, together with explicitly supplied pattern relationships.
+
+- **Vertical axis and left avatars:** each row represents a user (`user_id`), with an avatar from `userImageMap`. Follow a row to inspect that user's events across steps.
+- **Bottom axis:** `step_1`, `step_2`, and so on are event categories from `dots.step`. Steps are equally spaced; their distance does not encode elapsed time.
+- **Top labels:** each label shows the medium name and additional count supplied in `stepMediumMap`. For example, `+1` in `Device... +1` comes from the step's `count`. This is an application-supplied quantity, not the number of event dots.
+- **Colored dots:** each dot is an event record, colored by `action_type`, such as registration, login or comment. User and step determine its position. Multiple events for the same user and step can overlap.
+- **Links:** each line corresponds to a `patternData` record whose `from` and `to` reference event `node_name` values. It represents a supplied pattern relationship, colored by `pattern_type`. A link within one row relates events of one user; a link across rows relates events of different users.
+- **Short segments beside dots:** this example enables link extension along step bands and includes pattern records that reference the same event at both ends. Such records can appear as short segments beside a dot. Segment length does not encode duration or relationship strength.
+
+Use the bottom range selector to filter steps, the horizontal gray scrollbar to pan across them, and the right scrollbar to browse users. The initial window shows only part of the steps and users.
+
 ## Demo
 
 ```javascript livedemo

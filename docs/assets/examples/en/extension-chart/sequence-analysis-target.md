@@ -12,6 +12,21 @@ option: sequenceAnalysisChart
 
 Places the local demo’s events on a time axis, with midpoint avatars and target arrows on links.
 
+## How to read the chart
+
+This example positions user events by their occurrence time and uses arrows and link avatars to display directed event relationships.
+
+- **Vertical axis and left avatars:** each row represents a user (`user_id`); the left avatar identifies that user.
+- **Bottom axis:** dates and times correspond to the millisecond `time_stamp` values. Horizontal distance reflects elapsed time, and simultaneous events align vertically.
+- **Top numbers and vertical dashed lines:** each dashed line marks an event timestamp. The number above it sums `action_count` across all users' events at that timestamp. For example, `141` is an aggregate count, not 141 visible dots.
+- **Colored dots:** each dot is an event record, colored by `action_type`. Events for the same user at the same time can overlap. Dot size does not encode `action_count`.
+- **Lines and arrows:** each `actionData` record links the event referenced by `from` to the event referenced by `to`, with an arrow at the target. These relationships are explicitly supplied. Simultaneous events can also be connected, producing vertical links.
+- **Midpoint avatars:** the image comes from the relationship's `actionData.user_image`. It is configured independently from the vertical-axis avatar and can represent a different user from the target event's row. This example retains the local demo's associated-user settings.
+
+For example, the link from `event_002_2` to `event_003_2` connects simultaneous events of two users. Its arrow points to the latter event, and the midpoint shows the configured `user_003` avatar.
+
+Use the bottom range selector to filter a time interval, the horizontal gray scrollbar to pan the time window, and the right scrollbar to browse users. The initial window shows only part of the data.
+
 ## Demo
 
 ```javascript livedemo
