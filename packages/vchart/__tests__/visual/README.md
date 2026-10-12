@@ -55,6 +55,27 @@ node packages/vchart/scripts/visual-test.mjs --check
 
 退出码：`0` 无差异；`1` 有视觉差异；`2` 参数、构建、执行、资源、超时、缺图或清理错误。多个问题同时出现时执行错误优先。
 
+## 冻结套件导出
+
+平台接入和归档可以复用同一个命令导出完整用例与当前构建，不需要 BugServer 登录：
+
+```sh
+node packages/vchart/scripts/visual-test.mjs --export-suite .vchart-visual/suites/current
+node packages/vchart/scripts/visual-test.mjs --export-suite .vchart-visual/suites/next --previous-suite .vchart-visual/suites/current/suite-manifest.json
+```
+
+导出目录必须是新目录，位于工作区外或 Git 忽略目录；已有目录不会被覆盖。此模式不能与单例、目录、基线、列举或环境预检选项混用。它使用既有构建链生成新的 `current.js`，冻结原格式用例、页面、Playwright 运行器和辅助文件，并保存包版本与依赖锁文件；不下载官方基线、不运行截图、不接受视觉差异。
+
+`suite-manifest.json` 使用 `schemaVersion=1`、`contractVersion=1.0`、`kind=suite_manifest`。所有文件记录相对路径、字节大小和 SHA-256；`suiteDigest` 标识规范化完整清单，`filesDigest` 标识冻结文件集合，`bundleDigest` 标识实际产品资源。`caseDigest` 包含用例、相对导入、公共运行器和使用的资源，截图键固定为 `final`，对应现有单例最终截图。历史 BugServer IDs 仅记录来源，不用于覆盖 Photo 用例，也不会写回源码。命令的 JSON 输出包含清单位置及按稳定 case ID 识别的 add/update/archive；归档只表示清单差异，不删除平台数据。
+
+导出时校验唯一 ID/模块、完整资源、导入路径、符号链接及构建期工作区变化；失败退出 `2`，回收本次子进程，保留目录中的日志和 `export-failure.json`，移除不可消费的成功清单。重新导出使用新目录。套件列举和导入会执行 JavaScript：平台须把导出/发现放入隔离 worker，不能在有内网或业务凭据的控制进程执行。清单中的环境要求固定 Node 22、实际 Playwright 版本和现有截图设置；完整镜像、浏览器、字体和网络隔离仍由平台环境验收负责，导出成功不表示视觉测试或隔离验收通过。
+
+确定性和非法输入检查：
+
+```sh
+node --test packages/vchart/scripts/visual-suite.test.mjs
+```
+
 ## 报告与清理
 
 命令输出 `.vchart-visual/runs/<run-id>/index.html`，浏览器直接打开即可离线查看，无需启动报告服务：
