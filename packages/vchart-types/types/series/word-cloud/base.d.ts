@@ -1,15 +1,17 @@
 import type { IPadding } from '@visactor/vutils';
 import type { SeriesMarkMap } from '../interface';
-import type { IWordCloudSeriesSpec, WordCloudConfigType, WordCloudShapeConfigType, WordCloudShapeType } from './interface';
+import type { IWordCloudSeriesSpec, IWordCloudSeriesTheme, WordCloudConfigType, WordCloudShapeConfigType, WordCloudShapeType } from './interface';
 import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { BaseSeries } from '../base/base-series';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
-import type { GeometricMaskShape, TextShapeMask } from '@visactor/vgrammar-util';
+import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
+import type { IStage } from '@visactor/vrender-core';
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & {
     type: string;
 };
 export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordCloudSeriesSpec> extends BaseSeries<T> {
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: Record<string, IWordCloudSeriesTheme>;
     protected _nameField: string;
     protected _valueField?: string;
     setValueField(field: string): void;
@@ -24,8 +26,10 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     setFontSizeRange(fontSizeRange: [number, number] | 'auto'): void;
     protected _maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape;
     protected _isWordCloudShape: boolean;
+    protected _afterWordcloudShapeDraw: (stage: IStage) => void;
     protected _wordCloudConfig?: WordCloudConfigType;
     protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
+    private _wordMeasureCache?;
     protected _padding?: IPadding;
     protected _defaultFontFamily: string;
     protected _keyWordColorCallback: (datum: Datum) => string;
@@ -60,7 +64,8 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     getGroupFields(): string[];
     getStackGroupFields(): string[];
     getStackValueField(): string;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getActiveMarks(): IMark[];
     reInit(): void;
+    release(): void;
 }

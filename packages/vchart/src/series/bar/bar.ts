@@ -3,6 +3,7 @@ import type { IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { MarkTypeEnum } from '../../mark/interface/type';
 import {
@@ -14,7 +15,7 @@ import {
 } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import type { Datum, DirectionType } from '../../typings';
-import { valueInScaleRange } from '../../util/scale';
+import { isValueInScaleDomain, valueInScaleRange } from '../../util/scale';
 import { getRegionStackGroup } from '../../util/data';
 import { getActualNumValue } from '../../util/space';
 import { registerBarAnimation } from './animation';
@@ -38,7 +39,7 @@ import { getGroupAnimationParams } from '../util/utils';
 import { BarSeriesSpecTransformer } from './bar-transformer';
 import { ComponentTypeEnum } from '../../component/interface';
 import { RECT_X, RECT_X1, RECT_Y, RECT_Y1 } from '../base/constant';
-import { createRect } from '@visactor/vrender-core';
+import { createRect } from '../../vrender-bridge';
 import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
 import type { ICompilableData } from '../../compile/data';
 import { CompilableData } from '../../compile/data';
@@ -47,6 +48,23 @@ import { maxInArr, minInArr } from '../../util/array';
 import { bar } from '../../theme/builtin/common/series/bar';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
+
+type BarSeriesCompileOnlyKey =
+  | 'barWidth'
+  | 'barMinWidth'
+  | 'barMaxWidth'
+  | 'barGapInGroup'
+  | 'barMinHeight'
+  | 'stackCornerRadius';
+
+const BAR_SERIES_COMPILE_ONLY_KEYS: Record<BarSeriesCompileOnlyKey, true> = {
+  barWidth: true,
+  barMinWidth: true,
+  barMaxWidth: true,
+  barGapInGroup: true,
+  barMinHeight: true,
+  stackCornerRadius: true
+};
 
 export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.bar;
@@ -64,6 +82,38 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
   protected _barBackgroundMark!: IRectMark;
 
   protected _barBackgroundViewData: ICompilableData;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...BAR_SERIES_COMPILE_ONLY_KEYS
+      }
+    };
+  }
+
+  getStatisticFields() {
+    const fields = super.getStatisticFields();
+    const positionAxisHelper = this.direction === Direction.horizontal ? this.getYAxisHelper() : this.getXAxisHelper();
+    const positionFields = this.direction === Direction.horizontal ? this._fieldY : this._fieldX;
+    const positionScale = positionAxisHelper?.getScale?.(0);
+
+    if (positionScale && isContinuous(positionScale.type)) {
+      positionFields.forEach(field => {
+        const fieldStatistics = fields.find(entry => entry.key === field);
+        if (fieldStatistics) {
+          if (!fieldStatistics.operations.includes('values')) {
+            fieldStatistics.operations.push('values');
+          }
+        } else {
+          fields.push({ key: field, operations: ['values'] });
+        }
+      });
+    }
+    return fields;
+  }
 
   initMark(): void {
     this._initBarBackgroundMark();
@@ -105,6 +155,22 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         AttributeLevel.Series
       );
     }
+
+    this.initRectMarkStyle();
+  }
+
+  protected initRectMarkStyle() {
+    if (!this._barMark) {
+      return;
+    }
+
+    const bandAxisHelper = this.direction === Direction.vertical ? this._xAxisHelper : this._yAxisHelper;
+    const scale = bandAxisHelper?.getScale?.(0);
+    if (!scale) {
+      return;
+    }
+
+    scale.type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
   }
 
   initLabelMarkStyle(textMark: ITextMark) {
@@ -256,11 +322,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   init(option: IModelInitOption): void {
     super.init(option);
-    if (this.direction === 'vertical') {
-      this._xAxisHelper?.getScale(0).type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
-    } else {
-      this._yAxisHelper?.getScale(0).type === 'band' ? this.initBandRectMarkStyle() : this.initLinearRectMarkStyle();
-    }
+    this.initRectMarkStyle();
   }
 
   private _shouldDoPreCalculate() {
@@ -332,9 +394,10 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const barMinHeight = this._spec.barMinHeight;
     const y1 = valueInScaleRange(this[startMethod](datum), seriesScale, useWholeRange);
     const y = valueInScaleRange(this[endMethod](datum), seriesScale, useWholeRange);
-
     let height = Math.abs(y1 - y);
-    if (height < barMinHeight) {
+    if (height <= 0 && !isValueInScaleDomain(datum[this.getStackValueField()], seriesScale)) {
+      height = 0;
+    } else if (height < barMinHeight) {
       height = barMinHeight;
     }
 
@@ -488,19 +551,34 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
   protected _initStackBarMarkStyle() {
     if (!this._spec.stackCornerRadius) {
+      const markConfig = this._barMark.getMarkConfig();
+
+      if (markConfig.clip || !isNil(markConfig.clipPath)) {
+        this._barMark.setMarkConfig({
+          clip: false,
+          clipPath: []
+        });
+      }
       return;
     }
 
     const xScale = this._xAxisHelper?.getScale?.(0);
     const yScale = this._yAxisHelper?.getScale?.(0);
+    const isVertical = this.direction === Direction.vertical;
 
     this._barMark.setMarkConfig({
       clip: true,
       clipPath: () => {
+        const usePreCalculatedRect = !!this._shouldDoPreCalculate();
+        if (usePreCalculatedRect) {
+          this._calculateStackRectPosition(isVertical);
+        }
         const rectPaths: any[] = [];
         this._forEachStackGroup(node => {
           let min = Infinity;
           let max = -Infinity;
+          let rectMin = Infinity;
+          let rectMax = -Infinity;
           let hasPercent = false;
           let minPercent = Infinity;
           let maxPercent = -Infinity;
@@ -511,6 +589,12 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
             const endPercent = datum[STACK_FIELD_END_PERCENT];
             min = Math.min(min, start, end);
             max = Math.max(max, start, end);
+            if (usePreCalculatedRect) {
+              const rectStart = datum[isVertical ? RECT_Y : RECT_X];
+              const rectEnd = datum[isVertical ? RECT_Y1 : RECT_X1];
+              rectMin = Math.min(rectMin, rectStart, rectEnd);
+              rectMax = Math.max(rectMax, rectStart, rectEnd);
+            }
             if (isValid(startPercent) && isValid(endPercent)) {
               hasPercent = true;
               minPercent = Math.min(minPercent, startPercent, endPercent);
@@ -531,14 +615,14 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
           const rectAttr =
             this.direction === Direction.horizontal
               ? {
-                  x: this._getBarXStart(mockDatum, xScale),
-                  x1: this._getBarXEnd(mockDatum, xScale),
+                  x: usePreCalculatedRect ? rectMin : this._getBarXStart(mockDatum, xScale),
+                  x1: usePreCalculatedRect ? rectMax : this._getBarXEnd(mockDatum, xScale),
                   y: this._getPosition(this.direction, mockDatum),
                   height: this._getBarWidth(this._yAxisHelper)
                 }
               : {
-                  y: this._getBarYStart(mockDatum, yScale),
-                  y1: this._getBarYEnd(mockDatum, yScale),
+                  y: usePreCalculatedRect ? rectMin : this._getBarYStart(mockDatum, yScale),
+                  y1: usePreCalculatedRect ? rectMax : this._getBarYEnd(mockDatum, yScale),
                   x: this._getPosition(this.direction, mockDatum),
                   width: this._getBarWidth(this._xAxisHelper)
                 };
@@ -731,12 +815,18 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
     const depthFromSpec = this._groups ? this._groups.fields.length : 1;
     const depth = isNil(scaleDepth) ? depthFromSpec : Math.min(depthFromSpec, scaleDepth);
 
-    const bandWidth = axisHelper.getBandwidth?.(depth - 1) ?? DefaultBandWidth;
     const hasBarWidth = isValid(this._spec.barWidth) && depth === depthFromSpec;
+    const useFixedWidth =
+      hasBarWidth &&
+      typeof this._spec.barWidth === 'number' &&
+      typeof this._spec.barMinWidth !== 'string' &&
+      typeof this._spec.barMaxWidth !== 'string';
+    const axisBandWidth = useFixedWidth ? undefined : axisHelper.getBandwidth?.(depth - 1);
+    const bandWidth = axisBandWidth ?? DefaultBandWidth;
 
     const hasBarMinWidth = isValid(this._spec.barMinWidth);
     const hasBarMaxWidth = isValid(this._spec.barMaxWidth);
-    let width = bandWidth;
+    let width = axisHelper.isContinuous && !isNil(axisBandWidth) && !hasBarWidth ? bandWidth * 0.5 : bandWidth;
     if (hasBarWidth) {
       width = getActualNumValue(this._spec.barWidth, bandWidth);
     }
@@ -799,7 +889,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
         }
       }
 
-      const center = scale.scale(datum[groupFields[0]]) + axisHelper.getBandwidth(0) / 2;
+      const center = scale.scale(datum[groupFields[0]]) + (axisHelper.getBandwidth(0) ?? bandWidth) / 2;
       return center - totalWidth / 2 + offSet;
     }
 
@@ -871,7 +961,7 @@ export class BarSeries<T extends IBarSeriesSpec = IBarSeriesSpec> extends Cartes
 
       this._data.setTransform([
         {
-          type: 'sampling',
+          type: 'dataSampling',
           size: this._direction === Direction.horizontal ? height : width,
           factor: this._spec.samplingFactor,
           yfield: this._direction === Direction.horizontal ? fieldsX[0] : fieldsY[0],

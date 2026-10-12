@@ -1,4 +1,4 @@
-import { IRankingBarSpec } from './interface';
+import type { IRankingBarSpec } from './interface';
 import { VChart, BaseChart } from '@visactor/vchart';
 import { RankingBarChartSpecTransformer } from './ranking-bar-transformer';
 

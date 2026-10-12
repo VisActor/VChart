@@ -22,7 +22,6 @@ import { GlobalScale } from '../../scale/global-scale';
 import type { ILayoutModelState, IModel, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type {
   IChart,
-  IChartRenderOption,
   IChartOption,
   IChartEvaluateOption,
   DimensionIndexOption,
@@ -71,7 +70,12 @@ import { ChartEvent, HOOK_EVENT } from '../../constant/event';
 import type { IGlobalScale } from '../../scale/interface';
 import { DimensionEventEnum } from '../../event/events/dimension/interface';
 import type { ITooltip } from '../../component/tooltip/interface';
-import { calculateChartSize, mergeUpdateResult } from '../util';
+import {
+  calculateChartSize,
+  isUpdateSpecResultComponentOnly,
+  isUpdateSpecResultLocalOnly,
+  mergeUpdateResult
+} from '../util';
 import { isDiscrete } from '@visactor/vscale';
 import { updateDataViewInData } from '../../data/initialize';
 import { LayoutZIndex } from '../../constant/layout';
@@ -80,6 +84,22 @@ import type { IMorphConfig } from '../../animation/spec';
 import { Interaction } from '../../interaction/interaction';
 import type { IInteraction } from '../../interaction/interface/common';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
+import { animationConfig, userAnimationConfig } from '../../animation/utils';
+
+const MARKER_COMPONENT_SPEC_KEYS: Record<string, boolean> = {
+  [ComponentTypeEnum.markPoint]: true,
+  [ComponentTypeEnum.markLine]: true,
+  [ComponentTypeEnum.markArea]: true
+};
+
+const MARKER_ADDITION_REMAKE_SPEC_KEYS: Record<string, boolean> = {
+  regionId: true,
+  regionIndex: true,
+  seriesId: true,
+  seriesIndex: true,
+  specifiedDataSeriesId: true,
+  specifiedDataSeriesIndex: true
+};
 
 export class BaseChart<T extends IChartSpec> extends CompilableBase implements IChart {
   readonly type: string = 'chart';
@@ -106,6 +126,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   protected _series: ISeries[] = [];
   // 组件
   protected _components: IComponent[] = [];
+  protected _specTransformer: Maybe<IChartSpecTransformer> = null;
 
   // 布局
   protected _layoutFunc: LayoutCallBack;
@@ -221,7 +242,10 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       globalScale: this._globalScale,
       onError: this._option?.onError,
       disableTriggerEvent: this._option?.disableTriggerEvent === true,
-      getSeriesData: this._chartData.getSeriesData.bind(this._chartData)
+      componentShowContent: this._option?.componentShowContent,
+      getSeriesData: this._chartData.getSeriesData.bind(this._chartData),
+      // @ts-ignore
+      dispatchEvent: (eType, params) => this._option.globalInstance.event.emit(eType, params)
     };
 
     if ((this as any)._setModelOption) {
@@ -232,6 +256,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   created(transformer: Maybe<IChartSpecTransformer>) {
+    this._specTransformer = transformer;
     // data
     this._chartData.parseData(this._spec.data);
     // scale
@@ -258,7 +283,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     const series = this.getAllSeries();
     const mergedTriggers: Partial<IBaseTriggerOptions>[] = [];
-    const mergedTriggersMarks: Record<string, Partial<IBaseTriggerOptions>> = {};
+    const groupedTriggers: Array<{
+      regionId: number;
+      config: Partial<IBaseTriggerOptions>;
+      trigger: Partial<IBaseTriggerOptions>;
+    }> = [];
 
     series.forEach(s => {
       const triggers = s.getInteractionTriggers();
@@ -267,15 +296,19 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         const regionId = s.getRegion().id;
 
         triggers.forEach(({ trigger, marks }) => {
-          const interactionId = `${regionId}-${trigger.type}`;
+          const sameTrigger = groupedTriggers.find(item => item.regionId === regionId && isEqual(item.config, trigger));
 
-          if (mergedTriggersMarks[interactionId]) {
-            marks.forEach(m => {
-              mergedTriggersMarks[interactionId].marks.push(m);
-            });
+          if (sameTrigger) {
+            sameTrigger.trigger.marks.push(...marks);
           } else {
-            mergedTriggersMarks[interactionId] = { ...trigger, marks };
-            mergedTriggers.push(mergedTriggersMarks[interactionId]);
+            const mergedTrigger = { ...trigger, marks: [...marks] };
+
+            groupedTriggers.push({
+              regionId,
+              config: { ...trigger },
+              trigger: mergedTrigger
+            });
+            mergedTriggers.push(mergedTrigger);
           }
         });
       }
@@ -311,6 +344,22 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this.reDataFlow();
 
     this._initInteractions();
+
+    this.initStageAnimation();
+  }
+
+  initStageAnimation() {
+    const compiler = this._option.getCompiler();
+    if (!compiler?.setStageAnimationConfig) {
+      return;
+    }
+    compiler.setStageAnimationConfig(
+      animationConfig(
+        {}, // Factory.getAnimationInKey('stage')?.({}, null),
+        userAnimationConfig('stage', this._spec as any, {}),
+        null
+      )
+    );
   }
 
   reDataFlow() {
@@ -537,6 +586,11 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   onEvaluateEnd(option: IChartEvaluateOption) {
     const elements = [...this._components, ...this._regions, ...this._series];
     elements.forEach(element => element.onEvaluateEnd(option));
+  }
+
+  onBeforeRender() {
+    const elements = [...this._components, ...this._regions, ...this._series];
+    elements.forEach(element => element.onBeforeRender());
   }
 
   getLayoutElements(): ILayoutItem[] {
@@ -830,26 +884,45 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   private _getSpecKeys(spec: T) {
-    const ignoreKeys: Record<string, boolean> = { width: true, height: true };
+    const ignoreKeys: Record<string, boolean> = {
+      width: true,
+      height: true,
+      xField: true,
+      yField: true
+    };
     return Object.keys(spec)
       .filter(key => !ignoreKeys[key])
       .sort();
   }
 
+  private _isSeriesRelatedSpecKey(key: string) {
+    return !!this._specTransformer?.getSeriesRelatedSpecKeys()?.[key];
+  }
+
+  private _canChangeSpecKeysWithoutRemake(currentKeys: string[], nextKeys: string[]) {
+    const currentKeySet = new Set(currentKeys);
+    const nextKeySet = new Set(nextKeys);
+    const changedKeys = [
+      ...currentKeys.filter(key => !nextKeySet.has(key)),
+      ...nextKeys.filter(key => !currentKeySet.has(key))
+    ];
+
+    return changedKeys.length > 0 && changedKeys.every(key => this._isSeriesRelatedSpecKey(key));
+  }
+
   updateSpec(spec: T) {
-    const result = {
+    const result: IUpdateSpecResult = {
       change: false,
       reMake: false,
       reRender: false,
       reSize: false,
       reCompile: false
     };
-    // 需要重新布局
-    this.setLayoutTag(true, null, false);
     // 第一版简易逻辑如果配置项出现增删，直接重新创建chart
     // 如果出现类型不同，同上
     if (spec.type !== this.type) {
       result.reMake = true;
+      this.setLayoutTag(true, null, false);
       return result;
     }
     // spec set & transformSpec
@@ -857,39 +930,85 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
     const currentKeys = this._getSpecKeys(this._spec);
     const nextKeys = this._getSpecKeys(spec);
-    if (!isEqual(currentKeys, nextKeys)) {
+    if (!isEqual(currentKeys, nextKeys) && !this._canChangeSpecKeysWithoutRemake(currentKeys, nextKeys)) {
       result.reMake = true;
+      this.setLayoutTag(true, null, false);
       return result;
     }
+    const specKeys = Array.from(new Set([...currentKeys, ...nextKeys])).sort();
     // spec key 的个数一致，但是数组长度不一致时。remake
-    for (let i = 0; i < currentKeys.length; i++) {
-      const key = currentKeys[i];
-      if (isArray((this._spec as any)[key]) && (this._spec as any)[key].length !== array((spec as any)[key]).length) {
+    for (let i = 0; i < specKeys.length; i++) {
+      const key = specKeys[i];
+      const currentSpec = (this._spec as any)[key];
+      const nextSpec = (spec as any)[key];
+      if (
+        isArray(currentSpec) &&
+        currentSpec.length !== array(nextSpec).length &&
+        !this._canChangeMarkerComponentsWithoutRemake(key, currentSpec, nextSpec)
+      ) {
         result.reMake = true;
+        this.setLayoutTag(true, null, false);
         return result;
       }
     }
     const oldSpec = this._spec;
+    const onlyMarkerComponentsRemoved = this._isOnlyMarkerComponentsRemoved(this._spec, spec, specKeys);
+    const onlyComponentSpecsChanged = this._isOnlyComponentSpecsChanged(this._spec, spec, specKeys);
+    const onlySeriesSpecsChanged = this._isOnlySeriesSpecsChanged(this._spec, spec, specKeys);
+    const onlyComponentOrSeriesSpecsChanged =
+      onlyComponentSpecsChanged || onlySeriesSpecsChanged
+        ? true
+        : this._isOnlyComponentOrSeriesSpecsChanged(this._spec, spec, specKeys);
+
     this._spec = spec;
+    if (onlyMarkerComponentsRemoved) {
+      this._removeMarkerComponentsForEmptySpecs(result);
+      return result;
+    }
     // update chart config
     this.updateChartConfig(result, oldSpec);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
 
     this.updateGlobalScale(result);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
     // region 变化
     this.updateRegionSpec(result);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
-    this.updateComponentSpec(result);
+    const componentUpdateResult = this.updateComponentSpec(result);
     if (result.reMake) {
+      this.setLayoutTag(true, null, false);
       return result;
     }
+    if (!onlyComponentSpecsChanged && result.effects?.localOnly) {
+      delete result.effects.localOnly;
+    }
+    if (isUpdateSpecResultLocalOnly(result)) {
+      return result;
+    }
+    if (
+      onlyComponentSpecsChanged &&
+      !componentUpdateResult.hasNonComponentOnlyUpdate &&
+      (isUpdateSpecResultComponentOnly(result) || this._isComponentScaleDomainOnlyUpdate(result))
+    ) {
+      componentUpdateResult.componentOnlyUpdatedComponents.forEach(component => {
+        component.reInit(component.getSpec());
+      });
+      if (result.effects?.layout) {
+        this.setLayoutTag(true, null, false);
+      }
+      return result;
+    }
+    // 需要重新布局
+    this.setLayoutTag(true, null, false);
     this.updateSeriesSpec(result);
     if (result.reMake) {
       return result;
@@ -900,9 +1019,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
      * 所以在更新model前需要调用`reInit`确保`spec`和内部变量已经更新
      */
     this.reInit();
-    this.updateDataSpec();
-    // ensure that the domain of the scale follows the data change
-    this.updateGlobalScaleDomain();
+    if (!onlyComponentOrSeriesSpecsChanged || !this._canSkipChartDataStages(result)) {
+      this.updateDataSpec();
+      // ensure that series data transforms and scale domains follow the data change
+      this.reDataFlow();
+      this._reRunStackDataFlow();
+      this.getAllModels().forEach(model => model.onDataUpdate());
+    }
     return result;
   }
 
@@ -936,6 +1059,8 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
   }
 
   updateComponentSpec(result: IUpdateSpecResult) {
+    const componentOnlyUpdatedComponents: IComponent[] = [];
+    let hasNonComponentOnlyUpdate = false;
     // 用来检测组件是否有新增
     const componentCache: {
       [key in string]: {
@@ -948,10 +1073,17 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       [ComponentTypeEnum.brush]: true,
       [ComponentTypeEnum.indicator]: true
     };
+    const removedComponents: IComponent[] = [];
+    let hasNonLocalComponentRemoval = false;
 
     this._components.forEach(c => {
       if (c.type === ComponentTypeEnum.label || c.type === ComponentTypeEnum.totalLabel) {
         // label配置都会被解析到series中，所以不适合放在这里进行比对
+        if (!c.getSpecInfo()) {
+          removedComponents.push(c);
+          hasNonLocalComponentRemoval = true;
+          hasNonComponentOnlyUpdate = true;
+        }
         return;
       }
       if (checkVisibleComponents[c.type]) {
@@ -967,12 +1099,40 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           specCount: cmpSpec.length,
           componentCount: 0
         };
+        if (this._canRemoveMarkerComponentsWithoutRemake(compSpecKey, [c.getSpec()], cmpSpec)) {
+          removedComponents.push(c);
+          return;
+        }
         componentCache[compSpecKey].componentCount++;
-        mergeUpdateResult(result, c.updateSpec(cmpSpec[c.getSpecIndex()] ?? {}, cmpSpec));
+        const componentSpec = cmpSpec[c.getSpecIndex()] ?? {};
+        const previousComponentSpec = c.getSpec();
+        const componentResult = c.updateSpec(componentSpec, cmpSpec);
+        if (
+          isUpdateSpecResultComponentOnly(componentResult) ||
+          this._isComponentScaleDomainOnlyUpdate(componentResult)
+        ) {
+          componentOnlyUpdatedComponents.push(c);
+        } else if (!isEqual(previousComponentSpec, componentSpec)) {
+          hasNonComponentOnlyUpdate = true;
+        }
+        mergeUpdateResult(result, componentResult);
       } else {
-        mergeUpdateResult(result, c.updateSpec(cmpSpec));
+        const previousComponentSpec = c.getSpec();
+        const componentResult = c.updateSpec(cmpSpec);
+        if (
+          isUpdateSpecResultComponentOnly(componentResult) ||
+          this._isComponentScaleDomainOnlyUpdate(componentResult)
+        ) {
+          componentOnlyUpdatedComponents.push(c);
+        } else if (!isEqual(previousComponentSpec, cmpSpec)) {
+          hasNonComponentOnlyUpdate = true;
+        }
+        mergeUpdateResult(result, componentResult);
       }
     });
+    if (!result.reMake) {
+      this._createMissingMarkerComponentsForSpecs(result, componentCache);
+    }
     for (const key in componentCache) {
       if (Object.prototype.hasOwnProperty.call(componentCache, key)) {
         const element = componentCache[key];
@@ -980,6 +1140,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
           result.reMake = true;
         }
       }
+    }
+
+    if (removedComponents.length) {
+      removedComponents.forEach(component => {
+        this._removeComponent(component);
+      });
+      result.change = true;
+      result.effects = {
+        ...result.effects,
+        component: true,
+        ...(hasNonLocalComponentRemoval ? { layout: true, render: true } : { localOnly: true })
+      };
     }
 
     /** 这些组件 visible: false 不创建组件，也在this._components中，所以需要额外检测是否有visible 的切换 */
@@ -994,6 +1166,274 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     });
+    return {
+      componentOnlyUpdatedComponents,
+      hasNonComponentOnlyUpdate
+    };
+  }
+
+  private _canChangeMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
+    return (
+      this._canRemoveMarkerComponentsWithoutRemake(key, currentSpec, nextSpec) ||
+      this._canAddMarkerComponentsWithoutRemake(key, currentSpec, nextSpec)
+    );
+  }
+
+  private _canAddMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
+    if (!MARKER_COMPONENT_SPEC_KEYS[key] || !isArray(currentSpec) || !isArray(nextSpec)) {
+      return false;
+    }
+
+    if (nextSpec.length <= currentSpec.length) {
+      return false;
+    }
+
+    return nextSpec.slice(currentSpec.length).every(this._isMarkerAdditionSpecSafeWithoutRemake);
+  }
+
+  private _isMarkerAdditionSpecSafeWithoutRemake = (spec: unknown) => {
+    if (!spec || typeof spec !== 'object') {
+      return false;
+    }
+
+    const markerSpec = spec as Record<string, unknown>;
+    if (markerSpec.visible === false) {
+      return false;
+    }
+
+    return !Object.keys(MARKER_ADDITION_REMAKE_SPEC_KEYS).some(key => !isNil(markerSpec[key]));
+  };
+
+  private _isAutoRangeMarkerSpec(spec: unknown) {
+    return !!spec && typeof spec === 'object' && (spec as { autoRange?: boolean }).autoRange === true;
+  }
+
+  private _canRemoveMarkerComponentsWithoutRemake(key: string, currentSpec: any, nextSpec: any) {
+    return (
+      MARKER_COMPONENT_SPEC_KEYS[key] &&
+      isArray(currentSpec) &&
+      currentSpec.length > 0 &&
+      isArray(nextSpec) &&
+      nextSpec.length === 0
+    );
+  }
+
+  private _isOnlyMarkerComponentsRemoved(currentSpec: any, nextSpec: any, specKeys: string[]) {
+    let hasMarkerRemoval = false;
+
+    const onlyMarkerRemoval = specKeys.every(key => {
+      if (this._canRemoveMarkerComponentsWithoutRemake(key, currentSpec[key], nextSpec[key])) {
+        hasMarkerRemoval = true;
+        return true;
+      }
+
+      return isEqual(currentSpec[key], nextSpec[key]);
+    });
+
+    return hasMarkerRemoval && onlyMarkerRemoval;
+  }
+
+  private _isComponentSpecKey(key: string) {
+    if (MARKER_COMPONENT_SPEC_KEYS[key]) {
+      return true;
+    }
+
+    return this._components.some(component => {
+      return (component.specKey || component.type) === key;
+    });
+  }
+
+  private _isOnlyComponentSpecsChanged(currentSpec: object, nextSpec: object, specKeys: string[]) {
+    let hasComponentSpecChange = false;
+    const currentSpecRecord = currentSpec as Record<string, unknown>;
+    const nextSpecRecord = nextSpec as Record<string, unknown>;
+
+    const onlyComponentSpecChange = specKeys.every(key => {
+      if (isEqual(currentSpecRecord[key], nextSpecRecord[key])) {
+        return true;
+      }
+      if (this._isComponentSpecKey(key)) {
+        hasComponentSpecChange = true;
+        return true;
+      }
+      return false;
+    });
+
+    return hasComponentSpecChange && onlyComponentSpecChange;
+  }
+
+  private _isOnlySeriesSpecsChanged(currentSpec: object, nextSpec: object, specKeys: string[]) {
+    let hasSeriesSpecChange = false;
+    const currentSpecRecord = currentSpec as Record<string, unknown>;
+    const nextSpecRecord = nextSpec as Record<string, unknown>;
+    const seriesRelatedSpecKeys = this._specTransformer?.getSeriesRelatedSpecKeys() ?? {};
+
+    const onlySeriesSpecChange = specKeys.every(key => {
+      if (isEqual(currentSpecRecord[key], nextSpecRecord[key])) {
+        return true;
+      }
+      if (seriesRelatedSpecKeys[key]) {
+        hasSeriesSpecChange = true;
+        return true;
+      }
+      return false;
+    });
+
+    return hasSeriesSpecChange && onlySeriesSpecChange;
+  }
+
+  private _isOnlyComponentOrSeriesSpecsChanged(currentSpec: object, nextSpec: object, specKeys: string[]) {
+    let hasComponentOrSeriesSpecChange = false;
+    const currentSpecRecord = currentSpec as Record<string, unknown>;
+    const nextSpecRecord = nextSpec as Record<string, unknown>;
+    const seriesRelatedSpecKeys = this._specTransformer?.getSeriesRelatedSpecKeys() ?? {};
+
+    const onlyComponentOrSeriesSpecChange = specKeys.every(key => {
+      if (isEqual(currentSpecRecord[key], nextSpecRecord[key])) {
+        return true;
+      }
+      if (this._isComponentSpecKey(key) || seriesRelatedSpecKeys[key]) {
+        hasComponentOrSeriesSpecChange = true;
+        return true;
+      }
+      return false;
+    });
+
+    return hasComponentOrSeriesSpecChange && onlyComponentOrSeriesSpecChange;
+  }
+
+  private _canSkipChartDataStages(result: IUpdateSpecResult) {
+    const effects = result.effects;
+
+    return !!effects?.series && !effects.remake && !effects.data && !effects.scaleDomain && !result.reMake;
+  }
+
+  private _isComponentScaleDomainOnlyUpdate(result: IUpdateSpecResult) {
+    const effects = result.effects;
+
+    return (
+      !!effects?.component &&
+      !!effects.scaleDomain &&
+      !result.reMake &&
+      !result.reCompile &&
+      !result.reSize &&
+      !effects.remake &&
+      !effects.compile &&
+      !effects.data &&
+      !effects.series &&
+      !effects.animation &&
+      !result.reTransformSpec &&
+      !result.reAnimate &&
+      !result.changeTheme &&
+      !result.changeBackground
+    );
+  }
+
+  private _reRunStackDataFlow() {
+    if (!this._series.some(series => series.getStack?.())) {
+      return;
+    }
+
+    (this as any)._stack?.stackAll?.();
+    this._series.forEach(series => {
+      if (series.getViewDataFilter()) {
+        series.reTransformViewData();
+      }
+    });
+  }
+
+  private _getModelSpecIndex(specInfo: IModelSpecInfo) {
+    const specPath = specInfo.specPath ?? [];
+    const specIndex = specPath[specPath.length - 1];
+
+    return typeof specIndex === 'number' ? specIndex : 0;
+  }
+
+  private _hasComponentForSpecInfo(key: string, specInfo: IModelSpecInfo) {
+    const specIndex = this._getModelSpecIndex(specInfo);
+
+    return this._components.some(component => {
+      return (component.specKey || component.type) === key && component.getSpecIndex() === specIndex;
+    });
+  }
+
+  private _createMissingMarkerComponentsForSpecs(
+    result: IUpdateSpecResult,
+    componentCache: Record<string, { specCount: number; componentCount: number }>
+  ) {
+    let createdCount = 0;
+    let hasAutoRangeMarker = false;
+
+    this._specTransformer?.forEachComponentInSpec(
+      this._spec,
+      (constructor, specInfo) => {
+        if (result.reMake) {
+          return;
+        }
+        const compSpecKey = constructor.specKey || constructor.type;
+
+        if (!MARKER_COMPONENT_SPEC_KEYS[compSpecKey] || this._hasComponentForSpecInfo(compSpecKey, specInfo)) {
+          return;
+        }
+        if (!this._isMarkerAdditionSpecSafeWithoutRemake(specInfo.spec)) {
+          result.reMake = true;
+          return;
+        }
+
+        this._createComponent(constructor, specInfo);
+        if (componentCache[compSpecKey]) {
+          componentCache[compSpecKey].componentCount++;
+        }
+        createdCount++;
+        hasAutoRangeMarker = hasAutoRangeMarker || this._isAutoRangeMarkerSpec(specInfo.spec);
+      },
+      this._option.getSpecInfo()
+    );
+
+    if (!createdCount) {
+      return;
+    }
+
+    result.change = true;
+    result.effects = {
+      ...result.effects,
+      component: true,
+      ...(hasAutoRangeMarker ? { scaleDomain: true } : null),
+      layout: true,
+      render: true
+    };
+  }
+
+  private _removeMarkerComponentsForEmptySpecs(result: IUpdateSpecResult) {
+    const removedComponents = this._components.filter(component => {
+      const compSpecKey = component.specKey || component.type;
+      const cmpSpec = (this._spec as any)[compSpecKey] ?? {};
+
+      return this._canRemoveMarkerComponentsWithoutRemake(compSpecKey, [component.getSpec()], cmpSpec);
+    });
+
+    if (!removedComponents.length) {
+      return;
+    }
+
+    removedComponents.forEach(component => {
+      this._removeComponent(component);
+    });
+    result.change = true;
+    result.effects = {
+      ...result.effects,
+      component: true,
+      localOnly: true
+    };
+  }
+
+  private _removeComponent(component: IComponent) {
+    this._components = this._components.filter(c => c !== component);
+    this._idMap.delete(component.id);
+    component.getMarks().forEach(mark => {
+      this.getCompiler().removeRootMark(mark);
+    });
+    component.release();
   }
 
   updateSeriesSpec(result: IUpdateSpecResult) {
@@ -1122,13 +1562,16 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     this._option.performanceHook?.afterComponentCompile?.(this._option.globalInstance);
   }
 
-  release() {
+  release(forceReleaseVRenderComponents: boolean = true) {
     /* release 前的处理 */
-    [...this._components, ...this._regions, ...this._series].forEach(m => {
-      m.beforeRelease();
-    });
+    if (forceReleaseVRenderComponents) {
+      [...this._components, ...this._regions, ...this._series].forEach(m => {
+        m.beforeRelease();
+      });
+    }
 
     /* 开始 release */
+    this._event.release();
     super.release();
     // clear event , temporary function of  chart items
     this.clear();
@@ -1265,22 +1708,12 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
   protected _enableMarkAnimation(states: string | string[]) {
     const marks = this.getAllMarks();
-    marks.forEach(mark => {
-      const product = mark.getProduct();
-      if (product && product.animate) {
-        // product.animate.enableAnimationState(states);
-      }
-    });
+    marks.forEach(mark => mark.enableAnimationByState(states));
   }
 
   protected _disableMarkAnimation(states: string | string[]) {
     const marks = this.getAllMarks();
-    marks.forEach(mark => {
-      const product = mark.getProduct();
-      if (product && product.animate) {
-        // product.animate.disableAnimationState(states);
-      }
-    });
+    marks.forEach(mark => mark.disableAnimationByState(states));
   }
 
   filterGraphicsByDatum(
@@ -1312,10 +1745,13 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
 
               if (isCollect) {
                 graphics.filter(e => {
-                  const elDatum = getDatumOfElement(e, m, s, r);
+                  const elDatum = getDatumOfElement(e, m, s, r) as Datum[];
                   const isPick =
-                    // eslint-disable-next-line max-nested-callbacks, eqeqeq
-                    elDatum && (datum as Datum[]).every((d, index) => keys.every(k => d[k] == elDatum[index][k]));
+                    elDatum &&
+                    (datum as Datum[]).every(
+                      // eslint-disable-next-line max-nested-callbacks, eqeqeq
+                      (d, index) => elDatum[index] && keys.every(k => d[k] == elDatum[index][k])
+                    );
 
                   if (isPick) {
                     pickElements.push(e);
@@ -1328,7 +1764,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                   const datumTemp = (datum as Datum[]).slice();
 
                   graphics.forEach(e => {
-                    const elDatum = getDatumOfElement(e, m, s, r);
+                    const elDatum = getDatumOfElement(e, m, s, r) as Datum;
                     // eslint-disable-next-line max-nested-callbacks, eqeqeq
                     const index = elDatum && datumTemp.findIndex(d => keys.every(k => d[k] == elDatum[k]));
                     if (index >= 0) {
@@ -1341,7 +1777,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
                   });
                 } else {
                   const el = graphics.find(e => {
-                    const elDatum = getDatumOfElement(e, m, s, r);
+                    const elDatum = getDatumOfElement(e, m, s, r) as Datum;
                     // eslint-disable-next-line eqeqeq
                     return elDatum && keys.every(k => (datum as Datum[])[0][k] == elDatum[k]);
                   });
@@ -1400,12 +1836,18 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     });
     const isUnableValue =
       isNil(value) || !dimensionInfo || dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && isNil(d.index));
+
+    const isUnableTooltip =
+      // 如果数据本身不可用
+      isUnableValue ||
+      // 或者数据为空
+      dimensionInfo.every(d => isDiscrete(d.axis.getScale().type) && d.data.every(_data => _data.datum.length === 0));
     // tooltip
     if (opt.tooltip !== false) {
       const tooltip = this.getComponentsByType(ComponentTypeEnum.tooltip)[0] as unknown as ITooltip;
 
       if (tooltip?.getVisible()) {
-        if (isUnableValue) {
+        if (isUnableValue || isUnableTooltip) {
           (<any>tooltip).hideTooltip?.();
         } else {
           const dataFilter: { [key: string]: any } = {};
@@ -1433,6 +1875,27 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
         }
       }
     }
+  }
+
+  showCrosshair(cb: (axis: IAxis) => false | string | number) {
+    const crosshair =
+      this.getComponentsByType(ComponentTypeEnum.cartesianCrosshair)[0] ??
+      this.getComponentsByType(ComponentTypeEnum.polarCrosshair)[0];
+    if (!crosshair) {
+      return;
+    }
+    const axes = this.getComponentsByKey('axes') as IAxis[];
+    const dimInfo: { axis: IAxis; value: string | number }[] = [];
+    axes.forEach(axis => {
+      const value = cb(axis);
+      if (value !== false) {
+        dimInfo.push({
+          axis,
+          value
+        });
+      }
+    });
+    (crosshair as ICrossHair).showCrosshair(dimInfo);
   }
 
   getColorScheme() {

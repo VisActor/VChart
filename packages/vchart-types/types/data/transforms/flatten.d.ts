@@ -1,5 +1,5 @@
 import type { Datum } from '../../typings';
-import type { TreemapNodeElement, SunburstNodeElement } from '@visactor/vgrammar-hierarchy';
+import type { TreemapNodeElement, SunburstNodeElement } from '@visactor/vlayouts';
 export type FlattenNodeElement = TreemapNodeElement | SunburstNodeElement;
 export interface IFlattenOpt {
     output?: Datum[];

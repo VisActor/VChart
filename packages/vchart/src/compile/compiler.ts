@@ -1,36 +1,36 @@
 import { ChartEvent, Event_Source_Type } from './../constant/event';
-import type {
-  CompilerListenerParameters,
-  ICompiler,
-  ICompilerModel,
-  IRenderContainer,
-  IRenderOption
-} from './interface';
+import type { CompilerListenerParameters, ICompiler, IRenderContainer, IRenderOption } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { LayoutState } from './interface';
-import { GrammarType } from './interface/compilable-item';
 import { isMobileLikeMode, isTrueBrowser } from '../util/env';
-import { isString } from '../util/type';
+import { isClass, isString } from '../util/type';
 import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isObject, isValid } from '@visactor/vutils';
+import { isArray, isObject, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
-import { createGroup, Stage, vglobal, waitForAllSubLayers } from '@visactor/vrender-core';
-import type { IColor, IEventTarget, IGroup, IStage } from '@visactor/vrender-core';
+import { createGroup, vglobal, waitForAllSubLayers } from '../vrender-bridge';
+import type { IColor, IEventTarget, IGroup, IPlugin, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
+import type { AnimationStateValues } from '../mark/interface';
 import { type IGraphicContext, type IMark, type IMarkGraphic } from '../mark/interface';
 import { Factory } from '../core/factory';
 import type { Gesture } from '@visactor/vrender-kits';
 import { findMarkGraphic, getDatumOfGraphic } from '../util/mark';
-import { diffMarks, findSimpleMarks, traverseGroupMark } from './util';
+import { diffMarks, findSimpleMarks, toRenderMode, traverseGroupMark } from './util';
 import { log } from '../util/debug';
+import type { MarkAnimationSpec, TypeAnimationConfig } from '../animation/interface';
+import { AnimationStateEnum } from '../animation/interface';
+import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
+import { createStageFromApp, getVRenderAppEnvParams, resolveVRenderApp } from './stage-app';
 
 type EventListener = {
   type: string;
   callback: (...args: any[]) => void;
 };
+
+const POPTIP_FOR_TEXT_PLUGIN_NAME = 'poptipForText';
 
 export class Compiler implements ICompiler {
   private _count: number = 0;
@@ -49,6 +49,15 @@ export class Compiler implements ICompiler {
   protected _rootMarks: IMark[] = [];
 
   protected _stage: IStage;
+
+  private _isExternalStage: boolean = false;
+
+  private _releaseVRenderAppRef?: () => void;
+
+  protected _stateAnimationConfig: Partial<MarkAnimationSpec>;
+  get stateAnimationConfig() {
+    return this._stateAnimationConfig;
+  }
 
   protected _rootGroup: IGroup;
 
@@ -69,6 +78,9 @@ export class Compiler implements ICompiler {
 
   protected _container: IRenderContainer;
   protected _option: IRenderOption;
+  getOption() {
+    return this._option;
+  }
   // 已释放标记
   private _released: boolean = false;
 
@@ -82,6 +94,9 @@ export class Compiler implements ICompiler {
     this._option = option;
   }
 
+  getChart() {
+    return this._compileChart;
+  }
   /**
    * 获取 canvas dom
    * @returns HTMLCanvasElement | undefined
@@ -98,6 +113,36 @@ export class Compiler implements ICompiler {
     return this._stage;
   }
 
+  private _dedupeStagePlugin(pluginName: string) {
+    const pluginService = this._stage?.pluginService;
+    if (!pluginService?.findPluginsByName) {
+      return;
+    }
+
+    const plugins = pluginService.findPluginsByName(pluginName);
+    if (plugins.length <= 1) {
+      return;
+    }
+
+    const plugin = plugins[0] as IPlugin;
+    if (pluginService.uninstall) {
+      pluginService.uninstall(pluginName);
+      pluginService.register(plugin);
+    } else {
+      plugins.slice(1).forEach(duplicatePlugin => {
+        pluginService.unRegister(duplicatePlugin as IPlugin);
+      });
+    }
+  }
+
+  private _dedupePoptipPlugin() {
+    if (!this._option.pluginList?.includes(POPTIP_FOR_TEXT_PLUGIN_NAME)) {
+      return;
+    }
+
+    this._dedupeStagePlugin(POPTIP_FOR_TEXT_PLUGIN_NAME);
+  }
+
   initView() {
     if (this._released) {
       return;
@@ -107,37 +152,74 @@ export class Compiler implements ICompiler {
       return;
     }
 
-    const { autoRefreshDpr, dpr, mode, gestureConfig, interactive, clickInterval, autoPreventDefault, background } =
-      this._option;
-    this._stage =
-      this._option.stage ??
-      (new Stage({
-        background,
-        width: this._width,
-        height: this._height,
-        container: this._container.dom ?? null,
-        canvas: this._container.canvas ?? null,
-        dpr,
-        viewBox: this._option.viewBox,
-        canvasControled: this._option.canvasControled,
-        beforeRender: this._option.beforeRender,
-        afterRender: this._option.afterRender,
-        disableDirtyBounds: true,
-        autoRender: true,
-        ticker: this._option.ticker,
-        pluginList: this._option.pluginList,
-        enableHtmlAttribute: this._option.enableHtmlAttribute,
-        optimize: this._option.optimize,
-        supportsTouchEvents: this._option.supportsTouchEvents,
-        supportsPointerEvents: this._option.supportsPointerEvents,
-        event: {
-          clickInterval: clickInterval,
-          autoPreventDefault: autoPreventDefault
-        },
-        ReactDOM: this._option.ReactDOM,
-        autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr)
-      }) as unknown as IStage);
+    const {
+      autoRefreshDpr,
+      dpr,
+      mode,
+      modeParams,
+      gestureConfig,
+      interactive,
+      clickInterval,
+      autoPreventDefault,
+      background
+    } = this._option;
+    const appEnvParams = getVRenderAppEnvParams(mode, modeParams);
+    vglobal.setEnv(toRenderMode(mode), appEnvParams ?? {});
+    const externalStage = this._option.stage;
+    this._isExternalStage = !!externalStage;
+    this._releaseVRenderAppRef = undefined;
+    this._stage = externalStage;
 
+    if (!this._stage) {
+      const resolvedApp = resolveVRenderApp({
+        app: this._option.app,
+        mode,
+        modeParams
+      });
+      this._releaseVRenderAppRef = resolvedApp.releaseAppRef;
+      this._option.runtimePluginInstallers?.forEach(install => install(resolvedApp.app));
+
+      try {
+        // Canvas view binding is stage-scoped. Keep it out of app envParams so
+        // one app can safely host multiple VChart/VTable stages in Lynx pages.
+        this._stage = createStageFromApp(resolvedApp.app, {
+          background,
+          width: this._width,
+          height: this._height,
+          container: this._container.dom ?? null,
+          canvas: this._container.canvas ?? null,
+          dpr,
+          viewBox: this._option.viewBox,
+          canvasControled: this._option.canvasControled,
+          beforeRender: (stage: IStage) => {
+            this._compileChart?.onBeforeRender();
+            this._option.beforeRender?.(stage);
+          },
+          afterRender: this._option.afterRender,
+          disableDirtyBounds: true,
+          autoRender: true,
+          ticker: this._option.ticker,
+          pluginList: this._option.pluginList,
+          enableHtmlAttribute: this._option.enableHtmlAttribute,
+          optimize: this._option.optimize,
+          supportsTouchEvents: this._option.supportsTouchEvents,
+          supportsPointerEvents: this._option.supportsPointerEvents,
+          event: {
+            clickInterval: clickInterval,
+            autoPreventDefault: autoPreventDefault
+          },
+          ReactDOM: this._option.ReactDOM,
+          autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
+          ...(this._option.renderHooks ?? {})
+        }) as unknown as IStage;
+      } catch (error) {
+        this._releaseVRenderAppRef?.();
+        this._releaseVRenderAppRef = undefined;
+        throw error;
+      }
+    }
+
+    this._dedupePoptipPlugin();
     this._stage.enableIncrementalAutoRender();
 
     // 之前vgrammar 设置了一些默认配置
@@ -202,6 +284,38 @@ export class Compiler implements ICompiler {
     this._compileChart?.getEvent()?.emit(ChartEvent.afterRender, { chart: this._compileChart });
   };
 
+  private _isGeoRegionRoamDragEnabled() {
+    const chartSpec = this._compileChart?.getSpec?.();
+    const regions = chartSpec?.region;
+    if (!isArray(regions)) {
+      return false;
+    }
+
+    return regions.some((region: any) => {
+      if (region?.coordinate !== 'geo' || !region.roam) {
+        return false;
+      }
+
+      if (region.roam === true) {
+        return true;
+      }
+
+      return region.roam.drag ?? true;
+    });
+  }
+
+  private _shouldDisableCanvasTouchAction() {
+    if (!isTrueBrowser(this._option.mode)) {
+      return false;
+    }
+
+    const supportsTouchEvents = isValid(this._option.supportsTouchEvents)
+      ? this._option.supportsTouchEvents
+      : vglobal.supportsTouchEvents;
+
+    return supportsTouchEvents === false && this._isGeoRegionRoamDragEnabled();
+  }
+
   private _setCanvasStyle() {
     if (!this._stage) {
       return;
@@ -212,6 +326,7 @@ export class Compiler implements ICompiler {
       const canvas = this.getCanvas();
       if (canvas) {
         canvas.style.display = 'block';
+        canvas.style.touchAction = this._shouldDisableCanvasTouchAction() ? 'none' : '';
       }
     }
   }
@@ -234,6 +349,7 @@ export class Compiler implements ICompiler {
     }
 
     chart.compile();
+    this._setCanvasStyle();
     chart.afterCompile();
   }
   protected clearNextRender() {
@@ -291,9 +407,11 @@ export class Compiler implements ICompiler {
         vchart: this._compileChart.getOption()?.globalInstance
       });
     }
+    this._option.performanceHook?.afterVRenderDraw?.(this._compileChart.getOption().globalInstance);
   };
 
   private _doRender(immediately: boolean) {
+    this._option.performanceHook?.beforeDoRender?.(this._compileChart.getOption().globalInstance);
     if (this._stage) {
       this._rootMarks.forEach(g => {
         traverseGroupMark(
@@ -312,18 +430,24 @@ export class Compiler implements ICompiler {
         );
       });
 
+      this._option.performanceHook?.beforeVRenderDraw?.(this._compileChart.getOption().globalInstance);
       // 全量渲染的时候先关闭dirty bounds 提升性能
       this._stage.disableDirtyBounds();
       this._stage.afterNextRender(this._handleAfterNextRender);
 
       if (immediately) {
         this._stage.render();
+
+        this._option.performanceHook?.afterVRenderDraw?.(this._compileChart.getOption().globalInstance);
       }
     }
   }
 
   renderMarks() {
-    if (!this._hasCommitedMark()) {
+    let hasCommitedMark = this._hasCommitedMark();
+    const needsLayout = this._layoutState === LayoutState.before;
+
+    if (!hasCommitedMark && !needsLayout) {
       return;
     }
 
@@ -331,17 +455,20 @@ export class Compiler implements ICompiler {
     this.clearProgressive();
 
     // 更新所有的mark
-    this._rootMarks.forEach(mark => {
-      mark.render();
-    });
+    if (hasCommitedMark) {
+      this._rootMarks.forEach(mark => {
+        mark.render();
+      });
+    }
 
-    if (this._layoutState === LayoutState.before) {
+    if (needsLayout) {
       // 需要更新布局
       this._layoutState = LayoutState.layouting;
       this._compileChart?.onLayout();
       this._layoutState = LayoutState.reevaluate;
+      hasCommitedMark = this._hasCommitedMark();
 
-      if (this._hasCommitedMark()) {
+      if (hasCommitedMark) {
         // 第二次更新所有的mark
         this._rootMarks.forEach(mark => {
           mark.render();
@@ -350,10 +477,17 @@ export class Compiler implements ICompiler {
       this.handleLayoutEnd();
     }
 
-    this.findProgressiveMarks();
+    if (hasCommitedMark) {
+      this.findProgressiveMarks();
+
+      // update stage animation state
+      this.updateStateAnimation();
+    }
 
     this._doRender(true);
-    this.doPreProgressive();
+    if (hasCommitedMark) {
+      this.doPreProgressive();
+    }
 
     log(`--- start of renderMarks(${this._count}) ---`);
     this._count++;
@@ -411,6 +545,72 @@ export class Compiler implements ICompiler {
     if (this.clearNextRender()) {
       this.renderMarks();
     }
+  }
+
+  setStageAnimationConfig(config: Partial<MarkAnimationSpec>) {
+    // 封装options，批量添加一些默认参数
+    const animationConfig: Partial<MarkAnimationSpec> = {};
+
+    Object.keys(config).forEach(key => {
+      const value = (config as any)[key];
+      if (isArray(value)) {
+        if (key === 'disappear') {
+          (animationConfig as any)[key] = value.map(item => {
+            if (isClass(item.callBack)) {
+              return {
+                ...item,
+                custom: item.callBack
+              };
+            }
+            return {
+              ...item,
+              type: BuiltIn_DISAPPEAR_ANIMATE_NAME,
+              customParameters: {
+                callBack: item.callBack
+              }
+            };
+          });
+        } else {
+          (animationConfig as any)[key] = value.map(item => {
+            const options = item!.options ?? {};
+
+            return {
+              ...item,
+              options: (...args: any[]) => {
+                const _options = typeof options === 'function' ? options(...args) : options;
+                return {
+                  ..._options
+                };
+              }
+            };
+          });
+        }
+      } else {
+        (animationConfig as any)[key] = {
+          ...(config as any)[key]
+        };
+      }
+    });
+    this._stateAnimationConfig = animationConfig;
+  }
+
+  updateStateAnimation() {
+    const allMarks: IMark[] = [];
+    this._rootMarks.forEach(mark => {
+      traverseGroupMark(mark, m => {
+        allMarks.push(m);
+      });
+    });
+    const markAnimationStates = allMarks.map(mark => mark.getAnimationState());
+    const animationState = markAnimationStates.every(state => state === AnimationStateEnum.appear)
+      ? AnimationStateEnum.appear
+      : markAnimationStates.every(state => state === AnimationStateEnum.disappear)
+      ? AnimationStateEnum.disappear
+      : AnimationStateEnum.none;
+    if (!this._stage.context) {
+      this._stage.context = {};
+    }
+    this._stage.context.animationState = animationState;
   }
 
   updateViewBox(viewBox: IBoundsLike, reRender: boolean = true) {
@@ -596,17 +796,30 @@ export class Compiler implements ICompiler {
   }
 
   release(): void {
+    const stage = this._stage;
+    const rootGroup = this._rootGroup;
+    const shouldReleaseStage = !!stage && !this._isExternalStage;
+    const releaseVRenderAppRef = this._releaseVRenderAppRef;
+
     this.clearNextRender();
     this.releaseEvent();
-    this._option = this._container = null as any;
     // vgrammar release
     this.releaseGrammar(true);
 
-    if (this._stage !== this._option?.stage) {
-      // don't release the stage created by outside
-      this._stage.release();
+    if (stage) {
+      if (shouldReleaseStage) {
+        stage.release();
+      } else if (rootGroup) {
+        stage.defaultLayer.removeChild(rootGroup, true);
+        rootGroup.release();
+      }
     }
+    releaseVRenderAppRef?.();
     this._stage = null;
+    this._rootGroup = null;
+    this._isExternalStage = false;
+    this._releaseVRenderAppRef = undefined;
+    this._option = this._container = null as any;
 
     this.isInited = false;
     this._compileChart = null;
@@ -625,7 +838,7 @@ export class Compiler implements ICompiler {
         traverseGroupMark(
           g,
           m => {
-            m.removeProduct();
+            m.removeProduct(true);
           },
           null,
           true
@@ -715,6 +928,7 @@ export class Compiler implements ICompiler {
     } else if (this._progressiveMarks && this._progressiveMarks.every(mark => mark.canAnimateAfterProgressive())) {
       this._progressiveMarks.forEach(mark => {
         mark.runAnimation();
+        mark.clearExitGraphics();
       });
     } else if (this._progressiveMarks) {
       this._progressiveMarks = null;

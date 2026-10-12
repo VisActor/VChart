@@ -105,7 +105,8 @@ export class BaseSeriesSpecTransformer<T extends ISeriesSpec, K> extends BaseMod
           animationExit: labelAnimationExit = true
         } = labelSpec;
         const { animationUpdate = true, animationEnter = true, animationExit = true } = spec as any;
-        const animationEnabled = this._option?.animation ?? spec.animation ?? labelSpec.animation;
+        const animationEnabled =
+          this._option.globalInstance?.isAnimationEnable() ?? spec.animation ?? labelSpec.animation;
         const labelAnimationEnabled = !!animationEnabled && !!hasAnimation;
 
         this.addLabelSpec(

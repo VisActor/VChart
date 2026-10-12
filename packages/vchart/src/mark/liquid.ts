@@ -4,9 +4,9 @@ import type { IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import type { ILiquidMark } from '../series/liquid/liquid';
 import { GlyphMark, registerGlyphMark } from './glyph';
-import { createArea, type IAreaGraphicAttribute, type IGlyph } from '@visactor/vrender-core';
+import type { IAreaGraphicAttribute, IGlyph } from '@visactor/vrender-core';
+import { createArea, registerArea } from '../vrender-bridge';
 import type { IPointLike } from '@visactor/vutils';
-import { registerArea } from '@visactor/vrender-kits';
 import type { ILiquidMarkSpec } from '../typings/visual';
 import type { Datum } from '../typings/common';
 
@@ -44,6 +44,14 @@ export class LiquidMark extends GlyphMark<ILiquidMarkSpec> implements ILiquidMar
         fillOpacity: 0.33
       }
     }
+  };
+
+  protected _channelEncoder = {
+    fillOpacity: (fillOpacity: number) => ({
+      wave0: { fillOpacity },
+      wave1: { fillOpacity },
+      wave2: { fillOpacity }
+    })
   };
 
   protected _positionChannels: string[] = ['wave', 'y', 'height'];

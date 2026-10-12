@@ -141,7 +141,8 @@ describe('VChart', () => {
       };
       vchart = new VChart(spec, {
         renderCanvas: canvasDom,
-        autoFit: true
+        autoFit: true,
+        animation: false
       });
 
       await vchart.renderAsync();

@@ -38,6 +38,7 @@ type MarkInfo = {
     hasMeasureData?: boolean;
     groupField?: string;
     groupData?: any;
+    originDatum?: Datum;
   };
   series: ISeries;
   dimType?: string;
@@ -78,19 +79,24 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
   });
   const getOriginDatum = (info: MarkInfo) => {
     const { dimensionFields, dimensionData, measureFields, measureData, groupField, groupData } = info.data;
-    const originDatum = info.series.getViewData()?.latestData.find((datum: any) => {
+    return info.series.getViewData()?.latestData.find((datum: any) => {
       return (
         datumContainsArray(dimensionFields, dimensionData)(datum) &&
         datumContainsArray(measureFields, measureData)(datum) &&
         (isNil(groupField) || datumContainsArray([groupField], [groupData])(datum))
       );
     });
-    return originDatum;
   };
+  const transform = region.getOption().globalInstance.getStage().window.getViewBoxTransform().getInverse();
+
   const getMockEvent = (originPos: IPoint): any => {
     const pos = bound(originPos);
-    const canvasX = opt.x ?? regionPos.x + pos.x;
-    const canvasY = opt.y ?? regionPos.y + pos.y;
+    const tempX = opt.x ?? regionPos.x + pos.x;
+    const tempY = opt.y ?? regionPos.y + pos.y;
+
+    const canvasPoint = { x: 0, y: 0 };
+    transform.transformPoint({ x: tempX, y: tempY }, canvasPoint);
+    const { x: canvasX, y: canvasY } = canvasPoint;
     return {
       canvasX,
       canvasY,
@@ -148,7 +154,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
       item: undefined
     };
 
-    component.processor.dimension.showTooltip(mockDimensionInfo, mockParams, false);
+    component.processor?.dimension?.showTooltip?.(mockDimensionInfo, mockParams, false);
 
     // 全局唯一 tooltip
     const vchart = componentOptions.globalInstance;
@@ -162,7 +168,7 @@ export function showTooltip(datum: Datum, options: IShowTooltipOption, component
     if (!info) {
       return 'none';
     }
-    const mockDatum = {
+    const mockDatum = info.data.originDatum ?? {
       ...getOriginDatum(info),
       ...datum
     };
@@ -261,6 +267,64 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
           hasMeasureData,
           groupField,
           groupData
+        },
+        series
+      });
+    };
+
+    const parseMarkInfoOfGeoSeries = () => {
+      console.log('parseMarkInfoOfGeoSeries');
+      let originDatum = series.getViewData()?.latestData.find(datumContainsArray(dimensionFields, dimensionData));
+      // 地图需要特殊处理，需要根据properties属性来匹配数据
+      // @ts-ignore
+      const nameMap = series.getNameMap();
+
+      const originMapDatum = series
+        // @ts-ignore
+        .getMapViewData?.()
+        ?.latestData.find((datum: Datum) =>
+          dimensionFields.every((key, i) => {
+            if (key === 'name') {
+              return nameMap[datum.properties[key]] === dimensionData?.[i];
+            }
+            return datum.properties[key] === dimensionData?.[i];
+          })
+        );
+      if (!originMapDatum) {
+        return;
+      }
+      let markInfoMeasureData = measureData;
+      if (originMapDatum && !originDatum) {
+        originDatum = { ...datum };
+      }
+      if (!hasMeasureData) {
+        // 如果只有地图数据，则补全
+        measureData = getDataArrayFromFieldArray(measureFields, originDatum);
+        markInfoMeasureData = measureData;
+        if (!hasData(measureData) && !originDatum) {
+          return;
+        }
+        if (!hasData(measureData)) {
+          measureData = [null];
+        }
+      }
+
+      const pos = series.dataToPosition(originDatum);
+      if (isNil(pos) || isNaN(pos.x) || isNaN(pos.y)) {
+        return;
+      }
+
+      markInfoList.push({
+        pos,
+        data: {
+          dimensionFields,
+          dimensionData,
+          measureFields,
+          measureData: markInfoMeasureData,
+          hasMeasureData,
+          groupField,
+          groupData,
+          originDatum
         },
         series
       });
@@ -398,7 +462,7 @@ export const getMarkInfoList = (datum: Datum, region: IRegion) => {
         }
       }
     } else if (series.coordinate === 'geo') {
-      parseMarkInfoOfSimpleSeries();
+      parseMarkInfoOfGeoSeries();
     }
   });
 

@@ -87,3 +87,7 @@ color: ['#BBD6B8', '#EA5455', '#19A7CE'],
     prefix = '#' + ${prefix},
     includeId = false
 ) }}
+
+#${prefix} labelLayout(string)='series'
+
+标签布局方式。默认按照系列单独布局，可设置为'series' 或 'region'。当设置为 region 时，相同 region 的系列标签会共同进行防重叠计算。

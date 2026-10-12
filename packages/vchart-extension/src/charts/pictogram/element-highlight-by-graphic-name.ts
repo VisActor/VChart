@@ -1,5 +1,5 @@
 import { ElementHighlight, Factory, type BaseEventParams, type IMarkGraphic } from '@visactor/vchart';
-import { isNil } from '@visactor/vutils';
+import { isNil } from '@visactor/vchart';
 
 const type = 'element-highlight-by-graphic-name';
 

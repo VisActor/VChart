@@ -1,15 +1,11 @@
-import { IWordCloudChartSpec } from './interface';
+import type { IWordCloudChartSpec } from './interface';
 import { BaseWordCloudChart } from './base/base';
 import { BaseWordCloudChartSpecTransformer } from './base/word-cloud-base-transformer';
-export declare class WordCloudChart<T extends IWordCloudChartSpec = IWordCloudChartSpec> extends BaseWordCloudChart<T> {
+export declare class WordCloudChart extends BaseWordCloudChart<IWordCloudChartSpec> {
     static readonly type: string;
     static readonly seriesType: string;
-    static readonly transformerConstructor: {
-        new (option: import("../interface").IChartSpecTransformerOption): BaseWordCloudChartSpecTransformer<IWordCloudChartSpec>;
-    };
-    readonly transformerConstructor: {
-        new (option: import("../interface").IChartSpecTransformerOption): BaseWordCloudChartSpecTransformer<IWordCloudChartSpec>;
-    };
+    static readonly transformerConstructor: typeof BaseWordCloudChartSpecTransformer;
+    readonly transformerConstructor: typeof BaseWordCloudChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
 }

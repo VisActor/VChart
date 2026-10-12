@@ -87,3 +87,7 @@ color: ['#BBD6B8', '#EA5455', '#19A7CE'],
     prefix = '#' + ${prefix},
     includeId = false
 ) }}
+
+#${prefix} labelLayout(string)='series'
+
+By default, it is laid out separately by series, and can be set to 'series' or 'region'. When set to `region`, the label of different series in the same region will be calculated together to prevent overlap.

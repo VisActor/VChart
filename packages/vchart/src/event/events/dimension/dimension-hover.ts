@@ -35,6 +35,10 @@ export class DimensionHoverEvent extends DimensionEvent {
       query: null,
       callback: this.onMouseMove
     });
+    this._eventDispatcher.unregister('pointerout', {
+      query: null,
+      callback: this.onMouseOut
+    });
 
     if (isMobileLikeMode(this._mode)) {
       // 移动端点按也出发 hover
@@ -46,7 +50,7 @@ export class DimensionHoverEvent extends DimensionEvent {
   }
 
   private onMouseMove = (params: BaseEventParams) => {
-    if (!params) {
+    if (!params || params.chart?.getOption()?.globalInstance?.disableDimensionHoverEvent?.()) {
       return;
     }
     const x = (params.event as any).viewX;
@@ -84,7 +88,7 @@ export class DimensionHoverEvent extends DimensionEvent {
   };
 
   private onMouseOut = (params: BaseEventParams) => {
-    if (!params) {
+    if (!params || params.chart?.getOption()?.globalInstance?.disableDimensionHoverEvent?.()) {
       return;
     }
     // 鼠标移出某维度

@@ -35,6 +35,11 @@ import { mergeSpec } from '@visactor/vutils-extension';
 import type { ILineLikeSeriesTheme } from './interface';
 import type { ICompilableData } from '../../compile/data';
 
+export const LINE_LIKE_SERIES_DATA_RELATED_KEYS: Record<string, true> = {
+  sampling: true,
+  samplingFactor: true
+};
+
 export interface LineLikeSeriesMixin extends ISeries {
   _spec: any;
   _option: ISeriesOption;

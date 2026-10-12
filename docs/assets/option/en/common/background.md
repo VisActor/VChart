@@ -20,8 +20,20 @@ The picture configuration structure is as follows
 const type BackgroundImage = {
   image?: string | HTMLImageElement | HTMLCanvasElement;
   cornerRadius?: number | number[];
+  backgroundMode?: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat' | 'no-repeat-cover' | 'no-repeat-contain' | 'no-repeat-fill' | 'no-repeat-auto';
+  backgroundPosition?: 'left' | 'center' | 'right' | 'top' | 'bottom' | 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right' | [number | string, number | string];
+  backgroundScale?: number;
+  backgroundOffsetX?: number;
+  backgroundOffsetY?: number;
+  backgroundClip?: boolean;
+  backgroundOpacity?: number;
 }
 ```
+
+Where:
+
+- `backgroundMode` supports `no-repeat-cover` / `no-repeat-contain` / `no-repeat-fill` / `no-repeat-auto` since version `2.0.21`, which are size shorthands for `no-repeat`
+- `backgroundPosition` is supported since version `2.0.21`, and controls the image anchor position within the background area, similar to CSS `background-position`
 
 Example usage:
 
@@ -43,7 +55,10 @@ const spec = {
     // svg
     image: svgImage,
     // url
-    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png'
+    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png',
+    // supported since 2.0.21
+    backgroundMode: 'no-repeat-cover',
+    backgroundPosition: 'center'
   }
 }
 

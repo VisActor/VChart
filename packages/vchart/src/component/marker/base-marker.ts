@@ -26,6 +26,115 @@ import type { IOptionWithCoordinates } from '../../data/transforms/interface';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { markerAggregation } from '../../data/transforms/aggregation';
 import { markerFilter } from '../../data/transforms/marker-filter';
+import { releaseDataViewWithDependencies } from '../../data/data-view-utils';
+
+const MARKER_FORMAT_METHOD_PLACEHOLDER = '__vchart_marker_format_method__';
+const MARKER_COORDINATE_PLACEHOLDER = '__vchart_marker_coordinate__';
+const MARKER_TEXT_PLACEHOLDER = '__vchart_marker_text__';
+const MARKER_AUTO_RANGE_PLACEHOLDER = '__vchart_marker_auto_range__';
+const MARKER_STYLE_PLACEHOLDER = '__vchart_marker_style__';
+const MARKER_DOMAIN_POSITION_SPEC_KEYS = [
+  'coordinate',
+  'coordinates',
+  'x',
+  'y',
+  'x1',
+  'y1',
+  'angle',
+  'angle1',
+  'radius',
+  'radius1'
+];
+const MARKER_LAYOUT_POSITION_SPEC_KEYS = ['position', 'positions', 'coordinatesOffset', 'regionRelative'];
+const MARKER_ITEM_CONTENT_LAYOUT_SPEC_KEYS = ['offsetX', 'offsetY', 'confine'];
+
+const normalizeMarkerLabelFormatMethod = (label: any): any => {
+  if (Array.isArray(label)) {
+    return label.map(normalizeMarkerLabelFormatMethod);
+  }
+  if (!label || typeof label !== 'object') {
+    return label;
+  }
+  if (typeof label.formatMethod !== 'function') {
+    return label;
+  }
+  return {
+    ...label,
+    formatMethod: MARKER_FORMAT_METHOD_PLACEHOLDER
+  };
+};
+
+const normalizeMarkerStyles = (value: any): any => {
+  if (Array.isArray(value)) {
+    return value.map(normalizeMarkerStyles);
+  }
+  if (!value || typeof value !== 'object') {
+    return value;
+  }
+
+  const normalized = { ...value };
+  Object.keys(normalized).forEach(key => {
+    if (key === 'style' || key.endsWith('Style')) {
+      normalized[key] = MARKER_STYLE_PLACEHOLDER;
+    } else {
+      normalized[key] = normalizeMarkerStyles(normalized[key]);
+    }
+  });
+  return normalized;
+};
+
+const normalizeMarkerSpecForComponentOnlyUpdate = (
+  spec: any,
+  options: { normalizeDomainPosition: boolean; normalizeAutoRange?: boolean }
+) => {
+  if (!spec || typeof spec !== 'object') {
+    return spec;
+  }
+
+  const normalized = { ...spec };
+  if (options.normalizeDomainPosition) {
+    MARKER_DOMAIN_POSITION_SPEC_KEYS.forEach(key => {
+      normalized[key] = MARKER_COORDINATE_PLACEHOLDER;
+    });
+  }
+  if (options.normalizeAutoRange && 'autoRange' in normalized) {
+    normalized.autoRange = MARKER_AUTO_RANGE_PLACEHOLDER;
+  }
+  MARKER_LAYOUT_POSITION_SPEC_KEYS.forEach(key => {
+    if (key in normalized) {
+      normalized[key] = MARKER_COORDINATE_PLACEHOLDER;
+    }
+  });
+  if ('label' in normalized) {
+    normalized.label = normalizeMarkerLabelFormatMethod(normalized.label);
+  }
+
+  Object.keys(normalized).forEach(key => {
+    normalized[key] = normalizeMarkerStyles(normalized[key]);
+  });
+
+  const itemContent = normalized.itemContent;
+  if (itemContent && typeof itemContent === 'object') {
+    normalized.itemContent = {
+      ...itemContent
+    };
+    MARKER_ITEM_CONTENT_LAYOUT_SPEC_KEYS.forEach(key => {
+      if (key in normalized.itemContent) {
+        normalized.itemContent[key] = MARKER_COORDINATE_PLACEHOLDER;
+      }
+    });
+
+    const text = normalized.itemContent.text;
+    if (text && typeof text === 'object') {
+      normalized.itemContent.text = {
+        ...normalizeMarkerLabelFormatMethod(text),
+        text: MARKER_TEXT_PLACEHOLDER
+      };
+    }
+  }
+
+  return normalized;
+};
 
 export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T> {
   layoutType: ILayoutType | 'none' = 'none';
@@ -49,6 +158,8 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
   getMarkerData() {
     return this._markerData;
   }
+  private _markerDataChangeHandler: (() => void) | null = null;
+  private _markerDataOwned: boolean = false;
   // marker 组件
   protected _markerComponent!: any;
 
@@ -100,6 +211,30 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       getStartRelativeSeries: () => this._startRelativeSeries,
       getEndRelativeSeries: () => this._endRelativeSeries
     };
+  }
+
+  protected _getAutoRangeExtendDomainKeyPrefix() {
+    return `marker_${this.type}_${this.id}`;
+  }
+
+  private _getAutoRangeExtendDomainKey(axisKey: 'xAxis' | 'yAxis' | 'angleAxis' | 'radiusAxis') {
+    return `${this._getAutoRangeExtendDomainKeyPrefix()}_${axisKey}_extend`;
+  }
+
+  private _clearAutoRangeExtendDomain() {
+    const seriesList = array(this._option.getAllSeries?.() as IMarkerSupportSeries[]);
+
+    seriesList.forEach((series: any) => {
+      series?.getXAxisHelper?.()?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('xAxis'), undefined);
+      series?.getYAxisHelper?.()?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('yAxis'), undefined);
+      series?.angleAxisHelper?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('angleAxis'), undefined);
+      series?.radiusAxisHelper?.setExtendDomain?.(this._getAutoRangeExtendDomainKey('radiusAxis'), undefined);
+    });
+  }
+
+  private _updateMarkerLayout() {
+    this._clearAutoRangeExtendDomain();
+    this._markerLayout();
   }
 
   private _getFieldInfoFromSpec(
@@ -162,6 +297,38 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     return this._relativeSeries.getViewData();
   }
 
+  protected _setMarkerData(data: DataView, owned: boolean = false) {
+    this._releaseMarkerData();
+    this._markerData = data;
+    this._markerDataOwned = owned;
+  }
+
+  protected _bindMarkerDataChange() {
+    if (!this._markerData?.target) {
+      return;
+    }
+
+    this._markerDataChangeHandler = () => {
+      this._updateMarkerLayout();
+    };
+    this._markerData.target.on('change', this._markerDataChangeHandler);
+  }
+
+  private _releaseMarkerData() {
+    const markerData = this._markerData;
+
+    if (markerData?.target && this._markerDataChangeHandler) {
+      markerData.target.removeListener('change', this._markerDataChangeHandler);
+    }
+    this._markerDataChangeHandler = null;
+
+    if (this._markerDataOwned) {
+      releaseDataViewWithDependencies(markerData, dataView => dataView.name === `${this.type}_${this.id}_data`);
+    }
+    this._markerData = null as unknown as DataView;
+    this._markerDataOwned = false;
+  }
+
   updateLayoutAttribute(): void {
     const markerVisible = this._spec.visible ?? true;
     if (markerVisible) {
@@ -184,7 +351,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
           );
         });
       }
-      this._markerLayout();
+      this._updateMarkerLayout();
     }
 
     super.updateLayoutAttribute();
@@ -220,15 +387,21 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     // 在极坐标系/地理坐标系中, 滚动或缩放画布不会update layout, 所以需要通过事件监听来更新标注的位置
     // 在直角坐标系中, update layout中已经更新标注位置, 在这里不需要重复监听
     if (this._relativeSeries.coordinate !== 'cartesian') {
-      this._relativeSeries.event.on('zoom', this._markerLayout.bind(this));
-      this._relativeSeries.event.on('panmove', this._markerLayout.bind(this));
-      this._relativeSeries.event.on('scroll', this._markerLayout.bind(this));
+      this._relativeSeries.event.on('zoom', this._updateMarkerLayout.bind(this));
+      this._relativeSeries.event.on('panmove', this._updateMarkerLayout.bind(this));
+      this._relativeSeries.event.on('scroll', this._updateMarkerLayout.bind(this));
     }
   }
 
   clear(): void {
     super.clear();
+    this._markerComponent = null;
     this._firstSeries = null;
+  }
+
+  release(): void {
+    this._releaseMarkerData();
+    super.release();
   }
 
   private _getFirstSeries(): ICartesianSeries {
@@ -263,10 +436,64 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     const result = super._compareSpec(spec, prevSpec);
     if (!isEqual(prevSpec, spec)) {
       result.reRender = true;
-      result.reMake = true;
       result.change = true;
+      if (!result.reMake && !result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          layout: true,
+          render: true
+        };
+      } else if (!result.reMake && !result.reCompile && this._isAutoRangeSpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          scaleDomain: true,
+          layout: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
     return result;
+  }
+
+  protected _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const normalizeDomainPosition = !spec?.autoRange && !prevSpec?.autoRange;
+
+    return isEqual(
+      normalizeMarkerSpecForComponentOnlyUpdate(prevSpec, { normalizeDomainPosition }),
+      normalizeMarkerSpecForComponentOnlyUpdate(spec, { normalizeDomainPosition })
+    );
+  }
+
+  protected _isAutoRangeSpecChange(spec: T, prevSpec: T) {
+    if (!spec?.autoRange && !prevSpec?.autoRange) {
+      return false;
+    }
+
+    return isEqual(
+      normalizeMarkerSpecForComponentOnlyUpdate(prevSpec, {
+        normalizeDomainPosition: true,
+        normalizeAutoRange: true
+      }),
+      normalizeMarkerSpecForComponentOnlyUpdate(spec, {
+        normalizeDomainPosition: true,
+        normalizeAutoRange: true
+      })
+    );
+  }
+
+  reInit(spec?: T) {
+    super.reInit(spec);
+    this._releaseMarkerData();
+    this._bindSeries();
+    this._initDataView();
+    this._buildMarkerAttributeContext();
+    if (this._markerComponent) {
+      this._updateMarkerLayout();
+    }
   }
 
   _initCommonDataView() {
@@ -275,6 +502,8 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
     const seriesData = this._getRelativeDataView();
     registerDataSetInstanceTransform(this._option.dataSet, 'markerAggregation', markerAggregation);
     registerDataSetInstanceTransform(this._option.dataSet, 'markerFilter', markerFilter);
+    // 重建 marker 自有数据链路前先释放旧链路，避免 transform/listener 残留。
+    this._releaseMarkerData();
     const data = new DataView(this._option.dataSet, { name: `${this.type}_${this.id}_data` });
     data.parse([seriesData], {
       type: 'dataview'
@@ -289,9 +518,7 @@ export abstract class BaseMarker<T extends IMarkerSpec> extends BaseComponent<T>
       options: this._getAllRelativeSeries()
     });
 
-    data.target.on('change', () => {
-      this._markerLayout();
-    });
-    this._markerData = data;
+    this._setMarkerData(data, true);
+    this._bindMarkerDataChange();
   }
 }

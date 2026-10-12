@@ -14,6 +14,7 @@ import type { Datum, StringOrNumber } from '../../typings';
 import type { IGraphic } from '@visactor/vrender-core';
 import type { IGroupMark } from './mark';
 import type { IAnimationConfig } from '../../animation/interface';
+import type { ICompiler } from '../../compile/interface';
 
 export interface VisualScaleType {
   scale: IBaseScale;
@@ -59,9 +60,16 @@ export type IMarkStyle<T extends ICommonSpec> = {
 
 export type DiffStateValues = 'update' | 'enter' | 'exit';
 
-export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear';
+export type AnimationStateValues = 'appear' | 'enter' | 'update' | 'exit' | 'disappear' | 'none' | 'state';
 
 export interface IGraphicContext {
+  /**
+   * 编译器
+   */
+  compiler: ICompiler;
+  /**
+   * mark的类型
+   */
   markType: MarkTypeEnum;
   /**
    * 图形所属mark对应的id，自增id
@@ -100,7 +108,8 @@ export interface IGraphicContext {
    */
   diffAttrs?: Record<string, any>;
   /**
-   * 更新后最终的属性
+   * VChart encode/transform 后、应用到 VRender graphic 前的下一轮属性快照。
+   * 用于 VChart 的 afterEncode transform、diffAttrs 与动画参数，不等同于 VRender finalAttribute。
    */
   finalAttrs?: Record<string, any>;
   /**
@@ -228,12 +237,18 @@ export interface IMarkRaw<T extends ICommonSpec> extends ICompilableMark {
   renderProgressive: () => void;
   /** 增量流程后，是否执行动画 */
   canAnimateAfterProgressive: () => boolean;
-  /** 更新图元动画状态 */
-  updateAnimationState: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
   /** 执行动画 */
   runAnimation: () => void;
+  /** 获取动画状态 */
+  getAnimationState: () => AnimationStateValues;
   /** 是否需要清除旧的数据 */
   needClear?: boolean;
+  /** 禁用状态动画 */
+  disableAnimationByState: (state: string | string[]) => void;
+  /** 启用状态动画 */
+  enableAnimationByState: (state: string | string[]) => void;
+  /** 重新加载前清除缓存 */
+  clearBeforeReInit: () => void;
 }
 
 export type IMark = IMarkRaw<ICommonSpec>;

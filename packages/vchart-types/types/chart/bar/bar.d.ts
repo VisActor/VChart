@@ -8,5 +8,6 @@ export declare class BarChart<T extends IBarChartSpec = IBarChartSpec> extends B
     readonly transformerConstructor: typeof BarChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
+    protected _setModelOption(): void;
 }
 export declare const registerBarChart: () => void;

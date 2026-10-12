@@ -134,50 +134,49 @@ const spec = {
       itemContent: {
         type: 'richText',
         autoRotate: false,
-        richText: {
-          style: {
-            width: 40000,
-            height: 40000,
-            textAlign: 'left',
-            textBaseline: 'top',
-            type: 'rich',
-            textConfig: [
-              {
-                visible: false,
-                text: '\n',
-                fontSize: 12,
-                fill: '#FFF',
-                fontWeight: 'normal',
-                fontFamily: 'D-DIN',
-                textAlign: 'center',
-                textBaseline: 'middle'
-              },
-              {
-                visible: true,
-                text: 'Profit',
-                fontSize: 16,
-                fill: '#FFF',
-                fontWeight: 'normal',
-                fontFamily: 'D-DIN',
-                textAlign: 'center',
-                textBaseline: 'middle'
-              },
-              {
-                text: '   ',
-                fontSize: 8
-              },
-              {
-                visible: true,
-                text: '341.80',
-                fontSize: 32,
-                fill: '#FFF',
-                fontWeight: 'bold',
-                fontFamily: 'D-DIN',
-                textAlign: 'center',
-                textBaseline: 'middle'
-              }
-            ]
-          }
+
+        style: {
+          width: 40000,
+          height: 40000,
+          textAlign: 'left',
+          textBaseline: 'top',
+          type: 'rich',
+          textConfig: [
+            {
+              visible: false,
+              text: '\n',
+              fontSize: 12,
+              fill: '#FFF',
+              fontWeight: 'normal',
+              fontFamily: 'D-DIN',
+              textAlign: 'center',
+              textBaseline: 'middle'
+            },
+            {
+              visible: true,
+              text: 'Profit',
+              fontSize: 16,
+              fill: '#FFF',
+              fontWeight: 'normal',
+              fontFamily: 'D-DIN',
+              textAlign: 'center',
+              textBaseline: 'middle'
+            },
+            {
+              text: '   ',
+              fontSize: 8
+            },
+            {
+              visible: true,
+              text: '341.80',
+              fontSize: 32,
+              fill: '#FFF',
+              fontWeight: 'bold',
+              fontFamily: 'D-DIN',
+              textAlign: 'center',
+              textBaseline: 'middle'
+            }
+          ]
         }
       }
     }

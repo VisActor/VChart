@@ -68,6 +68,7 @@ import { addDataKey, initKeyMap } from '../../data/transforms/data-key';
 import type { IMarkConfig, ISeriesMarkAttributeContext } from '../../compile/mark';
 // eslint-disable-next-line no-duplicate-imports
 import { STATE_VALUE_ENUM } from '../../compile/mark';
+import { Factory } from '../../core/factory';
 import {
   array,
   isEqual,
@@ -84,7 +85,12 @@ import {
   merge
 } from '@visactor/vutils';
 import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import { baseSeriesMark, defaultSeriesIgnoreCheckKeys, defaultSeriesCompileCheckKeys } from './constant';
+import {
+  baseSeriesMark,
+  defaultSeriesIgnoreCheckKeys,
+  defaultSeriesCompileCheckKeys,
+  defaultSeriesCompileOnlyCheckKeys
+} from './constant';
 import { animationConfig, userAnimationConfig, isAnimationEnabledForSeries } from '../../animation/utils';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
 import { getDefaultInteractionConfigByMode } from '../../interaction/config';
@@ -97,6 +103,98 @@ import { CompilableData } from '../../compile/data';
 import { filterMarksOfInteraction } from '../../interaction/triggers/util';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 import { TRIGGER_TYPE_ENUM } from '../../interaction/triggers/enum';
+
+export interface ISeriesSpecUpdatePolicy {
+  compileOnlyKeys?: Record<string, true>;
+  dataRelatedKeys?: Record<string, true>;
+  compileOnlySubKeys?: Record<string, Record<string, true>>;
+  seriesOnlyKeys?: Record<string, true>;
+}
+
+const defaultSeriesDataRelatedCheckKeys = Object.keys(defaultSeriesCompileCheckKeys).reduce((keys, key) => {
+  if (!defaultSeriesCompileOnlyCheckKeys[key]) {
+    keys[key] = true;
+  }
+  return keys;
+}, {} as Record<string, true>);
+
+const defaultSeriesSpecUpdatePolicy: ISeriesSpecUpdatePolicy = {
+  compileOnlyKeys: defaultSeriesCompileOnlyCheckKeys,
+  dataRelatedKeys: defaultSeriesDataRelatedCheckKeys,
+  seriesOnlyKeys: {
+    tooltip: true
+  }
+};
+
+const defaultSeriesMarkCompileOnlySubKeys: Record<string, true> = {
+  interactive: true,
+  zIndex: true,
+  visible: true,
+  style: true,
+  state: true,
+  stateSort: true,
+  customShape: true
+};
+
+const isSpecObject = (value: unknown): value is Record<string, unknown> =>
+  isObject(value) && !isArray(value) && !isFunction(value);
+
+const normalizeSpecObject = (value: unknown): Record<string, unknown> | null => {
+  if (isSpecObject(value)) {
+    return value;
+  }
+  return isNil(value) ? {} : null;
+};
+
+const hasOnlyAllowedSubKeyChanges = (
+  specValue: unknown,
+  prevSpecValue: unknown,
+  allowedSubKeys: Record<string, true>
+) => {
+  const specObject = normalizeSpecObject(specValue);
+  const prevSpecObject = normalizeSpecObject(prevSpecValue);
+
+  if (!specObject || !prevSpecObject) {
+    return false;
+  }
+
+  let changed = false;
+  const subKeys = Array.from(new Set([...Object.keys(prevSpecObject), ...Object.keys(specObject)]));
+  for (const subKey of subKeys) {
+    if (!isEqual(specObject[subKey], prevSpecObject[subKey])) {
+      if (!allowedSubKeys[subKey]) {
+        return false;
+      }
+      changed = true;
+    }
+  }
+
+  return changed;
+};
+
+export function markSeriesCompileEffect(compareResult: IUpdateSpecResult, dataRelated: boolean = false) {
+  compareResult.effects = {
+    ...compareResult.effects,
+    series: true,
+    compile: true,
+    layout: true,
+    render: true
+  };
+
+  if (dataRelated) {
+    compareResult.effects.data = true;
+    compareResult.effects.scaleDomain = true;
+  }
+}
+
+export function markSeriesOnlyEffect(compareResult: IUpdateSpecResult) {
+  compareResult.change = true;
+  compareResult.effects = {
+    ...compareResult.effects,
+    series: true,
+    render: true
+  };
+}
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
   readonly specKey: string = 'series';
@@ -526,9 +624,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     this._viewStackData.transform(
       {
         type: 'stackSplit',
-        options: {
+        options: () => ({
           fields: this.getStackGroupFields()
-        }
+        })
       },
       false
     );
@@ -724,7 +822,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       mark.setUserId(spec.id);
     }
 
-    if (options.hasAnimation) {
+    if (options.hasAnimation && spec.animation !== false) {
       // 自定义图元默认不添加动画
       const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
       mark.setAnimationConfig(config);
@@ -735,7 +833,9 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       spec.children?.forEach((s, i) => {
         this._createExtensionMark(s as any, mark, namePrefix, i, options);
       });
-    } else if (!parentMark && (!isNil(spec.dataId) || !isNil(spec.dataIndex))) {
+    }
+
+    if (!isNil(spec.dataId) || !isNil(spec.dataIndex)) {
       const dataView = this._option.getSeriesData(spec.dataId, spec.dataIndex);
 
       if (dataView === this._rawData) {
@@ -961,6 +1061,18 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   getMarksWithoutRoot(): IMark[] {
     return this.getMarks().filter(m => !m.name?.includes('seriesGroup'));
   }
+  protected _getMarkSpecNamesForCompare(): string[] {
+    const names = new Set<string>();
+
+    this.getMarksWithoutRoot().forEach(mark => {
+      mark.name && names.add(mark.name);
+    });
+    Object.values(Factory.getSeriesMarkMap(this.type)).forEach(markInfo => {
+      markInfo?.name && names.add(markInfo.name);
+    });
+
+    return Array.from(names);
+  }
   getMarksInType(type: string | string[]): IMark[] {
     return this._marks.getMarksInType(type);
   }
@@ -1014,13 +1126,24 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   }
 
   _compareLabelSpec(newLabels: ILabelSpec[], prevLabels: ILabelSpec[], compareResult: IUpdateSpecResult) {
-    if (
-      newLabels.length !== prevLabels.length ||
+    if (newLabels.length !== prevLabels.length) {
+      compareResult.reMake = true;
+    } else if (
       prevLabels.some((prev, index) => {
-        return prev.labelLayout !== newLabels[index].labelLayout || prev.visible !== newLabels[index].visible;
+        return (
+          prev.labelLayout !== newLabels[index].labelLayout || (prev.visible === false && newLabels[index].visible)
+        );
       })
     ) {
       compareResult.reMake = true;
+    } else if (
+      !compareResult.reCompile &&
+      prevLabels.some((prev, index) => {
+        return prev.visible && newLabels[index].visible === false;
+      })
+    ) {
+      compareResult.reCompile = true;
+      markSeriesCompileEffect(compareResult);
     } else if (
       !compareResult.reCompile &&
       prevLabels.some((prev, index) => {
@@ -1028,10 +1151,15 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       })
     ) {
       compareResult.reCompile = true;
+      markSeriesCompileEffect(compareResult);
     }
   }
 
   /** updateSpec */
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    return defaultSeriesSpecUpdatePolicy;
+  }
+
   _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>) {
     const result = super._compareSpec(spec, prevSpec);
 
@@ -1042,9 +1170,20 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
+    const specUpdatePolicy = this._getSpecUpdatePolicy();
+    const compileOnlyKeys = specUpdatePolicy.compileOnlyKeys ?? {};
+    const dataRelatedKeys = specUpdatePolicy.dataRelatedKeys ?? {};
+    const compileOnlySubKeys = specUpdatePolicy.compileOnlySubKeys ?? {};
+    const seriesOnlyKeys = specUpdatePolicy.seriesOnlyKeys ?? {};
+    const compileCheckKeys = {
+      ...compileOnlyKeys,
+      ...dataRelatedKeys
+    };
+
     const ignores: Record<string, boolean> = {
       ...defaultSeriesIgnoreCheckKeys,
-      ...defaultSeriesCompileCheckKeys,
+      ...compileCheckKeys,
+      ...seriesOnlyKeys,
       ...ignoreCheckKeys,
       extensionMark: true,
       label: true,
@@ -1062,25 +1201,49 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return result;
     }
 
-    // mark visible logic in compile
-    if (
-      !result.reCompile &&
-      this._marks.getMarks().some(m => {
-        (ignores as { [key: string]: true })[m.name] = true;
-        return (prevSpec as any)[m.name]?.visible !== (spec as any)[m.name]?.visible;
-      })
-    ) {
+    const changedMarkCompileOnlyKeys = this._getMarkSpecNamesForCompare().filter(name =>
+      hasOnlyAllowedSubKeyChanges((spec as any)[name], (prevSpec as any)[name], defaultSeriesMarkCompileOnlySubKeys)
+    );
+    changedMarkCompileOnlyKeys.forEach(k => {
+      ignores[k] = true;
+    });
+
+    if (!result.reCompile && changedMarkCompileOnlyKeys.length) {
       result.reCompile = true;
     }
 
+    const changedCompileKeys = currentKeys.filter((k: string) => {
+      return compileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
+    });
+    const changedSeriesOnlyKeys = currentKeys.filter((k: string) => {
+      return seriesOnlyKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
+    });
+    const changedCompileOnlySubKeys = currentKeys.filter((k: string) => {
+      return (
+        compileOnlySubKeys[k] &&
+        hasOnlyAllowedSubKeyChanges((spec as any)[k], (prevSpec as any)[k], compileOnlySubKeys[k])
+      );
+    });
+    changedCompileOnlySubKeys.forEach(k => {
+      ignores[k] = true;
+    });
+
     // check default compile keys
-    if (
-      !result.reCompile &&
-      currentKeys.some((k: string) => {
-        return defaultSeriesCompileCheckKeys[k] && !isEqual((spec as any)[k], (prevSpec as any)[k]);
-      })
-    ) {
+    if (!result.reCompile && (changedCompileKeys.length || changedCompileOnlySubKeys.length)) {
       result.reCompile = true;
+    }
+
+    if (changedCompileKeys.some(k => dataRelatedKeys[k])) {
+      markSeriesCompileEffect(result, true);
+    } else if (
+      result.reCompile &&
+      !result.effects?.series &&
+      (changedCompileKeys.length || changedCompileOnlySubKeys.length || changedMarkCompileOnlyKeys.length)
+    ) {
+      markSeriesCompileEffect(result);
+    }
+    if (changedSeriesOnlyKeys.length) {
+      markSeriesOnlyEffect(result);
     }
 
     if (
@@ -1097,7 +1260,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   _updateSpecData() {
     if (this._rawData && this._spec.data && !(this._spec.data instanceof DataView)) {
-      updateDataViewInData(this._rawData, this._spec.data, true);
+      updateDataViewInData(this._rawData, this._spec.data, false);
     }
   }
 
@@ -1107,9 +1270,11 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const marks = this.getMarksWithoutRoot();
     // FIXME: 合并 mark spec 的时机是否需要统一调整到 this.initMarkStyle() 中？
     marks.forEach(mark => {
+      mark.clearBeforeReInit();
       (this._spec as any)[mark.name] && this.initMarkStyleWithSpec(mark, (this._spec as any)[mark.name]);
     });
     this.initMarkStyle();
+    this.initMarkState();
     marks.forEach(mark => {
       mark.commit(false);
     });
@@ -1192,13 +1357,24 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
   protected _getSeriesInfo(field: string, keys: string[]) {
     const defaultShapeType = this.getDefaultShapeType();
+    const rawData = this.getRawData()?.latestData as Datum[] | undefined;
+    const rawDatumMap = new Map<any, Datum>();
+    rawData?.forEach(datum => {
+      const key = this.getSeriesFieldValue(datum, field);
+      if (!rawDatumMap.has(key)) {
+        rawDatumMap.set(key, datum);
+      }
+    });
+
     return keys.map(key => {
+      const datum = rawDatumMap.get(key) ?? {
+        [field]: key
+      };
       return {
         key,
         originalKey: key,
-        style: this.getSeriesStyle({
-          [field]: key
-        }),
+        datum,
+        style: this.getSeriesStyle(datum),
         shapeType: defaultShapeType
       } as ISeriesSeriesInfo;
     });
@@ -1292,29 +1468,32 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
 
       if (isNil(dataView)) {
         m.setData(this._data);
-        m.setSkipBeforeLayouted(true);
       } else if (dataView !== false) {
         m.setDataView(dataView);
       }
 
-      if (isBoolean(skipBeforeLayouted)) {
-        m.setSkipBeforeLayouted(skipBeforeLayouted);
-      }
+      m.setSkipBeforeLayouted(skipBeforeLayouted !== false);
 
       if (!isNil(groupKey)) {
         m.setGroupKey(groupKey);
       }
 
+      const markCanMorph = config.morph ?? false;
+      const defaultMorphKeyIndex =
+        this.getMarks().filter(mark => mark.type === MarkTypeEnum.group || mark.getMarkConfig().morph).length +
+        (markCanMorph ? 1 : 0);
+      const morphKey =
+        spec.morph?.morphKey || (markCanMorph ? `${this.getSpecIndex()}_${defaultMorphKeyIndex}` : undefined);
       const markConfig: IMarkConfig = {
         ...config,
         progressiveStep: (spec as IMarkProgressiveConfig).progressiveStep,
         progressiveThreshold: (spec as IMarkProgressiveConfig).progressiveThreshold,
         large: (spec as IMarkProgressiveConfig).large,
         largeThreshold: (spec as IMarkProgressiveConfig).largeThreshold,
-        morph: config.morph ?? false,
+        morph: markCanMorph,
         useSequentialAnimation: (spec as any).useSequentialAnimation,
         support3d: config.support3d ?? (spec.support3d || !!(spec as any).zField),
-        morphKey: spec.morph?.morphKey || `${this.getSpecIndex()}_${this.getMarks().length}`,
+        morphKey,
         morphElementKey: spec.morph?.morphElementKey ?? config.morphElementKey
       };
 
@@ -1341,13 +1520,27 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       return key;
     }
 
-    const dimensionFields = this.getDimensionField();
-    key = dimensionFields.map(field => datum[field]).join('_');
-
     const seriesField = this.getSeriesField();
+    const dimensionFields = this.getDimensionField();
+    const seriesFieldValue = seriesField ? datum[seriesField] : undefined;
+    let hasSeriesFieldInDimension = false;
+    let lastDimensionValue: unknown;
 
-    if (seriesField && !dimensionFields.includes(seriesField)) {
-      key += `_${datum[seriesField]}`;
+    for (let i = 0; i < dimensionFields.length; i++) {
+      const field = dimensionFields[i];
+      const dimensionValue = datum[field];
+
+      key += `${i > 0 ? '_' : ''}${isNil(dimensionValue) ? '' : dimensionValue}`;
+      hasSeriesFieldInDimension ||= field === seriesField;
+      lastDimensionValue = dimensionValue;
+    }
+
+    if (
+      seriesField &&
+      !hasSeriesFieldInDimension &&
+      !(dimensionFields.length > 1 && lastDimensionValue === seriesFieldValue)
+    ) {
+      key += `_${seriesFieldValue}`;
     }
 
     return key;

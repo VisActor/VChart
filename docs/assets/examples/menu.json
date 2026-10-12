@@ -126,6 +126,27 @@
             "zh": "柱状图、散点图间切换的全局动画",
             "en": "Global animation for switching between bar charts and scatter plots"
           }
+        },
+        {
+          "path": "disappear-animation",
+          "title": {
+            "zh": "退场动画",
+            "en": "Disappear Animation"
+          }
+        },
+        {
+          "path": "disappear-animation-gaussion-blur",
+          "title": {
+            "zh": "退场动画高斯模糊效果",
+            "en": "Disappear Animation Gaussian Blur Effect"
+          }
+        },
+        {
+          "path": "disappear-animation-wipe",
+          "title": {
+            "zh": "退场动画擦除效果",
+            "en": "Disappear Animation Wipe Effect"
+          }
         }
       ]
     },
@@ -652,6 +673,13 @@
             "zh": "轴截断柱图",
             "en": "Axis Break Column Chart"
           }
+        },
+        {
+          "path": "bar-poly-regression-line",
+          "title": {
+            "zh": "多项式回归柱状图",
+            "en": "Bar Chart with Polynomial Regression Line"
+          }
         }
       ]
     },
@@ -688,6 +716,20 @@
           "title": {
             "zh": "水平堆叠直方图",
             "en": "Horizontal Stacked Histogram"
+          }
+        },
+        {
+          "path": "histogram-bin",
+          "title": {
+            "zh": "使用bin获得分箱数据",
+            "en": "Obtain binned data using bin"
+          }
+        },
+        {
+          "path": "histogram-regression-line",
+          "title": {
+            "zh": "直方图和回归线",
+            "en": "Histogram with Regression Line"
           }
         }
       ]
@@ -980,6 +1022,13 @@
           "title": {
             "zh": "各种形状的散点图",
             "en": "Scatter Chart of different shape"
+          }
+        },
+        {
+          "path": "scatter-regression-line",
+          "title": {
+            "zh": "散点图回归线",
+            "en": "Scatter Chart Regression Line"
           }
         }
       ]
@@ -1979,6 +2028,41 @@
       },
       "children": [
         {
+          "path": "timeline-basic",
+          "title": {
+            "zh": "基础时间轴图",
+            "en": "Basic Timeline Chart"
+          }
+        },
+        {
+          "path": "timeline-with-icon",
+          "title": {
+            "zh": "带图标的时间轴图",
+            "en": "Timeline Chart with Icons"
+          }
+        },
+        {
+          "path": "timeline-vertical",
+          "title": {
+            "zh": "垂直布局时间轴图",
+            "en": "Vertical Timeline Chart"
+          }
+        },
+        {
+          "path": "timeline-group",
+          "title": {
+            "zh": "分组时间轴图",
+            "en": "Grouped Timeline Chart"
+          }
+        },
+        {
+          "path": "timeline-arrow",
+          "title": {
+            "zh": "带箭头的时间轴图",
+            "en": "Timeline Chart with Arrows"
+          }
+        },
+        {
           "path": "sequence-scatter-link-classification",
           "title": {
             "zh": "时序散点关系图-支持分类背景",
@@ -1997,6 +2081,71 @@
           "title": {
             "zh": "时序散点图-支持KDE背景",
             "en": "sequence-scatter-kde"
+          }
+        },
+        {
+          "path": "storyline-landscape",
+          "title": {
+            "zh": "横向叙事图",
+            "en": "Landscape Storyline"
+          }
+        },
+        {
+          "path": "storyline-portrait",
+          "title": {
+            "zh": "纵向叙事图",
+            "en": "Portrait Storyline"
+          }
+        },
+        {
+          "path": "storyline-clock",
+          "title": {
+            "zh": "时钟叙事图",
+            "en": "Clock Storyline"
+          }
+        },
+        {
+          "path": "storyline-arc",
+          "title": {
+            "zh": "弧形叙事图",
+            "en": "Arc Storyline"
+          }
+        },
+        {
+          "path": "storyline-wing",
+          "title": {
+            "zh": "翼形叙事图",
+            "en": "Wing Storyline"
+          }
+        }
+      ]
+    },
+    {
+      "path": "candlestick-chart",
+      "title": {
+        "zh": "k线图",
+        "en": "candlestick-chart"
+      },
+      "children": [
+        {
+          "path": "candlestick-basic",
+          "title": {
+            "zh": "基础K线图",
+            "en": "Basic Candlestick Chart"
+          }
+        },
+        {
+          "path": "candlestick-with-volume",
+          "title": {
+            "zh": "K线图与成交量",
+            "en": "Candlestick Chart with Volume"
+          }
+        },
+        {
+          "path": "candlestick-with-MA",
+          "title": {
+            "zh": "K线图与日均线",
+            "en": "Candlestick Chart with MA"
           }
         }
       ]
@@ -2831,6 +2980,27 @@
           "title": {
             "zh": "使用 MarkLine 绘制趋势线",
             "en": "Draw trend line using MarkLine"
+          }
+        },
+        {
+          "path": "bar-poly-regression-line",
+          "title": {
+            "zh": "多项式回归柱状图",
+            "en": "Bar Chart with Polynomial Regression Line"
+          }
+        },
+        {
+          "path": "histogram-regression-line",
+          "title": {
+            "zh": "直方图和回归线",
+            "en": "Histogram with Regression Line"
+          }
+        },
+        {
+          "path": "scatter-regression-line",
+          "title": {
+            "zh": "散点图回归线",
+            "en": "Scatter Chart Regression Line"
           }
         }
       ]

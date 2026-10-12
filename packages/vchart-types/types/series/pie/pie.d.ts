@@ -1,20 +1,20 @@
 import type { IPoint, Datum, StateValueType } from '../../typings';
-import type { IModelLayoutOption } from '../../model/interface';
 import { PolarSeries } from '../polar/polar';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import type { IArcMark, IMark, IPathMark, ITextMark } from '../../mark/interface';
-import { MarkTypeEnum } from '../../mark/interface/type';
 import type { IArcSeries, SeriesMarkMap } from '../interface';
-import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
-import type { IBasePieSeriesSpec, IPieSeriesSpec } from './interface';
-import { SeriesData } from '../base/series-data';
+import { SeriesTypeEnum } from '../interface/type';
+import type { IBasePieSeriesSpec, IPieSeriesSpec, IPieSeriesTheme } from './interface';
 import { PieSeriesSpecTransformer } from './pie-transformer';
+import type { ICompilableData } from '../../compile/data';
 export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSeries<T> implements IArcSeries {
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof PieSeriesSpecTransformer;
-    protected _pieMarkName: SeriesMarkNameEnum;
-    protected _pieMarkType: MarkTypeEnum;
+    protected _pieMarkName: string;
+    protected _pieMarkType: string;
     static readonly mark: SeriesMarkMap;
-    protected _viewDataLabel: SeriesData;
+    static readonly builtInTheme: Record<string, IPieSeriesTheme>;
+    protected _viewDataLabel: ICompilableData;
     getCenter: () => IPoint;
     protected _centerOffset: number;
     protected _cornerRadius: number;
@@ -37,14 +37,17 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     private endAngleScale;
     protected _computeLayoutRadius(): number;
     initMarkStyle(): void;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     protected initTooltip(): void;
-    initMarkStyleWithSpec(mark?: IMark, spec?: any, key?: string): void;
+    initMarkStyleWithSpec(mark?: IMark, spec?: any): void;
     initLabelMarkStyle(textMark: ITextMark): void;
     afterInitMark(): void;
     initEvent(): void;
     initGroups(): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
+    onLayoutEnd(): void;
     getDimensionField(): string[];
     getMeasureField(): string[];
     private viewDataLabelUpdate;
@@ -54,15 +57,10 @@ export declare class BasePieSeries<T extends IBasePieSeriesSpec> extends PolarSe
     getInnerRadius(state?: StateValueType): number;
     computeRadius(r: number, k?: number): number;
     computeDatumRadius(datum: Datum, state?: string): number;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: {
         [key: string]: true;
-    }): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    }): import("../..").IUpdateSpecResult;
     computeDatumInnerRadius(datum: Datum, state?: string): number;
     dataToPosition(datum: Datum, checkInViewData?: boolean): IPoint | null;
     dataToCentralPosition: (datum: Datum) => IPoint | null;

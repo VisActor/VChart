@@ -3,6 +3,7 @@ import { Direction } from '../../../typings/space';
 import { Factory } from '../../../core/factory';
 import type { ILinearProgressAnimationParams, LinearProgressAppearPreset } from './interface';
 import type { IAnimationTypeConfig } from '../../../animation/interface';
+import { DEFAULT_ANIMATION_CONFIG } from '../../../animation/config';
 
 function LinearProgressGrowOption(params: ILinearProgressAnimationParams) {
   return () => {
@@ -57,7 +58,7 @@ export const registerLinearProgressAnimation = () => {
       return {
         appear: linearProgressPresetAnimation(params, preset),
         enter: linearProgressPresetAnimation(params),
-        disappear: linearProgressDisappear(params)
+        disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
       };
     }
   );

@@ -1,4 +1,4 @@
-import { isNil, precisionAdd, precisionSub } from '@visactor/vutils';
+import { isFunction, isNil, precisionAdd, precisionSub } from '@visactor/vutils';
 
 import type { DataView } from '@visactor/vdataset';
 import type {
@@ -29,6 +29,8 @@ export interface IWaterfallOpt {
   startAs: string;
   endAs: string;
   total: IWaterfallSeriesSpec['total'];
+  calculationMode: 'increase' | 'decrease';
+
   seriesFieldName: {
     total: string;
     increase: string;
@@ -38,11 +40,14 @@ export interface IWaterfallOpt {
   groupData: () => DataView;
 }
 
-export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
+export type WaterfallOption = IWaterfallOpt | (() => IWaterfallOpt);
+
+export const waterfall = (lastData: Array<Datum>, op: WaterfallOption) => {
   if (!lastData || lastData.length === 0) {
     return lastData;
   }
-  const { indexField, total: totalSpec, groupData } = op;
+  const options = isFunction(op) ? op() : op;
+  const { indexField, total: totalSpec, groupData, calculationMode } = options;
   const totalData: {
     start: number;
     end: number;
@@ -57,7 +62,10 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
     dimensionValues: { [key in string]: Set<string> };
     dimensionData: { [key in string]: Datum[] };
   };
-  const indexValues = Array.from(dimensionValues[indexField]);
+  let indexValues = Array.from(dimensionValues[indexField]);
+  if (calculationMode === 'decrease') {
+    indexValues = indexValues.reverse();
+  }
   // 上一次的计算结果
   let temp: { start: number; end: number; lastIndex: string; positive: number; negative: number } = {
     start: 0,
@@ -78,7 +86,7 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
       negative: temp.end
     };
 
-    const indexData = op.stackInverse === true ? dimensionData[key].reverse() : dimensionData[key];
+    const indexData = options.stackInverse === true ? dimensionData[key].reverse() : dimensionData[key];
     indexData?.forEach((d, i) => {
       if (i === indexData.length - 1) {
         d[STACK_FIELD_TOTAL_TOP] = true;
@@ -110,14 +118,14 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
           temp,
           indexValues,
           index,
-          op,
+          options,
           isTotalCheck
         );
         totalData.push(total);
         return;
       }
     }
-    temp = computeNormalData(indexData, key, total, totalData, temp, indexValues, index, op);
+    temp = computeNormalData(indexData, key, total, totalData, temp, indexValues, index, options);
     totalData.push(total);
   });
   return totalData;
@@ -139,9 +147,11 @@ function computeTotalWithMultipleData(
   // 先将数据分为总计数据与常规数据
   const _normalTemp: Datum[] = [];
   const _totalTemp: Datum[] = [];
-  indexData.forEach(d => {
+  // 将总计数据与常规数据进行分离
+  indexData.forEach((d, index) => {
     if (isTotalCheck(d)) {
-      _totalTemp.push(d);
+      // 总计数据后续要重新按照顺序计算 start end 信息，所以需要记录下当前的 index
+      _totalTemp.push({ ...d, [`_vchart_waterfall_waterfall_temp`]: index });
     } else {
       _normalTemp.push(d);
     }
@@ -162,6 +172,7 @@ function computeTotalWithMultipleData(
   // 先获取当前的起始值/结束值应当是多少
   // 按照第一个总计数据的配置来决定
   const totalConfigData = _totalTemp[0];
+  // 获取配置中的总计结果
   // eslint-disable-next-line prefer-const
   let { start, end } = getTotalStartEnd(totalConfigData, total, totalData, temp, totalSpec);
   total.start = start;
@@ -170,7 +181,18 @@ function computeTotalWithMultipleData(
   let navigate = start;
   // 当前剩余的总计值
   let valueTemp = end - start;
-  // 将非总计数据进行堆叠
+  const tempTotalValue = _normalTemp.reduce((pre, cur) => precisionSub(pre, +cur[valueField]), valueTemp);
+  // 模拟一组临时总计数据，用来堆叠
+  _totalTemp.forEach(d => {
+    const tempTotalData = {
+      [startAs]: start,
+      [endAs]: end,
+      [valueField]: tempTotalValue
+    };
+    // 将临时总计插入 `_vchart_waterfall_waterfall_temp_${index}` 中
+    _normalTemp.splice(d._vchart_waterfall_waterfall_temp, 0, tempTotalData);
+  });
+  // 将全部数据进行堆叠
   _normalTemp.forEach(d => {
     const value = +d[valueField];
     if (value >= 0) {
@@ -184,11 +206,16 @@ function computeTotalWithMultipleData(
     start = precisionAdd(start, value);
     valueTemp = precisionSub(valueTemp, value);
   });
-  // 现在的start end 就是 total 的
-  _totalTemp.forEach(d => {
-    d[startAs] = +start;
-    d[endAs] = precisionAdd(d[startAs], valueTemp);
-    d[valueField] = valueTemp;
+  // 设置数据中的总计数据
+  _totalTemp.forEach(_d => {
+    const index = _d._vchart_waterfall_waterfall_temp;
+    // 数据的堆积计算结果
+    _d = _normalTemp[index];
+    // 原始数据
+    const d = indexData[index];
+    d[startAs] = _d[startAs];
+    d[endAs] = _d[endAs];
+    d[valueField] = _d[valueField];
   });
   return { ...total, lastIndex: key };
 }
@@ -320,13 +347,16 @@ export interface IWaterfallFillEndOpt {
   valueField: string;
   seriesField?: string;
   total: IWaterfallSeriesSpec['total'];
+  calculationMode: IWaterfallSeriesSpec['calculationMode'];
 }
 
-export const waterfallFillTotal = (data: Array<Datum>, op: IWaterfallFillEndOpt) => {
+export type WaterfallFillEndOption = IWaterfallFillEndOpt | (() => IWaterfallFillEndOpt);
+
+export const waterfallFillTotal = (data: Array<Datum>, op: WaterfallFillEndOption) => {
   if (!data) {
     return data;
   }
-  const { indexField, valueField, total, seriesField } = op;
+  const { indexField, valueField, total, seriesField, calculationMode } = isFunction(op) ? op() : op;
   const totalData = {
     [indexField]: total?.text || 'total',
     [valueField]: data.reduce((pre, cur) => precisionAdd(pre, +cur[valueField]), 0)
@@ -334,6 +364,8 @@ export const waterfallFillTotal = (data: Array<Datum>, op: IWaterfallFillEndOpt)
   if (seriesField) {
     totalData[seriesField] = 'total';
   }
-  data.push(totalData);
-  return data;
+  if (calculationMode === 'decrease') {
+    return [totalData, ...data];
+  }
+  return [...data, totalData];
 };

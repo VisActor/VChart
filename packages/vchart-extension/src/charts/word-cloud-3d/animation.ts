@@ -1,4 +1,4 @@
-import { RotateBySphereAnimate } from '@visactor/vrender-animate';
+import { RotateBySphereAnimate } from '@visactor/vchart';
 import type { IWordcloud3dAnimationParams } from './interface';
 import type { IAnimationTypeConfig } from '@visactor/vchart';
 import { Factory } from '@visactor/vchart';

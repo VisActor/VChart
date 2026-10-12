@@ -1,4 +1,4 @@
-import type { IStage } from '@visactor/vrender-core';
+import type { IStage } from '@visactor/vchart';
 
 export type IContext = {
   dom: string | HTMLElement;

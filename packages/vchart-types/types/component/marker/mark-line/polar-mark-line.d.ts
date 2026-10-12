@@ -9,6 +9,9 @@ export declare class PolarMarkLine extends BaseMarkLine {
     name: string;
     static coordinateType: string;
     coordinateType: CoordinateType;
+    static readonly builtInTheme: {
+        polarMarkLine: import("./interface").IMarkLineTheme;
+    };
     protected _markerComponent: MarkArcLineComponent;
     protected _newMarkLineComponent(attr: MarkArcLineAttrs | MarkLineAttrs): MarkArcLineComponent | MarkLineComponent;
     protected _computePointsAttr(): {

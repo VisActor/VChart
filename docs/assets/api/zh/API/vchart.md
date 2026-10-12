@@ -787,6 +787,66 @@ getCurrentThemeName: () => string;
 setCurrentTheme: (name: string) => Promise<IVChart>;
 ```
 
+使用示例：
+
+```javascript livedemo
+// 定义自定义主题
+const customTheme = {
+  colorScheme: {
+    default: [
+      '#FF6B6B',
+      '#4ECDC4',
+      '#45B7D1',
+      '#FFA07A',
+      '#98D8C8',
+      '#F7DC6F',
+      '#BB8FCE',
+      '#85C1E2'
+    ]
+  },
+  series: {
+    bar: {
+      barMaxWidth: 20,
+      label: {
+        visible: true,
+        position: 'top'
+      }
+    }
+  }
+};
+
+// 注册主题
+VChart.ThemeManager.registerTheme('myCustomTheme', customTheme);
+
+const spec = {
+  type: 'bar',
+  data: [
+    {
+      id: 'barData',
+      values: [
+        { type: 'A', value: 120 },
+        { type: 'B', value: 200 },
+        { type: 'C', value: 150 },
+        { type: 'D', value: 80 }
+      ]
+    }
+  ],
+  xField: 'type',
+  yField: 'value'
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+
+// 通过实例方法设置主题
+vchart.setCurrentTheme('myCustomTheme');
+```
+
+**注意**：
+- 使用 `setCurrentTheme` 方法前，需要先通过 `VChart.ThemeManager.registerTheme()` 注册主题
+- 该方法为异步方法，返回 Promise，可以使用 `await` 或 `.then()` 处理
+- 如果图表 spec 中配置了 `theme` 属性，则 spec 中的主题优先级更高
+
 ### setTooltipHandler
 
 当配置项无法满足 tooltip 的展示需求时，我们还提供了自定义 tooltip 的能力。可以通过配置 `TooltipHandler` 来覆盖默认 tooltip 展示逻辑。

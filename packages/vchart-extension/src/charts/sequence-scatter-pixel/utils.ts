@@ -1,4 +1,4 @@
-import { ISequenceScatterPixelSpec } from './interface';
+import type { ISequenceScatterPixelSpec } from './interface';
 import { BACKGROUND_KEY, DATA_KEY } from './constant';
 
 // 将RGB三元组数组转换为Canvas可用的imageData

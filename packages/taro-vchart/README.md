@@ -111,9 +111,9 @@ interface IEvent {
 }
 ```
 
-- `type` 代表事件名称，支持的值详见：[事件分类](https://www.visactor.io/vchart/api/API/event#%E4%BA%8B%E4%BB%B6%E5%88%86%E7%B1%BB)
-- `query` 事件 API 中的事件筛选配置，使用详见：[事件过滤](https://www.visactor.io/vchart/api/API/event#%E4%BA%8B%E4%BB%B6%E8%BF%87%E6%BB%A4)
-- `handler` 即事件监听函数，函数的参数类型详见：[事件参数](https://www.visactor.io/vchart/api/API/event#%E4%BA%8B%E4%BB%B6%E5%8F%82%E6%95%B0)
+- `type` 代表事件名称，支持的值详见：[事件分类](https://www.visactor.io/vchart/api/API/event#event-classification)
+- `query` 事件 API 中的事件筛选配置，使用详见：[事件过滤](https://www.visactor.io/vchart/api/API/event#event-filtering)
+- `handler` 即事件监听函数，函数的参数类型详见：[事件参数](https://www.visactor.io/vchart/api/API/event#event-parameters)
 
 ## 快速上手
 

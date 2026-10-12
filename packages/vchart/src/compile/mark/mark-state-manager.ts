@@ -123,6 +123,10 @@ export class MarkStateManager extends StateManager implements IMarkStateManager 
     });
   }
 
+  clearAllStateInfo() {
+    this._stateInfoList = [];
+  }
+
   protected _isMultiMark() {
     return !this._mark || isMultiDatumMark(this._mark.type as MarkTypeEnum);
   }

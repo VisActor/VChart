@@ -7,6 +7,7 @@ import { parseTriggerOffOfSelect } from './util';
 import { Factory } from '../../core/factory';
 import { TRIGGER_TYPE_ENUM } from './enum';
 import type { BaseEventParams } from '../../event/interface';
+import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
 
 const defaultOptions: Partial<IElementSelectOptions> = {
   state: STATE_VALUE_ENUM.STATE_SELECTED,
@@ -61,21 +62,21 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
     return events;
   }
 
-  resetAll = () => {
+  resetAll = (e?: BaseEventParams) => {
     const { state, reverseState, interaction } = this.options;
 
     const statedGraphics = interaction.getStatedGraphics(this);
 
     if (statedGraphics && statedGraphics.length) {
       interaction.clearAllStatesOfTrigger(this, state, reverseState);
-      this.dispatchEvent('reset', { graphics: statedGraphics, options: this.options });
+      this.dispatchEvent('reset', { graphics: statedGraphics, options: this.options, ...e });
 
       interaction.setStatedGraphics(this, []);
     }
   };
 
   handleStart = (e: BaseEventParams) => {
-    this.start(e.item);
+    this.start(e.item, e);
   };
 
   handleReset = (e: BaseEventParams) => {
@@ -89,13 +90,13 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
     const hasActiveElement = markGraphic && this._markSet.getMarkInId(markGraphic.context.markId);
 
     if (this._resetType.includes('view') && !hasActiveElement) {
-      this.resetAll();
+      this.resetAll(e);
     } else if (this._resetType.includes('self') && hasActiveElement) {
-      this.resetAll();
+      this.resetAll(e);
     }
   };
 
-  start(markGraphic: IMarkGraphic) {
+  start(markGraphic: IMarkGraphic, e?: BaseEventParams) {
     const { state, reverseState, isMultiple, interaction } = this.options;
     const statedGraphics = interaction.getStatedGraphics(this);
 
@@ -110,14 +111,14 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
               interaction.updateStates(this, newStatedGraphics, statedGraphics, state, reverseState)
             );
           } else {
-            this.resetAll();
+            this.resetAll(e);
           }
         }
       } else {
         if (this._timer) {
           clearTimeout(this._timer);
         }
-        markGraphic.addState(state, true);
+        addGraphicState(markGraphic, state, true);
 
         const newStatedGraphics = this.options.interaction.updateStates(
           this,
@@ -127,26 +128,26 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
           reverseState
         );
         interaction.setStatedGraphics(this, newStatedGraphics);
-        this.dispatchEvent('start', { graphics: newStatedGraphics, options: this.options });
+        this.dispatchEvent('start', { graphics: newStatedGraphics, options: this.options, ...e });
 
         if (this._resetType.includes('timeout')) {
           this._timer = setTimeout(() => {
-            this.resetAll();
+            this.resetAll(e);
           }, this.options.triggerOff as number) as unknown as number;
         }
       }
     } else if (this._resetType.includes('view') && statedGraphics && statedGraphics.length) {
-      this.resetAll();
+      this.resetAll(e);
     }
   }
 
-  reset(markGraphic: IMarkGraphic) {
+  reset(markGraphic: IMarkGraphic, e?: BaseEventParams) {
     if (markGraphic) {
       if (this._markSet.getMarkInId(markGraphic.context.markId)) {
-        markGraphic.removeState([this.options.state, this.options.reverseState]);
+        removeGraphicState(markGraphic, [this.options.state, this.options.reverseState]);
       }
     } else {
-      this.resetAll();
+      this.resetAll(e);
     }
   }
 }

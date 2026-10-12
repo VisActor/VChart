@@ -75,6 +75,28 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
     this._visible = this._spec.visible ?? true;
   }
 
+  _compareSpec(spec: IPlayer, prevSpec: IPlayer) {
+    const result = super._compareSpec(spec, prevSpec);
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (prevSpec?.type !== spec?.type) {
+      result.reMake = true;
+      return result;
+    }
+    if (specChanged && !result.reMake && !result.reCompile) {
+      result.change = true;
+      result.reRender = true;
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
+
+    return result;
+  }
+
   /**
    * 计算组件位置(布局的左上角起点)
    * @param pos
@@ -306,7 +328,11 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
   };
 
   changePlayerIndex(index: number) {
-    const spec = this._specs[index];
+    const spec = this._specs?.[index];
+
+    if (!spec || !this._option?.globalInstance) {
+      return;
+    }
 
     this._option.globalInstance.updateFullData((spec as any).data);
 
@@ -319,7 +345,12 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       }
     });
   }
-
+  autoPlayCallback = () => {
+    if (this._spec?.auto && this._playerComponent) {
+      this._playerComponent.pause();
+      this._playerComponent.play();
+    }
+  };
   /**
    * 事件
    */
@@ -328,11 +359,9 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       return;
     }
     // 自动播放
-    this._option.globalInstance.on(ChartEvent.rendered, () => {
-      if (this._spec?.auto) {
-        this._playerComponent.play();
-      }
-    });
+    this._option.globalInstance.off(ChartEvent.rendered, this.autoPlayCallback);
+    // 自动播放
+    this._option.globalInstance.on(ChartEvent.rendered, this.autoPlayCallback);
 
     // 循环播放 与 交替方向
     this._playerComponent.addEventListener(PlayerEventEnum.end, () => {
@@ -416,6 +445,15 @@ export class Player extends BaseComponent<IPlayer> implements IComponent {
       });
     });
   };
+  release(): void {
+    this._playerComponent?.pause?.();
+    // 自动播放
+    this._option?.globalInstance?.off(ChartEvent.rendered, this.autoPlayCallback);
+    super.release();
+    this._playerComponent = null as unknown as DiscretePlayer | ContinuousPlayer;
+    this._cacheAttrs = null as unknown as ContinuousPlayerAttributes | DiscretePlayerAttributes;
+    this._specs = [];
+  }
 }
 
 export const registerPlayer = () => {

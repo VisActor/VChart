@@ -25,9 +25,10 @@ export interface LinearAxisMixin {
         min?: number;
     };
     _tick: ITick | undefined;
+    _lastNiceAxisLength?: number;
     isSeriesDataEnable: any;
     computeDomain: any;
-    collectData: (depth?: number) => {
+    collectData: (depth?: number, rawData?: boolean) => {
         min: number;
         max: number;
         values: any[];
@@ -42,17 +43,21 @@ export interface LinearAxisMixin {
     _orient: IOrientType;
     _option: IComponentOption;
     niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
+    _refreshVisibilityByData: () => boolean;
 }
 export declare class LinearAxisMixin {
     protected _extend: {
         [key: string]: number;
     };
+    protected _rawDomain: StringOrNumber[];
+    getRawDomain(): StringOrNumber[];
     niceLabelFormatter: (value: StringOrNumber) => StringOrNumber;
     setExtraAttrFromSpec(): void;
     transformScaleDomain(): void;
     setLinearScaleNice(): false | LinearScale;
     setLogScaleNice(): false | LinearScale;
     setScaleNice(): false | LinearScale;
+    reTransformDomainByLayout(): void;
     dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     valueToPosition(value: any): number;
     computeLinearDomain(data: {
@@ -76,4 +81,6 @@ export declare class LinearAxisMixin {
     protected updateScaleDomainByModel(domain?: number[]): void;
     getDomainAfterSpec(): number[];
     protected _updateNiceLabelFormatter(domain: number[]): void;
+    protected _updateRawDomain(): void;
+    protected _clearRawDomain(): void;
 }

@@ -13,7 +13,7 @@ export interface ITrigger<TriggerOptions extends IBaseTriggerOptions = any> {
   release: () => void;
 
   init: () => void;
-  start: (g: any) => void;
+  start: (g: any, e?: BaseEventParams) => void;
   reset: (g?: IMarkGraphic) => void;
   getStartState: () => string;
   getResetState: () => string;

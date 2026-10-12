@@ -1,19 +1,20 @@
 import type { IEvent } from '../../event/interface';
 import type { LayoutCallBack } from '../../layout/interface';
-import type { IElement, IView } from '@visactor/vgrammar-core';
 import type { IParserOptions } from '@visactor/vdataset';
 import type { IComponent, IComponentConstructor } from '../../component/interface';
 import type { IMark } from '../../mark/interface';
-import type { IModel, IModelConstructor, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
+import type { IModel, IModelConstructor, IModelOption, IModelSpecInfo, IUpdateSpecResult } from '../../model/interface';
 import type { IRegion, IRegionConstructor } from '../../region/interface';
 import type { ISeries, ISeriesConstructor } from '../../series/interface';
-import type { IChartEvaluateOption, IChartLayoutOption, IChartOption, IChartRenderOption, IChartSpecInfo, IChartSpecTransformerOption, ILayoutParams } from './common';
+import type { IChartEvaluateOption, IChartLayoutOption, IChartOption, IChartSpecInfo, IChartSpecTransformerOption } from './common';
 import type { IBoundsLike, IPadding, Maybe } from '@visactor/vutils';
 import type { ICompilable } from '../../compile/interface';
 import type { IRegionQuerier, MaybeArray, Datum, IMarkStateSpec, StringOrNumber, IShowTooltipOption, IDataValues, ILayoutRect, IData } from '../../typings';
 import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { IMorphConfig } from '../../animation/spec';
+import type { IMarkGraphic } from '../../mark/interface/common';
+import type { IAxis } from '../../component/axis/interface';
 export type DimensionIndexOption = {
     filter?: (cmp: IComponent) => boolean;
     tooltip?: boolean;
@@ -37,12 +38,14 @@ export interface IChart extends ICompilable {
     getCanvasRect: () => ILayoutRect;
     getViewRect: () => ILayoutRect;
     getOption: () => IChartOption;
+    getModelOption: () => IModelOption;
     getEvent: () => IEvent;
     getGlobalScale: () => IGlobalScale;
     setLayout: (layout: LayoutCallBack) => void;
-    layout: (context: ILayoutParams) => void;
+    layout: () => void;
     getLayoutTag: () => boolean;
     setLayoutTag: (tag: boolean, morphConfig?: IMorphConfig, renderNextTick?: boolean) => boolean;
+    resetLayoutItemTag: () => void;
     updateData: (id: StringOrNumber, data: unknown, updateGlobalScale?: boolean, options?: IParserOptions) => void;
     updateFullData: (data: IDataValues | IDataValues[]) => void;
     updateGlobalScaleDomain: () => void;
@@ -51,9 +54,9 @@ export interface IChart extends ICompilable {
     onLayoutStart: (ctx: IChartLayoutOption) => void;
     onLayoutEnd: (ctx: IChartLayoutOption) => void;
     onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
-    onRender: (ctx: IChartRenderOption) => void;
     onResize: (width: number, height: number, reRender: boolean) => void;
-    onLayout: (view: IView) => void;
+    onLayout: () => void;
+    onBeforeRender: () => void;
     reInit: () => void;
     getAllSeries: () => ISeries[];
     getRegionsInIndex: (index?: number[]) => IRegion[];
@@ -93,13 +96,14 @@ export interface IChart extends ICompilable {
     setCurrentTheme: () => void;
     getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
     setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
+    showCrosshair: (cb: (axis: IAxis) => false | string | number) => void;
     filterGraphicsByDatum: (datum: MaybeArray<Datum> | null, opt?: {
         filter?: (series: ISeries, mark: IMark) => boolean;
         region?: IRegionQuerier;
-        getDatum?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => Datum;
-        callback?: (el: IElement, mark: IMark, s: ISeries, r: IRegion) => void;
-        regionCallback?: (pickElements: IElement[], r: IRegion) => void;
-    }) => IElement[];
+        getDatum?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => Datum;
+        callback?: (el: IMarkGraphic, mark: IMark, s: ISeries, r: IRegion) => void;
+        regionCallback?: (pickElements: IMarkGraphic[], r: IRegion) => void;
+    }) => IMarkGraphic[];
 }
 export interface IChartSpecTransformer {
     readonly type: string;
@@ -108,6 +112,7 @@ export interface IChartSpecTransformer {
     transformSpec: (spec: any) => void;
     transformModelSpec: (spec: any) => IChartSpecInfo;
     createSpecInfo: (chartSpec: any, transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void) => IChartSpecInfo;
+    getSeriesRelatedSpecKeys: () => Record<string, true>;
     forEachRegionInSpec: <K>(spec: any, callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];
     forEachSeriesInSpec: <K>(spec: any, callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];
     forEachComponentInSpec: <K>(spec: any, callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];

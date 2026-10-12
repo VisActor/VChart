@@ -35,7 +35,6 @@ import type {
   ITextMarkSpec,
   IVisualSpecScale
 } from '../visual';
-import type { StateValue } from '../../compile/mark/interface';
 import type { ISeriesStyle, SeriesType } from '../../series/interface';
 import type { Datum, StringOrNumber } from '../common';
 import type { IInvalidType } from '../data';
@@ -55,6 +54,7 @@ import type { IColor, ICustomPath2D, IGraphic, IOption3D, IRichTextCharacter } f
 import type { ICommonAxisSpec } from '../../component/axis/interface';
 import type { IMediaQuerySpec } from './media-query';
 import type { IModelSpec } from '../../model/interface';
+import type { TooltipActiveType } from '../tooltip/handler';
 
 export type IChartPadding = ILayoutOrientPadding | number;
 
@@ -108,6 +108,21 @@ export interface IInitOption extends Omit<IRenderOption, 'pluginList'> {
    * @default false
    */
   disableTriggerEvent?: boolean;
+
+  /**
+   * 组件内容展示配置
+   * @since 2.0.11
+   */
+  componentShowContent?: {
+    /**
+     * tooltip 是否关闭内容展示
+     * @default false
+     */
+    tooltip?: boolean | Partial<Record<TooltipActiveType, boolean>>;
+    // crosshair 组件是否展示
+    crosshair?: boolean;
+  };
+
   /**
    * 当自动响应容器resize 事件时，触发resize 的间隔时长，单位毫秒
    * @since 1.12.5
@@ -610,15 +625,17 @@ export interface IMarkStateTheme<T> extends Record<string, T> {
   selected_reverse?: T;
 }
 
+type ConvertToThemeMarkStyleSpec<T> = T extends Record<string, any> ? Partial<ConvertToMarkStyleSpec<T>> : never;
+
 export type IMarkTheme<T> = {
   /**
    * mark 层 是否显示配置
    */
   visible?: boolean;
   /** 默认样式设置 */
-  style?: T;
+  style?: ConvertToThemeMarkStyleSpec<T>;
   /** 不同状态下的样式配置 */
-  state?: IMarkStateTheme<T>;
+  state?: IMarkStateTheme<ConvertToThemeMarkStyleSpec<T>>;
   /**
    * 可交互的开关
    */
@@ -702,6 +719,9 @@ export interface IPerformanceHook {
   // VRender Draw 时间
   beforeVRenderDraw?: (vchart?: IVChart) => void;
   afterVRenderDraw?: (vchart?: IVChart) => void;
+
+  // 词云
+  afterWordcloudShapeDraw?: (vchart?: IVChart) => void;
 }
 
 export type IBuildinMarkSpec = {

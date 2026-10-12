@@ -340,6 +340,13 @@ export type IMarkerSpec = IComponentSpec & {
    * @since 1.11.0
    */
   coordinateType?: string;
+
+  /**
+   * 在band轴下标注组件是否包含全band
+   * @default false
+   * @since 2.0.5
+   */
+  includeFullBand?: boolean;
 };
 
 export type IMarkerSymbol = IMarkerRef & {
@@ -377,7 +384,13 @@ export type MarkerStateCallback<T> = (
    */
   context: IMarkerAttributeContext
 ) => T;
-export type MarkerStateValue = 'hover' | 'hover_reverse' | 'selected' | 'selected_reverse';
+export type MarkerStateValue =
+  | 'hover'
+  | 'hover_reverse'
+  | 'dimension_hover'
+  | 'dimension_hover_reverse'
+  | 'selected'
+  | 'selected_reverse';
 export type IMarkerState<T> = {
   /** 默认样式设置 */
   style?: T | MarkerStyleCallback<T>;

@@ -1,19 +1,22 @@
 import type { IRectMarkSpec, ISymbolMarkSpec, ITextMarkSpec, StringOrNumber } from '../../../typings';
 import type { ComponentThemeWithDirection } from '../../interface';
 import type { ILegendCommonSpec, NoVisibleMarkStyle } from '../interface';
+import type { HandlerTextStyleContext } from '@visactor/vrender-components';
 type Text = StringOrNumber;
+type ContinuousLegendTextStyle = Omit<NoVisibleMarkStyle<ITextMarkSpec>, 'text'>;
+type ContinuousLegendTextStyleCallback = (value: Text, position: 'start' | 'end', context: HandlerTextStyleContext) => ContinuousLegendTextStyle | undefined;
 export type TextAttribute = {
     visible?: boolean;
     text?: Text;
     space?: number;
-    style?: Omit<NoVisibleMarkStyle<ITextMarkSpec>, 'text'>;
+    style?: ContinuousLegendTextStyle;
 };
 export type HandlerTextAttribute = {
     visible?: boolean;
     precision?: number;
     formatter?: (text: Text) => Text;
     space?: number;
-    style?: Omit<NoVisibleMarkStyle<ITextMarkSpec>, 'text'>;
+    style?: ContinuousLegendTextStyle | ContinuousLegendTextStyleCallback;
 };
 export type IContinuousLegendSpec = ILegendCommonSpec & {
     inverse?: boolean;

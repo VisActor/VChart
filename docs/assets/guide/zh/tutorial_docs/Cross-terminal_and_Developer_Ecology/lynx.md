@@ -1,6 +1,6 @@
 # Lynx
 
-**【注意】Lynx 开源版本暂时不提供 canvas 画布功能，所以暂时不支持 vchart 的渲染，后续版本将会支持，敬请期待，[更多功能请查看 lynx 官网](https://lynxjs.org/)**
+**【适用范围】本文保留的是字节内部 Lynx 环境的接入说明。根据截至 2026-09-14 的公开资料核查，开源原生 Lynx 尚未公开提供本文所需的 Canvas 接入能力；安装 VChart 不会为宿主补充该能力。开源进展请参考 [Lynx 官方文档](https://lynxjs.org/)及[图表需求讨论](https://github.com/lynx-family/lynx/issues/6230#issuecomment-4729040590)。**
 
 Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 Native 视图，Lynx 于 2025-03-05 正式开源；VChart 基于 Lynx 字节内部版本提供了该框架的图表渲染能力支持。
 
@@ -12,9 +12,9 @@ Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 
 
 ### 手动引入脚本
 
-也可以手动引用 VChart 的 umd 打包产物，你可以通过如下渠道获取：
+也可以获取 VChart 的 UMD 打包产物，并按内部宿主支持的方式加载。下面的 HTML 标签展示浏览器中的引用方式，原生 Lynx 项目不能直接照搬：
 
-1. 直接仓库中获取 [packages/block-vchart/block/vchart/index.js](https://github.com/VisActor/VChart/blob/main/packages/block-vchart/block/vchart/index.js) ，每次发包我们都会进行更新
+1. 获取 `@visactor/vchart` 包中的 [build/index.min.js](https://unpkg.com/@visactor/vchart/build/index.min.js) 构建产物
 2. 从如下免费的 CDN 中获取
 
 ```html
@@ -27,7 +27,9 @@ Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 
 
 ## 如何使用
 
-下面我们从 `js`、`ttml`、`ttss` 三部分介绍下如何在飞书小组件上使用 VChart。
+以下保留内部 Lynx 宿主的历史 `ttml` 和 `js` 接入示例。`Card(...)`、`SystemInfo` 及画布桥接依赖对应内部宿主，不是开源 ReactLynx 的通用 API。
+
+这些示例尚未针对当前 VChart 与具体宿主版本完成运行验证，使用前需核对版本及宿主 API。示例中的 `domref`、`canvasIdLists` 和 `freeCanvasIdx` 是旧接入参数，不应直接作为新版本接入契约。
 
 ### index.ttml
 
@@ -68,7 +70,7 @@ Lynx 是字节开源的高性能跨端框架，基于 Web 技术栈快速构建 
 
 ### index.js
 
-在该文件中创建 VChart 实例，因为 VChart 内部对 lynx 环境进行了兼容，所以在使用上，基本于 PC 端无异，只需要注意两点：
+此历史示例在该文件中创建 VChart 实例，展示环境参数和事件接入两个部分：
 
 1. 需要在 VChart 的构造函数中声明必要的环境参数
 
@@ -88,7 +90,7 @@ const chartInstance = new VChart(spec, {
 });
 ```
 
-2. 在事件上，需要用户自己在 canvas（用于绘制的 canvas） 元素上绑定事件，然后在事件监听函数中手动得分发事件来触发 VChart 内部的事件。
+2. 在事件上，需要用户自己在 canvas（用于绘制的 canvas） 元素上绑定事件，然后在事件监听函数中手动分发事件来触发 VChart 内部的事件。
 
 ```ts
 bindChartEvent(event) {
@@ -102,7 +104,7 @@ bindChartEvent(event) {
 },
 ```
 
-下面是 index.js 相关的完成代码：
+下面是 index.js 示例代码：
 
 ```ts
 import barSpec from './data/bar';
@@ -186,15 +188,15 @@ Card({
 
 ## 按需加载
 
-lynx-vchart 本身代码都支持按需加载，当需要 VChart 按需加载的时候，有两种办法：
+以下 `<VChartSimple />` 和语义化标签属于内部包 `@dp/lynx-vchart` 的组件封装，使用前需具备对应内部 ReactLynx 宿主；完整用法参考 [ReactLynx 文档](/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/react-lynx)。下面保留该封装的历史按需加载方式及注册清单，需与实际使用的封装版本核对：
 
 - 使用 `<VChartSimple />` 标签，实现自定义的按需加载
 
-`<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@viasctor/vchart/esm/core` 引用 `VChart` 构造类，根据本文描述，注册需要的图表和组件，并传入给 `<VChartSimple />`;
+`<VChartSimple />`组件和`<VChart />`组件使用方法基本完全相同，唯一差异点为，需要用户从 `@visactor/vchart/esm/core` 引用 `VChart` 构造类，根据本文描述，注册需要的图表和组件，并传入给 `<VChartSimple />`;
 
 - 使用语义化标签，所有的语义化标签默认支持按需加载，其中各种语义化标签默认注册的内容如下：
 
-> 自**0.0.12**版本开始支持
+> 历史记录：该组件封装自 **0.0.12** 版本开始支持；此版本号不指 VChart 或 Lynx 引擎。
 
 | 图表                       | 分类           | 额外注册的组件                        |
 | -------------------------- | -------------- | ------------------------------------- |
@@ -279,6 +281,6 @@ lynx-vchart 本身代码都支持按需加载，当需要 VChart 按需加载的
 
 使用语义化标签的时候，如果用到其他没有默认加载的组件，只需要注册未加载的组件即可；
 
-【注意】：如果使用 lynx 出现报错类似“No matching export in ...”，请升级 lynx 的版本，或者配置 resolve.enableINodeCache 为 false
+【历史排错记录】：旧版内部接入文档曾建议在“No matching export in ...”报错时升级 Lynx，或将 `resolve.enableINodeCache` 设为 `false`。该建议所属的构建工具及适用版本尚未核实，使用前需核对对应工具链文档，不能将其作为开源 Lynx 的通用配置。
 
 VChart 按需引用参考[相关文档](/vchart/guide/tutorial_docs/Load_on_Demand)

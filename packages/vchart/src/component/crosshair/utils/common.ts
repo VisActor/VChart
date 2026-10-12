@@ -61,8 +61,10 @@ export function getDatumByValue(data: Datum[], value: number, startField: string
     if (record) {
       const startValue = record[startField];
       const endValue = record[endField || startField];
+      const min = Math.min(startValue, endValue);
+      const max = Math.max(startValue, endValue);
 
-      if (startValue <= value && endValue >= value) {
+      if (min <= value && max >= value) {
         return record;
       }
     }

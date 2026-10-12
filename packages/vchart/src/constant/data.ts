@@ -31,3 +31,5 @@ export const SEGMENT_FIELD_START = `${PREFIX}_SEGMENT_START`;
 export const SEGMENT_FIELD_END = `${PREFIX}_SEGMENT_END`;
 
 export const DEFAULT_KEY = `${PREFIX}_KEY`;
+
+export const DEFAULT_MAP_LOOK_UP_KEY = `${PREFIX}_MAP_LOOK_UP_KEY`;

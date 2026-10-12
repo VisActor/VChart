@@ -19,7 +19,6 @@ export declare enum ComponentTypeEnum {
     continuousLegend = "continuousLegend",
     colorLegend = "colorLegend",
     sizeLegend = "sizeLegend",
-    mapLabel = "mapLabel",
     markLine = "markLine",
     markArea = "markArea",
     markPoint = "markPoint",

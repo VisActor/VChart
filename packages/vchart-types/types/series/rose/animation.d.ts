@@ -1,5 +1,5 @@
-import type { IAnimationTypeConfig } from '@visactor/vgrammar-core';
 import type { IRoseAnimationParams, RoseAppearPreset } from './interface';
+import type { IAnimationTypeConfig } from '../../animation/interface';
 export declare const Appear_Grow: (params: IRoseAnimationParams) => IAnimationTypeConfig;
 export declare const Appear_FadeIn: IAnimationTypeConfig;
 export declare const roseEnter: (params: IRoseAnimationParams) => IAnimationTypeConfig;

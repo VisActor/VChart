@@ -2,15 +2,16 @@ import { BandScale, scaleWholeRangeSize } from '@visactor/vscale';
 import { CartesianAxis } from './axis';
 import type { ICartesianBandAxisSpec } from './interface';
 import { ComponentTypeEnum } from '../../interface';
-import { isNil, isString, isValid, mixin } from '@visactor/vutils';
+import { isEqual, isNil, isString, isValid, mixin } from '@visactor/vutils';
 import { BandAxisMixin } from '../mixin/band-axis-mixin';
 import type { StringOrNumber } from '../../../typings';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
-import { linearDiscreteTicks, LineAxisGrid } from '@visactor/vrender-components';
+import { linearDiscreteTicks } from '@visactor/vrender-components/axis/tick-data/discrete/linear';
+import { LineAxisGrid } from '@visactor/vrender-components/axis/grid/line';
 import { registerDataSetInstanceTransform } from '../../../data/register';
 import type { VRenderComponentOptions } from '../../../core/interface';
-import { LineAxis } from '@visactor/vrender-components';
+import { LineAxis } from '@visactor/vrender-components/axis/line';
 import type { IGroup } from '@visactor/vrender-core';
 import { AxisEnum, GridEnum } from '../interface';
 import { axisBand } from '../../../theme/builtin/common/component/axis/band-axis';
@@ -44,7 +45,7 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
     return this.computeBandDomain(data);
   }
 
-  protected updateScaleRange() {
+  updateScaleRange() {
     const isChanged = super.updateScaleRange();
     this.updateGroupScaleRange();
 
@@ -154,6 +155,25 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
       maxBandSize,
       minBandSize
     };
+  }
+
+  _compareSpec(spec: T, prevSpec: T) {
+    const result = super._compareSpec(spec, prevSpec);
+    if (result.reMake) {
+      return result;
+    }
+
+    if (prevSpec?.showAllGroupLayers !== spec?.showAllGroupLayers || !isEqual(prevSpec?.layers, spec?.layers)) {
+      result.reMake = true;
+    }
+
+    return result;
+  }
+
+  reInit(spec?: T): void {
+    super.reInit();
+
+    (this as any)?._updateData();
   }
 }
 

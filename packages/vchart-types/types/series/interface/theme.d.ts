@@ -1,18 +1,18 @@
 import type { IWaterfallSeriesTheme } from '../waterfall/interface';
 import type { IBoxPlotSeriesTheme } from '../box-plot/interface';
-import type { IBar3dSeriesTheme, IBarSeriesTheme } from '../bar/interface';
+import type { IBarSeriesTheme } from '../bar/interface';
 import type { ILineSeriesTheme } from '../line/interface';
 import type { IScatterSeriesTheme } from '../scatter/interface';
 import type { IAreaSeriesTheme } from '../area/interface';
 import type { IRadarSeriesTheme } from '../radar/interface';
-import type { IPie3dSeriesTheme, IPieSeriesTheme } from '../pie/interface';
+import type { IPieSeriesTheme } from '../pie/interface';
 import type { IRoseSeriesTheme } from '../rose/interface';
 import type { IMapSeriesTheme } from '../map/interface';
 import type { ICircularProgressSeriesTheme } from '../progress/circular/interface';
 import type { ILinkSeriesTheme } from '../link/interface';
 import type { IDotSeriesTheme } from '../dot/interface';
-import type { IWordCloud3dSeriesTheme, IWordCloudSeriesTheme } from '../word-cloud/interface';
-import type { IFunnel3dSeriesTheme, IFunnelSeriesTheme } from '../funnel/interface';
+import type { IWordCloudSeriesTheme } from '../word-cloud/interface';
+import type { IFunnelSeriesTheme } from '../funnel/interface';
 import type { ILinearProgressSeriesTheme } from '../progress/linear/interface';
 import type { IGaugePointerSeriesTheme, IGaugeSeriesTheme } from '../gauge/interface';
 import type { ISankeySeriesTheme } from '../sankey/interface';
@@ -32,10 +32,6 @@ export interface ISeriesTheme {
     [SeriesTypeForThemeEnum.bar_vertical]?: IBarSeriesTheme;
     [SeriesTypeForThemeEnum.bar_horizontal]?: IBarSeriesTheme;
     [SeriesTypeForThemeEnum.bar_stack]?: IBarSeriesTheme;
-    [SeriesTypeEnum.bar3d]?: IBar3dSeriesTheme;
-    [SeriesTypeForThemeEnum.bar3d_vertical]?: IBar3dSeriesTheme;
-    [SeriesTypeForThemeEnum.bar3d_horizontal]?: IBar3dSeriesTheme;
-    [SeriesTypeForThemeEnum.bar3d_stack]?: IBar3dSeriesTheme;
     [SeriesTypeEnum.line]?: ILineSeriesTheme;
     [SeriesTypeForThemeEnum.line_vertical]?: ILineSeriesTheme;
     [SeriesTypeForThemeEnum.line_horizontal]?: ILineSeriesTheme;
@@ -67,7 +63,6 @@ export interface ISeriesTheme {
     [SeriesTypeEnum.radar]?: IRadarSeriesTheme;
     [SeriesTypeForThemeEnum.radar_stack]?: IRadarSeriesTheme;
     [SeriesTypeEnum.pie]?: IPieSeriesTheme;
-    [SeriesTypeEnum.pie3d]?: IPie3dSeriesTheme;
     [SeriesTypeEnum.rose]?: IRoseSeriesTheme;
     [SeriesTypeForThemeEnum.rose_stack]?: IRoseSeriesTheme;
     [SeriesTypeEnum.map]?: IMapSeriesTheme;
@@ -76,9 +71,7 @@ export interface ISeriesTheme {
     [SeriesTypeEnum.link]?: ILinkSeriesTheme;
     [SeriesTypeEnum.dot]?: IDotSeriesTheme;
     [SeriesTypeEnum.wordCloud]?: IWordCloudSeriesTheme;
-    [SeriesTypeEnum.wordCloud3d]?: IWordCloud3dSeriesTheme;
     [SeriesTypeEnum.funnel]?: IFunnelSeriesTheme;
-    [SeriesTypeEnum.funnel3d]?: IFunnel3dSeriesTheme;
     [SeriesTypeEnum.treemap]?: ITreemapSeriesTheme;
     [SeriesTypeEnum.gauge]?: IGaugeSeriesTheme;
     [SeriesTypeEnum.gaugePointer]?: IGaugePointerSeriesTheme;
@@ -89,6 +82,7 @@ export interface ISeriesTheme {
     [SeriesTypeEnum.liquid]?: ILiquidSeriesTheme;
     [SeriesTypeEnum.venn]?: IVennSeriesTheme;
     [SeriesTypeEnum.mosaic]?: IMosaicSeriesTheme;
+    [key: string]: any;
 }
 export declare enum SeriesTypeForThemeEnum {
     area_horizontal = "area_horizontal",
@@ -100,13 +94,8 @@ export declare enum SeriesTypeForThemeEnum {
     bar_horizontal = "bar_horizontal",
     bar_vertical = "bar_vertical",
     bar_stack = "bar_stack",
-    bar3d_horizontal = "bar3d_horizontal",
-    bar3d_vertical = "bar3d_vertical",
-    bar3d_stack = "bar3d_stack",
     rangeColumn_horizontal = "rangeColumn_horizontal",
     rangeColumn_vertical = "rangeColumn_vertical",
-    rangeColumn3d_horizontal = "rangeColumn3d_horizontal",
-    rangeColumn3d_vertical = "rangeColumn3d_vertical",
     rangeArea_horizontal = "rangeArea_horizontal",
     rangeArea_vertical = "rangeArea_vertical",
     linearProgress_horizontal = "linearProgress_horizontal",

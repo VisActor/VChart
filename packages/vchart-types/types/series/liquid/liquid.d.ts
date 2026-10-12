@@ -11,6 +11,9 @@ export declare class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpe
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        liquid: import("./interface").ILiquidSeriesTheme;
+    };
     static readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     private _liquidGroupMark?;
@@ -41,7 +44,10 @@ export declare class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpe
     private _initLiquidBackgroundMarkStyle;
     private _initLiquidMarkStyle;
     protected initTooltip(): void;
-    initInteraction(): void;
+    getInteractionTriggers(): {
+        trigger: Partial<import("../../interaction/interface/trigger").IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     protected initEvent(): void;
     dataToPosition(data: Datum): IPoint;

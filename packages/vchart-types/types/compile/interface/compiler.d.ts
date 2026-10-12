@@ -1,8 +1,13 @@
-import type { Hooks } from '@visactor/vgrammar-core';
-import type { IColor, IStageParams, IStage, ILayer } from '@visactor/vrender-core';
-import type { RenderMode } from '../../typings/spec/common';
+import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
+import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
+export declare enum LayoutState {
+    before = "before",
+    layouting = "layouting",
+    reevaluate = "reevaluate",
+    after = "after"
+}
 export interface IRenderContainer {
     dom?: HTMLElement | 'none';
     canvas?: HTMLCanvasElement | string;
@@ -37,15 +42,23 @@ export interface IRenderOption {
     viewBox?: IBoundsLike;
     canvasControled?: boolean;
     stage?: IStage;
+    app?: IApp;
     layer?: ILayer;
     beforeRender?: IStageParams['beforeRender'];
     afterRender?: IStageParams['afterRender'];
+    renderHooks?: {
+        afterClearScreen?: IStageParams['afterClearScreen'];
+        afterClearRect?: IStageParams['afterClearRect'];
+        [key: string]: any;
+    };
     background?: IColor;
     logLevel?: number;
     onError?: (...args: any[]) => void;
     disableDirtyBounds?: boolean;
     enableView3dTransform?: boolean;
     pluginList?: string[];
+    runtimePluginInstallers?: ((app?: IApp) => void)[];
+    ticker?: ITicker;
     optimize?: IOptimizeType;
     enableHtmlAttribute?: boolean;
     supportsTouchEvents?: boolean;
@@ -53,5 +66,9 @@ export interface IRenderOption {
     ReactDOM?: any;
     clickInterval?: number;
     autoPreventDefault?: boolean;
-    performanceHook?: Hooks;
+    performanceHook?: IPerformanceHook;
+    options3d?: {
+        enable?: boolean;
+        enableView3dTranform?: boolean;
+    } & IOption3D;
 }

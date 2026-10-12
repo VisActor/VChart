@@ -5,7 +5,7 @@ import type { InterpolateType } from './interpolate';
 import type { ScaleType } from './scale';
 import type { ShapeType } from './shape';
 import type { IPoint } from './coordinate';
-import type { IAttributeOpt, IModelMarkAttributeContext } from '../compile/mark/interface';
+import type { IModelMarkAttributeContext } from '../compile/mark/interface';
 import type { Datum } from './common';
 import type { IPadding } from '@visactor/vutils';
 import type { IColorKey } from '../theme/color-scheme/interface';
@@ -37,7 +37,7 @@ export interface IVisualScale {
     field?: string;
     changeDomain?: 'none' | 'replace' | 'expand';
 }
-export type FunctionType<T> = (datum: Datum, context: IModelMarkAttributeContext, opt?: IAttributeOpt, source?: DataView) => T;
+export type FunctionType<T> = (datum: Datum, context: IModelMarkAttributeContext, source?: DataView) => T;
 export type ValueType<T> = T;
 export type VisualType<T> = ValueType<T> | FunctionType<T> | IVisual<unknown, T>;
 export type TextureType = 'circle' | 'dimond' | 'rect' | 'vertical-line' | 'horizontal-line' | 'bias-lr' | 'bias-rl' | 'grid';
@@ -85,10 +85,36 @@ export interface ICommonSpec {
     html?: IMarkHtmlSpec;
     [key: string]: any;
 }
+export type BackgroundSizing = 'cover' | 'contain' | 'fill' | 'auto';
+export type BackgroundRepeatMode = 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat';
+export type BackgroundSizingShorthand = 'no-repeat-cover' | 'no-repeat-contain' | 'no-repeat-fill' | 'no-repeat-auto';
+export type BackgroundMode = BackgroundRepeatMode | BackgroundSizingShorthand;
+export type BackgroundPositionHorizontalKeyword = 'left' | 'center' | 'right';
+export type BackgroundPositionVerticalKeyword = 'top' | 'center' | 'bottom';
+export type BackgroundPositionKeyword = BackgroundPositionHorizontalKeyword | BackgroundPositionVerticalKeyword;
+export type BackgroundPositionPercent = `${number}%`;
+export type BackgroundPositionValue = number | BackgroundPositionKeyword | BackgroundPositionPercent;
+export type BackgroundPositionPreset = 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
+export type BackgroundPosition = BackgroundPositionKeyword | BackgroundPositionPreset | [BackgroundPositionValue, BackgroundPositionValue];
+export type ImageMode = BackgroundSizing;
 export interface IFillMarkSpec extends ICommonSpec {
     fill?: VisualType<string> | IGradient | false | IColorKey;
+    shadowBlur?: number;
+    shadowColor?: string;
+    shadowOffsetX?: number;
+    shadowOffsetY?: number;
     fillOpacity?: number;
     background?: IColor | HTMLImageElement | HTMLCanvasElement | null;
+    backgroundMode?: BackgroundMode;
+    backgroundFit?: boolean;
+    backgroundKeepAspectRatio?: boolean;
+    backgroundScale?: number;
+    backgroundOffsetX?: number;
+    backgroundOffsetY?: number;
+    backgroundPosition?: BackgroundPosition;
+    backgroundClip?: boolean;
+    backgroundCornerRadius?: number | number[];
+    backgroundOpacity?: number;
 }
 export type IMarkHtmlSpec = Partial<IGraphicStyle['html']>;
 export interface ISymbolMarkSpec extends IFillMarkSpec {
@@ -157,21 +183,27 @@ export interface IRectMarkSpec extends IFillMarkSpec {
     x1?: number;
     y1?: number;
 }
-export interface IRect3dMarkSpec extends IRectMarkSpec {
-    length?: number;
-}
 export interface IBoxPlotMarkSpec extends ICommonSpec {
-    lineWidth?: number;
-    boxWidth?: number;
-    shaftWidth?: number;
-    shaftShape?: BoxPlotShaftShape;
-    boxFill?: string;
-    shaftFillOpacity?: number;
     min?: (datum: Datum) => number;
     q1?: (datum: Datum) => number;
     median?: (datum: Datum) => number;
     q3?: (datum: Datum) => number;
     max?: (datum: Datum) => number;
+    shaftShape?: BoxPlotShaftShape;
+    boxWidth?: number | string;
+    boxHeight?: number | string;
+    shaftWidth?: number | string;
+    ruleWidth?: number | string;
+    ruleHeight?: number | string;
+    minMaxWidth?: number | string;
+    minMaxHeight?: number | string;
+    q1q3Width?: number | string;
+    q1q3Height?: number | string;
+    lineWidth?: number;
+    minMaxFillOpacity?: number;
+    boxStroke?: string;
+    medianStroke?: string;
+    boxCornerRadius?: number;
 }
 export interface IRippleMarkSpec extends ICommonSpec {
     ripple?: number;
@@ -220,9 +252,6 @@ export interface IArcMarkSpec extends IFillMarkSpec {
     cap?: boolean | [boolean, boolean];
     autoCapConical?: boolean;
 }
-export interface IArc3dMarkSpec extends IArcMarkSpec {
-    height?: number;
-}
 export interface ICellMarkSpec extends ISymbolMarkSpec {
     padding?: number | number[] | IPadding;
 }
@@ -237,9 +266,6 @@ export interface IPolygonMarkSpec extends ICommonSpec, IFillMarkSpec {
     cornerRadius?: number | number[];
     scaleX?: number;
     scaleY?: number;
-}
-export interface IPyramid3dMarkSpec extends IPolygonMarkSpec {
-    points?: IPoint[];
 }
 export type RepeatType = 'no-repeat' | 'repeat-x' | 'repeat-y' | 'repeat';
 export type RepeatXYType = 'no-repeat' | 'repeat' | 'stretch';
@@ -280,7 +306,7 @@ export type GradientType = 'linear' | 'radial' | 'conical';
 export type IGradient = IGradientLinear | IGradientRadial | IGradientConical;
 export type LineStrokeCap = 'butt' | 'round' | 'square';
 export type LineStrokeJoin = 'arcs' | 'bevel' | 'miter' | 'miter-clip' | 'round';
-export type BoxPlotShaftShape = 'line' | 'bar';
+export type BoxPlotShaftShape = 'line' | 'bar' | 'filled-line';
 export interface IThresholdStyle extends IVisualSpecStyle<number, string> {
     domain: number[];
     field: string;
@@ -296,7 +322,12 @@ export interface IImageMarkSpec extends IFillMarkSpec {
     height?: number;
     repeatX?: IRepeatType;
     repeatY?: IRepeatType;
-    image: string | HTMLImageElement | HTMLCanvasElement;
+    imageMode?: ImageMode;
+    imagePosition?: BackgroundPosition;
+    imageScale?: number;
+    imageOffsetX?: number;
+    imageOffsetY?: number;
+    image?: string | HTMLImageElement | HTMLCanvasElement;
 }
 export type TextAlign = TextAlignType;
 export type TextBaseLine = TextBaselineType;

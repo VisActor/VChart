@@ -9,6 +9,9 @@ import type { IModelSpecInfo } from '../../model/interface';
 import type { IAxis } from '../axis';
 export declare class PolarCrossHair<T extends IPolarCrosshairSpec = IPolarCrosshairSpec> extends BaseCrossHair<T> {
     static specKey: string;
+    static readonly builtInTheme: {
+        crosshair: import("./interface").ICrosshairTheme;
+    };
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     name: string;

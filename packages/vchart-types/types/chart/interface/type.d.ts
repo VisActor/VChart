@@ -4,15 +4,11 @@ export declare const enum ChartTypeEnum {
     area = "area",
     line = "line",
     bar = "bar",
-    bar3d = "bar3d",
     histogram = "histogram",
-    histogram3d = "histogram3d",
     rangeColumn = "rangeColumn",
-    rangeColumn3d = "rangeColumn3d",
     rangeArea = "rangeArea",
     map = "map",
     pie = "pie",
-    pie3d = "pie3d",
     radar = "radar",
     rose = "rose",
     scatter = "scatter",
@@ -20,9 +16,7 @@ export declare const enum ChartTypeEnum {
     circularProgress = "circularProgress",
     linearProgress = "linearProgress",
     wordCloud = "wordCloud",
-    wordCloud3d = "wordCloud3d",
     funnel = "funnel",
-    funnel3d = "funnel3d",
     waterfall = "waterfall",
     boxPlot = "boxPlot",
     gauge = "gauge",
@@ -34,6 +28,5 @@ export declare const enum ChartTypeEnum {
     correlation = "correlation",
     liquid = "liquid",
     venn = "venn",
-    mosaic = "mosaic",
-    pictogram = "pictogram"
+    mosaic = "mosaic"
 }

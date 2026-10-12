@@ -1,6 +1,6 @@
-import type { EasingType } from '@visactor/vrender-core';
-import { ACustomAnimate } from '@visactor/vrender-animate';
-import { isValidNumber } from '@visactor/vutils';
+import type { EasingType } from '@visactor/vchart';
+import { ACustomAnimate } from '@visactor/vchart';
+import { isValidNumber } from '@visactor/vchart';
 import type { IAnimationConfig } from '@visactor/vchart';
 import { DEFAULT_ANIMATION_CONFIG, Factory } from '@visactor/vchart';
 

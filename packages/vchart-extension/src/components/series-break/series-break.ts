@@ -3,10 +3,10 @@
  * @author zhangweixing
  */
 
-import { AbstractComponent, Point } from '@visactor/vrender-components';
-import { SeriesBreakAttrs, SeriesBreakData } from './type';
-import { createGroup, createPath, IGraphic } from '@visactor/vrender-core';
-import { isEmpty, isNumberClose, isValid } from '@visactor/vutils';
+import type { Point, IGraphic } from '@visactor/vchart';
+import { AbstractComponent, createGroup, createPath } from '@visactor/vchart';
+import type { SeriesBreakAttrs, SeriesBreakData } from './type';
+import { isEmpty, isNumberClose, isValid } from '@visactor/vchart';
 import { SERIES_BREAK } from './constant';
 import { Factory } from '@visactor/vchart';
 

@@ -32,13 +32,19 @@ export interface BandAxisMixin {
     _tickTransformOption: () => any;
     _forceLayout: () => void;
     _getNormalizedValue: (values: any[], length: number) => number;
+    _onTickDataChange: (compilableData: CompilableData) => void;
+    registerTicksTransform: () => string;
+    _refreshVisibilityByData: () => boolean;
 }
 export declare class BandAxisMixin {
     private _tickDataMap;
     protected _initData(): void;
+    protected _updateData(): void;
     protected _rawDomainIndex: {
         [key: string | number | symbol]: number;
     }[];
+    protected _rawDomain: StringOrNumber[][];
+    getRawDomain(): StringOrNumber[][];
     dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     valueToPosition(value: any): number;
     updateGroupScaleRange(): void;

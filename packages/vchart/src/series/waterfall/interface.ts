@@ -89,6 +89,13 @@ export interface IWaterfallSeriesSpec
     /** 标签偏移量 */
     offset?: number;
   };
+
+  /**
+   * 瀑布图类型
+   * 默认为 increase 增长瀑布图
+   * @since 2.0.6
+   */
+  calculationMode?: 'increase' | 'decrease';
 }
 
 export interface IWaterfallSeriesTheme extends IBarSeriesTheme {

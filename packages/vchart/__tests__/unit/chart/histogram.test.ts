@@ -62,6 +62,7 @@ describe('histogram chart test', () => {
       {
         eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
         globalInstance: {
+          isAnimationEnable: () => true,
           getContainer: () => ({}),
           getTooltipHandlerByUser: (() => undefined) as () => undefined
         },

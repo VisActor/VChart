@@ -10,6 +10,12 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     static specKey: string;
+    static readonly builtInTheme: {
+        axis: import("../interface").IAxisCommonTheme;
+        axisBand: import("../interface").IBandAxisTheme;
+        axisX: import("./interface").ICartesianAxisCommonTheme;
+        axisY: import("./interface").ICartesianAxisCommonTheme;
+    };
     protected _scale: BandScale;
     protected _scales: BandScale[];
     protected computeDomain(data: {
@@ -17,7 +23,7 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         max: number;
         values: any[];
     }[]): StringOrNumber[];
-    protected updateScaleRange(): boolean;
+    updateScaleRange(): boolean;
     protected initScales(): void;
     protected axisHelper(): {
         isContinuous: boolean;
@@ -37,5 +43,7 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         maxBandSize: number;
         minBandSize: number;
     };
+    _compareSpec(spec: T, prevSpec: T): import("../../..").IUpdateSpecResult;
+    reInit(spec?: T): void;
 }
 export declare const registerCartesianBandAxis: () => void;

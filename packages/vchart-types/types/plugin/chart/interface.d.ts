@@ -8,6 +8,7 @@ export interface IChartPlugin<T extends IChartPluginService = any> extends IBase
     onAfterChartSpecTransform?: (service: T, chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
     onAfterModelSpecTransform?: (service: T, chartSpec: any, chartSpecInfo: IChartSpecInfo, actionSource: VChartRenderActionSource) => MaybePromise<void>;
     onBeforeInitChart?: (service: T, chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
+    onAfterInitChart?: (service: T, chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
 }
 export interface IChartPluginConstructor {
     readonly pluginType: 'chart';
@@ -22,4 +23,5 @@ export interface IChartPluginService<T extends IChartPlugin = any> extends IBase
     onAfterChartSpecTransform?: (chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
     onAfterModelSpecTransform?: (chartSpec: any, chartSpecInfo: IChartSpecInfo, actionSource: VChartRenderActionSource) => MaybePromise<void>;
     onBeforeInitChart?: (chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
+    onAfterInitChart?: (chartSpec: any, actionSource: VChartRenderActionSource) => MaybePromise<void>;
 }

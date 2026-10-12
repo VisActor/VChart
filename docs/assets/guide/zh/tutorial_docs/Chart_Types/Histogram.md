@@ -866,6 +866,130 @@ vchart.renderSync();
 window['vchart'] = vchart;
 ```
 
+### 使用 `bin` transform 生成直方图数据
+
+自 `2.0.7` 版本开始，直方图支持了`bin` transform，当数据为明细数据的时候，可以通过该变换，获得标准的直方图数据
+
+```javascript livedemo
+const spec = {
+  data: [
+    {
+      name: 'data1',
+      transforms: [
+        {
+          type: 'bin',
+          options: {
+            bins: 10,
+            field: 'value'
+          }
+        }
+      ],
+      values: [
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 2.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 },
+        { value: 9.3 }
+      ]
+    }
+  ],
+  type: 'histogram',
+  xField: 'x0',
+  x2Field: 'x1',
+  yField: 'count',
+  bar: {
+    style: {
+      stroke: 'white',
+      lineWidth: 1
+    }
+  },
+  title: {
+    text: 'Arrival Time Histogram'
+  },
+  tooltip: {
+    visible: true,
+    mark: {
+      title: {
+        key: 'title',
+        value: 'count'
+      },
+      content: [
+        {
+          key: datum => datum['x0'] + '～' + datum['x1'],
+          value: datum => datum['count']
+        }
+      ]
+    }
+  }
+};
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+
+// 只为了方便控制台调试用，不要拷贝
+window['vchart'] = vchart;
+```
+
+其中 bin transform 支持如下配置：
+
+```ts
+interface IBinOptions {
+  /**
+   * 需要分箱的数值字段
+   */
+  field: string;
+  /**
+   * 分箱数量（默认 10）
+   */
+  bins?: number;
+  /**
+   * 显式指定的分箱边界数组
+   */
+  thresholds?: number[];
+  /**
+   * 固定的分箱宽度（区间步长），如设置则覆盖 bins
+   */
+  step?: number;
+  /**
+   * 指定分箱的最小值和最大值 [min, max]，否则自动根据数据计算
+   */
+  extent?: [number, number];
+  /**
+   * 是否在每个分箱中保留原始数据项
+   */
+  includeValues?: boolean;
+  /**
+   * 输出数据的字段名映射
+   */
+  outputNames?: { x0?: string; x1?: string; count?: string; values?: string };
+}
+```
+
 ## 图表布局
 
 ### 堆叠直方图

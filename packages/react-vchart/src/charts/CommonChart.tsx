@@ -14,7 +14,11 @@ import {
   registerBarSeries,
   registerLineSeries,
   registerScatterSeries,
-  registerPieSeries
+  registerPieSeries,
+  registerAnimate,
+  registerReactAttributePlugin,
+  registerTooltip,
+  registerDomTooltipHandler
 } from '@visactor/vchart';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';
@@ -30,6 +34,10 @@ export const CommonChart = createChart<React.PropsWithChildren<CommonChartProps>
     vchartConstructor: VChart as IVChartConstructor
   },
   [
+    registerAnimate,
+    registerReactAttributePlugin,
+    registerTooltip,
+    registerDomTooltipHandler,
     registerCommonChart,
     registerCartesianLinearAxis,
     registerCartesianBandAxis,

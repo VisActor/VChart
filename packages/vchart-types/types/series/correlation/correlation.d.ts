@@ -2,17 +2,20 @@ import { PolarSeries } from '../polar/polar';
 import type { ICorrelationSeriesSpec } from './interface';
 import { SeriesTypeEnum } from '../interface/type';
 import type { SeriesMarkMap } from '../interface';
-import { SeriesData } from '../base/series-data';
 import type { AdaptiveSpec } from '../../typings';
 import type { ILabelMark, IMark } from '../../mark/interface';
 import { CorrelationSeriesSpecTransformer } from './correlation-transformer';
+import { type ICompilableData } from '../../compile/data';
 export declare class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSeriesSpec> extends PolarSeries<AdaptiveSpec<T, 'outerRadius' | 'innerRadius'>> {
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        correlation: import("./interface").ICorrelationSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof CorrelationSeriesSpecTransformer;
-    protected _centerSeriesData: SeriesData;
+    protected _centerSeriesData: ICompilableData;
     private _nodePointMark;
     private _ripplePointMark;
     private _centerPointMark;
@@ -32,7 +35,6 @@ export declare class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorre
     protected _sizeRange?: ICorrelationSeriesSpec['sizeRange'];
     getSizeRange(): number[];
     setSizeRange(range: number[]): void;
-    protected _viewDataTransform: SeriesData;
     setAttrFromSpec(): void;
     protected initData(): void;
     compileData(): void;
@@ -51,6 +53,6 @@ export declare class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorre
     getActiveMarks(): IMark[];
     getDimensionField(): string[];
     getMeasureField(): string[];
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
 }
 export declare const registerCorrelationSeries: () => void;

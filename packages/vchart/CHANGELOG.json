@@ -2,6 +2,620 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.1.7",
+      "tag": "@visactor/vchart_v2.1.7",
+      "date": "Fri, 18 Sep 2026 09:46:50 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: restore point visibility after overlap updates"
+          },
+          {
+            "comment": "fix: 修复 roseSeries 在非堆叠场景里 innerRadius 不生效的问题\n\n"
+          },
+          {
+            "comment": "fix: bar smapling not work bug. fix#4571"
+          },
+          {
+            "comment": "fix: fix theme overwrite when change chartType in updateSpec\n\n"
+          },
+          {
+            "comment": "refactor: keep the word cloud shape afterRender tap as a stable member callback"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "修复坐标轴旋转标签的采样角度单位与绘制不一致，导致标签过度抽样的问题。"
+          },
+          {
+            "comment": "fix: rebuild background when spec.background and spec.theme change in the same updateSpec"
+          },
+          {
+            "comment": "fix: avoid crash when recompiling a mark without a compile option"
+          },
+          {
+            "comment": "fix: remove the word cloud shape afterRender tap when the series is released"
+          },
+          {
+            "comment": "fix: preserve crosshair visibility for explicitly bound multiple band axes (Issue #4127)"
+          },
+          {
+            "comment": "fix: 修复预览比例尺退化时 DataZoom 显示多余预览线的问题"
+          },
+          {
+            "comment": "fix: preserve final attributes for exit animations when appear animations are disabled"
+          },
+          {
+            "comment": "fix: respect explicit label smart invert settings"
+          },
+          {
+            "comment": "fix: prevent rich text labels from inheriting line dash styles (Issue #4595)"
+          },
+          {
+            "comment": "fix: unregister array-valued trigger event listeners on release"
+          },
+          {
+            "comment": "修复 Glyph 状态更新未重新编码子图形导致的桑基图 hover 残留、关联流量高亮比例和取消恢复异常；统一共享运行时状态与子图形属性撤销。需要配套包含 Glyph 派生同步接口的 VRender 版本。同时修复 Liquid 显式 fillOpacity 在初始渲染、配置更新及状态切换中未作用于子波浪的问题，并在退出状态时恢复普通样式或默认透明度。"
+          },
+          {
+            "comment": "fix: 修复 #4561 导致堆叠数值轴 crosshair 错误显示范围标签及偏移，保留马赛克和直方图的维度区间高亮"
+          },
+          {
+            "comment": "fix: resolve title width/height/minWidth/maxWidth/minHeight/maxHeight as ILayoutNumber against the chart view rect"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.1.6",
+      "tag": "@visactor/vchart_v2.1.6",
+      "date": "Thu, 13 Aug 2026 02:18:20 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.1.5",
+      "tag": "@visactor/vchart_v2.1.5",
+      "date": "Thu, 30 Jul 2026 08:24:02 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "feat: support layout-time callbacks for discrete legend pager.layout and pager.position with resolved maxRow and maxCol"
+          },
+          {
+            "comment": "feat: support dimension hover state for mark point target symbol"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: release the pointerout listener when dimension hover events are unregistered"
+          },
+          {
+            "comment": "fix: avoid duplicate event handlers after chart remake"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.1.4",
+      "tag": "@visactor/vchart_v2.1.4",
+      "date": "Thu, 16 Jul 2026 09:04:49 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "feat: support automatic bar width for linear x axis"
+          },
+          {
+            "comment": "feat: support theming conversion funnel arrow (line / symbol / text) via series.funnel.conversionArrow theme token"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: restore existing axis grid graphics when grid visibility is enabled again through updateSpec with animation disabled"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.1.2",
+      "tag": "@visactor/vchart_v2.1.2",
+      "date": "Wed, 08 Jul 2026 08:25:01 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix(vchart): handle progressive graphics hover state\n\n"
+          },
+          {
+            "comment": "fix: normalize funnel range mapping\n\n"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: stabilize BytePack ESM VRender registration paths and preserve seriesStyle after theme updates"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.1.1",
+      "tag": "@visactor/vchart_v2.1.1",
+      "date": "Thu, 25 Jun 2026 03:26:39 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.1.0",
+      "tag": "@visactor/vchart_v2.1.0",
+      "date": "Tue, 23 Jun 2026 08:17:08 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "update changes for 009-fix-map-roam-pointer-drag: This plan fixes a map roam drag bug where mobile browsers lose stable vertical dragging after supportsTouchEvents is forced to false"
+          },
+          {
+            "comment": "feat: markLine expandDistancesupport callback. close#4568"
+          },
+          {
+            "comment": "fix: waterfall lead line bug. fix#4580"
+          },
+          {
+            "comment": "fix: vchart relayout api not work bug. fix#4537"
+          },
+          {
+            "comment": "fix: label not follow when drag. fix#4547"
+          },
+          {
+            "comment": "fix: prcoess render error. fix#4578"
+          }
+        ],
+        "minor": [
+          {
+            "comment": "feat: support function type for `maxRow` / `maxCol` of the discrete legend, evaluated during layout against the legend's allocated rect, so the row / column count can adapt to the available space"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: preserve discrete legend filtering after updateSpec when `legends.data` is a callback (Issue #4566)"
+          },
+          {
+            "comment": "fix: re-nice the cartesian linear axis with the real plot-area length after layout when `tick.tickCount` is a function, so the length-based tick count and nice ceiling match the final plot area instead of the pre-layout chart viewRect"
+          },
+          {
+            "comment": "refactor: introduce scoped updateSpec effects to make chart, component, series, data, layout, render, and animation update ranges explicit; local component updates such as marker exit, title text, legend appearance, axis appearance, mark style, field, label, animation, and layout-related series changes now avoid unnecessary chart remake/recompile paths when the existing chart model can be updated in place"
+          },
+          {
+            "comment": "refactor: align VChart with the VRender 1.1.0 app-scoped runtime, state resolver, and animation contracts while keeping standard VChart spec usage compatible; consolidate mark shared-state handling, glyph sub-graphic state isolation, word-cloud scaleIn initialization, and interaction-state behavior for Sankey, brush, legend textures, marker rich text, and circular progress tick masks"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.21",
+      "tag": "@visactor/vchart_v2.0.21",
+      "date": "Mon, 13 Apr 2026 12:57:51 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: correct stacked bar corner clipping when barMinHeight is applied (Issue #4543)"
+          },
+          {
+            "comment": "fix: handle sankey tooltip labels when source index is 0 (Issue #4488)"
+          }
+        ],
+        "none": [
+          {
+            "comment": "fix: relayout api not work bug. fix#4537"
+          },
+          {
+            "comment": "fix: custom mark not release after update spec. fix#4537"
+          },
+          {
+            "comment": "fix: map error when roam or drag canvas. fix#4547"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.19",
+      "tag": "@visactor/vchart_v2.0.19",
+      "date": "Thu, 26 Mar 2026 08:32:46 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "update changes for 008-fix-size-legend-handler-text: Allow size legend handlerText.style to accept function-based values in the same way other legend style hooks already do, and add regression coverage proving the style callback is preserved through continuous legend attribute transformation."
+          },
+          {
+            "comment": "update changes for 009-fix-heatmap-scrollbar-axis-direction: Align ScrollBar with DataZoom by using the shared reverse-axis detection when converting scrollbar state percentages back into domain values."
+          },
+          {
+            "comment": "update changes for 009-fix-issue-of-mark-state-when-updateSpec: Fix an issue where mark states were not properly cleared when updateSpec was called, causing incorrect state persistence."
+          },
+          {
+            "comment": "update changes for 010-hide-empty-axes: Add an opt-in hideWhenEmpty axis option for cartesian axes."
+          },
+          {
+            "comment": "fix: fix theme config of spec and option\n\n"
+          },
+          {
+            "comment": "update changes for 009-fix-issue-of-mark-state-when-updateSpec: Fix an issue where mark states were not properly cleared when updateSpec was called, causing incorrect state persistence."
+          },
+          {
+            "comment": "fix: datazoom update domain after data change. fix#4186"
+          },
+          {
+            "comment": "chore: upgrade vutils, vdataset, vscale, vlayouts to ~1.0.23"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.18",
+      "tag": "@visactor/vchart_v2.0.18",
+      "date": "Fri, 06 Mar 2026 11:34:27 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "chore: remove unused GitHub Actions workflows"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.17",
+      "tag": "@visactor/vchart_v2.0.17",
+      "date": "Thu, 05 Mar 2026 11:35:47 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: optimiz workflows for release\n\n"
+          },
+          {
+            "comment": "fix: fix default lineWidth for heatmap label\n\n"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: ensure DataZoom updates when data source changes (Issue #4185)"
+          },
+          {
+            "comment": "fix: Fix memory leaks in Player component and BaseComponent release logic."
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.16",
+      "tag": "@visactor/vchart_v2.0.16",
+      "date": "Thu, 26 Feb 2026 08:40:19 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: support functional alternateColor in axis grid configuration"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.15",
+      "tag": "@visactor/vchart_v2.0.15",
+      "date": "Fri, 06 Feb 2026 12:13:39 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: optimiz word-cloud-shape"
+          }
+        ],
+        "patch": [
+          {
+            "comment": "fix: markPoint.itemContent.text.style.fontSize setting invalid"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.14",
+      "tag": "@visactor/vchart_v2.0.14",
+      "date": "Fri, 30 Jan 2026 03:53:56 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix issue of wordCloud\n\n"
+          },
+          {
+            "comment": "fix: fix style of react-vchart tooltip render\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.13",
+      "tag": "@visactor/vchart_v2.0.13",
+      "date": "Wed, 21 Jan 2026 12:36:39 GMT",
+      "comments": {
+        "minor": [
+          {
+            "comment": "feat: support fixed pixel step scrolling on wheel event and minimum scrollbar slider height"
+          }
+        ],
+        "none": [
+          {
+            "comment": "chore(auto-flow): optimize auto flow"
+          },
+          {
+            "comment": "fix(react-vchart): fix default registers of CommonChart\n\n"
+          },
+          {
+            "comment": "feat: add brush api before change"
+          },
+          {
+            "comment": "git commit -m 'feat: add interactive api"
+          },
+          {
+            "comment": "feat: add brush clear api and disable dimension hover config. close#4400"
+          },
+          {
+            "comment": "fix: fix issue of wordCloud\n\n"
+          },
+          {
+            "comment": "feat: interactive params add event. feat #4421"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.11",
+      "tag": "@visactor/vchart_v2.0.11",
+      "date": "Thu, 25 Dec 2025 10:15:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "chore(vchart): 热力图矩形单元支持非等宽高；默认形状统一为 rect；修复颜色映射字段访问；新增单测与浏览器示例"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.10",
+      "tag": "@visactor/vchart_v2.0.10",
+      "date": "Thu, 11 Dec 2025 11:05:38 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support label of boxPlot"
+          },
+          {
+            "comment": "feat: support componentShowContent in initOption\n\n"
+          },
+          {
+            "comment": "fix: update outlier data handling in BoxPlotSeries, fix #4317\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.9",
+      "tag": "@visactor/vchart_v2.0.9",
+      "date": "Fri, 28 Nov 2025 03:44:56 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add `outlier` to boxplot, close #4301\n\n"
+          },
+          {
+            "comment": "feat: upgrade vrender to 1.0.32\n\n"
+          },
+          {
+            "comment": "fix: extensionMark can remove animation\n\n"
+          },
+          {
+            "comment": "fix: fix issue of font family\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.7",
+      "tag": "@visactor/vchart_v2.0.7",
+      "date": "Tue, 18 Nov 2025 11:36:57 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "support stage animation and add various exit animation effects based on stage"
+          },
+          {
+            "comment": "fix: fix the issue of markline autoRange\n\n"
+          },
+          {
+            "comment": "fix: bar always display when set bar minHeight. fix#3284"
+          },
+          {
+            "comment": "fix: dot series display bug. fix #3283"
+          },
+          {
+            "comment": "fix: brush range not correct. fix #3091"
+          },
+          {
+            "comment": "fix: datazoom layout when set scale. fix #2574 & #2424"
+          },
+          {
+            "comment": "fix: domain will follow axis. fix #2770"
+          },
+          {
+            "comment": "fix: update perview when update data. fix #3331"
+          },
+          {
+            "comment": "fix: bind right axis when swtich orient. fix#3373"
+          },
+          {
+            "comment": "performance: enhance datazoom and scrollbar performance. close#2525 & #2781"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.6",
+      "tag": "@visactor/vchart_v2.0.6",
+      "date": "Fri, 31 Oct 2025 03:26:00 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: boxplot support transform\n\n"
+          },
+          {
+            "comment": "feat: support resize zoom chart plugin\n\n"
+          },
+          {
+            "comment": "fix: crosshair should hide when mouseleave chart\n\n"
+          },
+          {
+            "comment": "fix: fix the vchart-extension packaged artifacts contained an extra vrender\n\n"
+          },
+          {
+            "comment": "fix: fix issue of legends label layout when resize\n\n"
+          },
+          {
+            "comment": "fix: update demo about regression line\n\n"
+          },
+          {
+            "comment": "fix: upgrade-vutil to 1.0.12\n\n"
+          },
+          {
+            "comment": "fix: fix issue of waterfall compute total on `field` totalType\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.5",
+      "tag": "@visactor/vchart_v2.0.5",
+      "date": "Tue, 14 Oct 2025 07:08:54 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support calc in formatter\n\n"
+          },
+          {
+            "comment": "fix: fix issue of markline will report an error when series has no data\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.4",
+      "tag": "@visactor/vchart_v2.0.4",
+      "date": "Fri, 19 Sep 2025 07:45:43 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: support vchart rotate plugin\n\n"
+          },
+          {
+            "comment": "feat: scrollbar support auto visible. close #3972"
+          },
+          {
+            "comment": "feat: support includFullBand api in markArea\n\n"
+          },
+          {
+            "comment": "fix: fix bug of the rangeArea chart line and point config\n\n"
+          },
+          {
+            "comment": "fix: fix the issue of className miss in react-vchart\n\n"
+          },
+          {
+            "comment": "fix: when color is gradient string, tooltip icon should show correctly\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.3",
+      "tag": "@visactor/vchart_v2.0.3",
+      "date": "Fri, 08 Aug 2025 09:24:12 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "fix: fix bug of vchart onError will be overwritten by undefined\n\n"
+          },
+          {
+            "comment": "fix: animtion should be run after `spec.animation` is updated, fix #4104\n\n"
+          },
+          {
+            "comment": "fix: fix issue with normal after no-animate enter state"
+          },
+          {
+            "comment": "fix: fix height of tooltip element when set transform of container, fix #4109\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.2",
+      "tag": "@visactor/vchart_v2.0.2",
+      "date": "Mon, 28 Jul 2025 08:19:21 GMT",
+      "comments": {}
+    },
+    {
+      "version": "2.0.1",
+      "tag": "@visactor/vchart_v2.0.1",
+      "date": "Thu, 24 Jul 2025 02:07:41 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: add config to avoid brush state update. close #4035"
+          },
+          {
+            "comment": "feat: optimize datazoom animation effect"
+          },
+          {
+            "comment": "feat: add the afterClearScreen hook of render\n\n"
+          },
+          {
+            "comment": "fix: fix issue with 3d chart grid"
+          },
+          {
+            "comment": "fix: tickData of axis should update when `sampling` is changed, fix #4059\n\n"
+          },
+          {
+            "comment": "fix: only calculate multi layer label items when need, fix #4056\n\n"
+          },
+          {
+            "comment": "fix: fix resize error when remake, and re-normal aniamtion bug, fix #4070\n\n"
+          },
+          {
+            "comment": "fix: fix issue with feishu block and call setenv when create vchart"
+          },
+          {
+            "comment": "fix: fix bug of tooltip triggerOff & tooltip lock\n\n"
+          },
+          {
+            "comment": "fix: fix tooltip throw error when some tooltip processor is undefined, fix #4044\n\n"
+          },
+          {
+            "comment": "fix: fix `textAlign` not works in tooltip.style.titleLabel, fix #4043\n\n"
+          }
+        ]
+      }
+    },
+    {
+      "version": "2.0.0",
+      "tag": "@visactor/vchart_v2.0.0",
+      "date": "Tue, 10 Jun 2025 13:40:24 GMT",
+      "comments": {
+        "none": [
+          {
+            "comment": "feat: remove marker type. close #3782"
+          },
+          {
+            "comment": "fix: mark interactive problem when brush. fix visactor/vchart#4017"
+          },
+          {
+            "comment": "fix: markLine position error when domain is a same array. fix#4016"
+          },
+          {
+            "comment": "refactor: migrate mapLabel component into vchart-extension package"
+          }
+        ]
+      }
+    },
+    {
       "version": "1.13.11",
       "tag": "@visactor/vchart_v1.13.11",
       "date": "Thu, 29 May 2025 09:26:04 GMT",

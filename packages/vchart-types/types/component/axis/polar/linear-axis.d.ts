@@ -9,6 +9,12 @@ export declare class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLine
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     static specKey: string;
+    static readonly builtInTheme: {
+        axis: import("../interface").IAxisCommonTheme;
+        axisLinear: import("../interface").IAxisCommonTheme;
+        axisAngle: import("./interface").IPolarAxisCommonTheme;
+        axisRadius: import("./interface").IPolarAxisCommonTheme;
+    };
     protected _zero: boolean;
     protected _nice: boolean;
     protected _extend: {

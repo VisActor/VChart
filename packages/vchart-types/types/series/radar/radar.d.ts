@@ -1,5 +1,5 @@
 import { LineLikeSeriesMixin } from '../mixin/line-mixin';
-import type { IMark, IMarkProgressiveConfig } from '../../mark/interface';
+import type { IMark } from '../../mark/interface';
 import type { Datum } from '../../typings';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesTypeEnum } from '../interface/type';
@@ -12,6 +12,9 @@ export declare class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> 
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        radar: import("./interface").IRadarSeriesTheme;
+    };
     static readonly transformerConstructor: any;
     readonly transformerConstructor: typeof LineLikeSeriesSpecTransformer;
     private _areaMark;
@@ -20,7 +23,7 @@ export declare class RadarSeries<T extends IRadarSeriesSpec = IRadarSeriesSpec> 
     compile(): void;
     initMark(): void;
     initMarkStyle(): void;
-    initAreaMark(progressive: IMarkProgressiveConfig, isSeriesMark: boolean): void;
+    initAreaMark(isSeriesMark: boolean): void;
     initAreaMarkStyle(): void;
     protected initTooltip(): void;
     initAnimation(): void;

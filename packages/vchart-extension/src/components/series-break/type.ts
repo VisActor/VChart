@@ -1,5 +1,4 @@
-import { Point } from '@visactor/vrender-components';
-import { IGroupGraphicAttribute, ILineGraphicAttribute } from '@visactor/vrender-core';
+import type { IGroupGraphicAttribute, ILineGraphicAttribute, Point } from '@visactor/vchart';
 
 export type SeriesBreakData = {
   /**

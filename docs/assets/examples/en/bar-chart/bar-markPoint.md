@@ -83,12 +83,7 @@ const spec = {
         type: 'text',
         autoRotate: false,
         text: {
-          dy: 14,
           text: '2 mins',
-          style: {
-            fill: 'white',
-            fontSize: 14
-          },
           labelBackground: {
             padding: [5, 10, 5, 10],
             style: {
@@ -96,6 +91,11 @@ const spec = {
               cornerRadius: 5
             }
           }
+        },
+        style: {
+          dy: 14,
+          fill: 'white',
+          fontSize: 14
         }
       },
       itemLine: {

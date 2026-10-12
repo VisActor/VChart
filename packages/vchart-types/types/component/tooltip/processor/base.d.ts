@@ -1,15 +1,14 @@
 import type { BaseEventParams } from '../../../event/interface';
 import type { ITooltipActual, TooltipActiveType, TooltipData } from '../../../typings';
-import type { TooltipHandlerParams } from '../interface';
+import type { ITooltip, TooltipHandlerParams } from '../interface';
 import { TooltipResult } from '../interface/common';
-import type { Tooltip } from '../tooltip';
 import type { MouseEventData, TooltipInfo } from './interface';
-import type { IDimensionInfo } from '../../../event/events/dimension';
+import type { IDimensionInfo } from '../../../event/events/dimension/interface';
 export declare abstract class BaseTooltipProcessor {
-    readonly component: Tooltip;
+    readonly component: ITooltip;
     abstract activeType: TooltipActiveType;
     protected _cacheActiveSpec: ITooltipActual | undefined;
-    constructor(component: Tooltip);
+    constructor(component: ITooltip);
     abstract showTooltip(info: TooltipInfo, params: BaseEventParams, changePositionOnly: boolean): TooltipResult;
     abstract getMouseEventData(params: BaseEventParams): MouseEventData;
     protected _showTooltipByHandler: (data: TooltipData | undefined, params: TooltipHandlerParams) => TooltipResult;

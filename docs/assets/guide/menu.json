@@ -23,6 +23,13 @@
           }
         },
         {
+          "path": "VChart_Skill_Usage",
+          "title": {
+            "zh": "VChart Skill 使用",
+            "en": "VChart Skill Usage"
+          }
+        },
+        {
           "path": "Contribution_Guide",
           "title": {
             "zh": "如何加入 VChart 社区",
@@ -55,20 +62,6 @@
               "title": {
                 "zh": "一份基础的 spec",
                 "en": "A Basic Spec"
-              }
-            },
-            {
-              "path": "DeepSeek_With_Cursor",
-              "title": {
-                "zh": "Cursor+DeepSeek，快速上手属于你的 VChart 代码",
-                "en": "Cursor+DeepSeek: Quick Start to Your VChart Code"
-              }
-            },
-            {
-              "path": "Quickly_Get_Started_with_VisActor_Using_Trae_Context_Doc",
-              "title": {
-                "zh": "使用 Trae Context Doc 快速上手 VisActor",
-                "en": "Quickly Get Started with VisActor Using Trae Context Doc"
               }
             }
           ]
@@ -470,6 +463,13 @@
                 "zh": "3d 漏斗图",
                 "en": "3D Funnel Chart"
               }
+            },
+            {
+              "path": "Candlestick",
+              "title": {
+                "zh": "蜡烛图",
+                "en": "Candlestick Chart"
+              }
             }
           ]
         },
@@ -593,6 +593,13 @@
             "en": "Theme"
           },
           "children": [
+            {
+              "path": "Apply_Theme",
+              "title": {
+                "zh": "主题应用指南",
+                "en": "Theme Application Guide"
+              }
+            },
             {
               "path": "Theme_Concept_and_Design_Rules",
               "title": {
@@ -925,6 +932,34 @@
               "title": {
                 "zh": "地图标签组件",
                 "en": "Map Label"
+              }
+            },
+            {
+              "path": "regression_line",
+              "title": {
+                "zh": "回归线组件",
+                "en": "Regression Line"
+              }
+            },
+            {
+              "path": "candlestick",
+              "title": {
+                "zh": "蜡烛图",
+                "en": "Candlestick"
+              }
+            },
+            {
+              "path": "timeline",
+              "title": {
+                "zh": "时间线图组件",
+                "en": "Timeline"
+              }
+            },
+            {
+              "path": "storyline",
+              "title": {
+                "zh": "叙事图",
+                "en": "Storyline"
               }
             }
           ]

@@ -2,8 +2,8 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IRegion } from '../../region/interface';
 import type { IModelInitOption, IModelSpecInfo } from '../../model/interface';
-import type { IComponentMark } from '../../mark/interface';
-import type { ILabel, IMark as IVGrammarMark } from '@visactor/vgrammar-core';
+import type { IMark } from '../../mark/interface';
+import { type IComponentMark } from '../../mark/interface';
 import { BaseLabelComponent } from './base-label';
 import type { Maybe } from '@visactor/vutils';
 import type { ILabelInfo } from './interface';
@@ -34,9 +34,8 @@ export declare class Label<T extends IChartSpec = any> extends BaseLabelComponen
     updateLayoutAttribute(): void;
     protected _updateMultiLabelAttribute(labelInfo: ILabelInfo[], labelComponent: IComponentMark): void;
     protected _updateSingleLabelAttribute(labelInfo: ILabelInfo, labelComponent: IComponentMark): void;
-    protected _updateLabelComponentAttribute(component: ILabel, target: IVGrammarMark | IVGrammarMark[], labelInfos: ILabelInfo[]): void;
+    protected _updateLabelComponentAttribute(labelComponent: IComponentMark, baseMark: IMark | IMark[], labelInfos: ILabelInfo[]): void;
     compileMarks(): void;
-    getVRenderComponents(): any[];
     getLabelInfoByTextGraphic(text: IGraphic): ILabelInfo;
 }
 export declare const registerLabel: () => void;

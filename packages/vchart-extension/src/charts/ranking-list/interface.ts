@@ -1,12 +1,12 @@
-import { IMarkStateSpec, IMarkStateStyleSpec } from '@visactor/vchart';
-import { StateValue } from '@visactor/vchart/src/compile/mark';
-import { Datum } from '@visactor/vchart/src/typings/common';
-import {
+import type { IMarkStateSpec, IMarkStateStyleSpec } from '@visactor/vchart';
+import type { StateValue } from '@visactor/vchart/src/compile/mark';
+import type { Datum } from '@visactor/vchart/src/typings/common';
+import type {
   ITextGraphicAttribute,
   ISymbolGraphicAttribute,
   IRectGraphicAttribute,
   EasingType
-} from '@visactor/vrender-core';
+} from '@visactor/vchart';
 
 type IRankingListData = Datum[];
 

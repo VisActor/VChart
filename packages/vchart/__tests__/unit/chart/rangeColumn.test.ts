@@ -62,6 +62,7 @@ describe('rangeColumn chart test', () => {
         // @ts-ignore
         eventDispatcher: new EventDispatcher({}, { addEventListener: () => {} }),
         globalInstance: {
+          isAnimationEnable: () => true,
           getContainer: () => ({}),
           getTooltipHandlerByUser: (() => undefined) as () => undefined
         },

@@ -1,13 +1,12 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { DataSet, DataView } from '@visactor/vdataset';
 import type { IEvent, IEventDispatcher } from '../event/interface';
-import type { IMark, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
+import type { AnimationStateValues, IMark, IMarkGraphic, IMarkRaw, IMarkStyle, MarkTypeEnum } from '../mark/interface';
 import type { RenderMode } from '../typings/spec/common';
 import type { StringOrNumber } from '../typings/common';
 import type { IGroupMarkSpec, ConvertToMarkStyleSpec, ICommonSpec } from '../typings/visual';
 import type { IRect } from '../typings/space';
 import type { IPoint, CoordinateType } from '../typings/coordinate';
-import type { ITheme } from '../theme/interface';
 import type { StateValueType } from '../typings/spec';
 import type { ICompilable, ICompilableInitOption } from '../compile/interface';
 import type { IGlobalScale } from '../scale/interface';
@@ -23,9 +22,6 @@ import type { IVChart } from '../core/interface';
 import type { ICompilableData } from '../compile/data/interface';
 import type { IDimensionData, IDimensionInfo } from '../event/events/dimension/interface';
 import type { IAxis } from '../component/axis';
-import type { CrossHairStateItem } from '../component/crosshair/interface/common';
-import type { RectCrosshairAttrs } from '@visactor/vrender-components';
-
 // TODO:
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface IModelInitOption {}
@@ -41,6 +37,19 @@ export interface IModelRenderOption {}
 
 export interface IEffect {
   [key: string]: (e?: any) => any;
+}
+
+export interface IUpdateSpecEffects {
+  remake?: boolean;
+  compile?: boolean;
+  render?: boolean;
+  layout?: boolean;
+  data?: boolean;
+  scaleDomain?: boolean;
+  series?: boolean;
+  component?: boolean;
+  animation?: boolean;
+  localOnly?: boolean;
 }
 
 export interface IMarkTreeGroup extends Partial<IMarkStyle<IGroupMarkSpec>> {
@@ -62,6 +71,7 @@ export interface IUpdateSpecResult {
   // TODO: compile 的判断应不应该出现在这里?
   reCompile?: boolean;
   reTransformSpec?: boolean;
+  effects?: IUpdateSpecEffects;
   reAnimate?: boolean;
   changeTheme?: boolean;
   changeBackground?: boolean;
@@ -116,6 +126,7 @@ export interface IModel extends ICompilable {
 
   onEvaluateEnd: (ctx: IModelEvaluateOption) => void;
   onDataUpdate: () => void;
+  onBeforeRender: () => void;
 
   updateSpec: (spec: any, totalSpec?: any) => IUpdateSpecResult;
   getSpec?: () => any;
@@ -138,6 +149,9 @@ export interface IModel extends ICompilable {
   initMarkStyleWithSpec: (mark?: IMark, spec?: any) => void;
 
   getSpecInfo: () => IModelSpecInfo;
+
+  updateAnimateStateCallback: (callback: (graphic: IMarkGraphic) => AnimationStateValues) => void;
+  getAnimationStateCallback: () => (graphic: IMarkGraphic) => AnimationStateValues;
 }
 
 export interface ILayoutModel extends IModel {
@@ -176,7 +190,7 @@ export interface IModelOption extends ICompilableInitOption {
   getSeriesData: (id: StringOrNumber | undefined, index: number | undefined) => DataView | undefined;
 
   globalScale: IGlobalScale;
-  animation: boolean;
+  animation?: boolean;
   /**
    * 错误消息回调函数
    */
@@ -186,9 +200,26 @@ export interface IModelOption extends ICompilableInitOption {
    * 是否关闭交互效果
    */
   disableTriggerEvent?: boolean;
+
+  /**
+   * 组件内容展示配置
+   * @since 2.0.11
+   */
+  componentShowContent?: {
+    /**
+     * tooltip 是否关闭内容展示
+     * @default false
+     */
+    tooltip?: boolean | Partial<Record<TooltipActiveType, boolean>>;
+    // crosshair 组件是否展示
+    crosshair?: boolean;
+  };
+
   getDimensionInfo?: (chart: IChart | undefined, pos: ILayoutPoint, isTooltip?: boolean) => IDimensionInfo[] | null;
   getDimensionInfoByValue?: (axis: IAxis, value: any) => IDimensionInfo | null;
   getRectByDimensionData?: (dimensionData: IDimensionData, layoutStartPoint: ILayoutPoint) => any;
+
+  dispatchEvent?: (key: string, params?: any) => void;
 }
 
 export interface IModelSpecInfo<T extends Record<string, unknown> = any> {

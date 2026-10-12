@@ -4,10 +4,13 @@ import type { IModelOption, IModelSpecInfo } from '../../model/interface';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ISeriesSpecInfo } from '../../series/interface';
 import type { IRegionSpecInfo } from '../../region/interface';
-import type { IPerformanceHook } from '../../typings';
+import type { IPerformanceHook, TooltipActiveType } from '../../typings';
 
 export interface IChartOption
-  extends Omit<IModelOption, 'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart' | 'getSeriesData'> {
+  extends Omit<
+    IModelOption,
+    'getChartViewRect' | 'getChartLayoutRect' | 'globalScale' | 'getChart' | 'getSeriesData' | 'animation'
+  > {
   container: HTMLElement | null;
   canvas?: HTMLCanvasElement | OffscreenCanvas | string;
   modeParams?: IRenderOption['modeParams'];
@@ -26,6 +29,21 @@ export interface IChartOption
    * 是否关闭交互效果
    */
   disableTriggerEvent?: boolean;
+
+  /**
+   * 组件内容展示配置
+   * @since 2.0.11
+   */
+  componentShowContent?: {
+    /**
+     * tooltip 是否关闭内容展示
+     * @default false
+     */
+    tooltip?: boolean | Partial<Record<TooltipActiveType, boolean>>;
+    // crosshair 组件是否展示
+    crosshair?: boolean;
+  };
+
   /**
    * 性能相关的钩子
    */

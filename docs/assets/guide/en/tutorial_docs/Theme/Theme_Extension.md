@@ -1,22 +1,20 @@
-# VChart 扩展主题包
+# VChart Theme Extensions
 
 - Repository Address: [https://github.com/VisActor/vchart-theme](https://github.com/VisActor/vchart-theme)
 
-The English version is working in progress.
+VChart provides a set of ready-to-use theme extensions as separate packages. These themes are not bundled with VChart by default; you can import and register them on demand to quickly achieve attractive, scenario-appropriate chart styles with minimal effort.
 
-在默认主题的基础上，VChart 也封装了一系列开箱即用的扩展主题，以单独主题包的形式提供。这些主题默认没有内置在 VChart 里，而是支持用户按需使用，使用户可以通过更少的工作获得更美观宜人、更贴合使用场景的 VChart 图表。
+In addition, VChart offers dedicated theme packages for popular UI component libraries. These are introduced below.
 
-此外，VChart 针对现有组件库也做了单独的主题包。这些包将在下文分别介绍。
+## Extension Package @visactor/vchart-theme
 
-## 扩展主题包 @visactor/vchart-theme
+The `vchart-theme` package includes several extended themes, provided as `ITheme` objects or static JSON assets.
 
-vchart-theme 包含了一些扩展主题，以 `ITheme` 对象或静态 json 资源的形式提供。
+### Demo
 
-### DEMO
+Visit [codesandbox](https://vv67jn.csb.app/) for a live preview.
 
-请访问 [codesandbox](https://vv67jn.csb.app/) 进行预览。
-
-### 安装
+### Installation
 
 [@visactor/vchart-theme](https://www.npmjs.com/package/@visactor/vchart-theme)
 
@@ -28,9 +26,9 @@ npm install @visactor/vchart-theme
 yarn add @visactor/vchart-theme
 ```
 
-### 使用
+### Usage
 
-注册 vchart-theme 中包含的主题并使用：
+Register and use themes included in `vchart-theme`:
 
 ```typescript
 import { allThemeMap } from '@visactor/vchart-theme';
@@ -45,7 +43,7 @@ allThemeMap.forEach((theme, name) => {
 VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 ```
 
-如果你只需要使用某个特定主题，还可以从该包中引用该主题的 JSON 文件：
+If you only need a specific theme, you can import its JSON file directly from the package:
 
 ```typescript
 import vScreenVolcanoBlue from '@visactor/vchart-theme/public/vScreenVolcanoBlue.json';
@@ -58,44 +56,44 @@ VChart.ThemeManager.registerTheme('vScreenVolcanoBlue', vScreenVolcanoBlue);
 VChart.ThemeManager.setCurrentTheme('vScreenVolcanoBlue');
 ```
 
-该包主要包含以下主题 json 资源：
+This package mainly includes the following theme JSON assets:
 
 - [light](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/light.json)
 - [dark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/dark.json)
 - [mobileLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/mobileLight.json) light theme for mobile devices
 - [mobileDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/mobileDark.json) dark theme for mobile devices
-- [legacyLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/legacyLight.json) legacy light theme for simply legend style
-- [legacyDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/legacyDark.json) legacy dark theme for simply legend style
-- [vScreenVolcanoBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenVolcanoBlue.json) 大屏-火山蓝
-- [vScreenClean](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenClean.json) 大屏-清新蜡笔
-- [vScreenOutskirts](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenOutskirts.json) 大屏-郊外
-- [vScreenBlueOrange](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenBlueOrange.json) 大屏-汽车蓝橙
-- [vScreenFinanceYellow](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenFinanceYellow.json) 大屏-金融黄
-- [vScreenWenLvCyan](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenWenLvCyan.json) 大屏-文旅青
-- [vScreenElectricGreen](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenElectricGreen.json) 大屏-电力绿
-- [vScreenECommercePurple](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenECommercePurple.json) 大屏-电商紫
-- [vScreenRedBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenRedBlue.json) 大屏-红蓝
-- [vScreenPartyRed](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenPartyRed.json) 大屏-党建红
-- [semiDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/semiDesignLight.json) Semi Design - light
-- [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/semiDesignDark.json) Semi Design - dark
-- [arcoDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignLight.json) Arco Design - light
-- [arcoDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignDark.json) Arco Design - dark
-- [ttPlatformLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformLight.json) TT Platform - light
-- [ttPlatformDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformDark.json) TT Platform - dark
-- [chartHubLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/chartHubLight.json) chartHub - light
-- [veODesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLight.json) O Design - light
-- [veODesignLightFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightFinance.json) O Design - light - 金融行业色板
-- [veODesignLightGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightGovernment.json) O Design - light - 政府行业色板
-- [veODesignLightConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightConsumer.json) O Design - light - 大消费行业色板
-- [veODesignLightAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightAutomobile.json) O Design - light - 汽车行业色板
-- [veODesignLightCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightCulturalTourism.json) O Design - light - 文旅行业色板
-- [veODesignLightMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightMedical.json) O Design - light - 医疗行业色板
-- [veODesignLightNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightNewEnergy.json) O Design - light - 新能源行业色板
-- [veODesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDark.json) O Design - dark
-- [veODesignDarkFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkFinance.json) O Design - dark - 金融行业色板
-- [veODesignDarkGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkGovernment.json) O Design - dark - 政府行业色板
-- [veODesignDarkConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkConsumer.json) O Design - dark - 大消费行业色板
-- [veODesignDarkAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkAutomobile.json) O Design - dark - 汽车行业色板
-- [veODesignDarkCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkCulturalTourism.json) O Design - dark - 文旅行业色板
-- [veODesignDarkMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkMedical.json) O Design - dark - 医疗行业色板
-- [veODesignDarkNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkNewEnergy.json) O Design - dark - 新能源行业色板
+- [legacyLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/legacyLight.json) legacy light theme with simple legend style
+- [legacyDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/legacyDark.json) legacy dark theme with simple legend style
+- [vScreenVolcanoBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenVolcanoBlue.json) Large Screen – Volcano Blue
+- [vScreenClean](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenClean.json) Large Screen – Clean Crayon
+- [vScreenOutskirts](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenOutskirts.json) Large Screen – Outskirts
+- [vScreenBlueOrange](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenBlueOrange.json) Large Screen – Automotive Blue-Orange
+- [vScreenFinanceYellow](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenFinanceYellow.json) Large Screen – Finance Yellow
+- [vScreenWenLvCyan](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenWenLvCyan.json) Large Screen – Culture & Tourism Cyan
+- [vScreenElectricGreen](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenElectricGreen.json) Large Screen – Electric Green
+- [vScreenECommercePurple](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenECommercePurple.json) Large Screen – E-commerce Purple
+- [vScreenRedBlue](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenRedBlue.json) Large Screen – Red-Blue
+- [vScreenPartyRed](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/vScreenPartyRed.json) Large Screen – Party Red
+- [semiDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/semiDesignLight.json) Semi Design – light
+- [semiDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/semiDesignDark.json) Semi Design – dark
+- [arcoDesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignLight.json) Arco Design – light
+- [arcoDesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/arcoDesignDark.json) Arco Design – dark
+- [ttPlatformLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformLight.json) TT Platform – light
+- [ttPlatformDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/ttPlatformDark.json) TT Platform – dark
+- [chartHubLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/chartHubLight.json) chartHub – light
+- [veODesignLight](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLight.json) O Design – light
+- [veODesignLightFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightFinance.json) O Design – light – Financial industry palette
+- [veODesignLightGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightGovernment.json) O Design – light – Government industry palette
+- [veODesignLightConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightConsumer.json) O Design – light – Consumer industry palette
+- [veODesignLightAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightAutomobile.json) O Design – light – Automobile industry palette
+- [veODesignLightCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightCulturalTourism.json) O Design – light – Cultural tourism industry palette
+- [veODesignLightMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightMedical.json) O Design – light – Medical industry palette
+- [veODesignLightNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignLightNewEnergy.json) O Design – light – New energy industry palette
+- [veODesignDark](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDark.json) O Design – dark
+- [veODesignDarkFinance](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkFinance.json) O Design – dark – Financial industry palette
+- [veODesignDarkGovernment](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkGovernment.json) O Design – dark – Government industry palette
+- [veODesignDarkConsumer](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkConsumer.json) O Design – dark – Consumer industry palette
+- [veODesignDarkAutomobile](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkAutomobile.json) O Design – dark – Automobile industry palette
+- [veODesignDarkCulturalTourism](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkCulturalTourism.json) O Design – dark – Cultural tourism industry palette
+- [veODesignDarkMedical](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkMedical.json) O Design – dark – Medical industry palette
+- [veODesignDarkNewEnergy](https://raw.githubusercontent.com/VisActor/vchart-theme/main/packages/vchart-theme/public/veODesignDarkNewEnergy.json) O Design – dark – New energy industry palette

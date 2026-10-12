@@ -7,6 +7,8 @@ import { CirclePackingLayout } from '@visactor/vlayouts';
 export interface ICirclePackingOpt extends CirclePackingOptions {
   width: number;
   height: number;
+  /** the field to read node value, default is 'value' */
+  valueField?: string;
 }
 
 /**

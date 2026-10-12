@@ -216,13 +216,11 @@ const spec = {
       itemContent: {
         type: 'image',
         autoRotate: false,
-        image: {
-          style: {
-            dy: -6,
-            width: 30,
-            height: 30,
-            image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E7%AE%AD%E5%A4%B4%20%E4%B8%8B%E9%99%8D.png'
-          }
+        style: {
+          dy: -6,
+          width: 30,
+          height: 30,
+          image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E7%AE%AD%E5%A4%B4%20%E4%B8%8B%E9%99%8D.png'
         }
       }
     },
@@ -238,14 +236,12 @@ const spec = {
       itemContent: {
         type: 'image',
         autoRotate: false,
-        image: {
-          style: {
-            dy: -6,
-            dx: 8,
-            width: 30,
-            height: 30,
-            image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E4%B8%8A%E5%8D%87.png'
-          }
+        style: {
+          dy: -6,
+          dx: 8,
+          width: 30,
+          height: 30,
+          image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/%E4%B8%8A%E5%8D%87.png'
         }
       }
     }

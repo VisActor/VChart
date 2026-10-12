@@ -9,8 +9,10 @@ import { LinearAxisMixin } from '../mixin/linear-axis-mixin';
 import { Factory } from '../../../core/factory';
 import { registerAxis } from '../base-axis';
 import { registerDataSetInstanceTransform } from '../../../data/register';
-import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
-import { continuousTicks, LineAxis, LineAxisGrid } from '@visactor/vrender-components';
+import type { ICartesianTickDataOpt } from '@visactor/vrender-components/axis/type';
+import { continuousTicks } from '@visactor/vrender-components/axis/tick-data/continuous';
+import { LineAxisGrid } from '@visactor/vrender-components/axis/grid/line';
+import { LineAxis } from '@visactor/vrender-components/axis/line';
 import { isXAxis, isZAxis } from './util';
 import { combineDomains, isPercent } from '../../../util';
 import type { VRenderComponentOptions } from '../../../core/interface';
@@ -27,6 +29,7 @@ export interface CartesianLinearAxis<T extends ICartesianLinearAxisSpec = ICarte
       | 'computeLinearDomain'
       | 'valueToPosition'
       | 'setScaleNice'
+      | 'reTransformDomainByLayout'
       | '_domain'
       | 'transformScaleDomain'
       | 'setExtendDomain'
@@ -78,6 +81,22 @@ export class CartesianLinearAxis<
     }
     this._scale.domain(range);
     // this.setScaleNice();
+  }
+
+  /**
+   * @override
+   * scale.range 更新到真实绘图区长度后，立刻用真实轴长重算依赖轴长的 nice（tickCount 为函数时）。
+   * 这里既覆盖布局测量阶段（getBoundsInRect 内、computeData('range') 与 bounds 测量之前），
+   * 也覆盖 onLayoutEnd（基类 onLayoutEnd 同样会调 updateScaleRange），
+   * 从而让刻度数 / nice 天花板与最终绘图区一致，且 bounds 测量基于正确刻度（不会按布局前 viewRect
+   * 的偏密刻度分配轴空间）。详见 LinearAxisMixin.reTransformDomainByLayout
+   */
+  updateScaleRange() {
+    const isScaleChange = super.updateScaleRange();
+    if (isScaleChange) {
+      this.reTransformDomainByLayout();
+    }
+    return isScaleChange;
   }
 
   protected _tickTransformOption() {

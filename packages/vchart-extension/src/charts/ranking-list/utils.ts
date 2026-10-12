@@ -1,5 +1,5 @@
 import type { Datum } from '@visactor/vchart/src/typings';
-import { isArray } from '@visactor/vutils';
+import { isArray } from '@visactor/vchart';
 
 export const applyVisible = (spec: any, keyList: string[]) => {
   keyList.forEach(key => {

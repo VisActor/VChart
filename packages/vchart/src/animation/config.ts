@@ -1,44 +1,37 @@
 /* eslint-disable no-duplicate-imports */
 import type { IGraphic } from '@visactor/vrender-core';
+import { ClipDirectionAnimate } from '@visactor/vrender-animate/custom/clip-graphic';
+import { ClipIn, ClipOut } from '@visactor/vrender-animate/custom/clip';
+import { AnimateExecutor } from '@visactor/vrender-animate/executor/animate-executor';
+import { FadeIn, FadeOut } from '@visactor/vrender-animate/custom/fade';
+import { FromTo } from '@visactor/vrender-animate/custom/fromTo';
+import { GrowAngleIn, GrowAngleOut } from '@visactor/vrender-animate/custom/growAngle';
+import { GrowCenterIn, GrowCenterOut } from '@visactor/vrender-animate/custom/growCenter';
+import { GrowHeightIn, GrowHeightOut } from '@visactor/vrender-animate/custom/growHeight';
 import {
-  TagPointsUpdate,
-  ClipDirectionAnimate,
-  AnimateExecutor,
-  ScaleIn,
-  ScaleOut,
-  FadeIn,
-  FadeOut,
-  MoveIn,
-  MoveOut,
-  RotateIn,
-  RotateOut,
-  Update,
-  State,
-  GrowHeightIn,
-  GrowHeightOut,
-  GrowWidthIn,
-  GrowWidthOut,
-  GrowCenterIn,
-  GrowCenterOut,
-  GrowRadiusIn,
-  GrowRadiusOut,
-  GrowAngleIn,
-  GrowAngleOut,
   GrowPointsIn,
   GrowPointsOut,
   GrowPointsXIn,
   GrowPointsXOut,
   GrowPointsYIn,
-  GrowPointsYOut,
-  ClipIn,
-  ClipOut,
-  FromTo
-} from '@visactor/vrender-animate';
+  GrowPointsYOut
+} from '@visactor/vrender-animate/custom/growPoints';
+import { GrowRadiusIn, GrowRadiusOut } from '@visactor/vrender-animate/custom/growRadius';
+import { GrowWidthIn, GrowWidthOut } from '@visactor/vrender-animate/custom/growWidth';
+import { MoveIn, MoveOut } from '@visactor/vrender-animate/custom/move';
+import { RotateIn, RotateOut } from '@visactor/vrender-animate/custom/rotate';
+import { ScaleIn, ScaleOut } from '@visactor/vrender-animate/custom/scale';
+import { State } from '@visactor/vrender-animate/custom/state';
+import { TagPointsUpdate } from '@visactor/vrender-animate/custom/tag-points';
+import { Update } from '@visactor/vrender-animate/custom/update';
+
 import type { ILineAnimationParams, LineAppearPreset } from '../series/line/interface';
 import { linePresetAnimation } from '../series/line/animation';
 import type { MarkAnimationSpec, ICartesianGroupAnimationParams } from './interface';
 import { Factory } from '../core/factory';
 import { Direction } from '../typings/space';
+import { CallbackDisappearAnimate } from './callback-disappear';
+import { BuiltIn_DISAPPEAR_ANIMATE_NAME } from '../constant/animate';
 
 export const DEFAULT_ANIMATION_CONFIG = {
   appear: {
@@ -71,15 +64,13 @@ export const DEFAULT_ANIMATION_CONFIG = {
 export const ScaleInOutAnimation = {
   appear: { type: 'scaleIn' },
   enter: { type: 'scaleIn' },
-  exit: { type: 'scaleOut' },
-  disappear: { type: 'scaleOut' }
+  exit: { type: 'scaleOut' }
 };
 
 export const FadeInOutAnimation = {
   appear: { type: 'fadeIn' },
   enter: { type: 'fadeIn' },
-  exit: { type: 'fadeOut' },
-  disappear: { type: 'fadeOut' }
+  exit: { type: 'fadeOut' }
 };
 
 export const registerScaleInOutAnimation = () => {
@@ -98,19 +89,6 @@ export const registerCartesianGroupClipAnimation = () => {
         customParameters: (datum: any, g: IGraphic) => {
           return {
             animationType: 'in',
-            group: g,
-            direction: params.direction(),
-            width: params.width(),
-            height: params.height(),
-            orient: params.orient()
-          };
-        }
-      },
-      disappear: {
-        custom: ClipDirectionAnimate,
-        customParameters: (datum: any, g: IGraphic) => {
-          return {
-            animationType: 'out',
             group: g,
             direction: params.direction(),
             width: params.width(),
@@ -142,8 +120,7 @@ const lineOrAreaAnimation = (params: ILineAnimationParams, preset: LineAppearPre
           clipRangeByDimension: params.direction === Direction.horizontal ? 'y' : 'x'
         }
       }
-    ],
-    disappear: { type: 'clipOut' }
+    ]
   } as MarkAnimationSpec;
 };
 
@@ -198,4 +175,8 @@ export const registerLineOrAreaAnimation = () => {
 
 export const registerPolygonAnimation = () => {
   AnimateExecutor.registerBuiltInAnimate('growPointsOut', GrowPointsOut);
+};
+
+export const registerStageAnimation = () => {
+  AnimateExecutor.registerBuiltInAnimate(BuiltIn_DISAPPEAR_ANIMATE_NAME, CallbackDisappearAnimate);
 };

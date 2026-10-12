@@ -48,7 +48,7 @@ interface IEvent {
 - `onChartInit` 是一个回调函数，在图表初始化完成后调用。其中的入参 instance 为图表的实例，可用于注册事件、主题等；
 - `onChartReady` 是一个回调函数，在图表完成渲染后调用；
 
-更多功能请查看[VChart 官方网站](visactor.io/vchart)
+更多功能请查看[VChart 官方网站](https://www.visactor.io/vchart)
 
 ## 如何使用
 

@@ -8,5 +8,6 @@ export declare class RangeAreaChart<T extends IRangeAreaChartSpec = IRangeAreaCh
     readonly transformerConstructor: typeof RangeAreaChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
+    protected _setModelOption(): void;
 }
 export declare const registerRangeAreaChart: () => void;

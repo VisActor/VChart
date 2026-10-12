@@ -1,18 +1,21 @@
 import { BaseComponent } from '../base/base-component';
 import { ComponentTypeEnum } from '../interface/type';
 // eslint-disable-next-line no-duplicate-imports
-import type { IRegion } from '../../region/interface';
-import type { IModelRenderOption } from '../../model/interface';
 import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { PREFIX } from '../../constant/base';
 import type { EnableMarkType, ICustomMarkGroupSpec, ICustomMarkSpec, ILayoutRect } from '../../typings';
-import { MarkTypeEnum, type IGroupMark, type IMark } from '../../mark/interface';
+import type { IComponentMark, IMark } from '../../mark/interface';
+import { MarkTypeEnum, type IGroupMark } from '../../mark/interface';
 // eslint-disable-next-line no-duplicate-imports
 import { Bounds, isEqual, isNil, isValid, isValidNumber } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
-import type { IGraphic } from '@visactor/vrender-core';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import type { IModelMarkAttributeContext } from '../../compile/mark/interface';
+
+const CUSTOM_MARK_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  style: true,
+  state: true
+};
 
 // TODO: 规范范型
 export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
@@ -52,7 +55,6 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     if (!this._spec) {
       return;
     }
-    const hasAnimation = this._option.animation !== false;
 
     let parentMark: IGroupMark | null = null;
     if (this._spec.parent) {
@@ -63,17 +65,14 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
         parentMark = mark;
       }
     }
-    this._createExtensionMark(this._spec, parentMark, `${PREFIX}_series_${this.id}_extensionMark`, 0, {
-      hasAnimation
-    });
+    this._createExtensionMark(this._spec, parentMark, `${PREFIX}_series_${this.id}_extensionMark`, 0);
   }
 
   private _createExtensionMark(
     spec: ICustomMarkSpec<Exclude<EnableMarkType, 'group'>> | ICustomMarkGroupSpec,
     parentMark: null | IGroupMark,
     namePrefix: string,
-    index: number = 0,
-    options: { hasAnimation?: boolean }
+    index: number = 0
   ) {
     const mark = this._createMark(
       {
@@ -96,7 +95,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
       mark.setUserId(spec.id);
     }
 
-    if (options.hasAnimation && spec.animation) {
+    if (this._option.globalInstance?.isAnimationEnable() && spec.animation) {
       // 自定义图元默认不添加动画
       const config = animationConfig({}, userAnimationConfig(spec.type, spec as any, this._markAttributeContext));
       mark.setAnimationConfig(config);
@@ -112,17 +111,18 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     if (spec.type === 'group') {
       namePrefix = `${namePrefix}_${index}`;
       spec.children?.forEach((s, i) => {
-        this._createExtensionMark(s as any, mark, namePrefix, i, options);
+        this._createExtensionMark(s as any, mark, namePrefix, i);
       });
     }
 
     if (isValid(spec.dataId) || isValidNumber(spec.dataIndex)) {
       const dataview = this.getChart().getSeriesData(spec.dataId, spec.dataIndex);
+
       if (dataview) {
+        mark.setDataView(dataview);
         dataview.target.addListener('change', () => {
           mark.getData().updateData();
         });
-        mark.setDataView(dataview);
       }
     }
   }
@@ -137,12 +137,59 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
   _compareSpec(spec: ICustomMarkSpec<EnableMarkType>, prevSpec: ICustomMarkSpec<EnableMarkType>) {
     const result = super._compareSpec(spec, prevSpec);
     if (!isEqual(prevSpec, spec)) {
-      result.reMake = true;
+      if (!result.reMake && !result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
 
     result.change = true;
     result.reRender = true;
     return result;
+  }
+
+  protected _isComponentOnlySpecChange(
+    spec: ICustomMarkSpec<EnableMarkType>,
+    prevSpec: ICustomMarkSpec<EnableMarkType>
+  ) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || CUSTOM_MARK_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
+  }
+
+  reInit(spec?: ICustomMarkSpec<EnableMarkType>) {
+    super.reInit(spec);
+    this._updateMarkStyleWithSpec(this._spec, this.getMarks()[0]);
+    this.getMarks().forEach(mark => {
+      mark.commit(false, true);
+    });
+  }
+
+  private _updateMarkStyleWithSpec(
+    spec: ICustomMarkSpec<EnableMarkType> | ICustomMarkGroupSpec,
+    mark: IMark
+  ) {
+    if (!spec || !mark) {
+      return;
+    }
+
+    this.initMarkStyleWithSpec(mark, spec);
+    if (spec.type === 'group') {
+      const children = (mark as IGroupMark).getMarks?.() ?? [];
+      (spec as ICustomMarkGroupSpec).children?.forEach((childSpec, index) => {
+        this._updateMarkStyleWithSpec(childSpec, children[index]);
+      });
+    }
   }
 
   private _getMarkAttributeContext() {
@@ -199,13 +246,13 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
 
   getVRenderComponents() {
     const comps: any[] = [];
-    const checkFunc = (m: IMark) => {
+    const checkFunc = (m: IComponentMark) => {
       if (m && m.type === MarkTypeEnum.group) {
         m.getMarks().forEach(child => {
-          checkFunc(child as IMark);
+          checkFunc(child as IComponentMark);
         });
       } else if (m.type === MarkTypeEnum.component) {
-        const comp = m?.getProduct()?.getGroupGraphicItem();
+        const comp = m?.getComponent();
 
         if (comp) {
           comps.push(comp);
@@ -214,7 +261,7 @@ export class CustomMark extends BaseComponent<ICustomMarkSpec<EnableMarkType>> {
     };
 
     this.getMarks().forEach(m => {
-      checkFunc(m);
+      checkFunc(m as IComponentMark);
     });
 
     return comps;

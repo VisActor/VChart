@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="icon" href="data:," />
+    <title>VChart visual regression</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-family: Arial, sans-serif;
+      }
+      #chart {
+        position: relative;
+        width: 800px;
+        height: 600px;
+      }
+      *,
+      *::before,
+      *::after {
+        transition: none !important;
+        animation: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="chart"></div>
+    <script type="module">
+      import { cases, loadCase } from './cases/index.mjs';
+      import { settings } from './settings.mjs';
+      window.__visualErrors = [];
+      window.addEventListener('unhandledrejection', event => window.__visualErrors.push(String(event.reason)));
+      // 只从本次运行的两个构建副本中加载，禁止回退到当前源码。
+      const params = new URLSearchParams(location.search);
+      const phase = params.get('phase');
+      const selected = cases.find(item => item.id === params.get('case'));
+      try {
+        if (!selected || !['baseline', 'current'].includes(phase)) throw new Error('Invalid visual test input');
+        await new Promise((resolve, reject) => {
+          const script = document.createElement('script');
+          script.src = `/${phase}.js`;
+          script.onload = resolve;
+          script.onerror = () => reject(new Error('VChart bundle load failed'));
+          document.head.append(script);
+        });
+        const item = await loadCase(selected);
+        const spec = { ...item.createSpec(), animation: false };
+        document.getElementById('chart').style.width = `${settings.chart.width}px`;
+        document.getElementById('chart').style.height = `${settings.chart.height}px`;
+        document.body.style.fontFamily = settings.fontFamily;
+        window.__visualChart = new window.VChart.default(spec, {
+          dom: 'chart',
+          animation: false,
+          autoFit: false,
+          theme: { fontFamily: settings.fontFamily, tooltip: { transitionDuration: 0 } },
+          onError: error => {
+            window.__visualErrors.push(String(error));
+          }
+        });
+        await window.__visualChart.renderAsync();
+        await document.fonts.ready;
+        window.__visualReady = true;
+      } catch (error) {
+        window.__visualErrors.push(String(error));
+      }
+    </script>
+  </body>
+</html>

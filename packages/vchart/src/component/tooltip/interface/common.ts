@@ -49,4 +49,5 @@ export interface ITooltip extends IComponent {
   tooltipHandler?: ITooltipHandler;
   getVisible: () => boolean;
   showTooltip: (datum: Datum, options: IShowTooltipOption) => void;
+  enable?: boolean;
 }

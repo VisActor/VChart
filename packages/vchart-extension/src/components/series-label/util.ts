@@ -1,6 +1,6 @@
 import type { ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
-import type { IText, TextAlignType, TextBaselineType } from '@visactor/vrender-core';
-import { last, type IBoundsLike, array, get } from '@visactor/vutils';
+import type { IText, TextAlignType, TextBaselineType } from '@visactor/vchart';
+import { last, type IBoundsLike, array, get } from '@visactor/vchart';
 import type { SeriesLabelAttrs, SeriesLabelData, SeriesLabelSpec } from './type';
 import { SERIES_LABEL } from './constant';
 

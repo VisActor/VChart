@@ -112,6 +112,13 @@ export class GridLayout implements IBaseLayout {
   }
 
   protected clearLayoutSize() {
+    // 先对用户设置的宽高进行设置
+    this._gridInfo.colWidth &&
+      this.setSizeFromUserSetting(this._gridInfo.colWidth, this._colSize, this._col, this._chartLayoutRect.width);
+
+    this._gridInfo.rowHeight &&
+      this.setSizeFromUserSetting(this._gridInfo.rowHeight, this._rowSize, this._row, this._chartLayoutRect.height);
+
     // 其余位置默认填充0
     this._colSize.forEach(c => {
       c.isLayoutSetting = false;

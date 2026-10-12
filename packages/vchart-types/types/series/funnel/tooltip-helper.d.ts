@@ -1,7 +1,7 @@
 import type { IFunnelSeries, ISeriesTooltipHelper } from '../interface';
 import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
 import type { TooltipHandlerParams } from '../../component/tooltip/interface';
-import type { Datum } from '@visactor/vgrammar-core';
+import type { Datum } from '../../typings/common';
 export declare class FunnelSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
     private _transformRatioText;
     constructor(series: IFunnelSeries);

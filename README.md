@@ -20,7 +20,7 @@ VChart, more than just a cross-platform charting library, but also an expressive
   <a href="https://www.visactor.io/vchart/example">Demo</a> •
   <a href="https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Website_Guide">Tutorial</a> •
   <a href="https://www.visactor.io/vchart/option/barChart">API</a>•
-  <a href="https://www.visactor.io/vchart/guide/tutorial_docs/cross-terminal_and_developer_ecology/node">Cross-Platform</a>
+  <a href="https://www.visactor.io/vchart/guide/tutorial_docs/Cross-terminal_and_Developer_Ecology/node">Cross-Platform</a>
 </p>
 
 ![](https://github.com/visactor/vchart/actions/workflows/bug-server.yml/badge.svg)
@@ -158,7 +158,7 @@ $ rush update
 - [VChart API](https://www.visactor.io/vchart/api/API/vchart)
 - [VGrammar](https://www.visactor.io/vgrammar)
 - [VRender](https://www.visactor.io/vrender)
-- [FAQ](https://www.visactor.io/vchart/guide/tutorial_docs/FAQ)
+- [FAQ](https://www.visactor.io/vchart/faq/)
 - [CodeSandbox Template](https://codesandbox.io/s/the-template-of-visactor-vchart-vl84ww?file=/src/index.ts) for bug reports
 
 ## 💫 Ecosystem
@@ -169,6 +169,17 @@ $ rush update
 | [OpenInula-VChart](https://www.visactor.io/vchart/example-openinula)                                             | OpenInula VChart Components                                                                                                 |
 | [OMI](https://omi.cdn-go.cn/home/latest)                                                                         | Web Components Framework                                                                                                    |
 | [A vercel template built with vchart and Next.js](https://vercel.com/templates/next.js/visactor-nextjs-template) | A modern dashboard template built with vchart and Next.js, featuring a beautiful UI and rich data visualization components. |
+
+## Star History
+
+<a href="https://gitdata.xuanhun520.com/#visactor/vchart&Date">
+<picture >
+
+  <img style="width: 800px; height: 533px;" alt="Star History Chart" src="https://gitdata.xuanhun520.com/api/starimg?repos=visactor/vchart&type=Date&theme=dark" />
+</picture>
+</a>
+
+
 
 ## 💖 Thanks
 

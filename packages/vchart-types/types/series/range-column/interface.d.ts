@@ -54,7 +54,4 @@ export interface IRangeColumnSeriesTheme extends ICartesianSeriesTheme {
         }>;
     };
 }
-export interface IRangeColumn3dSeriesSpec extends Omit<IRangeColumnSeriesSpec, 'type'> {
-    type: 'rangeColumn3d';
-}
 export {};

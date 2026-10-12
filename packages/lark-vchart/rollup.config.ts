@@ -18,7 +18,8 @@ let options = defineConfig([
     plugins: [
       resolve(),
       commonjs({
-        include: './src/vchart/index.js'
+        include: './src/vchart/index.js',
+        ignore: ['./shadow-root', '../common/xml/parser']
       }),
       babel({
         presets: [['@babel/preset-env']],

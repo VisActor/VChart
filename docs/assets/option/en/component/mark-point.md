@@ -216,76 +216,42 @@ In addition to directly configuring offset values, since the `1.11.0` version:
 
 Since version 1.8.7, whether to automatically adjust item content so that it is displayed within the visible area of ​​​​the marker.
 
-#### symbol(Object)
-
-When the content type is symbol, the state and style are configured.
-
-{{ use: component-marker-state(
-  prefix = '####',
-  graphicType = 'symbol'
-) }}
-
-##### style(Object)
-
-For mark content type 'symbol', the symbol style.
-
-{{ use: component-marker-style-callback(
-  description = 'symbol style'
-) }}
-
-{{ use: graphic-symbol(
-  prefix = '#####'
-) }}
-
-#### image(Object)
-
-When the content type is image, the state and style are configured.
-
-{{ use: component-marker-state(
-  prefix = '####',
-  graphicType = 'image'
-) }}
-
-##### style(Object)
-
-For mark content type 'image', the image style.
-
-{{ use: component-marker-style-callback(
-  description = 'image style'
-) }}
-
-{{ use: graphic-image(
-  prefix = '#####'
-) }}
-
 #### text(Object)
 
 For mark content type 'text', the text style.
 
 {{ use: component-marker-label(
   prefix = '####',
-  noConfine = true
+  noConfine = true,
+  noMarkerRef = true,
+  noAutoRotate = true
 ) }}
 
-#### richText(Object)
-
-When the content type is richText, the state and style are configured.
-
-{{ use: component-marker-state(
-  prefix = '####',
-  graphicType = 'richText'
-) }}
-
-##### style(Object)
-
-For mark content type 'richText', the richText style.
+#### style(Object)
 
 {{ use: component-marker-style-callback(
-  description = 'richText style'
+  description = 'image | text | richText | symbol style'
+) }}
+
+{{ use: graphic-image(
+  prefix = '####'
+) }}
+
+{{ use: graphic-text(
+  prefix = '####'
 ) }}
 
 {{ use: graphic-rich-text(
-  prefix = '#####'
+  prefix = '####'
+) }}
+
+{{ use: graphic-symbol(
+  prefix = '####'
+) }}
+
+{{ use: component-marker-state(
+  prefix = '###',
+  graphicType = 'all'
 ) }}
 
 {{ use: component-marker-animation(

@@ -201,7 +201,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
   setAttrFromSpec() {
     super.setAttrFromSpec();
 
-    if (this.visible) {
+    if (this._specVisible) {
       this._axisStyle = this._getAxisAttributes();
       this._gridStyle = this._getGridAttributes();
     }
@@ -230,7 +230,7 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
     } as IPolarTickDataOpt;
   }
 
-  protected updateScaleRange() {
+  updateScaleRange() {
     const prevRange = this._scale.range();
     let newRange: [number, number];
 
@@ -442,6 +442,8 @@ export abstract class PolarAxis<T extends IPolarAxisCommonSpec = IPolarAxisCommo
       innerRadius,
       startAngle: this._startAngle,
       endAngle: this._endAngle,
+      layoutRect: this.getRefLayoutRect(),
+      autoLabelMaxWidth: this._spec.label?.autoLabelMaxWidth ?? false,
       sides: this._getRelatedAxis((this._option as any).radiusAxisIndex)?.getSpec()?.grid?.smooth
         ? undefined
         : this.getScale().domain().length

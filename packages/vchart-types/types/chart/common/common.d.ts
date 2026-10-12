@@ -7,5 +7,6 @@ export declare class CommonChart<T extends ICommonChartSpec = ICommonChartSpec> 
     static readonly transformerConstructor: typeof CommonChartSpecTransformer;
     readonly transformerConstructor: typeof CommonChartSpecTransformer;
     readonly type: string;
+    protected _setModelOption(): void;
 }
 export declare const registerCommonChart: () => void;

@@ -145,6 +145,7 @@ export enum ChartEvent {
   /** series end */
   // scale
   scaleDomainUpdate = 'scaleDomainUpdate',
+  scaleRawDomainUpdate = 'scaleRawDomainUpdate',
   scaleUpdate = 'scaleUpdate',
   // datazoom
   dataZoomChange = 'dataZoomChange',
@@ -184,7 +185,9 @@ export enum ChartEvent {
   afterRender = 'afterRender',
   // layout
   afterLayout = 'afterLayout',
-  afterMarkLayoutEnd = 'afterMarkLayoutEnd'
+  afterMarkLayoutEnd = 'afterMarkLayoutEnd',
+  // wordcloud
+  afterWordcloudShapeDraw = 'afterWordcloudShapeDraw'
 }
 
 export enum Event_Source_Type {

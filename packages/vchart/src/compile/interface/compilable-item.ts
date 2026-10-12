@@ -6,7 +6,8 @@ import type { IMorphConfig } from '../../animation/spec';
 import type { IBoundsLike } from '@visactor/vutils';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface';
-import type { LayoutState } from '../interface/compiler';
+import type { IRenderOption, LayoutState } from '../interface/compiler';
+import type { MarkAnimationSpec } from '../../animation/interface';
 
 export type CompilerListenerParameters = {
   type: EventType;
@@ -33,13 +34,16 @@ export interface IGrammarItemMap<T extends IGrammarItem> {
 export type ICompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
 
 export interface ICompiler {
+  getOption: () => IRenderOption;
   isInited?: boolean;
+  readonly stateAnimationConfig?: MarkAnimationSpec;
   getCanvas: () => HTMLCanvasElement | undefined;
   getStage: () => IStage | undefined;
   compile: (ctx: { chart: IChart; vChart: IVChart }, option?: IVChartRenderOption) => void;
   clear: (ctx: { chart: IChart; vChart: IVChart }, removeGraphicItems?: boolean) => void;
   renderNextTick: (morphConfig?: IMorphConfig) => void;
   render: (morphConfig?: IMorphConfig) => void;
+  setStageAnimationConfig: (config: Partial<MarkAnimationSpec>) => void;
   updateViewBox: (viewBox: IBoundsLike, reRender?: boolean) => void;
   resize: (width: number, height: number, reRender?: boolean) => void;
   setBackground: (color: IColor) => void;
@@ -67,6 +71,7 @@ export interface ICompiler {
   updateLayoutTag: () => void;
   getLayoutState: () => LayoutState;
   getRootGroup: () => IGroup;
+  getChart: () => IChart;
 }
 
 export interface ICompilable {
@@ -114,7 +119,7 @@ export interface IGrammarItem extends ICompilable {
   /** 获取语法元素名称 */
   getProductId: () => string;
   /** 删除已编译的语法元素 */
-  removeProduct: () => void;
+  removeProduct: (releaseDetach?: boolean) => void;
   // transform
   setTransform: (transform: ITransformSpec[]) => void;
 }

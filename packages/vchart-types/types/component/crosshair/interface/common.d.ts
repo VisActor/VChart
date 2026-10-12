@@ -2,7 +2,7 @@ import type { Dict } from '@visactor/vutils';
 import type { IPadding, StringOrNumber } from '../../../typings';
 import type { IAxis } from '../../axis/interface';
 import type { LineCrosshair, RectCrosshair, Tag } from '@visactor/vrender-components';
-import type { IGroup, IRichTextGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { IGroup, IRichTextGraphicAttribute, IText, ITextGraphicAttribute } from '@visactor/vrender-core';
 export type AxisCurrentValueMap = Map<number, {
     datum: StringOrNumber;
     axis: IAxis;
@@ -31,6 +31,7 @@ export interface IHair {
         padding?: IPadding | number | number[];
         panel?: Dict<any>;
         zIndex?: number;
+        syncAxisLabelAngle?: boolean;
     };
     smooth?: boolean;
 }
@@ -56,6 +57,7 @@ export interface ICrosshairInfo {
     visible: boolean;
     _isCache?: boolean;
     axis: IAxis;
+    axisLabel?: IText;
     sides?: number;
 }
 export interface CrossHairStateItem {

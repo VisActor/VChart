@@ -4,11 +4,11 @@ import { geoSourceMap, registerMapSource, unregisterMapSource } from './geo-sour
 import { lookup } from '../../data/transforms/lookup';
 import type { Datum, StringOrNumber } from '../../typings';
 import { GeoSeries } from '../geo/geo';
-import { DEFAULT_MAP_LOOK_UP_KEY, map } from '../../data/transforms/map';
+import { map } from '../../data/transforms/map';
 import { copyDataView } from '../../data/transforms/copy-data-view';
 import { registerDataSetInstanceTransform } from '../../data/register';
 import { MapSeriesTooltipHelper } from './tooltip-helper';
-import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX } from '../../constant/data';
+import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_DATA_INDEX, DEFAULT_MAP_LOOK_UP_KEY } from '../../constant/data';
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
 import { SeriesMarkNameEnum, SeriesTypeEnum } from '../interface/type';
@@ -90,17 +90,17 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       .transform({ type: 'copyDataView', options: { deep: true }, level: TransformLevel.copyDataView })
       .transform({
         type: 'map',
-        options: {
+        options: () => ({
           nameMap: this._nameMap,
           nameProperty: this._nameProperty
-        }
+        })
       })
       .transform({
         type: 'lookup',
         options: {
           from: () => this._data?.getLatestData(),
           key: DEFAULT_MAP_LOOK_UP_KEY,
-          fields: this._nameField,
+          fields: () => this._nameField,
           set: (feature: FeatureData, datum: Datum) => {
             if (datum) {
               Object.keys(datum).forEach(key => {
@@ -127,8 +127,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       MapSeries.mark.area,
       {
         groupKey: this.getDimensionField()[0],
-        isSeriesMark: true,
-        skipBeforeLayouted: true
+        isSeriesMark: true
       },
       {
         morph: shouldMarkDoMorph(this._spec, MapSeries.mark.area.name),

@@ -10,12 +10,18 @@ export declare class CartesianTimeAxis<T extends ICartesianTimeAxisSpec = ICarte
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
     static specKey: string;
+    static readonly builtInTheme: {
+        axis: import("..").IAxisCommonTheme;
+        axisX: import("./interface").ICartesianAxisCommonTheme;
+        axisY: import("./interface").ICartesianAxisCommonTheme;
+    };
     protected _layerTickData: CompilableData;
     protected _zero: boolean;
     effect: IEffect;
     setAttrFromSpec(): void;
     protected _initData(): void;
     protected computeData(updateType?: 'range' | 'domain' | 'force'): void;
+    created(): void;
     protected _getLabelFormatMethod(): any;
     protected getLabelItems(length: number): any[];
     protected registerTicksTransform(): string;

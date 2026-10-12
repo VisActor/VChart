@@ -1,7 +1,6 @@
 import type { ISeriesTooltipSpec, ITooltipSpec, TooltipHandlerParams } from '../../component/tooltip/interface';
-import type { ITooltipActual, ITooltipLineActual, ITooltipLinePattern, ITooltipPattern, MaybeArray, ShapeType, TooltipActiveType, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../typings';
+import type { Datum, ITooltipActual, ITooltipLineActual, ITooltipLinePattern, ITooltipPattern, MaybeArray, ShapeType, TooltipActiveType, TooltipContentProperty, TooltipData, TooltipPatternProperty } from '../../typings';
 import type { ISeries, ISeriesTooltipHelper } from '../interface';
-import type { Datum } from '@visactor/vgrammar-core';
 import type { IMark } from '../../mark/interface/common';
 interface ISeriesCacheInfo {
     seriesFields: string[];

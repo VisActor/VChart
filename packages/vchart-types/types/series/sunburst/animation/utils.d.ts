@@ -1,3 +1,3 @@
-import type { IElement } from '@visactor/vgrammar-core';
+import type { IMarkGraphic } from '../../../mark/interface/common';
 export declare const computeRatio: (angle: number, range: [number, number]) => number;
-export declare const getInnerMostElements: (element: IElement) => IElement[];
+export declare const getInnerMostElements: (graphics: IMarkGraphic[]) => IMarkGraphic[];

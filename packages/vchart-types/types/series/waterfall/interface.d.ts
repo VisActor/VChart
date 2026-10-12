@@ -49,6 +49,7 @@ export interface IWaterfallSeriesSpec extends Omit<IBarSeriesSpec, 'type' | 'lab
         visible: boolean;
         offset?: number;
     };
+    calculationMode?: 'increase' | 'decrease';
 }
 export interface IWaterfallSeriesTheme extends IBarSeriesTheme {
     seriesFieldName: {

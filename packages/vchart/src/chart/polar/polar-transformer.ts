@@ -28,7 +28,7 @@ export class PolarChartSpecTransformer<T extends IPolarChartSpec> extends BaseCh
      */
     const series: any = super._getDefaultSeriesSpec(
       spec,
-      ['radius', 'outerRadius', 'innerRadius', 'startAngle', 'endAngle', 'sortDataByAxis'],
+      ['radius', 'outerRadius', 'innerRadius', 'startAngle', 'endAngle', 'centerX', 'centerY', 'sortDataByAxis'],
       pickKeys
     );
 

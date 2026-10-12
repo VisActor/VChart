@@ -1,12 +1,11 @@
 import type { IImageCloudSeriesSpec } from './interface';
 import { IMAGE_CLOUD_SERIES_TYPE, ImageCloudMarkNameEnum, imageCloudSeriesMark } from './constant';
-import type { IPoint } from '@visactor/vutils';
-import { isValid } from '@visactor/vutils';
-import { imagecloudTransform } from '@visactor/vlayouts';
-import type { GridLayoutConfig } from '@visactor/vlayouts';
+import type { IPoint } from '@visactor/vchart';
+import { isValid } from '@visactor/vchart';
+import { imagecloudTransform, type GridLayoutConfig } from '@visactor/vchart';
 import { registerImageCloudAnimation } from './animation';
 import { ImageCloudTooltipHelper } from './tooltip-helper';
-import { createImage } from '@visactor/vrender-core';
+import { createImage } from '@visactor/vchart';
 import type { Datum, IImageMark, IMark, IRectMark } from '@visactor/vchart';
 import {
   animationConfig,
@@ -192,7 +191,12 @@ export class ImageCloudSeries<T extends IImageCloudSeriesSpec> extends BaseSerie
         if (maskImage && (this._spec.layoutConfig as GridLayoutConfig)?.placement === 'masked') {
           this._rootMark.getProduct().setAttribute('background', maskImage);
         }
-      }).bind(this)
+      }).bind(this),
+      onLayoutFinished: () =>
+        this._option.globalInstance
+          .getChart()
+          .getOption()
+          .performanceHook?.afterWordcloudShapeDraw?.(this._option.globalInstance)
     };
   }
 

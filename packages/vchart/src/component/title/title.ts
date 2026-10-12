@@ -2,7 +2,7 @@ import { LayoutLevel, LayoutZIndex } from '../../constant/layout';
 import { Factory } from '../../core/factory';
 import type { IModelSpecInfo } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
-import type { IPoint, IOrientType, ILayoutType, ILayoutRect } from '../../typings';
+import type { IPoint, IOrientType, ILayoutType, ILayoutRect, ILayoutNumber } from '../../typings';
 import { calcLayoutNumber, isValidOrient } from '../../util/space';
 import { BaseComponent } from '../base/base-component';
 // eslint-disable-next-line no-duplicate-imports
@@ -15,7 +15,7 @@ import type { TitleAttrs } from '@visactor/vrender-components';
 import type { IGraphic, IGroup, INode } from '@visactor/vrender-core';
 import type { Maybe } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isEqual, isValidNumber, pickWithout, isValid } from '@visactor/vutils';
+import { isEqual, isValidNumber, pickWithout, isValid, isNil } from '@visactor/vutils';
 import { getSpecInfo } from '../util';
 import { title } from '../../theme/builtin/common/component/title';
 
@@ -63,6 +63,7 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
    */
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
+    const specChanged = !isEqual(prevSpec, spec);
 
     if (prevSpec?.orient !== spec?.orient || (prevSpec as any)?.visible !== (spec as any).visible) {
       // title 组件切换visible会影响布局，所以需要重新remake
@@ -71,6 +72,14 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
 
     result.change = true;
     result.reRender = true;
+    if (specChanged && !result.reMake) {
+      result.effects = {
+        ...result.effects,
+        component: true,
+        layout: true,
+        render: true
+      };
+    }
     return result;
   }
 
@@ -101,14 +110,24 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
     };
   }
 
+  /**
+   * 尺寸配置按 ILayoutNumber 契约解析，百分比与回调都以图表视图区域为基准，与 layout-item 一致。
+   * 未配置时返回 undefined，避免把 0 当作用户设定的尺寸。
+   */
+  private _calcSpecSize(value: ILayoutNumber, isHorizontal: boolean): number | undefined {
+    if (isNil(value)) {
+      return undefined;
+    }
+    const chartViewRect = this._option.getChartViewRect();
+    return calcLayoutNumber(value, isHorizontal ? chartViewRect.width : chartViewRect.height, chartViewRect);
+  }
+
   private _getTitleLayoutRect() {
     const titleBounds = this._titleComponent.AABBBounds;
-    const width = this._spec.width ? this._spec.width : isValidNumber(titleBounds.width()) ? titleBounds.width() : 0;
-    const height = this._spec.height
-      ? this._spec.height
-      : isValidNumber(titleBounds.height())
-      ? titleBounds.height()
-      : 0;
+    const specWidth = this._calcSpecSize(this._spec.width, true);
+    const specHeight = this._calcSpecSize(this._spec.height, false);
+    const width = specWidth ? specWidth : isValidNumber(titleBounds.width()) ? titleBounds.width() : 0;
+    const height = specHeight ? specHeight : isValidNumber(titleBounds.height()) ? titleBounds.height() : 0;
     return {
       width,
       height
@@ -116,33 +135,41 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
   }
 
   private _getTitleAttrs() {
-    // 当 width 小于 0 时，设置为 0，负数场景容易引起不可预知的问题
+    /**
+     * 生成标题组件的渲染属性，统一计算宽高与对齐参数，
+     * 并在仅副标题场景下避免主标题宽度影响副标题布局。
+     */
     if (this._spec.visible === false) {
       return { visible: false };
     }
     const layoutRect = this.getLayoutRect();
-    const titleWidth = calcLayoutNumber(this._spec.width, layoutRect.width, null, layoutRect.width);
-    const titleMaxWidth = calcLayoutNumber(this._spec.maxWidth, layoutRect.width, null, layoutRect.width);
-    const maxWidth = Math.max(Math.min(titleWidth, titleMaxWidth, layoutRect.width), 0);
+    const titleWidth = this._calcSpecSize(this._spec.width, true);
+    const titleMaxWidth = this._calcSpecSize(this._spec.maxWidth, true);
+    const maxWidth = Math.max(
+      Math.min(titleWidth ?? layoutRect.width, titleMaxWidth ?? layoutRect.width, layoutRect.width),
+      0
+    );
+    const hasText = isValid(this._spec.text) && this._spec.text !== '';
+    const hasSubtext = isValid(this._spec.subtext) && this._spec.subtext !== '';
 
     const attrs = {
       ...(pickWithout(this._spec, ['padding']) as any),
       textType: this._spec.textType ?? 'text',
-      text: this._spec.text ?? '',
+      text: hasText ? this._spec.text : undefined,
       subtextType: this._spec.subtextType ?? 'text',
-      subtext: this._spec.subtext ?? '',
+      subtext: hasSubtext ? this._spec.subtext : undefined,
       x: this._spec.x ?? 0,
       y: this._spec.y ?? 0,
-      height: this._spec.height,
-      minWidth: this._spec.minWidth,
+      width: titleWidth,
+      height: this._calcSpecSize(this._spec.height, false),
+      minWidth: this._calcSpecSize(this._spec.minWidth, true),
       maxWidth,
-      minHeight: this._spec.minHeight,
-      maxHeight: this._spec.maxHeight,
+      minHeight: this._calcSpecSize(this._spec.minHeight, false),
+      maxHeight: this._calcSpecSize(this._spec.maxHeight, false),
       padding: this._spec.innerPadding,
       align: this._spec.align ?? 'left',
       verticalAlign: this._spec.verticalAlign ?? 'top',
       textStyle: {
-        width: maxWidth,
         maxLineWidth: maxWidth,
         ...this._spec.textStyle
       },
@@ -152,9 +179,25 @@ export class Title<T extends ITitleSpec = ITitleSpec> extends BaseComponent<T> i
       }
     } as TitleAttrs;
 
+    // 仅在对应文本存在时设置 width，避免空主标题影响副标题的对齐与宽度计算
+    if (hasText) {
+      (attrs.textStyle as any).width = maxWidth;
+    }
+    if (hasSubtext) {
+      (attrs.subtextStyle as any).width = maxWidth;
+    }
+
     if (isValid(this._spec.width)) {
-      attrs.textStyle.width = Math.max(titleWidth, layoutRect.width);
-      attrs.subtextStyle.width = attrs.textStyle.width;
+      const clampedWidth = Math.max(Math.min(titleWidth, layoutRect.width), 0);
+      if (hasText) {
+        (attrs.textStyle as any).width = clampedWidth;
+      } else {
+        // 主标题不存在时，不设置其 width
+        delete (attrs.textStyle as any).width;
+      }
+      if (hasSubtext) {
+        (attrs.subtextStyle as any).width = clampedWidth;
+      }
     }
     return attrs;
   }

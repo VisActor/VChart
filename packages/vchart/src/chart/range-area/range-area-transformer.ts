@@ -8,7 +8,10 @@ export class RangeAreaChartSpecTransformer<
 > extends CartesianChartSpecTransformer<T> {
   protected _getDefaultSeriesSpec(spec: T): any {
     const series: any = super._getDefaultSeriesSpec(spec);
+    this._addSeriesRelatedSpecKeys(['area', 'point', 'line']);
     series.area = spec.area;
+    series.point = spec.point;
+    series.line = spec.line;
     if (spec.direction === Direction.horizontal) {
       series.xField = spec.xField ?? [spec.minField, spec.maxField];
     } else {

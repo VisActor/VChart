@@ -18,6 +18,7 @@ export interface IAxis extends IComponent {
     getCoordinateType: () => CoordinateType;
     visible: boolean;
     directionStr?: 'l2r' | 'r2l' | 't2b' | 'b2t';
+    updateScaleRange?: () => void;
 }
 export interface IAxisItem<T> {
     visible?: boolean;
@@ -47,4 +48,12 @@ export interface ITickCalculationCfg {
 }
 export interface IBandAxisLayer extends Omit<ITickCalculationCfg, 'noDecimals' | 'tickMode'> {
     visible?: boolean;
+}
+export declare enum AxisEnum {
+    lineAxis = "lineAxis",
+    circleAxis = "circleAxis"
+}
+export declare enum GridEnum {
+    lineAxisGrid = "lineAxisGrid",
+    circleAxisGrid = "circleAxisGrid"
 }

@@ -1,21 +1,21 @@
 import type { ILineSeriesSpec } from '../../series/line/interface';
 import type { IAreaSeriesSpec } from '../../series/area/interface';
 import type { IChartSpec } from '../../typings/spec/common';
-import type { IBar3dSeriesSpec, IBarSeriesSpec } from '../../series/bar/interface';
+import type { IBarSeriesSpec } from '../../series/bar/interface';
 import type { IRangeColumnChartSpec } from '../range-column/interface';
 import type { IRangeAreaChartSpec } from '../range-area/interface';
 import type { IDotSeriesSpec } from '../../series/dot/interface';
 import type { IMapSeriesSpec } from '../../series/map/interface';
-import type { IPie3dSeriesSpec, IPieSeriesSpec } from '../../series/pie/interface';
+import type { IPieSeriesSpec } from '../../series/pie/interface';
 import type { ILinkSeriesSpec } from '../../series/link/interface';
 import type { IRadarSeriesSpec } from '../../series/radar/interface';
 import type { IRoseSeriesSpec } from '../../series/rose/interface';
 import type { IScatterSeriesSpec } from '../../series/scatter/interface';
-import type { IWordCloud3dSeriesSpec, IWordCloudSeriesSpec } from '../../series/word-cloud/interface';
+import type { IWordCloudSeriesSpec } from '../../series/word-cloud/interface';
 import type { IGaugePointerSeriesSpec, IGaugeSeriesSpec } from '../../series/gauge/interface';
 import type { IBoxPlotSeriesSpec } from '../../series/box-plot/interface';
 import type { ICirclePackingSeriesSpec } from '../../series/circle-packing/interface';
-import type { IFunnelSeriesSpec, IFunnel3dSeriesSpec } from '../../series/funnel/interface';
+import type { IFunnelSeriesSpec } from '../../series/funnel/interface';
 import type { IHeatmapSeriesSpec } from '../../series/heatmap/interface';
 import type { ICircularProgressSeriesSpec } from '../../series/progress/circular/interface';
 import type { ILinearProgressSeriesSpec } from '../../series/progress/linear/interface';
@@ -33,7 +33,7 @@ import type { IMarkPointSpec } from '../../component/marker/mark-point/interface
 export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     type: 'common';
     seriesField?: string;
-    series?: (IAreaSeriesSpec | ILineSeriesSpec | IBar3dSeriesSpec | IBarSeriesSpec | IRangeColumnChartSpec | IRangeAreaChartSpec | IDotSeriesSpec | IMapSeriesSpec | IPie3dSeriesSpec | IPieSeriesSpec | ILinkSeriesSpec | IRadarSeriesSpec | IRoseSeriesSpec | IScatterSeriesSpec | ICircularProgressSeriesSpec | ILinearProgressSeriesSpec | IWordCloudSeriesSpec | IWordCloud3dSeriesSpec | IFunnelSeriesSpec | IFunnel3dSeriesSpec | IBoxPlotSeriesSpec | IGaugeSeriesSpec | ISankeySeriesSpec | ITreemapSeriesSpec | ISunburstSeriesSpec | ICirclePackingSeriesSpec | IWaterfallSeriesSpec | IHeatmapSeriesSpec | IGaugePointerSeriesSpec | ICorrelationSeriesSpec)[];
+    series?: (IAreaSeriesSpec | ILineSeriesSpec | IBarSeriesSpec | IRangeColumnChartSpec | IRangeAreaChartSpec | IDotSeriesSpec | IMapSeriesSpec | IPieSeriesSpec | ILinkSeriesSpec | IRadarSeriesSpec | IRoseSeriesSpec | IScatterSeriesSpec | ICircularProgressSeriesSpec | ILinearProgressSeriesSpec | IWordCloudSeriesSpec | IFunnelSeriesSpec | IBoxPlotSeriesSpec | IGaugeSeriesSpec | ISankeySeriesSpec | ITreemapSeriesSpec | ISunburstSeriesSpec | ICirclePackingSeriesSpec | IWaterfallSeriesSpec | IHeatmapSeriesSpec | IGaugePointerSeriesSpec | ICorrelationSeriesSpec)[];
     axes?: ICartesianAxisSpec[] | IPolarAxisSpec[];
     crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[];
     markLine?: IMarkLineSpec | IMarkLineSpec[];

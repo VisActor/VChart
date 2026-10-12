@@ -1,5 +1,4 @@
 import type { DataView } from '@visactor/vdataset';
-import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { IEffect } from '../../model/interface';
 import type { ILayoutRect, ILayoutType, IOrientType, IPoint, StringOrNumber } from '../../typings';
@@ -32,15 +31,8 @@ export declare abstract class BaseLegend<T extends ILegendCommonSpec> extends Ba
     protected _regionUserIndex?: number[];
     setAttrFromSpec(): void;
     created(): void;
-    onRender(ctx: any): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
-    changeRegions(regions: IRegion[]): void;
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
+    private _isComponentOnlySpecChange;
     protected abstract _initLegendData(): DataView;
     protected abstract _initSelectedData(): void;
     protected abstract _getLegendAttributes(rect: ILayoutRect): any;

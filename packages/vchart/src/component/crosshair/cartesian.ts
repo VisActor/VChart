@@ -6,7 +6,8 @@ import type { IComponentOption } from '../interface';
 import { ComponentTypeEnum } from '../interface/type';
 import type { ICartesianCrosshairSpec } from './interface';
 import type { ICartesianSeries } from '../../series/interface';
-import { LineCrosshair, RectCrosshair } from '@visactor/vrender-components';
+import { LineCrosshair } from '@visactor/vrender-components/crosshair/line';
+import { RectCrosshair } from '@visactor/vrender-components/crosshair/rect';
 // eslint-disable-next-line no-duplicate-imports
 import { BaseCrossHair } from './base';
 import type { INode } from '@visactor/vrender-core';

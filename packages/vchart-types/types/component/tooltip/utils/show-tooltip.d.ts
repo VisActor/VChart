@@ -12,6 +12,7 @@ type MarkInfo = {
         hasMeasureData?: boolean;
         groupField?: string;
         groupData?: any;
+        originDatum?: Datum;
     };
     series: ISeries;
     dimType?: string;

@@ -57,12 +57,10 @@ const spec = {
       },
       itemContent: {
         type: 'image',
-        image: {
-          style: {
-            dx: -50,
-            dy: 50,
-            image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/airplane.png'
-          }
+        style: {
+          dx: -50,
+          dy: 50,
+          image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/airplane.png'
         }
       }
     }

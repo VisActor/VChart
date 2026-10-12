@@ -1,4 +1,5 @@
 import { Factory } from '../../core/factory';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 import { Direction } from '../../typings/space';
 // eslint-disable-next-line no-duplicate-imports
 import type { Datum } from '../../typings';
@@ -75,7 +76,7 @@ export const registerBarAnimation = () => {
       appear: barPresetAnimation(params, preset),
       enter: barGrowIn(params, false),
       exit: barGrowOut(params, false),
-      disappear: barGrowOut(params)
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
 };

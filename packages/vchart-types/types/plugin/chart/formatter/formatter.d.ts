@@ -23,6 +23,9 @@ export declare class FormatterPlugin extends BasePlugin implements IChartPlugin 
     protected _format(text: string | number | string[] | number[], datum: any, formatter: string | string[]): string | number | (string | number)[];
     protected _formatSingleLine(text: string | number, datum: any, formatter: string): string | number;
     protected _formatSingleText(text: string | number, formatter: string): string | number;
+    private _calcFormatter;
+    private _calculateMathExpression;
+    private _isValidMathExpression;
     release(): void;
 }
 export declare const registerFormatPlugin: () => void;

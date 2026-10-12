@@ -27,6 +27,7 @@ export declare class DomTooltipHandler extends BaseTooltipHandler {
     getRootDom(): HTMLElement;
     constructor();
     onAdd(service: IComponentPluginService<any>): void;
+    protected _getTooltipParentElement(tooltipSpec: ITooltipSpec): HTMLElement;
     initEl(): void;
     initRootDom(): void;
     protected _getTooltipBoxSize(actualTooltip: ITooltipActual, changePositionOnly: boolean): IContainerSize | undefined;
@@ -34,10 +35,10 @@ export declare class DomTooltipHandler extends BaseTooltipHandler {
     protected _updateTooltip(visible: boolean, params: TooltipHandlerParams): void;
     protected _initStyle(): void;
     protected _updateDomStringByCol(actualTooltip?: ITooltipActual): void;
-    protected _updateDomStyle(sizeKey?: 'width' | 'height'): void;
+    protected _updateDomStyle(sizeKey: 'width' | 'height', refreshSize: boolean): void;
     protected _getParentElement(spec: ITooltipSpec): HTMLElement;
     isTooltipShown(): boolean;
     reInit(): void;
-    protected _updatePosition({ x, y }: ITooltipPositionActual): void;
+    protected _updatePosition({ x, y }: ITooltipPositionActual, resetTransition?: boolean): void;
 }
 export declare const registerDomTooltipHandler: () => void;

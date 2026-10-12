@@ -1,5 +1,5 @@
-import { IPlayerSpec } from '@visactor/vchart';
-import { ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { IPlayerSpec } from '@visactor/vchart';
+import type { ITextGraphicAttribute } from '@visactor/vchart';
 
 /**
  * 原始数据，包括坐标、邻居、预测结果

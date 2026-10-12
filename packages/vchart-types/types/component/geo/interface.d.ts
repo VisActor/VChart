@@ -1,6 +1,6 @@
 import type { IPoint } from '../../typings/coordinate';
-import type { ProjectionType } from '@visactor/vgrammar-core';
 import type { IComponent } from '../interface';
+export type ProjectionType = 'albers' | 'albersUsa' | 'azimuthalEqualArea' | 'azimuthalEquidistant' | 'conicConformal' | 'conicEqualArea' | 'conicEquidistant' | 'equalEarth' | 'equirectangular' | 'gnomonic' | 'identity' | 'mercator' | 'naturalEarth1' | 'orthographic' | 'stereographic' | 'transverseMercator';
 export interface IProjectionSpec {
     name: string;
     type: ProjectionType;

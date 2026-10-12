@@ -1,11 +1,11 @@
-import { ACustomAnimate } from '@visactor/vrender-animate';
+import { ACustomAnimate } from '@visactor/vrender-animate/custom/custom-animate';
 import type { IVennCircle, IVennOverlapArc, VennCircleName } from '@visactor/vlayouts';
 import { getArcsFromCircles, getCirclesFromArcs, getPathFromArcs } from '@visactor/vlayouts';
 
 import type { VennAppearPreset } from './interface';
 import type { IAnimationTypeConfig } from '../../animation/interface';
-// import { ACustomAnimate } from '@visactor/vrender-animate';
 import { Factory } from '../../core/factory';
+import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
 
 export const vennCirclePresetAnimation = (preset: VennAppearPreset): IAnimationTypeConfig => {
   switch (preset) {
@@ -96,7 +96,7 @@ export const registerVennAnimation = () => {
       appear: vennCirclePresetAnimation(preset),
       enter: { type: 'growRadiusIn' },
       exit: { type: 'growRadiusOut' },
-      disappear: { type: 'growRadiusOut' }
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
   Factory.registerAnimation('vennOverlap', (params: unknown, preset: VennAppearPreset) => {
@@ -105,7 +105,7 @@ export const registerVennAnimation = () => {
       update: { custom: VennOverlapAnimation },
       enter: { type: 'fadeIn' },
       exit: { type: 'fadeOut' },
-      disappear: { type: 'fadeOut' }
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
 };

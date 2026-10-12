@@ -24,7 +24,14 @@ export class PolarMarkPoint extends BaseMarkPoint {
     const data = this._markerData;
     const relativeSeries = this._relativeSeries;
     const autoRange = this._spec?.autoRange ?? false;
-    const polarPoint = polarLayout(data, relativeSeries, relativeSeries, relativeSeries, autoRange)[0][0];
+    const polarPoint = polarLayout(
+      data,
+      relativeSeries,
+      relativeSeries,
+      relativeSeries,
+      autoRange,
+      this._getAutoRangeExtendDomainKeyPrefix()
+    )[0][0];
     const center = {
       x:
         this._relativeSeries.getRegion().getLayoutStartPoint().x +

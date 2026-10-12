@@ -193,17 +193,8 @@ const spec = {
   ]
 };
 
-const getNewTheme = async () => {
-  const theme = // your custom theme
-    (
-      await import('https://www.unpkg.com/@visactor/vchart-theme@latest/public/dark.json', {
-        assert: { type: 'json' }
-      })
-    ).default;
-  return theme;
-};
-
-const newTheme = await getNewTheme();
+const response = await fetch('https://www.unpkg.com/@visactor/vchart-theme@latest/public/dark.json');
+const newTheme = await response.json();
 
 // 注册主题
 VChart.ThemeManager.registerTheme('user', newTheme);

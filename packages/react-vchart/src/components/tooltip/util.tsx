@@ -12,10 +12,11 @@ export const initCustomTooltip = (
   props: BaseChartProps,
   spec?: TooltipProps
 ) => {
+  const nextSpec = { ...(spec ?? {}) } as TooltipProps;
   let render: TooltipRender;
   if (spec?.tooltipRender) {
     render = spec.tooltipRender;
-    delete spec.tooltipRender;
+    delete nextSpec.tooltipRender;
   } else if (props.tooltipRender) {
     render = props.tooltipRender;
   }
@@ -24,12 +25,25 @@ export const initCustomTooltip = (
     let reserve: boolean;
     if (spec?.reserveDefaultTooltip) {
       reserve = spec.reserveDefaultTooltip;
-      delete spec.reserveDefaultTooltip;
+      delete nextSpec.reserveDefaultTooltip;
     } else {
       reserve = props.reserveDefaultTooltip;
     }
+    if (!reserve) {
+      const panelStyle = { ...(nextSpec.style?.panel ?? {}) };
+      panelStyle.padding = 0;
+      panelStyle.border = {
+        ...panelStyle.border,
+        radius: 0
+      };
+      panelStyle.backgroundColor = 'unset';
+      nextSpec.style = {
+        ...(nextSpec.style ?? {}),
+        panel: panelStyle
+      };
+    }
     return {
-      ...spec,
+      ...nextSpec,
       updateElement: (el, actualTooltip, params) => {
         const { changePositionOnly } = params;
         if (changePositionOnly) {
@@ -39,7 +53,6 @@ export const initCustomTooltip = (
           el.style.width = 'auto';
           el.style.height = 'auto';
           el.style.minHeight = 'auto';
-          el.style.padding = '0px';
           for (let i = 0; i < el.children.length; i++) {
             const childNode = el.children[i] as HTMLElement;
             if (childNode.className !== REACT_TOOLTIP_ClASS_NAME && childNode.style.display !== 'none') {

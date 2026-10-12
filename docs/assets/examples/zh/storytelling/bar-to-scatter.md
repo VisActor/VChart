@@ -26,8 +26,10 @@ option: commonChart#series-bar.animationUpdate
  * import { registerMorph } from '@visactor/vchart';
  *
  * registerMorph();
+ *
+ * 自2.0.0开始，全局形变动画默认开启，不再需要手动注册
  */
-VCHART_MODULE.registerMorph();
+VCHART_MODULE.registerMorph && VCHART_MODULE.registerMorph();
 
 function calculateAverage(data, dim) {
   let total = 0;

@@ -1,6 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
 import type { ILayoutItem } from '../layout/interface';
-import type { IOrientType, IPolarOrientType, IRect } from '../typings/space';
+import type { IOrientType, IPadding, IPolarOrientType, IRect } from '../typings/space';
 import { BaseModel } from './base-model';
 import type { IModelSpec } from './interface';
 import type { IPoint } from '../typings/coordinate';
@@ -19,8 +19,8 @@ export declare abstract class LayoutModel<T extends IModelSpec> extends BaseMode
     protected _layoutStartPos: IPoint;
     protected _isLayout: boolean;
     initLayout(): void;
-    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect, ctx: any): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutStart(layoutRect: IRect, viewRect: ILayoutRect): void;
+    onLayoutEnd(): void;
     afterSetLayoutStartPoint(_pos: ILayoutPoint): void;
     protected _forceLayout(): void;
     getLayoutStartPoint(): IPoint;
@@ -38,4 +38,5 @@ export declare abstract class LayoutModel<T extends IModelSpec> extends BaseMode
     abstract getBoundsInRect(rect: ILayoutRect, fullRect: ILayoutRect): IBoundsLike;
     protected _transformLayoutRect: (rect: ILayoutRect) => ILayoutRect;
     protected _transformLayoutPosition: (rect: Partial<IPoint>) => Partial<IPoint>;
+    protected _transformLayoutPadding: (padding: IPadding) => IPadding;
 }

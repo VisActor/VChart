@@ -1,7 +1,7 @@
-import { Datum } from '@visactor/vchart/src/typings';
+import type { Datum } from '@visactor/vchart/src/typings';
 import type { ISequenceScatterKDESpec } from './interface';
 import { CommonChartSpecTransformer } from '@visactor/vchart';
-import { Point } from './interface';
+import type { Point } from './interface';
 import { calculateKDE } from './utils';
 
 const DATA_KEY = 'dataKey';
@@ -83,7 +83,7 @@ export class SequenceScatterKDEChartSpecTransformer extends CommonChartSpecTrans
         type: 'text',
         dataIndex: 1,
         style: {
-          text: (datum: Datum) => datum['iter'],
+          text: (datum: Datum) => datum.iter,
           x: 10,
           y: () => 10,
           textBaseline: 'top',

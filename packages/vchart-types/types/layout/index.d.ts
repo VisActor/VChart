@@ -1,6 +1,6 @@
+import type { IOffset, LayoutSideType } from './base-layout';
 import { Layout } from './base-layout';
 import { GridLayout, registerGridLayout } from './grid-layout/grid-layout';
-import { Layout3d, registerLayout3d } from './layout3d';
-import type { ILayoutSpec, IGridLayoutSpec } from './interface';
-export { Layout, GridLayout, Layout3d, registerGridLayout, registerLayout3d };
-export type { ILayoutSpec, IGridLayoutSpec };
+import type { ILayoutSpec, IGridLayoutSpec, IBaseLayout, ILayoutItem } from './interface';
+export { Layout, GridLayout, registerGridLayout };
+export type { ILayoutSpec, IGridLayoutSpec, IBaseLayout, IOffset, ILayoutItem, LayoutSideType };

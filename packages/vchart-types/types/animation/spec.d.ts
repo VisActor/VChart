@@ -1,6 +1,5 @@
-import type { IAnimationConfig, IStateAnimationConfig } from '@visactor/vgrammar-core';
-import type { EasingType } from '@visactor/vrender-core';
-export type { IRunningConfig as IMorphConfig, IMorphAnimationConfig } from '@visactor/vgrammar-core';
+import type { EasingType, IGraphic } from '@visactor/vrender-core';
+import type { IAnimationConfig, IStateAnimationConfig } from './interface';
 export interface ICommonStateAnimateSpec {
     duration?: number;
     delay?: number;
@@ -24,4 +23,29 @@ export interface IMorphSeriesSpec {
     enable?: boolean;
     morphKey?: string;
     morphElementKey?: string;
+}
+export type MorphData = {
+    prev: any[];
+    next: any[];
+};
+export type MorphElements = {
+    prev: IGraphic[];
+    next: IGraphic[];
+};
+export type MorphFunctionCallback<T> = (datum: MorphData, element: MorphElements, parameters: any) => T;
+export type MorphFunctionType<T> = T | MorphFunctionCallback<T>;
+export type MorphFunctionValueType<T> = MorphFunctionType<T> | T;
+export interface IMorphAnimationConfig {
+    easing?: EasingType;
+    delay?: MorphFunctionValueType<number>;
+    duration?: MorphFunctionValueType<number>;
+    oneByOne?: MorphFunctionValueType<boolean | number>;
+    splitPath?: MorphFunctionValueType<'clone' | null | undefined>;
+}
+export interface IMorphConfig {
+    reuse?: boolean;
+    morph?: boolean;
+    morphAll?: boolean;
+    animation?: IMorphAnimationConfig;
+    enableExitAnimation?: boolean;
 }

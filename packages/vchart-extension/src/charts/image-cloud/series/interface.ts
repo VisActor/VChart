@@ -3,7 +3,7 @@ import type {
   GeometricMaskShape,
   shapes,
   TextShapeMask
-} from '@visactor/vlayouts';
+} from '@visactor/vchart';
 
 import type { ImageCloudAppearPresetType } from './animation';
 import type { IAnimationSpec, IImageMarkSpec, IMarkSpec, ISeriesSpec } from '@visactor/vchart';

@@ -1,7 +1,6 @@
 import { DataView } from '@visactor/vdataset';
 import type { Maybe } from '@visactor/vutils';
-import type { IModelRenderOption, IModelSpecInfo } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
+import type { IModelSpecInfo } from '../../model/interface';
 import type { CoordinateType, ILayoutRect, ILayoutType, IRect } from '../../typings';
 import { BaseComponent } from '../base/base-component';
 import type { IDataPos, IDataPosCallback, IMarkerAttributeContext, IMarkerSpec, IMarkerSupportSeries, IMarkProcessOptions } from './interface';
@@ -20,6 +19,8 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     getRelativeSeries(): IMarkerSupportSeries;
     protected _markerData: DataView;
     getMarkerData(): DataView;
+    private _markerDataChangeHandler;
+    private _markerDataOwned;
     protected _markerComponent: any;
     protected _layoutOffsetX: number;
     protected _layoutOffsetY: number;
@@ -39,6 +40,10 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
         getStartRelativeSeries: () => IMarkerSupportSeries;
         getEndRelativeSeries: () => IMarkerSupportSeries;
     };
+    protected _getAutoRangeExtendDomainKeyPrefix(): string;
+    private _getAutoRangeExtendDomainKey;
+    private _clearAutoRangeExtendDomain;
+    private _updateMarkerLayout;
     private _getFieldInfoFromSpec;
     protected _processSpecByDims(dimSpec: {
         dim: 'x' | 'y' | 'angle' | 'radius' | 'areaName';
@@ -50,22 +55,21 @@ export declare abstract class BaseMarker<T extends IMarkerSpec> extends BaseComp
     };
     protected _processSpecCoo(spec: any): IOptionWithCoordinates;
     protected _getRelativeDataView(): DataView;
+    protected _setMarkerData(data: DataView, owned?: boolean): void;
+    protected _bindMarkerDataChange(): void;
+    private _releaseMarkerData;
     updateLayoutAttribute(): void;
     private _getSeriesByIdOrIndex;
     protected _bindSeries(): void;
     protected initEvent(): void;
-    onRender(ctx: IModelRenderOption): void;
-    changeRegions(regions: IRegion[]): void;
     clear(): void;
+    release(): void;
     private _getFirstSeries;
     protected _getNeedClearVRenderComponents(): IGraphic[];
-    onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect, ctx: any): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    onLayoutStart(layoutRect: IRect, chartViewRect: ILayoutRect): void;
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
+    protected _isComponentOnlySpecChange(spec: T, prevSpec: T): boolean;
+    protected _isAutoRangeSpecChange(spec: T, prevSpec: T): boolean;
+    reInit(spec?: T): void;
     _initCommonDataView(): void;
 }

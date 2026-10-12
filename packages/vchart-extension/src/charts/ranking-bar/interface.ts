@@ -1,4 +1,4 @@
-import type { ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { ILineGraphicAttribute, ITextGraphicAttribute } from '@visactor/vchart';
 
 export type IRankingBarData = any[];
 

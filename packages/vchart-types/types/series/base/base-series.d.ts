@@ -5,16 +5,25 @@ import type { ICompileMarkConfig, IGroupMark, IMark } from '../../mark/interface
 import type { CoordinateType, IInvalidType, IPoint, DataKeyType, Datum, Maybe, ISeriesSpec, IExtensionMarkSpec, IExtensionGroupMarkSpec, EnableMarkType, IGroup, ILayoutType, ILayoutPoint, ILayoutRect } from '../../typings';
 import { BaseModel } from '../../model/base-model';
 import type { ISeriesOption, ISeries, ISeriesMarkInitOption, ISeriesStackData, ISeriesTooltipHelper, SeriesMarkMap, ISeriesMarkInfo, ISeriesSpecInfo, ISeriesStackDataLeaf, ISeriesStackDataMeta, ISeriesSeriesInfo } from '../interface';
-import type { IModelEvaluateOption, IModelRenderOption, IUpdateSpecResult } from '../../model/interface';
+import type { IModelEvaluateOption, IUpdateSpecResult } from '../../model/interface';
 import type { AddVChartPropertyContext } from '../../data/transforms/add-property';
-import type { IBaseInteractionSpec, IHoverSpec, ISelectSpec } from '../../interaction/interface';
-import { SeriesData } from './series-data';
+import type { IHoverSpec, ISelectSpec } from '../../interaction/interface/spec';
 import type { ISeriesMarkAttributeContext } from '../../compile/mark';
 import { STATE_VALUE_ENUM } from '../../compile/mark';
 import { BaseSeriesSpecTransformer } from './base-series-transformer';
-import type { EventType } from '@visactor/vgrammar-core';
 import type { ILabelSpec } from '../../component/label/interface';
 import type { StatisticOperations } from '../../data/transforms/interface';
+import type { GraphicEventType } from '@visactor/vrender-core';
+import type { ICompilableData } from '../../compile/data';
+import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
+export interface ISeriesSpecUpdatePolicy {
+    compileOnlyKeys?: Record<string, true>;
+    dataRelatedKeys?: Record<string, true>;
+    compileOnlySubKeys?: Record<string, Record<string, true>>;
+    seriesOnlyKeys?: Record<string, true>;
+}
+export declare function markSeriesCompileEffect(compareResult: IUpdateSpecResult, dataRelated?: boolean): void;
+export declare function markSeriesOnlyEffect(compareResult: IUpdateSpecResult): void;
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
     readonly specKey: string;
     readonly type: string;
@@ -49,7 +58,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected _viewDataMap: Map<number, DataView>;
     protected _viewDataFilter: DataView;
     getViewDataFilter(): DataView;
-    protected _data: SeriesData;
+    protected _data: ICompilableData;
     getViewData(): DataView;
     getViewDataProductId(): string;
     protected _viewDataStatistics: DataView;
@@ -125,60 +134,43 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     private _getExtensionMarkNamePrefix;
     protected _initExtensionMark(options: {
         hasAnimation: boolean;
-        depend?: IMark[];
     }): void;
     private _createExtensionMark;
     protected _updateExtensionMarkSpec(): void;
     getStackData(): ISeriesStackData;
-    protected _parseSelectorOfInteraction(interactionSpec: IBaseInteractionSpec, marks: IMark[]): string[];
-    protected _parseDefaultInteractionConfig(mainMarks?: IMark[]): ({
-        seriesId: number;
-        regionId: number;
-        selector: string[];
+    protected _parseDefaultInteractionConfig(mainMarks?: IMark[]): {
+        trigger: Partial<IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
+    protected _defaultHoverConfig(finalHoverSpec: IHoverSpec): {
         type: string;
-        trigger: EventType;
-        triggerOff: EventType;
-        blurState: STATE_VALUE_ENUM;
-        highlightState: STATE_VALUE_ENUM;
-    } | {
-        type: string;
-        seriesId: number;
-        regionId: number;
-        selector: string[];
-        trigger: EventType;
-        triggerOff: EventType;
-        reverseState: STATE_VALUE_ENUM;
-        state: STATE_VALUE_ENUM;
-        isMultiple: boolean;
-    })[];
-    protected _defaultHoverConfig(selector: string[], finalHoverSpec: IHoverSpec): {
-        seriesId: number;
-        regionId: number;
-        selector: string[];
-        type: string;
-        trigger: EventType;
-        triggerOff: EventType;
+        trigger: GraphicEventType;
+        triggerOff: GraphicEventType;
         blurState: STATE_VALUE_ENUM;
         highlightState: STATE_VALUE_ENUM;
     };
-    protected _defaultSelectConfig(selector: string[], finalSelectSpec: ISelectSpec): {
+    protected _defaultSelectConfig(finalSelectSpec: ISelectSpec): {
         type: string;
-        seriesId: number;
-        regionId: number;
-        selector: string[];
-        trigger: EventType;
-        triggerOff: EventType;
+        trigger: GraphicEventType;
+        triggerOff: GraphicEventType;
         reverseState: STATE_VALUE_ENUM;
         state: STATE_VALUE_ENUM;
         isMultiple: boolean;
     };
-    protected _parseInteractionConfig(mainMarks?: IMark[]): void;
-    initInteraction(): void;
+    protected _parseInteractionConfig(mainMarks?: IMark[]): {
+        trigger: Partial<IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
+    getInteractionTriggers(): {
+        trigger: Partial<IBaseTriggerOptions>;
+        marks: IMark[];
+    }[];
     initAnimation(): void;
     initMarkState(): void;
     initSeriesStyleState(): void;
     afterInitMark(): void;
     getMarksWithoutRoot(): IMark[];
+    protected _getMarkSpecNamesForCompare(): string[];
     getMarksInType(type: string | string[]): IMark[];
     getMarkInName(name: string): IMark | undefined;
     getMarkInId(markId: number): IMark | undefined;
@@ -187,17 +179,11 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected initTooltip(): void;
     _compareExtensionMarksSpec(newMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[], prevMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[], compareResult: IUpdateSpecResult): void;
     _compareLabelSpec(newLabels: ILabelSpec[], prevLabels: ILabelSpec[], compareResult: IUpdateSpecResult): void;
-    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
+    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>): IUpdateSpecResult;
     _updateSpecData(): void;
     reInit(spec?: T): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;
-    onRender(ctx: IModelRenderOption): void;
     release(): void;
     setLayoutStartPosition(pos: Partial<IPoint>): void;
     setLayoutRect({ width, height }: Partial<ILayoutRect>, levelMap?: Partial<ILayoutRect>): void;

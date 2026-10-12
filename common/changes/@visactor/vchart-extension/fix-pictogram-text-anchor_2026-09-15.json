@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-extension",
+      "comment": "修复 Pictogram SVG text-anchor 水平对齐映射，避免居中或右对齐文字错误偏移及被裁剪，并保留 SVG 画布适配行为。",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart-extension"
+}

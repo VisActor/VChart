@@ -8,6 +8,9 @@ export declare class PolarMarkPoint extends BaseMarkPoint {
     name: string;
     static coordinateType: string;
     coordinateType: CoordinateType;
+    static readonly builtInTheme: {
+        polarMarkPoint: import("./interface").IMarkPointTheme<Partial<import("../interface").IMarkerSymbol>>;
+    };
     protected _computePointsAttr(): {
         point: {
             x: number;

@@ -8,6 +8,9 @@ export declare class CirclePackingSeries<T extends ICirclePackingSeriesSpec = IC
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        circlePacking: import("./interface").ICirclePackingSeriesTheme;
+    };
     protected _categoryField: string;
     protected _valueField: string;
     private _layoutPadding;
@@ -38,7 +41,7 @@ export declare class CirclePackingSeries<T extends ICirclePackingSeriesSpec = IC
     protected initTooltip(): void;
     initAnimation(): void;
     initEvent(): void;
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     protected _noAnimationDataKey(datum: Datum, index: number): unknown | undefined;
     getActiveMarks(): IMark[];
     getMarkData(datum: Datum): any;

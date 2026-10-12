@@ -10,6 +10,9 @@ export declare class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> ext
     static readonly type: string;
     type: SeriesTypeEnum;
     static readonly mark: SeriesMarkMap;
+    static readonly builtInTheme: {
+        venn: import("./interface").IVennSeriesTheme;
+    };
     static readonly transformerConstructor: typeof VennSeriesSpecTransformer;
     readonly transformerConstructor: typeof VennSeriesSpecTransformer;
     private _circleMark;
@@ -24,6 +27,7 @@ export declare class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> ext
     getValueField(): string;
     setValueField(f: string): string;
     setAttrFromSpec(): void;
+    initData(): void;
     compile(): void;
     protected _runVennTransform(render?: boolean): void;
     initMark(): void;
@@ -35,7 +39,7 @@ export declare class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> ext
     protected initTooltip(): void;
     getDimensionField(): string[];
     getMeasureField(): string[];
-    onLayoutEnd(ctx: any): void;
+    onLayoutEnd(): void;
     getDefaultShapeType(): string;
     getActiveMarks(): IMark[];
     getStatisticFields(): {

@@ -19,17 +19,6 @@ export const getUpdateAttributeOfZAxis = (axis: IAxis, ignoreGrid: boolean) => {
     items,
     scale: (axis as any)._scale.clone()
   };
-  if (!ignoreGrid) {
-    attrs.grid = {
-      type: 'line',
-      start: { x: 0, y: 0 },
-      end,
-      items: items[0],
-      verticalFactor: (axis as any)._axisStyle.verticalFactor,
-      depth: depthZ,
-      length: !ignoreGrid ? regionSize.height : 0
-    };
-  }
 
   const directionStr = (axis as any).directionStr ?? 'r2l';
   let anchor3d = [0, 0];
@@ -44,5 +33,19 @@ export const getUpdateAttributeOfZAxis = (axis: IAxis, ignoreGrid: boolean) => {
   attrs.alpha = alpha;
   attrs.anchor3d = anchor3d;
 
+  if (!ignoreGrid) {
+    attrs.grid = {
+      type: 'line',
+      start: { x: 0, y: 0 },
+      end,
+      items: items[0],
+      verticalFactor: (axis as any)._axisStyle.verticalFactor,
+      depth: depthZ,
+      length: !ignoreGrid ? regionSize.height : 0,
+      alpha,
+      z,
+      anchor3d
+    };
+  }
   return attrs;
 };

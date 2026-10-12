@@ -1,6 +1,7 @@
 import React from 'react';
-import type { IPie3dChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerPie3dChart, registerLabel, registerIndicator } from '@visactor/vchart';
+import type { IVChartConstructor } from '@visactor/vchart';
+import { VChart, registerLabel, registerIndicator } from '@visactor/vchart';
+import { registerPie3dChart, IPie3dChartSpec } from '@visactor/vchart-extension';
 import { createChart } from './generate-charts';
 import { registers } from './registers/simple';
 

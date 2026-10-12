@@ -1,8 +1,10 @@
 import type { IPolarAxisCommonSpec } from '../interface';
 import type { ILayoutRect } from '../../../../typings/layout';
 import type { IPoint } from '../../../../typings/coordinate';
+import type { IPolarOrientType } from '../../../../typings/space';
+import type { AxisType } from '../../interface/common';
 export declare const getPolarAxisInfo: (spec: IPolarAxisCommonSpec, chartSpec: any) => {
-    axisType: import("../..").AxisType;
+    axisType: AxisType;
     componentName: string;
     startAngle: any;
     endAngle: any;
@@ -14,3 +16,4 @@ export declare const computeLayoutRadius: (getLayoutRadius: () => number | "auto
     startAngle: number;
     endAngle: number;
 }) => number;
+export declare const getPolarAxisTheme: (orient: IPolarOrientType, type: AxisType, getTheme: (...keys: string[]) => any) => any;

@@ -1,3 +1,4 @@
+import type { StringOrNumber } from '@visactor/vchart';
 import React, { useRef, useState, useLayoutEffect } from 'react';
 
 export interface ContainerProps {
@@ -5,7 +6,7 @@ export interface ContainerProps {
   className?: string;
   width?: number | string;
   height?: number | string;
-  id?: string;
+  id?: StringOrNumber;
 }
 
 export default function withContainer<P extends ContainerProps>(
@@ -25,7 +26,7 @@ export default function withContainer<P extends ContainerProps>(
     return (
       <div
         ref={container}
-        id={id}
+        id={id?.toString()}
         className={className}
         style={{
           position: 'relative',

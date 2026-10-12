@@ -97,6 +97,10 @@ brush 选框的大小阈值。自 `1.2.0` 版本开始支持。
 
 是否开启刷取下钻。自 0.10.0 版本生效。
 
+### updateElementsState(boolean) = true
+
+是否更新元素状态,关闭后可优化缩放场景下的性能。自 1.13.13 版本生效。
+
 ### zoomWhenEmpty(boolean) = false
 
 刷取到空数据时, 是否下钻。自 1.12.2 版本生效。

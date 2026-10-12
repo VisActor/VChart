@@ -13,6 +13,9 @@ function computeWordDelay(duration: number, totalTime: number, wordCount: number
 export const WordCloudScaleInAnimation = (params: IWordcloudAnimationParams): IAnimationTypeConfig => {
   return {
     type: 'scaleIn',
+    options: {
+      fromScale: 0
+    },
     duration: 200,
     delay: (datum, graphic) => {
       const animationConfig = params.animationConfig();
@@ -46,6 +49,6 @@ export const registerWordCloudAnimation = () => {
     appear: wordcloudPresetAnimation(params, preset),
     enter: { type: 'fadeIn' },
     exit: { type: 'fadeOut' },
-    disappear: { type: 'fadeOut' }
+    disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
   }));
 };

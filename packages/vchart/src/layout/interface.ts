@@ -119,6 +119,11 @@ export interface IBaseLayoutSpec extends ILayoutSpecBase {
    * 设置布局类型为默认布局
    */
   type: 'base';
+  /**
+   * 是否在第一次布局完成后，再次布局一次，用于解决第一次布局时，元素宽度或高度为0的问题
+   * @since 2.0.7
+   */
+  secondLayoutLeftRight?: boolean;
 }
 
 export type ILayoutSpec = IBaseLayoutSpec | IGridLayoutSpec;

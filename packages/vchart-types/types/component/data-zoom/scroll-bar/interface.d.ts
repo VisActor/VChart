@@ -13,6 +13,8 @@ export interface IScrollBarSpec extends IDataFilterComponentSpec, IScrollBarStyl
     innerPadding?: number | number[] | IPadding;
     range?: [number, number];
     limitRange?: [number, number];
+    scrollStep?: number;
+    minSliderSize?: number;
 }
 export type IScrollBarCommonTheme = ILayoutItemSpec & IScrollBarStyle & {
     orient?: IScrollBarSpec['orient'];

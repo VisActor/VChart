@@ -1,5 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import { Tag } from '@visactor/vrender-components';
+import { Tag } from '@visactor/vrender-components/tag';
 import type { IGraphic, INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean, isObject, array } from '@visactor/vutils';
@@ -34,6 +34,24 @@ const ORIENT_MAP = {
   y: ['left', 'right'],
   category: ['angle'],
   value: ['radius']
+};
+
+const CROSSHAIR_COMPONENT_ONLY_TOP_LEVEL_CHANGE_KEYS: Record<string, boolean> = {
+  labelZIndex: true,
+  gridZIndex: true
+};
+
+const CROSSHAIR_FIELD_KEYS: Record<string, boolean> = {
+  xField: true,
+  yField: true,
+  categoryField: true,
+  valueField: true
+};
+
+const CROSSHAIR_LINE_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  visible: true,
+  width: true,
+  style: true
 };
 
 export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec>
@@ -88,17 +106,23 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
    * @returns
    */
   protected _setAllAxisValues(axisMap: IAxisInfo<IAxis>, point: IPoint, field: string): boolean {
-    // 首先不能存在两个离散轴
+    // 未显式绑定轴时，同方向的多个离散轴无法确定唯一的维度位置；显式绑定表示调用方已选择这些轴。
     let discrete = false;
+    let multipleDiscreteAxes = false;
+    const bindingAxesIndex = get(this._spec, `${field}.bindingAxesIndex`);
+    const hasExplicitBinding = isArray(bindingAxesIndex) && bindingAxesIndex.length > 0;
     axisMap.forEach(item => {
       if (isDiscrete(item.axis.getScale().type)) {
         if (!discrete) {
           discrete = true;
         } else {
-          this.enable = false;
+          multipleDiscreteAxes = true;
         }
       }
     });
+    if (multipleDiscreteAxes && !hasExplicitBinding) {
+      this.enable = false;
+    }
     if (!this.enable) {
       return false;
     }
@@ -158,6 +182,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   protected _showDefaultCrosshairBySpec() {
+    let hasDefaultCrosshair = false;
     Object.keys(this._stateByField).forEach(field => {
       const fieldSpec = (this._spec as any)[field];
 
@@ -166,11 +191,14 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
         const axis = this._option.getComponentsByKey('axes').find(c => c.getSpecIndex() === axisIndex) as IAxis;
 
         if (axis) {
+          hasDefaultCrosshair = true;
           this._stateByField[field].currentValue.clear();
           this._stateByField[field].currentValue.set(axisIndex, { axis, datum });
         }
       }
     });
+
+    return hasDefaultCrosshair;
   }
 
   protected _updateVisibleCrosshair() {
@@ -193,8 +221,8 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
 
   protected _showDefaultCrosshair() {
     if (this.showDefault) {
-      this._showDefaultCrosshairBySpec();
-      this.layoutByValue(false);
+      const hasDefault = this._showDefaultCrosshairBySpec();
+      hasDefault && this.layoutByValue(false);
     } else {
       this._updateVisibleCrosshair();
     }
@@ -216,11 +244,70 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
    */
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
-    if (!result.reMake && !isEqual(prevSpec, spec)) {
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (specChanged) {
+      result.change = true;
       result.reRender = true;
-      result.reMake = true;
+
+      if (!result.reMake) {
+        if (this._isComponentOnlySpecChange(spec, prevSpec)) {
+          result.effects = {
+            ...result.effects,
+            component: true,
+            layout: true,
+            render: true
+          };
+        } else {
+          result.reMake = true;
+        }
+      }
     }
     return result;
+  }
+
+  private _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return (
+        isEqual(prevSpec?.[key], spec?.[key]) ||
+        CROSSHAIR_COMPONENT_ONLY_TOP_LEVEL_CHANGE_KEYS[key] ||
+        (CROSSHAIR_FIELD_KEYS[key] && this._isFieldComponentOnlySpecChange(prevSpec?.[key], spec?.[key]))
+      );
+    });
+  }
+
+  private _isFieldComponentOnlySpecChange(prevSpec: ICrosshairCategoryFieldSpec, spec: ICrosshairCategoryFieldSpec) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return (
+        isEqual(prevSpec?.[key], spec?.[key]) ||
+        key === 'label' ||
+        (key === 'line' && this._isLineComponentOnlySpecChange(prevSpec?.line, spec?.line))
+      );
+    });
+  }
+
+  private _isLineComponentOnlySpecChange(
+    prevSpec: ICrosshairCategoryFieldSpec['line'],
+    spec: ICrosshairCategoryFieldSpec['line']
+  ) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || CROSSHAIR_LINE_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   protected _initEvent() {
@@ -243,6 +330,10 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   }
 
   private _registerEvent(eventName: EventType | EventType[], isOut?: boolean, click?: boolean) {
+    if (this._option.componentShowContent?.crosshair === false) {
+      return;
+    }
+
     const handler = isOut ? this._handleOutEvent : click ? this._handleClickInEvent : this._handleHoverInEvent;
     const cfg = isOut ? { level: Event_Bubble_Level.chart } : { source: Event_Source_Type.chart };
 
@@ -266,7 +357,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     }
   }
 
-  updateLayoutAttribute() {
+  onBeforeRender(): void {
     this._limitBounds = null;
     this._showDefaultCrosshair();
   }
@@ -337,8 +428,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
       return;
     }
     this.clearOutEvent();
-
-    this.hide();
+    this.hideCrosshair();
   };
 
   private _getTriggerEvent() {
@@ -405,7 +495,7 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
   private _handleTooltipHideOrRelease = () => {
     this.clearOutEvent();
 
-    this.hide();
+    this.hideCrosshair();
   };
 
   protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value') {
@@ -433,19 +523,21 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
     let x2 = -Infinity;
     let y2 = -Infinity;
     const { x: sx, y: sy } = this.getLayoutStartPoint();
+
     bindingAxesIndex.forEach(idx => {
       (x1 = Infinity), (y1 = Infinity), (x2 = -Infinity), (y2 = -Infinity);
       const axis = axesComponents.find(axis => axis.getSpecIndex() === idx);
       if (!axis) {
         return;
       }
+      const innerOffset = (axis as any).getInnerOffset?.() || { left: 0, right: 0, top: 0, bottom: 0 };
       const regions = axis.getRegions();
       regions.forEach(r => {
         const { x: regionStartX, y: regionStartY } = r.getLayoutStartPoint();
-        x1 = Math.min(x1, regionStartX - sx);
-        y1 = Math.min(y1, regionStartY - sy);
-        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx);
-        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy);
+        x1 = Math.min(x1, regionStartX - sx + innerOffset.left);
+        y1 = Math.min(y1, regionStartY - sy + innerOffset.top);
+        x2 = Math.max(x2, regionStartX + r.getLayoutRect().width - sx - innerOffset.right);
+        y2 = Math.max(y2, regionStartY + r.getLayoutRect().height - sy - innerOffset.bottom);
       });
       map.set(idx, { x1, y1, x2, y2, axis: axis as unknown as T });
     });

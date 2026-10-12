@@ -39,9 +39,9 @@ The offset distance of the shadow in the horizontal direction.
 
 The offset distance of the shadow in the vertical direction.
 
-#${prefix} background(string|HtmlImageElement)
+#${prefix} background(string|HtmlImageElement|HtmlCanvasElement)
 
-Supported since `1.2.0` version, background configuration, which can be configured as a color string or image URL
+Supported since `1.2.0` version, background configuration for graphics, which can be configured as a pure color, image element, or canvas element.
 
 > Note that when configured as an image address, the transparency is affected by `fillOpacity`, please be sure to configure `fillOpacity`
 
@@ -77,3 +77,61 @@ const spec = {
 }
 
 ```
+
+#${prefix} backgroundMode(string)
+
+Background fill mode, related to specific graphic elements. Optional values:
+
+- `'repeat'`: Tile the background
+- `'repeat-x'`: Tile horizontally
+- `'repeat-y'`: Tile vertically
+- `'no-repeat'`: No tiling
+- `'no-repeat-cover'`: Supported since version `2.0.21`. No repeat, scale proportionally and cover the whole graphic area
+- `'no-repeat-contain'`: Supported since version `2.0.21`. No repeat, scale proportionally and fit entirely inside the graphic area
+- `'no-repeat-fill'`: Supported since version `2.0.21`. No repeat, stretch to fill the graphic area
+- `'no-repeat-auto'`: Supported since version `2.0.21`. No repeat, draw with the image's intrinsic size
+
+#${prefix} backgroundPosition(string|Array<string | number>)
+
+Supported since version `2.0.21`. Background image anchor position, similar to CSS `background-position`. Only effective when the background is an image and the final mode is `no-repeat`.
+
+Supported forms:
+
+- Single keyword: `'left'`, `'center'`, `'right'`, `'top'`, `'bottom'`
+- Preset position: `'top-left'`, `'top-center'`, `'top-right'`, `'center-left'`, `'center'`, `'center-right'`, `'bottom-left'`, `'bottom-center'`, `'bottom-right'`
+- Tuple: `[x, y]`, where `x` / `y` can be a number, keyword, or percentage string, for example `['25%', '75%']`
+
+#${prefix} backgroundFit(boolean)
+
+Whether to fit the background exactly, only effective in `repeat-x`, `repeat-y`, or `no-repeat` mode.
+
+#${prefix} backgroundKeepAspectRatio(boolean)
+
+Whether to maintain the aspect ratio of the background image.
+
+#${prefix} backgroundScale(number)
+
+Background image scale, only effective in `no-repeat` mode.
+
+#${prefix} backgroundOffsetX(number)
+
+Background image horizontal offset, only effective in `no-repeat` mode.
+
+#${prefix} backgroundOffsetY(number)
+
+Background image vertical offset, only effective in `no-repeat` mode.
+
+#${prefix} backgroundClip(boolean)
+
+Whether the background image is clipped, whether to call clip to avoid drawing outside the graphic element.
+
+#${prefix} backgroundCornerRadius(number|Array<number>)
+
+Background corner radius. Can be configured as:
+
+- Number: Uniformly set the corner radius for all four corners
+- Array: Set corner radius for [top-left, top-right, bottom-right, bottom-left] individually
+
+#${prefix} backgroundOpacity(number)
+
+Background opacity, value range 0-1.

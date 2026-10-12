@@ -4,6 +4,8 @@
 
 图表标题配置。
 
+从 2.1.7 版本开始，`width`、`height`、`minWidth`、`maxWidth`、`minHeight` 和 `maxHeight` 支持 `ILayoutNumber`；此前版本仅支持数值。
+
 ### visible(boolean) = true
 
 是否显示标题。
@@ -47,21 +49,29 @@
 - 'right'
 - 'bottom'
 
-### minWidth(number)
+### minWidth(ILayoutNumber)
 
-标题最小宽度，像素值。
+标题最小宽度。
 
-### maxWidth(number)
+{{ use: common-layout-number }}
 
-标题最大宽度，像素值。当文字超过最大宽度时，会自动省略。
+### maxWidth(ILayoutNumber)
 
-### minHeight(number)
+标题最大宽度。当文字超过最大宽度时，会自动省略。
 
-标题最小高度，像素值。
+{{ use: common-layout-number }}
 
-### maxHeight(number)
+### minHeight(ILayoutNumber)
 
-标题最大高度，像素值。
+标题最小高度。
+
+{{ use: common-layout-number }}
+
+### maxHeight(ILayoutNumber)
+
+标题最大高度。当文字超过最大高度时，会自动省略。
+
+{{ use: common-layout-number }}
 
 ### innerPadding(Object|number) = 0
 

@@ -1,7 +1,7 @@
 import type { DataView } from '@visactor/vdataset';
 import { isArray } from '@visactor/vutils';
 /* eslint-disable no-duplicate-imports */
-import { LineLikeSeriesMixin } from '../mixin/line-mixin';
+import { LINE_LIKE_SERIES_DATA_RELATED_KEYS, LineLikeSeriesMixin } from '../mixin/line-mixin';
 import { Direction } from '../../typings/space';
 import { CartesianSeries } from '../cartesian/cartesian';
 import { AttributeLevel } from '../../constant/attribute';
@@ -29,6 +29,7 @@ import { STACK_FIELD_END } from '../../constant/data';
 import { registerSymbolOverlapTransform } from '../../mark/transform/symbol-overlap';
 import { registerDataSamplingTransform } from '../../mark/transform/data-sampling';
 import { area } from '../../theme/builtin/common/series/area';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 
 export interface AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec>
   extends Pick<
@@ -59,6 +60,17 @@ export class AreaSeries<T extends IAreaSeriesSpec = IAreaSeriesSpec> extends Car
 
   protected _areaMark!: IAreaMark;
   protected _sortDataByAxis: boolean = false;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...LINE_LIKE_SERIES_DATA_RELATED_KEYS
+      }
+    };
+  }
 
   initMark(): void {
     const seriesMark = this._spec.seriesMark ?? 'area';

@@ -1,8 +1,6 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import { Tag } from '@visactor/vrender-components';
+import { Tag } from '@visactor/vrender-components/tag';
 import type { IGraphic } from '@visactor/vrender-core';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { IPoint, StringOrNumber, TooltipActiveType, TooltipData } from '../../typings';
 import type { IComponentOption } from '../interface';
@@ -38,22 +36,19 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
         value: string | number;
     }[]): void;
     protected _getLimitBounds(): IBoundsLike;
-    protected _showDefaultCrosshairBySpec(): void;
+    protected _showDefaultCrosshairBySpec(): boolean;
     protected _updateVisibleCrosshair(): void;
     protected _showDefaultCrosshair(): void;
     setAttrFromSpec(): void;
     created(): void;
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../model/interface").IUpdateSpecResult;
+    private _isComponentOnlySpecChange;
+    private _isFieldComponentOnlySpecChange;
+    private _isLineComponentOnlySpecChange;
     protected _initEvent(): void;
     private _registerEvent;
     private _eventOff;
-    updateLayoutAttribute(): void;
+    onBeforeRender(): void;
     protected calculateTriggerPoint(params: any): {
         x: number;
         y: number;
@@ -67,9 +62,7 @@ export declare abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | 
     private _handleTooltipShow;
     private _handleTooltipHideOrRelease;
     protected _getAxisInfoByField<T = IAxis>(field: 'x' | 'y' | 'category' | 'value'): IAxisInfo<T>;
-    changeRegions(regions: IRegion[]): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
-    onRender(ctx: IModelRenderOption): void;
+    onLayoutEnd(): void;
     protected _releaseEvent(): void;
     protected _parseFieldInfo(): void;
     protected _parseCrosshairSpec(): void;

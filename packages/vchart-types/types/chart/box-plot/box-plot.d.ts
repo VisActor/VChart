@@ -8,5 +8,6 @@ export declare class BoxPlotChart<T extends IBoxPlotChartSpec = IBoxPlotChartSpe
     readonly transformerConstructor: typeof BoxPlotChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
+    protected _setModelOption(): void;
 }
 export declare const registerBoxplotChart: () => void;

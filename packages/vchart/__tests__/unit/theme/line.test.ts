@@ -54,7 +54,8 @@ describe('theme switch test', () => {
       {
         renderCanvas: canvasDom,
         background: 'yellow',
-        autoFit: true
+        autoFit: true,
+        animation: false
       }
     );
 
@@ -130,7 +131,8 @@ describe('theme switch test', () => {
       {
         renderCanvas: canvasDom,
         background: 'yellow',
-        autoFit: true
+        autoFit: true,
+        animation: false
       }
     );
 
@@ -172,7 +174,8 @@ describe('theme switch test', () => {
       {
         renderCanvas: canvasDom,
         background: 'yellow',
-        autoFit: true
+        autoFit: true,
+        animation: false
       }
     );
 

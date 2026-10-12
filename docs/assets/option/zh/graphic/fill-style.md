@@ -39,8 +39,9 @@
 
 阴影垂直方向上的偏移距离。
 
-#${prefix} background(string|HtmlImageElement)
-自`1.2.0`版本开始支持，背景配置， 可以配置为颜色字符串或者图片地址
+#${prefix} background(string|HtmlImageElement|HtmlCanvasElement)
+
+自`1.2.0`版本开始支持，图形的背景配置，可以配置为纯色、图片元素或canvas元素。
 
 > 注意配置为图片地址时，透明度受 `fillOpacity` 影响，请务必配置 `fillOpacity`
 
@@ -76,3 +77,61 @@ const spec = {
 }
 
 ```
+
+#${prefix} backgroundMode(string)
+
+背景填充模式，与具体图元有关。可选值：
+
+- `'repeat'`: 平铺背景
+- `'repeat-x'`: 水平方向平铺
+- `'repeat-y'`: 垂直方向平铺
+- `'no-repeat'`: 不平铺
+- `'no-repeat-cover'`: 自 `2.0.21` 版本开始支持，不平铺，等比缩放并覆盖整个图元区域
+- `'no-repeat-contain'`: 自 `2.0.21` 版本开始支持，不平铺，等比缩放并完整包含在图元区域内
+- `'no-repeat-fill'`: 自 `2.0.21` 版本开始支持，不平铺，拉伸填满图元区域
+- `'no-repeat-auto'`: 自 `2.0.21` 版本开始支持，不平铺，按图片原始尺寸绘制
+
+#${prefix} backgroundPosition(string|Array<string | number>)
+
+自 `2.0.21` 版本开始支持。背景图锚定位置，语义类似 CSS `background-position`，仅在图片背景且最终为 `no-repeat` 时生效。
+
+支持以下写法：
+
+- 单关键字：`'left'`、`'center'`、`'right'`、`'top'`、`'bottom'`
+- 预设位置：`'top-left'`、`'top-center'`、`'top-right'`、`'center-left'`、`'center'`、`'center-right'`、`'bottom-left'`、`'bottom-center'`、`'bottom-right'`
+- 元组：`[x, y]`，其中 `x` / `y` 支持数值、关键字或百分比字符串，例如 `['25%', '75%']`
+
+#${prefix} backgroundFit(boolean)
+
+是否正好填充背景，只在 `repeat-x`、`repeat-y` 或 `no-repeat` 模式下生效。
+
+#${prefix} backgroundKeepAspectRatio(boolean)
+
+是否保持背景图的宽高比。
+
+#${prefix} backgroundScale(number)
+
+背景图缩放比例，只在 `no-repeat` 模式下生效。
+
+#${prefix} backgroundOffsetX(number)
+
+背景图水平方向偏移，只在 `no-repeat` 模式下生效。
+
+#${prefix} backgroundOffsetY(number)
+
+背景图垂直方向偏移，只在 `no-repeat` 模式下生效。
+
+#${prefix} backgroundClip(boolean)
+
+背景图是否裁切，是否调用 clip 避免绘制到图元外部。
+
+#${prefix} backgroundCornerRadius(number|Array<number>)
+
+背景圆角半径。可以配置为：
+
+- 数值：统一设置四个角的圆角
+- 数组：分别设置 [左上, 右上, 右下, 左下] 四个角的圆角
+
+#${prefix} backgroundOpacity(number)
+
+背景透明度，取值范围 0-1。

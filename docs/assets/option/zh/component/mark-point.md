@@ -220,72 +220,40 @@
 
 自 1.8.7 版本开始, 是否自动调整 item content 使其展示在 marker 可见区域内。
 
-#### symbol(Object)
-
-标注内容类型为 symbol 时, 状态和样式配置。
-
-{{ use: component-marker-state(
-  prefix = '####',
-  graphicType = 'symbol'
-) }}
-
-##### style(Object)
-
-标注内容类型为 symbol 时，symbol 的样式。
-{{ use: component-marker-style-callback(
-  description = 'symbol样式'
-) }}
-
-{{ use: graphic-symbol(
-  prefix = '#####'
-) }}
-
-#### image(Object)
-
-标注内容类型为 image 时, 状态和样式配置。
-
-{{ use: component-marker-state(
-  prefix = '####',
-  graphicType = 'image'
-) }}
-
-##### style(Object)
-
-标注内容类型为 image 时，image 的样式。
-{{ use: component-marker-style-callback(
-  description = 'image样式'
-) }}
-
-{{ use: graphic-image(
-  prefix = '#####'
-) }}
-
 #### text(Object)
 
 {{ use: component-marker-label(
   prefix = '####',
-  noConfine = true
+  noConfine = true,
+  noMarkerRef = true,
+  noAutoRotate = true
 ) }}
 
-#### richText(Object)
-
-标注内容类型为 richText 时, 状态和样式配置。
+#### style(Object)
 
 {{ use: component-marker-style-callback(
-  description = 'richText样式'
+  description = 'image | text | richText | symbol style'
+) }}
+
+{{ use: graphic-image(
+  prefix = '####'
+) }}
+
+{{ use: graphic-text(
+  prefix = '####'
+) }}
+
+{{ use: graphic-rich-text(
+  prefix = '####'
+) }}
+
+{{ use: graphic-symbol(
+  prefix = '####'
 ) }}
 
 {{ use: component-marker-state(
-  prefix = '####',
-  graphicType = 'richText'
-) }}
-
-##### style(Object)
-
-标注内容类型为 richText 时，richText 的样式。
-
-{{ use: graphic-rich-text(
-  prefix = '#####'
+  prefix = '###',
+  graphicType = 'all'
 ) }}
 
 {{ use: component-marker-animation(

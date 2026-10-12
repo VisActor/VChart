@@ -35,9 +35,6 @@ export declare const ScaleInOutAnimation: {
     exit: {
         type: string;
     };
-    disappear: {
-        type: string;
-    };
 };
 export declare const FadeInOutAnimation: {
     appear: {
@@ -49,17 +46,15 @@ export declare const FadeInOutAnimation: {
     exit: {
         type: string;
     };
-    disappear: {
-        type: string;
-    };
 };
 export declare const registerScaleInOutAnimation: () => void;
 export declare const registerFadeInOutAnimation: () => void;
 export declare const registerCartesianGroupClipAnimation: () => void;
 export declare const registerLineAnimation: () => void;
 export declare const registerAreaAnimation: () => void;
-export declare const registerVGrammarCommonAnimation: () => void;
-export declare const registerVGrammarRectAnimation: () => void;
-export declare const registerVGrammarArcAnimation: () => void;
-export declare const registerVGrammarLineOrAreaAnimation: () => void;
-export declare const registerVGrammarPolygonAnimation: () => void;
+export declare const registerBuiltInAnimation: () => void;
+export declare const registerRectAnimation: () => void;
+export declare const registerArcAnimation: () => void;
+export declare const registerLineOrAreaAnimation: () => void;
+export declare const registerPolygonAnimation: () => void;
+export declare const registerStageAnimation: () => void;

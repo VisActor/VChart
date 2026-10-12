@@ -2,10 +2,16 @@
  * @description 堆叠柱系列的连接线组件
  * @author zhangweixing
  */
-import { AbstractComponent, Segment } from '@visactor/vrender-components';
-import { cloneDeep, isEmpty } from '@visactor/vutils';
+import {
+  AbstractComponent,
+  Segment,
+  type IGraphic,
+  type ILineGraphicAttribute,
+  createArea,
+  createText
+} from '@visactor/vchart';
+import { cloneDeep, isEmpty } from '@visactor/vchart';
 import { Factory } from '@visactor/vchart';
-import { type IGraphic, type ILineGraphicAttribute, createArea, createText } from '@visactor/vrender-core';
 import { STACK_FIELD_END, STACK_FIELD_START } from '@visactor/vchart';
 import type { BarLinkAttrs } from './type';
 import { BAR_LINK } from './constant';

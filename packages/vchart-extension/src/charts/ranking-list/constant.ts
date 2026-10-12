@@ -1,4 +1,4 @@
-import { IRankingListSpec } from './interface';
+import type { IRankingListSpec } from './interface';
 
 const cornerRadius = 5;
 const animationDuration = 1000;

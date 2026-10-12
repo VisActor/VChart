@@ -118,7 +118,7 @@ export class TreemapSeries extends CartesianSeries<any> {
 
     this._data.getDataView()?.transform({
       type: 'treemap',
-      options: {
+      options: () => ({
         nameField: this._categoryField,
         valueField: this._valueField,
         getViewBox: () => {
@@ -141,7 +141,7 @@ export class TreemapSeries extends CartesianSeries<any> {
         minVisibleArea: this._spec.minVisibleArea ?? 10,
         minChildrenVisibleArea: this._spec.minChildrenVisibleArea,
         minChildrenVisibleSize: this._spec.minChildrenVisibleSize
-      }
+      })
     });
     // 矩形树图中原始数据为层次结果，图元数据为平坦化后的结构，具体逻辑如下：
     if (this.getViewData()) {
@@ -479,7 +479,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {
-        m.getComponent().getProduct().getGroupGraphicItem().enableAnimation();
+        m.getComponent().getProduct().enableAnimation();
       }
     });
     // 在所有动画执行之后关闭动画
@@ -492,7 +492,7 @@ export class TreemapSeries extends CartesianSeries<any> {
     });
     [this._labelMark, this._nonLeafLabelMark].forEach(m => {
       if (m && m.getComponent()) {
-        m.getComponent().getProduct().getGroupGraphicItem().disableAnimation();
+        m.getComponent().getProduct().disableAnimation();
       }
     });
   }

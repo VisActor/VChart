@@ -46,6 +46,12 @@ export class ChartPluginService<T extends IChartPlugin = IChartPlugin>
     });
   }
 
+  onAfterInitChart(chartSpec: any, actionSource: VChartRenderActionSource) {
+    this._plugins.forEach(plugin => {
+      plugin.onAfterInitChart && plugin.onAfterInitChart(this, chartSpec, actionSource);
+    });
+  }
+
   releaseAll(): void {
     super.releaseAll();
     this.globalInstance = null;

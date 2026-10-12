@@ -130,8 +130,8 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
     centerDataView.transform({
       type: 'correlationCenter',
       options: {
-        keyword: this._spec.centerLabel?.style?.text ?? '',
-        categoryField: this._spec.categoryField
+        keyword: () => this._spec.centerLabel?.style?.text ?? '',
+        categoryField: () => this._spec.categoryField
       }
     });
 
@@ -156,14 +156,14 @@ export class CorrelationSeries<T extends ICorrelationSeriesSpec = ICorrelationSe
             y1: this._viewBox.y2
           };
         },
-        field: this._spec.valueField,
-        radiusRange: this._spec.sizeRange as [number, number],
-        radiusField: this._spec.sizeField,
-        center: [this._spec.centerX, this._spec.centerY],
-        innerRadius: this._spec.innerRadius,
-        outerRadius: this._spec.outerRadius,
-        startAngle: this._spec.startAngle,
-        endAngle: this._spec.endAngle
+        field: () => this._spec.valueField,
+        radiusRange: () => this._spec.sizeRange as [number, number],
+        radiusField: () => this._spec.sizeField,
+        center: () => [this._spec.centerX, this._spec.centerY],
+        innerRadius: () => this._spec.innerRadius,
+        outerRadius: () => this._spec.outerRadius,
+        startAngle: () => this._spec.startAngle,
+        endAngle: () => this._spec.endAngle
       } as ICorrelationOpt
     });
   }

@@ -1,9 +1,10 @@
 import type { IGraphic } from '@visactor/vrender-core';
-import { ClipAngleAnimate, AnimateExecutor } from '@visactor/vrender-animate';
+import { ClipAngleAnimate } from '@visactor/vrender-animate/custom/clip-graphic';
+import { AnimateExecutor } from '@visactor/vrender-animate/executor/animate-executor';
 import { Factory } from '../../core/factory';
 import { PolarPointUpdate, PolarTagPointsUpdate } from '../polar/animation';
 import { DEFAULT_ANIMATION_CONFIG } from '../../animation/config';
-import { registerArc } from '@visactor/vrender-kits';
+import { registerArc } from '../../vrender-bridge';
 import type { IRadarAnimationParams, RadarAppearPreset } from './interface';
 import type { IAnimationTypeConfig, MarkAnimationSpec } from '../../animation/interface';
 import type { Datum } from '../../typings/common';
@@ -95,7 +96,7 @@ export const registerRadarAnimation = () => {
       appear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'in'),
       enter: radarPresetAnimation(params, preset, 'in'),
       exit: radarPresetAnimation(params, preset, 'out'),
-      disappear: preset === 'clipIn' ? undefined : radarPresetAnimation(params, preset, 'out'),
+      disappear: preset === 'clipIn' ? undefined : { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration },
       update: [
         {
           channel: ['points', 'center'],
@@ -118,7 +119,7 @@ export const registerRadarAnimation = () => {
         appear: preset === 'clipIn' ? undefined : radarSymbolPresetAnimation(params, preset, 'in'),
         enter: { type: 'scaleIn' },
         exit: { type: 'scaleOut' },
-        disappear: preset === 'clipIn' ? undefined : radarSymbolPresetAnimation(params, preset, 'out'),
+        disappear: preset === 'clipIn' ? undefined : { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration },
         update: [
           {
             options: { excludeChannels: ['x', 'y', 'center'] }
@@ -136,7 +137,7 @@ export const registerRadarAnimation = () => {
   Factory.registerAnimation('radarGroup', (params: IRadarAnimationParams, preset: RadarAppearPreset) => {
     return {
       appear: radarGroupClipAnimation(params, 'in'),
-      disappear: radarGroupClipAnimation(params, 'out')
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     };
   });
   registerArc(); // clipAngle animation will use arc graphic

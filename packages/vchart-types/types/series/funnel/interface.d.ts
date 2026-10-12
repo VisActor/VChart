@@ -1,4 +1,4 @@
-import type { Datum, IMarkSpec, IMarkTheme, ISeriesSpec, IOrientType, IPathMarkSpec, IPolygonMarkSpec, IRuleMarkSpec, ITextMarkSpec, IPyramid3dMarkSpec, IPercent, IComposedTextMarkSpec, IFormatMethod } from '../../typings';
+import type { Datum, IMarkSpec, IMarkTheme, ISeriesSpec, IOrientType, IPathMarkSpec, IPolygonMarkSpec, IRuleMarkSpec, ISymbolMarkSpec, ITextMarkSpec, IPercent, IComposedTextMarkSpec, IFormatMethod } from '../../typings';
 import type { IAnimationSpec } from '../../animation/spec';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { ILabelSpec } from '../../component/label/interface';
@@ -49,17 +49,10 @@ export interface IFunnelSeriesTheme {
         line?: Partial<IMarkTheme<IRuleMarkSpec>>;
     };
     [SeriesMarkNameEnum.transformLabel]?: Partial<IMarkTheme<ITextMarkSpec>>;
-}
-export type IFunnel3dSeriesSpec = {
-    type: 'funnel3d';
-} & Omit<IFunnelSeriesSpec, 'type'>;
-export interface IFunnel3dSeriesTheme {
-    [SeriesMarkNameEnum.funnel3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
-    [SeriesMarkNameEnum.transform3d]?: Partial<IMarkTheme<IPyramid3dMarkSpec>>;
-    [SeriesMarkNameEnum.label]?: Partial<IMarkTheme<ITextMarkSpec>>;
-    [SeriesMarkNameEnum.outerLabel]?: Partial<IMarkTheme<ITextMarkSpec>> & {
-        line?: Partial<IMarkTheme<IRuleMarkSpec>>;
+    conversionArrow?: {
+        line?: Partial<IMarkTheme<IPolygonMarkSpec>>;
+        symbol?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+        text?: Partial<IMarkTheme<ITextMarkSpec>>;
     };
-    [SeriesMarkNameEnum.transformLabel]?: Partial<IMarkTheme<ITextMarkSpec>>;
 }
 export {};

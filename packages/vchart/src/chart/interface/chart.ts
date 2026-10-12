@@ -32,6 +32,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { IGlobalScale } from '../../scale/interface';
 import type { IMorphConfig } from '../../animation/spec';
 import type { IMarkGraphic } from '../../mark/interface/common';
+import type { IAxis } from '../../component/axis/interface';
 
 export type DimensionIndexOption = {
   filter?: (cmp: IComponent) => boolean;
@@ -100,6 +101,8 @@ export interface IChart extends ICompilable {
   onEvaluateEnd: (ctx: IChartEvaluateOption) => void;
   onResize: (width: number, height: number, reRender: boolean) => void;
   onLayout: () => void;
+  onBeforeRender: () => void;
+
   /**
    * 图表更新的时候按需调用
    * @since 1.11.0
@@ -216,6 +219,12 @@ export interface IChart extends ICompilable {
   // setDimensionIndex
   setDimensionIndex: (value: StringOrNumber, opt: DimensionIndexOption) => void;
   /**
+   * 显示交叉线
+   * @since 2.0.9
+   */
+  showCrosshair: (cb: (axis: IAxis) => false | string | number) => void;
+
+  /**
    * 根据数据筛选图元
    * @since 1.13.9
    */
@@ -246,6 +255,7 @@ export interface IChartSpecTransformer {
     chartSpec: any,
     transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void
   ) => IChartSpecInfo;
+  getSeriesRelatedSpecKeys: () => Record<string, true>;
   /** 枚举 spec 中每个有效的 region */
   forEachRegionInSpec: <K>(
     spec: any,

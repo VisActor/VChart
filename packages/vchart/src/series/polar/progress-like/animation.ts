@@ -1,5 +1,6 @@
 import type { IAnimationTypeConfig } from '../../../animation/interface';
 import { Factory } from '../../../core/factory';
+import { DEFAULT_ANIMATION_CONFIG } from '../../../animation/config';
 import type { IProgressLikeAnimationParams, ProgressLikeAppearPreset } from './interface';
 
 const Appear_Grow = (params: IProgressLikeAnimationParams): IAnimationTypeConfig => ({
@@ -28,7 +29,7 @@ export const registerProgressLikeAnimation = () => {
     (params: IProgressLikeAnimationParams, preset: ProgressLikeAppearPreset) => ({
       appear: progressLikePresetAnimation(params, preset),
       enter: { type: 'growAngleIn' },
-      disappear: { type: 'growAngleOut' }
+      disappear: { duration: DEFAULT_ANIMATION_CONFIG.disappear.duration }
     })
   );
 };

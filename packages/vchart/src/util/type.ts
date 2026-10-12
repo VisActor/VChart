@@ -73,3 +73,8 @@ export function isDataDomainSpec(domain: any): domain is IDataDomainSpec[] {
   }
   return isArray(domain[0].fields);
 }
+
+// 可靠的class判定函数
+export function isClass(obj: any): boolean {
+  return typeof obj === 'function' && /^class\s/.test(obj.toString());
+}

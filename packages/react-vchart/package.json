@@ -1,6 +1,6 @@
 {
   "name": "@visactor/react-vchart",
-  "version": "1.13.11",
+  "version": "2.1.7",
   "sideEffects": false,
   "description": "The react version of VChart 4.x",
   "keywords": [
@@ -17,10 +17,15 @@
   "main": "cjs/index.js",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
+  "unpkg": "build/index.min.js",
+  "unpkgFiles": [
+    "build/index.js",
+    "build/index.min.js"
+  ],
   "files": [
     "esm",
     "cjs",
-    "dist"
+    "build"
   ],
   "scripts": {
     "compile": "tsc --noEmit",
@@ -28,11 +33,11 @@
     "build": "bundle --clean"
   },
   "dependencies": {
-    "@visactor/vchart": "workspace:1.13.11",
-    "@visactor/vchart-extension": "workspace:1.13.11",
-    "@visactor/vutils": "~1.0.6",
-    "@visactor/vrender-core": "1.0.3",
-    "@visactor/vrender-kits": "1.0.3",
+    "@visactor/vchart": "workspace:2.1.7",
+    "@visactor/vchart-extension": "workspace:2.1.7",
+    "@visactor/vutils": "~1.0.24",
+    "@visactor/vrender-core": "1.1.11",
+    "@visactor/vrender-kits": "1.1.11",
     "react-is": "^18.2.0"
   },
   "devDependencies": {
@@ -71,7 +76,7 @@
   "bugs": "https://github.com/VisActor/VChart/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VisActor/VChart.git",
+    "url": "https://github.com/VisActor/VChart",
     "directory": "packages/react-vchart"
   },
   "author": {

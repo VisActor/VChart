@@ -1,6 +1,6 @@
-import { IPlayerSpec } from '@visactor/vchart';
-import { Datum } from '@visactor/vchart/src/typings/common';
-import { ITextGraphicAttribute } from '@visactor/vrender-core';
+import type { IPlayerSpec } from '@visactor/vchart';
+import type { Datum } from '@visactor/vchart/src/typings/common';
+import type { ITextGraphicAttribute } from '@visactor/vchart';
 
 type IterationData = Datum[];
 type ISequenceScatterKDEData = {

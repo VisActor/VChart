@@ -1,6 +1,398 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Thu, 29 May 2025 09:26:04 GMT and should not be manually modified.
+This log was last generated on Fri, 18 Sep 2026 09:46:50 GMT and should not be manually modified.
+
+## 2.1.7
+Fri, 18 Sep 2026 09:46:50 GMT
+
+### Patches
+
+- 修复坐标轴旋转标签的采样角度单位与绘制不一致，导致标签过度抽样的问题。
+- fix: rebuild background when spec.background and spec.theme change in the same updateSpec
+- fix: avoid crash when recompiling a mark without a compile option
+- fix: remove the word cloud shape afterRender tap when the series is released
+- fix: preserve crosshair visibility for explicitly bound multiple band axes (Issue #4127)
+- fix: 修复预览比例尺退化时 DataZoom 显示多余预览线的问题
+- fix: preserve final attributes for exit animations when appear animations are disabled
+- fix: respect explicit label smart invert settings
+- fix: prevent rich text labels from inheriting line dash styles (Issue #4595)
+- fix: unregister array-valued trigger event listeners on release
+- 修复 Glyph 状态更新未重新编码子图形导致的桑基图 hover 残留、关联流量高亮比例和取消恢复异常；统一共享运行时状态与子图形属性撤销。需要配套包含 Glyph 派生同步接口的 VRender 版本。同时修复 Liquid 显式 fillOpacity 在初始渲染、配置更新及状态切换中未作用于子波浪的问题，并在退出状态时恢复普通样式或默认透明度。
+- fix: 修复 #4561 导致堆叠数值轴 crosshair 错误显示范围标签及偏移，保留马赛克和直方图的维度区间高亮
+- fix: resolve title width/height/minWidth/maxWidth/minHeight/maxHeight as ILayoutNumber against the chart view rect
+
+### Updates
+
+- fix: restore point visibility after overlap updates
+- fix: 修复 roseSeries 在非堆叠场景里 innerRadius 不生效的问题
+
+
+- fix: bar smapling not work bug. fix#4571
+- fix: fix theme overwrite when change chartType in updateSpec
+
+
+- refactor: keep the word cloud shape afterRender tap as a stable member callback
+
+## 2.1.6
+Thu, 13 Aug 2026 02:18:20 GMT
+
+_Version update only_
+
+## 2.1.5
+Thu, 30 Jul 2026 08:24:02 GMT
+
+### Minor changes
+
+- feat: support layout-time callbacks for discrete legend pager.layout and pager.position with resolved maxRow and maxCol
+- feat: support dimension hover state for mark point target symbol
+
+### Patches
+
+- fix: release the pointerout listener when dimension hover events are unregistered
+- fix: avoid duplicate event handlers after chart remake
+
+## 2.1.4
+Thu, 16 Jul 2026 09:04:49 GMT
+
+### Minor changes
+
+- feat: support automatic bar width for linear x axis
+- feat: support theming conversion funnel arrow (line / symbol / text) via series.funnel.conversionArrow theme token
+
+### Patches
+
+- fix: restore existing axis grid graphics when grid visibility is enabled again through updateSpec with animation disabled
+
+## 2.1.2
+Wed, 08 Jul 2026 08:25:01 GMT
+
+### Patches
+
+- fix: stabilize BytePack ESM VRender registration paths and preserve seriesStyle after theme updates
+
+### Updates
+
+- fix(vchart): handle progressive graphics hover state
+
+
+- fix: normalize funnel range mapping
+
+
+
+## 2.1.1
+Thu, 25 Jun 2026 03:26:39 GMT
+
+_Version update only_
+
+## 2.1.0
+Tue, 23 Jun 2026 08:17:08 GMT
+
+### Minor changes
+
+- feat: support function type for `maxRow` / `maxCol` of the discrete legend, evaluated during layout against the legend's allocated rect, so the row / column count can adapt to the available space
+
+### Patches
+
+- fix: preserve discrete legend filtering after updateSpec when `legends.data` is a callback (Issue #4566)
+- fix: re-nice the cartesian linear axis with the real plot-area length after layout when `tick.tickCount` is a function, so the length-based tick count and nice ceiling match the final plot area instead of the pre-layout chart viewRect
+- refactor: introduce scoped updateSpec effects to make chart, component, series, data, layout, render, and animation update ranges explicit; local component updates such as marker exit, title text, legend appearance, axis appearance, mark style, field, label, animation, and layout-related series changes now avoid unnecessary chart remake/recompile paths when the existing chart model can be updated in place
+- refactor: align VChart with the VRender 1.1.0 app-scoped runtime, state resolver, and animation contracts while keeping standard VChart spec usage compatible; consolidate mark shared-state handling, glyph sub-graphic state isolation, word-cloud scaleIn initialization, and interaction-state behavior for Sankey, brush, legend textures, marker rich text, and circular progress tick masks
+
+### Updates
+
+- update changes for 009-fix-map-roam-pointer-drag: This plan fixes a map roam drag bug where mobile browsers lose stable vertical dragging after supportsTouchEvents is forced to false
+- feat: markLine expandDistancesupport callback. close#4568
+- fix: waterfall lead line bug. fix#4580
+- fix: vchart relayout api not work bug. fix#4537
+- fix: label not follow when drag. fix#4547
+- fix: prcoess render error. fix#4578
+
+## 2.0.21
+Mon, 13 Apr 2026 12:57:51 GMT
+
+### Patches
+
+- fix: correct stacked bar corner clipping when barMinHeight is applied (Issue #4543)
+- fix: handle sankey tooltip labels when source index is 0 (Issue #4488)
+
+### Updates
+
+- fix: relayout api not work bug. fix#4537
+- fix: custom mark not release after update spec. fix#4537
+- fix: map error when roam or drag canvas. fix#4547
+
+## 2.0.19
+Thu, 26 Mar 2026 08:32:46 GMT
+
+### Updates
+
+- update changes for 008-fix-size-legend-handler-text: Allow size legend handlerText.style to accept function-based values in the same way other legend style hooks already do, and add regression coverage proving the style callback is preserved through continuous legend attribute transformation.
+- update changes for 009-fix-heatmap-scrollbar-axis-direction: Align ScrollBar with DataZoom by using the shared reverse-axis detection when converting scrollbar state percentages back into domain values.
+- update changes for 009-fix-issue-of-mark-state-when-updateSpec: Fix an issue where mark states were not properly cleared when updateSpec was called, causing incorrect state persistence.
+- update changes for 010-hide-empty-axes: Add an opt-in hideWhenEmpty axis option for cartesian axes.
+- fix: fix theme config of spec and option
+
+
+- update changes for 009-fix-issue-of-mark-state-when-updateSpec: Fix an issue where mark states were not properly cleared when updateSpec was called, causing incorrect state persistence.
+- fix: datazoom update domain after data change. fix#4186
+- chore: upgrade vutils, vdataset, vscale, vlayouts to ~1.0.23
+
+## 2.0.18
+Fri, 06 Mar 2026 11:34:27 GMT
+
+### Patches
+
+- chore: remove unused GitHub Actions workflows
+
+## 2.0.17
+Thu, 05 Mar 2026 11:35:47 GMT
+
+### Patches
+
+- fix: ensure DataZoom updates when data source changes (Issue #4185)
+- fix: Fix memory leaks in Player component and BaseComponent release logic.
+
+### Updates
+
+- feat: optimiz workflows for release
+
+
+- fix: fix default lineWidth for heatmap label
+
+
+
+## 2.0.16
+Thu, 26 Feb 2026 08:40:19 GMT
+
+### Updates
+
+- fix: support functional alternateColor in axis grid configuration
+
+## 2.0.15
+Fri, 06 Feb 2026 12:13:39 GMT
+
+### Patches
+
+- fix: markPoint.itemContent.text.style.fontSize setting invalid
+
+### Updates
+
+- feat: optimiz word-cloud-shape
+
+## 2.0.14
+Fri, 30 Jan 2026 03:53:56 GMT
+
+### Updates
+
+- fix: fix issue of wordCloud
+
+
+- fix: fix style of react-vchart tooltip render
+
+
+
+## 2.0.13
+Wed, 21 Jan 2026 12:36:39 GMT
+
+### Minor changes
+
+- feat: support fixed pixel step scrolling on wheel event and minimum scrollbar slider height
+
+### Updates
+
+- chore(auto-flow): optimize auto flow
+- fix(react-vchart): fix default registers of CommonChart
+
+
+- feat: add brush api before change
+- git commit -m 'feat: add interactive api
+- feat: add brush clear api and disable dimension hover config. close#4400
+- fix: fix issue of wordCloud
+
+
+- feat: interactive params add event. feat #4421
+
+## 2.0.11
+Thu, 25 Dec 2025 10:15:24 GMT
+
+### Updates
+
+- chore(vchart): 热力图矩形单元支持非等宽高；默认形状统一为 rect；修复颜色映射字段访问；新增单测与浏览器示例
+
+## 2.0.10
+Thu, 11 Dec 2025 11:05:38 GMT
+
+### Updates
+
+- feat: support label of boxPlot
+- feat: support componentShowContent in initOption
+
+
+- fix: update outlier data handling in BoxPlotSeries, fix #4317
+
+
+
+## 2.0.9
+Fri, 28 Nov 2025 03:44:56 GMT
+
+### Updates
+
+- feat: add `outlier` to boxplot, close #4301
+
+
+- feat: upgrade vrender to 1.0.32
+
+
+- fix: extensionMark can remove animation
+
+
+- fix: fix issue of font family
+
+
+
+## 2.0.7
+Tue, 18 Nov 2025 11:36:57 GMT
+
+### Updates
+
+- support stage animation and add various exit animation effects based on stage
+- fix: fix the issue of markline autoRange
+
+
+- fix: bar always display when set bar minHeight. fix#3284
+- fix: dot series display bug. fix #3283
+- fix: brush range not correct. fix #3091
+- fix: datazoom layout when set scale. fix #2574 & #2424
+- fix: domain will follow axis. fix #2770
+- fix: update perview when update data. fix #3331
+- fix: bind right axis when swtich orient. fix#3373
+- performance: enhance datazoom and scrollbar performance. close#2525 & #2781
+
+## 2.0.6
+Fri, 31 Oct 2025 03:26:00 GMT
+
+### Updates
+
+- feat: boxplot support transform
+
+
+- feat: support resize zoom chart plugin
+
+
+- fix: crosshair should hide when mouseleave chart
+
+
+- fix: fix the vchart-extension packaged artifacts contained an extra vrender
+
+
+- fix: fix issue of legends label layout when resize
+
+
+- fix: update demo about regression line
+
+
+- fix: upgrade-vutil to 1.0.12
+
+
+- fix: fix issue of waterfall compute total on `field` totalType
+
+
+
+## 2.0.5
+Tue, 14 Oct 2025 07:08:54 GMT
+
+### Updates
+
+- feat: support calc in formatter
+
+
+- fix: fix issue of markline will report an error when series has no data
+
+
+
+## 2.0.4
+Fri, 19 Sep 2025 07:45:43 GMT
+
+### Updates
+
+- feat: support vchart rotate plugin
+
+
+- feat: scrollbar support auto visible. close #3972
+- feat: support includFullBand api in markArea
+
+
+- fix: fix bug of the rangeArea chart line and point config
+
+
+- fix: fix the issue of className miss in react-vchart
+
+
+- fix: when color is gradient string, tooltip icon should show correctly
+
+
+
+## 2.0.3
+Fri, 08 Aug 2025 09:24:12 GMT
+
+### Updates
+
+- fix: fix bug of vchart onError will be overwritten by undefined
+
+
+- fix: animtion should be run after `spec.animation` is updated, fix #4104
+
+
+- fix: fix issue with normal after no-animate enter state
+- fix: fix height of tooltip element when set transform of container, fix #4109
+
+
+
+## 2.0.2
+Mon, 28 Jul 2025 08:19:21 GMT
+
+_Version update only_
+
+## 2.0.1
+Thu, 24 Jul 2025 02:07:41 GMT
+
+### Updates
+
+- feat: add config to avoid brush state update. close #4035
+- feat: optimize datazoom animation effect
+- feat: add the afterClearScreen hook of render
+
+
+- fix: fix issue with 3d chart grid
+- fix: tickData of axis should update when `sampling` is changed, fix #4059
+
+
+- fix: only calculate multi layer label items when need, fix #4056
+
+
+- fix: fix resize error when remake, and re-normal aniamtion bug, fix #4070
+
+
+- fix: fix issue with feishu block and call setenv when create vchart
+- fix: fix bug of tooltip triggerOff & tooltip lock
+
+
+- fix: fix tooltip throw error when some tooltip processor is undefined, fix #4044
+
+
+- fix: fix `textAlign` not works in tooltip.style.titleLabel, fix #4043
+
+
+
+## 2.0.0
+Tue, 10 Jun 2025 13:40:24 GMT
+
+### Updates
+
+- feat: remove marker type. close #3782
+- fix: mark interactive problem when brush. fix visactor/vchart#4017
+- fix: markLine position error when domain is a same array. fix#4016
+- refactor: migrate mapLabel component into vchart-extension package
 
 ## 1.13.11
 Thu, 29 May 2025 09:26:04 GMT

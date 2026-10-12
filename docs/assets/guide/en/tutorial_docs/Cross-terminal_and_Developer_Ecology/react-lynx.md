@@ -1,6 +1,6 @@
 # ReactLynx
 
-**[Note] The open-source version of Lynx currently does not provide canvas functionality, so vchart rendering is not supported at the moment. It will be supported in future versions, so stay tuned. [For more features, please visit the Lynx official website](https://lynxjs.org/)**
+**[Scope] This guide covers the internal `@dp/lynx-vchart` package and its corresponding internal ReactLynx host at ByteDance. Based on public information reviewed on September 14, 2026, open-source native Lynx does not yet publicly provide the Canvas integration required here. Installing a chart package does not add this capability to the host. For updates, see the [official Lynx documentation](https://lynxjs.org/) and the [charting discussion](https://github.com/lynx-family/lynx/issues/6230#issuecomment-4729040590).**
 
 Lynx is ByteDance's open-source high-performance cross-platform framework, which quickly builds native views based on the web technology stack. Lynx was officially open-sourced on March 5, 2025. ReactLynx is the React syntax version of Lynx. VChart, based on ByteDance's internal version ReactLynx3.0, provides chart rendering capabilities.
 

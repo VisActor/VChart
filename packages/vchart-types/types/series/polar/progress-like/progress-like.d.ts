@@ -1,15 +1,16 @@
-import type { Datum } from '@visactor/vgrammar-core';
 import type { IGroupMark, IMarkStyle } from '../../../mark/interface';
-import type { ConvertToMarkStyleSpec, ICommonSpec } from '../../../typings';
+import type { ConvertToMarkStyleSpec, Datum, ICommonSpec } from '../../../typings';
 import { PolarSeries } from '../polar';
 import type { IContinuousTickData, IProgressLikeSeriesSpec } from './interface';
 import type { IPolarAxis } from '../../../component/axis';
 import type { SeriesMarkMap } from '../../interface';
+import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
 export declare abstract class ProgressLikeSeries<T extends IProgressLikeSeriesSpec> extends PolarSeries<T> {
     static readonly mark: SeriesMarkMap;
     protected _startAngle: number;
     protected _endAngle: number;
     protected _arcGroupMark: IGroupMark | null;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     setAttrFromSpec(): void;
     getStackGroupFields(): string[];
     getStackValueField(): string;

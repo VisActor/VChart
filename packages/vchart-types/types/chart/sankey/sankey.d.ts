@@ -12,6 +12,6 @@ export declare class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> 
     readonly transformerConstructor: typeof SankeyChartSpecTransformer;
     readonly type: string;
     readonly seriesType: string;
-    protected _setStateInDatum(stateKey: string, checkReverse: boolean, datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
+    protected _setStateInDatum(stateKey: string, datum: MaybeArray<Datum> | null, filter?: (series: ISeries, mark: IMark) => boolean, region?: IRegionQuerier): void;
 }
 export declare const registerSankeyChart: () => void;

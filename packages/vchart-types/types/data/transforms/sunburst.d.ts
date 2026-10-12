@@ -1,4 +1,4 @@
-import type { SunburstOptions } from '@visactor/vgrammar-hierarchy';
+import type { SunburstOptions } from '@visactor/vlayouts';
 import type { Datum } from '../../typings';
 export interface ISunburstOpt extends SunburstOptions {
     width: number;

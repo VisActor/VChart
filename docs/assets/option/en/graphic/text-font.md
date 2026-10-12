@@ -91,6 +91,25 @@ Options:
 - "break-word": Does not allow breaking words in CJK (Chinese/Japanese/Korean) text, only breaks at half-width spaces or hyphens.
 - "keep-all": Does not break words in CJK (Chinese/Japanese/Korean) text. Non-CJK text words are not broken. (Supported since version 1.12.8)
 
+#${prefix} whiteSpace(string) = 'no-wrap'
+
+Whether to wrap
+
+Options
+
+- "no-wrap": Do not wrap
+- "normal": Allow wrapping
+
+#${prefix} suffixPosition(string) = 'end'
+
+If the suffix is displayed, the position of the suffix
+
+Options
+
+- "start": The suffix is displayed at the beginning of the text
+- "middle": The suffix is displayed in the middle of the text
+- "end": The suffix is displayed at the end of the text
+
 #${prefix} keepDirIn3d(boolean)
 
 Whether to always maintain the direction facing the window in 3d mode (if set to false, it will rotate with the viewpoint, if set to true, the direction will always face the window)

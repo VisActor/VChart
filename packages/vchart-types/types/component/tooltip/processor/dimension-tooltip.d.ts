@@ -9,3 +9,4 @@ export declare class DimensionTooltipProcessor extends BaseTooltipProcessor {
     protected _getDimensionInfo(params: BaseEventParams): IDimensionInfo[];
     getMouseEventData(params: BaseEventParams): MouseEventData;
 }
+export declare const registerDimensionTooltipProcessor: () => void;

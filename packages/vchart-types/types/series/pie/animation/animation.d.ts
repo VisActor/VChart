@@ -1,8 +1,9 @@
-import type { IElement, IAnimationTypeConfig } from '@visactor/vgrammar-core';
+import type { IAnimationTypeConfig } from '../../../animation/interface';
 import { AnimationStateEnum } from '../../../animation/interface';
 import type { Datum } from '../../../typings';
 import type { IPieAnimationParams, PieAppearPreset } from '../interface';
-export declare function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean, state: AnimationStateEnum): (datum: Datum, element: IElement, params: AnimationStateEnum) => {
+import type { IMarkGraphic } from '../../../core';
+export declare function pieGrowOption(pieParams: IPieAnimationParams, isOverall: boolean, state: AnimationStateEnum): (datum: Datum, graphic: IMarkGraphic, params: AnimationStateEnum) => {
     overall: number;
 } | {
     overall: boolean;
@@ -14,9 +15,8 @@ export declare const Appear_FadeIn: {
 export declare const pieEnter: (params: IPieAnimationParams) => IAnimationTypeConfig;
 export declare const pieExit: (params: IPieAnimationParams) => IAnimationTypeConfig;
 export declare const pieDisappear: (params: IPieAnimationParams) => IAnimationTypeConfig;
-export declare function piePresetAnimation(params: IPieAnimationParams, preset: PieAppearPreset | boolean): IAnimationTypeConfig | {
+export declare function piePresetAnimation(params: IPieAnimationParams, preset: PieAppearPreset | boolean): import("../../../animation/interface").CommonAnimationConfigItem | {
     type: string;
 };
 export declare const registerPieAnimation: () => void;
 export declare const registerEmptyCircleAnimation: () => void;
-export declare const registerPie3dAnimation: () => void;

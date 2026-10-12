@@ -3,11 +3,11 @@ import type { BoxPlotShaftShape, IBoxPlotMarkSpec } from '../typings/visual';
 import type { IBoxPlotMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { createLine, createRect, type IGlyph, type ILineGraphicAttribute } from '@visactor/vrender-core';
+import type { IGlyph, ILineGraphicAttribute } from '@visactor/vrender-core';
+import { createLine, createRect, registerLine, registerRect } from '../vrender-bridge';
 import { GlyphMark, registerGlyphMark } from './glyph';
 import type { Datum } from '../typings/common';
 import { isValidNumber } from '@visactor/vutils';
-import { registerLine, registerRect } from '@visactor/vrender-kits';
 
 const BAR_BOX_PLOT_CHANNELS = [
   'x',
@@ -21,7 +21,8 @@ const BAR_BOX_PLOT_CHANNELS = [
   'min',
   'max',
   'median',
-  'angle'
+  'angle',
+  'anchor'
 ];
 
 const BOX_PLOT_CHANNELS = [
@@ -36,7 +37,8 @@ const BOX_PLOT_CHANNELS = [
   'min',
   'max',
   'median',
-  'angle'
+  'angle',
+  'anchor'
 ];
 
 export class BoxPlotMark
@@ -171,7 +173,11 @@ export class BoxPlotMark
         median: { type: 'line', defaultAttributes: { x: 0, y: 0 } }
       };
       this._positionChannels = BOX_PLOT_CHANNELS;
-      this._channelEncoder = null;
+      this._channelEncoder = {
+        boxStroke: (val: string) => ({ box: { stroke: val } }),
+        medianStroke: (val: string) => ({ median: { stroke: val } }),
+        boxCornerRadius: (val: number) => ({ box: { cornerRadius: val } })
+      };
       this._positionEncoder = (glyphAttrs: any, datum: Datum, g: IGlyph) => {
         const {
           x = g.attribute.x,
@@ -315,6 +321,10 @@ export class BoxPlotMark
         return attributes;
       };
     }
+  }
+
+  setDataLabelType() {
+    return 'symbol';
   }
 
   protected _getDefaultStyle() {

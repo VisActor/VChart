@@ -148,9 +148,11 @@ A one-to-one animation is the transition animation between two different shapes.
  * import { registerMorph } from '@visactor/vchart';
  *
  * registerMorph();
+ *
+ * Since version 2.0.0, global morph animations are enabled by default, and manual registration is no longer needed.
  */
 
-VCHART_MODULE.registerMorph();
+VCHART_MODULE.registerMorph && VCHART_MODULE.registerMorph();
 
 const pieSpec = {
   type: 'pie',
@@ -200,9 +202,11 @@ A one-to-many animation is the transition animation from one graphical element t
  * import { registerMorph } from '@visactor/vchart';
  *
  * registerMorph();
+ *
+ * Since version 2.0.0, global morph animations are enabled by default, and manual registration is no longer needed.
  */
 
-VCHART_MODULE.registerMorph();
+VCHART_MODULE.registerMorph && VCHART_MODULE.registerMorph();
 function calculateAverage(data, dim) {
   let total = 0;
   for (let i = 0; i < data.length; i++) {

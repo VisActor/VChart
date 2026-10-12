@@ -26,6 +26,7 @@ import type {
   WordCloudShapeConfigType,
   WordCloudShapeType
 } from './interface';
+import { WordMeasureCache } from './measure-cache';
 import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { animationConfig, userAnimationConfig } from '../../animation/utils';
 import { WORD_CLOUD_TEXT } from '../../constant/word-cloud';
@@ -38,9 +39,14 @@ import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import { LinearScale } from '@visactor/vscale';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
 import type { ITransformSpec } from '../../compile/interface';
-import { vglobal, getTextBounds, createImage } from '@visactor/vrender-core';
+import { createImage, vglobal } from '../../vrender-bridge';
+import type { IStage } from '@visactor/vrender-core';
+import { getTextBounds } from '@visactor/vrender-core/text';
 import { wordCloud } from '../../theme/builtin/common/series/word-cloud';
 import { LayoutZIndex } from '../../constant/layout';
+import { ChartEvent } from '../../core';
+
+const AFTER_WORDCLOUD_SHAPE_DRAW_TAP = 'afterWordcloudShapeDraw';
 
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & { type: string };
 
@@ -75,9 +81,23 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
 
   protected _maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape;
   protected _isWordCloudShape: boolean = false;
+  /** 形状词云布局完成后挂到 stage 上的 afterRender tap；引用稳定，便于 unTap 精确摘掉自己 */
+  protected _afterWordcloudShapeDraw = (stage: IStage) => {
+    stage.hooks.afterRender.unTap(AFTER_WORDCLOUD_SHAPE_DRAW_TAP, this._afterWordcloudShapeDraw);
+
+    // 布局是异步的，跑完之前 series 可能已经被 release，此时 _option 已置空
+    const globalInstance = this._option?.globalInstance;
+    if (!globalInstance) {
+      return;
+    }
+    this._option.dispatchEvent?.(ChartEvent.afterWordcloudShapeDraw, { instance: globalInstance });
+    globalInstance.getChart().getOption().performanceHook?.afterWordcloudShapeDraw?.(globalInstance);
+  };
 
   protected _wordCloudConfig?: WordCloudConfigType;
   protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
+
+  private _wordMeasureCache?: WordMeasureCache;
 
   protected _padding?: IPadding;
   protected _defaultFontFamily: string;
@@ -132,6 +152,10 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       !SHAPE_TYPE.includes(this._maskShape as string) &&
       !['fast', 'grid', 'cloud'].includes(this._wordCloudConfig.layoutMode);
     this._defaultFontFamily = this._option.getTheme('fontFamily') as string;
+
+    if (!this._wordMeasureCache) {
+      this._wordMeasureCache = new WordMeasureCache(1000);
+    }
   }
 
   /**
@@ -141,6 +165,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     super.initData();
     // data改变时, 需要重新编译, 重新布局
     this.getViewData()?.target?.addListener('change', () => {
+      this._wordMeasureCache?.clear();
       this._dataChange = true;
       this.compile();
     });
@@ -383,6 +408,15 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
             }
           : this._maskShape,
       onUpdateMaskCanvas: this.handleMaskCanvasUpdate,
+      onLayoutFinished: () => {
+        const stage = this._option?.globalInstance?.getStage();
+        if (!stage) {
+          return;
+        }
+        // 同一个 series 再次布局时，先摘掉上一轮还没被触发的那个
+        stage.hooks.afterRender.unTap(AFTER_WORDCLOUD_SHAPE_DRAW_TAP, this._afterWordcloudShapeDraw);
+        stage.hooks.afterRender.tap(AFTER_WORDCLOUD_SHAPE_DRAW_TAP, this._afterWordcloudShapeDraw);
+      },
       dataIndexKey: DEFAULT_DATA_KEY,
       text: wordSpec.formatMethod
         ? (datum: Datum) => {
@@ -440,6 +474,7 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
       ...wordCloudShapeConfig,
       ...this._getCommonTransformOptions(),
       createImage,
+      measureCache: this._wordMeasureCache,
 
       rotateList: this._rotateAngles,
       fillingRotateList: wordCloudShapeConfig.fillingRotateAngles,
@@ -516,5 +551,18 @@ export class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IBaseWordC
     if (this._fillingColorCallback) {
       this._fillingColorCallback = null;
     }
+
+    this._wordMeasureCache?.clear();
+  }
+
+  release() {
+    // super.release() 会把 _option 置空，所以先摘钩子。带上 fn：同一个 stage 上可能有多个
+    // 词云系列，只按名字清会误删别人的回调
+    this._option?.globalInstance
+      ?.getStage()
+      ?.hooks.afterRender.unTap(AFTER_WORDCLOUD_SHAPE_DRAW_TAP, this._afterWordcloudShapeDraw);
+    super.release();
+    this._wordMeasureCache?.clear();
+    this._wordMeasureCache = undefined;
   }
 }

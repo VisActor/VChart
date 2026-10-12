@@ -16,8 +16,20 @@
 const type BackgroundImage = {
   image?: string | HTMLImageElement | HTMLCanvasElement;
   cornerRadius?: number | number[];
+  backgroundMode?: 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat' | 'no-repeat-cover' | 'no-repeat-contain' | 'no-repeat-fill' | 'no-repeat-auto';
+  backgroundPosition?: 'left' | 'center' | 'right' | 'top' | 'bottom' | 'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right' | [number | string, number | string];
+  backgroundScale?: number;
+  backgroundOffsetX?: number;
+  backgroundOffsetY?: number;
+  backgroundClip?: boolean;
+  backgroundOpacity?: number;
 }
 ```
+
+其中：
+
+- `backgroundMode` 自 `2.0.21` 版本开始支持 `no-repeat-cover` / `no-repeat-contain` / `no-repeat-fill` / `no-repeat-auto` 这些 `no-repeat` 下的尺寸简写
+- `backgroundPosition` 自 `2.0.21` 版本开始支持，用于控制图片在背景区域中的锚定位置，语义类似 CSS `background-position`
 
 使用示例:
 
@@ -39,7 +51,10 @@ const spec = {
     // svg
     image: svgImage,
     // url
-    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png'
+    image: 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/vchart/preview/chart-3d/area3d.png',
+    // 自 2.0.21 版本开始支持
+    backgroundMode: 'no-repeat-cover',
+    backgroundPosition: 'center'
   }
 }
 

@@ -97,6 +97,10 @@ The size threshold of the brush selection box. Supported since version `1.2.0`.
 
 Whether to turn on the brush to remove the drill. Effective from version 0.10.0.
 
+### updateElementsState(boolean) = true
+
+Whether to update element states. Disabling this can optimize performance in zooming scenarios. Effective since version 1.13.13.
+
 ### zoomWhenEmpty(boolean) = false
 
 Whether to drill down when empty data is retrieved. Effective from version 1.12.2.

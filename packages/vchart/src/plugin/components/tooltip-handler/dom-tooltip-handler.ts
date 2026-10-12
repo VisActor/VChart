@@ -20,6 +20,13 @@ import { getSvgHtml } from './utils/svg';
 import { formatContent } from './utils/common';
 import { token } from '../../../theme/token';
 import { calcLayoutNumber } from '../../../util/space';
+
+const isTooltipParentElement = (element: unknown): element is HTMLElement | HTMLCanvasElement =>
+  !!element &&
+  (element as HTMLElement).nodeType === 1 &&
+  typeof (element as HTMLElement).appendChild === 'function' &&
+  !!(element as HTMLElement).children;
+
 /**
  * The tooltip handler class.
  */
@@ -69,10 +76,26 @@ export class DomTooltipHandler extends BaseTooltipHandler {
     this.initEl();
   }
 
+  protected _getTooltipParentElement(tooltipSpec: ITooltipSpec) {
+    if (isTooltipParentElement(tooltipSpec.parentElement)) {
+      return tooltipSpec.parentElement;
+    }
+
+    if (isTooltipParentElement(this._chartContainer)) {
+      return this._chartContainer;
+    }
+
+    if (isTooltipParentElement(domDocument?.body)) {
+      return domDocument.body;
+    }
+
+    return undefined;
+  }
+
   initEl() {
     const tooltipSpec = this._component.getSpec() as ITooltipSpec;
-    const parentElement = tooltipSpec.parentElement as HTMLElement | HTMLCanvasElement;
-    if (domDocument && parentElement && parentElement.children && parentElement.children.length) {
+    const parentElement = this._getTooltipParentElement(tooltipSpec);
+    if (domDocument && parentElement) {
       for (let i = 0; i < parentElement.children.length; i++) {
         if (parentElement.children[i].classList.contains(TOOLTIP_CONTAINER_EL_CLASS_NAME)) {
           this._container = parentElement.children[i] as HTMLDivElement;
@@ -90,10 +113,16 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
 
   initRootDom() {
-    const tooltipSpec = this._component.getSpec() as ITooltipSpec;
-    const tooltipElement = document.createElement('div');
-    const themeFontFamily = this._chartOption?.getTheme('fontFamily');
+    if (!this._container) {
+      this.initEl();
+    }
+    if (!this._container) {
+      return;
+    }
 
+    const tooltipSpec = this._component.getSpec() as ITooltipSpec;
+    const tooltipElement = domDocument.createElement('div');
+    const themeFontFamily = this._chartOption?.getTheme('fontFamily');
     setStyleToDom(tooltipElement, {
       left: '0',
       top: '0',
@@ -128,7 +157,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       this._updateDomStringByCol(actualTooltip);
     }
 
-    this._updateDomStyle('height');
+    this._updateDomStyle('height', changePositionOnly);
 
     const rect = this._rootDom?.getBoundingClientRect();
 
@@ -156,35 +185,33 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       if (!params.changePositionOnly) {
         this._tooltipActual = activeTooltipSpec;
       }
-      const currentVisible = this.getVisibility();
-
       // 位置
       const el = this._rootDom;
       if (el) {
         const { x = 0, y = 0 } = activeTooltipSpec.position ?? {};
+        let position = { x, y };
+        const currentVisible = this.getVisibility();
         if (tooltipSpec.updateElement) {
           // 此处先设定一次位置，防止页面暂时出现滚动条（优先设置上次的位置）
           this._updatePosition(this._cacheCustomTooltipPosition ?? { x, y });
           // 更新 tooltip dom
           tooltipSpec.updateElement(el, activeTooltipSpec, params);
           // 重新计算 tooltip 位置
-          const position = this._getActualTooltipPosition(activeTooltipSpec, params, {
+          position = this._getActualTooltipPosition(activeTooltipSpec, params, {
             width: el.offsetWidth,
             height: el.offsetHeight
           });
-          // 更新位置
-          this._updatePosition(position);
           // 更新缓存
           this._cacheCustomTooltipPosition = position;
-        } else {
-          if (!currentVisible) {
-            // 当从隐藏切换到显示的时候，需要先设置一次 transition 为 0ms，防止出现从一个非常远的初始位置进行动画
-            this._rootDom.style.transitionDuration = '0ms';
-          } else {
-            this._rootDom.style.transitionDuration = this._domStyle.panel.transitionDuration ?? 'initial';
-          }
-          this._updatePosition({ x, y });
         }
+        // 首次从false展示需要先设置一次位置，防止出现从一个非常远的初始位置进行动画
+        if (!currentVisible && visible) {
+          this._rootDom.style.transition = 'none';
+          this._updatePosition(position, false);
+          this._rootDom.getBoundingClientRect();
+        }
+        // 更新位置
+        this._updatePosition(position);
       }
       this.setVisibility(visible);
     }
@@ -225,7 +252,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
         ...(hasContent ? rowStyle : { marginBottom: '0px' }),
         marginTop: '0px'
       });
-      (titleDom.firstChild as HTMLElement).innerHTML = `${title.value ?? ''}`;
+      (titleDom.firstChild as HTMLElement).textContent = `${title.value ?? ''}`;
     } else if (titleDom && title.visible === false) {
       titleDom.parentNode.removeChild(titleDom);
     }
@@ -312,7 +339,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
       contentDom.parentNode.removeChild(contentDom);
     }
   }
-  protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width') {
+  protected _updateDomStyle(sizeKey: 'width' | 'height' = 'width', refreshSize: boolean) {
     const rootDom = this._rootDom;
     const contentDom = [...(rootDom.children as any)].find(child =>
       child.className.includes(TOOLTIP_CONTENT_BOX_CLASS_NAME)
@@ -372,6 +399,11 @@ export class DomTooltipHandler extends BaseTooltipHandler {
           const cols = row.children ?? ([] as HTMLElement[]);
 
           for (let j = 0; j < cols.length; j++) {
+            if (refreshSize) {
+              // 每次更新，需要更新单元格的高度，防止同步高度的时候没有更新
+              cols[j].style[sizeKey] = 'initial';
+            }
+
             const width = cols[j].getBoundingClientRect()[sizeKey];
             if (widthByCol[j] === undefined || widthByCol[j] < width) {
               widthByCol[j] = width;
@@ -392,7 +424,7 @@ export class DomTooltipHandler extends BaseTooltipHandler {
   }
 
   protected _getParentElement(spec: ITooltipSpec): HTMLElement {
-    return this._container ?? super._getParentElement(spec);
+    return this._container ?? (this._getTooltipParentElement(spec) as HTMLElement);
   }
 
   isTooltipShown() {
@@ -408,14 +440,18 @@ export class DomTooltipHandler extends BaseTooltipHandler {
 
     if (this.getVisibility()) {
       this._updateDomStringByCol(this._tooltipActual);
-      this._updateDomStyle('height');
+      this._updateDomStyle('height', false);
     }
   }
 
-  protected _updatePosition({ x, y }: ITooltipPositionActual) {
+  protected _updatePosition({ x, y }: ITooltipPositionActual, resetTransition = true) {
     if (this._rootDom) {
       // translate3d 性能较好：https://stackoverflow.com/questions/22111256/translate3d-vs-translate-performance
       this._rootDom.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      if (resetTransition && this._rootDom.style.transition !== '') {
+        this._rootDom.style.transition = '';
+        Object.assign(this._rootDom.style, this._domStyle.panel);
+      }
     }
   }
 }

@@ -1,14 +1,11 @@
 import { ComponentTypeEnum } from '../interface/type';
-import type { IModelLayoutOption, IModelRenderOption } from '../../model/interface';
-import type { IRegion } from '../../region/interface';
 import { BaseComponent } from '../base/base-component';
 import type { BaseEventParams, EventCallback, EventQuery, EventType } from '../../event/interface';
 import type { ITooltipHandler, TooltipActiveType } from '../../typings/tooltip';
 import type { Datum, IShowTooltipOption } from '../../typings';
 import type { ITooltip, ITooltipActiveTypeAsKeys, ITooltipSpec, TooltipHandlerParams, TotalMouseEventData } from './interface';
 import { TooltipResult } from './interface/common';
-import { GroupTooltipProcessor, DimensionTooltipProcessor, MarkTooltipProcessor } from './processor';
-import type { IGraphic } from '@visactor/vrender-core';
+import type { DimensionTooltipInfo, GroupTooltipInfo, ITooltipProcessor, MarkTooltipInfo } from './processor/interface';
 import { TooltipSpecTransformer } from './tooltip-transformer';
 export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected layoutZIndex: number;
@@ -17,6 +14,9 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     type: ComponentTypeEnum;
     name: string;
     readonly transformerConstructor: typeof TooltipSpecTransformer;
+    static readonly builtInTheme: {
+        tooltip: import("./interface").ITooltipTheme<string | import("../..").IColorKey>;
+    };
     static specKey: string;
     specKey: string;
     layoutType: 'none';
@@ -29,7 +29,8 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     private _isEnterTooltip;
     protected _spec: ITooltipSpec;
     tooltipHandler?: ITooltipHandler;
-    processor: ITooltipActiveTypeAsKeys<MarkTooltipProcessor, DimensionTooltipProcessor, GroupTooltipProcessor>;
+    enable?: boolean;
+    processor: ITooltipActiveTypeAsKeys<ITooltipProcessor<MarkTooltipInfo>, ITooltipProcessor<DimensionTooltipInfo>, ITooltipProcessor<GroupTooltipInfo>>;
     private _alwaysShow;
     private _cacheInfo;
     private _cacheParams;
@@ -40,14 +41,11 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _clickLock: boolean;
     private _handleMouseMove;
     isTooltipShown(): boolean;
-    changeRegions(regions: IRegion[]): void;
-    protected _getNeedClearVRenderComponents(): IGraphic[];
     protected _registerEvent(): void;
     protected _releaseEvent(): void;
-    onLayout(ctx: IModelLayoutOption): void;
-    onLayoutEnd(ctx: IModelLayoutOption): void;
-    onRender(ctx: IModelRenderOption): void;
+    onLayoutEnd(): void;
     created(): void;
+    _compareSpec(spec: ITooltipSpec, prevSpec: ITooltipSpec): import("../../model/interface").IUpdateSpecResult;
     release(): void;
     beforeRelease(): void;
     protected _initHandler(): void;
@@ -61,7 +59,8 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _handleChartMouseOut: (params?: BaseEventParams) => void;
     protected _getMouseMoveHandler: (isClick: boolean) => (params: BaseEventParams) => void;
     protected _handleChartMouseMove: (params: BaseEventParams, isClick: boolean) => void;
-    protected _showTooltipByMouseEvent: (activeType: TooltipActiveType, mouseEventData: TotalMouseEventData, params: BaseEventParams, isClick: boolean, useCache?: boolean) => boolean;
+    protected _showContentByEvent(activeType: TooltipActiveType): boolean;
+    protected _showTooltipByMouseEvent: (activeType: TooltipActiveType, mouseEventData: TotalMouseEventData, params: BaseEventParams, isClick: boolean, useCache?: boolean) => boolean | 'unShowByOption';
     protected _getMouseEventData: (params: BaseEventParams) => TotalMouseEventData;
     protected _hideTooltipByHandler: (params: TooltipHandlerParams) => TooltipResult;
     reInit(spec?: any): void;

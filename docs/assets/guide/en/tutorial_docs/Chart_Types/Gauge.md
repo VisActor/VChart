@@ -11,7 +11,7 @@ A gauge chart is a mimetic chart, just like the speedometer of a car, the scale 
 A gauge chart is composed of basic elements such as sector graphics and gauge pointers with progress directionality.
 ![](https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/b42a7699efcd4dfa8b8aa3a03.png)
 
-From a data series perspective, the gauge chart is encapsulated by the `gauge` and `gaugePointer` series, which draw the gauge dial sector area and pointer. By taking advantage of this feature, you can declare a gauge chart in a [Combined Chart](./combination) way to more flexibly adjust the gauge chart rendering effect.
+From a data series perspective, the gauge chart is encapsulated by the `gauge` and `gaugePointer` series, which draw the gauge dial sector area and pointer. By taking advantage of this feature, you can declare a gauge chart in a [Combined Chart](./Combination) way to more flexibly adjust the gauge chart rendering effect.
 
 Sector graphics and gauge pointers are basic elements of gauge charts, and related rendering configurations are essential:
 

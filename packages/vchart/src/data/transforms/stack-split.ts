@@ -1,5 +1,5 @@
 import type { ISeriesStackData, ISeriesStackDataLeaf, ISeriesStackDataNode } from '../../series/interface';
-import { isNil } from '@visactor/vutils';
+import { isFunction, isNil } from '@visactor/vutils';
 import type { DataView } from '@visactor/vdataset';
 import type { Datum } from '../../typings';
 
@@ -7,11 +7,13 @@ export interface IStackOption {
   fields: string[];
 }
 
-export const stackSplit = (data: Array<DataView>, op: IStackOption) => {
+export type StackOption = IStackOption | (() => IStackOption);
+
+export const stackSplit = (data: Array<DataView>, op: StackOption) => {
   const result: ISeriesStackData = {
     nodes: {}
   };
-  const { fields } = op;
+  const { fields } = isFunction(op) ? op() : op;
   if (!fields?.length) {
     return result;
   }
