@@ -24,6 +24,7 @@
     const wrapper = node('label', undefined, document.getElementById('controls'));
     wrapper.className = 'control'; node('span', label, wrapper);
     const element = node('select', undefined, wrapper);
+    element.setAttribute('aria-label', label);
     for (const [value, text] of choices) { const option = node('option', text, element); option.value = value; }
     return element;
   }
@@ -58,7 +59,8 @@
     for (const control of payload.controls.parameters || []) {
       const input = inputs.find(input => input.id === control.chartId);
       const label = { 'binning.binCount': '分箱数', statistic: '统计量', method: '相关方法' }[control.path];
-      const element = select(`${titleOf(input)} · ${label}`, [['default', '库默认'], ...control.values.map(value => [JSON.stringify(value), String(value)])]);
+      const names = { count: '计数', proportion: '比例', density: '密度', pearson: 'Pearson（线性）', spearman: 'Spearman（秩）', kendall: 'Kendall（秩）' };
+      const element = select(`${titleOf(input)} · ${label}`, [['default', '默认'], ...control.values.map(value => [JSON.stringify(value), names[value] || String(value)])]);
       editors.push({ ...control, kind: 'parameter', element });
       element.addEventListener('change', () => {
         const next = clone(inputs); const target = next.find(input => input.id === control.chartId).binding;
@@ -93,6 +95,7 @@
     document.getElementById('apply').disabled = value || !filterControls.length;
     document.getElementById('clear').disabled = value || !filterControls.length;
     document.querySelectorAll('[data-png]').forEach(button => { button.disabled = value || !controllers.get(button.dataset.png)?.chart; });
+    if (!value) document.getElementById('download').textContent = inputs.every(input => controllers.get(input.id)?.spec) ? '下载当前图表配置' : '下载输入配置';
   }
   function chartState(id) { return status.charts.find(chart => chart.id === id); }
   function builtSpec(input, rows) {
@@ -104,7 +107,7 @@
     if (state.inputN === null) {
       const data = input.spec.data;
       text = `语义输入 ${Array.isArray(data) ? data.length : data.observations.length} 行（不推断原始样本量）`;
-    } else text = `本图输入 ${state.inputN} 条 · 省略 ${state.omittedN} 条缺失映射`;
+    } else text = `本图输入 ${state.inputN} 条 · ${state.omittedN} 条缺少必要字段`;
     document.getElementById('meta-' + input.id).textContent = text;
   }
   function summary() {

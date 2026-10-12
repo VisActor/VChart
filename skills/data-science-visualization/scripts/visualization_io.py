@@ -143,7 +143,7 @@ def build_payload(request, base_dir):
                 refs = field if isinstance(field, list) else [field]
                 require(bool(refs) and all(isinstance(f, str) and f for f in refs), 'fields 需要列名或非空列名数组')
                 needed.update(refs)
-            keys(binding.get('options', {}), set(binding.get('options', {})), 'options')
+            require(isinstance(binding.get('options', {}), dict), 'binding.options 需要对象')
             require(not {'type', 'data', 'variables'} & set(binding.get('options', {})), 'options 不能覆盖 type/data/variables')
             check_plot_budget({'type':binding['type'], 'variables':binding['fields'].get('variables', []), 'data':[]})
         else:

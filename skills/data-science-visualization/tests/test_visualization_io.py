@@ -69,4 +69,19 @@ class InputTests(unittest.TestCase):
         data=build_payload(request,self.root)['dataset']
         self.assertEqual(data['rows'][0]['values']['group'],'A')
 
+    def test_xlsx_with_optional_dependency_preserves_typed_values(self):
+        try:
+            import openpyxl
+        except ImportError:
+            self.skipTest('可选 openpyxl 不在本测试解释器中')
+        book=openpyxl.Workbook();sheet=book.active;sheet.title='Data'
+        sheet.append(['id','income']);sheet.append(['001',0]);sheet.append(['002',None])
+        book.save(self.root/'records.xlsx');book.close()
+        request=copy.deepcopy(self.request);request['dataset']['source']={'path':'records.xlsx','format':'xlsx','sheet':'Data'}
+        payload=build_payload(request,self.root)
+        self.assertEqual(payload['dataset']['rows'][0]['values']['income'],0)
+        self.assertIsNone(payload['dataset']['rows'][1]['values']['income'])
+        self.assertEqual(payload['dataset']['rows'][0]['id'],'001')
+        self.assertIn('Data',payload['dataset']['source']['label'])
+
 if __name__=='__main__':unittest.main()
