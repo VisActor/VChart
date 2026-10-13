@@ -27,7 +27,7 @@ export async function preparePublished() {
   const manifest = { version, files: {} };
   try {
     for (const [key, name] of [['vchart', '@visactor/vchart'], ['statplots', '@visactor/vchart-statplots']]) {
-      const metadata = await (await response(`https://registry.npmjs.org/${name.replace('/', '%2f')}/${version}`)).json();
+      const metadata = await (await response(`https://registry.npmjs.org/${encodeURIComponent(name)}/${version}`)).json();
       const tarball = Buffer.from(await (await response(metadata.dist.tarball)).arrayBuffer());
       verifyTarball(tarball, metadata.dist.integrity);
       const archive = join(temp, `${key}.tgz`); await writeFile(archive, tarball);

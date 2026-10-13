@@ -7,6 +7,8 @@ on:
       - 'common/config/rush/**'
       - 'rush.json'
       - '.github/workflows/statplots-test.yml'
+permissions:
+  contents: read
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -26,7 +28,8 @@ jobs:
         env:
           NODE_OPTIONS: '--max-old-space-size=8192'
       - run: npm run check:schema --prefix packages/vchart-statplots
-      - run: git diff --exit-code -- packages/vchart-statplots/schema packages/vchart-statplots/src/generated
+      - name: Verify generated resources are not tracked
+        run: test -z "$(git ls-files -- packages/vchart-statplots/schema packages/vchart-statplots/src/generated)"
       - run: npm run check:examples --prefix packages/vchart-statplots
       - run: npm run check:catalog --prefix packages/vchart-statplots
       - run: npm run eslint --prefix packages/vchart-statplots

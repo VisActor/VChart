@@ -37,7 +37,7 @@ chart.release();
 - [命名与配置迁移](docs/naming-migration.md)：旧 Spec 直接拒绝，图库旧 URL 和浏览记录自动迁移
 - [实现与验收](docs/validation.md)及[性能基准](benchmarks/README.md)
 - [全部 JSON 示例](examples/specs) 与 [交互示例页](examples/index.html)
-- [总 Schema](schema/statplot.schema.json) 与 `schema/plots/<type>.schema.json`
+- 构建生成的总 Schema `schema/statplot.schema.json` 与 `schema/plots/<type>.schema.json`（发布包内提供）
 
 VChart 是 peerDependency，ESM/CJS/UMD 均 external。UMD 全局名 `VChartStatPlots`，先加载同版本的 VChart。此源码包使用本仓库同步版本；尚未发布，请使用本仓库构建产物，不假定 npm CDN 已有此包。
 
@@ -46,6 +46,8 @@ VChart 是 peerDependency，ESM/CJS/UMD 均 external。UMD 全局名 `VChartStat
 `pairPlot` 的观测 ID 联动依赖本次同步加入 VChart 的 `brushLinkDataKey`。已有 npm 2.1.7 不包含该能力；首次发布须与包含这些核心改动的 VChart 同批发版，并同步 peer 版本。
 
 ## 本地开发
+
+公开 TS 类型与 `scripts/build-schema.ts` 是 Schema 的来源。`schema/` 与 `src/generated/` 不进入 Git；编译、开发服务、单测、浏览器测试及示例检查会先生成这些资源。也可单独运行 `npm run build:schema`，随后用 `npm run check:schema` 核对生成物与类型的一致性。逐图文档中的相对 Schema 链接在本地构建和发布包内有效。
 
 使用 Node.js 22，在仓库根目录：
 
@@ -76,6 +78,10 @@ npm run eslint --prefix packages/vchart-statplots
 ```
 
 统计图需要原始统计意义正确的输入；Schema 只能保证结构，跨字段规则由 `validateStatPlot` 补充。输入不修改，编译后的 series/data ID 和辅助字段不构成公共承诺。更新应重新编译完整语义 spec。
+
+## 构建与发布
+
+标准 `build` 与单独 `build:umd` 都先生成资源。`npm pack` / `npm publish` 通过 `prepack` 执行完整构建，按当前版本生成 Schema 并打包；release workflow 继续使用现有 Rush 构建入口。发布包保留 Schema 和 ESM/CJS/UMD 中的 standalone 校验器，运行时不依赖 Ajv，也不在浏览器动态编译 Schema。
 
 ## 统计工具依赖
 

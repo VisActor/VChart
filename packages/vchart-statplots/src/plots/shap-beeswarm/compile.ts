@@ -6,6 +6,16 @@ import { categoryAxis, numberAxis } from '../../common/axes';
 import { points } from '../../common/marks';
 import { paletteColor } from '../../common/theme';
 import { continuousColorScale } from '../../common/colors';
+
+function relativeFeatureValue(value: number, [min, max]: [number, number]): number {
+  if (min === max) {
+    return 0.5;
+  }
+  const span = max - min;
+  // 仅宽区间溢出时缩小尺度；普通及极窄区间保留原计算精度。
+  return Number.isFinite(span) ? (value - min) / span : (value / 2 - min / 2) / (max / 2 - min / 2);
+}
+
 export function compileShapBeeswarm(spec: ShapBeeswarmPlotSpec) {
   const missingColor = paletteColor(spec.theme, 'disableFontColor');
   const constantColor = paletteColor(spec.theme, 'tertiaryFontColor');
@@ -26,8 +36,7 @@ export function compileShapBeeswarm(spec: ShapBeeswarmPlotSpec) {
       ...row,
       __key: JSON.stringify([row.id, row.feature]),
       __group: row.feature,
-      __featureColor:
-        row.featureValue === null ? null : r![0] === r![1] ? 0.5 : (row.featureValue - r![0]) / (r![1] - r![0])
+      __featureColor: row.featureValue === null ? null : relativeFeatureValue(row.featureValue, r!)
     };
   });
   const series = points(

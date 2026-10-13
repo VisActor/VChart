@@ -16,6 +16,61 @@ const luminance = (hex: string) => {
   return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
 };
 
+test('SHAP wide finite ranges preserve actual low, middle and high fills through update and resize', async ({
+  page
+}, testInfo) => {
+  await page.goto('/__tests__/browser/page.html');
+  // SHAP 坐标固定，只扩大用于颜色的特征范围，检查真实图元而非仅计算结果。
+  for (const extent of [2, 1e308, Number.MAX_VALUE]) {
+    const spec = {
+      type: 'shapBeeswarmPlot',
+      featureOrder: ['x'],
+      colors: { sequential: ['#000000', '#808080', '#ffffff'] },
+      data: [-extent, 0, extent].map((featureValue, i) => ({
+        id: String(i),
+        feature: 'x',
+        shapValue: i - 1,
+        featureValue
+      }))
+    };
+    await page.evaluate(async spec => {
+      const w = window as any;
+      if (w.chart) await w.chart.updateSpec(w.VChartStatPlots.compileStatPlot(spec));
+      else await w.renderStatPlot(spec);
+    }, spec);
+    for (const size of [
+      [800, 600],
+      [900, 650]
+    ]) {
+      const result = await page.evaluate(async size => {
+        const w = window as any;
+        await w.chart.resize(size[0], size[1]);
+        return {
+          errors: w.chartErrors,
+          fills: w.chart
+            .getChart()
+            .getAllSeries()[0]
+            .getSeriesMark()
+            .getGraphics()
+            .map((g: any) => ({
+              id: g.context.data[0].id,
+              featureValue: g.context.data[0].featureValue,
+              fill: g.attribute.fill
+            }))
+            .sort((a: any, b: any) => a.id.localeCompare(b.id))
+        };
+      }, size);
+      expect(result.errors).toEqual([]);
+      expect(result.fills).toEqual([
+        { id: '0', featureValue: -extent, fill: 'rgb(0,0,0)' },
+        { id: '1', featureValue: 0, fill: 'rgb(128,128,128)' },
+        { id: '2', featureValue: extent, fill: 'rgb(255,255,255)' }
+      ]);
+    }
+  }
+  await page.screenshot({ path: testInfo.outputPath('shap-wide-range.png') });
+});
+
 test('categorical palettes update real marks, cycle custom colors and restore native progressive colors', async ({
   page
 }) => {

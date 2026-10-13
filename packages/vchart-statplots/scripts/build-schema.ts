@@ -26,13 +26,17 @@ if (!generator) {
 
 function output(relative: string, content: string): void {
   const destination = path.join(root, relative);
+  const current = fs.existsSync(destination) ? fs.readFileSync(destination, 'utf8') : undefined;
   if (check) {
-    if (!fs.existsSync(destination) || fs.readFileSync(destination, 'utf8') !== content) {
+    if (current !== content) {
       throw new Error(`生成物已过期：${relative}，请运行 npm run build:schema`);
     }
-  } else {
+  } else if (current !== content) {
     fs.mkdirSync(path.dirname(destination), { recursive: true });
-    fs.writeFileSync(destination, content);
+    // 开发服务与测试可同时生成；避免读到半份文件或因相同内容触发重载。
+    const temporary = `${destination}.${process.pid}.tmp`;
+    fs.writeFileSync(temporary, content);
+    fs.renameSync(temporary, destination);
   }
 }
 
