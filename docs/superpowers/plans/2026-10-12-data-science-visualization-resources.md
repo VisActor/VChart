@@ -1,8 +1,8 @@
 # Data Science Visualization Resource Optimization Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 >
-> 上述执行技能不可用时按任务顺序在当前会话执行并记录结果，不自行安装工具或创建其他任务。本轮仅制定计划；实施需用户另行授权。
+> 上述执行技能不可用时按任务顺序在当前会话执行并记录结果，不自行安装工具或创建其他任务。用户已授权执行；实施与验收结果见本文末尾执行记录。
 
 **Goal:** 精简技能参考为同版本 TS 声明、必要统计语义和唯一最小示例，让技能按问题与数据条件生成有意义的简洁图表。
 
@@ -34,6 +34,7 @@
 | `packages/vchart-statplots/scripts/sync-visualization-skill.mjs` | 固定下载/完整性、类型闭包、索引/指南生成、staging 与 --check |
 | `packages/vchart-statplots/scripts/visualization-skill-resources.json` | 本版本各图保留章节选择器，不包含重复类型或统计说明 |
 | `skills/data-science-visualization/references/statplots/index.json` | 新本地索引，替代 docs/plot-catalog.json 的消费者定位 |
+| `skills/data-science-visualization/references/statplots/variants.json` | 特殊变体的选项与固定发布链接；普通选择无需读取 |
 | `skills/data-science-visualization/references/statplots/types/` | 发布 Spec 声明闭包 |
 | `skills/data-science-visualization/references/statplots/guides/` | 从发布 Markdown 提取的精简图义/默认/边界，共同约束单处维护 |
 | `skills/data-science-visualization/references/statplots/examples/specs/minimal/` | 28 个唯一可执行最小例子 |
@@ -51,8 +52,9 @@
 PlotEntry {
   type, name, useWhen, avoidWhen,
   typeName, typeFile, guide, example,
-  variants: [{name, aliases, options, exampleUrl}], fullDocsUrl
+  variantFile?, fullDocsUrl
 }
+VariantEntry {type, variants: [{name, aliases, options, exampleUrl}]}
 ResourceManifest {
   package, version, integrity, tarball,
   formatVersion: 2,
@@ -72,7 +74,7 @@ ResourceManifest {
 
 **Interfaces:** 消费固定 tarball 的 esm/types.d.ts 和 catalog；产生 collectTypeFiles/buildPlotIndex；索引与声明来源同版本。
 
-- [ ] 在临时 fixture 写两图联合、相对 import/export 和共享 BaseSpec；测试递归解析及同文件去重、28 图实际映射的判别值、缺文件/路径逃逸/外部依赖拒绝。不要通过读取当前 workspace src 让测试虚假通过。
+- [x] 在临时 fixture 写两图联合、相对 import/export 和共享 BaseSpec；测试递归解析及同文件去重、28 图实际映射的判别值、缺文件/路径逃逸/外部依赖拒绝。不要通过读取当前 workspace src 让测试虚假通过。
 
 ```js
 const files = new Map([
@@ -88,11 +90,11 @@ assert.equal(result.size, 3);
 assert.equal(result.get('esm/common/types.d.ts'), files.get('esm/common/types.d.ts'));
 ```
 
-- [ ] 运行 `node --test packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs`，确认缺失纯函数/新契约导致失败。
-- [ ] 用 TypeScript AST 遍历 import/export，规范化相对路径到 `.d.ts`；解析 StatPlotSpec 的具名联合与 type 判别值，匹配 catalog 的 28 类。保存到 types/ 下保持 esm 内部目录；源字符不重写、不把无关编译 API 的 index.d.ts 当闭包入口。
-- [ ] buildPlotIndex 生成短索引：新 typeFile/typeName/guide/最小 example 本地路径，变体 exampleUrl 和 fullDocsUrl 固定同版本。不保留指向已删除本地 schema 的属性。
-- [ ] 用发布闭包生成一个 tsc noEmit 检查（开发端 types=[]、skipLibCheck=false）；统计类型覆盖与来源。原 npm 元数据仅作来源，不把 skill 快照当可安装 SDK。
-- [ ] 执行 fixture 与实际发布检查，提交 `refactor(skills): reference published statplots types`。消费者切换前不删除旧支持路径。
+- [x] 运行 `node --test packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs`，确认缺失纯函数/新契约导致失败。
+- [x] 用 TypeScript AST 遍历 import/export，规范化相对路径到 `.d.ts`；解析 StatPlotSpec 的具名联合与 type 判别值，匹配 catalog 的 28 类。保存到 types/ 下保持 esm 内部目录；源字符不重写、不把无关编译 API 的 index.d.ts 当闭包入口。
+- [x] buildPlotIndex 生成短索引：新 typeFile/typeName/guide/最小 example 本地路径，变体 exampleUrl 和 fullDocsUrl 固定同版本。不保留指向已删除本地 schema 的属性。
+- [x] 用发布闭包生成一个 tsc noEmit 检查（开发端 types=[]、skipLibCheck=false）；统计类型覆盖与来源。原 npm 元数据仅作来源，不把 skill 快照当可安装 SDK。
+- [x] 执行 fixture 与实际发布检查，提交 `refactor(skills): reference published statplots types`。消费者切换前不删除旧支持路径。
 
 ## Task 2：精简语义、示例去重及完整同步
 
@@ -100,8 +102,8 @@ assert.equal(result.get('esm/common/types.d.ts'), files.get('esm/common/types.d.
 
 **Interfaces:** 消费 Task 1 类型映射，产出 buildPlotGuide、formatVersion=2 快照；生成器与测试只从新 index 定位。
 
-- [ ] 为 28 类逐图审查发布文档，选择明确章节：输入语义、默认值、统计口径、必要边界。公共约束集中 common.md；迁移/性能/构建/库对比不在指南。声明可能已丢失注释，所有统计默认和必要数值约束须在指南保留。
-- [ ] 写指南提取测试：源语义正文保留、JSON 示例只链接、缺章节失败、源/生成 hash 区分、全部本地链接存在。代表性检查选择 histogram 等宽边界/密度分母、violin 单样本正带宽、correlation 逐对 null/NA、pointInterval 原始/外部区间模式。
+- [x] 为 28 类逐图审查发布文档，选择明确章节：输入语义、默认值、统计口径、必要边界。公共约束集中 common.md；迁移/性能/构建/库对比不在指南。声明可能已丢失注释，所有统计默认和必要数值约束须在指南保留。
+- [x] 写指南提取测试：源语义正文保留、JSON 示例只链接、缺章节失败、源/生成 hash 区分、全部本地链接存在。代表性检查选择 histogram 等宽边界/密度分母、violin 单样本正带宽、correlation 逐对 null/NA、pointInterval 原始/外部区间模式。
 
 ```js
 const source = '# 图\n简介\n\n## 输入\n每行是真实观测。\n```json\n{"type":"a"}\n```\n\n## 边界\n常数组需要明确带宽。\n\n## 迁移\n旧版历史。\n';
@@ -113,10 +115,10 @@ assert.match(guide, /明确带宽/);
 assert.doesNotMatch(guide, /```json|旧版历史/);
 ```
 
-- [ ] 生成短指南而非人工重写参数说明；章节选择器不存在时硬失败，保持完整手册固定链接。最小 JSON 从发布物原字节复制；52 个变体副本删除，索引仍记录选项与固定链接，不伪称变体不支持。
-- [ ] staging 中验证闭包/所有链接/清单后替换资源；失败保留旧目录和 controller。--check 同时发现改文件、缺依赖、断链接、旧文件残留和过期转换选择器，不能只比文件 hash。
-- [ ] 所有消费者统一读取 index.json；测试 fixtures 从真实 entry.example 定位。更新安全转义、复制目录和 Python 生成检查，防止删掉旧 catalog 后生成器失效。
-- [ ] 实际 sync 两次应生成相同字节；运行 --check、Node/Python、28 类发布 HTML 定向测试。确认 controller 内容/数学与 renderer 未改；提交 `refactor(skills): trim duplicate statplots references`。
+- [x] 生成短指南而非人工重写参数说明；章节选择器不存在时硬失败，保持完整手册固定链接。最小 JSON 从发布物原字节复制；52 个变体副本删除，索引仍记录选项与固定链接，不伪称变体不支持。
+- [x] staging 中验证闭包/所有链接/清单后替换资源；失败保留旧目录和 controller。--check 同时发现改文件、缺依赖、断链接、旧文件残留和过期转换选择器，不能只比文件 hash。
+- [x] 所有消费者统一读取 index.json；测试 fixtures 从真实 entry.example 定位。更新安全转义、复制目录和 Python 生成检查，防止删掉旧 catalog 后生成器失效。
+- [x] 实际 sync 两次应生成相同字节；运行 --check、Node/Python、28 类发布 HTML 定向测试。确认 controller 内容/数学与 renderer 未改；提交 `refactor(skills): trim duplicate statplots references`。
 
 ## Task 3：入口与有意义的选图
 
@@ -124,13 +126,13 @@ assert.doesNotMatch(guide, /```json|旧版历史/);
 
 **Interfaces:** 普通问题 → 数据条件与问题对应的 PlotEntry → 图义指南/TS/唯一最小例子 → 现有 JSON request；不新增运行端类型编译或绘图计算。
 
-- [ ] 入口只保留目的、选择、生成、真实验收、对话改图与资源导航。28/12 能力集合放 index/协议，不在入口再枚举整套图；控件细节只在协议，不与 chart-selection 重复。
-- [ ] chart-selection 以问题表达组织分布/阈值/分组/关系/缺失/已有结果，加入组 N/常量、观测粒度、ID、分母、缺失、密集点/分组保留条件。不要用固定 N 阈值或唯一性自动识别 ID，也不加入强制数据审计报告。
-- [ ] 普通组比较在少量/常量观测时考虑展示个体；明确指定 violin 的请求不静默换图或猜带宽。只持有汇总频数不展开样本，未知区间/原始高维模型结果不伪造。保留纯散点不默认拟合、相关不解释因果。
-- [ ] 导航默认只读 selected type 的指南、`.d.ts` 与实际 import 依赖、最小 JSON；特殊变体才读外部固定手册。删除所有指向已移除 schema/docs/variant 的本地引用。
-- [ ] 交付文字只说明直接回答的问题、数据范围/单位和影响解释的限制；标题含变量/对象/固定条件。没有问题时给一张有依据的图或澄清关键字段，不自动生成 dashboard。
-- [ ] 协议仍集中保持预算、来源、按需交互、三项输出和对话条件。新增字段视角从原 CSV 按真实 ID 补回；回放只有使用列，不假装完整数据备份。
-- [ ] 运行 quick_validate、链接检查、六例实际生成；提交 `docs(skills): focus chart selection on data meaning`。
+- [x] 入口只保留目的、选择、生成、真实验收、对话改图与资源导航。28/12 能力集合放 index/协议，不在入口再枚举整套图；控件细节只在协议，不与 chart-selection 重复。
+- [x] chart-selection 以问题表达组织分布/阈值/分组/关系/缺失/已有结果，加入组 N/常量、观测粒度、ID、分母、缺失、密集点/分组保留条件。不要用固定 N 阈值或唯一性自动识别 ID，也不加入强制数据审计报告。
+- [x] 普通组比较在少量/常量观测时考虑展示个体；明确指定 violin 的请求不静默换图或猜带宽。只持有汇总频数不展开样本，未知区间/原始高维模型结果不伪造。保留纯散点不默认拟合、相关不解释因果。
+- [x] 导航默认只读 selected type 的指南、`.d.ts` 与实际 import 依赖、最小 JSON；特殊变体才读外部固定手册。删除所有指向已移除 schema/docs/variant 的本地引用。
+- [x] 交付文字只说明直接回答的问题、数据范围/单位和影响解释的限制；标题含变量/对象/固定条件。没有问题时给一张有依据的图或澄清关键字段，不自动生成 dashboard。
+- [x] 协议仍集中保持预算、来源、按需交互、三项输出和对话条件。新增字段视角从原 CSV 按真实 ID 补回；回放只有使用列，不假装完整数据备份。
+- [x] 运行 quick_validate、链接检查、六例实际生成；提交 `docs(skills): focus chart selection on data meaning`。
 
 ## Task 4：真实问题的行为验收
 
@@ -138,8 +140,8 @@ assert.doesNotMatch(guide, /```json|旧版历史/);
 
 **Interfaces:** 原始数据/普通需求 → 实际 request/HTML；评估图义和输入，不把有图元当有意义、不把目录预期当模型命中率。
 
-- [ ] 构造原始字段含明确 ID、单位、缺失、长尾、重复值、大小不同/常数组的数据。密集点数据使用固定种子；模型结果 fixture 明确方法/来源；汇总频数与未知区间作为独立反例。
-- [ ] 执行下列普通请求，允许合理替代图型；记录为什么能回答问题，以及是否读取不必要资源：
+- [x] 构造原始字段含明确 ID、单位、缺失、长尾、重复值、大小不同/常数组的数据。密集点数据使用固定种子；模型结果 fixture 明确方法/来源；汇总频数与未知区间作为独立反例。
+- [x] 执行下列普通请求，允许合理替代图型；记录为什么能回答问题，以及是否读取不必要资源：
 
 | 请求 | 必须成立的结果 |
 | --- | --- |
@@ -155,7 +157,7 @@ assert.doesNotMatch(guide, /```json|旧版历史/);
 | 只有原始 20 维数据，想看 PCA | 获取真实降维结果或使用分析工作流，不伪造坐标 |
 | 指定 violin，但各组仅单样本 | 不把无法自动估计带宽称为成功，讨论实际参数/替代图 |
 
-- [ ] 将实际生成请求用于浏览器断言（校验、数据集合、N/分母、单位、真实 Tooltip、默认 DOM、固定范围重放）。例如 ECDF 阈值基准由完整 fixture 手工核对，缺失/重复要进入预期；不只匹配 plot type。
+- [x] 将实际生成请求用于浏览器断言（校验、数据集合、N/分母、单位、真实 Tooltip、默认 DOM、固定范围重放）。例如 ECDF 阈值基准由完整 fixture 手工核对，缺失/重复要进入预期；不只匹配 plot type。
 
 ```ts
 await openGenerated(page, generate(actualRequest));
@@ -172,8 +174,8 @@ await expect(page.locator('button,select,input,.toolbar')).toHaveCount(0);
 
 示例要求 fixture 的 income 行为上述六个真实值及一处 null，ID 唯一；请求由实际执行产生，不手写为模型选图命中结论。按需交互场景另显式声明，不套用零控件断言。
 
-- [ ] 条件允许且有适用技能授权时，用独立评估者仅给新技能和原始需求/数据，不给期望图型；在忽略目录生成。评估者无法打开/运行时记录限制，不用静态关键词评分冒充正向成功。
-- [ ] 复核反例与受限场景：正确澄清/拒绝也算正确行为，但不算渲染成功。记录实际产物和不足，针对观察到的问题修技能；提交 `test(skills): verify meaningful data science charts`。
+- [x] 条件允许且有适用技能授权时，用独立评估者仅给新技能和原始需求/数据，不给期望图型；在忽略目录生成。评估者无法打开/运行时记录限制，不用静态关键词评分冒充正向成功。
+- [x] 复核反例与受限场景：正确澄清/拒绝也算正确行为，但不算渲染成功。记录实际产物和不足，针对观察到的问题修技能；提交 `test(skills): verify meaningful data science charts`。
 
 ## Task 5：阅读成本、回归与维护记录
 
@@ -181,9 +183,9 @@ await expect(page.locator('button,select,input,.toolbar')).toHaveCount(0);
 
 **Interfaces:** 实际完整资源/常见首次读取清单、真实行为/浏览器证据、固定版本回归与限制。
 
-- [ ] 保留本轮旧资源统计。新正文统计 index/types/guides/examples，基线统计旧 catalog/Schema/docs/examples；来源/许可元数据前后同规则单列。五个常见图计算指南+声明依赖+最小例子必读集合；索引访问量计入实际读取记录，不能排除一个仍必须完整读取的大索引来美化指标。
-- [ ] 正文参考总字节下降至少 40%，五图平均首次必读字节下降至少 30%；无重复 inline JSON/本地例子，也无同一默认/口径三处维护。逐图抽查 histogram/violin/pointInterval/pair/correlation 的重要含义仍完整；指标未达标先审查资源，不删除含义或放宽验收值。
-- [ ] 运行如下检查，先完成读本地 UMD 前的构建准备，浏览器与核心构建串行：
+- [x] 保留本轮旧资源统计。新正文统计 index/types/guides/examples，基线统计旧 catalog/Schema/docs/examples；来源/许可元数据前后同规则单列。五个常见图计算指南+声明依赖+最小例子必读集合；索引访问量计入实际读取记录，不能排除一个仍必须完整读取的大索引来美化指标。
+- [x] 正文参考总字节下降至少 40%，五图平均首次必读字节下降至少 30%；无重复 inline JSON/本地例子，也无同一默认/口径三处维护。逐图抽查 histogram/violin/pointInterval/pair/correlation 的重要含义仍完整；指标未达标先审查资源，不删除含义或放宽验收值。
+- [x] 运行如下检查，先完成读本地 UMD 前的构建准备，浏览器与核心构建串行：
 
 ```sh
 node packages/vchart-statplots/scripts/sync-visualization-skill.mjs --check
@@ -199,13 +201,27 @@ DSV_PYTHON=python3 npm run test:browser --prefix packages/vchart-statplots
 git diff --check
 ```
 
-- [ ] tsc 对新发布 Spec 闭包单独验证；广泛 tsconfig.test.json 的既有错误另记，不因它失败宣称新类型闭包不可用，也不伪称全项目类型通过。
-- [ ] 28 类固定发布 HTML、12 类绑定、六份复制目录例子、最小页面/按需交互/重放与图库继续通过。声明资源没有执行时依赖；删除 Schema 后的复制技能仍实际渲染。前次 447/664 不沿用为本轮结果。
-- [ ] 若实施只改参考/同步/索引消费，无核心 renderer 改动，聚焦上述回归；若扩大到公共 render/update/state 路径则按 AGENTS 做相关正式视觉比较，PR 前仍执行全量。既有官方基线四项与扩展 tsc 错误如复现，记录实际 SHA/阶段，不跳例或调阈值。
-- [ ] 验收文档包含资源来源、减少量、实际读取列表、合理选择/反例、图表/Tooltip与限制、回归命令/结果；明确未测的宿主发现/预览。提交 `test(skills): record lean resource and semantic acceptance`。
+- [x] tsc 对新发布 Spec 闭包单独验证；广泛 tsconfig.test.json 的既有错误另记，不因它失败宣称新类型闭包不可用，也不伪称全项目类型通过。
+- [x] 28 类固定发布 HTML、12 类绑定、六份复制目录例子、最小页面/按需交互/重放与图库继续通过。声明资源没有执行时依赖；删除 Schema 后的复制技能仍实际渲染。前次 447/664 不沿用为本轮结果。
+- [x] 若实施只改参考/同步/索引消费，无核心 renderer 改动，聚焦上述回归；若扩大到公共 render/update/state 路径则按 AGENTS 做相关正式视觉比较，PR 前仍执行全量。既有官方基线四项与扩展 tsc 错误如复现，记录实际 SHA/阶段，不跳例或调阈值。
+- [x] 验收文档包含资源来源、减少量、实际读取列表、合理选择/反例、图表/Tooltip与限制、回归命令/结果；明确未测的宿主发现/预览。提交 `test(skills): record lean resource and semantic acceptance`。
 
 ## 完成定义
 
 模型不再读取冗长 Schema 和重复手册；使用同版本 TS 声明、短统计语义、一个最小例子即可完成普通请求。实际产物能回答问题，输入与分母/单位/范围真实，明确不具备的模型结果或区间不伪造；现有 statplots 的资源来源、公共校验/编译与简洁默认页面继续复用，维护者能重复生成和核验整套参考。
 
-本轮状态：仅设计和计划完成，实施及验收均未执行。
+本轮状态：2026-10-13 已完成实施与本轮验收，分支 `codex/vchart-statplots`。仅参考/同步/索引消费与测试变更，公共计算/渲染未改。既有扩展 tsc 与前轮官方基线阻断、未测宿主行为另记，不作为本轮已通过项。
+
+## 执行记录（2026-10-13）
+
+| 阶段 | 提交/实际结果 |
+| --- | --- |
+| Task 1 | `06aa116e1`：发布声明闭包/联合映射、strict noEmit 与 fixture 失败/通过验证 |
+| Task 2 + 3 | `223f7b7bd`：为保持资源契约一致，一次迁移生成快照、消费者、入口与选图；指南/最小例子保留同版本来源，Node/Python/定向浏览器通过 |
+| 首读指标修正 | `461f672f9`：初次内联全部变体仅减少首读 20.5%；改为 variants.json 按需读取后减少 52.2%，完整正文仍包括全部变体元数据 |
+| Task 4 | `61b1ad31f`：独立执行 11 题及实际请求七项语义回归；两项最初测试假设改为有效公共契约，图例误判被真实截图/元素纠正 |
+| Task 5 | 资源正文 467,558 → 138,084 字节（−70.5%）；五图平均必读 44,122.6 → 21,106.2（−52.2%）；两次同步 hash 一致；Python 两版本各 23、Node 19、Jest 664、完整 Playwright 454 通过 |
+
+开发依赖与核心/Statplots UMD 使用已准备的本地产物，在浏览器运行期间未并行构建清理。七项新测试补充类型注释后，扩展 tsc 无新 skill 错误；原有 confusion-matrix/raw-input/build-schema 错误仍在，不能称全项目类型通过。未重跑核心官方全量视觉、未创建 PR；PR 前全量要求仍适用。未全局安装、发布、push、部署或跨仓库修改。
+
+完整命令、逐题图义/阅读清单、字节统计、实际浏览器证据及未测范围见 [验收记录](../validation/2026-10-12-data-science-visualization-resources.md)。

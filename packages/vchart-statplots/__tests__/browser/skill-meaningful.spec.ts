@@ -49,7 +49,7 @@ test('actual income request retains zeros, duplicates, tail and missing denomina
   expect(result.status).toMatchObject({ inputN: 6, omittedN: 1 });
   expect(result.spec.fieldLabels.value).toBe('收入（元）');
   const bars = await marks(page, 'chart');
-  expect(bars.map(g => g.datum.count)).toEqual([4, 1, 0, 1]);
+  expect(bars.map((g: any) => g.datum.count)).toEqual([4, 1, 0, 1]);
   await hover(page, bars[0], ['收入（元）下界', '5000', '数量']);
 });
 
@@ -59,8 +59,8 @@ test('actual small and constant group request shows individual observations', as
   expect(result.spec.data.map((r: any) => r.id)).toEqual(['001', '002', '003', '004', '005', '006']);
   const points = await marks(page, 'chart');
   expect(points).toHaveLength(6);
-  expect(points.filter(g => g.datum.category === 'B').map(g => g.datum.value)).toEqual([1000, 1000]);
-  await hover(page, points.find(g => g.datum.id === '001')!, ['001', '部门', '收入（元）']);
+  expect(points.filter((g: any) => g.datum.category === 'B').map((g: any) => g.datum.value)).toEqual([1000, 1000]);
+  await hover(page, points.find((g: any) => g.datum.id === '001')!, ['001', '部门', '收入（元）']);
 });
 
 test('actual threshold request displays the right-continuous probability 4/6 in Tooltip', async ({ page }) => {
@@ -115,10 +115,10 @@ test('actual correlation request excludes numeric ID and explains constant-varia
   expect(result.spec.data.observations).toHaveLength(7);
   const cells = await marks(page, 'chart');
   expect(cells).toHaveLength(9);
-  const paired = cells.find(g => g.datum.row === 'height' && g.datum.column === 'weight')!;
+  const paired = cells.find((g: any) => g.datum.row === 'height' && g.datum.column === 'weight')!;
   expect(paired.datum).toMatchObject({ sampleCount: 5, correlation: 1 });
   await hover(page, paired, ['有效配对数', '5', '相关系数']);
-  const constant = cells.find(g => g.datum.row === 'fixed_score' && g.datum.column === 'height')!;
+  const constant = cells.find((g: any) => g.datum.row === 'fixed_score' && g.datum.column === 'height')!;
   expect(constant.datum).toMatchObject({ sampleCount: 6, correlation: null });
   await hover(page, constant, ['不可计算原因', '变量为常量，相关性不可定义']);
 });
@@ -140,7 +140,7 @@ test('actual external UMAP retains provided coordinates, method, static legend a
   expect(legend.every((g: any) => g.width > 0)).toBe(true);
   const points = await marks(page, 'chart');
   expect(points).toHaveLength(4);
-  await hover(page, points.find(g => g.datum.id === 'p0')!, ['p0', 'UMAP 1', 'UMAP 2']);
+  await hover(page, points.find((g: any) => g.datum.id === 'p0')!, ['p0', 'UMAP 1', 'UMAP 2']);
   await page.mouse.move(0, 0);
   fs.mkdirSync(path.join(artifacts, 'resources/screenshots'), { recursive: true });
   await page.screenshot({ path: path.join(artifacts, 'resources/screenshots/umap-legend.png'), fullPage: true });
