@@ -1,21 +1,9 @@
-import { DataSet } from '@visactor/vdataset';
-import { EventDispatcher } from '../../../src/event/event-dispatcher';
-import { GlobalScale } from '../../../src/scale/global-scale';
 import VChart from '../../../src';
-import { BoxPlotChart, registerBoxplotChart } from '../../../src/chart/box-plot';
-import { BoxPlotSeries } from '../../../src/series/box-plot/box-plot';
 import { BOX_PLOT_OUTLIER_VALUE_FIELD } from '../../../src/constant/box-plot';
 import { SeriesMarkNameEnum } from '../../../src/series/interface/type';
-import { getTestCompiler } from '../../util/factory/compiler';
-import { getTheme, initChartDataSet, seriesOption } from '../../util/context';
 import { createDiv, removeDom } from '../../util/dom';
 
-registerBoxplotChart();
-
-const dataSet = new DataSet();
-initChartDataSet(dataSet);
-
-const filledValues = [
+const issueValues = [
   {
     x: 'Sub-Saharan Africa',
     y1: 8.72,
@@ -35,239 +23,193 @@ const filledValues = [
   }
 ];
 
-const createBoxPlotSeries = () => {
-  const series = new BoxPlotSeries<any>(
-    {
-      type: 'boxPlot',
-      xField: 'x',
-      minField: 'y1',
-      q1Field: 'y2',
-      medianField: 'y3',
-      q3Field: 'y4',
-      maxField: 'y5',
-      outliersField: 'y6'
-    },
-    seriesOption({ dataSet })
-  );
-  (series as any)._outliersField = 'y6';
-  (series as any)._fieldX = ['x'];
-  (series as any)._fieldY = ['y5', 'y3', 'y2', 'y4', 'y1'];
-  (series as any)._xAxisHelper = {
-    getScale: () => ({ type: 'band' })
-  };
-  (series as any)._yAxisHelper = {
-    getScale: () => ({ type: 'linear' })
-  };
-  return series;
+const extremeValues = [
+  {
+    x: 'Sub-Saharan Africa',
+    y1: 8.72,
+    y2: 9.73,
+    y3: 10.17,
+    y4: 10.51,
+    y5: 11.64,
+    y6: [12.01, 100]
+  },
+  {
+    x: 'South Asia',
+    y1: 9.4,
+    y2: 10.06,
+    y3: 10.75,
+    y4: 11.56,
+    y5: 12.5
+  }
+];
+
+const valueFields = {
+  minField: 'y1',
+  q1Field: 'y2',
+  medianField: 'y3',
+  q3Field: 'y4',
+  maxField: 'y5',
+  outliersField: 'y6'
 };
 
-const createBoxPlotChart = (values?: Record<string, unknown>[]) => {
-  const spec = {
+const loadCanvas = () => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require('canvas') as { createCanvas?: (width: number, height: number) => unknown };
+  } catch {
+    return null;
+  }
+};
+
+const canvasPkg = loadCanvas();
+const canRender = typeof document !== 'undefined' || typeof canvasPkg?.createCanvas === 'function';
+const describeRender = canRender ? describe : describe.skip;
+
+const createIssueSpec = (options?: {
+  values?: Record<string, unknown>[];
+  direction?: 'vertical' | 'horizontal';
+  outliersField?: string;
+}) => {
+  const direction = options?.direction ?? 'vertical';
+  const data = options?.values ? [{ id: 'boxPlot', values: options.values }] : [{ id: 'boxPlot' }];
+  return {
     type: 'boxPlot',
-    data: [
-      {
-        id: 'boxPlot',
-        values: values ?? []
-      }
-    ],
-    xField: 'x',
-    minField: 'y1',
-    q1Field: 'y2',
-    medianField: 'y3',
-    q3Field: 'y4',
-    maxField: 'y5',
-    outliersField: 'y6',
-    direction: 'vertical',
+    width: 500,
+    height: 400,
+    data,
+    ...(direction === 'horizontal' ? { yField: 'x' } : { xField: 'x' }),
+    ...valueFields,
+    ...(options && 'outliersField' in options ? { outliersField: options.outliersField } : {}),
+    direction,
     animation: false
   } as any;
-  const transformer = new BoxPlotChart.transformerConstructor({
-    type: 'boxPlot',
-    seriesType: 'boxPlot',
-    getTheme,
-    mode: 'desktop-browser'
-  });
-  const info = transformer.initChartSpec(spec);
-  const chartDataSet = new DataSet();
-  initChartDataSet(chartDataSet);
-  const chart = new BoxPlotChart(spec, {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    eventDispatcher: new EventDispatcher({} as any, { addEventListener: () => {} } as any),
-    globalInstance: {
-      isAnimationEnable: () => false,
-      getContainer: () => ({}),
-      getTooltipHandlerByUser: (() => undefined) as () => undefined
-    },
-    render: {} as any,
-    dataSet: chartDataSet,
-    map: new Map(),
-    container: null,
-    mode: 'desktop-browser',
-    getCompiler: getTestCompiler,
-    globalScale: new GlobalScale([], { getAllSeries: () => [] as any[] } as any),
-    getTheme,
-    onError: () => {},
-    getSpecInfo: () => info
-  } as any);
-  chart.created(transformer);
-  chart.init();
-  return chart;
 };
 
-const getOutlierStatistic = (series: { getStatisticFields: () => { key: string; operations: string[] }[] }) =>
-  series.getStatisticFields().find(field => field.key === 'y6');
+const getSeries = (chart: VChart) => chart.getChart()?.getAllSeries()[0] as any;
 
 const getFoldedOutlierValues = (series: any): number[] => {
-  const rows = series._outlierData?.getLatestData?.() ?? series._outlierData?.getDataView?.()?.latestData ?? [];
+  const rows = series?._outlierData?.getLatestData?.() ?? [];
   return rows
     .map((row: Record<string, unknown>) => row[BOX_PLOT_OUTLIER_VALUE_FIELD])
     .filter((value: unknown): value is number => typeof value === 'number');
 };
 
-describe('BoxPlotSeries getStatisticFields outliersField', () => {
-  test('adds array-min/array-max when outliersField is omitted from super fields', () => {
-    const series = createBoxPlotSeries();
-
-    expect(getOutlierStatistic(series)).toEqual({
-      key: 'y6',
-      operations: ['array-min', 'array-max']
-    });
-  });
-
-  test('replaces min/max with array operations when outliersField is already present', () => {
-    const series = createBoxPlotSeries();
-    (series as any)._fieldY = ['y5', 'y3', 'y2', 'y4', 'y1', 'y6'];
-
-    expect(getOutlierStatistic(series)).toEqual({
-      key: 'y6',
-      operations: ['array-min', 'array-max']
-    });
-    expect(series.getStatisticFields().filter(field => field.key === 'y6')).toHaveLength(1);
-  });
-
-  test('still registers outliersField when axis helpers are not ready', () => {
-    const series = createBoxPlotSeries();
-    (series as any)._xAxisHelper = undefined;
-    (series as any)._yAxisHelper = undefined;
-
-    expect(getOutlierStatistic(series)).toEqual({
-      key: 'y6',
-      operations: ['array-min', 'array-max']
-    });
-  });
-
-  test('does not invent a statistic field when outliersField is unset', () => {
-    const series = createBoxPlotSeries();
-    (series as any)._outliersField = undefined;
-
-    expect(getOutlierStatistic(series)).toBeUndefined();
-  });
-});
-
-describe('boxPlot outliersField after empty-init updateData', () => {
-  test('folds y6 array rows after updateData from empty values', () => {
-    const chart = createBoxPlotChart([]);
-    const series = chart.getAllSeries()[0] as any;
-
-    expect(getOutlierStatistic(series)).toEqual({
-      key: 'y6',
-      operations: ['array-min', 'array-max']
-    });
-    expect(getFoldedOutlierValues(series)).toEqual([]);
-
-    chart.updateData('boxPlot', filledValues);
-
-    expect(series.getViewData()?.latestData).toHaveLength(2);
-    expect(getFoldedOutlierValues(series)).toEqual([12.01, 12.02, 14.03]);
-    expect(series.getViewDataStatistics()?.latestData?.y6).toMatchObject({
-      min: 12.01,
-      max: 14.03
-    });
-  });
-
-  test('non-empty init with outliersField still folds outlier rows', () => {
-    const chart = createBoxPlotChart(filledValues);
-    const series = chart.getAllSeries()[0] as any;
-
-    expect(getOutlierStatistic(series)).toEqual({
-      key: 'y6',
-      operations: ['array-min', 'array-max']
-    });
-    expect(getFoldedOutlierValues(series)).toEqual([12.01, 12.02, 14.03]);
-    expect(series.getViewDataStatistics()?.latestData?.y6).toMatchObject({
-      min: 12.01,
-      max: 14.03
-    });
-  });
-});
-
-const describeRender = typeof document === 'undefined' ? describe.skip : describe;
-
-const createIssueSpec = (values?: Record<string, unknown>[]) =>
-  ({
-    type: 'boxPlot',
-    width: 500,
-    height: 400,
-    data: values
-      ? [{ id: 'boxPlot', values }]
-      : [
-          {
-            id: 'boxPlot'
-          }
-        ],
-    xField: 'x',
-    minField: 'y1',
-    q1Field: 'y2',
-    medianField: 'y3',
-    q3Field: 'y4',
-    maxField: 'y5',
-    outliersField: 'y6',
-    direction: 'vertical',
-    animation: false
-  } as any);
-
 const getOutlierGraphics = (chart: VChart) => {
-  const series = chart.getChart()?.getAllSeries()[0] as any;
-  const outlierMark = series?.getMarks()?.find((mark: { name?: string }) => mark.name === SeriesMarkNameEnum.outlier);
-  return {
-    series,
-    graphics: outlierMark?.getGraphics?.() ?? []
-  };
+  const series = getSeries(chart);
+  const outlierMark = series?.getMarks?.().find((mark: { name?: string }) => mark.name === SeriesMarkNameEnum.outlier);
+  return outlierMark?.getGraphics?.() ?? [];
 };
 
-describeRender('VChart boxPlot outliersField updateDataSync', () => {
-  let dom: HTMLElement;
-  let chart: VChart;
+const getLinearDomain = (chart: VChart): number[] => {
+  const linear = (chart.getChart()?.getAllComponents() ?? []).find(
+    (component: any) => component.getScale?.()?.type === 'linear'
+  ) as { getScale?: () => { domain?: () => number[] } } | undefined;
+  return linear?.getScale?.().domain?.() ?? [];
+};
 
-  beforeEach(() => {
-    dom = createDiv();
-    dom.style.width = '500px';
-    dom.style.height = '400px';
-  });
+const getOutlierStatistic = (chart: VChart) =>
+  getSeries(chart)
+    ?.getStatisticFields?.()
+    .find((field: { key: string }) => field.key === 'y6');
+
+describeRender('VChart boxPlot outliersField public API', () => {
+  const charts: VChart[] = [];
+  const doms: HTMLElement[] = [];
+
+  const render = (spec: Record<string, unknown>) => {
+    let chart: VChart;
+    if (typeof document !== 'undefined') {
+      const dom = createDiv();
+      dom.style.width = '500px';
+      dom.style.height = '400px';
+      doms.push(dom);
+      chart = new VChart(spec as any, { dom, animation: false });
+    } else {
+      chart = new VChart(spec as any, { mode: 'node', modeParams: canvasPkg, animation: false } as any);
+    }
+    charts.push(chart);
+    chart.renderSync();
+    return chart;
+  };
 
   afterEach(() => {
-    chart?.release();
-    removeDom(dom);
+    charts.splice(0).forEach(chart => chart.release());
+    doms.splice(0).forEach(removeDom);
   });
 
   test('renders outlier points after updateDataSync from empty data', () => {
-    chart = new VChart(createIssueSpec(), { dom, animation: false });
-    chart.renderSync();
-    expect(getFoldedOutlierValues(getOutlierGraphics(chart).series)).toEqual([]);
+    const chart = render(createIssueSpec());
+    expect(getFoldedOutlierValues(getSeries(chart))).toEqual([]);
 
-    chart.updateDataSync('boxPlot', filledValues);
+    chart.updateDataSync('boxPlot', issueValues);
 
-    const { series, graphics } = getOutlierGraphics(chart);
+    const series = getSeries(chart);
+    expect(getOutlierStatistic(chart)).toEqual({
+      key: 'y6',
+      operations: ['array-min', 'array-max']
+    });
     expect(getFoldedOutlierValues(series)).toEqual([12.01, 12.02, 14.03]);
-    expect(graphics.length).toBeGreaterThanOrEqual(3);
+    expect(series.getViewDataStatistics()?.latestData?.y6).toMatchObject({
+      min: 12.01,
+      max: 14.03
+    });
+    expect(getLinearDomain(chart)[1]).toBeGreaterThanOrEqual(14.03);
+    expect(getOutlierGraphics(chart).length).toBeGreaterThanOrEqual(3);
   });
 
   test('non-empty init with outliersField still renders outlier points', () => {
-    chart = new VChart(createIssueSpec(filledValues), { dom, animation: false });
-    chart.renderSync();
+    const chart = render(createIssueSpec({ values: issueValues }));
 
-    const { series, graphics } = getOutlierGraphics(chart);
-    expect(getFoldedOutlierValues(series)).toEqual([12.01, 12.02, 14.03]);
-    expect(graphics.length).toBeGreaterThanOrEqual(3);
+    expect(getFoldedOutlierValues(getSeries(chart))).toEqual([12.01, 12.02, 14.03]);
+    expect(getLinearDomain(chart)[1]).toBeGreaterThanOrEqual(14.03);
+    expect(getOutlierGraphics(chart).length).toBeGreaterThanOrEqual(3);
+  });
+
+  test('includes outliers beyond the box range in the value axis domain', () => {
+    const chart = render(createIssueSpec());
+    chart.updateDataSync('boxPlot', extremeValues);
+
+    expect(getFoldedOutlierValues(getSeries(chart))).toEqual([12.01, 100]);
+    expect(getSeries(chart).getViewDataStatistics()?.latestData?.y6).toMatchObject({
+      min: 12.01,
+      max: 100
+    });
+    expect(getLinearDomain(chart)[1]).toBeGreaterThanOrEqual(100);
+    expect(getOutlierGraphics(chart).length).toBeGreaterThanOrEqual(2);
+  });
+
+  test('horizontal layout still folds outliers after updateDataSync from empty data', () => {
+    const chart = render(createIssueSpec({ direction: 'horizontal' }));
+    chart.updateDataSync('boxPlot', extremeValues);
+
+    expect(getOutlierStatistic(chart)).toEqual({
+      key: 'y6',
+      operations: ['array-min', 'array-max']
+    });
+    expect(getFoldedOutlierValues(getSeries(chart))).toEqual([12.01, 100]);
+    expect(getLinearDomain(chart)[1]).toBeGreaterThanOrEqual(100);
+    expect(getOutlierGraphics(chart).length).toBeGreaterThanOrEqual(2);
+  });
+
+  test('clears outlier points and renders them again after a later updateDataSync', () => {
+    const chart = render(createIssueSpec({ values: issueValues }));
+    expect(getOutlierGraphics(chart).length).toBeGreaterThanOrEqual(3);
+
+    chart.updateDataSync('boxPlot', []);
+    expect(getFoldedOutlierValues(getSeries(chart))).toEqual([]);
+    expect(getOutlierGraphics(chart)).toHaveLength(0);
+
+    chart.updateDataSync('boxPlot', extremeValues);
+    expect(getFoldedOutlierValues(getSeries(chart))).toEqual([12.01, 100]);
+    expect(getLinearDomain(chart)[1]).toBeGreaterThanOrEqual(100);
+    expect(getOutlierGraphics(chart).length).toBeGreaterThanOrEqual(2);
+  });
+
+  test('does not register an outliers statistic when outliersField is unset', () => {
+    const chart = render(createIssueSpec({ values: extremeValues, outliersField: undefined }));
+
+    expect(getOutlierStatistic(chart)).toBeUndefined();
+    expect(getOutlierGraphics(chart)).toHaveLength(0);
+    expect(getLinearDomain(chart)[1]).toBeLessThan(100);
   });
 });
