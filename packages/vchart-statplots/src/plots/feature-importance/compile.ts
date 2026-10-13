@@ -36,6 +36,7 @@ export function compileFeatureImportance(spec: FeatureImportancePlotSpec) {
               data: { id: 'intervals', values: values.filter(row => row.lower !== undefined) },
               xField: ['lower', 'upper'],
               yField,
+              seriesField: 'series',
               minField: 'lower',
               maxField: 'upper',
               barWidth: 2,
@@ -50,6 +51,6 @@ export function compileFeatureImportance(spec: FeatureImportancePlotSpec) {
       categoryAxis('left', spec.fieldLabels?.feature ?? '特征', [...new Set(values.map(row => row.feature))])
     ]
   );
-  chart.legends = { visible: grouped, orient: 'top', seriesId: ['importance'] };
+  chart.legends = { visible: grouped, orient: 'top', seriesId: ['importance', 'intervals'] };
   return chart;
 }

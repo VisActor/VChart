@@ -24,11 +24,14 @@ export function compileScatter(spec: ScatterPlotSpec) {
     [
       ...(fit.some(row => row.lower !== undefined)
         ? [
-            band(
-              'fit-band',
-              fit.filter(row => row.lower !== undefined),
-              'x'
-            )
+            {
+              ...band(
+                'fit-band',
+                fit.map(row => ({ ...row, lower: row.lower ?? null, upper: row.upper ?? null })),
+                'x'
+              ),
+              invalidType: 'break' as const
+            }
           ]
         : []),
       ...(spec.fit
