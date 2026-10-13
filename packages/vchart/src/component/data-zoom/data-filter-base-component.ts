@@ -1,4 +1,5 @@
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/interface';
+import type { ILinkSeriesSpec } from '../../series/link/interface';
 import { eachSeries } from '../../util/model';
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
@@ -102,6 +103,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _regionIndex!: number[];
   protected _newDomain: any[];
   protected _relatedAxisComponent!: IComponent;
+  protected _linkedAxisComponent!: IComponent;
   get relatedAxisComponent() {
     return this._relatedAxisComponent;
   }
@@ -215,29 +217,38 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const reverse = isReverse(axis, this._isHorizontal);
     const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
 
+    const linkedAxis = this._linkedAxisComponent as CartesianAxis<any>;
     if (reverse) {
       switch (tag) {
         case 'startHandler':
           axis.scaleRangeFactorEnd(newRangeFactor[1]);
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
         case 'endHandler':
           axis.scaleRangeFactorStart(newRangeFactor[0]);
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0]);
           break;
         default:
           axis.scaleRangeFactorStart(newRangeFactor[0], true);
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0], true);
           axis.scaleRangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1]);
       }
     } else {
       switch (tag) {
         case 'startHandler':
           axis.scaleRangeFactorStart(newRangeFactor[0]);
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0]);
           break;
         case 'endHandler':
           axis.scaleRangeFactorEnd(newRangeFactor[1]);
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
         default:
           axis.scaleRangeFactorEnd(newRangeFactor[1], true);
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1], true);
           axis.scaleRangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0]);
       }
     }
 
@@ -508,6 +519,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._relatedAxisComponent = this._option.getComponentByIndex('axes', this._spec.axisIndex);
     }
 
+    if (isValid(this._spec.linkedAxisId)) {
+      this._linkedAxisComponent = this._option.getComponentByUserId(this._spec.linkedAxisId);
+    } else if (isValid(this._spec.linkedAxisIndex)) {
+      this._linkedAxisComponent = this._option.getComponentByIndex('axes', this._spec.linkedAxisIndex);
+    }
+
     // 如果用户没有配置关联轴 或 用户配置的关联轴和datazoom方向不一致
     // 则 使用与datazoom的方向相同的第一个axis作为关联轴
     if (isNil(this._spec.field) && !this._relatedAxisComponent) {
@@ -589,14 +606,14 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getXAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).angleAxisHelper
-              : null;
+                ? (s as IPolarSeries).angleAxisHelper
+                : null;
           const yAxisHelper =
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getYAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).radiusAxisHelper
-              : null;
+                ? (s as IPolarSeries).radiusAxisHelper
+                : null;
           if (!xAxisHelper || !yAxisHelper) {
             return;
           }
@@ -604,15 +621,22 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             xAxisHelper.getAxisId() === this._relatedAxisComponent.id
               ? xAxisHelper
               : yAxisHelper.getAxisId() === this._relatedAxisComponent.id
-              ? yAxisHelper
-              : this._isHorizontal
-              ? xAxisHelper
-              : yAxisHelper;
+                ? yAxisHelper
+                : this._isHorizontal
+                  ? xAxisHelper
+                  : yAxisHelper;
+          if (s.type === 'link') {
+            // 连线不参与预览统计；过滤字段遵循 linkDotInfo 的起点字段和坐标命名。
+            const { fromField } = s.getSpec() as ILinkSeriesSpec;
+            originalStateFields[s.id] = [`${fromField}_${stateAxisHelper === xAxisHelper ? 'x' : 'y'}Field`];
+            return;
+          }
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
           const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
 
           dataCollection.push(s.getRawData());
+          seriesCollection.push(s);
           // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下:
           // 1. dataFilterComputeDomain处理时拿到的viewData中没有__VCHART_STACK_START等属性，也就是还没处理
           // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
@@ -627,8 +651,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               ? array(seriesSpec.yField)
               : array(seriesSpec.radiusField ?? seriesSpec.valueField);
 
-          originalStateFields[s.id] =
-            s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
+          originalStateFields[s.id] = stateAxisHelper === xAxisHelper ? xField : yField;
 
           if (isValidateStateAxis) {
             isCategoryState = false;
@@ -638,11 +661,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             stateFields.push(originalStateFields[s.id][0]);
           }
 
-          if (this._valueField) {
-            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
-            if (isValidateValueAxis) {
-              valueFields.push(...valueField);
-            }
+          if (this._valueField && isValidateValueAxis) {
+            const valueField = valueAxisHelper === xAxisHelper ? xField : yField;
+            // 每个数值字段与其系列对应，分类轴不参与求和，也不挤占后续系列的位置。
+            valueFields[dataCollection.length - 1] = valueField[0];
           }
         },
         {
@@ -699,9 +721,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       false
     );
 
+    data.reRunAllTransform();
     // todo 似乎没必要创建
     this._data = new CompilableData(this._option, data);
-    data.reRunAllTransform();
     this._currentDataCollection = dataCollection;
     dataSet.multipleDataViewAddListener(dataCollection, 'change', this._handleDataCollectionChangeBound);
   }
@@ -840,13 +862,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       start = this._spec.start
         ? this._spec.start
         : this._spec.startValue
-        ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
-        : 0;
+          ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
+          : 0;
       end = this._spec.end
         ? this._spec.end
         : this._spec.endValue
-        ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
-        : 1;
+          ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
+          : 1;
     }
     this._start = Math.max(0, Math.min(1, start));
     this._end = Math.max(0, Math.min(1, end));

@@ -1,6 +1,6 @@
 import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
 import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
+import type { IImageMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
 import type { SeriesMarkNameEnum } from '../interface/type';
 import type { DataView } from '@visactor/vdataset';
 import type { IDotSeriesSpec } from '../dot/interface';
@@ -35,10 +35,30 @@ export interface ILinkSeriesSpec extends ICartesianSeriesSpec, ILinkSeriesSpecFr
    * @description 用于区分link的stroke逻辑。如果没有配置，则每条link都使用相同的stroke
    */
   dotTypeField?: string;
+
+  /**
+   * link类型: 直线 或 曲线
+   * @default 'line'
+   */
+  linkType?: LinkType;
+
+  /**
+   * link的image标签字段
+   */
+  imageLabelField?: string;
+  /**
+   * 是否允许向左右两侧延伸
+   * @default false
+   */
+  allowExtend?: boolean;
   /**
    * 图元配置
    */
   [SeriesMarkNameEnum.link]?: IMarkSpec<ILineMarkSpec>;
+  /**
+   * image标签配置
+   */
+  [SeriesMarkNameEnum.imageLabel]?: IMarkSpec<IImageMarkSpec>;
 }
 
 type ILinkSeriesSpecFromDot = {
@@ -65,4 +85,10 @@ type ILinkSeriesSpecFromDot = {
 export interface ILinkSeriesTheme extends ICartesianSeriesTheme {
   [SeriesMarkNameEnum.link]?: Partial<IMarkTheme<ILineMarkSpec>>;
   [SeriesMarkNameEnum.arrow]?: Partial<IMarkTheme<ISymbolMarkSpec>>;
+  [SeriesMarkNameEnum.imageLabel]?: Partial<IMarkTheme<IImageMarkSpec>>;
+}
+
+export enum LinkType {
+  line = 'line',
+  curve = 'curve'
 }

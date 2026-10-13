@@ -58,6 +58,13 @@ export interface IDotSeriesSpec extends ICartesianSeriesSpec {
    * @description 用于标记node name，便于绘制link。
    */
   name: string;
+
+  /**
+   * 是否线性维度展开
+   * @default true
+   */
+  linearMode?: boolean;
+
   /**
    * 图元配置
    */

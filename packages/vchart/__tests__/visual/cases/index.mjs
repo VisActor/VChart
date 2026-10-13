@@ -5,6 +5,21 @@
 /** 本地用例元数据的唯一清单；模块必须保持浏览器和 Node 均可导入。 */
 export const cases = [
   {
+    id: 'sequence-preview-filter',
+    purpose: '时序图缩略图不累加用户 ID，连线随 dataZoom 时间选区过滤',
+    file: './components/datazoom/sequence-preview-filter.mjs'
+  },
+  {
+    id: 'sequence-link-data',
+    purpose: 'dot 嵌套原始数据与更新后的连接端点',
+    file: './api/update/sequence-link-data.mjs'
+  },
+  {
+    id: 'sequence-curve-link',
+    purpose: '曲线连接在配置与数据更新后保持路径稳定并应用公开 link 配置',
+    file: './api/update/sequence-curve-link.mjs'
+  },
+  {
     id: 'bar-stack',
     purpose: '正负值、堆叠与零基准线（bar）',
     file: './charts/bar/bar-stack.mjs',
@@ -373,6 +388,11 @@ export const cases = [
     id: 'datazoom-preview',
     purpose: 'dataZoom 预览图的初始范围和布局',
     file: './components/datazoom/datazoom-preview.mjs'
+  },
+  {
+    id: 'datazoom-numeric-category',
+    purpose: '数字分类轴在更新和缩放后保持预览及分类顺序',
+    file: './components/datazoom/datazoom-numeric-category.mjs'
   },
   {
     id: 'waterfall-leader-line',

@@ -143,12 +143,31 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     );
   }
 
+  protected _statisticViewData() {
+    super._statisticViewData();
+    this._viewDataStatistics?.transform(
+      {
+        type: 'objFlat',
+        options: 'dots',
+        level: TransformLevel.dotObjFlat
+      },
+      false
+    );
+  }
+
   getStatisticFields() {
-    return [{ key: this._fieldY[0], operations: ['values'], customize: this._xDimensionStatisticsDomain }] as {
+    const result = [{ key: this._fieldY[0], operations: ['values'], customize: this._xDimensionStatisticsDomain }] as {
       key: string;
       operations: Array<'max' | 'min' | 'values'>;
       customize: any[];
     }[];
+    const { linearMode = true } = this._spec;
+    if (linearMode) {
+      (result as any).push({ key: this._fieldX[0], operations: ['min', 'max'] });
+    } else {
+      (result as any).push({ key: this._fieldX[0], operations: ['values'] });
+    }
+    return result;
   }
 
   /**
@@ -235,7 +254,7 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
       this.setMarkStyle(
         containerMark,
         {
-          x: this._spec.leftAppendPadding
+          x: this._spec.leftAppendPadding ?? 0
         },
         'normal',
         AttributeLevel.Series
@@ -416,8 +435,8 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     return this._seriesGroupField
       ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
       : this._seriesField
-        ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-        : [];
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+      : [];
   }
 
   /**
@@ -439,10 +458,10 @@ export class DotSeries<T extends IDotSeriesSpec = IDotSeriesSpec> extends Cartes
     const colorDomain = this._dotTypeField
       ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
       : this._seriesGroupField
-        ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
-        : this._seriesField
-          ? this.getViewDataStatistics()?.latestData[this._seriesField].values
-          : [];
+      ? this.getViewDataStatistics()?.latestData[this._seriesGroupField].values
+      : this._seriesField
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+      : [];
     const colorRange = this._getDataScheme();
     return new ColorOrdinalScale().domain(colorDomain).range(colorRange);
   }

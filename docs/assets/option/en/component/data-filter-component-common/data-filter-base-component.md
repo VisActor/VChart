@@ -35,6 +35,14 @@ Associated axis ID.
 
 Associated axis index.
 
+#${prefix} linkedAxisId(string)
+
+ID of a second linked axis. Only effective in `filterMode: 'axis'`. Copies the primary axis window proportions, not its data domain; use compatible directions and domains. Available for both DataZoom and ScrollBar. Takes precedence over linkedAxisIndex.
+
+#${prefix} linkedAxisIndex(number)
+
+Zero-based index of the linked axis in axes. Only effective in `filterMode: 'axis'`.
+
 #${prefix} regionId(string)
 
 Associated region ID.
@@ -90,7 +98,6 @@ Start and end configuration modes: Only when the mode and configuration match do
 
 Whether to automatically indent.
 
-
 #${prefix} auto(boolean) = false
 
 Whether it is in automatic mode. After opening, the component will not cause scaling of the axis, and configurations such as `end`、`roam`、`minSpan`、`maxSpan`、`minValueSpan`、`maxValueSpan` that may cause scaling will be ignored, and the component can automatically disappear. Supported since version `1.4.0`.
@@ -114,6 +121,7 @@ The maximum data value used to limit the window size, only takes effect in conti
 Event trigger delay type, if not configured, it will be regarded as not enabled. Supported since version `1.5.1`.
 
 Optional values:
+
 - `'throttle'`: throttling
 - `'debounce'`: anti-shake
 
@@ -158,6 +166,7 @@ Whether to update the view in real time during interaction, enabled by default. 
 Supports custom domain, used to unify dataZoom domain and associated axis domain(When the brush component turns on `zoomAfterBrush`, the associated dataZoom needs to be consistent with the axis, otherwise the brush range cannot be calculated correctly.). Supported since version 1.10.0.
 
 ### updateDataAfterChange(Function)
+
 Customize the callback when datazoom is updated. Supported since version 1.10.0.
 
 ```ts

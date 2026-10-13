@@ -69,7 +69,7 @@ export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements I
         const childrenPrev = prev.filter((p: any) => p.key === 'children');
 
         childrenPrev.length > 0 &&
-          childrenPrev[0].value.forEach((element: any) => {
+          childrenPrev?.[0]?.value?.forEach((element: any) => {
             let flag = true;
             for (const key in element) {
               childrenContent.push({
