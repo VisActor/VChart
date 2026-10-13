@@ -1,4 +1,5 @@
 import type { ICartesianSeries, IPolarSeries, ISeries } from '../../series/interface';
+import type { ILinkSeriesSpec } from '../../series/link/interface';
 import { eachSeries } from '../../util/model';
 import { BaseComponent } from '../base/base-component';
 import type { IEffect, IModelInitOption } from '../../model/interface';
@@ -600,22 +601,19 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       eachSeries(
         this._regions,
         s => {
-          if (s.type === 'link') {
-            return;
-          }
           // 如果副轴的类型是time或band，则无法进行数据统计
           const xAxisHelper =
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getXAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).angleAxisHelper
-              : null;
+                ? (s as IPolarSeries).angleAxisHelper
+                : null;
           const yAxisHelper =
             s.coordinate === 'cartesian'
               ? (s as ICartesianSeries).getYAxisHelper()
               : s.coordinate === 'polar'
-              ? (s as IPolarSeries).radiusAxisHelper
-              : null;
+                ? (s as IPolarSeries).radiusAxisHelper
+                : null;
           if (!xAxisHelper || !yAxisHelper) {
             return;
           }
@@ -623,10 +621,16 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             xAxisHelper.getAxisId() === this._relatedAxisComponent.id
               ? xAxisHelper
               : yAxisHelper.getAxisId() === this._relatedAxisComponent.id
-              ? yAxisHelper
-              : this._isHorizontal
-              ? xAxisHelper
-              : yAxisHelper;
+                ? yAxisHelper
+                : this._isHorizontal
+                  ? xAxisHelper
+                  : yAxisHelper;
+          if (s.type === 'link') {
+            // 连线不参与预览统计；过滤字段遵循 linkDotInfo 的起点字段和坐标命名。
+            const { fromField } = s.getSpec() as ILinkSeriesSpec;
+            originalStateFields[s.id] = [`${fromField}_${stateAxisHelper === xAxisHelper ? 'x' : 'y'}Field`];
+            return;
+          }
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
           const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
@@ -647,8 +651,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               ? array(seriesSpec.yField)
               : array(seriesSpec.radiusField ?? seriesSpec.valueField);
 
-          originalStateFields[s.id] =
-            s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
+          originalStateFields[s.id] = stateAxisHelper === xAxisHelper ? xField : yField;
 
           if (isValidateStateAxis) {
             isCategoryState = false;
@@ -658,11 +661,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             stateFields.push(originalStateFields[s.id][0]);
           }
 
-          if (this._valueField) {
-            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
-            if (isValidateValueAxis || s.type === 'dot') {
-              valueFields.push(...valueField);
-            }
+          if (this._valueField && isValidateValueAxis) {
+            const valueField = valueAxisHelper === xAxisHelper ? xField : yField;
+            // 每个数值字段与其系列对应，分类轴不参与求和，也不挤占后续系列的位置。
+            valueFields[dataCollection.length - 1] = valueField[0];
           }
         },
         {
@@ -860,13 +862,13 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       start = this._spec.start
         ? this._spec.start
         : this._spec.startValue
-        ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
-        : 0;
+          ? dataToStatePoint(this._spec.startValue, this._stateScale, this._isHorizontal)
+          : 0;
       end = this._spec.end
         ? this._spec.end
         : this._spec.endValue
-        ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
-        : 1;
+          ? dataToStatePoint(this._spec.endValue, this._stateScale, this._isHorizontal)
+          : 1;
     }
     this._start = Math.max(0, Math.min(1, start));
     this._end = Math.max(0, Math.min(1, end));

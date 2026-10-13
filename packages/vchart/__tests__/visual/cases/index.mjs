@@ -5,6 +5,11 @@
 /** 本地用例元数据的唯一清单；模块必须保持浏览器和 Node 均可导入。 */
 export const cases = [
   {
+    id: 'sequence-preview-filter',
+    purpose: '时序图缩略图不累加用户 ID，连线随 dataZoom 时间选区过滤',
+    file: './components/datazoom/sequence-preview-filter.mjs'
+  },
+  {
     id: 'sequence-link-data',
     purpose: 'dot 嵌套原始数据与更新后的连接端点',
     file: './api/update/sequence-link-data.mjs'
