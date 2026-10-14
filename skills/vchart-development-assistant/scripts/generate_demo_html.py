@@ -22,6 +22,8 @@ def escape_js_string(s: str) -> str:
     """转义 JavaScript 字符串中的特殊字符"""
     s = s.replace("\\", "\\\\")
     s = s.replace("`", "\\`")
+    # 编辑器中的回调代码是文本，不能被外层模板字符串提前插值。
+    s = s.replace("${", "\\${")
     s = s.replace("\n", "\\n")
     return s
 
