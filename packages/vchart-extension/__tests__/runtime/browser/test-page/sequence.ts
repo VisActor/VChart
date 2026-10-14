@@ -1,13 +1,10 @@
 import { isMobile } from 'react-device-detect';
-import { default as VChart } from '../../../../src/index';
-import { registerSequenceChart } from '../../../../../vchart-extension/src/charts/sequence';
+import { default as VChart } from '@visactor/vchart';
+import { registerSequenceChart } from '../../../../src/charts/sequence';
 
 registerSequenceChart({ VChart });
 import { DataSet, DataView, csvParser } from '@visactor/vdataset';
-import { dataRegister } from '../../../data/data-sequence-register';
 import { dataIm } from '../../../data/data-sequence-im';
-import { dataEventDot } from '../../../data/data-sequence-event-dot';
-import { dataEventLink } from '../../../data/data-sequence-event-link';
 import { dataComment } from '../../../data/data-sequence-comment';
 const run = () => {
   const dataSet = new DataSet();

@@ -1,8 +1,8 @@
 import { DataSet, DataView } from '@visactor/vdataset';
 import { BandScale, LinearScale, type IBandLikeScale } from '@visactor/vscale';
-import { DataZoom } from '../../../../src/component/data-zoom/data-zoom/data-zoom';
-import { dataFilterWithNewDomain } from '../../../../src/component/data-zoom/util';
-import { linkDotInfo } from '../../../../../vchart-extension/src/series/link/transform';
+import { DataZoom } from '@visactor/vchart';
+import { dataFilterWithNewDomain } from '@visactor/vchart/esm/component/data-zoom/util';
+import { linkDotInfo } from '../../../../src/series/link/transform';
 
 describe('sequence analysis DataZoom', () => {
   it('keeps nested dot domains and link filter fields without summing numeric-looking user IDs', () => {

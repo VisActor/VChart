@@ -1,11 +1,11 @@
-import { Bounds, Matrix } from '../../../src';
-import { PictogramSeries } from '../../../../vchart-extension/src/charts/pictogram/series/pictogram';
+import { Bounds, Matrix } from '@visactor/vchart';
+import { PictogramSeries } from '../../../src/charts/pictogram/series/pictogram';
 import {
   SVG_VIEWPORT_RECT_KEY,
   clearSVGSource,
   getSVGSource,
   registerSVGSource
-} from '../../../../vchart-extension/src/charts/pictogram/series/svg-source';
+} from '../../../src/charts/pictogram/series/svg-source';
 
 const createBounds = (x1: number, y1: number, x2: number, y2: number) => new Bounds().setValue(x1, y1, x2, y2);
 

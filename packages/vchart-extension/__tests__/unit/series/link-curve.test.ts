@@ -1,6 +1,6 @@
-import VChart, { type ICommonChartSpec } from '../../../src';
-import { LinkType, type ILinkSeriesSpec, registerLinkSeries } from '../../../../vchart-extension/src/series/link';
-import { type IDotSeriesSpec, registerDotSeries } from '../../../../vchart-extension/src/series/dot';
+import VChart, { type ICommonChartSpec } from '@visactor/vchart';
+import { LinkType, type ILinkSeriesSpec, registerLinkSeries } from '../../../src/series/link';
+import { type IDotSeriesSpec, registerDotSeries } from '../../../src/series/dot';
 
 registerDotSeries();
 registerLinkSeries();

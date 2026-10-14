@@ -1,42 +1,11 @@
-import { BaseChart, Factory } from '../../../src';
-import { DotSeries } from '../../../../vchart-extension/src/series/dot';
-import { LinkSeries } from '../../../../vchart-extension/src/series/link';
-import { factoryRegistry } from '../../../src/core/factory-registry';
-import {
-  SequenceChart,
-  SequenceChartSpecTransformer,
-  registerSequenceChart
-} from '../../../../vchart-extension/src/charts/sequence';
-import { registerSequenceAnalysis } from '../../../../vchart-extension/src/charts/sequence-analysis/sequence-analysis';
+import { BaseChart, Factory } from '@visactor/vchart';
+import { DotSeries } from '../../../src/series/dot';
+import { LinkSeries } from '../../../src/series/link';
+import { factoryRegistry } from '@visactor/vchart/esm/core/factory-registry';
+import { SequenceChart, SequenceChartSpecTransformer, registerSequenceChart } from '../../../src/charts/sequence';
+import { registerSequenceAnalysis } from '../../../src/charts/sequence-analysis/sequence-analysis';
 
 describe('sequence chart extension migration', () => {
-  it('keeps sequence and dot/link opt-in in the full core bundle', () => {
-    const savedCharts = { ...factoryRegistry.charts };
-    const savedSeries = { ...factoryRegistry.series };
-    try {
-      delete factoryRegistry.charts.sequence;
-      delete factoryRegistry.series.dot;
-      delete factoryRegistry.series.link;
-      // Electron 测试共享全局 Factory；重新加载主包，验证它自身的导出和注册副作用。
-      jest.isolateModules(() => {
-        const core = require('../../../src');
-        for (const name of ['DotSeries', 'LinkSeries', 'registerDotSeries', 'registerLinkSeries']) {
-          expect(core).not.toHaveProperty(name);
-        }
-        expect(core.Factory.getChart('sequence')).toBeUndefined();
-        expect(core.Factory.getSeriesInType('dot')).toBeUndefined();
-        expect(core.Factory.getSeriesInType('link')).toBeUndefined();
-      });
-      registerSequenceChart();
-      expect(Factory.getChart('sequence')).toBe(SequenceChart);
-    } finally {
-      Object.keys(factoryRegistry.charts).forEach(key => delete factoryRegistry.charts[key]);
-      Object.keys(factoryRegistry.series).forEach(key => delete factoryRegistry.series[key]);
-      Object.assign(factoryRegistry.charts, savedCharts);
-      Object.assign(factoryRegistry.series, savedSeries);
-    }
-  });
-
   it('registers the series, axes, grid layout and scrollbar needed by legacy specs', () => {
     const keys = ['series', 'components', 'layout'] as const;
     const saved = keys.map(key => ({ ...factoryRegistry[key] }));

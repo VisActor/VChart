@@ -47,7 +47,6 @@
           document.head.append(script);
         });
         const item = await loadCase(selected);
-        item.register?.({ VChart: window.VChart, VChartExtension: window.VChartExtension });
         const spec = { ...item.createSpec(), animation: false };
         document.getElementById('chart').style.width = `${settings.chart.width}px`;
         document.getElementById('chart').style.height = `${settings.chart.height}px`;

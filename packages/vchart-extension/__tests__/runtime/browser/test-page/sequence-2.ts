@@ -1,6 +1,6 @@
 import { isMobile } from 'react-device-detect';
-import { default as VChart } from '../../../../src/index';
-import { registerSequenceChart } from '../../../../../vchart-extension/src/charts/sequence';
+import { default as VChart } from '@visactor/vchart';
+import { registerSequenceChart } from '../../../../src/charts/sequence';
 
 registerSequenceChart({ VChart });
 

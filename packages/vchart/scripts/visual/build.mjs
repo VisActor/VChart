@@ -70,67 +70,9 @@ export async function build(root, destination, runtime, log) {
       log,
       { code: 'BUILD_FAILED', env: buildEnv }
     );
-  // 使用同一侧源码构建时序扩展；VChart 保持外部依赖，共享 Factory 和主题注册表。
-  // 基线迁移前由 sequenceAnalysis 注册核心系列，迁移后注册扩展系列。
-  const extensionDirectory = path.join(path.dirname(destination), `${path.basename(destination, '.js')}-extension`);
-  await fs.mkdir(extensionDirectory, { recursive: true });
-  // 主包 UMD 不生成声明文件，扩展编译直接读取同一侧主包源码的类型，避免使用陈旧 esm。
-  const extensionTsconfig = path.join(extensionDirectory, 'tsconfig.json');
-  const coreTsconfig = JSON.parse(await fs.readFile(path.join(root, 'packages/vchart/tsconfig.json'), 'utf8'));
-  const paths = Object.fromEntries(
-    Object.entries(coreTsconfig.compilerOptions.paths ?? {}).map(([key, values]) => [
-      key,
-      values.map(value => path.resolve(root, 'packages/vchart', value))
-    ])
-  );
-  paths['@visactor/vchart'] = [path.join(root, 'packages/vchart/src/index.ts')];
-  await fs.writeFile(
-    extensionTsconfig,
-    JSON.stringify({
-      extends: path.join(root, 'packages/vchart-extension/tsconfig.json'),
-      compilerOptions: { rootDir: path.join(root, 'packages'), paths },
-      include: [path.join(root, 'packages/vchart-extension/src/charts/sequence-analysis/sequence-analysis.ts')],
-      references: []
-    })
-  );
-  const extensionConfig = path.join(extensionDirectory, 'bundler.config.cjs');
-  await fs.writeFile(
-    extensionConfig,
-    `module.exports = ${JSON.stringify({
-      name: 'VChartExtension',
-      tsconfig: extensionTsconfig,
-      input: { umd: 'charts/sequence-analysis/sequence-analysis.ts' },
-      outputDir: { umd: path.join(extensionDirectory, 'build') },
-      umdOutputFilename: 'index',
-      noEmitOnError: false,
-      external: ['@visactor/vchart'],
-      globals: { '@visactor/vchart': 'VChart' },
-      envs: { __DEV__: 'false' }
-    })};`
-  );
-  await runtime.run(
-    process.execPath,
-    [
-      path.join(root, 'common/scripts/install-run-rushx.js'),
-      'build:umd',
-      '--config',
-      extensionConfig,
-      '--minify=false'
-    ],
-    path.join(root, 'packages/vchart-extension'),
-    log,
-    { code: 'BUILD_FAILED', env: buildEnv }
-  );
   try {
     if (!(await fs.stat(path.join(root, output))).size) throw new Error('构建产物为空');
-    await fs.writeFile(
-      destination,
-      Buffer.concat([
-        await fs.readFile(path.join(root, output)),
-        Buffer.from('\n;\n'),
-        await fs.readFile(path.join(extensionDirectory, 'build/index.js'))
-      ])
-    );
+    await fs.copyFile(path.join(root, output), destination);
   } catch (error) {
     throw fault('BUILD_FAILED', `没有生成有效的新产物：${error.message}`, error);
   }
@@ -174,7 +116,15 @@ export async function publishCache(cache, key, bundle) {
   }
 }
 /** 基线缓存只取决于构建输入；报告修改不使缓存失效。 */
-export async function baselineBuild(root, runDir, sha, runtime, report, timed) {
+export async function baselineBuild(
+  root,
+  runDir,
+  sha,
+  runtime,
+  report,
+  timed,
+  { buildBundle = build, buildKey = '', outputDirectory = '.vchart-visual' } = {}
+) {
   const log = path.join(runDir, 'build.log');
   const key = digest(
     JSON.stringify({
@@ -185,10 +135,11 @@ export async function baselineBuild(root, runDir, sha, runtime, report, timed) {
       arch: process.arch,
       recipe: digest(await fs.readFile(fileURLToPath(import.meta.url))),
       buildEnv,
+      buildKey,
       tools: git(root, ['show', `${sha}:rush.json`])
     })
   );
-  const cache = path.join(root, '.vchart-visual/baseline-cache');
+  const cache = path.join(root, outputDirectory, 'baseline-cache');
   const cached = await readCache(cache, key);
   if (cached) {
     await fs.writeFile(path.join(runDir, 'baseline.js'), cached);
@@ -213,6 +164,6 @@ export async function baselineBuild(root, runDir, sha, runtime, report, timed) {
       env: { NODE_ENV: 'development' }
     })
   );
-  await timed('baselineCompileMs', () => build(worktree, path.join(runDir, 'baseline.js'), runtime, log));
+  await timed('baselineCompileMs', () => buildBundle(worktree, path.join(runDir, 'baseline.js'), runtime, log));
   await publishCache(cache, key, await fs.readFile(path.join(runDir, 'baseline.js')));
 }

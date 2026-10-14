@@ -1,19 +1,12 @@
-import VChart, { createText } from '../../../src';
-import type { ITextGraphicAttribute } from '../../../src';
-import { registerBrowserEnv } from '../../../src/env';
+import VChart, { createText } from '@visactor/vchart';
+import type { ITextGraphicAttribute } from '@visactor/vchart';
+import { registerBrowserEnv } from '@visactor/vchart';
 import { createDiv, removeDom } from '../../util/dom';
-import {
-  graphicAttributeTransform,
-  pictogram
-} from '../../../../vchart-extension/src/charts/pictogram/series/transform';
-import { registerPictogramChart } from '../../../../vchart-extension/src/charts/pictogram/pictogram';
-import type { IPictogramChartSpec } from '../../../../vchart-extension/src/charts/pictogram/interface';
-import type { SVGParsedElementExtend } from '../../../../vchart-extension/src/charts/pictogram/series/pictogram';
-import {
-  clearSVGSource,
-  getSVGSource,
-  registerSVGSource
-} from '../../../../vchart-extension/src/charts/pictogram/series/svg-source';
+import { graphicAttributeTransform, pictogram } from '../../../src/charts/pictogram/series/transform';
+import { registerPictogramChart } from '../../../src/charts/pictogram/pictogram';
+import type { IPictogramChartSpec } from '../../../src/charts/pictogram/interface';
+import type { SVGParsedElementExtend } from '../../../src/charts/pictogram/series/pictogram';
+import { clearSVGSource, getSVGSource, registerSVGSource } from '../../../src/charts/pictogram/series/svg-source';
 
 const registerTextSVG = (body: string) =>
   registerSVGSource('anchor-test', `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">${body}</svg>`);
