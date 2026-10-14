@@ -3,7 +3,6 @@ import { DotSeries } from '../../../src/series/dot/dot';
 import { LinkSeries, registerLinkSeries } from '../../../src/series/link/link';
 import { registerSequenceChart } from '../../../src/charts/sequence';
 import { Factory } from '@visactor/vchart';
-import { factoryRegistry } from '@visactor/vchart/esm/core/factory-registry';
 import { linkDotInfo } from '../../../src/series/link/transform';
 // eslint-disable-next-line max-len
 import { SequenceAnalysisChartSpecTransformer } from '../../../src/charts/sequence-analysis/sequence-analysis-transformer';
@@ -86,23 +85,21 @@ describe('sequence analysis review regressions', () => {
   });
 
   it.each([registerLinkSeries, registerSequenceChart])('registers curve and image marks on demand (%#)', register => {
-    const marks = { ...factoryRegistry.marks };
-    const graphics = { ...factoryRegistry.graphicComponents };
+    const registerMark = jest.spyOn(Factory, 'registerMark');
+    const registerGraphic = jest.spyOn(Factory, 'registerGraphicComponent');
     try {
-      delete factoryRegistry.marks.path;
-      delete factoryRegistry.marks.image;
-      delete factoryRegistry.graphicComponents.path;
-      delete factoryRegistry.graphicComponents.image;
       register();
       for (const type of ['path', 'image']) {
+        expect(registerMark).toHaveBeenCalledWith(type, expect.any(Function));
+        expect(registerGraphic).toHaveBeenCalledWith(type, expect.any(Function));
         const mark = Factory.createMark(type, type, {} as any);
         expect(mark?.type).toBe(type);
         expect(Factory.createGraphicComponent(type, {}).type).toBe(type);
         mark.release();
       }
     } finally {
-      Object.assign(factoryRegistry.marks, marks);
-      Object.assign(factoryRegistry.graphicComponents, graphics);
+      registerMark.mockRestore();
+      registerGraphic.mockRestore();
     }
   });
 

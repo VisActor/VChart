@@ -1,41 +1,43 @@
 import { BaseChart, Factory } from '@visactor/vchart';
 import { DotSeries } from '../../../src/series/dot';
 import { LinkSeries } from '../../../src/series/link';
-import { factoryRegistry } from '@visactor/vchart/esm/core/factory-registry';
 import { SequenceChart, SequenceChartSpecTransformer, registerSequenceChart } from '../../../src/charts/sequence';
 import { registerSequenceAnalysis } from '../../../src/charts/sequence-analysis/sequence-analysis';
 
 describe('sequence chart extension migration', () => {
   it('registers the series, axes, grid layout and scrollbar needed by legacy specs', () => {
-    const keys = ['series', 'components', 'layout'] as const;
-    const saved = keys.map(key => ({ ...factoryRegistry[key] }));
+    const registerSeries = jest.spyOn(Factory, 'registerSeries');
+    const registerComponent = jest.spyOn(Factory, 'registerComponent');
+    const registerLayout = jest.spyOn(Factory, 'registerLayout');
     try {
-      keys.forEach(key => Object.keys(factoryRegistry[key]).forEach(name => delete factoryRegistry[key][name]));
       registerSequenceChart();
+      // 检查本次入口实际执行注册，避免主包或其他用例的预注册掩盖遗漏。
       for (const type of ['dot', 'link', 'bar', 'line', 'area']) {
-        expect(Factory.getSeriesInType(type)).toBeDefined();
+        expect(registerSeries).toHaveBeenCalledWith(type, Factory.getSeriesInType(type));
       }
       for (const type of ['cartesianAxis-band', 'cartesianAxis-linear', 'cartesianAxis-time', 'scrollBar']) {
-        expect(factoryRegistry.components[type]).toBeDefined();
+        expect(registerComponent.mock.calls.some(([key]) => key === type)).toBe(true);
+        expect(Factory.getComponentInKey(type)).toBeDefined();
       }
-      expect(factoryRegistry.layout.grid).toBeDefined();
+      expect(registerLayout).toHaveBeenCalledWith('grid', Factory.getLayoutInKey('grid'));
+      expect(Factory.getChart('sequence')).toBe(SequenceChart);
     } finally {
-      keys.forEach((key, index) => Object.assign(factoryRegistry[key], saved[index]));
+      registerSeries.mockRestore();
+      registerComponent.mockRestore();
+      registerLayout.mockRestore();
     }
   });
 
-  it('keeps sequence-analysis independent of sequence registration', () => {
-    const dot = factoryRegistry.series.dot;
-    const link = factoryRegistry.series.link;
+  it('registers dot and link through the sequence-analysis entry itself', () => {
+    const registerSeries = jest.spyOn(Factory, 'registerSeries');
     try {
-      delete factoryRegistry.series.dot;
-      delete factoryRegistry.series.link;
       registerSequenceAnalysis();
+      expect(registerSeries).toHaveBeenCalledWith('dot', DotSeries);
+      expect(registerSeries).toHaveBeenCalledWith('link', LinkSeries);
       expect(Factory.getSeriesInType('dot')).toBe(DotSeries);
       expect(Factory.getSeriesInType('link')).toBe(LinkSeries);
     } finally {
-      factoryRegistry.series.dot = dot;
-      factoryRegistry.series.link = link;
+      registerSeries.mockRestore();
     }
   });
 
