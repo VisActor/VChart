@@ -125,7 +125,7 @@ async function initGallery() {
     const displayName = variant?.name ?? entry.name;
     document.getElementById('chart-title').textContent = displayName;
     document.getElementById('chart-type').textContent = spec.type;
-    document.getElementById('schema').href = `/schema/plots/${spec.type}.schema.json`;
+    document.getElementById('schema').href = `/schema/plots/${encodeURIComponent(spec.type)}.schema.json`;
     document.title = `${displayName} · VChart StatPlots`;
     selectLink(spec.type);
     try {

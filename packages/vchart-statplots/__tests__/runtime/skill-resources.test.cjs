@@ -7,6 +7,41 @@ const { createHash } = require('node:crypto');
 const {execFileSync}=require('node:child_process');
 const moduleURL = new URL('../../scripts/sync-visualization-skill.mjs', require('node:url').pathToFileURL(__filename));
 
+function packageFetch(version, bytes, integrity) {
+  const metadataURL = `https://registry.npmjs.org/@visactor%2fvchart-statplots/${version}`;
+  const tarballURL = 'https://fixture.test/package.tgz';
+  return async url => {
+    if (String(url) === metadataURL) {
+      return new Response(
+        JSON.stringify({ name: '@visactor/vchart-statplots', dist: { tarball: tarballURL, integrity } })
+      );
+    }
+    if (String(url) === tarballURL) return new Response(bytes);
+    throw new Error(`Unexpected fixture request: ${url}`);
+  };
+}
+
+test('package fetch fixture accepts exact requests and rejects deceptive URLs', async () => {
+  const { version } = await import(moduleURL);
+  const bytes = Buffer.from('fixture tarball');
+  const fetch = packageFetch(version, bytes, 'sha512-fixture');
+  const metadata = await (await fetch(`https://registry.npmjs.org/@visactor%2fvchart-statplots/${version}`)).json();
+  assert.equal(metadata.name, '@visactor/vchart-statplots');
+  assert.equal(metadata.dist.integrity, 'sha512-fixture');
+  assert.deepEqual(Buffer.from(await (await fetch(metadata.dist.tarball)).arrayBuffer()), bytes);
+  for (const url of [
+    'https://registry.npmjs.org.attacker.invalid/package',
+    'https://attacker.invalid/registry.npmjs.org',
+    'https://attacker.invalid/?host=registry.npmjs.org',
+    'https://registry.npmjs.org/wrong-package',
+    'https://registry.npmjs.org/@visactor%2fvchart-statplots/wrong-version',
+    `http://registry.npmjs.org/@visactor%2fvchart-statplots/${version}`,
+    'https://fixture.test/unexpected.tgz'
+  ]) {
+    await assert.rejects(fetch(url), /Unexpected fixture request/);
+  }
+});
+
 function typeFixture() {
   return new Map([
     ['esm/types.d.ts', "import type {A} from './plots/a/types'; import type {B} from './plots/b/types'; export type StatPlotSpec=A|B;"],
@@ -90,14 +125,12 @@ test('offline check detects stale files, changed selectors and broken references
 });
 
 test('a failed synchronization preserves the previous snapshot', async () => {
-  const { syncResources } = await import(moduleURL);
+  const { syncResources, version } = await import(moduleURL);
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'dsv-failed-sync-'));
   const fetch = global.fetch;
   try {
     await fs.writeFile(path.join(root, 'manifest.json'), 'previous snapshot');
-    global.fetch = async url => String(url).includes('registry.npmjs.org')
-      ? new Response(JSON.stringify({name:'@visactor/vchart-statplots', dist:{tarball:'https://fixture.test/package.tgz',integrity:'sha512-invalid'}}))
-      : new Response(Buffer.from('not the expected tarball'));
+    global.fetch = packageFetch(version, Buffer.from('not the expected tarball'), 'sha512-invalid');
     await assert.rejects(syncResources(root), /integrity/);
     assert.equal(await fs.readFile(path.join(root, 'manifest.json'), 'utf8'), 'previous snapshot');
     assert.deepEqual(await fs.readdir(root), ['manifest.json']);
@@ -108,7 +141,7 @@ test('a failed synchronization preserves the previous snapshot', async () => {
 });
 
 test('a verified tarball with missing declarations preserves snapshot and controller',async()=>{
-  const {syncResources}=await import(moduleURL);
+  const {syncResources,version}=await import(moduleURL);
   const temp=await fs.mkdtemp(path.join(os.tmpdir(),'dsv-invalid-package-'));
   const root=path.join(temp,'snapshot');const fetch=global.fetch;
   const controller=path.resolve(__dirname,'../../../../skills/data-science-visualization/assets/statplot-controller.js');
@@ -125,8 +158,7 @@ test('a verified tarball with missing declarations preserves snapshot and contro
     }
     const archive=path.join(temp,'package.tgz');execFileSync('tar',['-czf',archive,'-C',temp,'package']);
     const bytes=await fs.readFile(archive);const integrity='sha512-'+createHash('sha512').update(bytes).digest('base64');
-    global.fetch=async url=>String(url).includes('registry.npmjs.org')?
-      new Response(JSON.stringify({name:'@visactor/vchart-statplots',dist:{tarball:'https://fixture.test/package.tgz',integrity}})):new Response(bytes);
+    global.fetch=packageFetch(version,bytes,integrity);
     await assert.rejects(syncResources(root),/esm\/plots\/b\/types/);
     assert.equal(await fs.readFile(path.join(root,'manifest.json'),'utf8'),'previous');
     assert.deepEqual(await fs.readFile(controller),before);

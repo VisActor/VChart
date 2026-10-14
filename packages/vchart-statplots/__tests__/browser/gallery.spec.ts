@@ -126,6 +126,35 @@ test('gallery updates navigation after a valid edited spec and supports keyboard
   await expect(page.locator('#error')).toBeEmpty();
 });
 
+test('gallery rejects injected types and preserves its same-origin schema link and chart', async ({ page }) => {
+  const errors: string[] = [];
+  page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/examples/index.html?type=countPlot');
+  await expect(page.locator('#status')).toContainText('countPlot ·');
+  const original = JSON.parse(await page.locator('#input').inputValue());
+  const schema = page.locator('#schema');
+  await expect(schema).toHaveAttribute('href', '/schema/plots/countPlot.schema.json');
+  const url = await schema.evaluate((link: HTMLAnchorElement) => link.href);
+  expect(new URL(url).origin).toBe(new URL(page.url()).origin);
+  expect((await page.request.get(url)).ok()).toBe(true);
+  for (const type of [
+    'javascript:document.documentElement.dataset.securityExecuted="true"',
+    '"><img src=x onerror="document.documentElement.dataset.securityExecuted=\'true\'">',
+    '../../..//attacker.invalid/evil'
+  ]) {
+    await page.locator('#input').fill(JSON.stringify({ ...original, type }));
+    await page.locator('#render').click();
+    await expect(page.locator('#error')).toContainText('/type');
+    await expect(schema).toHaveAttribute('href', '/schema/plots/countPlot.schema.json');
+    await expect(page.locator('#status')).toContainText('countPlot ·');
+    await expect(page.locator('#plot canvas')).toHaveCount(1);
+    expect(await page.evaluate(() => document.documentElement.dataset.securityExecuted)).toBeUndefined();
+    await expect(schema.locator('img')).toHaveCount(0);
+    await expect(page).toHaveURL(/\?type=countPlot$/);
+  }
+  expect(errors).toEqual([]);
+});
+
 test('gallery sidebar and preview fit desktop and narrow screens', async ({ page }) => {
   for (const viewport of [
     { width: 1440, height: 900 },
