@@ -1,7 +1,4 @@
-import { MarkTypeEnum } from '../../mark/interface/type';
-import { baseSeriesMark } from '../base/constant';
-import type { SeriesMarkMap } from '../interface/common';
-import { SeriesMarkNameEnum } from '../interface/type';
+import { MarkTypeEnum, baseSeriesMark, SeriesMarkNameEnum, type SeriesMarkMap } from '@visactor/vchart';
 
 export const dotSeriesMark: SeriesMarkMap = {
   ...baseSeriesMark,

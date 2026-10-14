@@ -1,5 +1,4 @@
 import { VChart } from './core';
-import { registerDotSeries, registerLinkSeries } from './series';
 
 import { registerLineChart } from './chart/line';
 import { registerAreaChart } from './chart/area';
@@ -97,8 +96,6 @@ VChart.useRegisters([
   // registerLiquidChart,
   // registerVennChart,
   registerCommonChart,
-  registerDotSeries,
-  registerLinkSeries,
 
   // components
   registerCartesianLinearAxis,

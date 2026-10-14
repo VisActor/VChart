@@ -1,10 +1,10 @@
 import { DataSet, DataView, dataViewParser } from '@visactor/vdataset';
-import { DotSeries } from '../../../src/series/dot/dot';
-import { LinkSeries, registerLinkSeries } from '../../../src/series/link/link';
+import { DotSeries } from '../../../../vchart-extension/src/series/dot/dot';
+import { LinkSeries, registerLinkSeries } from '../../../../vchart-extension/src/series/link/link';
 import { registerSequenceChart } from '../../../../vchart-extension/src/charts/sequence';
 import { Factory } from '../../../src/core/factory';
 import { factoryRegistry } from '../../../src/core/factory-registry';
-import { linkDotInfo } from '../../../src/data/transforms/link-dot-info';
+import { linkDotInfo } from '../../../../vchart-extension/src/series/link/transform';
 // eslint-disable-next-line max-len
 import { SequenceAnalysisChartSpecTransformer } from '../../../../vchart-extension/src/charts/sequence-analysis/sequence-analysis-transformer';
 

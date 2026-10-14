@@ -1,6 +1,9 @@
-import type { ISeriesTooltipHelper } from '../interface';
-import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type { ITooltipLinePattern, TooltipActiveType } from '../../typings';
+import {
+  type ISeriesTooltipHelper,
+  type ITooltipLinePattern,
+  type TooltipActiveType,
+  BaseSeriesTooltipHelper
+} from '@visactor/vchart';
 import { TimeUtil } from '@visactor/vutils';
 
 export class LinkSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {

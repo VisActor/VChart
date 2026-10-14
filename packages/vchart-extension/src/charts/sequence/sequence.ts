@@ -1,9 +1,9 @@
+import { registerDotSeries } from '../../series/dot';
+import { registerLinkSeries } from '../../series/link';
 import {
   VChart,
   BaseChart,
   SeriesTypeEnum,
-  registerDotSeries,
-  registerLinkSeries,
   registerBarSeries,
   registerLineSeries,
   registerAreaSeries,

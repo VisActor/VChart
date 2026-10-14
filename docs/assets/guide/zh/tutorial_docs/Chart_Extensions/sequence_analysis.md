@@ -1,5 +1,7 @@
 # 扩展图表：时序分析图
 
+`dot`、`link` 系列也已整体移至 `@visactor/vchart-extension`，主包不再导出或自动注册 `DotSeries`、`LinkSeries`、`registerDotSeries`、`registerLinkSeries`，对应的 `IDotSeriesSpec`、`ILinkSeriesSpec` 类型也从扩展包导入。`registerSequenceChart({ VChart })` 和 `registerSequenceAnalysis({ VChart })` 会注册各自需要的系列；在 `common` 图表中单独使用时，需要从扩展包导入并调用 `registerDotSeries()`、`registerLinkSeries()`。
+
 时序分析图（Sequence Analysis）把每个用户的事件放在同一条水平线上，通过时间、步骤或介质分类对齐事件，再用连接线表达事件之间的关系。适合展示行为路径、跨用户事件关联和重复模式。
 
 它由 `@visactor/vchart-extension` 提供，类型为 `sequenceAnalysis`，与扩展时序图 `sequence` 和用于训练过程分析的 `sequenceScatterLink` 是不同图表。

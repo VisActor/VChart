@@ -1,5 +1,7 @@
 # Sequence Chart
 
+`dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
+
 [\[Configuration Guide\]](../../../option/sequenceChart)
 
 ## Registration and migration

@@ -9,6 +9,7 @@ import lineCase from './sequence-link-data.mjs';
  * 覆盖边界：不覆盖扩展图表时间轴派生组件；旧 develop 不支持曲线，基线语义校验会明确失败。
  */
 export default {
+  register: lineCase.register,
   createSpec() {
     // 复用逐用户事件数据，增加两条相同端点的连接。
     const spec = lineCase.createSpec();

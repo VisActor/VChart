@@ -1,5 +1,6 @@
-import { DEFAULT_LINK_CURVE_INDEX } from '../../constant/data';
-import type { Datum } from '../../typings';
+import { DEFAULT_LINK_CURVE_INDEX } from './constant';
+import type { Datum } from '@visactor/vchart';
+import type { DataView } from '@visactor/vdataset';
 
 export interface ILinkDotInfoOpt {
   infoKey: string;

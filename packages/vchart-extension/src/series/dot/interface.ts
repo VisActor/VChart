@@ -1,7 +1,15 @@
-import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
-import type { IFormatMethod, IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { ISymbolMarkSpec, IRuleMarkSpec, ITextMarkSpec, ConvertToMarkStyleSpec } from '../../typings/visual';
-import type { SeriesMarkNameEnum } from '../interface/type';
+import type {
+  ICartesianSeriesSpec,
+  ICartesianSeriesTheme,
+  IFormatMethod,
+  IMarkSpec,
+  IMarkTheme,
+  ISymbolMarkSpec,
+  IRuleMarkSpec,
+  ITextMarkSpec,
+  ConvertToMarkStyleSpec,
+  SeriesMarkNameEnum
+} from '@visactor/vchart';
 
 interface ISequenceLabel {
   visible?: boolean;

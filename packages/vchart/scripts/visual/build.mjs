@@ -70,9 +70,67 @@ export async function build(root, destination, runtime, log) {
       log,
       { code: 'BUILD_FAILED', env: buildEnv }
     );
+  // 使用同一侧源码构建时序扩展；VChart 保持外部依赖，共享 Factory 和主题注册表。
+  // 基线迁移前由 sequenceAnalysis 注册核心系列，迁移后注册扩展系列。
+  const extensionDirectory = path.join(path.dirname(destination), `${path.basename(destination, '.js')}-extension`);
+  await fs.mkdir(extensionDirectory, { recursive: true });
+  // 主包 UMD 不生成声明文件，扩展编译直接读取同一侧主包源码的类型，避免使用陈旧 esm。
+  const extensionTsconfig = path.join(extensionDirectory, 'tsconfig.json');
+  const coreTsconfig = JSON.parse(await fs.readFile(path.join(root, 'packages/vchart/tsconfig.json'), 'utf8'));
+  const paths = Object.fromEntries(
+    Object.entries(coreTsconfig.compilerOptions.paths ?? {}).map(([key, values]) => [
+      key,
+      values.map(value => path.resolve(root, 'packages/vchart', value))
+    ])
+  );
+  paths['@visactor/vchart'] = [path.join(root, 'packages/vchart/src/index.ts')];
+  await fs.writeFile(
+    extensionTsconfig,
+    JSON.stringify({
+      extends: path.join(root, 'packages/vchart-extension/tsconfig.json'),
+      compilerOptions: { rootDir: path.join(root, 'packages'), paths },
+      include: [path.join(root, 'packages/vchart-extension/src/charts/sequence-analysis/sequence-analysis.ts')],
+      references: []
+    })
+  );
+  const extensionConfig = path.join(extensionDirectory, 'bundler.config.cjs');
+  await fs.writeFile(
+    extensionConfig,
+    `module.exports = ${JSON.stringify({
+      name: 'VChartExtension',
+      tsconfig: extensionTsconfig,
+      input: { umd: 'charts/sequence-analysis/sequence-analysis.ts' },
+      outputDir: { umd: path.join(extensionDirectory, 'build') },
+      umdOutputFilename: 'index',
+      noEmitOnError: false,
+      external: ['@visactor/vchart'],
+      globals: { '@visactor/vchart': 'VChart' },
+      envs: { __DEV__: 'false' }
+    })};`
+  );
+  await runtime.run(
+    process.execPath,
+    [
+      path.join(root, 'common/scripts/install-run-rushx.js'),
+      'build:umd',
+      '--config',
+      extensionConfig,
+      '--minify=false'
+    ],
+    path.join(root, 'packages/vchart-extension'),
+    log,
+    { code: 'BUILD_FAILED', env: buildEnv }
+  );
   try {
     if (!(await fs.stat(path.join(root, output))).size) throw new Error('构建产物为空');
-    await fs.copyFile(path.join(root, output), destination);
+    await fs.writeFile(
+      destination,
+      Buffer.concat([
+        await fs.readFile(path.join(root, output)),
+        Buffer.from('\n;\n'),
+        await fs.readFile(path.join(extensionDirectory, 'build/index.js'))
+      ])
+    );
   } catch (error) {
     throw fault('BUILD_FAILED', `没有生成有效的新产物：${error.message}`, error);
   }

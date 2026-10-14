@@ -1,4 +1,4 @@
-import type { IDotSeriesTheme } from '../../../../series/dot/interface';
+import type { IDotSeriesTheme } from './interface';
 
 export const dot: IDotSeriesTheme = {
   dot: {

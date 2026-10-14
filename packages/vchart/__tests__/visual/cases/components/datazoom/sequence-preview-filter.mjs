@@ -7,6 +7,9 @@
  * 覆盖边界：不覆盖曲线和头像，更新与系列顺序由单元测试覆盖。
  */
 export default {
+  register({ VChart, VChartExtension }) {
+    VChartExtension.registerSequenceAnalysis({ VChart: VChart.default });
+  },
   createSpec() {
     // 使用虚构用户和固定时刻复现分类 ID 被当作数值的问题。
     const dot = {

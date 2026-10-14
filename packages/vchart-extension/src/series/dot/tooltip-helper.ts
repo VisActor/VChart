@@ -1,18 +1,18 @@
-import type { ISeriesTooltipHelper } from '../interface';
-import { BaseSeriesTooltipHelper } from '../base/tooltip-helper';
-import type {
-  Datum,
-  ITooltipActual,
-  ITooltipLineActual,
-  ITooltipLinePattern,
-  MaybeArray,
-  TooltipActiveType,
-  TooltipData,
-  TooltipPatternProperty
-} from '../../typings';
+import {
+  type ISeriesTooltipHelper,
+  type Datum,
+  type ITooltipActual,
+  type ITooltipLineActual,
+  type ITooltipLinePattern,
+  type MaybeArray,
+  type TooltipActiveType,
+  type TooltipData,
+  type TooltipPatternProperty,
+  type ITooltipSpec,
+  type TooltipHandlerParams,
+  BaseSeriesTooltipHelper
+} from '@visactor/vchart';
 import { TimeUtil } from '@visactor/vutils';
-import type { ITooltipSpec } from '../../component/tooltip/interface/spec';
-import type { TooltipHandlerParams } from '../../component/tooltip/interface/common';
 
 export class DotSeriesTooltipHelper extends BaseSeriesTooltipHelper implements ISeriesTooltipHelper {
   protected enableByType(activeType: TooltipActiveType): boolean {

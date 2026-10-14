@@ -1,4 +1,4 @@
-import type { ILinkSeriesTheme } from '../../../../series/link/interface';
+import type { ILinkSeriesTheme } from './interface';
 
 export const link: ILinkSeriesTheme = {
   arrow: {

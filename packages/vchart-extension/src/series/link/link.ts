@@ -1,27 +1,34 @@
-/* eslint-disable no-duplicate-imports */
-import { DEFAULT_DATA_SERIES_FIELD, DEFAULT_LINK_CURVE_INDEX } from '../../constant/data';
-import { CartesianSeries } from '../cartesian/cartesian';
-import type { Datum } from '../../typings';
+import {
+  DEFAULT_DATA_SERIES_FIELD,
+  CartesianSeries,
+  SeriesTypeEnum,
+  registerDataSetInstanceTransform,
+  registerRuleMark,
+  registerSymbolMark,
+  registerPathMark,
+  registerImageMark,
+  MarkTypeEnum,
+  Factory,
+  TransformLevel,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  AttributeLevel,
+  type Datum,
+  type IGroupMark,
+  type IImageMark,
+  type IMark,
+  type IPathMark,
+  type IRuleMark,
+  type ISymbolMark,
+  type SeriesMarkMap
+} from '@visactor/vchart';
 import { array, isValid } from '@visactor/vutils';
-import type { IGroupMark, IImageMark, IMark, IPathMark, IRuleMark, ISymbolMark } from '../../mark/interface';
-import { SeriesTypeEnum } from '../interface/type';
-import { registerDataSetInstanceTransform } from '../../data/register';
 import type { IDotSeriesSpec } from '../dot/interface';
 import { LinkSeriesTooltipHelper } from './tooltip-helper';
 import { LinkType, type ILinkSeriesSpec } from './interface';
-import type { SeriesMarkMap } from '../interface';
-import { registerRuleMark } from '../../mark/rule';
-import { registerSymbolMark } from '../../mark/symbol';
-import { registerPathMark } from '../../mark/path';
-import { registerImageMark } from '../../mark/image';
-import { MarkTypeEnum } from '../../mark/interface/type';
-import { linkSeriesMark } from './constant';
-import { linkDotInfo } from '../../data/transforms/link-dot-info';
-import { Factory } from '../../core/factory';
-import { TransformLevel } from '../../data/initialize';
-import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../component/axis/cartesian';
-import { AttributeLevel } from '../../constant/attribute';
-import { link } from '../../theme/builtin/common/series/link';
+import { linkSeriesMark, DEFAULT_LINK_CURVE_INDEX } from './constant';
+import { linkDotInfo } from './transform';
+import { link } from './theme';
 
 export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.link;

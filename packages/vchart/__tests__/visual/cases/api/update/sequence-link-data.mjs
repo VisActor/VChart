@@ -7,6 +7,9 @@
  * 覆盖边界：不覆盖曲线、头像、扩展 transformer 和按需注册，另有单元测试。
  */
 export default {
+  register({ VChart, VChartExtension }) {
+    VChartExtension.registerSequenceAnalysis({ VChart: VChart.default });
+  },
   createSpec() {
     // 固定轴范围以便直接对照更新前后的连接位置。
     const dot = {

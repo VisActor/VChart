@@ -1,31 +1,40 @@
-/* eslint-disable no-duplicate-imports */
-import { DEFAULT_DATA_SERIES_FIELD } from '../../constant/data';
-import { CartesianSeries } from '../cartesian/cartesian';
-import type { Datum } from '../../typings';
-import { mergeSpec } from '@visactor/vutils-extension';
+import {
+  DEFAULT_DATA_SERIES_FIELD,
+  CartesianSeries,
+  mergeSpec,
+  SeriesTypeEnum,
+  registerDataSetInstanceParser,
+  registerDataSetInstanceTransform,
+  copyDataView,
+  objFlat,
+  ColorOrdinalScale,
+  registerSymbolMark,
+  registerTextMark,
+  registerRuleMark,
+  registerRectMark,
+  Factory,
+  TransformLevel,
+  AttributeLevel,
+  type Datum,
+  type IGroupMark,
+  type IMark,
+  type IRectMark,
+  type IRuleMark,
+  type ISymbolMark,
+  type ITextMark,
+  type IModelEvaluateOption,
+  type FunctionType,
+  type IFillMarkSpec,
+  type VisualType,
+  type SeriesMarkMap
+} from '@visactor/vchart';
 import { isValid } from '@visactor/vutils';
-import type { IGroupMark, IMark, IRectMark, IRuleMark, ISymbolMark, ITextMark } from '../../mark/interface';
-import { SeriesTypeEnum } from '../interface/type';
 import { dataViewParser } from '@visactor/vdataset';
-import { registerDataSetInstanceParser, registerDataSetInstanceTransform } from '../../data/register';
-import type { IModelEvaluateOption } from '../../model/interface';
 import { DotSeriesTooltipHelper } from './tooltip-helper';
-import type { FunctionType, IFillMarkSpec, VisualType } from '../../typings/visual';
 import type { IDotSeriesSpec } from './interface';
-import { copyDataView } from '../../data/transforms/copy-data-view';
-import { objFlat } from '../../data/transforms/obj-flat';
 import { DEFAULT_GRID_BACKGROUND } from './config';
-import { ColorOrdinalScale } from '../../scale/color-ordinal-scale';
-import type { SeriesMarkMap } from '../interface';
-import { registerSymbolMark } from '../../mark/symbol';
-import { registerTextMark } from '../../mark/text';
-import { registerRuleMark } from '../../mark/rule';
-import { registerRectMark } from '../../mark/rect';
 import { dotSeriesMark } from './constant';
-import { Factory } from '../../core/factory';
-import { TransformLevel } from '../../data/initialize';
-import { AttributeLevel } from '../../constant/attribute';
-import { dot } from '../../theme/builtin/common/series/dot';
+import { dot } from './theme';
 
 const DOT_SERIES_COMPILE_ONLY_KEYS: Record<'highLightSeriesGroup' | 'titleField' | 'subTitleField', true> = {
   highLightSeriesGroup: true,

@@ -10,6 +10,8 @@ option: sequenceChart
 
 # NBA Athlete Timing Chart
 
+`dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
+
 NBA player timing chart tracks each player's dribble time. Users can quickly see game times, changes made by coaches, and lineups.
 This use case only configures the dot or link series, not the column series. If you need to show pure timing data, you can refer to this use case.
 

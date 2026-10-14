@@ -31,7 +31,7 @@ node packages/vchart/scripts/visual-test.mjs
 
 1. 先查看清单、覆盖说明和相近模块，确定新增的验证目的；新功能、缺陷修复及未覆盖的有效配置均可新增回归用例。已有用例能清晰表达时优先补强，避免一个用例承载互不相关的目的。
 2. 在对应目录创建 `.mjs`，在 `index.mjs` 登记唯一 `id`、一句话 `purpose`、`./目录/文件.mjs`。`sourceExample` 只填写真实公开示例的仓库相对路径，无来源则省略；未经登记的文件不会执行。
-3. 实现 `createSpec()`、可选 `exercise(page)` 和必需 `verify(page)`。固定数据，每次创建新 spec；不导入当前 VChart 源码，不读取网络、Node API 或测试框架运行时代码。
+3. 实现 `createSpec()`、可选 `exercise(page)` 和必需 `verify(page)`。时序系列用例通过可选 `register({ VChart, VChartExtension })` 在创建图表前注册；两侧均加载各自源码构建的时序扩展。固定数据，每次创建新 spec；不导入当前 VChart 源码，不读取网络、Node API 或测试框架运行时代码。
 4. 交互动作与最终断言分开。检查实际筛选数据、提示内容、状态、范围或尺寸，不以点击成功、固定等待或截图存在代替验证。复用 `helpers.mjs`、`interaction-helpers.mjs` 中已有定位与等待函数。
 5. 运行 `--list`、`--check`，再运行 `--self-compare --case <id>` 及默认基线单例比较。新用例在相同构建下连续五轮自比较稳定，并用针对验证目的的受控变化证明它能发现问题；交互还需验证抑制动作时不能通过。故障注入仅在独立副本操作，不提交破坏性修改。
 6. 开发完成后运行相关目录；提交 PR 前运行默认全量比较，检查三图或 Agent 摘要并说明差异。无法运行或基线不支持新功能时如实记录阻断，不跳过用例或将自比较当作基线通过。

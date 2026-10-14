@@ -1,5 +1,7 @@
 # Extension Chart: Sequence Analysis
 
+`dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
+
 Sequence Analysis places each user's events on a horizontal row, aligns events by time, step or medium, and draws their relationships. It supports behavior paths, relationships across users and repeated patterns.
 
 The chart comes from `@visactor/vchart-extension` with type `sequenceAnalysis`. It is distinct from the `sequence` extension chart and the sequenceScatterLink extension for training-process analysis.

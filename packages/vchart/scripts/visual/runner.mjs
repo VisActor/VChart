@@ -70,7 +70,12 @@ export async function preflight(root, runtime) {
     throw fault('PREFLIGHT_FAILED', '需要 Node.js 22 和 macOS/Linux');
   try {
     git(root, ['--version']);
-    for (const folder of ['tools/bundler', 'packages/vutils-extension', 'packages/vchart']) {
+    for (const folder of [
+      'tools/bundler',
+      'packages/vutils-extension',
+      'packages/vchart',
+      'packages/vchart-extension'
+    ]) {
       const require = createRequire(path.join(root, folder, 'package.json'));
       for (const dependency of folder === 'tools/bundler'
         ? ['typescript']

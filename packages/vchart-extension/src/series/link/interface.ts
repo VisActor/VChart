@@ -1,7 +1,13 @@
-import type { ICartesianSeriesSpec, ICartesianSeriesTheme } from '../cartesian/interface';
-import type { IMarkSpec, IMarkTheme } from '../../typings/spec/common';
-import type { IImageMarkSpec, ILineMarkSpec, ISymbolMarkSpec } from '../../typings/visual';
-import type { SeriesMarkNameEnum } from '../interface/type';
+import type {
+  ICartesianSeriesSpec,
+  ICartesianSeriesTheme,
+  IMarkSpec,
+  IMarkTheme,
+  IImageMarkSpec,
+  ILineMarkSpec,
+  ISymbolMarkSpec,
+  SeriesMarkNameEnum
+} from '@visactor/vchart';
 import type { DataView } from '@visactor/vdataset';
 import type { IDotSeriesSpec } from '../dot/interface';
 

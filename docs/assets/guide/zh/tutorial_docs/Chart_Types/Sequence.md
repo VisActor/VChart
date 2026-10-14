@@ -1,5 +1,7 @@
 # 时序图
 
+`dot`、`link` 系列也已整体移至 `@visactor/vchart-extension`，主包不再导出或自动注册 `DotSeries`、`LinkSeries`、`registerDotSeries`、`registerLinkSeries`，对应的 `IDotSeriesSpec`、`ILinkSeriesSpec` 类型也从扩展包导入。`registerSequenceChart({ VChart })` 和 `registerSequenceAnalysis({ VChart })` 会注册各自需要的系列；在 `common` 图表中单独使用时，需要从扩展包导入并调用 `registerDotSeries()`、`registerLinkSeries()`。
+
 [\[配置项\]](../../../option/sequenceChart)
 
 ## 注册与迁移

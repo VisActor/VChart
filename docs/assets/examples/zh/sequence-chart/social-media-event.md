@@ -10,6 +10,8 @@ option: sequenceChart
 
 # 社交媒体时序图
 
+`dot`、`link` 系列也已整体移至 `@visactor/vchart-extension`，主包不再导出或自动注册 `DotSeries`、`LinkSeries`、`registerDotSeries`、`registerLinkSeries`，对应的 `IDotSeriesSpec`、`ILinkSeriesSpec` 类型也从扩展包导入。`registerSequenceChart({ VChart })` 和 `registerSequenceAnalysis({ VChart })` 会注册各自需要的系列；在 `common` 图表中单独使用时，需要从扩展包导入并调用 `registerDotSeries()`、`registerLinkSeries()`。
+
 时序数据的高复杂性使得分析人员很难手动探索和寻找模式, 导致越来越多地需要可视化技术来辅助分析, 以便从事件序列数据集中提取和交流见解。
 对于社交媒体信息而言, 往往需要在线性时间的演进中, 以节点和边的形式展示不同用户不同时间的不同行为, 并且为了更好地从中发现用户的行为偏好, 还需要以柱状图的形式展示行为统计信息. 基于线性时间映射的时序图可以展示这种场景下的数据。
 

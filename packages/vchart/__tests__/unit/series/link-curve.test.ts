@@ -1,8 +1,13 @@
-import VChart, { type ICommonChartSpec, type ILinkSeriesSpec } from '../../../src';
-import { LinkType } from '../../../src/series/link/interface';
+import VChart, { type ICommonChartSpec } from '../../../src';
+import { LinkType, type ILinkSeriesSpec, registerLinkSeries } from '../../../../vchart-extension/src/series/link';
+import { type IDotSeriesSpec, registerDotSeries } from '../../../../vchart-extension/src/series/dot';
+
+registerDotSeries();
+registerLinkSeries();
+type ILinkChartSpec = Omit<ICommonChartSpec, 'series'> & { series: (IDotSeriesSpec | ILinkSeriesSpec)[] };
 import { createDiv, removeDom } from '../../util/dom';
 
-const makeSpec = (link?: ILinkSeriesSpec['link']): ICommonChartSpec => {
+const makeSpec = (link?: ILinkSeriesSpec['link']): ILinkChartSpec => {
   const dot = {
     type: 'dot' as const,
     name: 'events',

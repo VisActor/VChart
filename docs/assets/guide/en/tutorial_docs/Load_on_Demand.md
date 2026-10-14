@@ -1,5 +1,15 @@
 # VChart Load-on-Demand Tutorial
 
+The `dot` and `link` series, their types and registration functions have moved to `@visactor/vchart-extension`. The core package no longer exports or registers them. Register standalone series as below; `registerSequenceChart` and `registerSequenceAnalysis` register their required series automatically.
+
+```ts
+import { registerDotSeries, registerLinkSeries } from '@visactor/vchart-extension';
+import type { IDotSeriesSpec, ILinkSeriesSpec } from '@visactor/vchart-extension';
+
+registerDotSeries();
+registerLinkSeries();
+```
+
 ## Quick Start
 
 `@visactor/vchart` provides all the charts and components of VChart by default. If you don't want to import all components, you can also import the relevant components as needed. Here is an example of how to use it:
@@ -498,11 +508,11 @@ export default defineNuxtConfig({
     </tr>
      <tr>
         <td>Dot in Sequence</td>
-        <td><code>registerDotSeries</code></td>
+        <td><code>registerDotSeries</code> (<code>@visactor/vchart-extension</code>)</td>
     </tr>
     <tr>
         <td>Link in Sequence</td>
-        <td><code>registerLinkSeries</code></td>
+        <td><code>registerLinkSeries</code> (<code>@visactor/vchart-extension</code>)</td>
     </tr>
      <tr>
         <td>Funnel</td>
