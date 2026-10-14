@@ -173,6 +173,7 @@ export async function runVisual(root, options, configuration = {}) {
     status: 'error',
     startedAt: new Date().toISOString(),
     request: options,
+    command: configuration.command,
     environment: { node: process.version, platform: process.platform, arch: process.arch },
     timings: {},
     cases: [],
