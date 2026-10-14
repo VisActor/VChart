@@ -1,0 +1,10 @@
+{
+  "type": "confusionMatrix",
+  "classOrder": ["A"],
+  "data": [
+    {
+      "actual": "A",
+      "predicted": "B"
+    }
+  ]
+}

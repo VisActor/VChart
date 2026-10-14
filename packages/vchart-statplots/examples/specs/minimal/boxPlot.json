@@ -1,0 +1,13 @@
+{
+  "type": "boxPlot",
+  "data": [
+    {
+      "category": "A",
+      "value": 0
+    },
+    {
+      "category": "A",
+      "value": 10
+    }
+  ]
+}

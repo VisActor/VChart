@@ -1,0 +1,171 @@
+{
+  "type": "learningCurve",
+  "metric": "Accuracy",
+  "interval": {
+    "kind": "standardDeviation",
+    "multiplier": 1
+  },
+  "data": [
+    {
+      "trainSize": 50,
+      "split": "train",
+      "score": 0.99,
+      "lower": 0.97,
+      "upper": 1.01,
+      "series": "A"
+    },
+    {
+      "trainSize": 100,
+      "split": "train",
+      "score": 0.97,
+      "lower": 0.95,
+      "upper": 0.99,
+      "series": "A"
+    },
+    {
+      "trainSize": 200,
+      "split": "train",
+      "score": 0.95,
+      "lower": 0.9299999999999999,
+      "upper": 0.97,
+      "series": "A"
+    },
+    {
+      "trainSize": 400,
+      "split": "train",
+      "score": 0.92,
+      "lower": 0.9,
+      "upper": 0.9400000000000001,
+      "series": "A"
+    },
+    {
+      "trainSize": 800,
+      "split": "train",
+      "score": 0.91,
+      "lower": 0.89,
+      "upper": 0.93,
+      "series": "A"
+    },
+    {
+      "trainSize": 50,
+      "split": "validation",
+      "score": 0.65,
+      "lower": 0.63,
+      "upper": 0.67,
+      "series": "A"
+    },
+    {
+      "trainSize": 100,
+      "split": "validation",
+      "score": 0.73,
+      "lower": 0.71,
+      "upper": 0.75,
+      "series": "A"
+    },
+    {
+      "trainSize": 200,
+      "split": "validation",
+      "score": 0.79,
+      "lower": 0.77,
+      "upper": 0.81,
+      "series": "A"
+    },
+    {
+      "trainSize": 400,
+      "split": "validation",
+      "score": 0.84,
+      "lower": 0.82,
+      "upper": 0.86,
+      "series": "A"
+    },
+    {
+      "trainSize": 800,
+      "split": "validation",
+      "score": 0.86,
+      "lower": 0.84,
+      "upper": 0.88,
+      "series": "A"
+    },
+    {
+      "trainSize": 50,
+      "split": "train",
+      "score": 0.99,
+      "lower": 0.97,
+      "upper": 1.01,
+      "series": "B"
+    },
+    {
+      "trainSize": 100,
+      "split": "train",
+      "score": 0.97,
+      "lower": 0.95,
+      "upper": 0.99,
+      "series": "B"
+    },
+    {
+      "trainSize": 200,
+      "split": "train",
+      "score": 0.95,
+      "lower": 0.9299999999999999,
+      "upper": 0.97,
+      "series": "B"
+    },
+    {
+      "trainSize": 400,
+      "split": "train",
+      "score": 0.92,
+      "lower": 0.9,
+      "upper": 0.9400000000000001,
+      "series": "B"
+    },
+    {
+      "trainSize": 800,
+      "split": "train",
+      "score": 0.91,
+      "lower": 0.89,
+      "upper": 0.93,
+      "series": "B"
+    },
+    {
+      "trainSize": 50,
+      "split": "validation",
+      "score": 0.65,
+      "lower": 0.63,
+      "upper": 0.67,
+      "series": "B"
+    },
+    {
+      "trainSize": 100,
+      "split": "validation",
+      "score": 0.73,
+      "lower": 0.71,
+      "upper": 0.75,
+      "series": "B"
+    },
+    {
+      "trainSize": 200,
+      "split": "validation",
+      "score": 0.79,
+      "lower": 0.77,
+      "upper": 0.81,
+      "series": "B"
+    },
+    {
+      "trainSize": 400,
+      "split": "validation",
+      "score": 0.84,
+      "lower": 0.82,
+      "upper": 0.86,
+      "series": "B"
+    },
+    {
+      "trainSize": 800,
+      "split": "validation",
+      "score": 0.86,
+      "lower": 0.84,
+      "upper": 0.88,
+      "series": "B"
+    }
+  ],
+  "input": "summaries"
+}

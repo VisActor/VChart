@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><title>StatPlots validation</title>
+<style>body{margin:0;font-family:Arial,sans-serif}#statplot-mount{width:800px;height:600px}</style></head>
+<body><div id="statplot-mount"></div>
+<script src="/index.js"></script>
+<script src="/build/index.js"></script>
+<script>
+window.renderStatPlot = async spec => {
+  if (window.chart) window.chart.release();
+  VChartStatPlots.registerStatPlots();
+  const errors = [];
+  window.chartErrors = errors;
+  window.chart = new VChart.default(VChartStatPlots.compileStatPlot(spec), {
+    dom: 'statplot-mount', animation: false, autoFit: false, onError: error => errors.push(String(error))
+  });
+  await window.chart.renderAsync();
+  await document.fonts.ready;
+};
+</script></body></html>

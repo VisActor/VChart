@@ -26,7 +26,7 @@
 | 漏斗                 | funnel-directions、funnel-transform                                                                              | 四区域的上下方向、对齐和外标签；转化形状和转化标签                                                                          |
 | 层次/关系            | sankey-horizontal、sankey-vertical、treemap-hierarchy、circle-packing-padding、sunburst-gap、correlation-tooltip | 横纵流图、层次矩形/圆/扇形、层间留白、关联图悬停；sunburst-drill、treemap-drill、circle-packing-drill-\* 分别验证下钻及回退 |
 | 热力/词云            | heatmap-correlation、word-cloud-enlarge                                                                          | 原相关矩阵、固定区域、颜色映射；random=false 的词云及放大配置。fontSizeLimitMax 保留源配置但不计为实际字号上限覆盖          |
-| 轴                   | axis-log、axis-symlog、axis-time-brush、axis-zero-align、axis-tick-align、axis-break、axis-unit-position         | log/symlog/time、双轴同步、断轴、单位；时间轴 case 保留刷选配置但不宣称执行了刷选                                           |
+| 轴                   | axis-log、axis-symlog、axis-time-brush、axis-zero-align、axis-tick-align、axis-break、axis-unit-position、linear-axis-update-bounds | log/symlog/time、双轴同步、断轴、单位、数据与显式 min/max 同时更新；时间轴 case 保留刷选配置但不宣称执行了刷选 |
 | 轴标签               | axis-label、axis-auto-hide、axis-polar-multiple-labels、axis-multilevel-wrap                                     | 显式旋转、隐藏、多层极坐标、自动换行；非所有字体/截断/断轴组合                                                              |
 | 图例/范围组件        | legend-multiple、legend-symbol-hidden、legend-continuous-filter、scrollbar-axis-range、datazoom-preview          | 多图例、符号隐藏、连续筛选；隐藏滚动条的初始范围；缩窄页面以实际触发 auto dataZoom                                          |
 | 布局/主题            | grid-multiple-axes、grid-line-label-layout、combination-line-pie、theme-stack、bar-title                         | 多区域、多系列、多轴绑定、专用主题和标题；不等同于所有布局算法分支                                                          |
@@ -150,3 +150,10 @@
 - ManualTicker、manual 模式、autoRender:false 和手动 tick 时序需要独立宿主契约。
 
 开发者可以依据新功能或缺陷独立补充有效用例，遵循 [编写与来源约定](./README.md)。未迁移的 BugServer 用例不能据此判为冗余或删除。平台状态见 [验收摘要](./ACCEPTANCE.md)。
+
+## 统计图场景补充
+
+- `legend-piecewise-domain`：三节点色域 [-1,0,1] 的图例须覆盖完整范围，检查真实组件上下界。
+- `brush-link-data-key`：两个面板坐标交换，同一 id 仍联动选中；检查真实图元状态。
+
+- `band-axis-update-spec`：分类轴更新后应用新主题和标签样式；通过实际文字图元断言。

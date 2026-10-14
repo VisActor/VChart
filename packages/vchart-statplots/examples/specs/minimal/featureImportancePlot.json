@@ -1,0 +1,34 @@
+{
+  "type": "featureImportancePlot",
+  "method": "Permutation importance",
+  "interval": {
+    "kind": "confidence",
+    "level": 0.95
+  },
+  "data": [
+    {
+      "feature": "年龄",
+      "importance": 0.25,
+      "lower": 0.23,
+      "upper": 0.28
+    },
+    {
+      "feature": "收入",
+      "importance": 0.16,
+      "lower": 0.14,
+      "upper": 0.19
+    },
+    {
+      "feature": "地区",
+      "importance": 0.04,
+      "lower": 0.02,
+      "upper": 0.07
+    },
+    {
+      "feature": "噪声",
+      "importance": -0.02,
+      "lower": -0.04,
+      "upper": 0.009999999999999998
+    }
+  ]
+}

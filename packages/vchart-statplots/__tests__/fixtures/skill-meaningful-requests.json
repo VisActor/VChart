@@ -1,0 +1,667 @@
+{
+  "provenance": "独立评估者于 2026-10-13 从技能与原始需求生成的实际请求。用于确定性回归，不作为模型选图命中率。",
+  "cases": [
+    {
+      "queryIndex": 1,
+      "query": "看收入分布。",
+      "request": {
+        "version": 1,
+        "title": "收入分布（合成验收数据）",
+        "charts": [
+          {
+            "id": "chart",
+            "binding": {
+              "type": "histogram",
+              "fields": {
+                "value": "income"
+              }
+            },
+            "caption": "收入单位：元。6 条有效收入；1 条缺失省略。保留 0、重复值及 20000 元尾部。默认分箱只是一种展示选择。"
+          }
+        ],
+        "controls": {},
+        "presentation": {
+          "actions": [],
+          "details": []
+        },
+        "dataset": {
+          "source": {
+            "records": [
+              {
+                "id": "001",
+                "income": 0.0
+              },
+              {
+                "id": "002",
+                "income": 1000.0
+              },
+              {
+                "id": "003",
+                "income": 1000.0
+              },
+              {
+                "id": "004",
+                "income": 2000.0
+              },
+              {
+                "id": "005",
+                "income": 5000.0
+              },
+              {
+                "id": "006",
+                "income": 20000.0
+              },
+              {
+                "id": "007",
+                "income": null
+              }
+            ]
+          },
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "income",
+              "type": "number",
+              "label": "收入",
+              "unit": "元"
+            }
+          ],
+          "idColumn": "id"
+        }
+      }
+    },
+    {
+      "queryIndex": 2,
+      "query": "各部门收入有什么差别？",
+      "request": {
+        "version": 1,
+        "title": "各部门收入个体比较（合成验收数据）",
+        "charts": [
+          {
+            "id": "chart",
+            "binding": {
+              "type": "stripPlot",
+              "fields": {
+                "category": "department",
+                "value": "income"
+              },
+              "options": {
+                "layout": "swarm"
+              }
+            },
+            "caption": "收入单位：元。有效 N：A=2、B=2、C=1、D=1；B 两条均为 1000 元。D 有 1 条缺失省略；样本不足以推断总体差异。"
+          }
+        ],
+        "controls": {},
+        "presentation": {
+          "actions": [],
+          "details": []
+        },
+        "dataset": {
+          "source": {
+            "records": [
+              {
+                "id": "001",
+                "income": 0.0,
+                "department": "A"
+              },
+              {
+                "id": "002",
+                "income": 1000.0,
+                "department": "B"
+              },
+              {
+                "id": "003",
+                "income": 1000.0,
+                "department": "B"
+              },
+              {
+                "id": "004",
+                "income": 2000.0,
+                "department": "A"
+              },
+              {
+                "id": "005",
+                "income": 5000.0,
+                "department": "C"
+              },
+              {
+                "id": "006",
+                "income": 20000.0,
+                "department": "D"
+              },
+              {
+                "id": "007",
+                "income": null,
+                "department": "D"
+              }
+            ]
+          },
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "income",
+              "type": "number",
+              "label": "收入",
+              "unit": "元"
+            },
+            {
+              "name": "department",
+              "type": "string",
+              "label": "部门"
+            }
+          ],
+          "idColumn": "id"
+        }
+      }
+    },
+    {
+      "queryIndex": 3,
+      "query": "工资不超过 2000 元的比例是多少？",
+      "request": {
+        "version": 1,
+        "title": "收入不超过 2000 元的累计比例（合成验收数据）",
+        "charts": [
+          {
+            "id": "chart",
+            "binding": {
+              "type": "ecdfPlot",
+              "fields": {
+                "value": "income"
+              }
+            },
+            "caption": "有效收入 6 条，其中 4 条 ≤2000 元，比例 4/6=66.67%；1 条收入缺失不进入分母。收入单位：元。"
+          }
+        ],
+        "controls": {},
+        "presentation": {
+          "actions": [],
+          "details": []
+        },
+        "dataset": {
+          "source": {
+            "records": [
+              {
+                "id": "001",
+                "income": 0.0
+              },
+              {
+                "id": "002",
+                "income": 1000.0
+              },
+              {
+                "id": "003",
+                "income": 1000.0
+              },
+              {
+                "id": "004",
+                "income": 2000.0
+              },
+              {
+                "id": "005",
+                "income": 5000.0
+              },
+              {
+                "id": "006",
+                "income": 20000.0
+              },
+              {
+                "id": "007",
+                "income": null
+              }
+            ]
+          },
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "income",
+              "type": "number",
+              "label": "收入",
+              "unit": "元"
+            }
+          ],
+          "idColumn": "id"
+        }
+      }
+    },
+    {
+      "queryIndex": 4,
+      "query": "denseData 的两个指标有关系吗？需要保留两种传感器的分组。",
+      "request": {
+        "version": 1,
+        "title": "传感器 A/B 的指标 X 与指标 Y（合成验收数据）",
+        "charts": [
+          {
+            "id": "chart",
+            "binding": {
+              "type": "scatterPlot",
+              "fields": {
+                "x": "x",
+                "y": "y",
+                "series": "sensor"
+              }
+            },
+            "caption": "全部 5000 条观测；A/B 各 2500。指标 X：mm；指标 Y：ms。密集散点保留系列，不自动拟合。"
+          }
+        ],
+        "controls": {},
+        "presentation": {
+          "actions": [],
+          "details": []
+        },
+        "dataset": {
+          "source": {
+            "fixtureRecipe": "denseRecipe"
+          },
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "x",
+              "type": "number",
+              "label": "指标 X",
+              "unit": "mm"
+            },
+            {
+              "name": "y",
+              "type": "number",
+              "label": "指标 Y",
+              "unit": "ms"
+            },
+            {
+              "name": "sensor",
+              "type": "string",
+              "label": "传感器"
+            }
+          ],
+          "idColumn": "id"
+        }
+      }
+    },
+    {
+      "queryIndex": 5,
+      "query": "看身高、体重、固定评分的关系。员工编号只是标识。",
+      "request": {
+        "version": 1,
+        "title": "身高、体重与固定评分的相关关系（合成验收数据）",
+        "charts": [
+          {
+            "id": "chart",
+            "binding": {
+              "type": "correlationMatrix",
+              "fields": {
+                "variables": [
+                  "height",
+                  "weight",
+                  "fixed_score"
+                ]
+              },
+              "options": {
+                "method": "pearson"
+              }
+            },
+            "caption": "身高：cm；体重：kg；固定评分恒为 1。Pearson 逐对处理缺失；身高/体重有效配对 5 条。固定评分相关显示 NA；员工编号仅为标识，不参与计算。"
+          }
+        ],
+        "controls": {},
+        "presentation": {
+          "actions": [],
+          "details": []
+        },
+        "dataset": {
+          "source": {
+            "records": [
+              {
+                "id": "001",
+                "height": 170.0,
+                "weight": 60.0,
+                "fixed_score": 1.0
+              },
+              {
+                "id": "002",
+                "height": 180.0,
+                "weight": 70.0,
+                "fixed_score": 1.0
+              },
+              {
+                "id": "003",
+                "height": null,
+                "weight": 80.0,
+                "fixed_score": 1.0
+              },
+              {
+                "id": "004",
+                "height": 190.0,
+                "weight": null,
+                "fixed_score": 1.0
+              },
+              {
+                "id": "005",
+                "height": 175.0,
+                "weight": 65.0,
+                "fixed_score": 1.0
+              },
+              {
+                "id": "006",
+                "height": 185.0,
+                "weight": 75.0,
+                "fixed_score": 1.0
+              },
+              {
+                "id": "007",
+                "height": 195.0,
+                "weight": 85.0,
+                "fixed_score": 1.0
+              }
+            ]
+          },
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "height",
+              "type": "number",
+              "label": "身高",
+              "unit": "cm"
+            },
+            {
+              "name": "weight",
+              "type": "number",
+              "label": "体重",
+              "unit": "kg"
+            },
+            {
+              "name": "fixed_score",
+              "type": "number",
+              "label": "固定评分"
+            }
+          ],
+          "idColumn": "id"
+        }
+      }
+    },
+    {
+      "queryIndex": 6,
+      "query": "展示给定的 UMAP 结果。",
+      "request": {
+        "version": 1,
+        "title": "给定 UMAP 二维坐标（合成验收结果）",
+        "charts": [
+          {
+            "id": "chart",
+            "source": {
+              "label": "外部提供的合成 UMAP 坐标，仅用于展示验收；未从本表拟合"
+            },
+            "caption": "只展示外部给定的 4 条坐标；未从当前表拟合。UMAP 轴不标解释方差。",
+            "spec": {
+              "type": "embeddingPlot",
+              "method": "umap",
+              "data": [
+                {
+                  "id": "p0",
+                  "x": 0,
+                  "y": 0,
+                  "series": "A"
+                },
+                {
+                  "id": "p1",
+                  "x": 1,
+                  "y": 2,
+                  "series": "A"
+                },
+                {
+                  "id": "p2",
+                  "x": 4,
+                  "y": 3,
+                  "series": "B"
+                },
+                {
+                  "id": "p3",
+                  "x": 6,
+                  "y": 5,
+                  "series": "B"
+                }
+              ]
+            }
+          }
+        ],
+        "controls": {},
+        "presentation": {
+          "actions": [],
+          "details": []
+        }
+      }
+    },
+    {
+      "queryIndex": 7,
+      "query": "在 rewriteDataset 中只看东区，按部门比较收入；随后箱线改成小提琴，保留条件与单位。",
+      "request": {
+        "version": 1,
+        "title": "东区各部门收入密度比较（合成验收数据）",
+        "charts": [
+          {
+            "id": "chart",
+            "binding": {
+              "type": "violinPlot",
+              "fields": {
+                "category": "department",
+                "value": "income"
+              }
+            },
+            "caption": "固定范围：东区。收入单位：元。A/B 各 2 条、各组值不同，使用库默认 Scott 带宽；密度形状仅展示两个观测的平滑结果，不据此推断总体密度。"
+          }
+        ],
+        "controls": {
+          "initialFilters": [
+            {
+              "field": "region",
+              "kind": "category",
+              "value": "东区"
+            }
+          ]
+        },
+        "presentation": {
+          "actions": [],
+          "details": []
+        },
+        "dataset": {
+          "source": {
+            "records": [
+              {
+                "id": "001",
+                "income": 0.0,
+                "department": "A",
+                "region": "东区"
+              },
+              {
+                "id": "002",
+                "income": 1000.0,
+                "department": "B",
+                "region": "东区"
+              },
+              {
+                "id": "003",
+                "income": 2000.0,
+                "department": "A",
+                "region": "东区"
+              },
+              {
+                "id": "004",
+                "income": 3000.0,
+                "department": "B",
+                "region": "东区"
+              },
+              {
+                "id": "005",
+                "income": 5000.0,
+                "department": "A",
+                "region": "西区"
+              },
+              {
+                "id": "006",
+                "income": 8000.0,
+                "department": "B",
+                "region": "西区"
+              },
+              {
+                "id": "007",
+                "income": 20000.0,
+                "department": "A",
+                "region": "西区"
+              },
+              {
+                "id": "008",
+                "income": 10000.0,
+                "department": "B",
+                "region": "西区"
+              }
+            ]
+          },
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "income",
+              "type": "number",
+              "label": "收入",
+              "unit": "元"
+            },
+            {
+              "name": "department",
+              "type": "string",
+              "label": "部门"
+            },
+            {
+              "name": "region",
+              "type": "string",
+              "label": "地区"
+            }
+          ],
+          "idColumn": "id"
+        }
+      },
+      "initialRequest": {
+        "version": 1,
+        "title": "东区各部门收入箱线比较（合成验收数据）",
+        "charts": [
+          {
+            "id": "chart",
+            "binding": {
+              "type": "boxPlot",
+              "fields": {
+                "category": "department",
+                "value": "income"
+              }
+            },
+            "caption": "固定范围：东区。收入单位：元。A/B 各 2 条；四分位数是小样本插值摘要，不代表稳定总体分布。"
+          }
+        ],
+        "controls": {
+          "initialFilters": [
+            {
+              "field": "region",
+              "kind": "category",
+              "value": "东区"
+            }
+          ]
+        },
+        "presentation": {
+          "actions": [],
+          "details": []
+        },
+        "dataset": {
+          "source": {
+            "records": [
+              {
+                "id": "001",
+                "income": 0.0,
+                "department": "A",
+                "region": "东区"
+              },
+              {
+                "id": "002",
+                "income": 1000.0,
+                "department": "B",
+                "region": "东区"
+              },
+              {
+                "id": "003",
+                "income": 2000.0,
+                "department": "A",
+                "region": "东区"
+              },
+              {
+                "id": "004",
+                "income": 3000.0,
+                "department": "B",
+                "region": "东区"
+              },
+              {
+                "id": "005",
+                "income": 5000.0,
+                "department": "A",
+                "region": "西区"
+              },
+              {
+                "id": "006",
+                "income": 8000.0,
+                "department": "B",
+                "region": "西区"
+              },
+              {
+                "id": "007",
+                "income": 20000.0,
+                "department": "A",
+                "region": "西区"
+              },
+              {
+                "id": "008",
+                "income": 10000.0,
+                "department": "B",
+                "region": "西区"
+              }
+            ]
+          },
+          "columns": [
+            {
+              "name": "id",
+              "type": "string"
+            },
+            {
+              "name": "income",
+              "type": "number",
+              "label": "收入",
+              "unit": "元"
+            },
+            {
+              "name": "department",
+              "type": "string",
+              "label": "部门"
+            },
+            {
+              "name": "region",
+              "type": "string",
+              "label": "地区"
+            }
+          ],
+          "idColumn": "id"
+        }
+      }
+    }
+  ]
+}

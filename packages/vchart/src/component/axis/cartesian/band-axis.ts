@@ -171,7 +171,7 @@ export class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICartesianBand
   }
 
   reInit(spec?: T): void {
-    super.reInit();
+    super.reInit(spec);
 
     (this as any)?._updateData();
   }

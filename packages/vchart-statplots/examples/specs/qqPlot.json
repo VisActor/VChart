@@ -1,0 +1,28 @@
+{
+  "type": "qqPlot",
+  "title": "Q–Q 图",
+  "distribution": {
+    "type": "normal"
+  },
+  "referenceLine": "quartiles",
+  "data": [
+    {
+      "value": 3
+    },
+    {
+      "value": -1
+    },
+    {
+      "value": 0
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 5
+    }
+  ]
+}

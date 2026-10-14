@@ -1,0 +1,9 @@
+{
+  "type": "precisionRecallCurve",
+  "data": [
+    {
+      "actual": false,
+      "score": 3
+    }
+  ]
+}

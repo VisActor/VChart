@@ -1,0 +1,21 @@
+{
+  "type": "boxPlot",
+  "data": [
+    {
+      "category": "A",
+      "value": 5
+    },
+    {
+      "category": "A",
+      "value": 5
+    },
+    {
+      "category": "A",
+      "value": 5
+    },
+    {
+      "category": "A",
+      "value": 5
+    }
+  ]
+}

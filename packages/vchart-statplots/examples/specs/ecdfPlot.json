@@ -1,0 +1,18 @@
+{
+  "type": "ecdfPlot",
+  "data": [
+    {
+      "value": 4
+    },
+    {
+      "value": 1
+    },
+    {
+      "value": 0
+    },
+    {
+      "value": 1
+    }
+  ],
+  "title": "原始样本的经验累积分布"
+}

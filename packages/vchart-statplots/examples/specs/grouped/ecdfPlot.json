@@ -1,0 +1,41 @@
+{
+  "type": "ecdfPlot",
+  "data": [
+    {
+      "value": 0,
+      "series": "A"
+    },
+    {
+      "value": 1,
+      "series": "A"
+    },
+    {
+      "value": 1,
+      "series": "A"
+    },
+    {
+      "value": 4,
+      "series": "A"
+    },
+    {
+      "value": 1,
+      "series": "B"
+    },
+    {
+      "value": 2,
+      "series": "B"
+    },
+    {
+      "value": 2,
+      "series": "B"
+    },
+    {
+      "value": 3,
+      "series": "B"
+    },
+    {
+      "value": 5,
+      "series": "B"
+    }
+  ]
+}

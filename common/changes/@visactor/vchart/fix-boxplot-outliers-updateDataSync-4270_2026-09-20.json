@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "测试：锁定箱型图在空数据后 updateDataSync 仍渲染离群点。#4270 的公共 spec 已由图表 transformer 与 viewDataUpdate 覆盖，不增加统计字段兜底。",
+      "type": "none"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
