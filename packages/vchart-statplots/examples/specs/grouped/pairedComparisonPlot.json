@@ -1,0 +1,117 @@
+{
+  "type": "pairedComparisonPlot",
+  "categoryOrder": [
+    "干预前",
+    "干预后"
+  ],
+  "data": [
+    {
+      "id": "A-0",
+      "category": "干预前",
+      "value": 5,
+      "series": "A"
+    },
+    {
+      "id": "A-0",
+      "category": "干预后",
+      "value": 4,
+      "series": "A"
+    },
+    {
+      "id": "A-1",
+      "category": "干预前",
+      "value": 6,
+      "series": "A"
+    },
+    {
+      "id": "A-1",
+      "category": "干预后",
+      "value": 6,
+      "series": "A"
+    },
+    {
+      "id": "A-2",
+      "category": "干预前",
+      "value": 7,
+      "series": "A"
+    },
+    {
+      "id": "A-2",
+      "category": "干预后",
+      "value": 8,
+      "series": "A"
+    },
+    {
+      "id": "A-3",
+      "category": "干预前",
+      "value": 8,
+      "series": "A"
+    },
+    {
+      "id": "A-3",
+      "category": "干预后",
+      "value": 7,
+      "series": "A"
+    },
+    {
+      "id": "A-4",
+      "category": "干预前",
+      "value": 9,
+      "series": "A"
+    },
+    {
+      "id": "B-0",
+      "category": "干预前",
+      "value": 5,
+      "series": "B"
+    },
+    {
+      "id": "B-0",
+      "category": "干预后",
+      "value": 4,
+      "series": "B"
+    },
+    {
+      "id": "B-1",
+      "category": "干预前",
+      "value": 6,
+      "series": "B"
+    },
+    {
+      "id": "B-1",
+      "category": "干预后",
+      "value": 6,
+      "series": "B"
+    },
+    {
+      "id": "B-2",
+      "category": "干预前",
+      "value": 7,
+      "series": "B"
+    },
+    {
+      "id": "B-2",
+      "category": "干预后",
+      "value": 8,
+      "series": "B"
+    },
+    {
+      "id": "B-3",
+      "category": "干预前",
+      "value": 8,
+      "series": "B"
+    },
+    {
+      "id": "B-3",
+      "category": "干预后",
+      "value": 7,
+      "series": "B"
+    },
+    {
+      "id": "B-4",
+      "category": "干预前",
+      "value": 9,
+      "series": "B"
+    }
+  ]
+}

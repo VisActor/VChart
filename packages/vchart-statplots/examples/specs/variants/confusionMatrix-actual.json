@@ -1,0 +1,29 @@
+{
+  "type": "confusionMatrix",
+  "title": "按实际类别归一化的混淆矩阵",
+  "normalization": "actual",
+  "data": [
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "B"
+    },
+    {
+      "actual": "A",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    }
+  ],
+  "classOrder": [
+    "A",
+    "B",
+    "C"
+  ],
+  "description": "C 类无实际样本，整行比例不可计算；NA 与零值分开显示"
+}

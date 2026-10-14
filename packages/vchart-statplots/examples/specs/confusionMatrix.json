@@ -1,0 +1,133 @@
+{
+  "type": "confusionMatrix",
+  "title": "混淆矩阵",
+  "normalization": "actual",
+  "data": [
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "B"
+    },
+    {
+      "actual": "A",
+      "predicted": "C"
+    },
+    {
+      "actual": "B",
+      "predicted": "A"
+    },
+    {
+      "actual": "B",
+      "predicted": "A"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "A"
+    },
+    {
+      "actual": "C",
+      "predicted": "B"
+    },
+    {
+      "actual": "C",
+      "predicted": "B"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    },
+    {
+      "actual": "C",
+      "predicted": "C"
+    }
+  ],
+  "classOrder": [
+    "A",
+    "B",
+    "C"
+  ],
+  "description": "按实际类别归一化，每行合计 100%"
+}

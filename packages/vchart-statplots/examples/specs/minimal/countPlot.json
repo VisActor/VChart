@@ -1,0 +1,23 @@
+{
+  "type": "countPlot",
+  "data": [
+    {
+      "category": "A"
+    },
+    {
+      "category": "A"
+    },
+    {
+      "category": "A"
+    },
+    {
+      "category": "B"
+    },
+    {
+      "category": "B"
+    },
+    {
+      "category": "C"
+    }
+  ]
+}

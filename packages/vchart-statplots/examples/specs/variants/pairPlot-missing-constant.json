@@ -1,0 +1,40 @@
+{
+  "type": "pairPlot",
+  "variables": ["missing", "constant", "value"],
+  "data": {
+    "observations": [
+      {
+        "id": "0",
+        "values": {
+          "missing": null,
+          "constant": 3,
+          "value": null
+        }
+      },
+      {
+        "id": "1",
+        "values": {
+          "missing": null,
+          "constant": 3,
+          "value": 1
+        }
+      },
+      {
+        "id": "2",
+        "values": {
+          "missing": null,
+          "constant": 3,
+          "value": 2
+        }
+      },
+      {
+        "id": "3",
+        "values": {
+          "missing": null,
+          "constant": 3,
+          "value": 3
+        }
+      }
+    ]
+  }
+}

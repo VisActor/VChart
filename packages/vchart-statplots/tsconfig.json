@@ -1,0 +1,14 @@
+{
+  "extends": "@internal/ts-config/tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node", "offscreencanvas"],
+    "lib": ["DOM", "ESNext"],
+    "rootDir": "src",
+    "outDir": "esm",
+    "strictNullChecks": true,
+    "allowJs": true,
+    "checkJs": false
+  },
+  "ts-node": { "transpileOnly": true, "compilerOptions": { "module": "commonjs" } },
+  "include": ["src"]
+}

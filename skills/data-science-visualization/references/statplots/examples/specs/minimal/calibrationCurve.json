@@ -1,0 +1,33 @@
+{
+  "type": "calibrationCurve",
+  "data": [
+    {
+      "actual": false,
+      "probability": 0
+    },
+    {
+      "actual": true,
+      "probability": 0.2
+    },
+    {
+      "actual": false,
+      "probability": 0.3
+    },
+    {
+      "actual": true,
+      "probability": 0.5
+    },
+    {
+      "actual": true,
+      "probability": 0.65
+    },
+    {
+      "actual": false,
+      "probability": 0.8
+    },
+    {
+      "actual": true,
+      "probability": 1
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VChart StatPlots · 数据科学图表</title>
+    <link rel="stylesheet" href="./gallery.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <h1>VChart StatPlots</h1>
+      <p>28 类统计图 · 语义 JSON · 数据科学可视化</p>
+    </header>
+    <main>
+      <nav id="chart-nav" aria-label="图表类型">
+        <div class="nav-heading">
+          <h2>图表类型</h2>
+          <span>28</span>
+        </div>
+      </nav>
+      <div class="workspace">
+        <section class="preview" aria-labelledby="chart-title" aria-busy="true">
+          <div class="preview-heading">
+            <h2 id="chart-title">图表预览</h2>
+            <code id="chart-type"></code>
+          </div>
+          <div id="plot"></div>
+          <p class="note" id="status" role="status"></p>
+        </section>
+        <section class="editor" aria-labelledby="spec-title">
+          <label for="input" id="spec-title">语义 Spec</label>
+          <p class="note">编辑 JSON 后点击「校验并绘制」。</p>
+          <fieldset class="color-controls">
+            <legend>数据配色</legend>
+            <label for="color-categorical">分类</label>
+            <select id="color-categorical" data-color-role="categorical" disabled>
+              <option value="colorblind">colorblind（默认）</option>
+              <option value="deep">deep</option>
+              <option value="vchart">VChart 原生</option>
+              <option value="custom" disabled>自定义数组</option>
+            </select>
+            <label for="color-sequential">连续</label>
+            <select id="color-sequential" data-color-role="sequential" disabled>
+              <option value="viridis">viridis（默认）</option>
+              <option value="cividis">cividis</option>
+              <option value="custom" disabled>自定义数组</option>
+            </select>
+            <label for="color-diverging">发散</label>
+            <select id="color-diverging" data-color-role="diverging" disabled>
+              <option value="RdBu_r">RdBu_r（默认）</option>
+              <option value="custom" disabled>自定义数组</option>
+            </select>
+            <p class="note">图表按数据含义使用对应色板；自定义色号数组可在 JSON 中编辑。</p>
+          </fieldset>
+          <textarea id="input" spellcheck="false" disabled></textarea>
+          <div class="actions">
+            <button id="render" disabled>校验并绘制</button>
+            <button id="theme" class="secondary" disabled>切换主题</button>
+            <button id="export" class="secondary" disabled>导出 PNG</button>
+          </div>
+          <p id="error" role="alert"></p>
+          <p class="note">计算方法与区间由输入提供。颜色、参考线和布局不会替代统计推断。</p>
+          <a id="schema" target="_blank" rel="noopener">当前图表 Schema ↗</a>
+        </section>
+      </div>
+    </main>
+    <script src="/index.js"></script>
+    <script src="/build/index.js"></script>
+    <script src="./legacy-types.js"></script>
+    <script src="./shared/statplot-controller.js"></script>
+    <script src="./gallery.js"></script>
+  </body>
+</html>

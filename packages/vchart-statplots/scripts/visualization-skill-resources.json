@@ -1,0 +1,244 @@
+{
+  "version": "2.1.8-alpha.0",
+  "plots": {
+    "autocorrelationPlot": [
+      "$intro",
+      "计算与配置"
+    ],
+    "boxPlot": [
+      "$intro",
+      "输入与配置",
+      "统计定义",
+      "小样本与数值边界"
+    ],
+    "calibrationCurve": [
+      "$intro",
+      "计算与配置"
+    ],
+    "confusionMatrix": [
+      "$intro",
+      "计算与配置",
+      "默认显示与解读"
+    ],
+    "correlationMatrix": [
+      "$intro",
+      "输入与计算"
+    ],
+    "countPlot": [
+      "$intro",
+      "计算与配置"
+    ],
+    "ecdfPlot": {
+      "sections": [
+        "$intro",
+        "输入与配置",
+        "精确跳点与绘制"
+      ],
+      "omit": [
+        "计算仅发生在 compileStatPlot",
+        "在排序去重后的"
+      ],
+      "fragments": [
+        {
+          "section": "精确跳点与绘制",
+          "from": "在排序去重后的",
+          "until": "。"
+        }
+      ]
+    },
+    "embeddingPlot": [
+      "$intro",
+      "输入与配置",
+      "选型边界"
+    ],
+    "featureImportancePlot": [
+      "$intro",
+      "输入与配置",
+      "选型边界"
+    ],
+    "hexbinPlot": {
+      "sections": [
+        "$intro",
+        "输入与配置",
+        "分箱与解读",
+        "选型边界与迁移"
+      ],
+      "omit": [
+        "编译阶段做两遍扫描",
+        "旧 id/count/vertices"
+      ]
+    },
+    "histogram": {
+      "sections": [
+        "$intro",
+        "输入与配置",
+        "分箱与数值边界",
+        "选型边界"
+      ],
+      "omit": [
+        "渲染使用原生 bar"
+      ]
+    },
+    "kdePlot": {
+      "sections": [
+        "$intro",
+        "输入与配置",
+        "估计、绘制与边界"
+      ],
+      "omit": [
+        "统计只发生在"
+      ]
+    },
+    "learningCurve": {
+      "sections": [
+        "$intro",
+        "两种输入"
+      ],
+      "fragments": [
+        {
+          "section": "迁移与 Python 对照",
+          "from": "带表示折间离散程度",
+          "until": "。"
+        }
+      ]
+    },
+    "missingValueMatrix": [
+      "$intro",
+      "输入与计算"
+    ],
+    "pairPlot": {
+      "sections": [
+        "$intro",
+        "输入与配置",
+        "统计规则与解读",
+        "选型边界"
+      ],
+      "fragments": [
+        {
+          "section": "输入与配置",
+          "from": "此图不提供 fieldLabels",
+          "until": "。"
+        }
+      ]
+    },
+    "pairedComparisonPlot": [
+      "$intro",
+      "输入与配置",
+      "选型边界"
+    ],
+    "pointIntervalPlot": {
+      "sections": [
+        "$intro",
+        "原始样本",
+        "外部估计"
+      ],
+      "omit": [
+        "迁移原结果数据只需增加",
+        "bootstrap mean 为"
+      ],
+      "fragments": [
+        {
+          "section": "外部估计",
+          "from": "percentile 是样本百分位区间",
+          "until": "。"
+        }
+      ]
+    },
+    "precisionRecallCurve": [
+      "$intro",
+      "计算与配置"
+    ],
+    "qqPlot": [
+      "$intro",
+      "计算与配置"
+    ],
+    "residualPlot": [
+      "$intro",
+      "原始观测",
+      "外部预测与模型残差",
+      "LOWESS 残差趋势"
+    ],
+    "rocCurve": [
+      "$intro",
+      "计算与配置"
+    ],
+    "scatterPlot": [
+      "$intro",
+      "内部拟合",
+      "外部结果与迁移"
+    ],
+    "screePlot": [
+      "$intro",
+      "输入与配置",
+      "选型边界"
+    ],
+    "seasonalPlot": [
+      "$intro",
+      "输入与配置",
+      "选型边界"
+    ],
+    "shapBeeswarmPlot": [
+      "$intro",
+      "输入与配置",
+      "选型边界"
+    ],
+    "stripPlot": [
+      "$intro",
+      "输入与配置",
+      "选型边界"
+    ],
+    "timeSeriesPlot": {
+      "sections": [
+        "$intro"
+      ],
+      "omit": [
+        "曲线和区间带遇到 null",
+        "流程对应"
+      ],
+      "omitFragments": [
+        {
+          "from": "，第一时刻上例",
+          "until": "。",
+          "keepTerminator": true
+        }
+      ]
+    },
+    "violinPlot": {
+      "sections": [
+        "$intro",
+        "输入与配置",
+        "轮廓、交互与边界",
+        "选型边界"
+      ],
+      "omit": [
+        "更新使用"
+      ]
+    }
+  },
+  "common": [
+    {
+      "source": "docs/spec.md",
+      "sections": [
+        "公共配置"
+      ]
+    },
+    {
+      "source": "docs/spec.md",
+      "sections": [
+        "区间与外部方法"
+      ],
+      "paragraphs": [
+        "confidence、prediction"
+      ]
+    },
+    {
+      "source": "docs/colors.md",
+      "sections": [
+        "$intro"
+      ],
+      "omit": [
+        "上例列出"
+      ]
+    }
+  ]
+}

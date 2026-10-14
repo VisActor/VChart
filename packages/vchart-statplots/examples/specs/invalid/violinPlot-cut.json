@@ -1,0 +1,12 @@
+{
+  "type": "violinPlot",
+  "data": [
+    {
+      "category": "A",
+      "value": 1
+    }
+  ],
+  "sampling": {
+    "cut": -1
+  }
+}

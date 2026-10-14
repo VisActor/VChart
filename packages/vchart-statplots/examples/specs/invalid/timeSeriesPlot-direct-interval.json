@@ -1,0 +1,9 @@
+{
+  "type": "timeSeriesPlot",
+  "input": "observations",
+  "estimator": false,
+  "errorBar": {
+    "kind": "range"
+  },
+  "data": []
+}

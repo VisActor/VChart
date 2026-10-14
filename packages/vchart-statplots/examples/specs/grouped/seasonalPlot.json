@@ -1,0 +1,161 @@
+{
+  "type": "seasonalPlot",
+  "layout": "subseries",
+  "data": [
+    {
+      "value": 10,
+      "series": "A",
+      "cycle": "2024",
+      "phase": "Q1"
+    },
+    {
+      "value": 12,
+      "series": "A",
+      "cycle": "2024",
+      "phase": "Q2"
+    },
+    {
+      "value": 14,
+      "series": "A",
+      "cycle": "2024",
+      "phase": "Q3"
+    },
+    {
+      "value": 16,
+      "series": "A",
+      "cycle": "2024",
+      "phase": "Q4"
+    },
+    {
+      "value": 13,
+      "series": "A",
+      "cycle": "2025",
+      "phase": "Q1"
+    },
+    {
+      "value": 15,
+      "series": "A",
+      "cycle": "2025",
+      "phase": "Q2"
+    },
+    {
+      "value": 17,
+      "series": "A",
+      "cycle": "2025",
+      "phase": "Q3"
+    },
+    {
+      "value": 19,
+      "series": "A",
+      "cycle": "2025",
+      "phase": "Q4"
+    },
+    {
+      "value": 12,
+      "series": "A",
+      "cycle": "2026",
+      "phase": "Q1"
+    },
+    {
+      "value": 14,
+      "series": "A",
+      "cycle": "2026",
+      "phase": "Q2"
+    },
+    {
+      "value": 16,
+      "series": "A",
+      "cycle": "2026",
+      "phase": "Q3"
+    },
+    {
+      "value": 18,
+      "series": "A",
+      "cycle": "2026",
+      "phase": "Q4"
+    },
+    {
+      "value": 10,
+      "series": "B",
+      "cycle": "2024",
+      "phase": "Q1"
+    },
+    {
+      "value": 12,
+      "series": "B",
+      "cycle": "2024",
+      "phase": "Q2"
+    },
+    {
+      "value": 14,
+      "series": "B",
+      "cycle": "2024",
+      "phase": "Q3"
+    },
+    {
+      "value": 16,
+      "series": "B",
+      "cycle": "2024",
+      "phase": "Q4"
+    },
+    {
+      "value": 13,
+      "series": "B",
+      "cycle": "2025",
+      "phase": "Q1"
+    },
+    {
+      "value": 15,
+      "series": "B",
+      "cycle": "2025",
+      "phase": "Q2"
+    },
+    {
+      "value": 17,
+      "series": "B",
+      "cycle": "2025",
+      "phase": "Q3"
+    },
+    {
+      "value": 19,
+      "series": "B",
+      "cycle": "2025",
+      "phase": "Q4"
+    },
+    {
+      "value": 12,
+      "series": "B",
+      "cycle": "2026",
+      "phase": "Q1"
+    },
+    {
+      "value": 14,
+      "series": "B",
+      "cycle": "2026",
+      "phase": "Q2"
+    },
+    {
+      "value": 16,
+      "series": "B",
+      "cycle": "2026",
+      "phase": "Q3"
+    },
+    {
+      "value": 18,
+      "series": "B",
+      "cycle": "2026",
+      "phase": "Q4"
+    }
+  ],
+  "phaseOrder": [
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4"
+  ],
+  "cycleOrder": [
+    "2024",
+    "2025",
+    "2026"
+  ]
+}

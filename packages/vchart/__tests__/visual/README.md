@@ -97,7 +97,7 @@ node packages/vchart/node_modules/@playwright/test/cli.js show-report .vchart-vi
 
 ## 用例约定
 
-当前 256 个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/`、`data/`、`layout/`、`theme/`、`interaction/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
+当前 262 个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/`、`data/`、`layout/`、`theme/`、`interaction/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
 
 ID 必须唯一且符合 `^[a-z][a-z0-9-]*$`；file 使用 cases 内的 `./<目录>/<name>.mjs`，目录层级和文件名使用小写字母、数字与连字符。缺文件、非法导出、越界、符号链接和空选择集在构建前失败，未登记的模块不会自动执行。
 

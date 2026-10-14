@@ -1,0 +1,31 @@
+{
+  "type": "screePlot",
+  "showCumulative": true,
+  "data": [
+    {
+      "component": 1,
+      "explainedVarianceRatio": 0.43
+    },
+    {
+      "component": 2,
+      "explainedVarianceRatio": 0.25
+    },
+    {
+      "component": 3,
+      "explainedVarianceRatio": 0.17
+    },
+    {
+      "component": 4,
+      "explainedVarianceRatio": 0.09
+    },
+    {
+      "component": 5,
+      "explainedVarianceRatio": 0.04
+    },
+    {
+      "component": 6,
+      "explainedVarianceRatio": 0.02
+    }
+  ],
+  "xField": "guessed"
+}

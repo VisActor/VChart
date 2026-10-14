@@ -1,0 +1,12 @@
+{
+  "type": "qqPlot",
+  "distribution": {
+    "type": "normal",
+    "standardDeviation": 0
+  },
+  "data": [
+    {
+      "value": 1
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "type": "kdePlot",
+  "data": [
+    {
+      "value": 1
+    }
+  ],
+  "estimation": {
+    "bandwidth": 1,
+    "standardDeviation": "sample"
+  }
+}

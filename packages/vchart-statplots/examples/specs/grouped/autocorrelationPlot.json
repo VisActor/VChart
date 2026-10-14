@@ -1,0 +1,87 @@
+{
+  "type": "autocorrelationPlot",
+  "method": "acf",
+  "data": [
+    {
+      "value": 1,
+      "series": "序列 A"
+    },
+    {
+      "value": 3,
+      "series": "序列 A"
+    },
+    {
+      "value": 2,
+      "series": "序列 A"
+    },
+    {
+      "value": 5,
+      "series": "序列 A"
+    },
+    {
+      "value": 4,
+      "series": "序列 A"
+    },
+    {
+      "value": 7,
+      "series": "序列 A"
+    },
+    {
+      "value": 1,
+      "series": "序列 A"
+    },
+    {
+      "value": 6,
+      "series": "序列 A"
+    },
+    {
+      "value": 3,
+      "series": "序列 A"
+    },
+    {
+      "value": 8,
+      "series": "序列 A"
+    },
+    {
+      "value": 3,
+      "series": "序列 B"
+    },
+    {
+      "value": 1,
+      "series": "序列 B"
+    },
+    {
+      "value": 4,
+      "series": "序列 B"
+    },
+    {
+      "value": 2,
+      "series": "序列 B"
+    },
+    {
+      "value": 5,
+      "series": "序列 B"
+    },
+    {
+      "value": 0,
+      "series": "序列 B"
+    },
+    {
+      "value": 7,
+      "series": "序列 B"
+    },
+    {
+      "value": 1,
+      "series": "序列 B"
+    },
+    {
+      "value": 6,
+      "series": "序列 B"
+    },
+    {
+      "value": 3,
+      "series": "序列 B"
+    }
+  ],
+  "maxLag": 3
+}

@@ -1,0 +1,44 @@
+name: StatPlots
+on:
+  pull_request:
+    paths:
+      - 'packages/vchart-statplots/**'
+      - 'packages/vchart/src/**'
+      - 'common/config/rush/**'
+      - 'rush.json'
+      - '.github/workflows/statplots-test.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Native dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev pkg-config
+          python3 -m pip install setuptools --break-system-packages
+      - run: node common/scripts/install-run-rush.js install --ignore-hooks
+      - run: node packages/vchart-statplots/node_modules/@playwright/test/cli.js install --with-deps chromium
+      - run: node common/scripts/install-run-rush.js build --to @visactor/vchart-statplots
+        env:
+          NODE_OPTIONS: '--max-old-space-size=8192'
+      - run: npm run check:schema --prefix packages/vchart-statplots
+      - name: Verify generated resources are not tracked
+        run: test -z "$(git ls-files -- packages/vchart-statplots/schema packages/vchart-statplots/src/generated)"
+      - run: npm run check:examples --prefix packages/vchart-statplots
+      - run: npm run check:catalog --prefix packages/vchart-statplots
+      - run: npm run eslint --prefix packages/vchart-statplots
+      - run: npm test --prefix packages/vchart-statplots -- --runInBand
+      - name: Skill resource synchronization regression
+        run: node --test packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs
+      - run: npm run test:browser --prefix packages/vchart-statplots
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: statplots-browser-report
+          path: .vchart-statplots/report

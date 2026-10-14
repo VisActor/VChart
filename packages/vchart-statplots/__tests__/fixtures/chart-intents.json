@@ -1,0 +1,684 @@
+[
+  {
+    "prompt": "比较各客户类别有多少条观测。",
+    "expected": {
+      "type": "countPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Count plot",
+    "expected": {
+      "type": "countPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "类别比例图",
+    "expected": {
+      "type": "countPlot",
+      "options": {
+        "statistic": "proportion"
+      }
+    }
+  },
+  {
+    "prompt": "检查每条观测各变量的缺失位置。",
+    "expected": {
+      "type": "missingValueMatrix",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Missing value matrix",
+    "expected": {
+      "type": "missingValueMatrix",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "查看连续变量的分箱分布和尾部。",
+    "expected": {
+      "type": "histogram",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Histogram",
+    "expected": {
+      "type": "histogram",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "密度直方图",
+    "expected": {
+      "type": "histogram",
+      "options": {
+        "statistic": "density"
+      }
+    }
+  },
+  {
+    "prompt": "比例直方图",
+    "expected": {
+      "type": "histogram",
+      "options": {
+        "statistic": "proportion"
+      }
+    }
+  },
+  {
+    "prompt": "从原始样本估计一维概率密度。",
+    "expected": {
+      "type": "kdePlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Kernel density plot",
+    "expected": {
+      "type": "kdePlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "从原始样本计算经验累积概率。",
+    "expected": {
+      "type": "ecdfPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Empirical cumulative distribution plot",
+    "expected": {
+      "type": "ecdfPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "从原始分类观测计算四分位数、须和异常值，比较组间分布。",
+    "expected": {
+      "type": "boxPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Box plot",
+    "expected": {
+      "type": "boxPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "从原始样本比较不同组的核密度分布形状。",
+    "expected": {
+      "type": "violinPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Violin plot",
+    "expected": {
+      "type": "violinPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "等面积小提琴图",
+    "expected": {
+      "type": "violinPlot",
+      "options": {
+        "densityNormalization": "area"
+      }
+    }
+  },
+  {
+    "prompt": "查看各类别中每条观测的数值。",
+    "expected": {
+      "type": "stripPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Strip plot",
+    "expected": {
+      "type": "stripPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "抖动散点图",
+    "expected": {
+      "type": "stripPlot",
+      "options": {
+        "layout": "jitter"
+      }
+    }
+  },
+  {
+    "prompt": "蜂群图",
+    "expected": {
+      "type": "stripPlot",
+      "options": {
+        "layout": "swarm"
+      }
+    }
+  },
+  {
+    "prompt": "比较各组点估计与已经计算的区间。",
+    "expected": {
+      "type": "pointIntervalPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Point interval plot",
+    "expected": {
+      "type": "pointIntervalPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "比较同一对象干预前后的两次观测。",
+    "expected": {
+      "type": "pairedComparisonPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Paired comparison plot",
+    "expected": {
+      "type": "pairedComparisonPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "查看两个数值变量的关系。",
+    "expected": {
+      "type": "scatterPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Scatter plot",
+    "expected": {
+      "type": "scatterPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "把大量原始二维散点按六边形分箱，查看局部观测数量。",
+    "expected": {
+      "type": "hexbinPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Hexbin plot of raw x/y observations",
+    "expected": {
+      "type": "hexbinPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "比较多个变量的相关方向和强度。",
+    "expected": {
+      "type": "correlationMatrix",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Correlation matrix",
+    "expected": {
+      "type": "correlationMatrix",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "同时查看多个变量两两关系及对角分布。",
+    "expected": {
+      "type": "pairPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Pair plot",
+    "expected": {
+      "type": "pairPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "查看随时间变化的数值及已有区间。",
+    "expected": {
+      "type": "timeSeriesPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Time series plot",
+    "expected": {
+      "type": "timeSeriesPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "比较不同年份的季度形状。",
+    "expected": {
+      "type": "seasonalPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Seasonal plot",
+    "expected": {
+      "type": "seasonalPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "季节叠加图",
+    "expected": {
+      "type": "seasonalPlot",
+      "options": {
+        "layout": "overlay"
+      }
+    }
+  },
+  {
+    "prompt": "季节子序列图",
+    "expected": {
+      "type": "seasonalPlot",
+      "options": {
+        "layout": "subseries"
+      }
+    }
+  },
+  {
+    "prompt": "查看时间序列各滞后阶的自相关。",
+    "expected": {
+      "type": "autocorrelationPlot",
+      "options": {
+        "method": "acf"
+      }
+    }
+  },
+  {
+    "prompt": "Autocorrelation plot",
+    "expected": {
+      "type": "autocorrelationPlot",
+      "options": {
+        "method": "acf"
+      }
+    }
+  },
+  {
+    "prompt": "自相关图",
+    "expected": {
+      "type": "autocorrelationPlot",
+      "options": {
+        "method": "acf"
+      }
+    }
+  },
+  {
+    "prompt": "偏自相关图",
+    "expected": {
+      "type": "autocorrelationPlot",
+      "options": {
+        "method": "pacf"
+      }
+    }
+  },
+  {
+    "prompt": "查看各成分解释方差比例。",
+    "expected": {
+      "type": "screePlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Scree plot",
+    "expected": {
+      "type": "screePlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "展示已计算的二维降维坐标。",
+    "expected": {
+      "type": "embeddingPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Embedding plot",
+    "expected": {
+      "type": "embeddingPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "PCA 得分图",
+    "expected": {
+      "type": "embeddingPlot",
+      "options": {
+        "method": "pca"
+      }
+    }
+  },
+  {
+    "prompt": "t-SNE 散点图",
+    "expected": {
+      "type": "embeddingPlot",
+      "options": {
+        "method": "tsne"
+      }
+    }
+  },
+  {
+    "prompt": "UMAP 散点图",
+    "expected": {
+      "type": "embeddingPlot",
+      "options": {
+        "method": "umap"
+      }
+    }
+  },
+  {
+    "prompt": "检查残差随拟合值变化是否存在结构。",
+    "expected": {
+      "type": "residualPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Residual plot",
+    "expected": {
+      "type": "residualPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "比较样本分位数与给定理论分布分位数。",
+    "expected": {
+      "type": "qqPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Q–Q plot",
+    "expected": {
+      "type": "qqPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "检查实际类别与预测类别的错误分布。",
+    "expected": {
+      "type": "confusionMatrix",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Confusion matrix",
+    "expected": {
+      "type": "confusionMatrix",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "按实际类别归一化的混淆矩阵",
+    "expected": {
+      "type": "confusionMatrix",
+      "options": {
+        "normalization": "actual"
+      }
+    }
+  },
+  {
+    "prompt": "按预测类别归一化的混淆矩阵",
+    "expected": {
+      "type": "confusionMatrix",
+      "options": {
+        "normalization": "predicted"
+      }
+    }
+  },
+  {
+    "prompt": "整体比例混淆矩阵",
+    "expected": {
+      "type": "confusionMatrix",
+      "options": {
+        "normalization": "all"
+      }
+    }
+  },
+  {
+    "prompt": "比较不同分类阈值的真阳性率与假阳性率。",
+    "expected": {
+      "type": "rocCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "ROC curve",
+    "expected": {
+      "type": "rocCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "比较不同阈值的精确率与召回率。",
+    "expected": {
+      "type": "precisionRecallCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Precision–recall curve",
+    "expected": {
+      "type": "precisionRecallCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "检查预测概率与实际正例比例是否一致。",
+    "expected": {
+      "type": "calibrationCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Calibration curve",
+    "expected": {
+      "type": "calibrationCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "比较训练样本数变化时的训练与验证分数。",
+    "expected": {
+      "type": "learningCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Learning curve",
+    "expected": {
+      "type": "learningCurve",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "比较给定方法算出的各特征重要性。",
+    "expected": {
+      "type": "featureImportancePlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "Feature importance plot",
+    "expected": {
+      "type": "featureImportancePlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "查看各特征逐观测的 SHAP 贡献与特征值。",
+    "expected": {
+      "type": "shapBeeswarmPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "SHAP beeswarm plot",
+    "expected": {
+      "type": "shapBeeswarmPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "各部门平均工资柱状图",
+    "expected": null,
+    "reason": "countPlot 只接受计数，不是均值柱状图"
+  },
+  {
+    "prompt": "画 epoch 与 loss 学习曲线",
+    "expected": null,
+    "reason": "learningCurve 的横轴为训练样本数"
+  },
+  {
+    "prompt": "画 PCA",
+    "expected": null,
+    "reason": "需要明确得分图、碎石图还是载荷图"
+  },
+  {
+    "prompt": "画 SHAP summary",
+    "expected": null,
+    "reason": "需要明确蜂群还是聚合重要性"
+  },
+  {
+    "prompt": "画带研究权重与合并菱形的森林图",
+    "expected": null,
+    "reason": "当前点区间图不提供完整 meta 分析森林图"
+  },
+  {
+    "prompt": "比较两个样本的 Q–Q 图",
+    "expected": null,
+    "reason": "当前 qqPlot 接收理论与样本分位数"
+  },
+  {
+    "prompt": "从原始观测查看多个数值变量的两两关系及其分布",
+    "expected": {
+      "type": "pairPlot",
+      "options": {}
+    }
+  },
+  {
+    "prompt": "关闭散点矩阵的对角分布",
+    "expected": {
+      "type": "pairPlot",
+      "options": {
+        "diagonal": {
+          "type": "none"
+        }
+      }
+    }
+  },
+  {
+    "prompt": "散点矩阵对角直方图使用两个箱",
+    "expected": {
+      "type": "pairPlot",
+      "options": {
+        "diagonal": {
+          "type": "histogram",
+          "binning": {
+            "binCount": 2
+          }
+        }
+      }
+    }
+  },
+  {
+    "prompt": "系列内比例图",
+    "expected": {
+      "type": "countPlot",
+      "options": {
+        "statistic": "proportion",
+        "normalizationScope": "series"
+      }
+    }
+  },
+  {
+    "prompt": "带正例率基线的 PR 图",
+    "expected": {
+      "type": "precisionRecallCurve",
+      "options": {
+        "baseline": true
+      }
+    }
+  },
+  {
+    "prompt": "等频校准曲线",
+    "expected": {
+      "type": "calibrationCurve",
+      "options": {
+        "binning": {
+          "binCount": 4,
+          "strategy": "quantile"
+        }
+      }
+    }
+  },
+  {
+    "prompt": "四分位参考线 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "referenceLine": "quartiles"
+      }
+    }
+  },
+  {
+    "prompt": "回归参考线 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "referenceLine": "regression"
+      }
+    }
+  },
+  {
+    "prompt": "恒等参考线 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "referenceLine": "identity"
+      }
+    }
+  },
+  {
+    "prompt": "指定正态参数 Q–Q 图",
+    "expected": {
+      "type": "qqPlot",
+      "options": {
+        "distribution": {
+          "type": "normal",
+          "mean": 2,
+          "standardDeviation": 3
+        }
+      }
+    }
+  },
+  {
+    "prompt": "不带置信区间的 ACF 图",
+    "expected": {
+      "type": "autocorrelationPlot",
+      "options": {
+        "confidence": false
+      }
+    }
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "type": "calibrationCurve",
+  "data": [
+    {
+      "actual": true,
+      "probability": 1.1
+    }
+  ]
+}

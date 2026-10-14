@@ -1,0 +1,9 @@
+{
+  "type": "countPlot",
+  "data": [
+    {
+      "category": "A"
+    }
+  ],
+  "normalizationScope": "series"
+}
