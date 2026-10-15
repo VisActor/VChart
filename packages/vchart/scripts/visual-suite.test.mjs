@@ -242,3 +242,20 @@ test('扩展套件冻结共享运行文件并保留自己的页面，复制后�
     await assert.rejects(freezeSuite(extension, path.join(base, 'bad'), shared), /链接/);
   } finally { await fs.rm(base, { recursive: true, force: true }); }
 });
+
+
+test('真实扩展清单复用核心冻结加载契约，完整用例可导出', async t => {
+  const directory = await fixture(t);
+  await fs.rm(path.join(directory, 'suite'), { recursive: true, force: true });
+  await freezeSuite(
+    path.join(root, 'packages/vchart-extension/__tests__/visual'),
+    path.join(directory, 'suite'),
+    path.join(root, 'packages/vchart/__tests__/visual')
+  );
+  const manifest = await createSuiteManifest(root, directory, source);
+  assert.ok(manifest.cases.some(item => item.caseId === 'sequence-preview-filter'));
+  assert.ok(manifest.cases.every(item => item.modulePath.startsWith('suite/cases/')));
+  const index = path.join(directory, 'suite/cases/index.mjs');
+  await fs.writeFile(index, (await fs.readFile(index, 'utf8')).replace('new URL(item.file, import.meta.url)', 'item.file'));
+  await assert.rejects(createSuiteManifest(root, directory, source), { code: 'CASE_MANIFEST_INVALID' });
+});
