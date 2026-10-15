@@ -1,0 +1,357 @@
+{
+  "formatVersion": 2,
+  "sources": [
+    {
+      "chart": "area",
+      "typeName": "IAreaChartSpec",
+      "sourceFile": "packages/vchart/src/chart/area/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "bar",
+      "typeName": "IBarChartSpec",
+      "sourceFile": "packages/vchart/src/chart/bar/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "bar3d",
+      "typeName": "IBar3dChartSpec",
+      "sourceFile": "packages/vchart-extension/src/charts/bar-3d/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerBar3dChart"
+      ],
+      "registrationNote": "宿主调用图型注册入口；该入口内部已注册 3D plugin，无需重复注册。注册代码不属于 spec。",
+      "initializationIncludes": [
+        "register3DPlugin"
+      ],
+      "contractNotes": [
+        {
+          "description": "当前 IBar3dSeriesSpec 继承二维 bar 类型，未声明运行时使用的 bar3d 样式字段；这属于公开类型与运行时的差异，不能据元数据认定该字段不受支持。",
+          "sourceFile": "docs/assets/examples/zh/chart-3d/bar3d.md",
+          "example": {
+            "bar3d": {
+              "style": {
+                "length": 20,
+                "z": -20
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "chart": "boxPlot",
+      "typeName": "IBoxPlotChartSpec",
+      "sourceFile": "packages/vchart/src/chart/box-plot/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "circlePacking",
+      "typeName": "ICirclePackingChartSpec",
+      "sourceFile": "packages/vchart/src/chart/circle-packing/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "circularProgress",
+      "typeName": "ICircularProgressChartSpec",
+      "sourceFile": "packages/vchart/src/chart/progress/circular/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "common",
+      "typeName": "ICommonChartSpec",
+      "sourceFile": "packages/vchart/src/chart/common/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "correlation",
+      "typeName": "ICorrelationChartSpec",
+      "sourceFile": "packages/vchart/src/chart/correlation/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "funnel",
+      "typeName": "IFunnelChartSpec",
+      "sourceFile": "packages/vchart/src/chart/funnel/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "funnel3d",
+      "typeName": "IFunnel3dChartSpec",
+      "sourceFile": "packages/vchart-extension/src/charts/funnel-3d/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerFunnel3dChart"
+      ],
+      "registrationNote": "宿主调用图型注册入口；该入口内部已注册 3D plugin，无需重复注册。注册代码不属于 spec。",
+      "initializationIncludes": [
+        "register3DPlugin"
+      ]
+    },
+    {
+      "chart": "gauge",
+      "typeName": "IGaugeChartSpec",
+      "sourceFile": "packages/vchart/src/chart/gauge/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "heatmap",
+      "typeName": "IHeatmapChartSpec",
+      "sourceFile": "packages/vchart/src/chart/heatmap/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "histogram",
+      "typeName": "IHistogramChartSpec",
+      "sourceFile": "packages/vchart/src/chart/histogram/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "histogram3d",
+      "typeName": "IHistogram3dChartSpec",
+      "sourceFile": "packages/vchart-extension/src/charts/histogram-3d/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerHistogram3dChart"
+      ],
+      "registrationNote": "宿主调用图型注册入口；该入口内部已注册 3D plugin，无需重复注册。注册代码不属于 spec。",
+      "initializationIncludes": [
+        "register3DPlugin"
+      ]
+    },
+    {
+      "chart": "line",
+      "typeName": "ILineChartSpec",
+      "sourceFile": "packages/vchart/src/chart/line/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "linearProgress",
+      "typeName": "ILinearProgressChartSpec",
+      "sourceFile": "packages/vchart/src/chart/progress/linear/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "liquid",
+      "typeName": "ILiquidChartSpec",
+      "sourceFile": "packages/vchart/src/chart/liquid/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "map",
+      "typeName": "IMapChartSpec",
+      "sourceFile": "packages/vchart/src/chart/map/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "mosaic",
+      "typeName": "IMosaicChartSpec",
+      "sourceFile": "packages/vchart/src/chart/mosaic/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "pictogram",
+      "typeName": "IPictogramChartSpec",
+      "sourceFile": "packages/vchart-extension/src/charts/pictogram/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerPictogramChart"
+      ],
+      "openContract": "IChartExtendsSeriesSpec<any> 保留公开开放契约；系列字段见 IPictogramSeriesSpec，根字段转发见 pictogram-transformer.ts。"
+    },
+    {
+      "chart": "pie",
+      "typeName": "IPieChartSpec",
+      "sourceFile": "packages/vchart/src/chart/pie/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "pie3d",
+      "typeName": "IPie3dChartSpec",
+      "sourceFile": "packages/vchart-extension/src/charts/pie-3d/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerPie3dChart"
+      ],
+      "registrationNote": "宿主调用图型注册入口；该入口内部已注册 3D plugin，无需重复注册。注册代码不属于 spec。",
+      "initializationIncludes": [
+        "register3DPlugin"
+      ]
+    },
+    {
+      "chart": "radar",
+      "typeName": "IRadarChartSpec",
+      "sourceFile": "packages/vchart/src/chart/radar/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "rangeArea",
+      "typeName": "IRangeAreaChartSpec",
+      "sourceFile": "packages/vchart/src/chart/range-area/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "rangeColumn",
+      "typeName": "IRangeColumnChartSpec",
+      "sourceFile": "packages/vchart/src/chart/range-column/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "rangeColumn3d",
+      "typeName": "IRangeColumn3dChartSpec",
+      "sourceFile": "packages/vchart-extension/src/charts/range-column-3d/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerRangeColumn3dChart"
+      ],
+      "registrationNote": "宿主调用图型注册入口；该入口内部已注册 3D plugin，无需重复注册。注册代码不属于 spec。",
+      "initializationIncludes": [
+        "register3DPlugin"
+      ]
+    },
+    {
+      "chart": "rose",
+      "typeName": "IRoseChartSpec",
+      "sourceFile": "packages/vchart/src/chart/rose/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "sankey",
+      "typeName": "ISankeyChartSpec",
+      "sourceFile": "packages/vchart/src/chart/sankey/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "scatter",
+      "typeName": "IScatterChartSpec",
+      "sourceFile": "packages/vchart/src/chart/scatter/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "sequence",
+      "typeName": "ISequenceChartSpec",
+      "sourceFile": "packages/vchart/src/chart/sequence/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "sunburst",
+      "typeName": "ISunburstChartSpec",
+      "sourceFile": "packages/vchart/src/chart/sunburst/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "treemap",
+      "typeName": "ITreemapChartSpec",
+      "sourceFile": "packages/vchart/src/chart/treemap/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "venn",
+      "typeName": "IVennChartSpec",
+      "sourceFile": "packages/vchart/src/chart/venn/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "waterfall",
+      "typeName": "IWaterfallChartSpec",
+      "sourceFile": "packages/vchart/src/chart/waterfall/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "wordCloud",
+      "typeName": "IWordCloudChartSpec",
+      "sourceFile": "packages/vchart/src/chart/word-cloud/interface.ts",
+      "package": "@visactor/vchart"
+    },
+    {
+      "chart": "wordCloud3d",
+      "typeName": "IWordCloud3dChartSpec",
+      "sourceFile": "packages/vchart-extension/src/charts/word-cloud-3d/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerWordCloud3dChart"
+      ],
+      "registrationNote": "宿主调用图型注册入口；该入口内部已注册 3D plugin，无需重复注册。注册代码不属于 spec。",
+      "initializationIncludes": [
+        "register3DPlugin"
+      ]
+    }
+  ],
+  "detailReferences": {
+    "@visactor/vlayouts/es/interface/wordcloud.d.ts#GeometricMaskShape": "type-details/GeometricMaskShape-Type-Definition.md",
+    "@visactor/vlayouts/es/interface/wordcloud.d.ts#TextShapeMask": "type-details/TextShapeMask-Type-Definition.md",
+    "@visactor/vlayouts/es/sunburst/interface.d.ts#SunburstLabelConfig": "type-details/SunburstLabelConfig-Type-Definition.md",
+    "packages/vchart/src/animation/interface.ts#IAnimationConfig": "type-details/IAnimationConfig-Type-Definition.md",
+    "packages/vchart/src/component/axis/cartesian/interface/spec.ts#ICartesianAxisSpec": "type-details/ICartesianAxisSpec-Type-Definition.md",
+    "packages/vchart/src/component/axis/interface/spec.ts#ILinearAxisSpec": "type-details/ILinearAxisSpec-Type-Definition.md",
+    "packages/vchart/src/component/axis/polar/interface/spec.ts#IPolarAxisSpec": "type-details/IPolarAxisSpec-Type-Definition.md",
+    "packages/vchart/src/component/brush/interface.ts#IBrushSpec": "type-details/IBrushSpec-Type-Definition.md",
+    "packages/vchart/src/component/crosshair/interface/spec.ts#ICartesianCrosshairSpec": "type-details/ICartesianCrosshairSpec-Type-Definition.md",
+    "packages/vchart/src/component/crosshair/interface/spec.ts#IPolarCrosshairSpec": "type-details/IPolarCrosshairSpec-Type-Definition.md",
+    "packages/vchart/src/component/data-zoom/data-zoom/interface.ts#IDataZoomSpec": "type-details/IDataZoomSpec-Type-Definition.md",
+    "packages/vchart/src/component/data-zoom/scroll-bar/interface.ts#IScrollBarSpec": "type-details/IScrollBarSpec-Type-Definition.md",
+    "packages/vchart/src/component/indicator/interface.ts#IIndicatorSpec": "type-details/IIndicatorSpec-Type-Definition.md",
+    "packages/vchart/src/component/label/interface.ts#ILabelSpec": "type-details/ILabelSpec-Type-Definition.md",
+    "packages/vchart/src/component/label/interface.ts#IMultiLabelSpec": "type-details/IMultiLabelSpec-Type-Definition.md",
+    "packages/vchart/src/component/label/interface.ts#ITotalLabelSpec": "type-details/ITotalLabelSpec-Type-Definition.md",
+    "packages/vchart/src/component/legend/interface.ts#ILegendSpec": "type-details/ILegendSpec-Type-Definition.md",
+    "packages/vchart/src/component/marker/mark-area/interface/spec.ts#IMarkAreaSpec": "type-details/IMarkAreaSpec-Type-Definition.md",
+    "packages/vchart/src/component/marker/mark-line/interface/spec.ts#IMarkLineSpec": "type-details/IMarkLineSpec-Type-Definition.md",
+    "packages/vchart/src/component/marker/mark-point/interface/spec.ts#IMarkPointSpec": "type-details/IMarkPointSpec-Type-Definition.md",
+    "packages/vchart/src/component/player/interface/spec.ts#IPlayer": "type-details/IPlayer-Type-Definition.md",
+    "packages/vchart/src/component/title/interface/spec.ts#ITitleSpec": "type-details/ITitleSpec-Type-Definition.md",
+    "packages/vchart/src/component/tooltip/interface/spec.ts#ITooltipSpec": "type-details/ITooltipSpec-Type-Definition.md",
+    "packages/vchart/src/interaction/interface/spec.ts#IHoverSpec": "type-details/IHoverSpec-Type-Definition.md",
+    "packages/vchart/src/interaction/interface/spec.ts#IInteractionItemSpec": "type-details/IInteractionItemSpec-Type-Definition.md",
+    "packages/vchart/src/interaction/interface/spec.ts#ISelectSpec": "type-details/ISelectSpec-Type-Definition.md",
+    "packages/vchart/src/layout/interface.ts#ILayoutSpec": "type-details/ILayoutSpec-Type-Definition.md",
+    "packages/vchart/src/region/interface.ts#RegionSpec": "type-details/RegionSpec-Type-Definition.md",
+    "packages/vchart/src/series/bar/interface.ts#IStackCornerRadiusCallback": "type-details/IStackCornerRadiusCallback-Type-Definition.md",
+    "packages/vchart/src/series/funnel/interface.ts#IFunnelLabelSpec": "type-details/IFunnelLabelSpec-Type-Definition.md",
+    "packages/vchart/src/series/funnel/interface.ts#IFunnelOuterLabelSpec": "type-details/IFunnelOuterLabelSpec-Type-Definition.md",
+    "packages/vchart/src/series/interface/common.ts#ISeriesStyle": "type-details/ISeriesStyle-Type-Definition.md",
+    "packages/vchart/src/series/mixin/interface.ts#ILineLikeLabelSpec": "type-details/ILineLikeLabelSpec-Type-Definition.md",
+    "packages/vchart/src/series/pie/interface.ts#IArcLabelSpec": "type-details/IArcLabelSpec-Type-Definition.md",
+    "packages/vchart/src/series/sankey/interface.ts#ISankeyLabelSpec": "type-details/ISankeyLabelSpec-Type-Definition.md",
+    "packages/vchart/src/series/waterfall/interface.ts#IWaterfallTotalCustom": "type-details/IWaterfallTotalCustom-Type-Definition.md",
+    "packages/vchart/src/series/waterfall/interface.ts#IWaterfallTotalEnd": "type-details/IWaterfallTotalEnd-Type-Definition.md",
+    "packages/vchart/src/series/waterfall/interface.ts#IWaterfallTotalField": "type-details/IWaterfallTotalField-Type-Definition.md",
+    "packages/vchart/src/series/word-cloud/interface.ts#WordCloudConfigType": "type-details/WordCloudConfigType-Type-Definition.md",
+    "packages/vchart/src/series/word-cloud/interface.ts#WordCloudShapeConfigType": "type-details/WordCloudShapeConfigType-Type-Definition.md",
+    "packages/vchart/src/series/word-cloud/interface.ts#WordCloudShapeType": "type-details/WordCloudShapeType-Type-Definition.md",
+    "packages/vchart/src/theme/interface.ts#ITheme": "type-details/ITheme-Type-Definition.md",
+    "packages/vchart/src/typings/layout.ts#ILayoutPaddingSpec": "type-details/ILayoutPaddingSpec-Type-Definition.md",
+    "packages/vchart/src/typings/layout.ts#IPercent": "type-details/IPercent-Type-Definition.md",
+    "packages/vchart/src/typings/shape.ts#ShapeType": "type-details/ShapeType-Type-Definition.md",
+    "packages/vchart/src/typings/space.ts#IPadding": "type-details/IPadding-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#IBackgroundSpec": "type-details/IBackgroundSpec-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#ICustomMarkSpec": "type-details/ICustomMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#IData": "type-details/IData-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#IExtensionGroupMarkSpec": "type-details/IExtensionGroupMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#IExtensionMarkSpec": "type-details/IExtensionMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#IHierarchyData": "type-details/IHierarchyData-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#IMarkSpec": "type-details/IMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/spec/common.ts#ISeriesSpec": "type-details/ISeriesSpec-Type-Definition.md",
+    "packages/vchart/src/typings/spec/media-query.ts#IMediaQuerySpec": "type-details/IMediaQuerySpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#FunctionType": "type-details/FunctionType-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IArcMarkSpec": "type-details/IArcMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IAreaMarkSpec": "type-details/IAreaMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IBoxPlotMarkSpec": "type-details/IBoxPlotMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IGroupMarkSpec": "type-details/IGroupMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IImageMarkSpec": "type-details/IImageMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#ILineMarkSpec": "type-details/ILineMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#ILinkPathMarkSpec": "type-details/ILinkPathMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#ILiquidMarkSpec": "type-details/ILiquidMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IOutlierMarkSpec": "type-details/IOutlierMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IPathMarkSpec": "type-details/IPathMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IPolygonMarkSpec": "type-details/IPolygonMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IRectMarkSpec": "type-details/IRectMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IRippleMarkSpec": "type-details/IRippleMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IRuleMarkSpec": "type-details/IRuleMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#ISymbolMarkSpec": "type-details/ISymbolMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#ITextMarkSpec": "type-details/ITextMarkSpec-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IVisualSpecBase": "type-details/IVisualSpecBase-Type-Definition.md",
+    "packages/vchart/src/typings/visual.ts#IVisualSpecScale": "type-details/IVisualSpecScale-Type-Definition.md"
+  }
+}

@@ -1,3 +1,21 @@
+## 系列动画与图元动画的层级
+
+本文件的 `IAnimationConfig` 是图元动画配置，不是 `animationAppear` 等系列属性的完整类型。
+
+- `animationAppear` 支持 boolean、包含 `preset` 的预设对象，或按图元名称配置的动画映射；预设名不能直接作为该属性的字符串值。
+- `animationEnter/Update/Exit/Disappear` 支持 boolean、通用时长/延迟对象，或图元动画映射。
+- `animationNormal` 是图元动画映射；`animationState` 采用单独的状态动画类型。
+
+```javascript
+const seriesAnimation = {
+  animationAppear: { preset: 'grow', duration: 600 }, // 柱图支持 grow 预设
+  animationEnter: { duration: 300 }
+};
+const disabledAppear = { animationAppear: false };
+```
+
+真实系列声明：[IAnimationSpec](AdditionalTypes-Type-Definition.md#type-c2c92c7fb8c3)、[IStateAnimateSpec](AdditionalTypes-Type-Definition.md#type-c689f8784df3)、[IMarkAnimateSpec](AdditionalTypes-Type-Definition.md#type-f077d8f2c125)。按具体图型的元数据确认预设和图元名称。
+
 ## Overview
 
 `IAnimationConfig` is a union type for VChart animation configurations, supporting two main animation paradigms:

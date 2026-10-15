@@ -45,6 +45,10 @@ description: 使用 VChart 生成可查看的 HTML 或供宿主消费的完整 s
 
 配置查询顺序：用户意图 → 对应 topkey → type-meta → 必要 type-details。`isSimple: true` 的属性可直接使用元数据类型，复杂属性再读取详情。
 
+元数据的 `effectiveProperties` 表示当前图表类型的最终属性；`inheritanceTree` 保留声明和映射关系。复杂依赖按 `complexTypeDefinitions[依赖名].reference` 找到对应详情或补充声明，不凭短类型名猜文件；补充声明用类型索引按需读取。`topkey` 的 `scope/specPath` 标明系列或图元作用域，不能一律写到根配置。
+
+`vchartVersion` 和扩展的 `extensionVersion` 标明来源版本，`sourceFile` 是仓库相对路径。目标版本不同时查询相应版本资料；扩展图型须遵守 `registration` 前提，注册由宿主完成。`openContract` 标记声明开放范围，`contractNotes` 记录已证实的类型与运行时差异，两者都不能理解为元数据枚举了全部运行时属性。维护工具只供知识库更新使用，生成图表不需要运行它。
+
 本地资料不足时查询官方配置 `https://www.visactor.io/vchart/option/[图型]`、API `https://www.visactor.io/vchart/api/API/vchart` 或仓库 `docs/assets/examples/`，以目标版本为准。
 
 ## 数据与生成自检

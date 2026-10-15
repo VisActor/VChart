@@ -1,42 +1,457 @@
 {
   "typeName": "ISunburstChartSpec",
-  "description": "ISunburstChartSpec 配置规范的完整实现分析",
+  "description": "ISunburstChartSpec 公开配置类型",
   "inheritanceTree": {
     "ISunburstChartSpec": {
-      "description": "ISunburstChartSpec 接口配置",
+      "description": "ISunburstChartSpec 的真实类型声明",
       "directExtends": [
         "IChartSpec",
         "IChartExtendsSeriesSpec<ISunburstSeriesSpec>"
       ],
       "ownProperties": [
         {
-          "name": "type",
-          "description": "type 配置",
-          "type": "'sunburst'",
-          "originalType": "'sunburst'",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
           "name": "series",
-          "description": "series 配置",
-          "type": "ISunburstSeriesSpec[]",
+          "description": "系列",
+          "type": "ISunburstSeriesSpec[] | undefined",
           "originalType": "ISunburstSeriesSpec[]",
           "required": false,
           "category": "未分类",
           "isSimple": false,
           "dependencies": [
             "ISunburstSeriesSpec"
+          ],
+          "source": "packages/vchart/src/chart/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstChartSpec"
+        },
+        {
+          "name": "type",
+          "description": "图表类型",
+          "type": "\"sunburst\"",
+          "originalType": "'sunburst'",
+          "required": true,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/chart/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstChartSpec",
+          "literalValues": [
+            "sunburst"
           ]
         }
       ]
     },
     "IChartSpec": {
-      "description": "IChartSpec 接口配置",
+      "description": "IChartSpec 的真实类型声明",
       "directExtends": [],
       "ownProperties": [
+        {
+          "name": "animationThreshold",
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec",
+          "since": "1.2.0"
+        },
+        {
+          "name": "autoFit",
+          "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "axes",
+          "description": "轴",
+          "type": "ICommonAxisSpec[] | undefined",
+          "originalType": "ICommonAxisSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ICommonAxisSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "background",
+          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
+          "type": "IBackgroundSpec | undefined",
+          "originalType": "IBackgroundSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ConvertToMarkStyleSpec",
+            "IBackgroundSpec",
+            "IConicalGradient",
+            "IGroupMarkSpec",
+            "ILinearGradient",
+            "IRadialGradient"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "brush",
+          "description": "框选配置",
+          "type": "IBrushSpec | undefined",
+          "originalType": "IBrushSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IBrushSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "color",
+          "description": "图表色系配置",
+          "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
+          "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IVisualSpecScale"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "crosshair",
+          "description": "十字辅助线配置",
+          "type": "ICrosshairSpec | ICrosshairSpec[] | undefined",
+          "originalType": "ICrosshairSpec | ICrosshairSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ICartesianCrosshairSpec",
+            "ICrosshairSpec",
+            "IPolarCrosshairSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "customMark",
+          "description": "自定义mark",
+          "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
+          "originalType": "ICustomMarkSpec<EnableMarkType>[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "EnableMarkType",
+            "ICustomMarkSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "data",
+          "description": "数据",
+          "type": "IData | undefined",
+          "originalType": "IData",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "DataView",
+            "IData",
+            "IDataType",
+            "IDataValues"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "dataZoom",
+          "description": "缩略轴配置",
+          "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
+          "originalType": "IDataZoomSpec | IDataZoomSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IDataZoomSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "height",
+          "description": "画布高度",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "hover",
+          "description": "hover 交互",
+          "type": "boolean | IHoverSpec | undefined",
+          "originalType": "boolean | IHoverSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IHoverSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "layout",
+          "description": "布局配置",
+          "type": "ILayoutSpec | undefined",
+          "originalType": "ILayoutSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IBaseLayoutSpec",
+            "IGridLayoutSpec",
+            "ILayoutSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "legends",
+          "description": "图例配置",
+          "type": "ILegendSpec | ILegendSpec[] | undefined",
+          "originalType": "ILegendSpec | ILegendSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IColorLegendSpec",
+            "IDiscreteLegendSpec",
+            "ILegendSpec",
+            "ISizeLegendSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "media",
+          "description": "媒体查询配置",
+          "type": "IMediaQuerySpec | undefined",
+          "originalType": "IMediaQuerySpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IMediaQuerySpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec",
+          "since": "1.8.0"
+        },
+        {
+          "name": "padding",
+          "description": "图表整体 padding 设置",
+          "type": "ILayoutPaddingSpec | undefined",
+          "originalType": "ILayoutPaddingSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ILayoutNumber",
+            "ILayoutOrientPadding",
+            "ILayoutPaddingSpec",
+            "IPercentOffset"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "player",
+          "description": "播放器配置",
+          "type": "IPlayer | undefined",
+          "originalType": "IPlayer",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IPlayer"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "region",
+          "description": "region配置",
+          "type": "RegionSpec[] | undefined",
+          "originalType": "RegionSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "RegionSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "scales",
+          "description": "全局 scale 配置",
+          "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
+          "originalType": "IVisualSpecScale<unknown, unknown>[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IVisualSpecScale"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "scrollBar",
+          "description": "滚动条配置",
+          "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
+          "originalType": "IScrollBarSpec | IScrollBarSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IScrollBarSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "select",
+          "description": "select 交互",
+          "type": "boolean | ISelectSpec | undefined",
+          "originalType": "boolean | ISelectSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ISelectSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "series",
+          "description": "系列",
+          "type": "ISeriesSpec[] | undefined",
+          "originalType": "ISeriesSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ISeriesSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "seriesStyle",
+          "description": "系列样式",
+          "type": "ISeriesStyle | undefined",
+          "originalType": "ISeriesStyle",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ISeriesStyle"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "stackInverse",
+          "description": "堆积时是否逆序",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec",
+          "defaultValue": "false",
+          "since": "1.4.0"
+        },
+        {
+          "name": "stackSort",
+          "description": "堆积时是否排序",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec",
+          "defaultValue": "false",
+          "since": "1.10.4"
+        },
+        {
+          "name": "theme",
+          "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
+          "type": "Omit<ITheme, \"name\"> | string | undefined",
+          "originalType": "Omit<ITheme, 'name'> | string",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ITheme"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "title",
+          "description": "图表标题配置",
+          "type": "ITitleSpec | undefined",
+          "originalType": "ITitleSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ITitleSpec",
+            "ITitleSpecWithoutText"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
+        {
+          "name": "tooltip",
+          "description": "tooltip配置",
+          "type": "ITooltipSpec | undefined",
+          "originalType": "ITooltipSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ITooltipSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
+        },
         {
           "name": "type",
           "description": "图表类型",
@@ -45,411 +460,193 @@
           "required": true,
           "category": "未分类",
           "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "data",
-          "description": "data 配置",
-          "type": "IData",
-          "originalType": "IData",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IData"
-          ]
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
         },
         {
           "name": "width",
           "description": "画布宽度",
-          "type": "number",
+          "type": "number | undefined",
           "originalType": "number",
           "required": false,
           "category": "未分类",
           "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "height",
-          "description": "画布高度",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "autoFit",
-          "description": "是否自适应容器大小",
-          "type": "boolean",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "padding",
-          "description": "图表整体 padding 设置",
-          "type": "ILayoutPaddingSpec",
-          "originalType": "ILayoutPaddingSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILayoutPaddingSpec"
-          ]
-        },
-        {
-          "name": "color",
-          "description": "图表色系配置",
-          "type": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
-          "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ]
-        },
-        {
-          "name": "series",
-          "description": "series 配置",
-          "type": "ISeriesSpec[]",
-          "originalType": "ISeriesSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesSpec"
-          ]
-        },
-        {
-          "name": "seriesStyle",
-          "description": "系列样式",
-          "type": "ISeriesStyle",
-          "originalType": "ISeriesStyle",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesStyle"
-          ]
-        },
-        {
-          "name": "animationThreshold",
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "hover",
-          "description": "hover 交互",
-          "type": "boolean | IHoverSpec",
-          "originalType": "boolean | IHoverSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IHoverSpec"
-          ]
-        },
-        {
-          "name": "select",
-          "description": "select 交互",
-          "type": "boolean | ISelectSpec",
-          "originalType": "boolean | ISelectSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISelectSpec"
-          ]
-        },
-        {
-          "name": "region",
-          "description": "region配置",
-          "type": "RegionSpec[]",
-          "originalType": "RegionSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "RegionSpec"
-          ]
-        },
-        {
-          "name": "title",
-          "description": "图表标题配置",
-          "type": "ITitleSpec",
-          "originalType": "ITitleSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITitleSpec"
-          ]
-        },
-        {
-          "name": "layout",
-          "description": "自定义布局函数",
-          "type": "ILayoutSpec",
-          "originalType": "ILayoutSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILayoutSpec"
-          ]
-        },
-        {
-          "name": "legends",
-          "description": "图例配置",
-          "type": "ILegendSpec | ILegendSpec[]",
-          "originalType": "ILegendSpec | ILegendSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILegendSpec"
-          ]
-        },
-        {
-          "name": "crosshair",
-          "description": "十字辅助线配置",
-          "type": "ICrosshairSpec | ICrosshairSpec[]",
-          "originalType": "ICrosshairSpec | ICrosshairSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairSpec"
-          ]
-        },
-        {
-          "name": "tooltip",
-          "description": "tooltip配置",
-          "type": "ITooltipSpec",
-          "originalType": "ITooltipSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITooltipSpec"
-          ]
-        },
-        {
-          "name": "player",
-          "description": "播放器配置",
-          "type": "IPlayer",
-          "originalType": "IPlayer",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IPlayer"
-          ]
-        },
-        {
-          "name": "dataZoom",
-          "description": "缩略轴配置",
-          "type": "IDataZoomSpec | IDataZoomSpec[]",
-          "originalType": "IDataZoomSpec | IDataZoomSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IDataZoomSpec"
-          ]
-        },
-        {
-          "name": "scrollBar",
-          "description": "滚动条配置",
-          "type": "IScrollBarSpec | IScrollBarSpec[]",
-          "originalType": "IScrollBarSpec | IScrollBarSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IScrollBarSpec"
-          ]
-        },
-        {
-          "name": "brush",
-          "description": "框选配置",
-          "type": "IBrushSpec",
-          "originalType": "IBrushSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBrushSpec"
-          ]
-        },
-        {
-          "name": "scales",
-          "description": "全局 scale 配置",
-          "type": "IVisualSpecScale<unknown, unknown>[]",
-          "originalType": "IVisualSpecScale<unknown, unknown>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ]
-        },
-        {
-          "name": "customMark",
-          "description": "自定义mark",
-          "type": "ICustomMarkSpec<EnableMarkType>[]",
-          "originalType": "ICustomMarkSpec<EnableMarkType>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICustomMarkSpec"
-          ]
-        },
-        {
-          "name": "axes",
-          "description": "axes 配置",
-          "type": "ICommonAxisSpec[]",
-          "originalType": "ICommonAxisSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICommonAxisSpec"
-          ]
-        },
-        {
-          "name": "theme",
-          "description": "默认主题（支持完整主题对象或者主题名称，主题名称需要提前在 `ThemeManager` 中注册）",
-          "type": "Omit<ITheme, 'name'> | string",
-          "originalType": "Omit<ITheme, 'name'> | string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITheme"
-          ]
-        },
-        {
-          "name": "background",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置 自1.11.6版本支持渐变色对象的配置",
-          "type": "IBackgroundSpec",
-          "originalType": "IBackgroundSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBackgroundSpec"
-          ]
-        },
-        {
-          "name": "stackInverse",
-          "description": "堆积时是否逆序",
-          "type": "boolean",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "stackSort",
-          "description": "堆积时是否排序",
-          "type": "boolean",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "media",
-          "description": "媒体查询配置",
-          "type": "IMediaQuerySpec",
-          "originalType": "IMediaQuerySpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMediaQuerySpec"
-          ]
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "IChartSpec"
         }
       ]
     },
     "IChartExtendsSeriesSpec<ISunburstSeriesSpec>": {
-      "description": "ISunburstSeriesSpec 的属性（排除 data, morph, stackValue, tooltip）",
+      "description": "IChartExtendsSeriesSpec<ISunburstSeriesSpec> 的真实类型声明",
       "directExtends": [],
       "ownProperties": [
         {
-          "name": "animationAppear",
-          "description": "入场动画配置",
-          "type": "'growAngle' | 'growRadius' | 'fadeIn' | IAnimationConfig",
-          "originalType": "IAnimationConfig<SunburstMark>",
+          "name": "animation",
+          "description": "是否开启系列动画",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
           "required": false,
-          "category": "动画配置",
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "animationAppear",
+          "description": "图表入场动画\n支持配置图表内置不同动画效果",
+          "type": "boolean | IStateAnimateSpec<SunburstAppearPreset> | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+          "originalType": "boolean | IStateAnimateSpec<Preset> | IMarkAnimateSpec<MarkName>",
+          "required": false,
+          "category": "未分类",
           "isSimple": false,
           "dependencies": [
-            "IAnimationConfig"
+            "ChannelAnimationConfig",
+            "CommonAnimationConfigItem",
+            "IAnimationConfig",
+            "IAnimationTimeline",
+            "IMarkAnimateSpec",
+            "IStateAnimateSpec",
+            "SunburstAppearPreset",
+            "SunburstMark",
+            "TypeAnimationConfig"
           ],
-          "inheritedFrom": "IAnimationSpec<SunburstMark, SunburstAppearPreset>"
+          "source": "packages/vchart/src/animation/spec.ts",
+          "inheritedFrom": "IAnimationSpec"
+        },
+        {
+          "name": "animationDisappear",
+          "description": "图表退场动画",
+          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ChannelAnimationConfig",
+            "CommonAnimationConfigItem",
+            "IAnimationConfig",
+            "IAnimationTimeline",
+            "ICommonStateAnimateSpec",
+            "IMarkAnimateSpec",
+            "SunburstMark",
+            "TypeAnimationConfig"
+          ],
+          "source": "packages/vchart/src/animation/spec.ts",
+          "inheritedFrom": "IAnimationSpec"
         },
         {
           "name": "animationEnter",
-          "description": "数据新增动画配置",
-          "type": "IAnimationConfig",
-          "originalType": "IAnimationConfig",
+          "description": "数据更新 - 新增数据动画",
+          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
           "required": false,
-          "category": "动画配置",
+          "category": "未分类",
           "isSimple": false,
           "dependencies": [
-            "IAnimationConfig"
+            "ChannelAnimationConfig",
+            "CommonAnimationConfigItem",
+            "IAnimationConfig",
+            "IAnimationTimeline",
+            "ICommonStateAnimateSpec",
+            "IMarkAnimateSpec",
+            "SunburstMark",
+            "TypeAnimationConfig"
           ],
-          "inheritedFrom": "IAnimationSpec<SunburstMark, SunburstAppearPreset>"
-        },
-        {
-          "name": "animationUpdate",
-          "description": "数据更新动画配置",
-          "type": "IAnimationConfig",
-          "originalType": "IAnimationConfig",
-          "required": false,
-          "category": "动画配置",
-          "isSimple": false,
-          "dependencies": [
-            "IAnimationConfig"
-          ],
-          "inheritedFrom": "IAnimationSpec<SunburstMark, SunburstAppearPreset>"
+          "source": "packages/vchart/src/animation/spec.ts",
+          "inheritedFrom": "IAnimationSpec"
         },
         {
           "name": "animationExit",
-          "description": "数据移除动画配置",
-          "type": "IAnimationConfig",
-          "originalType": "IAnimationConfig",
+          "description": "数据更新 - 数据删除动画",
+          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
           "required": false,
-          "category": "动画配置",
+          "category": "未分类",
           "isSimple": false,
           "dependencies": [
-            "IAnimationConfig"
+            "ChannelAnimationConfig",
+            "CommonAnimationConfigItem",
+            "IAnimationConfig",
+            "IAnimationTimeline",
+            "ICommonStateAnimateSpec",
+            "IMarkAnimateSpec",
+            "SunburstMark",
+            "TypeAnimationConfig"
           ],
-          "inheritedFrom": "IAnimationSpec<SunburstMark, SunburstAppearPreset>"
+          "source": "packages/vchart/src/animation/spec.ts",
+          "inheritedFrom": "IAnimationSpec"
         },
         {
-          "name": "type",
-          "description": "type 配置",
-          "type": "'sunburst'",
-          "originalType": "'sunburst'",
-          "required": true,
+          "name": "animationNormal",
+          "description": "循环动画",
+          "type": "Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+          "originalType": "IMarkAnimateSpec<MarkName>",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ChannelAnimationConfig",
+            "CommonAnimationConfigItem",
+            "IAnimationConfig",
+            "IAnimationTimeline",
+            "IMarkAnimateSpec",
+            "SunburstMark",
+            "TypeAnimationConfig"
+          ],
+          "source": "packages/vchart/src/animation/spec.ts",
+          "inheritedFrom": "IAnimationSpec"
+        },
+        {
+          "name": "animationState",
+          "description": "状态切换动画",
+          "type": "boolean | IStateAnimationConfig | undefined",
+          "originalType": "boolean | IStateAnimationConfig",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IStateAnimationConfig"
+          ],
+          "source": "packages/vchart/src/animation/spec.ts",
+          "inheritedFrom": "IAnimationSpec",
+          "since": "1.12.0"
+        },
+        {
+          "name": "animationThreshold",
+          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
           "category": "未分类",
           "isSimple": true,
-          "dependencies": []
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec",
+          "since": "1.2.0"
+        },
+        {
+          "name": "animationUpdate",
+          "description": "数据更新 - 数据更新动画",
+          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ChannelAnimationConfig",
+            "CommonAnimationConfigItem",
+            "IAnimationConfig",
+            "IAnimationTimeline",
+            "ICommonStateAnimateSpec",
+            "IMarkAnimateSpec",
+            "SunburstMark",
+            "TypeAnimationConfig"
+          ],
+          "source": "packages/vchart/src/animation/spec.ts",
+          "inheritedFrom": "IAnimationSpec"
         },
         {
           "name": "categoryField",
@@ -459,7 +656,479 @@
           "required": true,
           "category": "未分类",
           "isSimple": true,
-          "dependencies": []
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec"
+        },
+        {
+          "name": "centerX",
+          "description": "旭日图中心点, x坐标.",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "正中心"
+        },
+        {
+          "name": "centerY",
+          "description": "旭日图中心点, y坐标.",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "正中心"
+        },
+        {
+          "name": "dataId",
+          "description": "系列关联的数据id",
+          "type": "StringOrNumber | undefined",
+          "originalType": "StringOrNumber",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "dataIndex",
+          "description": "系列关联的数据索引",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec",
+          "defaultValue": "0"
+        },
+        {
+          "name": "dataKey",
+          "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要.",
+          "type": "DataKeyType | undefined",
+          "originalType": "DataKeyType",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "DataKeyType"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "drill",
+          "description": "下钻配置",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "false"
+        },
+        {
+          "name": "drillField",
+          "description": "钻取字段的field",
+          "type": "string | undefined",
+          "originalType": "string",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "DEFAULT_DATA_KEY"
+        },
+        {
+          "name": "endAngle",
+          "description": "终止角度",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "startAngle + 360"
+        },
+        {
+          "name": "extensionMark",
+          "description": "系列的扩展mark，能够获取系列上的数据",
+          "type": "(IExtensionGroupMarkSpec | IExtensionMarkSpec<\"arc\" | \"area\" | \"boxPlot\" | \"image\" | \"line\" | \"linkPath\" | \"path\" | \"polygon\" | \"rect\" | \"ripple\" | \"rule\" | \"symbol\" | \"text\">)[] | undefined",
+          "originalType": "(IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "EnableMarkType",
+            "IExtensionGroupMarkSpec",
+            "IExtensionMarkSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "gap",
+          "description": "层级间隔",
+          "type": "number | number[] | undefined",
+          "originalType": "number | number[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "0"
+        },
+        {
+          "name": "hover",
+          "description": "图表hover相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置",
+          "type": "boolean | IHoverSpec | undefined",
+          "originalType": "IHoverSpec | boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IHoverSpec"
+          ],
+          "source": "packages/vchart/src/interaction/interface/spec.ts",
+          "inheritedFrom": "IInteractionSpec"
+        },
+        {
+          "name": "id",
+          "description": "用户自定义的 series id",
+          "type": "StringOrNumber | undefined",
+          "originalType": "StringOrNumber",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "innerRadius",
+          "description": "扇区半径",
+          "type": "number | number[] | undefined",
+          "originalType": "number | number[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "0"
+        },
+        {
+          "name": "interactions",
+          "description": "其他需要按需注册的类型交互",
+          "type": "IInteractionItemSpec[] | undefined",
+          "originalType": "IInteractionItemSpec[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IInteractionItemSpec"
+          ],
+          "source": "packages/vchart/src/interaction/interface/spec.ts",
+          "inheritedFrom": "IInteractionSpec"
+        },
+        {
+          "name": "invalidType",
+          "description": "非合规数据点连接方式",
+          "type": "IInvalidType | undefined",
+          "originalType": "IInvalidType",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec",
+          "defaultValue": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
+          "literalValues": [
+            "break",
+            "ignore",
+            "link",
+            "zero"
+          ]
+        },
+        {
+          "name": "label",
+          "description": "标签配置",
+          "type": "IMarkSpec<ITextMarkSpec> | undefined",
+          "originalType": "IMarkSpec<ITextMarkSpec>",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IMarkSpec",
+            "ITextMarkSpec"
+          ],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec"
+        },
+        {
+          "name": "labelAutoVisible",
+          "description": "自动隐藏密集标签",
+          "type": "LabelAutoVisibleType | undefined",
+          "originalType": "LabelAutoVisibleType",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "LabelAutoVisibleType"
+          ],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec"
+        },
+        {
+          "name": "labelLayout",
+          "description": "label布局相关参数",
+          "type": "(null | SunburstLabelConfig)[] | SunburstLabelConfig | undefined",
+          "originalType": "SunburstLabelConfig | (SunburstLabelConfig | null)[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "SunburstLabelConfig"
+          ],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec"
+        },
+        {
+          "name": "name",
+          "description": "系列名称",
+          "type": "string | undefined",
+          "originalType": "string",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "offsetX",
+          "description": "旭日图中心点, x坐标偏移量.",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "0"
+        },
+        {
+          "name": "offsetY",
+          "description": "旭日图中心点, y坐标偏移量.",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "0"
+        },
+        {
+          "name": "outerRadius",
+          "description": "扇区外半径",
+          "type": "number | number[] | undefined",
+          "originalType": "number | number[]",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "1"
+        },
+        {
+          "name": "percent",
+          "description": "是否对数据进行百分比处理",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "regionId",
+          "description": "系列关联的region id",
+          "type": "StringOrNumber | undefined",
+          "originalType": "StringOrNumber",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "regionIndex",
+          "description": "系列关联的region索引",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec",
+          "defaultValue": "0"
+        },
+        {
+          "name": "select",
+          "description": "图表选中相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置",
+          "type": "boolean | ISelectSpec | undefined",
+          "originalType": "ISelectSpec | boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ISelectSpec"
+          ],
+          "source": "packages/vchart/src/interaction/interface/spec.ts",
+          "inheritedFrom": "IInteractionSpec"
+        },
+        {
+          "name": "seriesField",
+          "description": "分组字段",
+          "type": "string | undefined",
+          "originalType": "string",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "seriesStyle",
+          "description": "系列样式",
+          "type": "ISeriesStyle | undefined",
+          "originalType": "ISeriesStyle",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ISeriesStyle"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "stack",
+          "description": "是否对数据进行堆叠处理",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "stackOffsetSilhouette",
+          "description": "是否围绕中心轴偏移轮廓",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "startAngle",
+          "description": "起始角度",
+          "type": "number | undefined",
+          "originalType": "number",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "defaultValue": "-90"
+        },
+        {
+          "name": "sunburst",
+          "description": "图元配置",
+          "type": "IMarkSpec<IArcMarkSpec> | undefined",
+          "originalType": "IMarkSpec<IArcMarkSpec>",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "IArcMarkSpec",
+            "IMarkSpec"
+          ],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec"
+        },
+        {
+          "name": "support3d",
+          "description": "是否支持3d视角",
+          "type": "boolean | undefined",
+          "originalType": "boolean",
+          "required": false,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
+        },
+        {
+          "name": "totalLabel",
+          "description": "堆叠汇总标签",
+          "type": "ITotalLabelSpec | undefined",
+          "originalType": "ITotalLabelSpec",
+          "required": false,
+          "category": "未分类",
+          "isSimple": false,
+          "dependencies": [
+            "ITotalLabelSpec"
+          ],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec",
+          "since": "1.3.0"
+        },
+        {
+          "name": "type",
+          "description": "系列类型",
+          "type": "\"sunburst\"",
+          "originalType": "'sunburst'",
+          "required": true,
+          "category": "未分类",
+          "isSimple": true,
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec",
+          "literalValues": [
+            "sunburst"
+          ]
         },
         {
           "name": "valueField",
@@ -469,327 +1138,1408 @@
           "required": true,
           "category": "未分类",
           "isSimple": true,
-          "dependencies": []
+          "dependencies": [],
+          "source": "packages/vchart/src/series/sunburst/interface.ts",
+          "inheritedFrom": "ISunburstSeriesSpec"
         },
         {
-          "name": "centerX",
-          "description": "旭日图中心点, x坐标.",
-          "type": "number",
+          "name": "zIndex",
+          "description": "今当通过`series`配置的时候，才会生效",
+          "type": "number | undefined",
           "originalType": "number",
           "required": false,
           "category": "未分类",
           "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "centerY",
-          "description": "旭日图中心点, y坐标.",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "offsetX",
-          "description": "旭日图中心点, x坐标偏移量.",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "offsetY",
-          "description": "旭日图中心点, y坐标偏移量.",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "startAngle",
-          "description": "起始角度",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "endAngle",
-          "description": "终止角度",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "innerRadius",
-          "description": "扇区半径",
-          "type": "number | number[]",
-          "originalType": "number | number[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "outerRadius",
-          "description": "扇区外半径",
-          "type": "number | number[]",
-          "originalType": "number | number[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "gap",
-          "description": "层级间隔",
-          "type": "number | number[]",
-          "originalType": "number | number[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "labelLayout",
-          "description": "label布局相关参数",
-          "type": "SunburstLabelConfig | (SunburstLabelConfig | null)[]",
-          "originalType": "SunburstLabelConfig | (SunburstLabelConfig | null)[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "SunburstLabelConfig"
-          ]
-        },
-        {
-          "name": "labelAutoVisible",
-          "description": "自动隐藏密集标签",
-          "type": "{\n  /**\n   * 是否启用\n   * @default false\n   */\n  enable?: boolean;\n\n  /**\n   * 周长阈值,扇区周长小于该值时, 则隐藏标签.\n   * @default 10\n   */\n  circumference?: number;\n}",
-          "originalType": "LabelAutoVisibleType",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "drill",
-          "description": "下钻配置",
-          "type": "boolean",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "drillField",
-          "description": "钻取字段的field",
-          "type": "string",
-          "originalType": "string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "label",
-          "description": "label 配置",
-          "type": "IMarkSpec<ITextMarkSpec>",
-          "originalType": "IMarkSpec<ITextMarkSpec>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMarkSpec",
-            "ITextMarkSpec"
-          ]
-        },
-        {
-          "name": "sunburst",
-          "description": "sunburst 配置",
-          "type": "IMarkSpec<IArcMarkSpec>",
-          "originalType": "IMarkSpec<IArcMarkSpec>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMarkSpec",
-            "IArcMarkSpec"
-          ]
+          "dependencies": [],
+          "source": "packages/vchart/src/typings/spec/common.ts",
+          "inheritedFrom": "ISeriesSpec"
         }
       ],
-      "note": "展开自 Omit<ISunburstSeriesSpec, 'data' | 'morph' | 'stackValue' | 'tooltip'> - 包含 22 个属性（已展开所有继承）",
-      "expandedFrom": "ISunburstSeriesSpec",
-      "omittedKeys": [
-        "data",
-        "morph",
-        "stackValue",
-        "tooltip"
-      ]
+      "resolvedMapping": true
     }
   },
-  "timestamp": "2025-08-06T07:50:23.633Z",
-  "version": "1.0.0",
-  "sourceFile": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/chart/sunburst/interface.d.ts",
+  "effectiveProperties": [
+    {
+      "name": "animation",
+      "description": "是否开启系列动画",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "animationAppear",
+      "description": "图表入场动画\n支持配置图表内置不同动画效果",
+      "type": "boolean | IStateAnimateSpec<SunburstAppearPreset> | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "originalType": "boolean | IStateAnimateSpec<Preset> | IMarkAnimateSpec<MarkName>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "IMarkAnimateSpec",
+        "IStateAnimateSpec",
+        "SunburstAppearPreset",
+        "SunburstMark",
+        "TypeAnimationConfig"
+      ],
+      "source": "packages/vchart/src/animation/spec.ts",
+      "inheritedFrom": "IAnimationSpec"
+    },
+    {
+      "name": "animationDisappear",
+      "description": "图表退场动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "SunburstMark",
+        "TypeAnimationConfig"
+      ],
+      "source": "packages/vchart/src/animation/spec.ts",
+      "inheritedFrom": "IAnimationSpec"
+    },
+    {
+      "name": "animationEnter",
+      "description": "数据更新 - 新增数据动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "SunburstMark",
+        "TypeAnimationConfig"
+      ],
+      "source": "packages/vchart/src/animation/spec.ts",
+      "inheritedFrom": "IAnimationSpec"
+    },
+    {
+      "name": "animationExit",
+      "description": "数据更新 - 数据删除动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "SunburstMark",
+        "TypeAnimationConfig"
+      ],
+      "source": "packages/vchart/src/animation/spec.ts",
+      "inheritedFrom": "IAnimationSpec"
+    },
+    {
+      "name": "animationNormal",
+      "description": "循环动画",
+      "type": "Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "originalType": "IMarkAnimateSpec<MarkName>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "IMarkAnimateSpec",
+        "SunburstMark",
+        "TypeAnimationConfig"
+      ],
+      "source": "packages/vchart/src/animation/spec.ts",
+      "inheritedFrom": "IAnimationSpec"
+    },
+    {
+      "name": "animationState",
+      "description": "状态切换动画",
+      "type": "boolean | IStateAnimationConfig | undefined",
+      "originalType": "boolean | IStateAnimationConfig",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IStateAnimationConfig"
+      ],
+      "source": "packages/vchart/src/animation/spec.ts",
+      "inheritedFrom": "IAnimationSpec",
+      "since": "1.12.0"
+    },
+    {
+      "name": "animationThreshold",
+      "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec",
+      "since": "1.2.0"
+    },
+    {
+      "name": "animationUpdate",
+      "description": "数据更新 - 数据更新动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<SunburstMark, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "SunburstMark",
+        "TypeAnimationConfig"
+      ],
+      "source": "packages/vchart/src/animation/spec.ts",
+      "inheritedFrom": "IAnimationSpec"
+    },
+    {
+      "name": "autoFit",
+      "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "axes",
+      "description": "轴",
+      "type": "ICommonAxisSpec[] | undefined",
+      "originalType": "ICommonAxisSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ICommonAxisSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "background",
+      "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
+      "type": "IBackgroundSpec | undefined",
+      "originalType": "IBackgroundSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ConvertToMarkStyleSpec",
+        "IBackgroundSpec",
+        "IConicalGradient",
+        "IGroupMarkSpec",
+        "ILinearGradient",
+        "IRadialGradient"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "brush",
+      "description": "框选配置",
+      "type": "IBrushSpec | undefined",
+      "originalType": "IBrushSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IBrushSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "categoryField",
+      "description": "分类字段",
+      "type": "string",
+      "originalType": "string",
+      "required": true,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec"
+    },
+    {
+      "name": "centerX",
+      "description": "旭日图中心点, x坐标.",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "正中心"
+    },
+    {
+      "name": "centerY",
+      "description": "旭日图中心点, y坐标.",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "正中心"
+    },
+    {
+      "name": "color",
+      "description": "图表色系配置",
+      "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
+      "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IVisualSpecScale"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "crosshair",
+      "description": "十字辅助线配置",
+      "type": "ICrosshairSpec | ICrosshairSpec[] | undefined",
+      "originalType": "ICrosshairSpec | ICrosshairSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ICartesianCrosshairSpec",
+        "ICrosshairSpec",
+        "IPolarCrosshairSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "customMark",
+      "description": "自定义mark",
+      "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
+      "originalType": "ICustomMarkSpec<EnableMarkType>[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "EnableMarkType",
+        "ICustomMarkSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "data",
+      "description": "数据",
+      "type": "IData | undefined",
+      "originalType": "IData",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "DataView",
+        "IData",
+        "IDataType",
+        "IDataValues"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "dataId",
+      "description": "系列关联的数据id",
+      "type": "StringOrNumber | undefined",
+      "originalType": "StringOrNumber",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "dataIndex",
+      "description": "系列关联的数据索引",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec",
+      "defaultValue": "0"
+    },
+    {
+      "name": "dataKey",
+      "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要.",
+      "type": "DataKeyType | undefined",
+      "originalType": "DataKeyType",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "DataKeyType"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "dataZoom",
+      "description": "缩略轴配置",
+      "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
+      "originalType": "IDataZoomSpec | IDataZoomSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IDataZoomSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "drill",
+      "description": "下钻配置",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "false"
+    },
+    {
+      "name": "drillField",
+      "description": "钻取字段的field",
+      "type": "string | undefined",
+      "originalType": "string",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "DEFAULT_DATA_KEY"
+    },
+    {
+      "name": "endAngle",
+      "description": "终止角度",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "startAngle + 360"
+    },
+    {
+      "name": "extensionMark",
+      "description": "系列的扩展mark，能够获取系列上的数据",
+      "type": "(IExtensionGroupMarkSpec | IExtensionMarkSpec<\"arc\" | \"area\" | \"boxPlot\" | \"image\" | \"line\" | \"linkPath\" | \"path\" | \"polygon\" | \"rect\" | \"ripple\" | \"rule\" | \"symbol\" | \"text\">)[] | undefined",
+      "originalType": "(IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "EnableMarkType",
+        "IExtensionGroupMarkSpec",
+        "IExtensionMarkSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "gap",
+      "description": "层级间隔",
+      "type": "number | number[] | undefined",
+      "originalType": "number | number[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "0"
+    },
+    {
+      "name": "height",
+      "description": "画布高度",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "hover",
+      "description": "hover 交互",
+      "type": "boolean | IHoverSpec | undefined",
+      "originalType": "boolean | IHoverSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IHoverSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "id",
+      "description": "用户自定义的 series id",
+      "type": "StringOrNumber | undefined",
+      "originalType": "StringOrNumber",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "innerRadius",
+      "description": "扇区半径",
+      "type": "number | number[] | undefined",
+      "originalType": "number | number[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "0"
+    },
+    {
+      "name": "interactions",
+      "description": "其他需要按需注册的类型交互",
+      "type": "IInteractionItemSpec[] | undefined",
+      "originalType": "IInteractionItemSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IInteractionItemSpec"
+      ],
+      "source": "packages/vchart/src/interaction/interface/spec.ts",
+      "inheritedFrom": "IInteractionSpec"
+    },
+    {
+      "name": "invalidType",
+      "description": "非合规数据点连接方式",
+      "type": "IInvalidType | undefined",
+      "originalType": "IInvalidType",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec",
+      "defaultValue": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
+      "literalValues": [
+        "break",
+        "ignore",
+        "link",
+        "zero"
+      ]
+    },
+    {
+      "name": "label",
+      "description": "标签配置",
+      "type": "IMarkSpec<ITextMarkSpec> | undefined",
+      "originalType": "IMarkSpec<ITextMarkSpec>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IMarkSpec",
+        "ITextMarkSpec"
+      ],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec"
+    },
+    {
+      "name": "labelAutoVisible",
+      "description": "自动隐藏密集标签",
+      "type": "LabelAutoVisibleType | undefined",
+      "originalType": "LabelAutoVisibleType",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "LabelAutoVisibleType"
+      ],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec"
+    },
+    {
+      "name": "labelLayout",
+      "description": "label布局相关参数",
+      "type": "(null | SunburstLabelConfig)[] | SunburstLabelConfig | undefined",
+      "originalType": "SunburstLabelConfig | (SunburstLabelConfig | null)[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "SunburstLabelConfig"
+      ],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec"
+    },
+    {
+      "name": "layout",
+      "description": "布局配置",
+      "type": "ILayoutSpec | undefined",
+      "originalType": "ILayoutSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IBaseLayoutSpec",
+        "IGridLayoutSpec",
+        "ILayoutSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "legends",
+      "description": "图例配置",
+      "type": "ILegendSpec | ILegendSpec[] | undefined",
+      "originalType": "ILegendSpec | ILegendSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IColorLegendSpec",
+        "IDiscreteLegendSpec",
+        "ILegendSpec",
+        "ISizeLegendSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "media",
+      "description": "媒体查询配置",
+      "type": "IMediaQuerySpec | undefined",
+      "originalType": "IMediaQuerySpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IMediaQuerySpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec",
+      "since": "1.8.0"
+    },
+    {
+      "name": "name",
+      "description": "系列名称",
+      "type": "string | undefined",
+      "originalType": "string",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "offsetX",
+      "description": "旭日图中心点, x坐标偏移量.",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "0"
+    },
+    {
+      "name": "offsetY",
+      "description": "旭日图中心点, y坐标偏移量.",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "0"
+    },
+    {
+      "name": "outerRadius",
+      "description": "扇区外半径",
+      "type": "number | number[] | undefined",
+      "originalType": "number | number[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "1"
+    },
+    {
+      "name": "padding",
+      "description": "图表整体 padding 设置",
+      "type": "ILayoutPaddingSpec | undefined",
+      "originalType": "ILayoutPaddingSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ILayoutNumber",
+        "ILayoutOrientPadding",
+        "ILayoutPaddingSpec",
+        "IPercentOffset"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "percent",
+      "description": "是否对数据进行百分比处理",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "player",
+      "description": "播放器配置",
+      "type": "IPlayer | undefined",
+      "originalType": "IPlayer",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IPlayer"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "region",
+      "description": "region配置",
+      "type": "RegionSpec[] | undefined",
+      "originalType": "RegionSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "RegionSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "regionId",
+      "description": "系列关联的region id",
+      "type": "StringOrNumber | undefined",
+      "originalType": "StringOrNumber",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "regionIndex",
+      "description": "系列关联的region索引",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec",
+      "defaultValue": "0"
+    },
+    {
+      "name": "scales",
+      "description": "全局 scale 配置",
+      "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
+      "originalType": "IVisualSpecScale<unknown, unknown>[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IVisualSpecScale"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "scrollBar",
+      "description": "滚动条配置",
+      "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
+      "originalType": "IScrollBarSpec | IScrollBarSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IScrollBarSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "select",
+      "description": "select 交互",
+      "type": "boolean | ISelectSpec | undefined",
+      "originalType": "boolean | ISelectSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ISelectSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "series",
+      "description": "系列",
+      "type": "ISunburstSeriesSpec[] | undefined",
+      "originalType": "ISunburstSeriesSpec[]",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ISunburstSeriesSpec"
+      ],
+      "source": "packages/vchart/src/chart/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstChartSpec"
+    },
+    {
+      "name": "seriesField",
+      "description": "分组字段",
+      "type": "string | undefined",
+      "originalType": "string",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "seriesStyle",
+      "description": "系列样式",
+      "type": "ISeriesStyle | undefined",
+      "originalType": "ISeriesStyle",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ISeriesStyle"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "stack",
+      "description": "是否对数据进行堆叠处理",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "stackInverse",
+      "description": "堆积时是否逆序",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec",
+      "defaultValue": "false",
+      "since": "1.4.0"
+    },
+    {
+      "name": "stackOffsetSilhouette",
+      "description": "是否围绕中心轴偏移轮廓",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "stackSort",
+      "description": "堆积时是否排序",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec",
+      "defaultValue": "false",
+      "since": "1.10.4"
+    },
+    {
+      "name": "startAngle",
+      "description": "起始角度",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec",
+      "defaultValue": "-90"
+    },
+    {
+      "name": "sunburst",
+      "description": "图元配置",
+      "type": "IMarkSpec<IArcMarkSpec> | undefined",
+      "originalType": "IMarkSpec<IArcMarkSpec>",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "IArcMarkSpec",
+        "IMarkSpec"
+      ],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec"
+    },
+    {
+      "name": "support3d",
+      "description": "是否支持3d视角",
+      "type": "boolean | undefined",
+      "originalType": "boolean",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    },
+    {
+      "name": "theme",
+      "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
+      "type": "Omit<ITheme, \"name\"> | string | undefined",
+      "originalType": "Omit<ITheme, 'name'> | string",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ITheme"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "title",
+      "description": "图表标题配置",
+      "type": "ITitleSpec | undefined",
+      "originalType": "ITitleSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ITitleSpec",
+        "ITitleSpecWithoutText"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "tooltip",
+      "description": "tooltip配置",
+      "type": "ITooltipSpec | undefined",
+      "originalType": "ITooltipSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ITooltipSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "totalLabel",
+      "description": "堆叠汇总标签",
+      "type": "ITotalLabelSpec | undefined",
+      "originalType": "ITotalLabelSpec",
+      "required": false,
+      "category": "未分类",
+      "isSimple": false,
+      "dependencies": [
+        "ITotalLabelSpec"
+      ],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec",
+      "since": "1.3.0"
+    },
+    {
+      "name": "type",
+      "description": "图表类型",
+      "type": "\"sunburst\"",
+      "originalType": "'sunburst'",
+      "required": true,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/chart/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstChartSpec",
+      "literalValues": [
+        "sunburst"
+      ]
+    },
+    {
+      "name": "valueField",
+      "description": "权重字段",
+      "type": "string",
+      "originalType": "string",
+      "required": true,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/series/sunburst/interface.ts",
+      "inheritedFrom": "ISunburstSeriesSpec"
+    },
+    {
+      "name": "width",
+      "description": "画布宽度",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "IChartSpec"
+    },
+    {
+      "name": "zIndex",
+      "description": "今当通过`series`配置的时候，才会生效",
+      "type": "number | undefined",
+      "originalType": "number",
+      "required": false,
+      "category": "未分类",
+      "isSimple": true,
+      "dependencies": [],
+      "source": "packages/vchart/src/typings/spec/common.ts",
+      "inheritedFrom": "ISeriesSpec"
+    }
+  ],
+  "formatVersion": 2,
+  "version": "2.0.0",
+  "vchartVersion": "2.1.7",
+  "typescriptVersion": "4.9.5",
+  "sourceFile": "packages/vchart/src/chart/sunburst/interface.ts",
+  "sourceHash": "48177d7c490f14bd5a09f54e7899fbd338ad6914955d3b836e30703e0f9eaa24",
+  "sourceRevision": "704033074a29a77ac90ed7c045d4b108af36ef05",
   "complexTypeDefinitions": {
-    "ISunburstSeriesSpec": {
-      "typeName": "ISunburstSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/sunburst/interface.d.ts",
-      "note": "类型 ISunburstSeriesSpec 的定义位置"
+    "ChannelAnimationConfig": {
+      "typeName": "ChannelAnimationConfig",
+      "filePath": "packages/vchart/src/animation/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5d8412d98274"
     },
-    "IData": {
-      "typeName": "IData",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 IData 的定义位置"
+    "CommonAnimationConfigItem": {
+      "typeName": "CommonAnimationConfigItem",
+      "filePath": "packages/vchart/src/animation/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a27ba00f90e2"
     },
-    "ILayoutPaddingSpec": {
-      "typeName": "ILayoutPaddingSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/layout.d.ts",
-      "note": "类型 ILayoutPaddingSpec 的定义位置"
+    "ConvertToMarkStyleSpec": {
+      "typeName": "ConvertToMarkStyleSpec",
+      "filePath": "packages/vchart/src/typings/visual.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3f4d44a2bad5"
     },
-    "IVisualSpecScale": {
-      "typeName": "IVisualSpecScale",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/visual.d.ts",
-      "note": "类型 IVisualSpecScale 的定义位置"
+    "DataKeyType": {
+      "typeName": "DataKeyType",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-4bea0f6c4d4f"
     },
-    "ISeriesSpec": {
-      "typeName": "ISeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 ISeriesSpec 的定义位置"
+    "DataView": {
+      "typeName": "DataView",
+      "filePath": "@visactor/vdataset/es/data-view.d.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b26ccd36d8e8",
+      "package": "@visactor/vdataset",
+      "version": "1.0.27"
     },
-    "ISeriesStyle": {
-      "typeName": "ISeriesStyle",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/interface/common.d.ts",
-      "note": "类型 ISeriesStyle 的定义位置"
-    },
-    "IHoverSpec": {
-      "typeName": "IHoverSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/interaction/interface/spec.d.ts",
-      "note": "类型 IHoverSpec 的定义位置"
-    },
-    "ISelectSpec": {
-      "typeName": "ISelectSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/interaction/interface/spec.d.ts",
-      "note": "类型 ISelectSpec 的定义位置"
-    },
-    "RegionSpec": {
-      "typeName": "RegionSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/region/interface.d.ts",
-      "note": "类型 RegionSpec 的定义位置"
-    },
-    "ITitleSpec": {
-      "typeName": "ITitleSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/title/interface/spec.d.ts",
-      "note": "类型 ITitleSpec 的定义位置"
-    },
-    "ILayoutSpec": {
-      "typeName": "ILayoutSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/layout/interface.d.ts",
-      "note": "类型 ILayoutSpec 的定义位置"
-    },
-    "ILegendSpec": {
-      "typeName": "ILegendSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/legend/interface.d.ts",
-      "note": "类型 ILegendSpec 的定义位置"
-    },
-    "ICrosshairSpec": {
-      "typeName": "ICrosshairSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/crosshair/interface/spec.d.ts",
-      "note": "类型 ICrosshairSpec 的定义位置"
-    },
-    "ITooltipSpec": {
-      "typeName": "ITooltipSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/tooltip/interface/spec.d.ts",
-      "note": "类型 ITooltipSpec 的定义位置"
-    },
-    "IPlayer": {
-      "typeName": "IPlayer",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/player/interface/spec.d.ts",
-      "note": "类型 IPlayer 的定义位置"
-    },
-    "IDataZoomSpec": {
-      "typeName": "IDataZoomSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/data-zoom/data-zoom/interface.d.ts",
-      "note": "类型 IDataZoomSpec 的定义位置"
-    },
-    "IScrollBarSpec": {
-      "typeName": "IScrollBarSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/data-zoom/scroll-bar/interface.d.ts",
-      "note": "类型 IScrollBarSpec 的定义位置"
-    },
-    "IBrushSpec": {
-      "typeName": "IBrushSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/brush/interface.d.ts",
-      "note": "类型 IBrushSpec 的定义位置"
-    },
-    "ICustomMarkSpec": {
-      "typeName": "ICustomMarkSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 ICustomMarkSpec 的定义位置"
-    },
-    "ICommonAxisSpec": {
-      "typeName": "ICommonAxisSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/axis/interface.d.ts",
-      "note": "类型 ICommonAxisSpec 的定义位置"
-    },
-    "ITheme": {
-      "typeName": "ITheme",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/theme/interface.d.ts",
-      "note": "类型 ITheme 的定义位置"
-    },
-    "IBackgroundSpec": {
-      "typeName": "IBackgroundSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 IBackgroundSpec 的定义位置"
-    },
-    "IMediaQuerySpec": {
-      "typeName": "IMediaQuerySpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/media-query.d.ts",
-      "note": "类型 IMediaQuerySpec 的定义位置"
+    "EnableMarkType": {
+      "typeName": "EnableMarkType",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1fa7d0f6abc4"
     },
     "IAnimationConfig": {
       "typeName": "IAnimationConfig",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart/src/typings/spec/common.ts",
-      "note": "类型 IAnimationConfig 的定义位置"
+      "filePath": "packages/vchart/src/animation/interface.ts",
+      "reference": "type-details/IAnimationConfig-Type-Definition.md"
     },
-    "SunburstLabelConfig": {
-      "typeName": "SunburstLabelConfig",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart/src/typings/spec/common.ts",
-      "note": "类型 SunburstLabelConfig 的定义位置"
-    },
-    "IMarkSpec": {
-      "typeName": "IMarkSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 IMarkSpec 的定义位置"
-    },
-    "ITextMarkSpec": {
-      "typeName": "ITextMarkSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/visual.d.ts",
-      "note": "类型 ITextMarkSpec 的定义位置"
+    "IAnimationTimeline": {
+      "typeName": "IAnimationTimeline",
+      "filePath": "packages/vchart/src/animation/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f36951a20ee2"
     },
     "IArcMarkSpec": {
       "typeName": "IArcMarkSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/visual.d.ts",
-      "note": "类型 IArcMarkSpec 的定义位置"
+      "filePath": "packages/vchart/src/typings/visual.ts",
+      "reference": "type-details/IArcMarkSpec-Type-Definition.md"
+    },
+    "IBackgroundSpec": {
+      "typeName": "IBackgroundSpec",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/IBackgroundSpec-Type-Definition.md"
+    },
+    "IBaseLayoutSpec": {
+      "typeName": "IBaseLayoutSpec",
+      "filePath": "packages/vchart/src/layout/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5de1760225a6"
+    },
+    "IBrushSpec": {
+      "typeName": "IBrushSpec",
+      "filePath": "packages/vchart/src/component/brush/interface.ts",
+      "reference": "type-details/IBrushSpec-Type-Definition.md"
+    },
+    "ICartesianCrosshairSpec": {
+      "typeName": "ICartesianCrosshairSpec",
+      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
+      "reference": "type-details/ICartesianCrosshairSpec-Type-Definition.md"
+    },
+    "IColorLegendSpec": {
+      "typeName": "IColorLegendSpec",
+      "filePath": "packages/vchart/src/component/legend/continuous/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8565dc89d142"
+    },
+    "ICommonAxisSpec": {
+      "typeName": "ICommonAxisSpec",
+      "filePath": "packages/vchart/src/component/axis/interface/spec.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-500cf18886a4"
+    },
+    "ICommonStateAnimateSpec": {
+      "typeName": "ICommonStateAnimateSpec",
+      "filePath": "packages/vchart/src/animation/spec.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-874c3b173f64"
+    },
+    "IConicalGradient": {
+      "typeName": "IConicalGradient",
+      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d7015f202839",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.11"
+    },
+    "ICrosshairSpec": {
+      "typeName": "ICrosshairSpec",
+      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-2c1a18c2e6b2"
+    },
+    "ICustomMarkSpec": {
+      "typeName": "ICustomMarkSpec",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/ICustomMarkSpec-Type-Definition.md"
+    },
+    "IData": {
+      "typeName": "IData",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/IData-Type-Definition.md"
+    },
+    "IDataType": {
+      "typeName": "IDataType",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3bf45e5ed347"
+    },
+    "IDataValues": {
+      "typeName": "IDataValues",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-218b08963b1d"
+    },
+    "IDataZoomSpec": {
+      "typeName": "IDataZoomSpec",
+      "filePath": "packages/vchart/src/component/data-zoom/data-zoom/interface.ts",
+      "reference": "type-details/IDataZoomSpec-Type-Definition.md"
+    },
+    "IDiscreteLegendSpec": {
+      "typeName": "IDiscreteLegendSpec",
+      "filePath": "packages/vchart/src/component/legend/discrete/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0db130a1ae74"
+    },
+    "IExtensionGroupMarkSpec": {
+      "typeName": "IExtensionGroupMarkSpec",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/IExtensionGroupMarkSpec-Type-Definition.md"
+    },
+    "IExtensionMarkSpec": {
+      "typeName": "IExtensionMarkSpec",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/IExtensionMarkSpec-Type-Definition.md"
+    },
+    "IGridLayoutSpec": {
+      "typeName": "IGridLayoutSpec",
+      "filePath": "packages/vchart/src/layout/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8c0cc65dc7ab"
+    },
+    "IGroupMarkSpec": {
+      "typeName": "IGroupMarkSpec",
+      "filePath": "packages/vchart/src/typings/visual.ts",
+      "reference": "type-details/IGroupMarkSpec-Type-Definition.md"
+    },
+    "IHoverSpec": {
+      "typeName": "IHoverSpec",
+      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
+      "reference": "type-details/IHoverSpec-Type-Definition.md"
+    },
+    "IInteractionItemSpec": {
+      "typeName": "IInteractionItemSpec",
+      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
+      "reference": "type-details/IInteractionItemSpec-Type-Definition.md"
+    },
+    "ILayoutNumber": {
+      "typeName": "ILayoutNumber",
+      "filePath": "packages/vchart/src/typings/layout.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9638d3997297"
+    },
+    "ILayoutOrientPadding": {
+      "typeName": "ILayoutOrientPadding",
+      "filePath": "packages/vchart/src/typings/layout.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b2bc0ee5203d"
+    },
+    "ILayoutPaddingSpec": {
+      "typeName": "ILayoutPaddingSpec",
+      "filePath": "packages/vchart/src/typings/layout.ts",
+      "reference": "type-details/ILayoutPaddingSpec-Type-Definition.md"
+    },
+    "ILayoutSpec": {
+      "typeName": "ILayoutSpec",
+      "filePath": "packages/vchart/src/layout/interface.ts",
+      "reference": "type-details/ILayoutSpec-Type-Definition.md"
+    },
+    "ILegendSpec": {
+      "typeName": "ILegendSpec",
+      "filePath": "packages/vchart/src/component/legend/interface.ts",
+      "reference": "type-details/ILegendSpec-Type-Definition.md"
+    },
+    "ILinearGradient": {
+      "typeName": "ILinearGradient",
+      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d8d5bda2ce95",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.11"
+    },
+    "IMarkAnimateSpec": {
+      "typeName": "IMarkAnimateSpec",
+      "filePath": "packages/vchart/src/animation/spec.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f077d8f2c125"
+    },
+    "IMarkSpec": {
+      "typeName": "IMarkSpec",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/IMarkSpec-Type-Definition.md"
+    },
+    "IMediaQuerySpec": {
+      "typeName": "IMediaQuerySpec",
+      "filePath": "packages/vchart/src/typings/spec/media-query.ts",
+      "reference": "type-details/IMediaQuerySpec-Type-Definition.md"
+    },
+    "IPercentOffset": {
+      "typeName": "IPercentOffset",
+      "filePath": "packages/vchart/src/typings/layout.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d014dbe57510"
+    },
+    "IPlayer": {
+      "typeName": "IPlayer",
+      "filePath": "packages/vchart/src/component/player/interface/spec.ts",
+      "reference": "type-details/IPlayer-Type-Definition.md"
+    },
+    "IPolarCrosshairSpec": {
+      "typeName": "IPolarCrosshairSpec",
+      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
+      "reference": "type-details/IPolarCrosshairSpec-Type-Definition.md"
+    },
+    "IRadialGradient": {
+      "typeName": "IRadialGradient",
+      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8830ca87d7a0",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.11"
+    },
+    "IScrollBarSpec": {
+      "typeName": "IScrollBarSpec",
+      "filePath": "packages/vchart/src/component/data-zoom/scroll-bar/interface.ts",
+      "reference": "type-details/IScrollBarSpec-Type-Definition.md"
+    },
+    "ISelectSpec": {
+      "typeName": "ISelectSpec",
+      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
+      "reference": "type-details/ISelectSpec-Type-Definition.md"
+    },
+    "ISeriesSpec": {
+      "typeName": "ISeriesSpec",
+      "filePath": "packages/vchart/src/typings/spec/common.ts",
+      "reference": "type-details/ISeriesSpec-Type-Definition.md"
+    },
+    "ISeriesStyle": {
+      "typeName": "ISeriesStyle",
+      "filePath": "packages/vchart/src/series/interface/common.ts",
+      "reference": "type-details/ISeriesStyle-Type-Definition.md"
+    },
+    "ISizeLegendSpec": {
+      "typeName": "ISizeLegendSpec",
+      "filePath": "packages/vchart/src/component/legend/continuous/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-19c6d929a8de"
+    },
+    "IStateAnimateSpec": {
+      "typeName": "IStateAnimateSpec",
+      "filePath": "packages/vchart/src/animation/spec.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c689f8784df3"
+    },
+    "IStateAnimationConfig": {
+      "typeName": "IStateAnimationConfig",
+      "filePath": "packages/vchart/src/animation/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-e4cf848bb846"
+    },
+    "ISunburstSeriesSpec": {
+      "typeName": "ISunburstSeriesSpec",
+      "filePath": "packages/vchart/src/series/sunburst/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-42998a239bf0"
+    },
+    "ITextMarkSpec": {
+      "typeName": "ITextMarkSpec",
+      "filePath": "packages/vchart/src/typings/visual.ts",
+      "reference": "type-details/ITextMarkSpec-Type-Definition.md"
+    },
+    "ITheme": {
+      "typeName": "ITheme",
+      "filePath": "packages/vchart/src/theme/interface.ts",
+      "reference": "type-details/ITheme-Type-Definition.md"
+    },
+    "ITitleSpec": {
+      "typeName": "ITitleSpec",
+      "filePath": "packages/vchart/src/component/title/interface/spec.ts",
+      "reference": "type-details/ITitleSpec-Type-Definition.md"
+    },
+    "ITitleSpecWithoutText": {
+      "typeName": "ITitleSpecWithoutText",
+      "filePath": "packages/vchart/src/component/title/interface/spec.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-6d4657ffd0d7"
+    },
+    "ITooltipSpec": {
+      "typeName": "ITooltipSpec",
+      "filePath": "packages/vchart/src/component/tooltip/interface/spec.ts",
+      "reference": "type-details/ITooltipSpec-Type-Definition.md"
+    },
+    "ITotalLabelSpec": {
+      "typeName": "ITotalLabelSpec",
+      "filePath": "packages/vchart/src/component/label/interface.ts",
+      "reference": "type-details/ITotalLabelSpec-Type-Definition.md"
+    },
+    "IVisualSpecScale": {
+      "typeName": "IVisualSpecScale",
+      "filePath": "packages/vchart/src/typings/visual.ts",
+      "reference": "type-details/IVisualSpecScale-Type-Definition.md"
+    },
+    "LabelAutoVisibleType": {
+      "typeName": "LabelAutoVisibleType",
+      "filePath": "packages/vchart/src/series/sunburst/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-e60547cde037"
+    },
+    "RegionSpec": {
+      "typeName": "RegionSpec",
+      "filePath": "packages/vchart/src/region/interface.ts",
+      "reference": "type-details/RegionSpec-Type-Definition.md"
+    },
+    "SunburstAppearPreset": {
+      "typeName": "SunburstAppearPreset",
+      "filePath": "packages/vchart/src/series/sunburst/animation/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9821e1ad4f86"
+    },
+    "SunburstLabelConfig": {
+      "typeName": "SunburstLabelConfig",
+      "filePath": "@visactor/vlayouts/es/sunburst/interface.d.ts",
+      "reference": "type-details/SunburstLabelConfig-Type-Definition.md",
+      "package": "@visactor/vlayouts",
+      "version": "1.0.27"
+    },
+    "SunburstMark": {
+      "typeName": "SunburstMark",
+      "filePath": "packages/vchart/src/series/sunburst/animation/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-97edc6635996"
+    },
+    "TypeAnimationConfig": {
+      "typeName": "TypeAnimationConfig",
+      "filePath": "packages/vchart/src/animation/interface.ts",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b4e071966992"
     }
   },
   "statistics": {
     "totalInterfaces": 3,
-    "totalProperties": 54,
-    "complexTypes": 28,
-    "typeFileLocations": 28,
-    "dependencyTypes": 850
+    "totalProperties": 79,
+    "effectiveProperties": 72,
+    "complexTypes": 64
   }
 }
