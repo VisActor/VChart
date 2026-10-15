@@ -41,5 +41,12 @@
       "package": "vchart-statplots",
       "config": "__tests__/browser/playwright.config.ts"
     }
+  ],
+  "buildFormats": [
+    "es",
+    "cjs"
+  ],
+  "nodeChecks": [
+    "packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs"
   ]
 }

@@ -17,6 +17,8 @@ import VChart, {
 import { isUpdateSpecResultLocalOnly } from '../../../src/chart/util';
 import type { IUpdateSpecResult } from '../../../src/model/interface';
 import { createDiv, removeDom } from '../../util/dom';
+import { registerDotSeries } from '../../../../vchart-extension/src/series/dot/dot';
+import type { IDotSeriesSpec } from '../../../../vchart-extension/src/series/dot/interface';
 
 type VChartInternals = {
   _renderSync: (option?: unknown) => unknown;
@@ -966,85 +968,85 @@ const createTopLevelScatterSizeFieldSpec = (sizeField: 's1' | 's2'): IScatterCha
   sizeField
 });
 
+// 扩展系列保留自身 spec 类型，公共图表的其余契约仍由核心类型约束。
 const createDotHighlightSpec = (
   highLightSeriesGroup: string,
   titleField = 'type',
   subTitleField = 'id',
   gridFillOpacity = 0.4
-): ICommonChartSpec =>
-  ({
-    type: 'common',
-    data: [
-      {
-        id: 'data',
-        values: [
-          {
-            row: 'A',
-            type: 'IP',
-            titleBefore: 'before-a',
-            titleAfter: 'after-a',
-            subTitleBefore: 'sub-before-a',
-            subTitleAfter: 'sub-after-a',
-            dots: [
-              {
-                event_time: 1,
-                id: 'A',
-                type: 'IP',
-                action_type: 'request'
-              }
-            ]
-          },
-          {
-            row: 'B',
-            type: 'DB',
-            titleBefore: 'before-b',
-            titleAfter: 'after-b',
-            subTitleBefore: 'sub-before-b',
-            subTitleAfter: 'sub-after-b',
-            dots: [
-              {
-                event_time: 2,
-                id: 'B',
-                type: 'DB',
-                action_type: 'query'
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    series: [
-      {
-        type: 'dot',
-        dataId: 'data',
-        xField: 'event_time',
-        yField: 'id',
-        seriesGroupField: 'type',
-        titleField,
-        subTitleField,
-        dotTypeField: 'action_type',
-        name: 'id',
-        highLightSeriesGroup,
-        clipHeight: 1000,
-        grid: {
-          background: {
-            fill: '#000',
-            fillOpacity: gridFillOpacity
-          }
+): Omit<ICommonChartSpec, 'series'> & { series: IDotSeriesSpec[] } => ({
+  type: 'common',
+  data: [
+    {
+      id: 'data',
+      values: [
+        {
+          row: 'A',
+          type: 'IP',
+          titleBefore: 'before-a',
+          titleAfter: 'after-a',
+          subTitleBefore: 'sub-before-a',
+          subTitleAfter: 'sub-after-a',
+          dots: [
+            {
+              event_time: 1,
+              id: 'A',
+              type: 'IP',
+              action_type: 'request'
+            }
+          ]
+        },
+        {
+          row: 'B',
+          type: 'DB',
+          titleBefore: 'before-b',
+          titleAfter: 'after-b',
+          subTitleBefore: 'sub-before-b',
+          subTitleAfter: 'sub-after-b',
+          dots: [
+            {
+              event_time: 2,
+              id: 'B',
+              type: 'DB',
+              action_type: 'query'
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  series: [
+    {
+      type: 'dot',
+      dataId: 'data',
+      xField: 'event_time',
+      yField: 'id',
+      seriesGroupField: 'type',
+      titleField,
+      subTitleField,
+      dotTypeField: 'action_type',
+      name: 'id',
+      highLightSeriesGroup,
+      clipHeight: 1000,
+      grid: {
+        background: {
+          fill: '#000',
+          fillOpacity: gridFillOpacity
         }
       }
-    ],
-    axes: [
-      {
-        orient: 'bottom',
-        type: 'linear'
-      },
-      {
-        orient: 'left',
-        type: 'band'
-      }
-    ]
-  } as ICommonChartSpec);
+    }
+  ],
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'linear'
+    },
+    {
+      orient: 'left',
+      type: 'band'
+    }
+  ]
+});
 
 const createTopLevelRangeAreaStyleSpec = (fill: string): IRangeAreaChartSpec => ({
   type: 'rangeArea',
@@ -2130,6 +2132,8 @@ const createCustomMarkStyleSpec = (fill: string): IBarChartSpec =>
   } as unknown as IBarChartSpec);
 
 describe('vchart scoped update effects', () => {
+  // Dot 已迁入扩展包，按公共注册契约启用后继续验证真实更新效果。
+  beforeAll(() => registerDotSeries());
   let container: HTMLElement;
   let dom: HTMLElement;
 
