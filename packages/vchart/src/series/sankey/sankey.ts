@@ -622,6 +622,104 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._needClear = true;
   };
 
+  /**
+   * node-link 数据没有 parents。从给定节点沿出边走到下游、沿入边走到上游，高亮整条相关路径。
+   * 预置 links 只包含当前边本身；它的两端要分别放进 downstreamFrom / upstreamFrom，避免把分叉上的旁路边算进来。
+   */
+  private _highlightPlainRelated(
+    allNodeElements: IMarkGraphic[],
+    allLinkElements: IMarkGraphic[],
+    related: {
+      nodes: StringOrNumber[];
+      links?: Datum[];
+      downstreamFrom: StringOrNumber[];
+      upstreamFrom: StringOrNumber[];
+    }
+  ) {
+    const outgoing = new Map<StringOrNumber, Datum[]>();
+    const incoming = new Map<StringOrNumber, Datum[]>();
+    const appendLink = (adjacency: Map<StringOrNumber, Datum[]>, key: StringOrNumber, link: Datum) => {
+      if (isNil(key)) {
+        return;
+      }
+      const list = adjacency.get(key);
+      if (list) {
+        list.push(link);
+      } else {
+        adjacency.set(key, [link]);
+      }
+    };
+
+    allLinkElements.forEach(linkEl => {
+      const link = getDatumOfGraphic(linkEl) as Datum;
+      if (!link) {
+        return;
+      }
+      appendLink(outgoing, link.source, link);
+      appendLink(incoming, link.target, link);
+    });
+
+    const highlightNodes: StringOrNumber[] = [];
+    const seenNodes = new Set<StringOrNumber>();
+    const seenLinks = new Set<StringOrNumber>();
+    const addNode = (key: StringOrNumber) => {
+      if (isNil(key) || seenNodes.has(key)) {
+        return false;
+      }
+      seenNodes.add(key);
+      highlightNodes.push(key);
+      return true;
+    };
+    const addLink = (link: Datum) => {
+      const id = link?.key ?? link?.index;
+      if (isNil(id) || seenLinks.has(id)) {
+        return false;
+      }
+      seenLinks.add(id);
+      return true;
+    };
+
+    related.nodes.forEach(addNode);
+    related.links?.forEach(addLink);
+
+    const walk = (seeds: StringOrNumber[], adjacency: Map<StringOrNumber, Datum[]>, nextKey: 'source' | 'target') => {
+      const queue = seeds.filter(key => !isNil(key));
+      let cursor = 0;
+      while (cursor < queue.length) {
+        const links = adjacency.get(queue[cursor]);
+        cursor += 1;
+        if (!links) {
+          continue;
+        }
+        links.forEach(link => {
+          if (!addLink(link)) {
+            return;
+          }
+          if (addNode(link[nextKey])) {
+            queue.push(link[nextKey]);
+          }
+        });
+      }
+    };
+
+    walk(related.downstreamFrom, outgoing, 'target');
+    walk(related.upstreamFrom, incoming, 'source');
+
+    allLinkElements.forEach(linkEl => {
+      const linkDatum = getDatumOfGraphic(linkEl) as Datum;
+      const id = linkDatum?.key ?? linkDatum?.index;
+      if (!isNil(id) && seenLinks.has(id)) {
+        removeGraphicState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
+        addGraphicState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true, this._hasLinkStateAnimation());
+      } else {
+        removeGraphicState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
+        addGraphicState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true, this._hasLinkStateAnimation());
+      }
+    });
+
+    this._highLightElements(allNodeElements, highlightNodes);
+  }
+
   protected _handleNodeRelatedClick = (graphic: IMarkGraphic) => {
     const nodeDatum = getDatumOfGraphic(graphic) as Datum;
     const allNodeElements = this._nodeMark.getGraphics();
@@ -639,120 +737,12 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     const father = (getDatumOfGraphic(allLinkElements[0]) as Datum)?.parents ? 'parents' : 'source';
 
     if (father === 'source') {
-      // node-link 型数据
-      const highlightNodes: string[] = [nodeDatum.key];
-      const highlightLinks: string[] = [];
-
-      allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
-        const linkDatum = getDatumOfGraphic(linkEl) as Datum;
-        const father = linkDatum?.parents ? 'parents' : 'source';
-
-        if (array(linkDatum[father]).includes(nodeDatum.key)) {
-          // 下游link
-          if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
-            highlightLinks.push(linkDatum.key ?? linkDatum.index);
-          }
-          if (!highlightNodes.includes(linkDatum.source)) {
-            highlightNodes.push(linkDatum.source);
-          }
-
-          if (!highlightNodes.includes(linkDatum.target)) {
-            highlightNodes.push(linkDatum.target);
-            // 下游link的目标节点
-            const targetNode = allNodeElements.find(nodeElement => {
-              return nodeElement.data[0].key === linkDatum.target;
-            });
-
-            // 以下游link的目标节点为起点的links
-            let targetNodeSourceLinks: any[] = targetNode.data[0].sourceLinks as any[];
-            while (targetNodeSourceLinks?.length > 0) {
-              const newTargetNodeSourceLinks: any[] = [];
-              targetNodeSourceLinks.forEach((targetNodeSourceLinkDatum: any) => {
-                if (!highlightLinks.includes(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index)) {
-                  highlightLinks.push(targetNodeSourceLinkDatum.key ?? targetNodeSourceLinkDatum.index);
-                  // 该links的目标节点
-                  if (!highlightNodes.includes(targetNodeSourceLinkDatum.target)) {
-                    highlightNodes.push(targetNodeSourceLinkDatum.target);
-                    const sourceNodeTemp = allNodeElements.find(nodeElement => {
-                      return nodeElement.data[0].key === targetNodeSourceLinkDatum.target;
-                    });
-                    // 以该目标节点为起点的links
-                    newTargetNodeSourceLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
-                  } else {
-                    return;
-                  }
-                } else {
-                  return;
-                }
-              });
-              targetNodeSourceLinks = newTargetNodeSourceLinks;
-              return;
-            }
-          }
-        } else if (linkDatum.target === nodeDatum.key) {
-          // 上游link
-          if (!highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
-            highlightLinks.push(linkDatum.key ?? linkDatum.index);
-          }
-          if (!highlightNodes.includes(linkDatum.source)) {
-            highlightNodes.push(linkDatum.source);
-            const sourceNode = allNodeElements.find(nodeElement => {
-              return nodeElement.data[0].key === linkDatum.source;
-            });
-            let sourceNodeTargetLinks: any[] = sourceNode.data[0].targetLinks as any;
-            while (sourceNodeTargetLinks?.length > 0) {
-              const newSourceNodeTargetLinks: any[] = [];
-              sourceNodeTargetLinks.forEach((sourceNodeTargetLinkDatum: any) => {
-                if (!highlightLinks.includes(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index)) {
-                  highlightLinks.push(sourceNodeTargetLinkDatum.key ?? sourceNodeTargetLinkDatum.index);
-                  if (!highlightNodes.includes(sourceNodeTargetLinkDatum.source)) {
-                    highlightNodes.push(sourceNodeTargetLinkDatum.source);
-                    const sourceNodeTemp = allNodeElements.find(nodeElement => {
-                      return nodeElement.data[0].key === sourceNodeTargetLinkDatum.source;
-                    });
-                    newSourceNodeTargetLinks.push(sourceNodeTemp.data[0].targetLinks as any[]);
-                  } else {
-                    return;
-                  }
-                } else {
-                  return;
-                }
-              });
-              sourceNodeTargetLinks = newSourceNodeTargetLinks;
-              return;
-            }
-          }
-        }
+      // node-link 型数据：沿 source/target 遍历上下游整条路径
+      this._highlightPlainRelated(allNodeElements, allLinkElements, {
+        nodes: [nodeDatum.key],
+        downstreamFrom: [nodeDatum.key],
+        upstreamFrom: [nodeDatum.key]
       });
-
-      if (this._linkMark) {
-        const allLinkElements = this._linkMark.getGraphics();
-
-        if (!allLinkElements || !allLinkElements.length) {
-          return;
-        }
-
-        allLinkElements.forEach((linkEl: IMarkGraphic, i: number) => {
-          const linkDatum = getDatumOfGraphic(linkEl) as Datum;
-
-          if (highlightLinks.includes(linkDatum.key ?? linkDatum.index)) {
-            removeGraphicState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE);
-            addGraphicState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true, this._hasLinkStateAnimation());
-          } else {
-            removeGraphicState(linkEl, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS);
-            addGraphicState(
-              linkEl,
-              STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE,
-              true,
-              this._hasLinkStateAnimation()
-            );
-          }
-        });
-      }
-
-      if (this._nodeMark) {
-        this._highLightElements(this._nodeMark.getGraphics(), highlightNodes);
-      }
     } else {
       // 层级型数据
       const highlightNodes: string[] = [nodeDatum.key];
@@ -874,28 +864,18 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       return;
     }
 
-    const father = (getDatumOfGraphic(graphic) as Datum) ? 'parents' : 'source';
-    if (father === 'source') {
-      // const states = [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE];
-      if (this._linkMark) {
-        allLinkElements.forEach(linkEl => {
-          removeGraphicState(linkEl, [
-            STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS,
-            STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE
-          ]);
-        });
-      }
-
-      if (this._nodeMark) {
-        allNodeElements.forEach(el => {
-          removeGraphicState(el, [
-            STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS,
-            STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE
-          ]);
+    const curLinkDatum = getDatumOfGraphic(graphic) as Datum;
+    // 普通连线同样有 datum；只有层级边才带 parents
+    if (!curLinkDatum?.parents) {
+      if (curLinkDatum) {
+        this._highlightPlainRelated(allNodeElements, allLinkElements, {
+          nodes: [curLinkDatum.source, curLinkDatum.target],
+          links: [curLinkDatum],
+          downstreamFrom: [curLinkDatum.target],
+          upstreamFrom: [curLinkDatum.source]
         });
       }
     } else {
-      const curLinkDatum = getDatumOfGraphic(graphic) as Datum;
       const highlightNodes: string[] = [curLinkDatum.source, curLinkDatum.target];
       const upstreamLinks: Array<{ source: string; target: string; value: number }> = [];
 
@@ -1025,7 +1005,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._needClear = true;
   };
 
-  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: string[]) {
+  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: StringOrNumber[]) {
     if (!graphics || !graphics.length) {
       return;
     }

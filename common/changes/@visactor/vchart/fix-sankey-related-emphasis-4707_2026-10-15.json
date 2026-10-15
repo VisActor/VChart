@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: sankey related emphasis no longer throws on plain node-link data and highlights the full upstream and downstream path",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
