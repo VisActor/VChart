@@ -28,7 +28,9 @@ export const continuousLegendDataMake = (data: Array<ISeries>, op: IContinuousLe
     if (!_scale) {
       return [];
     }
-    return _scale.domain();
+    // 分段线性比例尺可以包含中间节点，连续图例只接收完整的最小/最大范围。
+    const domain = _scale.domain();
+    return domain.length ? [Math.min(...domain), Math.max(...domain)] : [];
   }
   return [];
 };

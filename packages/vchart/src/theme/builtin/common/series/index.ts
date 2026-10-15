@@ -2,13 +2,11 @@ import type { ISeriesTheme } from '../../../../series/interface';
 import { area } from './area';
 import { bar } from './bar';
 import { circularProgress } from './circular-progress';
-import { dot } from './dot';
 import { funnel } from './funnel';
 import { gauge } from './gauge';
 import { gaugePointer } from './gauge-pointer';
 import { line } from './line';
 import { linearProgress } from './linear-progress';
-import { link } from './link';
 import { map } from './map';
 import { pie } from './pie';
 import { radar } from './radar';
@@ -36,8 +34,6 @@ export const series: ISeriesTheme = {
   pie,
   map,
   radar,
-  dot,
-  link,
   wordCloud,
   funnel,
   linearProgress,

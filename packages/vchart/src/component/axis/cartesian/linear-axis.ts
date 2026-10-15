@@ -67,6 +67,16 @@ export class CartesianLinearAxis<
     tickTransform && (tickTransform.options = this._tickTransformOption());
   }
 
+  reInit(spec?: T): void {
+    const min = this._domain.min;
+    const max = this._domain.max;
+    super.reInit(spec);
+    // 系列统计可能在轴 reInit 之前更新；显式边界变化必须在应用新属性后重算。
+    if (min !== this._domain.min || max !== this._domain.max) {
+      this.updateScaleDomain();
+    }
+  }
+
   /**
    * @override
    */

@@ -1,0 +1,55 @@
+{
+  "type": "pairedComparisonPlot",
+  "title": "配对比较图",
+  "categoryOrder": [
+    "干预前",
+    "干预后"
+  ],
+  "data": [
+    {
+      "id": "0",
+      "category": "干预前",
+      "value": 5
+    },
+    {
+      "id": "0",
+      "category": "干预后",
+      "value": 4
+    },
+    {
+      "id": "1",
+      "category": "干预前",
+      "value": 6
+    },
+    {
+      "id": "1",
+      "category": "干预后",
+      "value": 6
+    },
+    {
+      "id": "2",
+      "category": "干预前",
+      "value": 7
+    },
+    {
+      "id": "2",
+      "category": "干预后",
+      "value": 8
+    },
+    {
+      "id": "3",
+      "category": "干预前",
+      "value": 8
+    },
+    {
+      "id": "3",
+      "category": "干预后",
+      "value": 7
+    },
+    {
+      "id": "4",
+      "category": "干预前",
+      "value": 9
+    }
+  ]
+}

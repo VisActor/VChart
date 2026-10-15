@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-08",
+  "environment": {
+    "node": "v22.23.3",
+    "platform": "darwin",
+    "arch": "arm64",
+    "browser": "Chromium / Playwright 1.63.0",
+    "viewport": [1280, 1080],
+    "chart": [1200, 1000]
+  },
+  "method": {
+    "lifecycleRepetitions": 1,
+    "statisticsWarmup": 1,
+    "statisticsRepetitions": 10,
+    "observations": "deterministic modular values; ungrouped; no nulls",
+    "binning": "default Sturges",
+    "update": "observation 501: v1 -> 0.1; all other fields unchanged",
+    "resize": [1100, 950],
+    "brushTimeIncludesPlaywrightRoundTrip": true,
+    "notes": "Lifecycle timing includes native rendering; update includes compile; this is not an SLA or a matched historical comparison."
+  },
+  "statistics": [
+    {
+      "variables": 4,
+      "observations": 10000,
+      "warmup": 1,
+      "repetitions": 10,
+      "measurementsMs": [
+        1.4604999999999961, 1.2530000000000143, 1.0627080000000149, 1.2143749999999898, 0.8983340000000055,
+        1.0249169999999879, 1.1420409999999777, 1.2527499999999918, 0.8674580000000276, 0.8483750000000043
+      ],
+      "medianMs": 1.1023744999999963,
+      "countConservation": true
+    },
+    {
+      "variables": 8,
+      "observations": 10000,
+      "warmup": 1,
+      "repetitions": 10,
+      "measurementsMs": [
+        2.45041599999999, 1.9042500000000189, 2.132374999999996, 1.890625, 1.8988329999999962, 2.0133749999999964,
+        1.8892910000000143, 1.9852089999999976, 1.879209000000003, 1.9751660000000015
+      ],
+      "medianMs": 1.9397080000000102,
+      "countConservation": true
+    }
+  ],
+  "lifecycle": [
+    {
+      "variables": 4,
+      "observations": 1000,
+      "panels": 16,
+      "points": 12000,
+      "compileMs": 3,
+      "renderMs": 83.19999980926514,
+      "updateMs": 108.09999990463257,
+      "resizeMs": 92.10000014305115,
+      "releaseMs": 17.59999990463257,
+      "brushRoundTripMs": 197,
+      "binsPerVariable": [11, 11, 11, 11],
+      "countConservation": true,
+      "updateCounts": true,
+      "resizePreservesBins": true,
+      "brushLinksIds": true
+    },
+    {
+      "variables": 4,
+      "observations": 10000,
+      "panels": 16,
+      "points": 120000,
+      "compileMs": 13.899999856948853,
+      "renderMs": 413.5,
+      "updateMs": 957.5,
+      "resizeMs": 950.3999998569489,
+      "releaseMs": 172,
+      "brushRoundTripMs": 1161,
+      "binsPerVariable": [15, 15, 15, 15],
+      "countConservation": true,
+      "updateCounts": true,
+      "resizePreservesBins": true,
+      "brushLinksIds": true
+    },
+    {
+      "variables": 8,
+      "observations": 1000,
+      "panels": 64,
+      "points": 56000,
+      "compileMs": 7.299999952316284,
+      "renderMs": 276.90000009536743,
+      "updateMs": 1026.5,
+      "resizeMs": 1011.8000001907349,
+      "releaseMs": 74.90000009536743,
+      "brushRoundTripMs": 614,
+      "binsPerVariable": [11, 11, 11, 11, 11, 11, 11, 11],
+      "countConservation": true,
+      "updateCounts": true,
+      "resizePreservesBins": true,
+      "brushLinksIds": true
+    },
+    {
+      "variables": 8,
+      "observations": 10000,
+      "panels": 64,
+      "points": 560000,
+      "compileMs": 34,
+      "renderMs": 1853.1000001430511,
+      "updateMs": 14542.899999856949,
+      "resizeMs": 18756.299999952316,
+      "releaseMs": 878.8999998569489,
+      "brushRoundTripMs": 5541,
+      "binsPerVariable": [15, 15, 15, 15, 15, 15, 15, 15],
+      "countConservation": true,
+      "updateCounts": true,
+      "resizePreservesBins": true,
+      "brushLinksIds": true
+    }
+  ]
+}

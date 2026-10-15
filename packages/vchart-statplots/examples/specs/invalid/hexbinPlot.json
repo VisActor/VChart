@@ -1,0 +1,12 @@
+{
+  "type": "hexbinPlot",
+  "data": [
+    {
+      "x": 1,
+      "y": 2
+    }
+  ],
+  "binning": {
+    "xBins": 0
+  }
+}

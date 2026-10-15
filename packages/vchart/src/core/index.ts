@@ -67,3 +67,9 @@ export { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 export { lookup } from '../data/transforms/lookup';
 export { warn } from '../util/debug';
 export { measureText } from '../util/text';
+
+// 扩展系列共用的标准工具。
+export { ColorOrdinalScale } from '../scale/color-ordinal-scale';
+export { copyDataView } from '../data/transforms/copy-data-view';
+export { objFlat } from '../data/transforms/obj-flat';
+export { mergeSpec } from '@visactor/vutils-extension';

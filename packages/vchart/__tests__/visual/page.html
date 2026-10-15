@@ -41,7 +41,7 @@
         if (!selected || !['baseline', 'current'].includes(phase)) throw new Error('Invalid visual test input');
         await new Promise((resolve, reject) => {
           const script = document.createElement('script');
-          script.src = `/${phase}.js`;
+          script.src = phase === 'baseline' ? '/baseline.js' : '/current.js';
           script.onload = resolve;
           script.onerror = () => reject(new Error('VChart bundle load failed'));
           document.head.append(script);

@@ -4,6 +4,10 @@
  */
 /** 本地用例元数据的唯一清单；模块必须保持浏览器和 Node 均可导入。 */
 export const cases = [
+  { id: 'linear-axis-update-bounds', purpose: '连续轴更新显式边界后实际域与柱几何同步', file: './components/axis/linear-axis-update-bounds.mjs' },
+  { id: 'band-axis-update-spec', purpose: '分类轴 updateSpec 应用新的主题与标签样式', file: './components/axis/band-axis-update-spec.mjs' },
+  { id: 'legend-piecewise-domain', purpose: '多节点连续色域图例的完整范围', file: './components/legend/legend-piecewise-domain.mjs' },
+  { id: 'brush-link-data-key', purpose: '不同变量面板按观测标识联动框选', file: './interaction/brush-link-data-key.mjs' },
   {
     id: 'bar-stack',
     purpose: '正负值、堆叠与零基准线（bar）',
@@ -60,7 +64,7 @@ export const cases = [
   },
   {
     id: 'update-resize',
-    purpose: '数据更新与尺寸调整（event-update-spec）',
+    purpose: '数据更新、尺寸调整及 Spec 重建后尺寸一致（event-update-spec）',
     file: './api/update-resize.mjs',
     sourceExample: 'packages/vchart/__tests__/runtime/browser/test-page/event-update-spec.ts'
   },
@@ -373,6 +377,11 @@ export const cases = [
     id: 'datazoom-preview',
     purpose: 'dataZoom 预览图的初始范围和布局',
     file: './components/datazoom/datazoom-preview.mjs'
+  },
+  {
+    id: 'datazoom-numeric-category',
+    purpose: '数字分类轴在更新和缩放后保持预览及分类顺序',
+    file: './components/datazoom/datazoom-numeric-category.mjs'
   },
   {
     id: 'waterfall-leader-line',
@@ -1293,6 +1302,18 @@ export const cases = [
     id: 'media-query-width',
     purpose: '来源媒体查询注册、缩窄后隐藏左侧坐标轴标签',
     file: './layout/media-query-width.mjs'
+  },
+  {
+    id: 'statplots-regression',
+    purpose: '统计回归编译产物的点、曲线和置信带共享颜色及真实图例筛选',
+    file: './charts/scatter/statplots-regression.mjs',
+    sourceExample: 'packages/vchart-statplots/examples/specs/grouped/scatterPlot.json'
+  },
+  {
+    id: 'statplots-residual',
+    purpose: '原始 x 残差编译产物与趋势共用图例筛选、颜色及零参考线',
+    file: './charts/scatter/statplots-residual.mjs',
+    sourceExample: 'packages/vchart-statplots/examples/specs/grouped/residualPlot.json'
   }
 ];
 

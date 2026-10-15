@@ -1,0 +1,154 @@
+{
+  "environment": {
+    "node": "22.23.3",
+    "platform": "macOS arm64",
+    "playwright": "1.63.0",
+    "timezone": "UTC",
+    "dpr": 1
+  },
+  "node": {
+    "node": "v22.23.3",
+    "platform": "darwin",
+    "arch": "arm64",
+    "generatedAt": "2026-09-29T08:48:26.036Z",
+    "bundleBytes": 324064,
+    "gzipBytes": 31719,
+    "results": [
+      {
+        "name": "validate ROC 10000",
+        "medianMs": 0.3757499999999254,
+        "p95Ms": 1.722750000000019
+      },
+      {
+        "name": "compile ROC 10000",
+        "medianMs": 0.7551249999999072,
+        "p95Ms": 2.2599160000000893
+      },
+      {
+        "name": "validate ROC 50000",
+        "medianMs": 2.84858399999996,
+        "p95Ms": 3.283749999999941
+      },
+      {
+        "name": "compile ROC 50000",
+        "medianMs": 4.869041999999922,
+        "p95Ms": 11.281916000000024
+      },
+      {
+        "name": "swarm 1000",
+        "medianMs": 1.8945830000000115,
+        "p95Ms": 6.7147919999999885
+      },
+      {
+        "name": "swarm 10000",
+        "medianMs": 18.518125000000055,
+        "p95Ms": 18.989124999999945
+      },
+      {
+        "name": "swarm 10000 identical values",
+        "medianMs": 13.628416000000016,
+        "p95Ms": 14.375459000000092
+      }
+    ]
+  },
+  "scatterAndDashboard": {
+    "scatterPoints": 10000,
+    "dashboardCharts": 20,
+    "dashboardPointsEach": 1000,
+    "renderMs": 63.09999990463257,
+    "updateMs": 40,
+    "resizeMs": 33,
+    "exportMs": 15.799999952316284,
+    "releaseMs": 2.5,
+    "dashboardRenderMs": 113.79999995231628,
+    "dashboardReleaseMs": 5,
+    "remainingCanvases": 0
+  },
+  "nativeComparison": [
+    {
+      "name": "native ROC line",
+      "inputRows": 10000,
+      "compileMs": 0,
+      "renderMs": 27.100000143051147,
+      "updateMs": 32.799999952316284,
+      "resizeMs": 43.799999952316284,
+      "releaseMs": 2.200000047683716
+    },
+    {
+      "name": "statplots ROC",
+      "inputRows": 10000,
+      "compileMs": 2.3999998569488525,
+      "renderMs": 30.200000047683716,
+      "updateMs": 40.39999985694885,
+      "resizeMs": 34,
+      "releaseMs": 2.1000001430511475
+    },
+    {
+      "name": "violin 10 groups × 1000 density samples",
+      "inputRows": 10000,
+      "compileMs": 3.5999999046325684,
+      "renderMs": 18.600000143051147,
+      "updateMs": 24.09999990463257,
+      "resizeMs": 8.400000095367432,
+      "releaseMs": 0.39999985694885254
+    }
+  ],
+  "pairPlot": [
+    {
+      "variables": 4,
+      "observations": 1000,
+      "panels": 16,
+      "points": 12000,
+      "compileMs": 3.299999952316284,
+      "renderMs": 92.80000019073486,
+      "updateMs": 137.69999980926514,
+      "target": {
+        "x": 481.9839518555667,
+        "y": 112.48294884653961
+      },
+      "brushRoundTripMs": 198
+    },
+    {
+      "variables": 4,
+      "observations": 10000,
+      "panels": 16,
+      "points": 120000,
+      "compileMs": 12.5,
+      "renderMs": 428.69999980926514,
+      "updateMs": 1315.5,
+      "target": {
+        "x": 481.9839518555667,
+        "y": 112.48294884653961
+      },
+      "brushRoundTripMs": 1236
+    },
+    {
+      "variables": 8,
+      "observations": 1000,
+      "panels": 64,
+      "points": 56000,
+      "compileMs": 6.5,
+      "renderMs": 305.2000000476837,
+      "updateMs": 1586.5,
+      "target": {
+        "x": 262.3249749247743,
+        "y": 55.77908726178536
+      },
+      "brushRoundTripMs": 653
+    },
+    {
+      "variables": 8,
+      "observations": 10000,
+      "panels": 64,
+      "points": 560000,
+      "compileMs": 32.80000019073486,
+      "renderMs": 1886.2999999523163,
+      "updateMs": 28231,
+      "target": {
+        "x": 262.3249749247743,
+        "y": 55.77908726178536
+      },
+      "brushRoundTripMs": 5798
+    }
+  ]
+}

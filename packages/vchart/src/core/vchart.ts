@@ -1330,6 +1330,9 @@ export class VChart implements IVChart {
     this._chartPluginApply('onBeforeResize', width, height);
 
     this._option.performanceHook?.beforeResizeWithUpdate?.(this);
+    // updateSpec 重建 chart 时沿用当前尺寸，不能恢复到手动 resize 之前的画布大小。
+    this._currentSize.width = width;
+    this._currentSize.height = height;
     this._chart.onResize(width, height, false);
     this._option.performanceHook?.afterResizeWithUpdate?.(this);
 

@@ -1,6 +1,24 @@
 # Sequence Chart
 
+`dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
+
 [\[Configuration Guide\]](../../../option/sequenceChart)
+
+## Registration and migration
+
+The sequence chart is provided by `@visactor/vchart-extension`. Install the extension package with the same version as VChart and call `registerSequenceChart({ VChart })` before creating a chart. Existing `type: 'sequence'` and series configuration remain unchanged.
+
+```ts
+import VChart from '@visactor/vchart';
+import { registerSequenceChart } from '@visactor/vchart-extension';
+import type { ISequenceChartSpec } from '@visactor/vchart-extension';
+
+registerSequenceChart({ VChart });
+// const spec: ISequenceChartSpec = { type: 'sequence', ... };
+// new VChart(spec, { dom: 'chart' }).renderSync();
+```
+
+Import `ISequenceChartSpec` and `registerSequenceChart` from the extension package instead of the core package. React/Taro/Openinula `SequenceChart` components register it automatically; register it explicitly when using a generic `VChart` component. This chart displays events and statistics over time and is separate from the `type: 'sequenceAnalysis'` extension.
 
 ## Introduction
 
@@ -30,6 +48,8 @@ Sequence charts typically also include the following components:
 ## Quick Start
 
 ```javascript livedemo
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   color: ['#64b5fc', '#ff8f62'],
@@ -1279,6 +1299,8 @@ data: [
 As mentioned above, events or event relationships will come with some additional information,
 
 ```javascript livedemo
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   appendPadding: {

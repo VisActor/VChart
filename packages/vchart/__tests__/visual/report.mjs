@@ -98,6 +98,7 @@ export async function saveReport(runDir, summary) {
       issues.push({ phase, category: 'execution', code: 'RUN_INCOMPLETE', message: '阶段异常结束，保留已完成用例' });
   }
   // 预检失败时尚未解析基线，复现仍应保留用户请求的 SHA 或自比较模式。
+  const command = summary.command ?? 'node packages/vchart/scripts/visual-test.mjs';
   const baselineSha = summary.baseline?.sha ?? summary.request?.baseline;
   const baselineArg =
     summary.baseline?.repository === 'working-tree' || summary.request?.['self-compare']
@@ -178,7 +179,7 @@ export async function saveReport(runDir, summary) {
       images,
       attachments,
       errors,
-      rerun: `node packages/vchart/scripts/visual-test.mjs ${baselineArg} --case ${quote(item.id)}`.replace('  ', ' ')
+      rerun: `${command} ${baselineArg} --case ${quote(item.id)}`.replace('  ', ' ')
     });
   }
   const counts = Object.fromEntries(
@@ -213,7 +214,7 @@ export async function saveReport(runDir, summary) {
     logs,
     rerun: selection
       ? [
-          'node packages/vchart/scripts/visual-test.mjs',
+          command,
           baselineArg,
           selection.mode === 'all'
             ? ''

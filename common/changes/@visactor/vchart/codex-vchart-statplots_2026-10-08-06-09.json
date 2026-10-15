@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix: 修复手动 resize 后 updateSpec 重建图表时恢复旧尺寸的问题，保持布局与画布尺寸一致。",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

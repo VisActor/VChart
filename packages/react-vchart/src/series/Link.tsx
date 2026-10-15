@@ -1,6 +1,6 @@
 import { BaseSeriesProps, createSeries } from './BaseSeries';
-import type { ILinkSeriesSpec } from '@visactor/vchart';
-import { registerLinkSeries } from '@visactor/vchart';
+import type { ILinkSeriesSpec } from '@visactor/vchart-extension';
+import { registerLinkSeries } from '@visactor/vchart-extension';
 
 export type LinkProps = BaseSeriesProps & Omit<ILinkSeriesSpec, 'type'>;
 

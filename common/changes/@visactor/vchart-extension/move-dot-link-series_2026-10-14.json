@@ -1,0 +1,4 @@
+{
+  "changes": [{ "packageName": "@visactor/vchart-extension", "comment": "feat: 将 dot、link 系列及其类型和注册入口从 VChart 主包迁移至扩展包", "type": "minor" }],
+  "packageName": "@visactor/vchart-extension"
+}

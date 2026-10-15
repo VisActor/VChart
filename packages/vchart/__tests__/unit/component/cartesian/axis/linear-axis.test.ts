@@ -4,7 +4,7 @@ import type { IEventDispatcher } from '../../../../../src/event/interface';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { DataSet, csvParser } from '@visactor/vdataset';
 import { dimensionStatistics } from '../../../../../src/data/transforms/dimension-statistics';
-import type { CartesianLinearAxis } from '../../../../../src/index';
+import type { CartesianLinearAxis, ICartesianLinearAxisSpec } from '../../../../../src/index';
 // eslint-disable-next-line no-duplicate-imports
 import { CartesianAxis } from '../../../../../src/index';
 import { ComponentTypeEnum, type IComponent, type IComponentOption } from '../../../../../src/component/interface';
@@ -119,6 +119,36 @@ beforeAll(() => {
   jest.spyOn(CartesianAxis.prototype, 'collectData').mockImplementation(() => {
     return [{ min: 569, max: 901 }];
   });
+});
+
+test('reInit applies changed and removed explicit bounds without a statistics change', () => {
+  const transformer = new CartesianAxis.transformerConstructor({
+    type: 'cartesianAxis-linear',
+    getTheme,
+    mode: 'desktop-browser'
+  });
+  const transform = (bounds: object) =>
+    transformer.transformSpec(
+      getAxisSpec({ orient: 'bottom', type: 'linear', nice: false, zero: false, ...bounds }),
+      {}
+    ).spec as ICartesianLinearAxisSpec;
+  const spec = transform({ min: 0, max: 4 });
+  const axis = CartesianAxis.createComponent({ type: getCartesianAxisInfo(spec).componentName, spec }, ctx) as any;
+  axis.created();
+  axis.init({});
+  axis.updateScaleDomain();
+  expect(axis.getScale().domain()).toEqual([0, 4]);
+  const updateDomain = jest.spyOn(axis, 'updateScaleDomain');
+  axis.reInit(transform({ min: -0.5, max: 0.5 }));
+  expect(axis.getScale().domain()).toEqual([-0.5, 0.5]);
+  expect(updateDomain).toHaveBeenCalledTimes(1);
+  axis.reInit(transform({ min: -0.5, max: 0.5 }));
+  expect(updateDomain).toHaveBeenCalledTimes(1);
+  axis.reInit(transform({ range: { min: 0, max: 4 } }));
+  expect(axis.getScale().domain()).toEqual([0, 4]);
+  axis.reInit(transform({}));
+  expect(axis.getScale().domain()).toEqual([569, 901]);
+  axis.release();
 });
 
 /**

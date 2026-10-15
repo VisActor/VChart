@@ -1,0 +1,42 @@
+{
+  "type": "pointIntervalPlot",
+  "referenceLine": {
+    "value": 0,
+    "label": "无效应"
+  },
+  "data": [
+    {
+      "category": "方案 A",
+      "value": 0.1
+    },
+    {
+      "category": "方案 A",
+      "value": 0.3
+    },
+    {
+      "category": "方案 A",
+      "value": 0.4
+    },
+    {
+      "category": "方案 A",
+      "value": 0.5
+    },
+    {
+      "category": "方案 B",
+      "value": -0.3
+    },
+    {
+      "category": "方案 B",
+      "value": -0.1
+    },
+    {
+      "category": "方案 B",
+      "value": 0
+    },
+    {
+      "category": "方案 B",
+      "value": 0.1
+    }
+  ],
+  "input": "observations"
+}

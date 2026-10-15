@@ -1,0 +1,88 @@
+{
+  "kdePlot": {
+    "timings": [
+      {
+        "count": 10000,
+        "unique": false,
+        "pointCount": 256,
+        "compileMedianMs": 9.400000095367432,
+        "compileMaxMs": 10.199999809265137,
+        "renderMs": 37.5,
+        "updateMs": 17.200000047683716,
+        "resizeMs": 3,
+        "releaseMs": 0.8999998569488525
+      },
+      {
+        "count": 100000,
+        "unique": false,
+        "pointCount": 256,
+        "compileMedianMs": 92,
+        "compileMaxMs": 93.89999985694885,
+        "renderMs": 97,
+        "updateMs": 94.09999990463257,
+        "resizeMs": 2.3000001907348633,
+        "releaseMs": 0.19999980926513672
+      }
+    ],
+    "dashboard": {
+      "chartCount": 20,
+      "canvasCount": 20,
+      "renderMs": 71.79999995231628,
+      "releaseMs": 1.5
+    }
+  },
+  "ecdfPlot": {
+    "timings": [
+      {
+        "count": 10000,
+        "unique": false,
+        "pointCount": 999,
+        "compileMedianMs": 1.7000000476837158,
+        "compileMaxMs": 2.5,
+        "renderMs": 29.5,
+        "updateMs": 10.400000095367432,
+        "resizeMs": 4.1000001430511475,
+        "releaseMs": 1.0999999046325684
+      },
+      {
+        "count": 10000,
+        "unique": true,
+        "pointCount": 10002,
+        "compileMedianMs": 2.0999999046325684,
+        "compileMaxMs": 2.799999952316284,
+        "renderMs": 16.40000009536743,
+        "updateMs": 13.5,
+        "resizeMs": 6.700000047683716,
+        "releaseMs": 0.2999999523162842
+      },
+      {
+        "count": 100000,
+        "unique": false,
+        "pointCount": 999,
+        "compileMedianMs": 15.799999952316284,
+        "compileMaxMs": 20.799999952316284,
+        "renderMs": 26.299999952316284,
+        "updateMs": 29,
+        "resizeMs": 2.1999998092651367,
+        "releaseMs": 0.39999985694885254
+      },
+      {
+        "count": 100000,
+        "unique": true,
+        "pointCount": 100002,
+        "compileMedianMs": 24.5,
+        "compileMaxMs": 26.100000143051147,
+        "renderMs": 104.29999995231628,
+        "updateMs": 126.89999985694885,
+        "resizeMs": 35.299999952316284,
+        "releaseMs": 0.5
+      }
+    ],
+    "dashboard": {
+      "chartCount": 20,
+      "canvasCount": 20,
+      "renderMs": 65.5,
+      "releaseMs": 1.4000000953674316
+    }
+  }
+}

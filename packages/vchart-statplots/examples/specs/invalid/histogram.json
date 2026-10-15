@@ -1,0 +1,24 @@
+{
+  "type": "histogram",
+  "title": "原始观测直方图",
+  "binning": {
+    "binCount": 0
+  },
+  "data": [
+    {
+      "value": 0
+    },
+    {
+      "value": 1
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 3
+    },
+    {
+      "value": 4
+    }
+  ]
+}

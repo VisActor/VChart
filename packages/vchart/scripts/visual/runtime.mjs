@@ -177,10 +177,25 @@ export async function fileManifest(directory, relative = '') {
 }
 
 /** 冻结完整套件并核对复制内容，供本地对比和平台导出共用。 */
-export async function freezeSuite(source, destination) {
+export async function freezeSuite(source, destination, sharedSource = null) {
   const before = await fileManifest(source);
-  await fs.cp(source, destination, { recursive: true, force: false, errorOnExist: true });
+  const shared = [];
+  if (sharedSource && sharedSource !== source) {
+    if (!(await fs.lstat(sharedSource)).isDirectory()) throw fault('CASE_MANIFEST_INVALID', '公共运行输入必须是普通目录');
+    sharedSource = await fs.realpath(sharedSource);
+    await fs.mkdir(destination, { recursive: true });
+    // 扩展套件复用核心运行文件，源套件自己的页面和配置仍有优先权。
+    for (const name of ['settings.mjs', 'playwright.config.mjs', 'visual.spec.mjs', 'reporter.mjs', 'page.html']) {
+      const file = path.join(sharedSource, name), stat = await fs.lstat(file);
+      if (!stat.isFile() || await fs.realpath(file) !== file) throw fault('CASE_MANIFEST_INVALID', '公共运行文件不能使用链接');
+      const bytes = await fs.readFile(file);
+      shared.push({ path: name, digest: digest(bytes), size: bytes.length });
+      await fs.writeFile(path.join(destination, name), bytes);
+    }
+  }
+  await fs.cp(source, destination, { recursive: true, force: Boolean(shared.length), errorOnExist: !shared.length });
   const files = await fileManifest(destination);
-  if (JSON.stringify(before) !== JSON.stringify(files)) throw fault('WORKSPACE_CHANGED', '冻结期间套件发生变化');
+  const expected = [...new Map([...shared, ...before].map(file => [file.path, file])).values()].sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
+  if (JSON.stringify(expected) !== JSON.stringify(files)) throw fault('WORKSPACE_CHANGED', '冻结期间套件发生变化');
   return files;
 }

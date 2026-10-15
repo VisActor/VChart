@@ -85,12 +85,14 @@ export function parseOptions(args) {
   return values;
 }
 /** 入口只管理参数、预检模式和运行生命周期。 */
-async function main() {
+export async function main(configuration = {}) {
+  const { suitePath = 'packages/vchart/__tests__/visual', command = 'node packages/vchart/scripts/visual-test.mjs' } =
+    configuration;
   const options = parseOptions(process.argv.slice(2));
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
   if (options.help) {
     console.log(
-      'node packages/vchart/scripts/visual-test.mjs [--baseline <40位SHA> | --self-compare] [--dir <目录> | --case <id>] [--json]\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--list 列举用例；--check 本机环境检查；--help 帮助\n--export-suite <新目录> [--previous-suite <清单JSON>] 导出冻结套件和当前构建，不截图或更新基准。\n--run-suite <套件目录> --run-request <JSON> --baseline-set <目录> [--output <新目录>] 执行指定基准与候选验证，不构建或写标准图。\n--json：stdout 输出版本化结果和报告位置，进度写入 stderr。\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
+      command + ' [--baseline <40位SHA> | --self-compare] [--dir <目录> | --case <id>] [--json]\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--list 列举用例；--check 本机环境检查；--help 帮助\n--export-suite <新目录> [--previous-suite <清单JSON>] 导出冻结套件和当前构建，不截图或更新基准。\n--run-suite <套件目录> --run-request <JSON> --baseline-set <目录> [--output <新目录>] 执行指定基准与候选验证，不构建或写标准图。\n--json：stdout 输出版本化结果和报告位置，进度写入 stderr。\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
     );
     return;
   }
@@ -102,11 +104,11 @@ async function main() {
     const previous = options['previous-suite']
       ? JSON.parse(await fs.readFile(path.resolve(root, options['previous-suite']), 'utf8'))
       : null;
-    console.log(JSON.stringify(await exportSuite(root, options['export-suite'], previous)));
+    console.log(JSON.stringify(await exportSuite(root, options['export-suite'], previous, configuration)));
     return;
   }
   if (options.list || options.check) {
-    const cases = await loadCases(path.join(root, 'packages/vchart/__tests__/visual'));
+    const cases = await loadCases(path.join(root, suitePath));
     if (options.list) {
       console.log(
         cases.map(item => `${item.id}\t${item.purpose}\t${item.file}\t${item.sourceExample ?? ''}`).join('\n')
@@ -125,7 +127,7 @@ async function main() {
     }
     return;
   }
-  process.exitCode = await runVisual(root, options);
+  process.exitCode = await runVisual(root, options, configuration);
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url))
   main().catch(error => {

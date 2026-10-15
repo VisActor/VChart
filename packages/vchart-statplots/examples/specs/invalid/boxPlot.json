@@ -1,0 +1,16 @@
+{
+  "type": "boxPlot",
+  "whiskers": {
+    "iqrMultiplier": -1
+  },
+  "data": [
+    {
+      "category": "A",
+      "value": 0
+    },
+    {
+      "category": "A",
+      "value": 1
+    }
+  ]
+}

@@ -280,7 +280,7 @@ export function compareSuiteCases(previous, current) {
 }
 
 /** 导出当前工作区的完整套件和新构建；仅成功目录可作为平台输入。 */
-export async function exportSuite(root, destination, previous = null) {
+export async function exportSuite(root, destination, previous = null, configuration = {}) {
   if (Number(process.versions.node.split('.')[0]) !== 22 || !['darwin', 'linux'].includes(process.platform))
     throw fault('PREFLIGHT_FAILED', '需要 Node.js 22 和 macOS/Linux');
   destination = await outputDirectory(root, destination);
@@ -305,8 +305,9 @@ export async function exportSuite(root, destination, previous = null) {
     owned = true;
     const source = await workingTree(root);
     const frozen = await freezeSuite(
-      path.join(root, `packages/${product}/__tests__/visual`),
-      path.join(destination, 'suite')
+      path.join(root, configuration.suitePath ?? `packages/${product}/__tests__/visual`),
+      path.join(destination, 'suite'),
+      path.join(root, `packages/${product}/__tests__/visual`)
     );
     // 导入前完成路径检查；平台必须把这一步和后续发现放在隔离 worker。
     await importGraph(
@@ -315,7 +316,7 @@ export async function exportSuite(root, destination, previous = null) {
       (await fileManifest(path.join(destination, 'suite'))).map(file => ({ ...file, path: `suite/${file.path}` }))
     );
     await loadCases(path.join(destination, 'suite'));
-    await build(root, path.join(destination, 'current.js'), runtime, path.join(destination, 'build.log'));
+    await (configuration.buildBundle ?? build)(root, path.join(destination, 'current.js'), runtime, path.join(destination, 'build.log'));
     const manifest = await createSuiteManifest(root, destination, source);
     const frozenAfter = manifest.files
       .filter(file => file.path.startsWith('suite/'))

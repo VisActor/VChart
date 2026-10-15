@@ -1,0 +1,363 @@
+{
+  "date": "2026-10-09",
+  "environment": {
+    "node": "22.23.3",
+    "chromium": "153.0.8010.12",
+    "platform": "macOS arm64",
+    "viewport": "1000x800",
+    "deviceScaleFactor": 1,
+    "vutils": "1.0.26"
+  },
+  "notes": [
+    "单轮测量，不作为 SLA；heap 为 CDP Runtime.getHeapUsage，release 后请求 GC。",
+    "LOWESS 100k 使用显式 delta=0.1，所有 100k 样本和曲线节点保留；精确路径另测 5k。",
+    "CI 使用默认 1000 次成对 bootstrap；polynomial degree=2。",
+    "编译后的原始样本 getter 抛错，render/resize/真实 hover/release 仍通过。"
+  ],
+  "results": [
+    {
+      "scenario": "linear-10000-ci",
+      "params": {
+        "n": 10000,
+        "method": "linear",
+        "confidence": true
+      },
+      "compileMs": 248.29999995231628,
+      "renderMs": 59.799999952316284,
+      "resizeMs": 37.299999952316284,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 269.89999985694885,
+      "observationCount": 10000,
+      "unchanged": true,
+      "nodes": 100,
+      "deltaEstimate": 1,
+      "hoverMs": 61,
+      "releaseMs": 3.6000001430511475,
+      "heapBefore": {
+        "usedSize": 6130560,
+        "totalSize": 8355840,
+        "embedderHeapUsedSize": 1503592,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 44977328,
+        "totalSize": 98369536,
+        "embedderHeapUsedSize": 2127192,
+        "backingStorageSize": 6171566
+      },
+      "heapReleased": {
+        "usedSize": 18483744,
+        "totalSize": 20725760,
+        "embedderHeapUsedSize": 598408,
+        "backingStorageSize": 6168861
+      }
+    },
+    {
+      "scenario": "linear-10000-no-ci",
+      "params": {
+        "n": 10000,
+        "method": "linear",
+        "confidence": false
+      },
+      "compileMs": 5.900000095367432,
+      "renderMs": 55.299999952316284,
+      "resizeMs": 35.90000009536743,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 3.200000047683716,
+      "observationCount": 10000,
+      "unchanged": true,
+      "nodes": 100,
+      "deltaEstimate": 1,
+      "hoverMs": 61,
+      "releaseMs": 2.9000000953674316,
+      "heapBefore": {
+        "usedSize": 6121248,
+        "totalSize": 8093696,
+        "embedderHeapUsedSize": 1502608,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 34619284,
+        "totalSize": 60981248,
+        "embedderHeapUsedSize": 2126096,
+        "backingStorageSize": 6171566
+      },
+      "heapReleased": {
+        "usedSize": 18315772,
+        "totalSize": 20463616,
+        "embedderHeapUsedSize": 874192,
+        "backingStorageSize": 6168849
+      }
+    },
+    {
+      "scenario": "linear-100000-no-ci",
+      "params": {
+        "n": 100000,
+        "method": "linear",
+        "confidence": false
+      },
+      "compileMs": 19.90000009536743,
+      "renderMs": 313.19999980926514,
+      "resizeMs": 304.40000009536743,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 17.40000009536743,
+      "observationCount": 100000,
+      "unchanged": true,
+      "nodes": 100,
+      "deltaEstimate": 1,
+      "hoverMs": 140,
+      "releaseMs": 17.799999952316284,
+      "heapBefore": {
+        "usedSize": 6136724,
+        "totalSize": 8093696,
+        "embedderHeapUsedSize": 1502608,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 220575880,
+        "totalSize": 291602432,
+        "embedderHeapUsedSize": 1756160,
+        "backingStorageSize": 6171452
+      },
+      "heapReleased": {
+        "usedSize": 6838268,
+        "totalSize": 11075584,
+        "embedderHeapUsedSize": 599856,
+        "backingStorageSize": 6168805
+      }
+    },
+    {
+      "scenario": "lowess-100000-0.1",
+      "params": {
+        "n": 100000,
+        "method": "lowess",
+        "delta": 0.1,
+        "confidence": false
+      },
+      "compileMs": 157.5,
+      "renderMs": 393.59999990463257,
+      "resizeMs": 343.2000000476837,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 139.20000004768372,
+      "observationCount": 100000,
+      "unchanged": true,
+      "nodes": 100000,
+      "deltaEstimate": 1.0000000000000004,
+      "hoverMs": 128,
+      "releaseMs": 25.700000047683716,
+      "heapBefore": {
+        "usedSize": 6133664,
+        "totalSize": 8355840,
+        "embedderHeapUsedSize": 1502608,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 353999204,
+        "totalSize": 409075712,
+        "embedderHeapUsedSize": 1548672,
+        "backingStorageSize": 6171463
+      },
+      "heapReleased": {
+        "usedSize": 6851428,
+        "totalSize": 10027008,
+        "embedderHeapUsedSize": 499896,
+        "backingStorageSize": 6168805
+      }
+    },
+    {
+      "scenario": "lowess-5000-0",
+      "params": {
+        "n": 5000,
+        "method": "lowess",
+        "delta": 0,
+        "confidence": false
+      },
+      "compileMs": 172.10000014305115,
+      "renderMs": 47.39999985694885,
+      "resizeMs": 22.100000143051147,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 173.29999995231628,
+      "observationCount": 5000,
+      "unchanged": true,
+      "nodes": 5000,
+      "deltaEstimate": 1,
+      "hoverMs": 44,
+      "releaseMs": 2.4000000953674316,
+      "heapBefore": {
+        "usedSize": 6133664,
+        "totalSize": 8355840,
+        "embedderHeapUsedSize": 1502608,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 28755112,
+        "totalSize": 55410688,
+        "embedderHeapUsedSize": 2126096,
+        "backingStorageSize": 6171492
+      },
+      "heapReleased": {
+        "usedSize": 13805016,
+        "totalSize": 15532032,
+        "embedderHeapUsedSize": 874056,
+        "backingStorageSize": 6168811
+      }
+    },
+    {
+      "scenario": "polynomial-10000-ci",
+      "params": {
+        "n": 10000,
+        "method": "polynomial",
+        "confidence": true
+      },
+      "compileMs": 513.0999999046326,
+      "renderMs": 56.799999952316284,
+      "resizeMs": 35.700000047683716,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 537.2000000476837,
+      "observationCount": 10000,
+      "unchanged": true,
+      "nodes": 100,
+      "deltaEstimate": 1,
+      "hoverMs": 52,
+      "releaseMs": 3.799999952316284,
+      "heapBefore": {
+        "usedSize": 6133664,
+        "totalSize": 8355840,
+        "embedderHeapUsedSize": 1502608,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 56600436,
+        "totalSize": 98271232,
+        "embedderHeapUsedSize": 2126096,
+        "backingStorageSize": 6171566
+      },
+      "heapReleased": {
+        "usedSize": 18496580,
+        "totalSize": 20463616,
+        "embedderHeapUsedSize": 597504,
+        "backingStorageSize": 6168861
+      }
+    },
+    {
+      "scenario": "polynomial-10000-no-ci",
+      "params": {
+        "n": 10000,
+        "method": "polynomial",
+        "confidence": false
+      },
+      "compileMs": 5.799999952316284,
+      "renderMs": 54.299999952316284,
+      "resizeMs": 34,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 2.8999998569488525,
+      "observationCount": 10000,
+      "unchanged": true,
+      "nodes": 100,
+      "deltaEstimate": 1,
+      "hoverMs": 43,
+      "releaseMs": 2.700000047683716,
+      "heapBefore": {
+        "usedSize": 6136724,
+        "totalSize": 8093696,
+        "embedderHeapUsedSize": 1502608,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 32631492,
+        "totalSize": 60456960,
+        "embedderHeapUsedSize": 2126096,
+        "backingStorageSize": 6171566
+      },
+      "heapReleased": {
+        "usedSize": 18316708,
+        "totalSize": 20463616,
+        "embedderHeapUsedSize": 873768,
+        "backingStorageSize": 6168849
+      }
+    },
+    {
+      "scenario": "polynomial-100000-no-ci",
+      "params": {
+        "n": 100000,
+        "method": "polynomial",
+        "confidence": false
+      },
+      "compileMs": 22.5,
+      "renderMs": 341.09999990463257,
+      "resizeMs": 300.40000009536743,
+      "hoverTarget": {
+        "x": 74,
+        "y": 319
+      },
+      "updateCompileMs": 19.899999856948853,
+      "observationCount": 100000,
+      "unchanged": true,
+      "nodes": 100,
+      "deltaEstimate": 1,
+      "hoverMs": 126,
+      "releaseMs": 16.799999952316284,
+      "heapBefore": {
+        "usedSize": 6133664,
+        "totalSize": 8355840,
+        "embedderHeapUsedSize": 1503592,
+        "backingStorageSize": 6167750
+      },
+      "heapRendered": {
+        "usedSize": 224775372,
+        "totalSize": 292126720,
+        "embedderHeapUsedSize": 1754864,
+        "backingStorageSize": 6171452
+      },
+      "heapReleased": {
+        "usedSize": 6833120,
+        "totalSize": 10551296,
+        "embedderHeapUsedSize": 499432,
+        "backingStorageSize": 6168805
+      }
+    }
+  ],
+  "multipleResiduals": {
+    "stats": [
+      {
+        "compileMs": 7.5,
+        "points": 10000
+      },
+      {
+        "compileMs": 4.3999998569488525,
+        "points": 10000
+      },
+      {
+        "compileMs": 4.299999952316284,
+        "points": 10000
+      },
+      {
+        "compileMs": 3.4000000953674316,
+        "points": 10000
+      }
+    ],
+    "elapsed": 481.2999999523163,
+    "canvases": 0
+  }
+}

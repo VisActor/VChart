@@ -33,3 +33,7 @@ export { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 export { lookup } from '../data/transforms/lookup';
 export { warn } from '../util/debug';
 export { measureText } from '../util/text';
+export { ColorOrdinalScale } from '../scale/color-ordinal-scale';
+export { copyDataView } from '../data/transforms/copy-data-view';
+export { objFlat } from '../data/transforms/obj-flat';
+export { mergeSpec } from '@visactor/vutils-extension';

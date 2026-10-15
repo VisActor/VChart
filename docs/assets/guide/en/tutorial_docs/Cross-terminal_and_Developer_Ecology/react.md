@@ -472,7 +472,7 @@ interface VChartSimpleProps extends EventsProps {
 | `<RangeColumnChart/>`      | Cartesian Charts | `registerLabel`                       |
 | `<RangeColumn3dChart/>`    | Cartesian Charts | `registerLabel`                       |
 | `<ScatterChart/>`          | Cartesian Charts | `registerLabel`                       |
-| `<SequenceChart/>`         | Cartesian Charts | `registerLabel`                       |
+| `<SequenceChart/>`         | Extension chart | `registerLabel`                       |
 | `<WaterfallChart/>`        | Cartesian Charts | `registerLabel`, `registerTotalLabel` |
 | `<RadarChart/>`            | Polar Charts     | `registerLabel`                       |
 | `<RoseChart/>`             | Polar Charts     | `registerLabel`                       |
@@ -491,6 +491,8 @@ interface VChartSimpleProps extends EventsProps {
 | `<WordCloud3dChart/>`      | General Charts   | None                                  |
 | `<WordCloudChart/>`        | General Charts   | None                                  |
 | `<LiquidChart/>`           | General Charts   | `registerIndicator`                   |
+
+`SequenceChart` registers itself through `registerSequenceChart` from the extension package; component usage is unchanged. When using VChart directly, import and call the registration function from `@visactor/vchart-extension`.
 
 For Cartesian charts, the default registered components are as follows:
 

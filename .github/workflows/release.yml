@@ -393,6 +393,11 @@ jobs:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: node common/scripts/install-run-rush.js build --to @visactor/vchart
 
+      - name: Build vchart-statplots
+        env:
+          NODE_OPTIONS: '--max_old_space_size=4096'
+        run: node common/scripts/install-run-rush.js build --only @visactor/vchart-statplots
+
       - name: Build vchart-extension
         if: startsWith(github.ref_name, 'release/') || startsWith(github.ref_name, 'pre-release/')
         env:

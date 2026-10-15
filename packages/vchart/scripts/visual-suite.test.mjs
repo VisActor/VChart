@@ -1,3 +1,4 @@
+import os from 'node:os';
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
@@ -222,4 +223,22 @@ test('failed preparation retains diagnostics and removes the consumable manifest
   assert.ok(failure.error.message);
   await assert.rejects(fs.access(path.join(destination, 'suite-manifest.json')));
   await assert.rejects(fs.access(path.join(directory, '.vchart-visual/running.lock')));
+});
+
+
+test('扩展套件冻结共享运行文件并保留自己的页面，复制后按相同顺序核对摘要', async () => {
+  const { freezeSuite, fileManifest } = await import('./visual/runtime.mjs');
+  const base = await fs.mkdtemp(path.join(os.tmpdir(), 'vchart-shared-suite-'));
+  try {
+    const shared = path.join(base, 'shared'), extension = path.join(base, 'extension'), output = path.join(base, 'frozen');
+    await fs.mkdir(shared); await fs.mkdir(extension);
+    for (const name of ['settings.mjs','playwright.config.mjs','visual.spec.mjs','reporter.mjs','page.html']) await fs.writeFile(path.join(shared, name), 'shared-' + name);
+    await fs.writeFile(path.join(extension, 'page.html'), 'extension-page'); await fs.writeFile(path.join(extension, 'README.md'), 'preserved');
+    const manifest = await freezeSuite(extension, output, shared);
+    assert.deepEqual(manifest, await fileManifest(output));
+    assert.equal(await fs.readFile(path.join(output, 'page.html'), 'utf8'), 'extension-page');
+    assert.equal(await fs.readFile(path.join(output, 'settings.mjs'), 'utf8'), 'shared-settings.mjs');
+    await fs.rm(path.join(shared, 'settings.mjs')); await fs.symlink(path.join(shared, 'page.html'), path.join(shared, 'settings.mjs'));
+    await assert.rejects(freezeSuite(extension, path.join(base, 'bad'), shared), /链接/);
+  } finally { await fs.rm(base, { recursive: true, force: true }); }
 });

@@ -1,0 +1,107 @@
+{
+  "type": "rocCurve",
+  "title": "ROC 曲线",
+  "description": "同一组样本的模型对比 · 横轴为假阳性率，纵轴为真阳性率",
+  "data": [
+    {
+      "actual": false,
+      "score": 0.1,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "score": 0.25,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "score": 0.4,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "score": 0.55,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "score": 0.7,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "score": 0.2,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "score": 0.6,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "score": 0.75,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "score": 0.85,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "score": 0.95,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "score": 0.15,
+      "series": "模型 B"
+    },
+    {
+      "actual": false,
+      "score": 0.3,
+      "series": "模型 B"
+    },
+    {
+      "actual": false,
+      "score": 0.45,
+      "series": "模型 B"
+    },
+    {
+      "actual": false,
+      "score": 0.65,
+      "series": "模型 B"
+    },
+    {
+      "actual": false,
+      "score": 0.8,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "score": 0.2,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "score": 0.4,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "score": 0.5,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "score": 0.7,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "score": 0.9,
+      "series": "模型 B"
+    }
+  ]
+}

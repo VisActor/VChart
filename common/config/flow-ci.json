@@ -6,10 +6,40 @@
   "nodeMajor": 22,
   "rushVersion": "5.148.0",
   "pnpmVersion": "10.7.0",
-  "unitPackages": ["vchart", "vchart-schema", "vutils-extension"],
-  "buildTargets": ["@visactor/vchart", "@visactor/vchart-extension"],
+  "unitPackages": [
+    "vchart",
+    "vchart-extension",
+    "vchart-statplots",
+    "vchart-schema",
+    "vutils-extension"
+  ],
+  "buildTargets": [
+    "@visactor/vchart",
+    "@visactor/vchart-extension",
+    "@visactor/vchart-statplots"
+  ],
   "visualProduct": "vchart",
   "visualSelection": "full",
-  "requiredChecks": ["VisActor Flow / Build", "VisActor Flow / Unit", "VisActor Flow / Repository visual"],
-  "firefoxPaste": false
+  "requiredChecks": [
+    "VisActor Flow / Build",
+    "VisActor Flow / Unit",
+    "VisActor Flow / Repository visual"
+  ],
+  "firefoxPaste": false,
+  "preBuildScripts": [
+    {
+      "package": "vchart-statplots",
+      "script": "build:schema"
+    }
+  ],
+  "visualSuites": [
+    "core",
+    "extension"
+  ],
+  "browserChecks": [
+    {
+      "package": "vchart-statplots",
+      "config": "__tests__/browser/playwright.config.ts"
+    }
+  ]
 }
