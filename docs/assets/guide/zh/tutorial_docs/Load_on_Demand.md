@@ -1,5 +1,15 @@
 # VChart 按需加载教程
 
+`dot`、`link` 系列的实现、类型和注册方法已迁至 `@visactor/vchart-extension`，主包不再导出或自动注册。单独使用时按以下方式注册；`registerSequenceChart` 和 `registerSequenceAnalysis` 会自动注册所需系列。
+
+```ts
+import { registerDotSeries, registerLinkSeries } from '@visactor/vchart-extension';
+import type { IDotSeriesSpec, ILinkSeriesSpec } from '@visactor/vchart-extension';
+
+registerDotSeries();
+registerLinkSeries();
+```
+
 ## 快速上手
 
 `@visactor/vchart` 默认提供的是 VChart 所有的图表和组件，如果你不想引入所有组件，也可以按需引入相关的组件。使用示例如下：
@@ -183,7 +193,7 @@ interface VChartSimpleProps extends EventsProps {
 | `<RangeColumnChart/>`      | 直角坐标系图表 | `registerLabel`                       |
 | `<RangeColumn3dChart/>`    | 直角坐标系图表 | `registerLabel`                       |
 | `<ScatterChart/>`          | 直角坐标系图表 | `registerLabel`                       |
-| `<SequenceChart/>`         | 直角坐标系图表 | `registerLabel`                       |
+| `<SequenceChart/>`         | 扩展图表 | `registerLabel`                       |
 | `<WaterfallChart/>`        | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
 | `<RadarChart/>`            | 极坐标系图表   | `registerLabel`                       |
 | `<RoseChart/>`             | 极坐标系图表   | `registerLabel`                       |
@@ -202,6 +212,8 @@ interface VChartSimpleProps extends EventsProps {
 | `<WordCloud3dChart/>`      | 通用图表       | 无                                    |
 | `<WordCloudChart/>`        | 通用图表       | 无                                    |
 | `<LiquidChart/>`           | 通用图表       | `registerIndicator`                   |
+
+`SequenceChart` 由组件内部调用扩展包的 `registerSequenceChart` 注册，组件用法不变；直接使用 VChart 核心包时需自行从 `@visactor/vchart-extension` 导入并注册。
 
 其中，直角坐标系图表默认注册组件如下：
 
@@ -282,7 +294,7 @@ taro-VChart 本身代码都支持按需加载，当需要 VChart 按需加载的
 | `<RangeColumnChart/>`      | 直角坐标系图表 | `registerLabel`                       |
 | `<RangeColumn3dChart/>`    | 直角坐标系图表 | `registerLabel`                       |
 | `<ScatterChart/>`          | 直角坐标系图表 | `registerLabel`                       |
-| `<SequenceChart/>`         | 直角坐标系图表 | `registerLabel`                       |
+| `<SequenceChart/>`         | 扩展图表 | `registerLabel`                       |
 | `<WaterfallChart/>`        | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
 | `<RadarChart/>`            | 极坐标系图表   | `registerLabel`                       |
 | `<RoseChart/>`             | 极坐标系图表   | `registerLabel`                       |
@@ -490,11 +502,11 @@ export default defineNuxtConfig({
     </tr>
      <tr>
         <td>时序图点系列</td>
-        <td><code>registerDotSeries</code></td>
+        <td><code>registerDotSeries</code>（<code>@visactor/vchart-extension</code>）</td>
     </tr>
     <tr>
         <td>时序图连线系列</td>
-        <td><code>registerLinkSeries</code></td>
+        <td><code>registerLinkSeries</code>（<code>@visactor/vchart-extension</code>）</td>
     </tr>
      <tr>
         <td>漏斗图系列</td>

@@ -143,6 +143,14 @@ test(
           assert.ok((await fs.readFile(path.join(dir, 'index.html'), 'utf8')).includes(expected));
           assert.ok((await fs.readFile(path.join(dir, 'agent-summary.md'), 'utf8')).includes(expected));
           await fs.access(path.join(dir, report.cases[0].source.frozenPath));
+          const custom = await saveReport(dir, {
+            ...summary(),
+            selection,
+            command: 'node custom-visual.mjs',
+            baseline: { repository: 'working-tree' }
+          });
+          assert.equal(custom.rerun, `node custom-visual.mjs --self-compare${flag ? ` ${flag}` : ''}`);
+          assert.equal(custom.cases[0].rerun, "node custom-visual.mjs --self-compare --case 'bar-stack'");
         }
         for (const override of [
           { selectedIds: ['unknown'] },

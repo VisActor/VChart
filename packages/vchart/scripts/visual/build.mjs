@@ -116,7 +116,15 @@ export async function publishCache(cache, key, bundle) {
   }
 }
 /** 基线缓存只取决于构建输入；报告修改不使缓存失效。 */
-export async function baselineBuild(root, runDir, sha, runtime, report, timed) {
+export async function baselineBuild(
+  root,
+  runDir,
+  sha,
+  runtime,
+  report,
+  timed,
+  { buildBundle = build, buildKey = '', outputDirectory = '.vchart-visual' } = {}
+) {
   const log = path.join(runDir, 'build.log');
   const key = digest(
     JSON.stringify({
@@ -127,10 +135,11 @@ export async function baselineBuild(root, runDir, sha, runtime, report, timed) {
       arch: process.arch,
       recipe: digest(await fs.readFile(fileURLToPath(import.meta.url))),
       buildEnv,
+      buildKey,
       tools: git(root, ['show', `${sha}:rush.json`])
     })
   );
-  const cache = path.join(root, '.vchart-visual/baseline-cache');
+  const cache = path.join(root, outputDirectory, 'baseline-cache');
   const cached = await readCache(cache, key);
   if (cached) {
     await fs.writeFile(path.join(runDir, 'baseline.js'), cached);
@@ -155,6 +164,6 @@ export async function baselineBuild(root, runDir, sha, runtime, report, timed) {
       env: { NODE_ENV: 'development' }
     })
   );
-  await timed('baselineCompileMs', () => build(worktree, path.join(runDir, 'baseline.js'), runtime, log));
+  await timed('baselineCompileMs', () => buildBundle(worktree, path.join(runDir, 'baseline.js'), runtime, log));
   await publishCache(cache, key, await fs.readFile(path.join(runDir, 'baseline.js')));
 }

@@ -9,8 +9,6 @@ import type { IPieSeriesTheme } from '../pie/interface';
 import type { IRoseSeriesTheme } from '../rose/interface';
 import type { IMapSeriesTheme } from '../map/interface';
 import type { ICircularProgressSeriesTheme } from '../progress/circular/interface';
-import type { ILinkSeriesTheme } from '../link/interface';
-import type { IDotSeriesTheme } from '../dot/interface';
 import type { IWordCloudSeriesTheme } from '../word-cloud/interface';
 import type { IFunnelSeriesTheme } from '../funnel/interface';
 import type { ILinearProgressSeriesTheme } from '../progress/linear/interface';
@@ -84,8 +82,6 @@ export interface ISeriesTheme {
   [SeriesTypeEnum.circularProgress]?: ICircularProgressSeriesTheme;
   [SeriesTypeForThemeEnum.circularProgress_stack]?: ICircularProgressSeriesTheme;
 
-  [SeriesTypeEnum.link]?: ILinkSeriesTheme;
-  [SeriesTypeEnum.dot]?: IDotSeriesTheme;
   [SeriesTypeEnum.wordCloud]?: IWordCloudSeriesTheme;
   [SeriesTypeEnum.funnel]?: IFunnelSeriesTheme;
   [SeriesTypeEnum.treemap]?: ITreemapSeriesTheme;

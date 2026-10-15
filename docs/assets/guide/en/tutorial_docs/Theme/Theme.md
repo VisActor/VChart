@@ -184,6 +184,8 @@ Contains 1 configuration:
 
   Its type `ISeriesTheme` is defined as:
 
+  The `dot` and `link` series themes have moved with their implementations to `@visactor/vchart-extension`. Import `IDotSeriesTheme` and `ILinkSeriesTheme` from that package; custom themes still use `series.dot` and `series.link`.
+
   ```typescript
   interface ISeriesTheme {
     [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -197,8 +199,6 @@ Contains 1 configuration:
     [SeriesTypeEnum.rose]?: IRoseSeriesTheme;
     [SeriesTypeEnum.map]?: IMapSeriesTheme;
     [SeriesTypeEnum.circularProgress]?: ICircularProgressSeriesTheme;
-    [SeriesTypeEnum.link]?: ILinkSeriesTheme;
-    [SeriesTypeEnum.dot]?: IDotSeriesTheme;
     [SeriesTypeEnum.wordCloud]?: IWordCloudSeriesTheme;
     [SeriesTypeEnum.wordCloud3d]?: IWordCloud3dSeriesTheme;
     [SeriesTypeEnum.funnel]?: IFunnelSeriesTheme;

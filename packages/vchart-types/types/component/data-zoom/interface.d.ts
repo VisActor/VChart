@@ -11,6 +11,8 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
     field?: string;
     axisId?: string;
     axisIndex?: number;
+    linkedAxisId?: string;
+    linkedAxisIndex?: number;
     regionIndex?: number | number[];
     start?: number;
     end?: number;

@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "将 dot、link 系列及其类型、注册方法迁移至 @visactor/vchart-extension，主包不再导出或自动注册这些系列。",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

@@ -156,10 +156,15 @@ export async function acquireLock(output, owner) {
   };
 }
 /** 编排一次完整对比；所有准备失败和清理失败尽可能进入统一报告。 */
-export async function runVisual(root, options) {
+export async function runVisual(root, options, configuration = {}) {
+  const {
+    suitePath = 'packages/vchart/__tests__/visual',
+    outputDirectory = '.vchart-visual',
+    buildBundle = build
+  } = configuration;
   const runtime = createRuntime();
   const detach = runtime.listenSignals();
-  const output = path.join(root, '.vchart-visual');
+  const output = path.join(root, outputDirectory);
   const runId = `${Date.now()}-${randomUUID().slice(0, 8)}`;
   const runDir = path.join(output, 'runs', runId);
   const report = {
@@ -168,6 +173,7 @@ export async function runVisual(root, options) {
     status: 'error',
     startedAt: new Date().toISOString(),
     request: options,
+    command: configuration.command,
     environment: { node: process.version, platform: process.platform, arch: process.arch },
     timings: {},
     cases: [],
@@ -196,7 +202,11 @@ export async function runVisual(root, options) {
     });
     releaseLock = await acquireLock(output, { runId, pid: process.pid, startedAt: report.startedAt, runDir });
     const suite = path.join(runDir, 'suite');
-    const source = path.join(root, 'packages/vchart/__tests__/visual');
+    const source = path.join(root, suitePath);
+    await fs.mkdir(suite, { recursive: true });
+    for (const file of ['settings.mjs', 'playwright.config.mjs', 'visual.spec.mjs', 'reporter.mjs', 'page.html']) {
+      await fs.copyFile(path.join(root, 'packages/vchart/__tests__/visual', file), path.join(suite, file));
+    }
     await fileManifest(source);
     await fs.cp(source, suite, { recursive: true });
     report.frozenFiles = await fileManifest(suite);
@@ -226,7 +236,7 @@ export async function runVisual(root, options) {
       purpose,
       sourceExample,
       source: {
-        path: `packages/vchart/__tests__/visual/cases/${file.slice(2)}`,
+        path: `${suitePath}/cases/${file.slice(2)}`,
         line: 1,
         frozenPath: `suite/cases/${file.slice(2)}`
       }
@@ -248,13 +258,13 @@ export async function runVisual(root, options) {
     };
     report.stage = 'localBuild';
     console.log('构建当前工作区…');
-    await timed('localBuildMs', () => build(root, path.join(runDir, 'current.js'), runtime, log));
+    await timed('localBuildMs', () => buildBundle(root, path.join(runDir, 'current.js'), runtime, log));
     const after = await workingTree(root);
     if (after.head !== report.local.head || after.digest !== report.local.digest)
       throw fault('WORKSPACE_CHANGED', '构建期间工作区或 HEAD 发生变化，请重跑');
     report.stage = 'baselineBuild';
     if (options['self-compare']) await fs.copyFile(path.join(runDir, 'current.js'), path.join(runDir, 'baseline.js'));
-    else await timed('baselineBuildMs', () => baselineBuild(root, runDir, sha, runtime, report, timed));
+    else await timed('baselineBuildMs', () => baselineBuild(root, runDir, sha, runtime, report, timed, configuration));
     report.bundles = {
       baseline: digest(await fs.readFile(path.join(runDir, 'baseline.js'))),
       current: digest(await fs.readFile(path.join(runDir, 'current.js')))

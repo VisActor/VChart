@@ -1,14 +1,13 @@
+import type { IDotSeriesSpec, ILinkSeriesSpec } from '@visactor/vchart-extension';
 import { BaseSeriesProps, createSeries } from './BaseSeries';
 import type {
   IBarSeriesSpec,
   IAreaSeriesSpec,
   IBoxPlotSeriesSpec,
   ICircularProgressSeriesSpec,
-  IDotSeriesSpec,
   IFunnelSeriesSpec,
   ILineSeriesSpec,
   ILinearProgressSeriesSpec,
-  ILinkSeriesSpec,
   IMapSeriesSpec,
   IPieSeriesSpec,
   IRadarSeriesSpec,

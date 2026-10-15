@@ -31,6 +31,7 @@ export * from './util/region';
 export * from './util/scale';
 // constant
 export * from './constant/data';
+export { SCROLL_BAR_DEFAULT_SIZE } from './constant/scroll-bar';
 
 // base component model for extension
 export * from './component/base';

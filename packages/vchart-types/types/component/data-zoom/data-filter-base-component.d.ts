@@ -30,6 +30,7 @@ export declare abstract class DataFilterBaseComponent<T extends IDataFilterCompo
     protected _regionIndex: number[];
     protected _newDomain: any[];
     protected _relatedAxisComponent: IComponent;
+    protected _linkedAxisComponent: IComponent;
     get relatedAxisComponent(): IComponent;
     protected _originalStateFields: Record<number, string | number>;
     protected _startValue: number | string;

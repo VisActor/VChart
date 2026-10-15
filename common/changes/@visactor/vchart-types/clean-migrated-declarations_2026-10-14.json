@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-types",
+      "comment": "重新生成当前主包声明，移除已迁至扩展包的时序图、dot/link 系列及其他历史遗留声明。",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart-types"
+}

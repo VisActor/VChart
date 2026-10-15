@@ -4,10 +4,8 @@ import type { IChartSpec } from '../../typings/spec/common';
 import type { IBarSeriesSpec } from '../../series/bar/interface';
 import type { IRangeColumnChartSpec } from '../range-column/interface';
 import type { IRangeAreaChartSpec } from '../range-area/interface';
-import type { IDotSeriesSpec } from '../../series/dot/interface';
 import type { IMapSeriesSpec } from '../../series/map/interface';
 import type { IPieSeriesSpec } from '../../series/pie/interface';
-import type { ILinkSeriesSpec } from '../../series/link/interface';
 import type { IRadarSeriesSpec } from '../../series/radar/interface';
 import type { IRoseSeriesSpec } from '../../series/rose/interface';
 import type { IScatterSeriesSpec } from '../../series/scatter/interface';
@@ -43,10 +41,8 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     | IBarSeriesSpec
     | IRangeColumnChartSpec
     | IRangeAreaChartSpec
-    | IDotSeriesSpec
     | IMapSeriesSpec
     | IPieSeriesSpec
-    | ILinkSeriesSpec
     | IRadarSeriesSpec
     | IRoseSeriesSpec
     | IScatterSeriesSpec

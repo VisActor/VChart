@@ -1,6 +1,8 @@
 import type React from 'react';
-import type { ISequenceChartSpec, IVChartConstructor } from '@visactor/vchart';
-import { VChart, registerSequenceChart } from '@visactor/vchart';
+import type { IVChartConstructor } from '@visactor/vchart';
+import type { ISequenceChartSpec } from '@visactor/vchart-extension';
+import { registerSequenceChart } from '@visactor/vchart-extension';
+import { VChart } from '@visactor/vchart';
 import { registers } from './registers/cartesian';
 import type { BaseChartProps } from './BaseChart';
 import { createChart } from './BaseChart';

@@ -2,7 +2,6 @@ import { DataSet, DataView } from '@visactor/vdataset';
 import { BandScale, LinearScale, type IBandLikeScale } from '@visactor/vscale';
 import { DataZoom } from '../../../../src/component/data-zoom/data-zoom/data-zoom';
 import { dataFilterWithNewDomain } from '../../../../src/component/data-zoom/util';
-import { linkDotInfo } from '../../../../src/data/transforms/link-dot-info';
 
 describe('sequence analysis DataZoom', () => {
   it('keeps nested dot domains and link filter fields without summing numeric-looking user IDs', () => {
@@ -100,17 +99,12 @@ describe('sequence analysis DataZoom', () => {
     ['from', 'y'],
     ['source', 'y']
   ])('filters links with fromField = %s on the %s axis', (fromField, dimension) => {
-    const links = ['a', 'b', 'c'].map(node => ({ [fromField]: node, target: 'c' }));
-    const data = linkDotInfo([], {
-      infoKey: 'dots',
-      fields: () => ({ fromField, toField: 'target', xField: 'time', yField: 'user' }),
-      linkData: () => links,
-      dotData: () => [
-        { user: 20, dots: [{ node_name: 'a', time: 10 }] },
-        { user: 50, dots: [{ node_name: 'b', time: 30 }] },
-        { user: 30, dots: [{ node_name: 'c', time: 50 }] }
-      ]
-    });
+    // 主包只消费系列提供的字段；扩展包负责验证原始连线到这些字段的转换及图表过滤。
+    const data = [
+      { [fromField]: 'a', [`${fromField}_xField`]: 10, [`${fromField}_yField`]: 20 },
+      { [fromField]: 'b', [`${fromField}_xField`]: 30, [`${fromField}_yField`]: 50 },
+      { [fromField]: 'c', [`${fromField}_xField`]: 50, [`${fromField}_yField`]: 30 }
+    ];
     const series = {
       id: 1,
       type: 'link',

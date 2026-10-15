@@ -10,8 +10,12 @@ option: sequenceChart
 
 # NBA 运动员时序图
 
+`dot`、`link` 系列也已整体移至 `@visactor/vchart-extension`，主包不再导出或自动注册 `DotSeries`、`LinkSeries`、`registerDotSeries`、`registerLinkSeries`，对应的 `IDotSeriesSpec`、`ILinkSeriesSpec` 类型也从扩展包导入。`registerSequenceChart({ VChart })` 和 `registerSequenceAnalysis({ VChart })` 会注册各自需要的系列；在 `common` 图表中单独使用时，需要从扩展包导入并调用 `registerDotSeries()`、`registerLinkSeries()`。
+
 NBA 运动员时序图跟踪每个运动员的运球时间. 用户可以快速了解比赛时间、教练所做的改变以及参赛阵容.
 该用例仅配置 dot 或 link 系列, 而不包柱系列. 如果需要展示纯粹的时序数据, 可以参考该用例.
+
+时序图由 `@visactor/vchart-extension` 提供。先安装与 VChart 版本一致的扩展包，并在创建图表前调用 `registerSequenceChart({ VChart })`。原有 `type: 'sequence'` 和 series 配置保持不变。
 
 ## 关键配置
 
@@ -47,6 +51,11 @@ link 系列（link series）的数据依赖于事件（event series）系列
 ## 代码演示
 
 ```javascript livedemo
+// import VChart from '@visactor/vchart';
+// import { registerSequenceChart } from '@visactor/vchart-extension';
+// registerSequenceChart({ VChart });
+VChartExtension.registerSequenceChart({ VChart });
+
 const spec = {
   type: 'sequence',
   color: ['#64b5fc', '#ff8f62'],

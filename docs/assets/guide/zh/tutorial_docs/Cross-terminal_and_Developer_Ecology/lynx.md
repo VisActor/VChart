@@ -212,7 +212,7 @@ Card({
 | `<RangeColumnChart/>`      | 直角坐标系图表 | `registerLabel`                       |
 | `<RangeColumn3dChart/>`    | 直角坐标系图表 | `registerLabel`                       |
 | `<ScatterChart/>`          | 直角坐标系图表 | `registerLabel`                       |
-| `<SequenceChart/>`         | 直角坐标系图表 | `registerLabel`                       |
+| `<SequenceChart/>`         | 扩展图表 | `registerLabel`                       |
 | `<WaterfallChart/>`        | 直角坐标系图表 | `registerLabel`, `registerTotalLabel` |
 | `<RadarChart/>`            | 极坐标系图表   | `registerLabel`                       |
 | `<RoseChart/>`             | 极坐标系图表   | `registerLabel`                       |
@@ -231,6 +231,8 @@ Card({
 | `<WordCloud3dChart/>`      | 通用图表       | 无                                    |
 | `<WordCloudChart/>`        | 通用图表       | 无                                    |
 | `<LiquidChart/>`           | 通用图表       | `registerIndicator`                   |
+
+`SequenceChart` 由组件内部调用扩展包的 `registerSequenceChart` 注册，组件用法不变；直接使用 VChart 核心包时需自行从 `@visactor/vchart-extension` 导入并注册。
 
 其中，直角坐标系图表默认注册组件如下：
 

@@ -12,7 +12,6 @@ export declare const enum ChartTypeEnum {
     radar = "radar",
     rose = "rose",
     scatter = "scatter",
-    sequence = "sequence",
     circularProgress = "circularProgress",
     linearProgress = "linearProgress",
     wordCloud = "wordCloud",

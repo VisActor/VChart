@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "fix: SequenceChart 使用扩展包注册和类型",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}

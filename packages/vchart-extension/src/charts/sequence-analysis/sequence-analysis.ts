@@ -1,3 +1,5 @@
+import { registerDotSeries } from '../../series/dot';
+import { registerLinkSeries } from '../../series/link';
 import type { ISequenceAnalysisSpec } from './interface';
 import { VChart, BaseChart, CommonChart } from '@visactor/vchart';
 import { SequenceAnalysisChartSpecTransformer } from './sequence-analysis-transformer';
@@ -34,6 +36,8 @@ export class SequenceAnalysis extends BaseChart<Omit<ISequenceAnalysisSpec, 'dat
 }
 
 export const registerSequenceAnalysis = (option?: { VChart?: typeof VChart }) => {
+  registerDotSeries();
+  registerLinkSeries();
   const vchartConstructor = option?.VChart || VChart;
   if (vchartConstructor) {
     vchartConstructor.useChart([SequenceAnalysis, CommonChart]);
