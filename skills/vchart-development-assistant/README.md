@@ -60,23 +60,6 @@ spec 临时渲染页是验收材料，不会取代最终配置。JSON 不能承�
 
 排错优先提供原配置、错误和实际效果；现有 React 问题继续处理组件/hooks/API，不能只替换 spec 后忽略组件问题。
 
-## 知识库维护
-
-`references/metadata-sources.json` 登记核心/扩展类型的真实源码入口及人工详情目标。元数据记录来源版本、输入内容指纹和相关源码提交；复杂依赖通过 `reference` 查询。补充声明按实际符号生成，既有人工详情不会自动覆盖。六个已有 3D 图型及 pictogram 依赖扩展注册，注册前提不是 spec 字段。
-
-在仓库已安装依赖、Node.js 22 环境执行：
-
-```sh
-node packages/vchart/scripts/skill-metadata.mjs audit --report /tmp/vchart-metadata-audit.json
-node packages/vchart/scripts/skill-metadata.mjs generate --output /tmp/vchart-metadata-generated
-# 审查临时输出后再更新已提交产物
-node packages/vchart/scripts/skill-metadata.mjs generate --write
-node packages/vchart/scripts/skill-metadata.mjs check
-node --test packages/vchart/scripts/skill-metadata.test.mjs
-```
-
-`audit/check` 只读，差异使退出码非零；`check` 不因当前时间或无关文档提交产生漂移。生成只更新 type-meta 和补充声明；topkey 与人工详情按源码依据维护，audit 检查作用域及导航。这些是维护检查，不是用户生成配置时的 schema 或编译要求。
-
 ## 参考
 
 - [共享生成流程](workflows/scenario-2-generation.md)、[HTML 流程](workflows/scenario-2-html-generation.md)、[spec 流程](workflows/scenario-2-spec-generation.md)

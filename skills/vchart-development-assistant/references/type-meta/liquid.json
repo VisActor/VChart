@@ -1,907 +1,13 @@
 {
   "typeName": "ILiquidChartSpec",
-  "description": "ILiquidChartSpec 公开配置类型",
-  "inheritanceTree": {
-    "ILiquidChartSpec": {
-      "description": "ILiquidChartSpec 的真实类型声明",
-      "directExtends": [
-        "ICartesianChartSpec",
-        "IChartExtendsSeriesSpec<ILiquidSeriesSpec>"
-      ],
-      "ownProperties": [
-        {
-          "name": "series",
-          "description": "系列配置",
-          "type": "ILiquidSeriesSpec[] | undefined",
-          "originalType": "ILiquidSeriesSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILiquidSeriesSpec"
-          ],
-          "source": "packages/vchart/src/chart/liquid/interface.ts",
-          "inheritedFrom": "ILiquidChartSpec"
-        },
-        {
-          "name": "type",
-          "description": "图表类型",
-          "type": "\"liquid\"",
-          "originalType": "'liquid'",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/chart/liquid/interface.ts",
-          "inheritedFrom": "ILiquidChartSpec",
-          "literalValues": [
-            "liquid"
-          ]
-        }
-      ]
-    },
-    "ICartesianChartSpec": {
-      "description": "ICartesianChartSpec 的真实类型声明",
-      "directExtends": [
-        "IChartSpec"
-      ],
-      "ownProperties": [
-        {
-          "name": "axes",
-          "description": "笛卡尔坐标系的坐标轴配置",
-          "type": "ICartesianAxisSpec[] | undefined",
-          "originalType": "ICartesianAxisSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICartesianAxisSpec"
-          ],
-          "source": "packages/vchart/src/chart/cartesian/interface.ts",
-          "inheritedFrom": "ICartesianChartSpec"
-        },
-        {
-          "name": "crosshair",
-          "description": "十字辅助线配置",
-          "type": "ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | undefined",
-          "originalType": "ICartesianCrosshairSpec | ICartesianCrosshairSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICartesianCrosshairSpec"
-          ],
-          "source": "packages/vchart/src/chart/cartesian/interface.ts",
-          "inheritedFrom": "ICartesianChartSpec"
-        },
-        {
-          "name": "direction",
-          "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。",
-          "type": "\"horizontal\" | \"vertical\" | undefined",
-          "originalType": "DirectionType",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/chart/cartesian/interface.ts",
-          "inheritedFrom": "ICartesianChartSpec",
-          "literalValues": [
-            "horizontal",
-            "vertical"
-          ]
-        },
-        {
-          "name": "markArea",
-          "description": "参考区域配置",
-          "type": "IMarkAreaSpec | IMarkAreaSpec[] | undefined",
-          "originalType": "IMarkAreaSpec | IMarkAreaSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "BaseMarkerAnimation",
-            "IComponentSpec",
-            "IMarkAreaAngleRadiusSpec",
-            "IMarkAreaAngleSpec",
-            "IMarkAreaCoordinateSpec",
-            "IMarkAreaRadiusSpec",
-            "IMarkAreaSpec",
-            "IMarkAreaTheme",
-            "IMarkAreaXSpec",
-            "IMarkAreaXYSpec",
-            "IMarkAreaYSpec",
-            "IMarkerPositionsSpec"
-          ],
-          "source": "packages/vchart/src/chart/cartesian/interface.ts",
-          "inheritedFrom": "ICartesianChartSpec"
-        },
-        {
-          "name": "markLine",
-          "description": "参考线配置",
-          "type": "IMarkLineSpec | IMarkLineSpec[] | undefined",
-          "originalType": "IMarkLineSpec | IMarkLineSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "BaseMarkerAnimation",
-            "IComponentSpec",
-            "IMarkerPositionsSpec",
-            "IMarkLineAngleSpec",
-            "IMarkLineAngRadRad1Spec",
-            "IMarkLineAngRadSpec",
-            "IMarkLineCoordinateSpec",
-            "IMarkLineRadAngAng1Spec",
-            "IMarkLineRadiusSpec",
-            "IMarkLineSpec",
-            "IMarkLineTheme",
-            "IMarkLineXSpec",
-            "IMarkLineXYSpec",
-            "IMarkLineXYY1Spec",
-            "IMarkLineYSpec",
-            "IMarkLineYXX1Spec",
-            "MarkCommonLineAnimationType"
-          ],
-          "source": "packages/vchart/src/chart/cartesian/interface.ts",
-          "inheritedFrom": "ICartesianChartSpec"
-        },
-        {
-          "name": "markPoint",
-          "description": "参考点配置",
-          "type": "IMarkPointSpec | IMarkPointSpec[] | undefined",
-          "originalType": "IMarkPointSpec | IMarkPointSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "BaseMarkerAnimation",
-            "IComponentSpec",
-            "IMarkerSymbol",
-            "IMarkPointAngleRadiusSpec",
-            "IMarkPointCoordinateSpec",
-            "IMarkPointGeoNameSpec",
-            "IMarkPointPositionsSpec",
-            "IMarkPointSpec",
-            "IMarkPointTheme",
-            "IMarkPointXYSpec",
-            "MarkPointAnimationType"
-          ],
-          "source": "packages/vchart/src/chart/cartesian/interface.ts",
-          "inheritedFrom": "ICartesianChartSpec"
-        }
-      ]
-    },
-    "IChartSpec": {
-      "description": "IChartSpec 的真实类型声明",
-      "directExtends": [],
-      "ownProperties": [
-        {
-          "name": "animationThreshold",
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "since": "1.2.0"
-        },
-        {
-          "name": "autoFit",
-          "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "axes",
-          "description": "轴",
-          "type": "ICommonAxisSpec[] | undefined",
-          "originalType": "ICommonAxisSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICommonAxisSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "background",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
-          "type": "IBackgroundSpec | undefined",
-          "originalType": "IBackgroundSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ConvertToMarkStyleSpec",
-            "IBackgroundSpec",
-            "IConicalGradient",
-            "IGroupMarkSpec",
-            "ILinearGradient",
-            "IRadialGradient"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "brush",
-          "description": "框选配置",
-          "type": "IBrushSpec | undefined",
-          "originalType": "IBrushSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBrushSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "color",
-          "description": "图表色系配置",
-          "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
-          "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "crosshair",
-          "description": "十字辅助线配置",
-          "type": "ICrosshairSpec | ICrosshairSpec[] | undefined",
-          "originalType": "ICrosshairSpec | ICrosshairSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICartesianCrosshairSpec",
-            "ICrosshairSpec",
-            "IPolarCrosshairSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "customMark",
-          "description": "自定义mark",
-          "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
-          "originalType": "ICustomMarkSpec<EnableMarkType>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "EnableMarkType",
-            "ICustomMarkSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "data",
-          "description": "数据",
-          "type": "IData | undefined",
-          "originalType": "IData",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "DataView",
-            "IData",
-            "IDataType",
-            "IDataValues"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "dataZoom",
-          "description": "缩略轴配置",
-          "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
-          "originalType": "IDataZoomSpec | IDataZoomSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IDataZoomSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "height",
-          "description": "画布高度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "hover",
-          "description": "hover 交互",
-          "type": "boolean | IHoverSpec | undefined",
-          "originalType": "boolean | IHoverSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IHoverSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "layout",
-          "description": "布局配置",
-          "type": "ILayoutSpec | undefined",
-          "originalType": "ILayoutSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBaseLayoutSpec",
-            "IGridLayoutSpec",
-            "ILayoutSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "legends",
-          "description": "图例配置",
-          "type": "ILegendSpec | ILegendSpec[] | undefined",
-          "originalType": "ILegendSpec | ILegendSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IColorLegendSpec",
-            "IDiscreteLegendSpec",
-            "ILegendSpec",
-            "ISizeLegendSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "media",
-          "description": "媒体查询配置",
-          "type": "IMediaQuerySpec | undefined",
-          "originalType": "IMediaQuerySpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMediaQuerySpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "since": "1.8.0"
-        },
-        {
-          "name": "padding",
-          "description": "图表整体 padding 设置",
-          "type": "ILayoutPaddingSpec | undefined",
-          "originalType": "ILayoutPaddingSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILayoutNumber",
-            "ILayoutOrientPadding",
-            "ILayoutPaddingSpec",
-            "IPercentOffset"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "player",
-          "description": "播放器配置",
-          "type": "IPlayer | undefined",
-          "originalType": "IPlayer",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IPlayer"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "region",
-          "description": "region配置",
-          "type": "RegionSpec[] | undefined",
-          "originalType": "RegionSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "RegionSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "scales",
-          "description": "全局 scale 配置",
-          "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
-          "originalType": "IVisualSpecScale<unknown, unknown>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "scrollBar",
-          "description": "滚动条配置",
-          "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
-          "originalType": "IScrollBarSpec | IScrollBarSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IScrollBarSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "select",
-          "description": "select 交互",
-          "type": "boolean | ISelectSpec | undefined",
-          "originalType": "boolean | ISelectSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISelectSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "series",
-          "description": "系列",
-          "type": "ISeriesSpec[] | undefined",
-          "originalType": "ISeriesSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "seriesStyle",
-          "description": "系列样式",
-          "type": "ISeriesStyle | undefined",
-          "originalType": "ISeriesStyle",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesStyle"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "stackInverse",
-          "description": "堆积时是否逆序",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "defaultValue": "false",
-          "since": "1.4.0"
-        },
-        {
-          "name": "stackSort",
-          "description": "堆积时是否排序",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "defaultValue": "false",
-          "since": "1.10.4"
-        },
-        {
-          "name": "theme",
-          "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
-          "type": "Omit<ITheme, \"name\"> | string | undefined",
-          "originalType": "Omit<ITheme, 'name'> | string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITheme"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "title",
-          "description": "图表标题配置",
-          "type": "ITitleSpec | undefined",
-          "originalType": "ITitleSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITitleSpec",
-            "ITitleSpecWithoutText"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "tooltip",
-          "description": "tooltip配置",
-          "type": "ITooltipSpec | undefined",
-          "originalType": "ITooltipSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITooltipSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "type",
-          "description": "图表类型",
-          "type": "string",
-          "originalType": "string",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "width",
-          "description": "画布宽度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        }
-      ]
-    },
-    "IChartExtendsSeriesSpec<ILiquidSeriesSpec>": {
-      "description": "IChartExtendsSeriesSpec<ILiquidSeriesSpec> 的真实类型声明",
-      "directExtends": [],
-      "ownProperties": [
-        {
-          "name": "animationAppear",
-          "description": "图表入场动画\n支持配置图表内置不同动画效果",
-          "type": "boolean | IStateAnimateSpec<LiquidAppearPreset> | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | IStateAnimateSpec<Preset> | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "IMarkAnimateSpec",
-            "IStateAnimateSpec",
-            "LiquidAppearPreset",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationDisappear",
-          "description": "图表退场动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationEnter",
-          "description": "数据更新 - 新增数据动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationExit",
-          "description": "数据更新 - 数据删除动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationNormal",
-          "description": "循环动画",
-          "type": "Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationState",
-          "description": "状态切换动画",
-          "type": "boolean | IStateAnimationConfig | undefined",
-          "originalType": "boolean | IStateAnimationConfig",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IStateAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec",
-          "since": "1.12.0"
-        },
-        {
-          "name": "animationUpdate",
-          "description": "数据更新 - 数据更新动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "indicatorSmartInvert",
-          "description": "是否开启指标智能反色",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec",
-          "defaultValue": "false"
-        },
-        {
-          "name": "liquid",
-          "description": "水波图元配置",
-          "type": "IMarkSpec<ILiquidMarkSpec> | undefined",
-          "originalType": "IMarkSpec<ILiquidMarkSpec>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILiquidMarkSpec",
-            "IMarkSpec"
-          ],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec"
-        },
-        {
-          "name": "liquidBackground",
-          "description": "水波背景图元配置",
-          "type": "IMarkSpec<IGroupMarkSpec> | undefined",
-          "originalType": "IMarkSpec<IGroupMarkSpec>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IGroupMarkSpec",
-            "IMarkSpec"
-          ],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec"
-        },
-        {
-          "name": "liquidOutline",
-          "description": "水波外轮廓配置",
-          "type": "IMarkSpec<ISymbolMark> | undefined",
-          "originalType": "IMarkSpec<ISymbolMark>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMarkSpec",
-            "ISymbolMark"
-          ],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec"
-        },
-        {
-          "name": "maskShape",
-          "description": "轮廓形状",
-          "type": "string | undefined",
-          "originalType": "LiquidShapeType",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec",
-          "defaultValue": "'circle'"
-        },
-        {
-          "name": "outlineMargin",
-          "description": "外轮廓与region边界之间的padding",
-          "type": "ILiquidPaddingSpec | undefined",
-          "originalType": "ILiquidPaddingSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILiquidPadding",
-            "ILiquidPaddingSpec"
-          ],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec"
-        },
-        {
-          "name": "outlinePadding",
-          "description": "内轮廓与外轮廓之间的padding",
-          "type": "ILiquidPaddingSpec | undefined",
-          "originalType": "ILiquidPaddingSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILiquidPadding",
-            "ILiquidPaddingSpec"
-          ],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec"
-        },
-        {
-          "name": "reverse",
-          "description": "是否反向绘制",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec",
-          "defaultValue": "false",
-          "since": "1.11.10"
-        },
-        {
-          "name": "type",
-          "description": "系列类型",
-          "type": "\"liquid\"",
-          "originalType": "'liquid'",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec",
-          "literalValues": [
-            "liquid"
-          ]
-        },
-        {
-          "name": "valueField",
-          "description": "value字段",
-          "type": "string | undefined",
-          "originalType": "string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/liquid/interface.ts",
-          "inheritedFrom": "ILiquidSeriesSpec"
-        }
-      ],
-      "resolvedMapping": true
-    }
-  },
+  "formatVersion": 3,
+  "vchartVersion": "2.1.7",
   "effectiveProperties": [
     {
       "name": "animationAppear",
       "description": "图表入场动画\n支持配置图表内置不同动画效果",
       "type": "boolean | IStateAnimateSpec<LiquidAppearPreset> | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | IStateAnimateSpec<Preset> | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -912,17 +18,13 @@
         "IStateAnimateSpec",
         "LiquidAppearPreset",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationDisappear",
       "description": "图表退场动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -932,17 +34,13 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationEnter",
       "description": "数据更新 - 新增数据动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -952,17 +50,13 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationExit",
       "description": "数据更新 - 数据删除动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -972,17 +66,13 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationNormal",
       "description": "循环动画",
       "type": "Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -991,45 +81,33 @@
         "IAnimationTimeline",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationState",
       "description": "状态切换动画",
       "type": "boolean | IStateAnimationConfig | undefined",
-      "originalType": "boolean | IStateAnimationConfig",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IStateAnimationConfig"
       ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec",
       "since": "1.12.0"
     },
     {
       "name": "animationThreshold",
       "description": "自动关闭动画的阀值，对应的是单系列data的长度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "since": "1.2.0"
     },
     {
       "name": "animationUpdate",
       "description": "数据更新 - 数据更新动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"liquid\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -1039,43 +117,31 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "autoFit",
       "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      "dependencies": []
     },
     {
       "name": "axes",
       "description": "笛卡尔坐标系的坐标轴配置",
       "type": "ICartesianAxisSpec[] | undefined",
-      "originalType": "ICartesianAxisSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ICartesianAxisSpec"
-      ],
-      "source": "packages/vchart/src/chart/cartesian/interface.ts",
-      "inheritedFrom": "ICartesianChartSpec"
+      ]
     },
     {
       "name": "background",
       "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
       "type": "IBackgroundSpec | undefined",
-      "originalType": "IBackgroundSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ConvertToMarkStyleSpec",
@@ -1084,109 +150,79 @@
         "IGroupMarkSpec",
         "ILinearGradient",
         "IRadialGradient"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "brush",
       "description": "框选配置",
       "type": "IBrushSpec | undefined",
-      "originalType": "IBrushSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IBrushSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "color",
       "description": "图表色系配置",
       "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
-      "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IVisualSpecScale"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "crosshair",
       "description": "十字辅助线配置",
       "type": "ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | undefined",
-      "originalType": "ICartesianCrosshairSpec | ICartesianCrosshairSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ICartesianCrosshairSpec"
-      ],
-      "source": "packages/vchart/src/chart/cartesian/interface.ts",
-      "inheritedFrom": "ICartesianChartSpec"
+      ]
     },
     {
       "name": "customMark",
       "description": "自定义mark",
       "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
-      "originalType": "ICustomMarkSpec<EnableMarkType>[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "EnableMarkType",
         "ICustomMarkSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "data",
       "description": "数据",
       "type": "IData | undefined",
-      "originalType": "IData",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "DataView",
         "IData",
         "IDataType",
         "IDataValues"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "dataZoom",
       "description": "缩略轴配置",
       "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
-      "originalType": "IDataZoomSpec | IDataZoomSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IDataZoomSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "direction",
       "description": "图表的方向配置。\n- 'vertical' 垂直布局，即常见的直角坐标系布局，x 轴位于底部，y 轴位于左侧。\n- 'horizontal' 水平布局，可理解为 x 轴和 y 轴位置互换。",
       "type": "\"horizontal\" | \"vertical\" | undefined",
-      "originalType": "DirectionType",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/chart/cartesian/interface.ts",
-      "inheritedFrom": "ICartesianChartSpec",
       "literalValues": [
         "horizontal",
         "vertical"
@@ -1196,126 +232,92 @@
       "name": "height",
       "description": "画布高度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      "dependencies": []
     },
     {
       "name": "hover",
       "description": "hover 交互",
       "type": "boolean | IHoverSpec | undefined",
-      "originalType": "boolean | IHoverSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IHoverSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "indicatorSmartInvert",
       "description": "是否开启指标智能反色",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec",
       "defaultValue": "false"
     },
     {
       "name": "layout",
       "description": "布局配置",
       "type": "ILayoutSpec | undefined",
-      "originalType": "ILayoutSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IBaseLayoutSpec",
         "IGridLayoutSpec",
         "ILayoutSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "legends",
       "description": "图例配置",
       "type": "ILegendSpec | ILegendSpec[] | undefined",
-      "originalType": "ILegendSpec | ILegendSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IColorLegendSpec",
         "IDiscreteLegendSpec",
         "ILegendSpec",
         "ISizeLegendSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "liquid",
       "description": "水波图元配置",
       "type": "IMarkSpec<ILiquidMarkSpec> | undefined",
-      "originalType": "IMarkSpec<ILiquidMarkSpec>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ILiquidMarkSpec",
         "IMarkSpec"
-      ],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec"
+      ]
     },
     {
       "name": "liquidBackground",
       "description": "水波背景图元配置",
       "type": "IMarkSpec<IGroupMarkSpec> | undefined",
-      "originalType": "IMarkSpec<IGroupMarkSpec>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IGroupMarkSpec",
         "IMarkSpec"
-      ],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec"
+      ]
     },
     {
       "name": "liquidOutline",
       "description": "水波外轮廓配置",
       "type": "IMarkSpec<ISymbolMark> | undefined",
-      "originalType": "IMarkSpec<ISymbolMark>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IMarkSpec",
         "ISymbolMark"
-      ],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec"
+      ]
     },
     {
       "name": "markArea",
       "description": "参考区域配置",
       "type": "IMarkAreaSpec | IMarkAreaSpec[] | undefined",
-      "originalType": "IMarkAreaSpec | IMarkAreaSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "BaseMarkerAnimation",
@@ -1330,17 +332,13 @@
         "IMarkAreaXYSpec",
         "IMarkAreaYSpec",
         "IMarkerPositionsSpec"
-      ],
-      "source": "packages/vchart/src/chart/cartesian/interface.ts",
-      "inheritedFrom": "ICartesianChartSpec"
+      ]
     },
     {
       "name": "markLine",
       "description": "参考线配置",
       "type": "IMarkLineSpec | IMarkLineSpec[] | undefined",
-      "originalType": "IMarkLineSpec | IMarkLineSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "BaseMarkerAnimation",
@@ -1360,17 +358,13 @@
         "IMarkLineYSpec",
         "IMarkLineYXX1Spec",
         "MarkCommonLineAnimationType"
-      ],
-      "source": "packages/vchart/src/chart/cartesian/interface.ts",
-      "inheritedFrom": "ICartesianChartSpec"
+      ]
     },
     {
       "name": "markPoint",
       "description": "参考点配置",
       "type": "IMarkPointSpec | IMarkPointSpec[] | undefined",
-      "originalType": "IMarkPointSpec | IMarkPointSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "BaseMarkerAnimation",
@@ -1384,124 +378,90 @@
         "IMarkPointTheme",
         "IMarkPointXYSpec",
         "MarkPointAnimationType"
-      ],
-      "source": "packages/vchart/src/chart/cartesian/interface.ts",
-      "inheritedFrom": "ICartesianChartSpec"
+      ]
     },
     {
       "name": "maskShape",
       "description": "轮廓形状",
       "type": "string | undefined",
-      "originalType": "LiquidShapeType",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec",
       "defaultValue": "'circle'"
     },
     {
       "name": "media",
       "description": "媒体查询配置",
       "type": "IMediaQuerySpec | undefined",
-      "originalType": "IMediaQuerySpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IMediaQuerySpec"
       ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "since": "1.8.0"
     },
     {
       "name": "outlineMargin",
       "description": "外轮廓与region边界之间的padding",
       "type": "ILiquidPaddingSpec | undefined",
-      "originalType": "ILiquidPaddingSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ILiquidPadding",
         "ILiquidPaddingSpec"
-      ],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec"
+      ]
     },
     {
       "name": "outlinePadding",
       "description": "内轮廓与外轮廓之间的padding",
       "type": "ILiquidPaddingSpec | undefined",
-      "originalType": "ILiquidPaddingSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ILiquidPadding",
         "ILiquidPaddingSpec"
-      ],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec"
+      ]
     },
     {
       "name": "padding",
       "description": "图表整体 padding 设置",
       "type": "ILayoutPaddingSpec | undefined",
-      "originalType": "ILayoutPaddingSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ILayoutNumber",
         "ILayoutOrientPadding",
         "ILayoutPaddingSpec",
         "IPercentOffset"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "player",
       "description": "播放器配置",
       "type": "IPlayer | undefined",
-      "originalType": "IPlayer",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IPlayer"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "region",
       "description": "region配置",
       "type": "RegionSpec[] | undefined",
-      "originalType": "RegionSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "RegionSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "reverse",
       "description": "是否反向绘制",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec",
       "defaultValue": "false",
       "since": "1.11.10"
     },
@@ -1509,83 +469,59 @@
       "name": "scales",
       "description": "全局 scale 配置",
       "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
-      "originalType": "IVisualSpecScale<unknown, unknown>[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IVisualSpecScale"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "scrollBar",
       "description": "滚动条配置",
       "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
-      "originalType": "IScrollBarSpec | IScrollBarSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IScrollBarSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "select",
       "description": "select 交互",
       "type": "boolean | ISelectSpec | undefined",
-      "originalType": "boolean | ISelectSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ISelectSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "series",
       "description": "系列配置",
       "type": "ILiquidSeriesSpec[] | undefined",
-      "originalType": "ILiquidSeriesSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ILiquidSeriesSpec"
-      ],
-      "source": "packages/vchart/src/chart/liquid/interface.ts",
-      "inheritedFrom": "ILiquidChartSpec"
+      ]
     },
     {
       "name": "seriesStyle",
       "description": "系列样式",
       "type": "ISeriesStyle | undefined",
-      "originalType": "ISeriesStyle",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ISeriesStyle"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "stackInverse",
       "description": "堆积时是否逆序",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "defaultValue": "false",
       "since": "1.4.0"
     },
@@ -1593,13 +529,9 @@
       "name": "stackSort",
       "description": "堆积时是否排序",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "defaultValue": "false",
       "since": "1.10.4"
     },
@@ -1607,56 +539,40 @@
       "name": "theme",
       "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
       "type": "Omit<ITheme, \"name\"> | string | undefined",
-      "originalType": "Omit<ITheme, 'name'> | string",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ITheme"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "title",
       "description": "图表标题配置",
       "type": "ITitleSpec | undefined",
-      "originalType": "ITitleSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ITitleSpec",
         "ITitleSpecWithoutText"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "tooltip",
       "description": "tooltip配置",
       "type": "ITooltipSpec | undefined",
-      "originalType": "ITooltipSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ITooltipSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "type",
       "description": "图表类型",
       "type": "\"liquid\"",
-      "originalType": "'liquid'",
       "required": true,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/chart/liquid/interface.ts",
-      "inheritedFrom": "ILiquidChartSpec",
       "literalValues": [
         "liquid"
       ]
@@ -1665,524 +581,409 @@
       "name": "valueField",
       "description": "value字段",
       "type": "string | undefined",
-      "originalType": "string",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/liquid/interface.ts",
-      "inheritedFrom": "ILiquidSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "width",
       "description": "画布宽度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      "dependencies": []
     }
   ],
-  "formatVersion": 2,
-  "version": "2.0.0",
-  "vchartVersion": "2.1.7",
-  "typescriptVersion": "4.9.5",
-  "sourceFile": "packages/vchart/src/chart/liquid/interface.ts",
-  "sourceHash": "48177d7c490f14bd5a09f54e7899fbd338ad6914955d3b836e30703e0f9eaa24",
-  "sourceRevision": "704033074a29a77ac90ed7c045d4b108af36ef05",
   "complexTypeDefinitions": {
     "BaseMarkerAnimation": {
       "typeName": "BaseMarkerAnimation",
-      "filePath": "@visactor/vrender-components/es/marker/type.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c807eb5fd121",
       "package": "@visactor/vrender-components",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "ChannelAnimationConfig": {
       "typeName": "ChannelAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5d8412d98274"
     },
     "CommonAnimationConfigItem": {
       "typeName": "CommonAnimationConfigItem",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a27ba00f90e2"
     },
     "ConvertToMarkStyleSpec": {
       "typeName": "ConvertToMarkStyleSpec",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3f4d44a2bad5"
     },
     "DataView": {
       "typeName": "DataView",
-      "filePath": "@visactor/vdataset/es/data-view.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b26ccd36d8e8",
       "package": "@visactor/vdataset",
-      "version": "1.0.27"
+      "version": "1.0.28"
     },
     "EnableMarkType": {
       "typeName": "EnableMarkType",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1fa7d0f6abc4"
     },
     "IAnimationConfig": {
       "typeName": "IAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/IAnimationConfig-Type-Definition.md"
     },
     "IAnimationTimeline": {
       "typeName": "IAnimationTimeline",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f36951a20ee2"
     },
     "IBackgroundSpec": {
       "typeName": "IBackgroundSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IBackgroundSpec-Type-Definition.md"
     },
     "IBaseLayoutSpec": {
       "typeName": "IBaseLayoutSpec",
-      "filePath": "packages/vchart/src/layout/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5de1760225a6"
     },
     "IBrushSpec": {
       "typeName": "IBrushSpec",
-      "filePath": "packages/vchart/src/component/brush/interface.ts",
       "reference": "type-details/IBrushSpec-Type-Definition.md"
     },
     "ICartesianAxisSpec": {
       "typeName": "ICartesianAxisSpec",
-      "filePath": "packages/vchart/src/component/axis/cartesian/interface/spec.ts",
       "reference": "type-details/ICartesianAxisSpec-Type-Definition.md"
     },
     "ICartesianCrosshairSpec": {
       "typeName": "ICartesianCrosshairSpec",
-      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
       "reference": "type-details/ICartesianCrosshairSpec-Type-Definition.md"
     },
     "IColorLegendSpec": {
       "typeName": "IColorLegendSpec",
-      "filePath": "packages/vchart/src/component/legend/continuous/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8565dc89d142"
     },
     "ICommonAxisSpec": {
       "typeName": "ICommonAxisSpec",
-      "filePath": "packages/vchart/src/component/axis/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-500cf18886a4"
     },
     "ICommonStateAnimateSpec": {
       "typeName": "ICommonStateAnimateSpec",
-      "filePath": "packages/vchart/src/animation/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-874c3b173f64"
     },
     "IComponentSpec": {
       "typeName": "IComponentSpec",
-      "filePath": "packages/vchart/src/component/base/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d23c51c12154"
     },
     "IConicalGradient": {
       "typeName": "IConicalGradient",
-      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d7015f202839",
       "package": "@visactor/vrender-core",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "ICrosshairSpec": {
       "typeName": "ICrosshairSpec",
-      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-2c1a18c2e6b2"
     },
     "ICustomMarkSpec": {
       "typeName": "ICustomMarkSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/ICustomMarkSpec-Type-Definition.md"
     },
     "IData": {
       "typeName": "IData",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IData-Type-Definition.md"
     },
     "IDataType": {
       "typeName": "IDataType",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3bf45e5ed347"
     },
     "IDataValues": {
       "typeName": "IDataValues",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-218b08963b1d"
     },
     "IDataZoomSpec": {
       "typeName": "IDataZoomSpec",
-      "filePath": "packages/vchart/src/component/data-zoom/data-zoom/interface.ts",
       "reference": "type-details/IDataZoomSpec-Type-Definition.md"
     },
     "IDiscreteLegendSpec": {
       "typeName": "IDiscreteLegendSpec",
-      "filePath": "packages/vchart/src/component/legend/discrete/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0db130a1ae74"
     },
     "IGridLayoutSpec": {
       "typeName": "IGridLayoutSpec",
-      "filePath": "packages/vchart/src/layout/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8c0cc65dc7ab"
     },
     "IGroupMarkSpec": {
       "typeName": "IGroupMarkSpec",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/IGroupMarkSpec-Type-Definition.md"
     },
     "IHoverSpec": {
       "typeName": "IHoverSpec",
-      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
       "reference": "type-details/IHoverSpec-Type-Definition.md"
     },
     "ILayoutNumber": {
       "typeName": "ILayoutNumber",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9638d3997297"
     },
     "ILayoutOrientPadding": {
       "typeName": "ILayoutOrientPadding",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b2bc0ee5203d"
     },
     "ILayoutPaddingSpec": {
       "typeName": "ILayoutPaddingSpec",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/ILayoutPaddingSpec-Type-Definition.md"
     },
     "ILayoutSpec": {
       "typeName": "ILayoutSpec",
-      "filePath": "packages/vchart/src/layout/interface.ts",
       "reference": "type-details/ILayoutSpec-Type-Definition.md"
     },
     "ILegendSpec": {
       "typeName": "ILegendSpec",
-      "filePath": "packages/vchart/src/component/legend/interface.ts",
       "reference": "type-details/ILegendSpec-Type-Definition.md"
     },
     "ILinearGradient": {
       "typeName": "ILinearGradient",
-      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d8d5bda2ce95",
       "package": "@visactor/vrender-core",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "ILiquidMarkSpec": {
       "typeName": "ILiquidMarkSpec",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/ILiquidMarkSpec-Type-Definition.md"
     },
     "ILiquidPadding": {
       "typeName": "ILiquidPadding",
-      "filePath": "packages/vchart/src/series/liquid/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-bef15b2fe03b"
     },
     "ILiquidPaddingSpec": {
       "typeName": "ILiquidPaddingSpec",
-      "filePath": "packages/vchart/src/series/liquid/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a2cf44bad013"
     },
     "ILiquidSeriesSpec": {
       "typeName": "ILiquidSeriesSpec",
-      "filePath": "packages/vchart/src/series/liquid/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-fbf087ad5565"
     },
     "IMarkAnimateSpec": {
       "typeName": "IMarkAnimateSpec",
-      "filePath": "packages/vchart/src/animation/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f077d8f2c125"
     },
     "IMarkAreaAngleRadiusSpec": {
       "typeName": "IMarkAreaAngleRadiusSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b2457805e643"
     },
     "IMarkAreaAngleSpec": {
       "typeName": "IMarkAreaAngleSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-4eea11d6bf8d"
     },
     "IMarkAreaCoordinateSpec": {
       "typeName": "IMarkAreaCoordinateSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-99ea0813e616"
     },
     "IMarkAreaRadiusSpec": {
       "typeName": "IMarkAreaRadiusSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d96016d9da72"
     },
     "IMarkAreaSpec": {
       "typeName": "IMarkAreaSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/IMarkAreaSpec-Type-Definition.md"
     },
     "IMarkAreaTheme": {
       "typeName": "IMarkAreaTheme",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/theme.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-7880c31abf52"
     },
     "IMarkAreaXSpec": {
       "typeName": "IMarkAreaXSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-ed2c343ef812"
     },
     "IMarkAreaXYSpec": {
       "typeName": "IMarkAreaXYSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-23ed00b3b201"
     },
     "IMarkAreaYSpec": {
       "typeName": "IMarkAreaYSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-area/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-19f94791c9c6"
     },
     "IMarkerPositionsSpec": {
       "typeName": "IMarkerPositionsSpec",
-      "filePath": "packages/vchart/src/component/marker/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-53a3e8a64bc1"
     },
     "IMarkerSymbol": {
       "typeName": "IMarkerSymbol",
-      "filePath": "packages/vchart/src/component/marker/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3acb04a4042d"
     },
     "IMarkLineAngleSpec": {
       "typeName": "IMarkLineAngleSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-cbf79085c0de"
     },
     "IMarkLineAngRadRad1Spec": {
       "typeName": "IMarkLineAngRadRad1Spec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3df3d54de17a"
     },
     "IMarkLineAngRadSpec": {
       "typeName": "IMarkLineAngRadSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1818f2e34d58"
     },
     "IMarkLineCoordinateSpec": {
       "typeName": "IMarkLineCoordinateSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-25e80ef7b42b"
     },
     "IMarkLineRadAngAng1Spec": {
       "typeName": "IMarkLineRadAngAng1Spec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-604e38ee5301"
     },
     "IMarkLineRadiusSpec": {
       "typeName": "IMarkLineRadiusSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a2d55cb80bac"
     },
     "IMarkLineSpec": {
       "typeName": "IMarkLineSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/IMarkLineSpec-Type-Definition.md"
     },
     "IMarkLineTheme": {
       "typeName": "IMarkLineTheme",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/theme.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1ca140194889"
     },
     "IMarkLineXSpec": {
       "typeName": "IMarkLineXSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-7ce1823090a0"
     },
     "IMarkLineXYSpec": {
       "typeName": "IMarkLineXYSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f50693a23ba0"
     },
     "IMarkLineXYY1Spec": {
       "typeName": "IMarkLineXYY1Spec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-72d0df8a5295"
     },
     "IMarkLineYSpec": {
       "typeName": "IMarkLineYSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d5755e40af1e"
     },
     "IMarkLineYXX1Spec": {
       "typeName": "IMarkLineYXX1Spec",
-      "filePath": "packages/vchart/src/component/marker/mark-line/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9fa06e53cb0e"
     },
     "IMarkPointAngleRadiusSpec": {
       "typeName": "IMarkPointAngleRadiusSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-point/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0acfdd5b8e06"
     },
     "IMarkPointCoordinateSpec": {
       "typeName": "IMarkPointCoordinateSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-point/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8c827e1a43c9"
     },
     "IMarkPointGeoNameSpec": {
       "typeName": "IMarkPointGeoNameSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-point/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-fd30b323288a"
     },
     "IMarkPointPositionsSpec": {
       "typeName": "IMarkPointPositionsSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-point/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-78d1410fa542"
     },
     "IMarkPointSpec": {
       "typeName": "IMarkPointSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-point/interface/spec.ts",
       "reference": "type-details/IMarkPointSpec-Type-Definition.md"
     },
     "IMarkPointTheme": {
       "typeName": "IMarkPointTheme",
-      "filePath": "packages/vchart/src/component/marker/mark-point/interface/theme.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a26d3a0701c1"
     },
     "IMarkPointXYSpec": {
       "typeName": "IMarkPointXYSpec",
-      "filePath": "packages/vchart/src/component/marker/mark-point/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c38f0b023570"
     },
     "IMarkSpec": {
       "typeName": "IMarkSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IMarkSpec-Type-Definition.md"
     },
     "IMediaQuerySpec": {
       "typeName": "IMediaQuerySpec",
-      "filePath": "packages/vchart/src/typings/spec/media-query.ts",
       "reference": "type-details/IMediaQuerySpec-Type-Definition.md"
     },
     "IPercentOffset": {
       "typeName": "IPercentOffset",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d014dbe57510"
     },
     "IPlayer": {
       "typeName": "IPlayer",
-      "filePath": "packages/vchart/src/component/player/interface/spec.ts",
       "reference": "type-details/IPlayer-Type-Definition.md"
     },
     "IPolarCrosshairSpec": {
       "typeName": "IPolarCrosshairSpec",
-      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
       "reference": "type-details/IPolarCrosshairSpec-Type-Definition.md"
     },
     "IRadialGradient": {
       "typeName": "IRadialGradient",
-      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8830ca87d7a0",
       "package": "@visactor/vrender-core",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "IScrollBarSpec": {
       "typeName": "IScrollBarSpec",
-      "filePath": "packages/vchart/src/component/data-zoom/scroll-bar/interface.ts",
       "reference": "type-details/IScrollBarSpec-Type-Definition.md"
     },
     "ISelectSpec": {
       "typeName": "ISelectSpec",
-      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
       "reference": "type-details/ISelectSpec-Type-Definition.md"
     },
     "ISeriesSpec": {
       "typeName": "ISeriesSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/ISeriesSpec-Type-Definition.md"
     },
     "ISeriesStyle": {
       "typeName": "ISeriesStyle",
-      "filePath": "packages/vchart/src/series/interface/common.ts",
       "reference": "type-details/ISeriesStyle-Type-Definition.md"
     },
     "ISizeLegendSpec": {
       "typeName": "ISizeLegendSpec",
-      "filePath": "packages/vchart/src/component/legend/continuous/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-19c6d929a8de"
     },
     "IStateAnimateSpec": {
       "typeName": "IStateAnimateSpec",
-      "filePath": "packages/vchart/src/animation/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c689f8784df3"
     },
     "IStateAnimationConfig": {
       "typeName": "IStateAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-e4cf848bb846"
     },
     "ISymbolMark": {
       "typeName": "ISymbolMark",
-      "filePath": "packages/vchart/src/mark/interface/mark.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-dd0f2569fc22"
     },
     "ITheme": {
       "typeName": "ITheme",
-      "filePath": "packages/vchart/src/theme/interface.ts",
       "reference": "type-details/ITheme-Type-Definition.md"
     },
     "ITitleSpec": {
       "typeName": "ITitleSpec",
-      "filePath": "packages/vchart/src/component/title/interface/spec.ts",
       "reference": "type-details/ITitleSpec-Type-Definition.md"
     },
     "ITitleSpecWithoutText": {
       "typeName": "ITitleSpecWithoutText",
-      "filePath": "packages/vchart/src/component/title/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-6d4657ffd0d7"
     },
     "ITooltipSpec": {
       "typeName": "ITooltipSpec",
-      "filePath": "packages/vchart/src/component/tooltip/interface/spec.ts",
       "reference": "type-details/ITooltipSpec-Type-Definition.md"
     },
     "IVisualSpecScale": {
       "typeName": "IVisualSpecScale",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/IVisualSpecScale-Type-Definition.md"
     },
     "LiquidAppearPreset": {
       "typeName": "LiquidAppearPreset",
-      "filePath": "packages/vchart/src/series/liquid/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-e2f6a6a53711"
     },
     "MarkCommonLineAnimationType": {
       "typeName": "MarkCommonLineAnimationType",
-      "filePath": "@visactor/vrender-components/es/marker/type.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-681f4999f1eb",
       "package": "@visactor/vrender-components",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "MarkPointAnimationType": {
       "typeName": "MarkPointAnimationType",
-      "filePath": "@visactor/vrender-components/es/marker/type.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d28c136a90bb",
       "package": "@visactor/vrender-components",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "RegionSpec": {
       "typeName": "RegionSpec",
-      "filePath": "packages/vchart/src/region/interface.ts",
       "reference": "type-details/RegionSpec-Type-Definition.md"
     },
     "TypeAnimationConfig": {
       "typeName": "TypeAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b4e071966992"
     }
-  },
-  "statistics": {
-    "totalInterfaces": 4,
-    "totalProperties": 55,
-    "effectiveProperties": 50,
-    "complexTypes": 94
   }
 }

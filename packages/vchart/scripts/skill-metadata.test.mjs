@@ -6,10 +6,13 @@ import { test } from 'node:test';
 import os from 'node:os';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { createContext, extractChart, supplementalDetails, auditReferences } from './skill-metadata/extract.mjs';
+import { toDistributedMetadata } from './skill-metadata/distribution.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const references = path.join(root, 'skills/vchart-development-assistant/references');
-const manifest = JSON.parse(fs.readFileSync(path.join(references, 'metadata-sources.json'), 'utf8'));
+const manifest = JSON.parse(
+  fs.readFileSync(path.join(root, 'packages/vchart/scripts/skill-metadata/metadata-sources.json'), 'utf8')
+);
 const context = createContext(root, manifest.sources, manifest);
 const source = chart => manifest.sources.find(s => s.chart === chart);
 const metadata = chart => extractChart(context, source(chart));
@@ -85,13 +88,109 @@ test('多层继承、映射类型和完整字段来自真实公开契约', () =>
 });
 
 test('审查拒绝错误枚举和伪造动画类型，而非仅比较生成文件', () => {
-  const bar = metadata('bar');
+  const bar = toDistributedMetadata(metadata('bar'));
   const wrong = structuredClone(bar);
   wrong.effectiveProperties.find(p => p.name === 'direction').type = "'default' | 'reverse'";
   wrong.effectiveProperties.find(p => p.name === 'animationAppear').type = "'grow' | IAnimationConfig";
   const report = auditReferences(context, [source('bar')], references, new Map([['bar', wrong]]));
   assert(report.errors.some(e => e.property === 'direction' && e.code === 'TYPE_MISMATCH'));
   assert(report.errors.some(e => e.property === 'animationAppear' && e.code === 'TYPE_MISMATCH'));
+});
+
+test('分发审计拒绝维护字段、丢失配置语义和错误详情目标，诊断仍保留源码位置', () => {
+  const bar = toDistributedMetadata(metadata('bar'));
+  const cases = [
+    ['PROPERTY_FIELD_MISMATCH', doc => delete doc.effectiveProperties.find(p => p.name === 'direction').dependencies],
+    ['PROPERTY_FIELD_MISMATCH', doc => delete doc.effectiveProperties.find(p => p.name === 'direction').description],
+    ['REQUIRED_MISMATCH', doc => delete doc.effectiveProperties.find(p => p.name === 'direction').required],
+    [
+      'UNEXPECTED_FIELD',
+      doc => {
+        doc.effectiveProperties[0].source = 'packages/fake.ts';
+      }
+    ],
+    [
+      'UNEXPECTED_FIELD',
+      doc => {
+        doc.inheritanceTree = {};
+      }
+    ],
+    [
+      'DETAIL_TARGET_MISMATCH',
+      doc => {
+        Object.values(doc.complexTypeDefinitions)[0].reference = 'missing.md';
+      }
+    ],
+    [
+      'DEFINITION_MISMATCH',
+      doc => {
+        Object.values(doc.complexTypeDefinitions)[0].typeName = 'Wrong';
+      }
+    ],
+    [
+      'METADATA_FIELD_MISMATCH',
+      doc => {
+        doc.vchartVersion = '0.0.0';
+      }
+    ]
+  ];
+  for (const [code, mutate] of cases) {
+    const wrong = structuredClone(bar);
+    mutate(wrong);
+    const report = auditReferences(context, [source('bar')], references, new Map([['bar', wrong]]));
+    assert(
+      report.errors.some(e => e.code === code),
+      `${code}: ${JSON.stringify(report.errors)}`
+    );
+  }
+  const wrong = structuredClone(bar);
+  wrong.effectiveProperties.find(p => p.name === 'direction').type = "'reverse'";
+  const report = auditReferences(context, [source('bar')], references, new Map([['bar', wrong]]));
+  assert(
+    report.errors.some(
+      e => e.code === 'TYPE_MISMATCH' && e.source === 'packages/vchart/src/chart/cartesian/interface.ts'
+    )
+  );
+  const extension = toDistributedMetadata(metadata('bar3d'));
+  delete extension.registration;
+  assert(
+    auditReferences(context, [source('bar3d')], references, new Map([['bar3d', extension]])).errors.some(
+      e => e.code === 'METADATA_FIELD_MISMATCH' && e.field === 'registration'
+    )
+  );
+});
+
+test('所有真实图型的分发属性和导航完整保留，只有维护信息被移除', () => {
+  const propertyKeys = [
+    'name',
+    'description',
+    'type',
+    'required',
+    'isSimple',
+    'dependencies',
+    'defaultValue',
+    'since',
+    'deprecated',
+    'literalValues',
+    'dependencyBindings'
+  ];
+  for (const item of manifest.sources) {
+    const raw = extractChart(context, item);
+    const doc = toDistributedMetadata(raw);
+    assert.equal(doc.formatVersion, 3);
+    assert.deepEqual(
+      doc.effectiveProperties,
+      raw.effectiveProperties.map(p =>
+        Object.fromEntries(propertyKeys.filter(k => Object.hasOwn(p, k)).map(k => [k, p[k]]))
+      )
+    );
+    assert.deepEqual(Object.keys(doc.complexTypeDefinitions), Object.keys(raw.complexTypeDefinitions));
+    for (const [key, definition] of Object.entries(doc.complexTypeDefinitions)) {
+      assert.equal(definition.reference, raw.complexTypeDefinitions[key].reference);
+      assert.equal(definition.typeName, raw.complexTypeDefinitions[key].typeName);
+      assert(!Object.hasOwn(definition, 'filePath'));
+    }
+  }
 });
 
 test('明确的开放契约被记录，扩展来源与注册前提不被核心包替代', () => {
@@ -104,6 +203,10 @@ test('明确的开放契约被记录，扩展来源与注册前提不被核心�
     assert(meta.extensionVersion);
     assert.equal(meta.effectiveProperties.find(p => p.name === 'type').literalValues[0], chart);
   }
+  const sequence = toDistributedMetadata(metadata('sequence'));
+  assert.equal(source('sequence').sourceFile, 'packages/vchart-extension/src/charts/sequence/interface.ts');
+  assert.deepEqual(sequence.registration, ['registerSequenceChart']);
+  assert.equal(sequence.extensionVersion, context.extensionVersion);
 });
 
 test('相同输入重复抽取逐字节一致，输出没有个人路径或非法依赖名', () => {
@@ -212,7 +315,12 @@ test('JSON 中重复键不会因标准解析覆盖而被漏报', () => {
   try {
     fs.mkdirSync(path.join(directory, 'topkey'));
     fs.writeFileSync(path.join(directory, 'topkey/bar.json'), '{"type":{"key":"type"},"type":{"key":"type"}}');
-    const result = auditReferences(context, [source('bar')], directory, new Map([['bar', metadata('bar')]]));
+    const result = auditReferences(
+      context,
+      [source('bar')],
+      directory,
+      new Map([['bar', toDistributedMetadata(metadata('bar'))]])
+    );
     assert(result.errors.some(e => e.code === 'DUPLICATE_JSON_KEY' && e.property === 'type'));
   } finally {
     fs.rmSync(directory, { recursive: true, force: true });
@@ -239,11 +347,11 @@ test('依赖导航：同一属性的同名类型与别名各自定位', () => {
       assert(doc.complexTypeDefinitions[value.dependencyBindings.B].filePath.endsWith('/b.ts'));
       assert(value.dependencies.every(k => /^Item__[a-f0-9]{12}$/.test(k)));
       const refs = fixtureReferences(directory, supplementalDetails(c));
-      assert.deepEqual(auditReferences(c, [item], refs, new Map([['fixture', doc]])).errors, []);
+      assert.deepEqual(auditReferences(c, [item], refs, new Map([['fixture', toDistributedMetadata(doc)]])).errors, []);
       const wrong = structuredClone(doc);
       wrong.effectiveProperties.find(p => p.name === 'value').dependencyBindings.A = value.dependencyBindings.B;
       assert(
-        auditReferences(c, [item], refs, new Map([['fixture', wrong]])).errors.some(
+        auditReferences(c, [item], refs, new Map([['fixture', toDistributedMetadata(wrong)]])).errors.some(
           e => e.code === 'DEPENDENCY_BINDING_MISMATCH'
         )
       );
@@ -374,13 +482,13 @@ test('依赖导航：typeof 本地枚举具有定义、相关链接及 audit 反
       assert(section(details, alias).includes(`#${enumeration.anchor}`));
       assert(section(details, enumeration).includes("horizontal = 'horizontal'"));
       const refs = fixtureReferences(directory, details);
-      assert.deepEqual(auditReferences(c, [item], refs, new Map([['fixture', doc]])).errors, []);
+      assert.deepEqual(auditReferences(c, [item], refs, new Map([['fixture', toDistributedMetadata(doc)]])).errors, []);
       fs.writeFileSync(
         path.join(refs, 'type-details/AdditionalTypes-Type-Definition.md'),
         details.replace(`id="${enumeration.anchor}"`, 'id="removed"')
       );
       assert(
-        auditReferences(c, [item], refs, new Map([['fixture', doc]])).errors.some(
+        auditReferences(c, [item], refs, new Map([['fixture', toDistributedMetadata(doc)]])).errors.some(
           e => e.code === 'MISSING_DETAIL_ANCHOR'
         )
       );
@@ -461,7 +569,7 @@ test('依赖导航：generate 在传递依赖错误时不写部分文件', () =>
     fs.writeFileSync(file, text);
   };
   try {
-    for (const name of ['skill-metadata.mjs', 'skill-metadata/extract.mjs'])
+    for (const name of ['skill-metadata.mjs', 'skill-metadata/extract.mjs', 'skill-metadata/distribution.mjs'])
       write(`packages/vchart/scripts/${name}`, fs.readFileSync(path.join(root, 'packages/vchart/scripts', name)));
     for (const name of [
       'packages/vchart/package.json',
@@ -483,7 +591,7 @@ test('依赖导航：generate 在传递依赖错误时不写部分文件', () =>
     write('packages/vchart/src/good.ts', 'export interface GoodSpec { value: string }');
     write('packages/vchart/src/middle.ts', "import type { Missing } from './absent'; export type Broken = Missing;");
     write(
-      'skills/vchart-development-assistant/references/metadata-sources.json',
+      'packages/vchart/scripts/skill-metadata/metadata-sources.json',
       JSON.stringify({
         sources: [
           {

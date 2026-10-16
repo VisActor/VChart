@@ -1,1270 +1,30 @@
 {
   "typeName": "ICircularProgressChartSpec",
-  "description": "ICircularProgressChartSpec 公开配置类型",
-  "inheritanceTree": {
-    "ICircularProgressChartSpec": {
-      "description": "ICircularProgressChartSpec 的真实类型声明",
-      "directExtends": [
-        "IProgressChartSpec",
-        "IChartExtendsSeriesSpec<ICircularProgressSeriesSpec>"
-      ],
-      "ownProperties": [
-        {
-          "name": "series",
-          "description": "系列",
-          "type": "ICircularProgressSeriesSpec[] | undefined",
-          "originalType": "ICircularProgressSeriesSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICircularProgressSeriesSpec"
-          ],
-          "source": "packages/vchart/src/chart/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressChartSpec"
-        },
-        {
-          "name": "type",
-          "description": "图表类型",
-          "type": "\"circularProgress\"",
-          "originalType": "'circularProgress'",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/chart/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressChartSpec",
-          "literalValues": [
-            "circularProgress"
-          ]
-        }
-      ]
-    },
-    "IProgressChartSpec": {
-      "description": "IProgressChartSpec 的真实类型声明",
-      "directExtends": [
-        "IChartSpec"
-      ],
-      "ownProperties": [
-        {
-          "name": "axes",
-          "description": "轴配置",
-          "type": "ICartesianAxisSpec[] | IPolarAxisSpec[] | undefined",
-          "originalType": "ICartesianAxisSpec[] | IPolarAxisSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICartesianAxisSpec",
-            "IPolarAxisSpec"
-          ],
-          "source": "packages/vchart/src/chart/progress/interface.ts",
-          "inheritedFrom": "IProgressChartSpec"
-        },
-        {
-          "name": "cornerRadius",
-          "description": "进度条圆角半径",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/chart/progress/interface.ts",
-          "inheritedFrom": "IProgressChartSpec",
-          "defaultValue": "0"
-        },
-        {
-          "name": "seriesField",
-          "description": "分组字段",
-          "type": "string | undefined",
-          "originalType": "string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/chart/progress/interface.ts",
-          "inheritedFrom": "IProgressChartSpec"
-        }
-      ]
-    },
-    "IChartSpec": {
-      "description": "IChartSpec 的真实类型声明",
-      "directExtends": [],
-      "ownProperties": [
-        {
-          "name": "animationThreshold",
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "since": "1.2.0"
-        },
-        {
-          "name": "autoFit",
-          "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "axes",
-          "description": "轴",
-          "type": "ICommonAxisSpec[] | undefined",
-          "originalType": "ICommonAxisSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICommonAxisSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "background",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
-          "type": "IBackgroundSpec | undefined",
-          "originalType": "IBackgroundSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ConvertToMarkStyleSpec",
-            "IBackgroundSpec",
-            "IConicalGradient",
-            "IGroupMarkSpec",
-            "ILinearGradient",
-            "IRadialGradient"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "brush",
-          "description": "框选配置",
-          "type": "IBrushSpec | undefined",
-          "originalType": "IBrushSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBrushSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "color",
-          "description": "图表色系配置",
-          "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
-          "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "crosshair",
-          "description": "十字辅助线配置",
-          "type": "ICrosshairSpec | ICrosshairSpec[] | undefined",
-          "originalType": "ICrosshairSpec | ICrosshairSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICartesianCrosshairSpec",
-            "ICrosshairSpec",
-            "IPolarCrosshairSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "customMark",
-          "description": "自定义mark",
-          "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
-          "originalType": "ICustomMarkSpec<EnableMarkType>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "EnableMarkType",
-            "ICustomMarkSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "data",
-          "description": "数据",
-          "type": "IData | undefined",
-          "originalType": "IData",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "DataView",
-            "IData",
-            "IDataType",
-            "IDataValues"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "dataZoom",
-          "description": "缩略轴配置",
-          "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
-          "originalType": "IDataZoomSpec | IDataZoomSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IDataZoomSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "height",
-          "description": "画布高度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "hover",
-          "description": "hover 交互",
-          "type": "boolean | IHoverSpec | undefined",
-          "originalType": "boolean | IHoverSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IHoverSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "layout",
-          "description": "布局配置",
-          "type": "ILayoutSpec | undefined",
-          "originalType": "ILayoutSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBaseLayoutSpec",
-            "IGridLayoutSpec",
-            "ILayoutSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "legends",
-          "description": "图例配置",
-          "type": "ILegendSpec | ILegendSpec[] | undefined",
-          "originalType": "ILegendSpec | ILegendSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IColorLegendSpec",
-            "IDiscreteLegendSpec",
-            "ILegendSpec",
-            "ISizeLegendSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "media",
-          "description": "媒体查询配置",
-          "type": "IMediaQuerySpec | undefined",
-          "originalType": "IMediaQuerySpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMediaQuerySpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "since": "1.8.0"
-        },
-        {
-          "name": "padding",
-          "description": "图表整体 padding 设置",
-          "type": "ILayoutPaddingSpec | undefined",
-          "originalType": "ILayoutPaddingSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILayoutNumber",
-            "ILayoutOrientPadding",
-            "ILayoutPaddingSpec",
-            "IPercentOffset"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "player",
-          "description": "播放器配置",
-          "type": "IPlayer | undefined",
-          "originalType": "IPlayer",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IPlayer"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "region",
-          "description": "region配置",
-          "type": "RegionSpec[] | undefined",
-          "originalType": "RegionSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "RegionSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "scales",
-          "description": "全局 scale 配置",
-          "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
-          "originalType": "IVisualSpecScale<unknown, unknown>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "scrollBar",
-          "description": "滚动条配置",
-          "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
-          "originalType": "IScrollBarSpec | IScrollBarSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IScrollBarSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "select",
-          "description": "select 交互",
-          "type": "boolean | ISelectSpec | undefined",
-          "originalType": "boolean | ISelectSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISelectSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "series",
-          "description": "系列",
-          "type": "ISeriesSpec[] | undefined",
-          "originalType": "ISeriesSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "seriesStyle",
-          "description": "系列样式",
-          "type": "ISeriesStyle | undefined",
-          "originalType": "ISeriesStyle",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesStyle"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "stackInverse",
-          "description": "堆积时是否逆序",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "defaultValue": "false",
-          "since": "1.4.0"
-        },
-        {
-          "name": "stackSort",
-          "description": "堆积时是否排序",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec",
-          "defaultValue": "false",
-          "since": "1.10.4"
-        },
-        {
-          "name": "theme",
-          "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
-          "type": "Omit<ITheme, \"name\"> | string | undefined",
-          "originalType": "Omit<ITheme, 'name'> | string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITheme"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "title",
-          "description": "图表标题配置",
-          "type": "ITitleSpec | undefined",
-          "originalType": "ITitleSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITitleSpec",
-            "ITitleSpecWithoutText"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "tooltip",
-          "description": "tooltip配置",
-          "type": "ITooltipSpec | undefined",
-          "originalType": "ITooltipSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITooltipSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "type",
-          "description": "图表类型",
-          "type": "string",
-          "originalType": "string",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        },
-        {
-          "name": "width",
-          "description": "画布宽度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "IChartSpec"
-        }
-      ]
-    },
-    "IChartExtendsSeriesSpec<ICircularProgressSeriesSpec>": {
-      "description": "IChartExtendsSeriesSpec<ICircularProgressSeriesSpec> 的真实类型声明",
-      "directExtends": [],
-      "ownProperties": [
-        {
-          "name": "angleField",
-          "description": "angleField 配置",
-          "type": "string | string[] | undefined",
-          "originalType": "string | string[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec",
-          "deprecated": "请使用 `categoryField`"
-        },
-        {
-          "name": "animation",
-          "description": "是否开启系列动画",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "animationAppear",
-          "description": "图表入场动画\n支持配置图表内置不同动画效果",
-          "type": "boolean | IStateAnimateSpec<ProgressLikeAppearPreset> | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | IStateAnimateSpec<Preset> | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CircularProgressMarks",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "IMarkAnimateSpec",
-            "IStateAnimateSpec",
-            "ProgressLikeAppearPreset",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationDisappear",
-          "description": "图表退场动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CircularProgressMarks",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationEnter",
-          "description": "数据更新 - 新增数据动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CircularProgressMarks",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationExit",
-          "description": "数据更新 - 数据删除动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CircularProgressMarks",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationNormal",
-          "description": "循环动画",
-          "type": "Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CircularProgressMarks",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "animationState",
-          "description": "状态切换动画",
-          "type": "boolean | IStateAnimationConfig | undefined",
-          "originalType": "boolean | IStateAnimationConfig",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IStateAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec",
-          "since": "1.12.0"
-        },
-        {
-          "name": "animationThreshold",
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec",
-          "since": "1.2.0"
-        },
-        {
-          "name": "animationUpdate",
-          "description": "数据更新 - 数据更新动画",
-          "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-          "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ChannelAnimationConfig",
-            "CircularProgressMarks",
-            "CommonAnimationConfigItem",
-            "IAnimationConfig",
-            "IAnimationTimeline",
-            "ICommonStateAnimateSpec",
-            "IMarkAnimateSpec",
-            "TypeAnimationConfig"
-          ],
-          "source": "packages/vchart/src/animation/spec.ts",
-          "inheritedFrom": "IAnimationSpec"
-        },
-        {
-          "name": "categoryField",
-          "description": "分类字段",
-          "type": "string | string[] | undefined",
-          "originalType": "string | string[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressSeriesSpec"
-        },
-        {
-          "name": "centerX",
-          "description": "中心点 x 坐标",
-          "type": "number | string | undefined",
-          "originalType": "number | string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec",
-          "since": "1.11.2 支持百分比字符串"
-        },
-        {
-          "name": "centerY",
-          "description": "中心点 y 坐标",
-          "type": "number | string | undefined",
-          "originalType": "number | string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec",
-          "since": "1.11.2 支持百分比字符串"
-        },
-        {
-          "name": "clamp",
-          "description": "超出轴范围是否被裁剪（除tick模式外, 因为tick模式自带裁剪）",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/progress-like/interface.ts",
-          "inheritedFrom": "IProgressLikeSeriesSpec",
-          "defaultValue": "false",
-          "since": "1.13.9"
-        },
-        {
-          "name": "cornerRadius",
-          "description": "进度条圆角半径",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/progress/interface.ts",
-          "inheritedFrom": "IProgressSeriesSpec",
-          "defaultValue": "0"
-        },
-        {
-          "name": "dataId",
-          "description": "系列关联的数据id",
-          "type": "StringOrNumber | undefined",
-          "originalType": "StringOrNumber",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "dataIndex",
-          "description": "系列关联的数据索引",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec",
-          "defaultValue": "0"
-        },
-        {
-          "name": "dataKey",
-          "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要.",
-          "type": "DataKeyType | undefined",
-          "originalType": "DataKeyType",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "DataKeyType"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "endAngle",
-          "description": "扇区结束角度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec"
-        },
-        {
-          "name": "extensionMark",
-          "description": "系列的扩展mark，能够获取系列上的数据",
-          "type": "(IExtensionGroupMarkSpec | IExtensionMarkSpec<\"arc\" | \"area\" | \"boxPlot\" | \"image\" | \"line\" | \"linkPath\" | \"path\" | \"polygon\" | \"rect\" | \"ripple\" | \"rule\" | \"symbol\" | \"text\">)[] | undefined",
-          "originalType": "(IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "EnableMarkType",
-            "IExtensionGroupMarkSpec",
-            "IExtensionMarkSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "hover",
-          "description": "图表hover相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置",
-          "type": "boolean | IHoverSpec | undefined",
-          "originalType": "IHoverSpec | boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IHoverSpec"
-          ],
-          "source": "packages/vchart/src/interaction/interface/spec.ts",
-          "inheritedFrom": "IInteractionSpec"
-        },
-        {
-          "name": "id",
-          "description": "用户自定义的 series id",
-          "type": "StringOrNumber | undefined",
-          "originalType": "StringOrNumber",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "innerRadius",
-          "description": "扇区内半径",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec"
-        },
-        {
-          "name": "interactions",
-          "description": "其他需要按需注册的类型交互",
-          "type": "IInteractionItemSpec[] | undefined",
-          "originalType": "IInteractionItemSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IInteractionItemSpec"
-          ],
-          "source": "packages/vchart/src/interaction/interface/spec.ts",
-          "inheritedFrom": "IInteractionSpec"
-        },
-        {
-          "name": "invalidType",
-          "description": "非合规数据点连接方式",
-          "type": "IInvalidType | undefined",
-          "originalType": "IInvalidType",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec",
-          "defaultValue": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
-          "literalValues": [
-            "break",
-            "ignore",
-            "link",
-            "zero"
-          ]
-        },
-        {
-          "name": "maxValue",
-          "description": "数据最大值，默认为 1",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressSeriesSpec"
-        },
-        {
-          "name": "name",
-          "description": "系列名称",
-          "type": "string | undefined",
-          "originalType": "string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "outerRadius",
-          "description": "扇区外半径",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec",
-          "defaultValue": "0.6"
-        },
-        {
-          "name": "percent",
-          "description": "是否对数据进行百分比处理",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "progress",
-          "description": "进度条样式",
-          "type": "IMarkSpec<IArcMarkSpec> | undefined",
-          "originalType": "IMarkSpec<IArcMarkSpec>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IArcMarkSpec",
-            "IMarkSpec"
-          ],
-          "source": "packages/vchart/src/series/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressSeriesSpec"
-        },
-        {
-          "name": "radius",
-          "description": "扇区半径",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec",
-          "defaultValue": "0.6",
-          "deprecated": "use outerRadius instead"
-        },
-        {
-          "name": "radiusField",
-          "description": "radiusField 配置",
-          "type": "string | undefined",
-          "originalType": "string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressSeriesSpec",
-          "deprecated": "请使用 `valueField`"
-        },
-        {
-          "name": "regionId",
-          "description": "系列关联的region id",
-          "type": "StringOrNumber | undefined",
-          "originalType": "StringOrNumber",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "regionIndex",
-          "description": "系列关联的region索引",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec",
-          "defaultValue": "0"
-        },
-        {
-          "name": "roundCap",
-          "description": "圆角部分是否突出（可分别设置左侧和右侧）",
-          "type": "[\n    boolean,\n    boolean\n] | boolean | undefined",
-          "originalType": "boolean | [boolean, boolean]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/progress-like/interface.ts",
-          "inheritedFrom": "IProgressLikeSeriesSpec"
-        },
-        {
-          "name": "select",
-          "description": "图表选中相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置",
-          "type": "boolean | ISelectSpec | undefined",
-          "originalType": "ISelectSpec | boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISelectSpec"
-          ],
-          "source": "packages/vchart/src/interaction/interface/spec.ts",
-          "inheritedFrom": "IInteractionSpec"
-        },
-        {
-          "name": "seriesField",
-          "description": "分组字段",
-          "type": "string | undefined",
-          "originalType": "string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "seriesStyle",
-          "description": "系列样式",
-          "type": "ISeriesStyle | undefined",
-          "originalType": "ISeriesStyle",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesStyle"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "sortDataByAxis",
-          "description": "是否将数据按照数轴排序",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec",
-          "defaultValue": "false",
-          "since": "1.3.0"
-        },
-        {
-          "name": "stack",
-          "description": "是否对数据进行堆叠处理",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "stackOffsetSilhouette",
-          "description": "是否围绕中心轴偏移轮廓",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "startAngle",
-          "description": "扇区起始角度",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec"
-        },
-        {
-          "name": "support3d",
-          "description": "是否支持3d视角",
-          "type": "boolean | undefined",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        },
-        {
-          "name": "tickMask",
-          "description": "tick 模式显示",
-          "type": "(Omit<IMarkSpec<IArcMarkSpec>, \"state\"> & ITickMaskSpec) | undefined",
-          "originalType": "Omit<IMarkSpec<IArcMarkSpec>, 'state'> & ITickMaskSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IArcMarkSpec",
-            "IMarkSpec",
-            "ITickMaskSpec"
-          ],
-          "source": "packages/vchart/src/series/polar/progress-like/interface.ts",
-          "inheritedFrom": "IProgressLikeSeriesSpec",
-          "since": "1.4.0"
-        },
-        {
-          "name": "totalLabel",
-          "description": "堆叠汇总标签",
-          "type": "ITotalLabelSpec | undefined",
-          "originalType": "ITotalLabelSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITotalLabelSpec"
-          ],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec",
-          "since": "1.3.0"
-        },
-        {
-          "name": "track",
-          "description": "背景样式",
-          "type": "IMarkSpec<IArcMarkSpec> | undefined",
-          "originalType": "IMarkSpec<IArcMarkSpec>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IArcMarkSpec",
-            "IMarkSpec"
-          ],
-          "source": "packages/vchart/src/series/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressSeriesSpec"
-        },
-        {
-          "name": "type",
-          "description": "系列类型",
-          "type": "\"circularProgress\"",
-          "originalType": "'circularProgress'",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/progress/circular/interface.ts",
-          "inheritedFrom": "ICircularProgressSeriesSpec",
-          "literalValues": [
-            "circularProgress"
-          ]
-        },
-        {
-          "name": "valueField",
-          "description": "数值字段",
-          "type": "string | string[] | undefined",
-          "originalType": "string | string[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [],
-          "source": "packages/vchart/src/series/polar/interface.ts",
-          "inheritedFrom": "IPolarSeriesSpec"
-        },
-        {
-          "name": "zIndex",
-          "description": "今当通过`series`配置的时候，才会生效",
-          "type": "number | undefined",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": [],
-          "source": "packages/vchart/src/typings/spec/common.ts",
-          "inheritedFrom": "ISeriesSpec"
-        }
-      ],
-      "resolvedMapping": true
-    }
-  },
+  "formatVersion": 3,
+  "vchartVersion": "2.1.7",
   "effectiveProperties": [
     {
       "name": "angleField",
       "description": "angleField 配置",
       "type": "string | string[] | undefined",
-      "originalType": "string | string[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec",
       "deprecated": "请使用 `categoryField`"
     },
     {
       "name": "animation",
       "description": "是否开启系列动画",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "animationAppear",
       "description": "图表入场动画\n支持配置图表内置不同动画效果",
       "type": "boolean | IStateAnimateSpec<ProgressLikeAppearPreset> | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | IStateAnimateSpec<Preset> | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -1276,17 +36,13 @@
         "IStateAnimateSpec",
         "ProgressLikeAppearPreset",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationDisappear",
       "description": "图表退场动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -1297,17 +53,13 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationEnter",
       "description": "数据更新 - 新增数据动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -1318,17 +70,13 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationExit",
       "description": "数据更新 - 数据删除动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -1339,17 +87,13 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationNormal",
       "description": "循环动画",
       "type": "Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -1359,45 +103,33 @@
         "IAnimationTimeline",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "animationState",
       "description": "状态切换动画",
       "type": "boolean | IStateAnimationConfig | undefined",
-      "originalType": "boolean | IStateAnimationConfig",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IStateAnimationConfig"
       ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec",
       "since": "1.12.0"
     },
     {
       "name": "animationThreshold",
       "description": "自动关闭动画的阀值，对应的是单系列data的长度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "since": "1.2.0"
     },
     {
       "name": "animationUpdate",
       "description": "数据更新 - 数据更新动画",
       "type": "boolean | ICommonStateAnimateSpec | Partial<Record<CircularProgressMarks, false | IAnimationConfig | IAnimationConfig[]>> | undefined",
-      "originalType": "boolean | ICommonStateAnimateSpec | IMarkAnimateSpec<MarkName>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ChannelAnimationConfig",
@@ -1408,44 +140,32 @@
         "ICommonStateAnimateSpec",
         "IMarkAnimateSpec",
         "TypeAnimationConfig"
-      ],
-      "source": "packages/vchart/src/animation/spec.ts",
-      "inheritedFrom": "IAnimationSpec"
+      ]
     },
     {
       "name": "autoFit",
       "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      "dependencies": []
     },
     {
       "name": "axes",
       "description": "轴配置",
       "type": "ICartesianAxisSpec[] | IPolarAxisSpec[] | undefined",
-      "originalType": "ICartesianAxisSpec[] | IPolarAxisSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ICartesianAxisSpec",
         "IPolarAxisSpec"
-      ],
-      "source": "packages/vchart/src/chart/progress/interface.ts",
-      "inheritedFrom": "IProgressChartSpec"
+      ]
     },
     {
       "name": "background",
       "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
       "type": "IBackgroundSpec | undefined",
-      "originalType": "IBackgroundSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ConvertToMarkStyleSpec",
@@ -1454,73 +174,51 @@
         "IGroupMarkSpec",
         "ILinearGradient",
         "IRadialGradient"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "brush",
       "description": "框选配置",
       "type": "IBrushSpec | undefined",
-      "originalType": "IBrushSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IBrushSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "categoryField",
       "description": "分类字段",
       "type": "string | string[] | undefined",
-      "originalType": "string | string[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/progress/circular/interface.ts",
-      "inheritedFrom": "ICircularProgressSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "centerX",
       "description": "中心点 x 坐标",
       "type": "number | string | undefined",
-      "originalType": "number | string",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec",
       "since": "1.11.2 支持百分比字符串"
     },
     {
       "name": "centerY",
       "description": "中心点 y 坐标",
       "type": "number | string | undefined",
-      "originalType": "number | string",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec",
       "since": "1.11.2 支持百分比字符串"
     },
     {
       "name": "clamp",
       "description": "超出轴范围是否被裁剪（除tick模式外, 因为tick模式自带裁剪）",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/polar/progress-like/interface.ts",
-      "inheritedFrom": "IProgressLikeSeriesSpec",
       "defaultValue": "false",
       "since": "1.13.9"
     },
@@ -1528,233 +226,165 @@
       "name": "color",
       "description": "图表色系配置",
       "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
-      "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IVisualSpecScale"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "cornerRadius",
       "description": "进度条圆角半径",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/chart/progress/interface.ts",
-      "inheritedFrom": "IProgressChartSpec",
       "defaultValue": "0"
     },
     {
       "name": "crosshair",
       "description": "十字辅助线配置",
       "type": "ICrosshairSpec | ICrosshairSpec[] | undefined",
-      "originalType": "ICrosshairSpec | ICrosshairSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ICartesianCrosshairSpec",
         "ICrosshairSpec",
         "IPolarCrosshairSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "customMark",
       "description": "自定义mark",
       "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
-      "originalType": "ICustomMarkSpec<EnableMarkType>[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "EnableMarkType",
         "ICustomMarkSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "data",
       "description": "数据",
       "type": "IData | undefined",
-      "originalType": "IData",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "DataView",
         "IData",
         "IDataType",
         "IDataValues"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "dataId",
       "description": "系列关联的数据id",
       "type": "StringOrNumber | undefined",
-      "originalType": "StringOrNumber",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "dataIndex",
       "description": "系列关联的数据索引",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec",
       "defaultValue": "0"
     },
     {
       "name": "dataKey",
       "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要.",
       "type": "DataKeyType | undefined",
-      "originalType": "DataKeyType",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "DataKeyType"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      ]
     },
     {
       "name": "dataZoom",
       "description": "缩略轴配置",
       "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
-      "originalType": "IDataZoomSpec | IDataZoomSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IDataZoomSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "endAngle",
       "description": "扇区结束角度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "extensionMark",
       "description": "系列的扩展mark，能够获取系列上的数据",
       "type": "(IExtensionGroupMarkSpec | IExtensionMarkSpec<\"arc\" | \"area\" | \"boxPlot\" | \"image\" | \"line\" | \"linkPath\" | \"path\" | \"polygon\" | \"rect\" | \"ripple\" | \"rule\" | \"symbol\" | \"text\">)[] | undefined",
-      "originalType": "(IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "EnableMarkType",
         "IExtensionGroupMarkSpec",
         "IExtensionMarkSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      ]
     },
     {
       "name": "height",
       "description": "画布高度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      "dependencies": []
     },
     {
       "name": "hover",
       "description": "hover 交互",
       "type": "boolean | IHoverSpec | undefined",
-      "originalType": "boolean | IHoverSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IHoverSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "id",
       "description": "用户自定义的 series id",
       "type": "StringOrNumber | undefined",
-      "originalType": "StringOrNumber",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "innerRadius",
       "description": "扇区内半径",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "interactions",
       "description": "其他需要按需注册的类型交互",
       "type": "IInteractionItemSpec[] | undefined",
-      "originalType": "IInteractionItemSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IInteractionItemSpec"
-      ],
-      "source": "packages/vchart/src/interaction/interface/spec.ts",
-      "inheritedFrom": "IInteractionSpec"
+      ]
     },
     {
       "name": "invalidType",
       "description": "非合规数据点连接方式",
       "type": "IInvalidType | undefined",
-      "originalType": "IInvalidType",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec",
       "defaultValue": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
       "literalValues": [
         "break",
@@ -1767,156 +397,112 @@
       "name": "layout",
       "description": "布局配置",
       "type": "ILayoutSpec | undefined",
-      "originalType": "ILayoutSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IBaseLayoutSpec",
         "IGridLayoutSpec",
         "ILayoutSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "legends",
       "description": "图例配置",
       "type": "ILegendSpec | ILegendSpec[] | undefined",
-      "originalType": "ILegendSpec | ILegendSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IColorLegendSpec",
         "IDiscreteLegendSpec",
         "ILegendSpec",
         "ISizeLegendSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "maxValue",
       "description": "数据最大值，默认为 1",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/progress/circular/interface.ts",
-      "inheritedFrom": "ICircularProgressSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "media",
       "description": "媒体查询配置",
       "type": "IMediaQuerySpec | undefined",
-      "originalType": "IMediaQuerySpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IMediaQuerySpec"
       ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "since": "1.8.0"
     },
     {
       "name": "name",
       "description": "系列名称",
       "type": "string | undefined",
-      "originalType": "string",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "outerRadius",
       "description": "扇区外半径",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec",
       "defaultValue": "0.6"
     },
     {
       "name": "padding",
       "description": "图表整体 padding 设置",
       "type": "ILayoutPaddingSpec | undefined",
-      "originalType": "ILayoutPaddingSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ILayoutNumber",
         "ILayoutOrientPadding",
         "ILayoutPaddingSpec",
         "IPercentOffset"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "percent",
       "description": "是否对数据进行百分比处理",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "player",
       "description": "播放器配置",
       "type": "IPlayer | undefined",
-      "originalType": "IPlayer",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IPlayer"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "progress",
       "description": "进度条样式",
       "type": "IMarkSpec<IArcMarkSpec> | undefined",
-      "originalType": "IMarkSpec<IArcMarkSpec>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IArcMarkSpec",
         "IMarkSpec"
-      ],
-      "source": "packages/vchart/src/series/progress/circular/interface.ts",
-      "inheritedFrom": "ICircularProgressSeriesSpec"
+      ]
     },
     {
       "name": "radius",
       "description": "扇区半径",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec",
       "defaultValue": "0.6",
       "deprecated": "use outerRadius instead"
     },
@@ -1924,159 +510,111 @@
       "name": "radiusField",
       "description": "radiusField 配置",
       "type": "string | undefined",
-      "originalType": "string",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/progress/circular/interface.ts",
-      "inheritedFrom": "ICircularProgressSeriesSpec",
       "deprecated": "请使用 `valueField`"
     },
     {
       "name": "region",
       "description": "region配置",
       "type": "RegionSpec[] | undefined",
-      "originalType": "RegionSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "RegionSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "regionId",
       "description": "系列关联的region id",
       "type": "StringOrNumber | undefined",
-      "originalType": "StringOrNumber",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "regionIndex",
       "description": "系列关联的region索引",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec",
       "defaultValue": "0"
     },
     {
       "name": "roundCap",
       "description": "圆角部分是否突出（可分别设置左侧和右侧）",
       "type": "[\n    boolean,\n    boolean\n] | boolean | undefined",
-      "originalType": "boolean | [boolean, boolean]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/polar/progress-like/interface.ts",
-      "inheritedFrom": "IProgressLikeSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "scales",
       "description": "全局 scale 配置",
       "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
-      "originalType": "IVisualSpecScale<unknown, unknown>[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IVisualSpecScale"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "scrollBar",
       "description": "滚动条配置",
       "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
-      "originalType": "IScrollBarSpec | IScrollBarSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IScrollBarSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "select",
       "description": "select 交互",
       "type": "boolean | ISelectSpec | undefined",
-      "originalType": "boolean | ISelectSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ISelectSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "series",
       "description": "系列",
       "type": "ICircularProgressSeriesSpec[] | undefined",
-      "originalType": "ICircularProgressSeriesSpec[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ICircularProgressSeriesSpec"
-      ],
-      "source": "packages/vchart/src/chart/progress/circular/interface.ts",
-      "inheritedFrom": "ICircularProgressChartSpec"
+      ]
     },
     {
       "name": "seriesField",
       "description": "分组字段",
       "type": "string | undefined",
-      "originalType": "string",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/chart/progress/interface.ts",
-      "inheritedFrom": "IProgressChartSpec"
+      "dependencies": []
     },
     {
       "name": "seriesStyle",
       "description": "系列样式",
       "type": "ISeriesStyle | undefined",
-      "originalType": "ISeriesStyle",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ISeriesStyle"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "sortDataByAxis",
       "description": "是否将数据按照数轴排序",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec",
       "defaultValue": "false",
       "since": "1.3.0"
     },
@@ -2084,25 +622,17 @@
       "name": "stack",
       "description": "是否对数据进行堆叠处理",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "stackInverse",
       "description": "堆积时是否逆序",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "defaultValue": "false",
       "since": "1.4.0"
     },
@@ -2110,25 +640,17 @@
       "name": "stackOffsetSilhouette",
       "description": "是否围绕中心轴偏移轮廓",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "stackSort",
       "description": "堆积时是否排序",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec",
       "defaultValue": "false",
       "since": "1.10.4"
     },
@@ -2136,127 +658,91 @@
       "name": "startAngle",
       "description": "扇区起始角度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "support3d",
       "description": "是否支持3d视角",
       "type": "boolean | undefined",
-      "originalType": "boolean",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     },
     {
       "name": "theme",
       "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
       "type": "Omit<ITheme, \"name\"> | string | undefined",
-      "originalType": "Omit<ITheme, 'name'> | string",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ITheme"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "tickMask",
       "description": "tick 模式显示",
       "type": "(Omit<IMarkSpec<IArcMarkSpec>, \"state\"> & ITickMaskSpec) | undefined",
-      "originalType": "Omit<IMarkSpec<IArcMarkSpec>, 'state'> & ITickMaskSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IArcMarkSpec",
         "IMarkSpec",
         "ITickMaskSpec"
       ],
-      "source": "packages/vchart/src/series/polar/progress-like/interface.ts",
-      "inheritedFrom": "IProgressLikeSeriesSpec",
       "since": "1.4.0"
     },
     {
       "name": "title",
       "description": "图表标题配置",
       "type": "ITitleSpec | undefined",
-      "originalType": "ITitleSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ITitleSpec",
         "ITitleSpecWithoutText"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "tooltip",
       "description": "tooltip配置",
       "type": "ITooltipSpec | undefined",
-      "originalType": "ITooltipSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ITooltipSpec"
-      ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      ]
     },
     {
       "name": "totalLabel",
       "description": "堆叠汇总标签",
       "type": "ITotalLabelSpec | undefined",
-      "originalType": "ITotalLabelSpec",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "ITotalLabelSpec"
       ],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec",
       "since": "1.3.0"
     },
     {
       "name": "track",
       "description": "背景样式",
       "type": "IMarkSpec<IArcMarkSpec> | undefined",
-      "originalType": "IMarkSpec<IArcMarkSpec>",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
       "dependencies": [
         "IArcMarkSpec",
         "IMarkSpec"
-      ],
-      "source": "packages/vchart/src/series/progress/circular/interface.ts",
-      "inheritedFrom": "ICircularProgressSeriesSpec"
+      ]
     },
     {
       "name": "type",
       "description": "图表类型",
       "type": "\"circularProgress\"",
-      "originalType": "'circularProgress'",
       "required": true,
-      "category": "未分类",
       "isSimple": true,
       "dependencies": [],
-      "source": "packages/vchart/src/chart/progress/circular/interface.ts",
-      "inheritedFrom": "ICircularProgressChartSpec",
       "literalValues": [
         "circularProgress"
       ]
@@ -2265,380 +751,291 @@
       "name": "valueField",
       "description": "数值字段",
       "type": "string | string[] | undefined",
-      "originalType": "string | string[]",
       "required": false,
-      "category": "未分类",
       "isSimple": false,
-      "dependencies": [],
-      "source": "packages/vchart/src/series/polar/interface.ts",
-      "inheritedFrom": "IPolarSeriesSpec"
+      "dependencies": []
     },
     {
       "name": "width",
       "description": "画布宽度",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "IChartSpec"
+      "dependencies": []
     },
     {
       "name": "zIndex",
       "description": "今当通过`series`配置的时候，才会生效",
       "type": "number | undefined",
-      "originalType": "number",
       "required": false,
-      "category": "未分类",
       "isSimple": true,
-      "dependencies": [],
-      "source": "packages/vchart/src/typings/spec/common.ts",
-      "inheritedFrom": "ISeriesSpec"
+      "dependencies": []
     }
   ],
-  "formatVersion": 2,
-  "version": "2.0.0",
-  "vchartVersion": "2.1.7",
-  "typescriptVersion": "4.9.5",
-  "sourceFile": "packages/vchart/src/chart/progress/circular/interface.ts",
-  "sourceHash": "48177d7c490f14bd5a09f54e7899fbd338ad6914955d3b836e30703e0f9eaa24",
-  "sourceRevision": "704033074a29a77ac90ed7c045d4b108af36ef05",
   "complexTypeDefinitions": {
     "ChannelAnimationConfig": {
       "typeName": "ChannelAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5d8412d98274"
     },
     "CircularProgressMarks": {
       "typeName": "CircularProgressMarks",
-      "filePath": "packages/vchart/src/series/progress/circular/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-26e9a8fad3db"
     },
     "CommonAnimationConfigItem": {
       "typeName": "CommonAnimationConfigItem",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a27ba00f90e2"
     },
     "ConvertToMarkStyleSpec": {
       "typeName": "ConvertToMarkStyleSpec",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3f4d44a2bad5"
     },
     "DataKeyType": {
       "typeName": "DataKeyType",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-4bea0f6c4d4f"
     },
     "DataView": {
       "typeName": "DataView",
-      "filePath": "@visactor/vdataset/es/data-view.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b26ccd36d8e8",
       "package": "@visactor/vdataset",
-      "version": "1.0.27"
+      "version": "1.0.28"
     },
     "EnableMarkType": {
       "typeName": "EnableMarkType",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1fa7d0f6abc4"
     },
     "IAnimationConfig": {
       "typeName": "IAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/IAnimationConfig-Type-Definition.md"
     },
     "IAnimationTimeline": {
       "typeName": "IAnimationTimeline",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f36951a20ee2"
     },
     "IArcMarkSpec": {
       "typeName": "IArcMarkSpec",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/IArcMarkSpec-Type-Definition.md"
     },
     "IBackgroundSpec": {
       "typeName": "IBackgroundSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IBackgroundSpec-Type-Definition.md"
     },
     "IBaseLayoutSpec": {
       "typeName": "IBaseLayoutSpec",
-      "filePath": "packages/vchart/src/layout/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5de1760225a6"
     },
     "IBrushSpec": {
       "typeName": "IBrushSpec",
-      "filePath": "packages/vchart/src/component/brush/interface.ts",
       "reference": "type-details/IBrushSpec-Type-Definition.md"
     },
     "ICartesianAxisSpec": {
       "typeName": "ICartesianAxisSpec",
-      "filePath": "packages/vchart/src/component/axis/cartesian/interface/spec.ts",
       "reference": "type-details/ICartesianAxisSpec-Type-Definition.md"
     },
     "ICartesianCrosshairSpec": {
       "typeName": "ICartesianCrosshairSpec",
-      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
       "reference": "type-details/ICartesianCrosshairSpec-Type-Definition.md"
     },
     "ICircularProgressSeriesSpec": {
       "typeName": "ICircularProgressSeriesSpec",
-      "filePath": "packages/vchart/src/series/progress/circular/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-30261f5b0d11"
     },
     "IColorLegendSpec": {
       "typeName": "IColorLegendSpec",
-      "filePath": "packages/vchart/src/component/legend/continuous/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8565dc89d142"
     },
     "ICommonAxisSpec": {
       "typeName": "ICommonAxisSpec",
-      "filePath": "packages/vchart/src/component/axis/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-500cf18886a4"
     },
     "ICommonStateAnimateSpec": {
       "typeName": "ICommonStateAnimateSpec",
-      "filePath": "packages/vchart/src/animation/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-874c3b173f64"
     },
     "IConicalGradient": {
       "typeName": "IConicalGradient",
-      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d7015f202839",
       "package": "@visactor/vrender-core",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "ICrosshairSpec": {
       "typeName": "ICrosshairSpec",
-      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-2c1a18c2e6b2"
     },
     "ICustomMarkSpec": {
       "typeName": "ICustomMarkSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/ICustomMarkSpec-Type-Definition.md"
     },
     "IData": {
       "typeName": "IData",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IData-Type-Definition.md"
     },
     "IDataType": {
       "typeName": "IDataType",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3bf45e5ed347"
     },
     "IDataValues": {
       "typeName": "IDataValues",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-218b08963b1d"
     },
     "IDataZoomSpec": {
       "typeName": "IDataZoomSpec",
-      "filePath": "packages/vchart/src/component/data-zoom/data-zoom/interface.ts",
       "reference": "type-details/IDataZoomSpec-Type-Definition.md"
     },
     "IDiscreteLegendSpec": {
       "typeName": "IDiscreteLegendSpec",
-      "filePath": "packages/vchart/src/component/legend/discrete/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0db130a1ae74"
     },
     "IExtensionGroupMarkSpec": {
       "typeName": "IExtensionGroupMarkSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IExtensionGroupMarkSpec-Type-Definition.md"
     },
     "IExtensionMarkSpec": {
       "typeName": "IExtensionMarkSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IExtensionMarkSpec-Type-Definition.md"
     },
     "IGridLayoutSpec": {
       "typeName": "IGridLayoutSpec",
-      "filePath": "packages/vchart/src/layout/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8c0cc65dc7ab"
     },
     "IGroupMarkSpec": {
       "typeName": "IGroupMarkSpec",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/IGroupMarkSpec-Type-Definition.md"
     },
     "IHoverSpec": {
       "typeName": "IHoverSpec",
-      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
       "reference": "type-details/IHoverSpec-Type-Definition.md"
     },
     "IInteractionItemSpec": {
       "typeName": "IInteractionItemSpec",
-      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
       "reference": "type-details/IInteractionItemSpec-Type-Definition.md"
     },
     "ILayoutNumber": {
       "typeName": "ILayoutNumber",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9638d3997297"
     },
     "ILayoutOrientPadding": {
       "typeName": "ILayoutOrientPadding",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b2bc0ee5203d"
     },
     "ILayoutPaddingSpec": {
       "typeName": "ILayoutPaddingSpec",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/ILayoutPaddingSpec-Type-Definition.md"
     },
     "ILayoutSpec": {
       "typeName": "ILayoutSpec",
-      "filePath": "packages/vchart/src/layout/interface.ts",
       "reference": "type-details/ILayoutSpec-Type-Definition.md"
     },
     "ILegendSpec": {
       "typeName": "ILegendSpec",
-      "filePath": "packages/vchart/src/component/legend/interface.ts",
       "reference": "type-details/ILegendSpec-Type-Definition.md"
     },
     "ILinearGradient": {
       "typeName": "ILinearGradient",
-      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d8d5bda2ce95",
       "package": "@visactor/vrender-core",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "IMarkAnimateSpec": {
       "typeName": "IMarkAnimateSpec",
-      "filePath": "packages/vchart/src/animation/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f077d8f2c125"
     },
     "IMarkSpec": {
       "typeName": "IMarkSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/IMarkSpec-Type-Definition.md"
     },
     "IMediaQuerySpec": {
       "typeName": "IMediaQuerySpec",
-      "filePath": "packages/vchart/src/typings/spec/media-query.ts",
       "reference": "type-details/IMediaQuerySpec-Type-Definition.md"
     },
     "IPercentOffset": {
       "typeName": "IPercentOffset",
-      "filePath": "packages/vchart/src/typings/layout.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d014dbe57510"
     },
     "IPlayer": {
       "typeName": "IPlayer",
-      "filePath": "packages/vchart/src/component/player/interface/spec.ts",
       "reference": "type-details/IPlayer-Type-Definition.md"
     },
     "IPolarAxisSpec": {
       "typeName": "IPolarAxisSpec",
-      "filePath": "packages/vchart/src/component/axis/polar/interface/spec.ts",
       "reference": "type-details/IPolarAxisSpec-Type-Definition.md"
     },
     "IPolarCrosshairSpec": {
       "typeName": "IPolarCrosshairSpec",
-      "filePath": "packages/vchart/src/component/crosshair/interface/spec.ts",
       "reference": "type-details/IPolarCrosshairSpec-Type-Definition.md"
     },
     "IRadialGradient": {
       "typeName": "IRadialGradient",
-      "filePath": "@visactor/vrender-core/es/interface/color.d.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8830ca87d7a0",
       "package": "@visactor/vrender-core",
-      "version": "1.1.11"
+      "version": "1.1.12"
     },
     "IScrollBarSpec": {
       "typeName": "IScrollBarSpec",
-      "filePath": "packages/vchart/src/component/data-zoom/scroll-bar/interface.ts",
       "reference": "type-details/IScrollBarSpec-Type-Definition.md"
     },
     "ISelectSpec": {
       "typeName": "ISelectSpec",
-      "filePath": "packages/vchart/src/interaction/interface/spec.ts",
       "reference": "type-details/ISelectSpec-Type-Definition.md"
     },
     "ISeriesSpec": {
       "typeName": "ISeriesSpec",
-      "filePath": "packages/vchart/src/typings/spec/common.ts",
       "reference": "type-details/ISeriesSpec-Type-Definition.md"
     },
     "ISeriesStyle": {
       "typeName": "ISeriesStyle",
-      "filePath": "packages/vchart/src/series/interface/common.ts",
       "reference": "type-details/ISeriesStyle-Type-Definition.md"
     },
     "ISizeLegendSpec": {
       "typeName": "ISizeLegendSpec",
-      "filePath": "packages/vchart/src/component/legend/continuous/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-19c6d929a8de"
     },
     "IStateAnimateSpec": {
       "typeName": "IStateAnimateSpec",
-      "filePath": "packages/vchart/src/animation/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c689f8784df3"
     },
     "IStateAnimationConfig": {
       "typeName": "IStateAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-e4cf848bb846"
     },
     "ITheme": {
       "typeName": "ITheme",
-      "filePath": "packages/vchart/src/theme/interface.ts",
       "reference": "type-details/ITheme-Type-Definition.md"
     },
     "ITickMaskSpec": {
       "typeName": "ITickMaskSpec",
-      "filePath": "packages/vchart/src/series/polar/progress-like/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-ab1fc6a002d4"
     },
     "ITitleSpec": {
       "typeName": "ITitleSpec",
-      "filePath": "packages/vchart/src/component/title/interface/spec.ts",
       "reference": "type-details/ITitleSpec-Type-Definition.md"
     },
     "ITitleSpecWithoutText": {
       "typeName": "ITitleSpecWithoutText",
-      "filePath": "packages/vchart/src/component/title/interface/spec.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-6d4657ffd0d7"
     },
     "ITooltipSpec": {
       "typeName": "ITooltipSpec",
-      "filePath": "packages/vchart/src/component/tooltip/interface/spec.ts",
       "reference": "type-details/ITooltipSpec-Type-Definition.md"
     },
     "ITotalLabelSpec": {
       "typeName": "ITotalLabelSpec",
-      "filePath": "packages/vchart/src/component/label/interface.ts",
       "reference": "type-details/ITotalLabelSpec-Type-Definition.md"
     },
     "IVisualSpecScale": {
       "typeName": "IVisualSpecScale",
-      "filePath": "packages/vchart/src/typings/visual.ts",
       "reference": "type-details/IVisualSpecScale-Type-Definition.md"
     },
     "ProgressLikeAppearPreset": {
       "typeName": "ProgressLikeAppearPreset",
-      "filePath": "packages/vchart/src/series/polar/progress-like/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-eb112c7e9a22"
     },
     "RegionSpec": {
       "typeName": "RegionSpec",
-      "filePath": "packages/vchart/src/region/interface.ts",
       "reference": "type-details/RegionSpec-Type-Definition.md"
     },
     "TypeAnimationConfig": {
       "typeName": "TypeAnimationConfig",
-      "filePath": "packages/vchart/src/animation/interface.ts",
       "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b4e071966992"
     }
-  },
-  "statistics": {
-    "totalInterfaces": 4,
-    "totalProperties": 84,
-    "effectiveProperties": 74,
-    "complexTypes": 64
   }
 }

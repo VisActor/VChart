@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseArgs } from 'node:util';
 import { createContext, extractChart, supplementalDetails, auditReferences } from './skill-metadata/extract.mjs';
+import { toDistributedMetadata } from './skill-metadata/distribution.mjs';
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const references = path.join(repoRoot, 'skills/vchart-development-assistant/references');
@@ -10,7 +11,10 @@ const references = path.join(repoRoot, 'skills/vchart-development-assistant/refe
 export function buildArtifacts(context, sources) {
   const files = new Map();
   for (const source of sources)
-    files.set(`type-meta/${source.chart}.json`, JSON.stringify(extractChart(context, source), null, 2) + '\n');
+    files.set(
+      `type-meta/${source.chart}.json`,
+      JSON.stringify(toDistributedMetadata(extractChart(context, source)), null, 2) + '\n'
+    );
   files.set('type-details/AdditionalTypes-Type-Definition.md', supplementalDetails(context));
   return files;
 }
@@ -50,7 +54,9 @@ export function run(args) {
   if (command !== 'generate' && (values.output || values.write)) throw new Error('--output/--write 只用于 generate');
   if (command !== 'audit' && (values.references || values.report))
     throw new Error('--references/--report 只用于 audit');
-  const manifest = JSON.parse(fs.readFileSync(path.join(references, 'metadata-sources.json'), 'utf8'));
+  const manifest = JSON.parse(
+    fs.readFileSync(path.join(repoRoot, 'packages/vchart/scripts/skill-metadata/metadata-sources.json'), 'utf8')
+  );
   const context = createContext(repoRoot, manifest.sources, manifest);
   if (command === 'audit') {
     const report = auditReferences(
@@ -58,6 +64,13 @@ export function run(args) {
       manifest.sources,
       values.references ? path.resolve(values.references) : references
     );
+    report.provenance = {
+      vchartVersion: context.version,
+      extensionVersion: context.extensionVersion,
+      typescriptVersion: context.ts.version,
+      sourceHash: context.sourceHash,
+      sourceRevision: context.sourceRevision
+    };
     if (values.report) fs.writeFileSync(values.report, JSON.stringify(report, null, 2) + '\n');
     console.log(JSON.stringify(report.summary));
     if (report.errors.length || report.changes.length) process.exitCode = 1;

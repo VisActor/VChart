@@ -137,7 +137,6 @@
 - [IRoseChartSpec](#type-92bd0cd597bd)
 - [ISankeyChartSpec](#type-f326797c9091)
 - [IScatterChartSpec](#type-b4c1e7d7be5c)
-- [ISequenceChartSpec](#type-93ef189ce720)
 - [ISunburstChartSpec](#type-fa66e1c21317)
 - [ITreemapChartSpec](#type-f80911626a1e)
 - [IWaterfallChartSpec](#type-8f8a21509020)
@@ -390,9 +389,6 @@
 - [CorrelationAppearPreset](#type-9e370720e4c3)
 - [CorrelationMarks](#type-bdf6cade9a59)
 - [ICorrelationSeriesSpec](#type-129af10992bf)
-- [IDotSeriesSpec](#type-447586c1422f)
-- [ISequenceGrid](#type-06ef4b91a65c)
-- [ISequenceLabel](#type-a2f61a3aee80)
 - [FunnelAppearPreset](#type-ca0d8e9e8ab0)
 - [FunnelMarks](#type-c0065cc5144e)
 - [IFunnelSeriesSpec](#type-0291e38eb55c)
@@ -433,9 +429,6 @@
 - [ILineSeriesSpec](#type-c14fbe0b660f)
 - [LineAppearPreset](#type-6966f849b7c7)
 - [LineMarks](#type-da75180b071f)
-- [ILinkSeriesSpec](#type-66b30ce0b9f7)
-- [ILinkSeriesSpecFromDot](#type-28f198e9a466)
-- [LinkType](#type-875756389aa2)
 - [ILiquidPadding](#type-bef15b2fe03b)
 - [ILiquidPaddingSpec](#type-a2cf44bad013)
 - [ILiquidSeriesSpec](#type-fbf087ad5565)
@@ -598,7 +591,7 @@
 <a id="type-8d2b64638b97"></a>
 ## DataSet
 
-来源：`@visactor/vdataset/es/data-set.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/data-set.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export declare class DataSet {
@@ -700,7 +693,7 @@ export declare class DataSet {
 <a id="type-b26ccd36d8e8"></a>
 ## DataView
 
-来源：`@visactor/vdataset/es/data-view.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/data-view.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export declare class DataView {
@@ -782,7 +775,7 @@ export declare class DataView {
 <a id="type-a39097639f44"></a>
 ## IDsvParserOptions
 
-来源：`@visactor/vdataset/es/parser/dsv.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/parser/dsv.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export interface IDsvParserOptions {
@@ -795,7 +788,7 @@ export interface IDsvParserOptions {
 <a id="type-63f1dbc535e0"></a>
 ## IParserOptions
 
-来源：`@visactor/vdataset/es/parser/index.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/parser/index.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export interface IParserOptions {
@@ -811,7 +804,7 @@ export interface IParserOptions {
 <a id="type-26812fc33a0c"></a>
 ## IFieldsOptions
 
-来源：`@visactor/vdataset/es/transform/fields.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/transform/fields.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export interface IFieldsOptions {
@@ -824,7 +817,7 @@ export interface IFieldsOptions {
 <a id="type-aceaf7172c44"></a>
 ## IFilterOptions
 
-来源：`@visactor/vdataset/es/transform/filter.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/transform/filter.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export interface IFilterOptions {
@@ -837,7 +830,7 @@ export interface IFilterOptions {
 <a id="type-46fd81c95ea2"></a>
 ## IFoldOptions
 
-来源：`@visactor/vdataset/es/transform/fold.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/transform/fold.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export interface IFoldOptions {
@@ -853,7 +846,7 @@ export interface IFoldOptions {
 <a id="type-a4c7726cf624"></a>
 ## ISimplifyOptions
 
-来源：`@visactor/vdataset/es/transform/geo/simplify.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/transform/geo/simplify.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export interface ISimplifyOptions {
@@ -866,7 +859,7 @@ export interface ISimplifyOptions {
 <a id="type-f4b40ca0e8cc"></a>
 ## ITransformOptions
 
-来源：`@visactor/vdataset/es/transform/index.d.ts`，@visactor/vdataset@1.0.27
+来源：`@visactor/vdataset/es/transform/index.d.ts`，@visactor/vdataset@1.0.28
 
 ```typescript
 export interface ITransformOptions {
@@ -881,7 +874,7 @@ export interface ITransformOptions {
 <a id="type-5125620c5489"></a>
 ## TreemapOptions
 
-来源：`@visactor/vlayouts/es/treemap/interface.d.ts`，@visactor/vlayouts@1.0.27
+来源：`@visactor/vlayouts/es/treemap/interface.d.ts`，@visactor/vlayouts@1.0.28
 
 ```typescript
 export interface TreemapOptions {
@@ -944,7 +937,7 @@ export interface TreemapOptions {
 <a id="type-f85debfe2020"></a>
 ## ACustomAnimate
 
-来源：`@visactor/vrender-animate/es/custom/custom-animate.d.ts`，@visactor/vrender-animate@1.1.11
+来源：`@visactor/vrender-animate/es/custom/custom-animate.d.ts`，@visactor/vrender-animate@1.1.12
 
 ```typescript
 export declare abstract class ACustomAnimate<T> extends Step implements ICustomAnimate {
@@ -965,7 +958,7 @@ export declare abstract class ACustomAnimate<T> extends Step implements ICustomA
 <a id="type-c0172addd0a4"></a>
 ## AStageAnimate
 
-来源：`@visactor/vrender-animate/es/custom/custom-animate.d.ts`，@visactor/vrender-animate@1.1.11
+来源：`@visactor/vrender-animate/es/custom/custom-animate.d.ts`，@visactor/vrender-animate@1.1.12
 
 ```typescript
 export declare abstract class AStageAnimate<T> extends ACustomAnimate<T> {
@@ -989,7 +982,7 @@ export declare abstract class AStageAnimate<T> extends ACustomAnimate<T> {
 <a id="type-7666dd9220f0"></a>
 ## AxisItem
 
-来源：`@visactor/vrender-components/es/axis/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/axis/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type AxisItem = {
@@ -1006,7 +999,7 @@ export type AxisItem = {
 <a id="type-80c23221deb4"></a>
 ## AxisItemStateStyle
 
-来源：`@visactor/vrender-components/es/axis/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/axis/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type AxisItemStateStyle<T> = {
@@ -1022,7 +1015,7 @@ export type AxisItemStateStyle<T> = {
 <a id="type-92b85bf48fbb"></a>
 ## AxisLabelOverlap
 
-来源：`@visactor/vrender-components/es/axis/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/axis/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export interface AxisLabelOverlap {
@@ -1047,7 +1040,7 @@ export interface AxisLabelOverlap {
 <a id="type-2535a2dd9530"></a>
 ## Functional
 
-来源：`@visactor/vrender-components/es/label/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/label/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type Functional<T> = T | ((data: any) => T);
@@ -1058,7 +1051,7 @@ export type Functional<T> = T | ((data: any) => T);
 <a id="type-8f8c60190b3e"></a>
 ## DiscreteLegendAttrs
 
-来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type DiscreteLegendAttrs = {
@@ -1090,7 +1083,7 @@ export type DiscreteLegendAttrs = {
 <a id="type-1b703f3ae381"></a>
 ## LegendItem
 
-来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type LegendItem = {
@@ -1132,7 +1125,7 @@ export type LegendItem = {
 <a id="type-75bc5c7a36bf"></a>
 ## LegendItemDatum
 
-来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type LegendItemDatum = {
@@ -1153,7 +1146,7 @@ export type LegendItemDatum = {
 <a id="type-833ac1fb317b"></a>
 ## LegendPagerAttributes
 
-来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type LegendPagerAttributes = Omit<PagerAttributes, 'total'> & LegendSwitchComponentAttributes & {
@@ -1167,7 +1160,7 @@ export type LegendPagerAttributes = Omit<PagerAttributes, 'total'> & LegendSwitc
 <a id="type-8dec8f9540ef"></a>
 ## LegendScrollbarAttributes
 
-来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/legend/discrete/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type LegendScrollbarAttributes = Omit<ScrollBarAttributes, 'range' | 'limitRange'> & LegendSwitchComponentAttributes & {
@@ -1188,7 +1181,7 @@ export type LegendScrollbarAttributes = Omit<ScrollBarAttributes, 'range' | 'lim
 <a id="type-c8f27ac5183b"></a>
 ## LegendTitle
 
-来源：`@visactor/vrender-components/es/legend/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/legend/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type LegendTitle = {
@@ -1217,7 +1210,7 @@ export type LegendTitle = {
 <a id="type-c807eb5fd121"></a>
 ## BaseMarkerAnimation
 
-来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type BaseMarkerAnimation<T> = {
@@ -1233,7 +1226,7 @@ export type BaseMarkerAnimation<T> = {
 <a id="type-a1709a28c988"></a>
 ## IMarkAreaLabelPosition
 
-来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export declare enum IMarkAreaLabelPosition {
@@ -1262,7 +1255,7 @@ export declare enum IMarkAreaLabelPosition {
 <a id="type-9a828f1ac3c0"></a>
 ## IMarkCommonArcLabelPosition
 
-来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export declare enum IMarkCommonArcLabelPosition {
@@ -1281,7 +1274,7 @@ export declare enum IMarkCommonArcLabelPosition {
 <a id="type-5be4f671bfe4"></a>
 ## IMarkLineLabelPosition
 
-来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export declare enum IMarkLineLabelPosition {
@@ -1308,7 +1301,7 @@ export declare enum IMarkLineLabelPosition {
 <a id="type-39230de2ade7"></a>
 ## IMarkPointItemPosition
 
-来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export declare enum IMarkPointItemPosition {
@@ -1326,7 +1319,7 @@ export declare enum IMarkPointItemPosition {
 <a id="type-681f4999f1eb"></a>
 ## MarkCommonLineAnimationType
 
-来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type MarkCommonLineAnimationType = 'clipIn' | 'fadeIn';
@@ -1337,7 +1330,7 @@ export type MarkCommonLineAnimationType = 'clipIn' | 'fadeIn';
 <a id="type-d28c136a90bb"></a>
 ## MarkPointAnimationType
 
-来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/marker/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type MarkPointAnimationType = 'callIn' | 'fadeIn';
@@ -1348,7 +1341,7 @@ export type MarkPointAnimationType = 'callIn' | 'fadeIn';
 <a id="type-8cb45fc9b0d9"></a>
 ## Datum
 
-来源：`@visactor/vrender-components/es/player/type/base.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/player/type/base.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type Datum = any;
@@ -1359,7 +1352,7 @@ export type Datum = any;
 <a id="type-589dee7f19a8"></a>
 ## HandlerTextStyleContext
 
-来源：`@visactor/vrender-components/es/slider/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/slider/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type HandlerTextStyleContext = {
@@ -1377,7 +1370,7 @@ export type HandlerTextStyleContext = {
 <a id="type-5c34c2234a2c"></a>
 ## IContainerSize
 
-来源：`@visactor/vrender-components/es/tooltip/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/tooltip/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export interface IContainerSize {
@@ -1391,7 +1384,7 @@ export interface IContainerSize {
 <a id="type-3b54c645e6d7"></a>
 ## TooltipRichTextAttrs
 
-来源：`@visactor/vrender-components/es/tooltip/type.d.ts`，@visactor/vrender-components@1.1.11
+来源：`@visactor/vrender-components/es/tooltip/type.d.ts`，@visactor/vrender-components@1.1.12
 
 ```typescript
 export type TooltipRichTextAttrs = {
@@ -1405,7 +1398,7 @@ export type TooltipRichTextAttrs = {
 <a id="type-d176b9e09694"></a>
 ## IApp
 
-来源：`@visactor/vrender-core/es/entries/types.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/entries/types.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IApp {
@@ -1426,7 +1419,7 @@ export interface IApp {
 <a id="type-6efe56d777d1"></a>
 ## EasingType
 
-来源：`@visactor/vrender-core/es/interface/animation/easing.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/animation/easing.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type EasingType = EasingTypeStr | EasingTypeFunc;
@@ -1437,7 +1430,7 @@ export type EasingType = EasingTypeStr | EasingTypeFunc;
 <a id="type-619b260e190a"></a>
 ## ITicker
 
-来源：`@visactor/vrender-core/es/interface/animation/ticker.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/animation/ticker.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface ITicker extends EventEmitter {
@@ -1466,7 +1459,7 @@ export interface ITicker extends EventEmitter {
 <a id="type-a0aea41aa029"></a>
 ## IColor
 
-来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IColor = string | ILinearGradient | IRadialGradient | IConicalGradient;
@@ -1477,7 +1470,7 @@ export type IColor = string | ILinearGradient | IRadialGradient | IConicalGradie
 <a id="type-d7015f202839"></a>
 ## IConicalGradient
 
-来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IConicalGradient {
@@ -1495,7 +1488,7 @@ export interface IConicalGradient {
 <a id="type-d8d5bda2ce95"></a>
 ## ILinearGradient
 
-来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface ILinearGradient {
@@ -1513,7 +1506,7 @@ export interface ILinearGradient {
 <a id="type-8830ca87d7a0"></a>
 ## IRadialGradient
 
-来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/color.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IRadialGradient {
@@ -1533,7 +1526,7 @@ export interface IRadialGradient {
 <a id="type-a766bc91cce3"></a>
 ## IGraphic
 
-来源：`@visactor/vrender-core/es/interface/graphic.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IGraphic<T extends Partial<IGraphicAttribute> = Partial<IGraphicAttribute>> extends INode, IAnimateTarget {
@@ -1661,7 +1654,7 @@ export interface IGraphic<T extends Partial<IGraphicAttribute> = Partial<IGraphi
 <a id="type-463cf72553ce"></a>
 ## IGraphicAttribute
 
-来源：`@visactor/vrender-core/es/interface/graphic.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IGraphicAttribute = IDebugType & IGraphicStyle & ITransform & {
@@ -1697,7 +1690,7 @@ export type IGraphicAttribute = IDebugType & IGraphicStyle & ITransform & {
 <a id="type-fe3cb3c3600e"></a>
 ## IGraphicStyle
 
-来源：`@visactor/vrender-core/es/interface/graphic.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IGraphicStyle = ILayout & IFillStyle & IStrokeStyle & IPickStyle & {
@@ -1753,7 +1746,7 @@ export type IGraphicStyle = ILayout & IFillStyle & IStrokeStyle & IPickStyle & {
 <a id="type-8af3ee2f9b73"></a>
 ## IGroup
 
-来源：`@visactor/vrender-core/es/interface/graphic/group.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/group.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IGroup extends IGraphic<IGroupGraphicAttribute> {
@@ -1776,7 +1769,7 @@ export interface IGroup extends IGraphic<IGroupGraphicAttribute> {
 <a id="type-2f7220f7ffb4"></a>
 ## IGroupGraphicAttribute
 
-来源：`@visactor/vrender-core/es/interface/graphic/group.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/group.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IGroupGraphicAttribute = Partial<IGraphicAttribute> & Partial<IGroupAttribute>;
@@ -1787,7 +1780,7 @@ export type IGroupGraphicAttribute = Partial<IGraphicAttribute> & Partial<IGroup
 <a id="type-fcfc702de0ac"></a>
 ## IImageGraphicAttribute
 
-来源：`@visactor/vrender-core/es/interface/graphic/image.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/image.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IImageGraphicAttribute = Partial<IGraphicAttribute> & Partial<IImageAttribute>;
@@ -1798,7 +1791,7 @@ export type IImageGraphicAttribute = Partial<IGraphicAttribute> & Partial<IImage
 <a id="type-09c9e7b04102"></a>
 ## IRichTextAttribute
 
-来源：`@visactor/vrender-core/es/interface/graphic/richText.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/richText.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IRichTextAttribute = {
@@ -1830,7 +1823,7 @@ export type IRichTextAttribute = {
 <a id="type-a486d6a175fe"></a>
 ## IRichTextCharacter
 
-来源：`@visactor/vrender-core/es/interface/graphic/richText.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/richText.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IRichTextCharacter = IRichTextParagraphCharacter | IRichTextImageCharacter;
@@ -1841,7 +1834,7 @@ export type IRichTextCharacter = IRichTextParagraphCharacter | IRichTextImageCha
 <a id="type-e3b4c4057a4f"></a>
 ## IRichTextGraphicAttribute
 
-来源：`@visactor/vrender-core/es/interface/graphic/richText.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/richText.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type IRichTextGraphicAttribute = Partial<IGraphicAttribute & ITextGraphicAttribute> & Partial<IRichTextAttribute>;
@@ -1852,7 +1845,7 @@ export type IRichTextGraphicAttribute = Partial<IGraphicAttribute & ITextGraphic
 <a id="type-4dccce8cd4d7"></a>
 ## SymbolType
 
-来源：`@visactor/vrender-core/es/interface/graphic/symbol.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/symbol.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type SymbolType = 'circle' | 'cross' | 'diamond' | 'square' | 'arrow' | 'arrowLeft' | 'arrowRight' | 'arrow2Left' | 'arrow2Right' | 'wedge' | 'thinTriangle' | 'triangle' | 'triangleUp' | 'triangleDown' | 'triangleRight' | 'triangleLeft' | 'stroke' | 'star' | 'wye' | 'rect' | 'rectRound' | 'roundLine' | string;
@@ -1863,7 +1856,7 @@ export type SymbolType = 'circle' | 'cross' | 'diamond' | 'square' | 'arrow' | '
 <a id="type-4ecb56643e01"></a>
 ## ITextAttribute
 
-来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type ITextAttribute = {
@@ -1904,7 +1897,7 @@ export type ITextAttribute = {
 <a id="type-36d5f8ea422d"></a>
 ## ITextGraphicAttribute
 
-来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type ITextGraphicAttribute = Partial<IGraphicAttribute> & Partial<ITextAttribute>;
@@ -1915,7 +1908,7 @@ export type ITextGraphicAttribute = Partial<IGraphicAttribute> & Partial<ITextAt
 <a id="type-5417f1df62a1"></a>
 ## TextAlignType
 
-来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type TextAlignType = 'left' | 'right' | 'center' | 'start' | 'end';
@@ -1926,7 +1919,7 @@ export type TextAlignType = 'left' | 'right' | 'center' | 'start' | 'end';
 <a id="type-b47e2c6810a7"></a>
 ## TextBaselineType
 
-来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/graphic/text.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export type TextBaselineType = 'top' | 'middle' | 'bottom' | 'alphabetic';
@@ -1937,7 +1930,7 @@ export type TextBaselineType = 'top' | 'middle' | 'bottom' | 'alphabetic';
 <a id="type-92d2afdda23a"></a>
 ## ILayer
 
-来源：`@visactor/vrender-core/es/interface/layer.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/layer.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface ILayer extends IGroup {
@@ -1987,7 +1980,7 @@ export interface ILayer extends IGroup {
 <a id="type-68cc5b53deb9"></a>
 ## ICustomPath2D
 
-来源：`@visactor/vrender-core/es/interface/path.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/path.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface ICustomPath2D extends ICurvePath<IPoint>, IPath2D, Releaseable {
@@ -2008,7 +2001,7 @@ export interface ICustomPath2D extends ICurvePath<IPoint>, IPath2D, Releaseable 
 <a id="type-f65323c92812"></a>
 ## IOption3D
 
-来源：`@visactor/vrender-core/es/interface/stage.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/stage.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IOption3D {
@@ -2040,7 +2033,7 @@ export interface IOption3D {
 <a id="type-454a11518dd1"></a>
 ## IStage
 
-来源：`@visactor/vrender-core/es/interface/stage.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/stage.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IStage extends INode {
@@ -2145,7 +2138,7 @@ export interface IStage extends INode {
 <a id="type-681e3d101563"></a>
 ## IStageParams
 
-来源：`@visactor/vrender-core/es/interface/stage.d.ts`，@visactor/vrender-core@1.1.11
+来源：`@visactor/vrender-core/es/interface/stage.d.ts`，@visactor/vrender-core@1.1.12
 
 ```typescript
 export interface IStageParams {
@@ -2188,7 +2181,7 @@ export interface IStageParams {
 <a id="type-a2851eee354b"></a>
 ## CustomTicksFunc
 
-来源：`@visactor/vscale/es/interface.d.ts`，@visactor/vscale@1.0.27
+来源：`@visactor/vscale/es/interface.d.ts`，@visactor/vscale@1.0.28
 
 ```typescript
 export type CustomTicksFunc<T extends IBaseScale> = (scale: T, count: number) => number[];
@@ -2199,7 +2192,7 @@ export type CustomTicksFunc<T extends IBaseScale> = (scale: T, count: number) =>
 <a id="type-f4ea6ab4e67d"></a>
 ## IBaseScale
 
-来源：`@visactor/vscale/es/interface.d.ts`，@visactor/vscale@1.0.27
+来源：`@visactor/vscale/es/interface.d.ts`，@visactor/vscale@1.0.28
 
 ```typescript
 export interface IBaseScale {
@@ -2220,7 +2213,7 @@ export interface IBaseScale {
 <a id="type-61b93a04c77c"></a>
 ## IContinuousScale
 
-来源：`@visactor/vscale/es/interface.d.ts`，@visactor/vscale@1.0.27
+来源：`@visactor/vscale/es/interface.d.ts`，@visactor/vscale@1.0.28
 
 ```typescript
 export interface IContinuousScale extends IBaseScale, IRangeFactor {
@@ -2240,7 +2233,7 @@ export interface IContinuousScale extends IBaseScale, IRangeFactor {
 <a id="type-e61ecce4e47c"></a>
 ## IBoundsLike
 
-来源：`@visactor/vutils/es/data-structure/bounds.d.ts`，@visactor/vutils@1.0.27
+来源：`@visactor/vutils/es/data-structure/bounds.d.ts`，@visactor/vutils@1.0.28
 
 ```typescript
 export type IBoundsLike = Pick<IBounds, 'x1' | 'y1' | 'x2' | 'y2'>;
@@ -2251,7 +2244,7 @@ export type IBoundsLike = Pick<IBounds, 'x1' | 'y1' | 'x2' | 'y2'>;
 <a id="type-e25b463f6cfe"></a>
 ## IPointLike
 
-来源：`@visactor/vutils/es/data-structure/point.d.ts`，@visactor/vutils@1.0.27
+来源：`@visactor/vutils/es/data-structure/point.d.ts`，@visactor/vutils@1.0.28
 
 ```typescript
 export type IPointLike = Pick<IPoint, 'x' | 'y' | 'x1' | 'y1' | 'defined' | 'context'>;
@@ -2262,7 +2255,7 @@ export type IPointLike = Pick<IPoint, 'x' | 'y' | 'x1' | 'y1' | 'defined' | 'con
 <a id="type-698f5ded9c9f"></a>
 ## IPadding
 
-来源：`@visactor/vutils/es/padding.d.ts`，@visactor/vutils@1.0.27
+来源：`@visactor/vutils/es/padding.d.ts`，@visactor/vutils@1.0.28
 
 ```typescript
 export type IPadding = {
@@ -2278,7 +2271,7 @@ export type IPadding = {
 <a id="type-0f3d51337f61"></a>
 ## Maybe
 
-来源：`@visactor/vutils/es/type.d.ts`，@visactor/vutils@1.0.27
+来源：`@visactor/vutils/es/type.d.ts`，@visactor/vutils@1.0.28
 
 ```typescript
 export type Maybe<T> = T | null | undefined;
@@ -2994,10 +2987,8 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     | IBarSeriesSpec
     | IRangeColumnChartSpec
     | IRangeAreaChartSpec
-    | IDotSeriesSpec
     | IMapSeriesSpec
     | IPieSeriesSpec
-    | ILinkSeriesSpec
     | IRadarSeriesSpec
     | IRoseSeriesSpec
     | IScatterSeriesSpec
@@ -3050,7 +3041,7 @@ export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
 }
 ```
 
-相关定义：[IChartSpec](AdditionalTypes-Type-Definition.md#type-57e06d38bf09)、[IAreaSeriesSpec](AdditionalTypes-Type-Definition.md#type-3c1aa405c767)、[ILineSeriesSpec](AdditionalTypes-Type-Definition.md#type-c14fbe0b660f)、[IBarSeriesSpec](AdditionalTypes-Type-Definition.md#type-e01baddbd8aa)、[IRangeColumnChartSpec](AdditionalTypes-Type-Definition.md#type-da04864ad35f)、[IRangeAreaChartSpec](AdditionalTypes-Type-Definition.md#type-3a7b7d9563aa)、[IDotSeriesSpec](AdditionalTypes-Type-Definition.md#type-447586c1422f)、[IMapSeriesSpec](AdditionalTypes-Type-Definition.md#type-f28afaaaf021)、[IPieSeriesSpec](AdditionalTypes-Type-Definition.md#type-71acefc8c120)、[ILinkSeriesSpec](AdditionalTypes-Type-Definition.md#type-66b30ce0b9f7)、[IRadarSeriesSpec](AdditionalTypes-Type-Definition.md#type-702f2f2e90b8)、[IRoseSeriesSpec](AdditionalTypes-Type-Definition.md#type-50a9d844112a)、[IScatterSeriesSpec](AdditionalTypes-Type-Definition.md#type-08a7bd218e9e)、[ICircularProgressSeriesSpec](AdditionalTypes-Type-Definition.md#type-30261f5b0d11)、[ILinearProgressSeriesSpec](AdditionalTypes-Type-Definition.md#type-a272f43e66ef)、[IWordCloudSeriesSpec](AdditionalTypes-Type-Definition.md#type-472dc2c97d50)、[IFunnelSeriesSpec](AdditionalTypes-Type-Definition.md#type-0291e38eb55c)、[IBoxPlotSeriesSpec](AdditionalTypes-Type-Definition.md#type-4f696616234f)、[IGaugeSeriesSpec](AdditionalTypes-Type-Definition.md#type-dfd9dde34e4c)、[ISankeySeriesSpec](AdditionalTypes-Type-Definition.md#type-73ad288a6b3a)、[ITreemapSeriesSpec](AdditionalTypes-Type-Definition.md#type-6cdfbc0c0174)、[ISunburstSeriesSpec](AdditionalTypes-Type-Definition.md#type-42998a239bf0)、[ICirclePackingSeriesSpec](AdditionalTypes-Type-Definition.md#type-bbcfdbd7ab2b)、[IWaterfallSeriesSpec](AdditionalTypes-Type-Definition.md#type-312af991e7a8)、[IHeatmapSeriesSpec](AdditionalTypes-Type-Definition.md#type-6600af61a1ec)、[IGaugePointerSeriesSpec](AdditionalTypes-Type-Definition.md#type-9fdd71c680f3)、[ICorrelationSeriesSpec](AdditionalTypes-Type-Definition.md#type-129af10992bf)、[ICartesianAxisSpec](ICartesianAxisSpec-Type-Definition.md)、[IPolarAxisSpec](IPolarAxisSpec-Type-Definition.md)、[ICartesianCrosshairSpec](ICartesianCrosshairSpec-Type-Definition.md)、[IPolarCrosshairSpec](IPolarCrosshairSpec-Type-Definition.md)、[IMarkLineSpec](IMarkLineSpec-Type-Definition.md)、[IMarkAreaSpec](IMarkAreaSpec-Type-Definition.md)、[IMarkPointSpec](IMarkPointSpec-Type-Definition.md)
+相关定义：[IChartSpec](AdditionalTypes-Type-Definition.md#type-57e06d38bf09)、[IAreaSeriesSpec](AdditionalTypes-Type-Definition.md#type-3c1aa405c767)、[ILineSeriesSpec](AdditionalTypes-Type-Definition.md#type-c14fbe0b660f)、[IBarSeriesSpec](AdditionalTypes-Type-Definition.md#type-e01baddbd8aa)、[IRangeColumnChartSpec](AdditionalTypes-Type-Definition.md#type-da04864ad35f)、[IRangeAreaChartSpec](AdditionalTypes-Type-Definition.md#type-3a7b7d9563aa)、[IMapSeriesSpec](AdditionalTypes-Type-Definition.md#type-f28afaaaf021)、[IPieSeriesSpec](AdditionalTypes-Type-Definition.md#type-71acefc8c120)、[IRadarSeriesSpec](AdditionalTypes-Type-Definition.md#type-702f2f2e90b8)、[IRoseSeriesSpec](AdditionalTypes-Type-Definition.md#type-50a9d844112a)、[IScatterSeriesSpec](AdditionalTypes-Type-Definition.md#type-08a7bd218e9e)、[ICircularProgressSeriesSpec](AdditionalTypes-Type-Definition.md#type-30261f5b0d11)、[ILinearProgressSeriesSpec](AdditionalTypes-Type-Definition.md#type-a272f43e66ef)、[IWordCloudSeriesSpec](AdditionalTypes-Type-Definition.md#type-472dc2c97d50)、[IFunnelSeriesSpec](AdditionalTypes-Type-Definition.md#type-0291e38eb55c)、[IBoxPlotSeriesSpec](AdditionalTypes-Type-Definition.md#type-4f696616234f)、[IGaugeSeriesSpec](AdditionalTypes-Type-Definition.md#type-dfd9dde34e4c)、[ISankeySeriesSpec](AdditionalTypes-Type-Definition.md#type-73ad288a6b3a)、[ITreemapSeriesSpec](AdditionalTypes-Type-Definition.md#type-6cdfbc0c0174)、[ISunburstSeriesSpec](AdditionalTypes-Type-Definition.md#type-42998a239bf0)、[ICirclePackingSeriesSpec](AdditionalTypes-Type-Definition.md#type-bbcfdbd7ab2b)、[IWaterfallSeriesSpec](AdditionalTypes-Type-Definition.md#type-312af991e7a8)、[IHeatmapSeriesSpec](AdditionalTypes-Type-Definition.md#type-6600af61a1ec)、[IGaugePointerSeriesSpec](AdditionalTypes-Type-Definition.md#type-9fdd71c680f3)、[ICorrelationSeriesSpec](AdditionalTypes-Type-Definition.md#type-129af10992bf)、[ICartesianAxisSpec](ICartesianAxisSpec-Type-Definition.md)、[IPolarAxisSpec](IPolarAxisSpec-Type-Definition.md)、[ICartesianCrosshairSpec](ICartesianCrosshairSpec-Type-Definition.md)、[IPolarCrosshairSpec](IPolarCrosshairSpec-Type-Definition.md)、[IMarkLineSpec](IMarkLineSpec-Type-Definition.md)、[IMarkAreaSpec](IMarkAreaSpec-Type-Definition.md)、[IMarkPointSpec](IMarkPointSpec-Type-Definition.md)
 
 <a id="type-717abb97a652"></a>
 ## ICorrelationChartSpec
@@ -3745,35 +3736,6 @@ export interface IScatterChartSpec extends ICartesianChartSpec, IChartExtendsSer
 ```
 
 相关定义：[ICartesianChartSpec](AdditionalTypes-Type-Definition.md#type-0ecf9332a2b4)、[IChartExtendsSeriesSpec](AdditionalTypes-Type-Definition.md#type-0d38580aaf51)、[IScatterSeriesSpec](AdditionalTypes-Type-Definition.md#type-08a7bd218e9e)
-
-<a id="type-93ef189ce720"></a>
-## ISequenceChartSpec
-
-来源：`packages/vchart/src/chart/sequence/interface.ts`，VChart 2.1.7
-
-```typescript
-export interface ISequenceChartSpec extends IChartSpec {
-  type: 'sequence';
-
-  /** 可以为左边的title预留padding */
-  appendPadding?: IPadding;
-
-  /** 轴配置 */
-  axes?: ICartesianAxisSpec[];
-  /** 缩略轴配置 */
-  dataZooms?: IDataZoomSpec[];
-  /** 滚动条配置 */
-  scrollBars?: IScrollBarSpec[];
-  /** 十字辅助线配置 */
-  crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[];
-
-  layout?: ILayoutSpec;
-
-  region?: RegionSpec[];
-}
-```
-
-相关定义：[IChartSpec](AdditionalTypes-Type-Definition.md#type-57e06d38bf09)、[IPadding](IPadding-Type-Definition.md)、[ICartesianAxisSpec](ICartesianAxisSpec-Type-Definition.md)、[IDataZoomSpec](IDataZoomSpec-Type-Definition.md)、[IScrollBarSpec](IScrollBarSpec-Type-Definition.md)、[ICartesianCrosshairSpec](ICartesianCrosshairSpec-Type-Definition.md)、[ILayoutSpec](ILayoutSpec-Type-Definition.md)、[RegionSpec](RegionSpec-Type-Definition.md)
 
 <a id="type-fa66e1c21317"></a>
 ## ISunburstChartSpec
@@ -11406,125 +11368,6 @@ export interface ICorrelationSeriesSpec
 
 相关定义：[IPolarSeriesSpec](AdditionalTypes-Type-Definition.md#type-1ed415b7c25f)、[IAnimationSpec](AdditionalTypes-Type-Definition.md#type-c2c92c7fb8c3)、[CorrelationMarks](AdditionalTypes-Type-Definition.md#type-bdf6cade9a59)、[CorrelationAppearPreset](AdditionalTypes-Type-Definition.md#type-9e370720e4c3)、[IMarkSpec](IMarkSpec-Type-Definition.md)、[ISymbolMarkSpec](ISymbolMarkSpec-Type-Definition.md)、[IRippleMarkSpec](IRippleMarkSpec-Type-Definition.md)、[ILabelSpec](ILabelSpec-Type-Definition.md)、[IMultiLabelSpec](IMultiLabelSpec-Type-Definition.md)
 
-<a id="type-447586c1422f"></a>
-## IDotSeriesSpec
-
-来源：`packages/vchart/src/series/dot/interface.ts`，VChart 2.1.7
-
-```typescript
-export interface IDotSeriesSpec extends ICartesianSeriesSpec {
-  /**
-   * 系列类型
-   */
-  type: 'dot';
-
-  /**
-   * dot series group字段配置
-   * @description 用于区分grid、symbol的fill和stroke逻辑。如果未配置,默认按照yField字段处理
-   */
-  seriesGroupField?: string;
-
-  /**
-   * dot type 字段配置
-   * @description 用于区分dot的fill逻辑。如果未配置，默认按照yField字段处理
-   */
-  dotTypeField?: string;
-
-  /**
-   * title 字段配置
-   * @description 用于显示title。如果未配置，默认按照yField字段处理
-   */
-  titleField?: string;
-
-  /**
-   * subTitle 字段配置
-   * @description 用于显示subTitle。如果未配置，默认按照yField字段处理
-   */
-  subTitleField?: string;
-
-  /**
-   * @description 高亮series配置
-   */
-  highLightSeriesGroup?: string;
-
-  /**
-   * name 字段配置
-   * @description 用于标记node name，便于绘制link。
-   */
-  name: string;
-
-  /**
-   * 是否线性维度展开
-   * @default true
-   */
-  linearMode?: boolean;
-
-  /**
-   * 图元配置
-   */
-  [SeriesMarkNameEnum.dot]?: IMarkSpec<ISymbolMarkSpec>;
-  /**
-   * 标题
-   */
-  [SeriesMarkNameEnum.title]?: ISequenceLabel;
-  /**
-   * 标识符
-   */
-  [SeriesMarkNameEnum.symbol]?: IMarkSpec<ISymbolMarkSpec>;
-  /**
-   * 具体信息
-   */
-  [SeriesMarkNameEnum.subTitle]?: ISequenceLabel;
-  /**
-   * 时间线
-   */
-  [SeriesMarkNameEnum.grid]?: ISequenceGrid;
-  /**
-   * dot 系列的左边距(主要用于放置title和subTitle)
-   */
-  leftAppendPadding?: number;
-  /**
-   * dot 系列的可视高度
-   */
-  clipHeight?: number;
-}
-```
-
-相关定义：[ICartesianSeriesSpec](AdditionalTypes-Type-Definition.md#type-3814e1f2a8e7)、[IMarkSpec](IMarkSpec-Type-Definition.md)、[ISymbolMarkSpec](ISymbolMarkSpec-Type-Definition.md)、[ISequenceLabel](AdditionalTypes-Type-Definition.md#type-a2f61a3aee80)、[ISequenceGrid](AdditionalTypes-Type-Definition.md#type-06ef4b91a65c)
-
-<a id="type-06ef4b91a65c"></a>
-## ISequenceGrid
-
-来源：`packages/vchart/src/series/dot/interface.ts`，VChart 2.1.7
-
-```typescript
-interface ISequenceGrid {
-  visible?: boolean;
-  background?: {
-    fill?: string;
-    fillOpacity?: number;
-  };
-  style?: Omit<ConvertToMarkStyleSpec<IRuleMarkSpec>, 'visible'>;
-}
-```
-
-相关定义：[ConvertToMarkStyleSpec](AdditionalTypes-Type-Definition.md#type-3f4d44a2bad5)、[IRuleMarkSpec](IRuleMarkSpec-Type-Definition.md)
-
-<a id="type-a2f61a3aee80"></a>
-## ISequenceLabel
-
-来源：`packages/vchart/src/series/dot/interface.ts`，VChart 2.1.7
-
-```typescript
-interface ISequenceLabel {
-  visible?: boolean;
-  formatMethod?: IFormatMethod<[text: string | string[], datum?: any]>;
-  style?: Omit<ConvertToMarkStyleSpec<ITextMarkSpec>, 'visible'>;
-}
-```
-
-相关定义：[IFormatMethod](AdditionalTypes-Type-Definition.md#type-6375b3333257)、[ConvertToMarkStyleSpec](AdditionalTypes-Type-Definition.md#type-3f4d44a2bad5)、[ITextMarkSpec](ITextMarkSpec-Type-Definition.md)
-
 <a id="type-ca0d8e9e8ab0"></a>
 ## FunnelAppearPreset
 
@@ -12613,113 +12456,6 @@ export type LineAppearPreset = 'clipIn' | 'fadeIn' | 'grow';
 
 ```typescript
 type LineMarks = 'point' | 'line';
-```
-
-<a id="type-66b30ce0b9f7"></a>
-## ILinkSeriesSpec
-
-来源：`packages/vchart/src/series/link/interface.ts`，VChart 2.1.7
-
-```typescript
-export interface ILinkSeriesSpec extends ICartesianSeriesSpec, ILinkSeriesSpecFromDot {
-  /**
-   * 系列类型
-   */
-  type: 'link';
-
-  /**
-   * from 字段配置
-   * @description 用于绘制link的起点。
-   */
-  fromField: string;
-
-  /**
-   * to 字段配置
-   * @description 用于绘制link的终点。
-   */
-  toField: string;
-
-  /**
-   * 被关联的dot series index
-   */
-  dotSeriesIndex: number;
-
-  // TODO: 这里的 type 是某种内部定义类型还是一位维度key呢？维度key的话应该用 xxxField 更合理
-
-  /**
-   * dot type字段配置
-   * @description 用于区分link的stroke逻辑。如果没有配置，则每条link都使用相同的stroke
-   */
-  dotTypeField?: string;
-
-  /**
-   * link类型: 直线 或 曲线
-   * @default 'line'
-   */
-  linkType?: LinkType;
-
-  /**
-   * link的image标签字段
-   */
-  imageLabelField?: string;
-  /**
-   * 是否允许向左右两侧延伸
-   * @default false
-   */
-  allowExtend?: boolean;
-  /**
-   * 图元配置
-   */
-  [SeriesMarkNameEnum.link]?: IMarkSpec<ILineMarkSpec>;
-  /**
-   * image标签配置
-   */
-  [SeriesMarkNameEnum.imageLabel]?: IMarkSpec<IImageMarkSpec>;
-}
-```
-
-相关定义：[ICartesianSeriesSpec](AdditionalTypes-Type-Definition.md#type-3814e1f2a8e7)、[ILinkSeriesSpecFromDot](AdditionalTypes-Type-Definition.md#type-28f198e9a466)、[LinkType](AdditionalTypes-Type-Definition.md#type-875756389aa2)、[IMarkSpec](IMarkSpec-Type-Definition.md)、[ILineMarkSpec](ILineMarkSpec-Type-Definition.md)、[IImageMarkSpec](IImageMarkSpec-Type-Definition.md)
-
-<a id="type-28f198e9a466"></a>
-## ILinkSeriesSpecFromDot
-
-来源：`packages/vchart/src/series/link/interface.ts`，VChart 2.1.7
-
-```typescript
-type ILinkSeriesSpecFromDot = {
-  // 以下属性不对用户开放
-  // 原因: 在sequence chart层做了特殊处理，这些属性都从关联的dot series中获得，不开放给用户
-  /**
-   * 被关联dot series的数据
-   */
-  dataDot?: DataView;
-  /**
-   * 被关联的dot series的spec
-   */
-  dotSeriesSpec?: IDotSeriesSpec;
-  /**
-   * link 系列的左边距(和dot 系列保持一致，主要用于放置dot 系列的title和subTitle)
-   */
-  leftAppendPadding?: number;
-  /**
-   * link 系列的可视高度
-   */
-  clipHeight?: number;
-};
-```
-
-相关定义：[DataView](AdditionalTypes-Type-Definition.md#type-b26ccd36d8e8)、[IDotSeriesSpec](AdditionalTypes-Type-Definition.md#type-447586c1422f)
-
-<a id="type-875756389aa2"></a>
-## LinkType
-
-来源：`packages/vchart/src/series/link/interface.ts`，VChart 2.1.7
-
-```typescript
-export enum LinkType {
-  line = 'line',
-  curve = 'curve'
-}
 ```
 
 <a id="type-bef15b2fe03b"></a>
@@ -15039,7 +14775,6 @@ export interface ChartSpecMap {
   readonly radar: IRadarChartSpec;
   readonly rose: IRoseChartSpec;
   readonly scatter: IScatterChartSpec;
-  readonly sequence: ISequenceChartSpec;
   readonly circleProgress: ICircularProgressChartSpec;
   readonly linearProgress: ILinearProgressChartSpec;
   readonly wordCloud: IWordCloudChartSpec;
@@ -15057,7 +14792,7 @@ export interface ChartSpecMap {
 }
 ```
 
-相关定义：[ICommonChartSpec](AdditionalTypes-Type-Definition.md#type-2e8825d02f34)、[IAreaChartSpec](AdditionalTypes-Type-Definition.md#type-496aab7cbbc3)、[ILineChartSpec](AdditionalTypes-Type-Definition.md#type-de20dddcc338)、[IBarChartSpec](AdditionalTypes-Type-Definition.md#type-1b991bebaeb5)、[IHistogramChartSpec](AdditionalTypes-Type-Definition.md#type-50577849394e)、[IRangeColumnChartSpec](AdditionalTypes-Type-Definition.md#type-da04864ad35f)、[IRangeAreaChartSpec](AdditionalTypes-Type-Definition.md#type-3a7b7d9563aa)、[IMapChartSpec](AdditionalTypes-Type-Definition.md#type-2cc8eadf4a78)、[IPieChartSpec](AdditionalTypes-Type-Definition.md#type-b89687ec6565)、[IRadarChartSpec](AdditionalTypes-Type-Definition.md#type-63b572eee0ca)、[IRoseChartSpec](AdditionalTypes-Type-Definition.md#type-92bd0cd597bd)、[IScatterChartSpec](AdditionalTypes-Type-Definition.md#type-b4c1e7d7be5c)、[ISequenceChartSpec](AdditionalTypes-Type-Definition.md#type-93ef189ce720)、[ICircularProgressChartSpec](AdditionalTypes-Type-Definition.md#type-162adbb6da6d)、[ILinearProgressChartSpec](AdditionalTypes-Type-Definition.md#type-aa5844c337ee)、[IWordCloudChartSpec](AdditionalTypes-Type-Definition.md#type-5e23d784e4af)、[IFunnelChartSpec](AdditionalTypes-Type-Definition.md#type-87520a24cdd6)、[IWaterfallChartSpec](AdditionalTypes-Type-Definition.md#type-8f8a21509020)、[IBoxPlotChartSpec](AdditionalTypes-Type-Definition.md#type-20eb03e0dbfa)、[IGaugeChartSpec](AdditionalTypes-Type-Definition.md#type-80ddbd318ef0)、[ISankeyChartSpec](AdditionalTypes-Type-Definition.md#type-f326797c9091)、[ITreemapChartSpec](AdditionalTypes-Type-Definition.md#type-f80911626a1e)、[ISunburstChartSpec](AdditionalTypes-Type-Definition.md#type-fa66e1c21317)、[ICirclePackingChartSpec](AdditionalTypes-Type-Definition.md#type-6e93443171dd)、[IHeatmapChartSpec](AdditionalTypes-Type-Definition.md#type-d5e9ad106fbf)、[ICorrelationChartSpec](AdditionalTypes-Type-Definition.md#type-717abb97a652)、[ILiquidChartSpec](AdditionalTypes-Type-Definition.md#type-53e84bdd56cd)
+相关定义：[ICommonChartSpec](AdditionalTypes-Type-Definition.md#type-2e8825d02f34)、[IAreaChartSpec](AdditionalTypes-Type-Definition.md#type-496aab7cbbc3)、[ILineChartSpec](AdditionalTypes-Type-Definition.md#type-de20dddcc338)、[IBarChartSpec](AdditionalTypes-Type-Definition.md#type-1b991bebaeb5)、[IHistogramChartSpec](AdditionalTypes-Type-Definition.md#type-50577849394e)、[IRangeColumnChartSpec](AdditionalTypes-Type-Definition.md#type-da04864ad35f)、[IRangeAreaChartSpec](AdditionalTypes-Type-Definition.md#type-3a7b7d9563aa)、[IMapChartSpec](AdditionalTypes-Type-Definition.md#type-2cc8eadf4a78)、[IPieChartSpec](AdditionalTypes-Type-Definition.md#type-b89687ec6565)、[IRadarChartSpec](AdditionalTypes-Type-Definition.md#type-63b572eee0ca)、[IRoseChartSpec](AdditionalTypes-Type-Definition.md#type-92bd0cd597bd)、[IScatterChartSpec](AdditionalTypes-Type-Definition.md#type-b4c1e7d7be5c)、[ICircularProgressChartSpec](AdditionalTypes-Type-Definition.md#type-162adbb6da6d)、[ILinearProgressChartSpec](AdditionalTypes-Type-Definition.md#type-aa5844c337ee)、[IWordCloudChartSpec](AdditionalTypes-Type-Definition.md#type-5e23d784e4af)、[IFunnelChartSpec](AdditionalTypes-Type-Definition.md#type-87520a24cdd6)、[IWaterfallChartSpec](AdditionalTypes-Type-Definition.md#type-8f8a21509020)、[IBoxPlotChartSpec](AdditionalTypes-Type-Definition.md#type-20eb03e0dbfa)、[IGaugeChartSpec](AdditionalTypes-Type-Definition.md#type-80ddbd318ef0)、[ISankeyChartSpec](AdditionalTypes-Type-Definition.md#type-f326797c9091)、[ITreemapChartSpec](AdditionalTypes-Type-Definition.md#type-f80911626a1e)、[ISunburstChartSpec](AdditionalTypes-Type-Definition.md#type-fa66e1c21317)、[ICirclePackingChartSpec](AdditionalTypes-Type-Definition.md#type-6e93443171dd)、[IHeatmapChartSpec](AdditionalTypes-Type-Definition.md#type-d5e9ad106fbf)、[ICorrelationChartSpec](AdditionalTypes-Type-Definition.md#type-717abb97a652)、[ILiquidChartSpec](AdditionalTypes-Type-Definition.md#type-53e84bdd56cd)
 
 <a id="type-c3727b86f632"></a>
 ## ISpec

@@ -37,7 +37,7 @@
 | `skills/vchart-development-assistant/README.md` | 修正“已有 spec 修改沿用配置目标”的无条件表述 |
 | `docs/assets/guide/zh/tutorial_docs/VChart_Skill_Usage.md`、对应英文文件 | 对齐相同的上下文保持规则，保留已有内容和图片 |
 | `skills/vchart-development-assistant/workflows/scenario-1-diagnosis.md` | 对齐信息收集与描述诊断的数据来源；去除无条件 mock 和最少条数要求 |
-| `skills/vchart-development-assistant/evals/generation-scenarios.md` | 增加 R01–R07 专项边界，复用既有场景作回归 |
+| `evals/vchart-development-assistant/generation-scenarios.md` | 增加 R01–R07 专项边界，复用既有场景作回归 |
 | `docs/superpowers/validation/2026-10-14-vchart-delivery-context-and-diagnostic-data.md` | 实施时新增，记录当前工作区快照、实际任务与验收限制 |
 
 HTML/spec 专项流程已要求保持目标和使用真实数据，本期只检查它们与上述修复一致；不重写或复制一套规则。上一轮验收记录保留，本轮新增记录，不能将旧结果直接改为新修复通过。

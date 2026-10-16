@@ -58,7 +58,7 @@
 | `skills/vchart-development-assistant/workflows/scenario-1-diagnosis.md`、`scenario-1-react.md`、`scenario-3-image-replication.md` | 修改：对齐交付选择及上下文保持，不重写专项知识 |
 | `skills/vchart-development-assistant/references/chart/chart-type-guide.md` | 修改：有针对性地补充选图和数据语义，校正被触及的误导规则 |
 | `skills/vchart-development-assistant/examples/spec-generation/README.md`、`weekly-bar.json`、`composition-pie.json`、`callback-label.js` | 新增：用途和边界说明；JSON 业务图与 JS 回调示例 |
-| `skills/vchart-development-assistant/evals/generation-scenarios.md` | 新增：固定提示、上下文、预期产物、判定与实际输出记录要求 |
+| `evals/vchart-development-assistant/generation-scenarios.md` | 新增：固定提示、上下文、预期产物、判定与实际输出记录要求 |
 | `skills/vchart-development-assistant/README.md` | 修改：两种生成场景的用途、提问示例和交付区别 |
 | `docs/assets/guide/zh/tutorial_docs/VChart_Skill_Usage.md`、对应英文文件 | 修改：中文优先补全场景说明，英文按现有体系同步 |
 | `docs/superpowers/validation/2026-10-14-vchart-development-assistant-optimization.md` | 实施时新增：规则走查、Agent 行为、真实渲染、既有场景及视觉回归证据 |
@@ -156,7 +156,7 @@ python3 scripts/generate_demo_html.py \
 | G09 | 数据含零、缺失、数字 ID；明确字段含义 | 图义和字段角色正确；不静默补零、删行或把 ID 当度量 |
 | G10 | 明确要 spec，但当前没有可用浏览器 | 给出可完成的 spec，自检说明真实；不声称实际渲染通过 |
 
-- [x] 在 `evals/generation-scenarios.md` 写出每份任务的完整提示、数据、已知约束和判定；不能在执行后补充有利假设。
+- [x] 在 `evals/vchart-development-assistant/generation-scenarios.md` 写出每份任务的完整提示、数据、已知约束和判定；不能在执行后补充有利假设。
 - [x] G01–G04 各执行三次；其余至少一次。G08 两个子任务分别记录，总计至少 19 份实际任务输出。另补充完整增量交付、JSON 原生 tooltip、spec/HTML 组合交付与 JS 回调四项边界任务。记录结果，失败则调整规则并重测相关任务，不用一次成功证明稳定。
 - [x] 比较原版与新版的关键 HTML/spec 路由行为，避免新增 spec 场景抢占既有 HTML 需求。
 - [x] 用 Python 标准库解析实际 JSON 产物；检查数据与字段。示例格式检查可以从仓库根执行：

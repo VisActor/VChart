@@ -3,6 +3,8 @@ import path from 'node:path';
 import { createRequire } from 'node:module';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
+import { isDeepStrictEqual } from 'node:util';
+import { toDistributedMetadata, metadataFields, propertyFields, definitionFields } from './distribution.mjs';
 
 const json = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const hash = text => createHash('sha256').update(text).digest('hex');
@@ -547,7 +549,8 @@ export function auditReferences(context, sources, referencesRoot, supplied = new
   const extracted = new Map(sources.map(source => [source.chart, extractChart(context, source)]));
   const allProperties = new Set([...extracted.values()].flatMap(d => d.effectiveProperties.map(p => p.name)));
   for (const source of sources) {
-    const expected = extracted.get(source.chart);
+    const expectedRaw = extracted.get(source.chart);
+    const expected = toDistributedMetadata(expectedRaw);
     const filename = path.join(referencesRoot, 'type-meta', `${source.chart}.json`);
     const actual =
       supplied.get(source.chart) || (fs.existsSync(filename) ? readDocument(filename, source.chart) : null);
@@ -556,8 +559,28 @@ export function auditReferences(context, sources, referencesRoot, supplied = new
       emit('MISSING_METADATA');
       continue;
     }
-    const recorded = actual.effectiveProperties || Object.values(actual.inheritanceTree).flatMap(n => n.ownProperties);
+    function checkFields(value, expectedValue, fields, code, extra = {}, skip = []) {
+      for (const field of Object.keys(value))
+        if (!fields.includes(field)) emit('UNEXPECTED_FIELD', { ...extra, field });
+      for (const field of fields)
+        if (
+          Object.hasOwn(value, field) !== Object.hasOwn(expectedValue, field) ||
+          (!skip.includes(field) && !isDeepStrictEqual(value[field], expectedValue[field]))
+        )
+          emit(code, { ...extra, field, metadata: value[field], actual: expectedValue[field] });
+    }
+    checkFields(actual, expected, metadataFields, 'METADATA_FIELD_MISMATCH', {}, [
+      'effectiveProperties',
+      'complexTypeDefinitions'
+    ]);
+    if (actual.formatVersion !== 3 || !Array.isArray(actual.effectiveProperties)) {
+      emit('INVALID_METADATA_FORMAT');
+      continue;
+    }
+    const recorded = actual.effectiveProperties;
     const byName = new Map(recorded.map(p => [p.name, p]));
+    if (byName.size !== recorded.length) emit('DUPLICATE_METADATA_PROPERTY');
+    const rawByName = new Map(expectedRaw.effectiveProperties.map(p => [p.name, p]));
     const knownNames = new Set(expected.effectiveProperties.map(p => p.name));
     if (!source.openContract)
       for (const name of byName.keys())
@@ -569,16 +592,25 @@ export function auditReferences(context, sources, referencesRoot, supplied = new
           chart: source.chart,
           code: 'SOURCE_PROPERTY_MISSING',
           property: property.name,
-          source: property.source
+          source: rawByName.get(property.name).source
         });
         continue;
       }
-      if (canonicalType(context, old.type, !old.required) !== canonicalType(context, property.type, !property.required))
+      checkFields(old, property, propertyFields, 'PROPERTY_FIELD_MISMATCH', { property: property.name }, [
+        'type',
+        'required',
+        'dependencies',
+        'dependencyBindings'
+      ]);
+      if (
+        typeof old.type !== 'string' ||
+        canonicalType(context, old.type, !old.required) !== canonicalType(context, property.type, !property.required)
+      )
         emit('TYPE_MISMATCH', {
           property: property.name,
           metadata: old.type,
           actual: property.type,
-          source: property.source
+          source: rawByName.get(property.name).source
         });
       if (old.required !== property.required)
         emit('REQUIRED_MISMATCH', { property: property.name, metadata: old.required, actual: property.required });
@@ -592,8 +624,6 @@ export function auditReferences(context, sources, referencesRoot, supplied = new
       for (const name of property.dependencies)
         if (!actual.complexTypeDefinitions?.[name]) emit('MISSING_DEPENDENCY_DEFINITION', { property: name });
     }
-    if (actual.sourceFile !== source.sourceFile)
-      emit('SOURCE_MISMATCH', { metadata: actual.sourceFile, actual: source.sourceFile });
     if (!actual.vchartVersion || actual.vchartVersion !== context.version) emit('VERSION_MISMATCH');
     if (JSON.stringify(actual).includes('/Users/')) emit('ABSOLUTE_PATH');
     for (const [name, target] of Object.entries(actual.complexTypeDefinitions || {})) {
@@ -601,8 +631,8 @@ export function auditReferences(context, sources, referencesRoot, supplied = new
       if (!target.reference || !fs.existsSync(path.join(referencesRoot, target.reference.split('#')[0])))
         emit('MISSING_DETAIL', { property: name, reference: target.reference });
       const exp = expected.complexTypeDefinitions[name];
-      if (exp && target.filePath !== exp.filePath)
-        emit('DEFINITION_MISMATCH', { property: name, metadata: target.filePath, actual: exp.filePath });
+      if (exp) checkFields(target, exp, definitionFields, 'DEFINITION_MISMATCH', { property: name }, ['reference']);
+      else emit('UNKNOWN_DEPENDENCY_DEFINITION', { property: name });
       if (exp && target.reference !== exp.reference)
         emit('DETAIL_TARGET_MISMATCH', { property: name, metadata: target.reference, actual: exp.reference });
       if (target.reference?.includes('#')) {
@@ -612,6 +642,8 @@ export function auditReferences(context, sources, referencesRoot, supplied = new
           emit('MISSING_DETAIL_ANCHOR', { property: name, reference: target.reference });
       }
     }
+    for (const name of Object.keys(expected.complexTypeDefinitions))
+      if (!actual.complexTypeDefinitions?.[name]) emit('MISSING_DEPENDENCY_DEFINITION', { property: name });
     const topkeyFile = path.join(referencesRoot, 'topkey', `${source.chart}.json`);
     if (!fs.existsSync(topkeyFile)) emit('MISSING_TOPKEY');
     else

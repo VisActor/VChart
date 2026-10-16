@@ -1,6 +1,6 @@
 # VChart 技能元数据质量优化验收
 
-日期：2026-10-14。对应 [计划](../plans/2026-10-14-vchart-skill-metadata-quality.md)、[技能入口](../../../skills/vchart-development-assistant/SKILL.md)、[来源清单](../../../skills/vchart-development-assistant/references/metadata-sources.json)。本轮未提交、推送、创建 PR、发布或同步全局技能。
+日期：2026-10-14。对应 [计划](../plans/2026-10-14-vchart-skill-metadata-quality.md)、[技能入口](../../../skills/vchart-development-assistant/SKILL.md)、[来源清单](../../../packages/vchart/scripts/skill-metadata/metadata-sources.json)。本轮未提交、推送、创建 PR、发布或同步全局技能。
 
 ## 完成范围
 

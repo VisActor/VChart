@@ -17,7 +17,7 @@
 - 生成器及 Python unittest 使用系统 Python `3.9.6`。官方 quick_validate 需要 PyYAML，现有解释器未安装；在 `/tmp/vchart-skill-validation-20261014` 的临时 Python 3.11 venv 安装 PyYAML 6.0.3 后通过，未添加项目/全局依赖。
 - 新版执行 23 个独立任务，其中 G06 另含同一任务的第二轮修改；关键 G01–G04 每类三次，G08-R/G08-I 分别执行，补充 G11–G14 四个边界任务。每个任务从无父对话历史的独立 Agent 开始，G06 后续轮保留其实际历史。
 - 使用相同默认继承模型设置，未覆盖 model 或 reasoning effort。工具没有提供确切模型标识，不将这次记录视为指定模型的长期成功率评测，也未测试自动技能发现率。
-- 每个 Agent 只收到实际请求、技能路径、必要输入与输出目录，没有收到优化计划、判定答案或已知错误。评估定义见 [generation-scenarios.md](../../../skills/vchart-development-assistant/evals/generation-scenarios.md)。
+- 每个 Agent 只收到实际请求、技能路径、必要输入与输出目录，没有收到优化计划、判定答案或已知错误。评估定义见 [generation-scenarios.md](../../../evals/vchart-development-assistant/generation-scenarios.md)。
 - 原始产物、截图、实际验证脚本保留在 `/tmp/vchart-skill-evals/`；临时目录可能被系统清理，本文保留实际结论、关键数据和复现入口，不把临时产物作为技能运行依赖。
 
 ## 基础检查

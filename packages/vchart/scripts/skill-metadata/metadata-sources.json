@@ -231,8 +231,11 @@
     {
       "chart": "sequence",
       "typeName": "ISequenceChartSpec",
-      "sourceFile": "packages/vchart/src/chart/sequence/interface.ts",
-      "package": "@visactor/vchart"
+      "sourceFile": "packages/vchart-extension/src/charts/sequence/interface.ts",
+      "package": "@visactor/vchart-extension",
+      "registration": [
+        "registerSequenceChart"
+      ]
     },
     {
       "chart": "sunburst",
