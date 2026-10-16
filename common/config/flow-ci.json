@@ -48,5 +48,18 @@
   ],
   "nodeChecks": [
     "packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs"
-  ]
+  ],
+  "publishedUmd": {
+    "version": "2.1.8-alpha.0",
+    "files": {
+      "vchart": {
+        "integrity": "sha512-Ufk0lzLHcaJD9BrWcIxEp66UEYtNoiobD4z/dOjJy8qBWqwaclsnx0XZ3wr/S1Da1PQE/zUhy6vLG+uLvq/5yw==",
+        "sha256": "9d0f5651b1e322f383c7101b54265c9b3a7ee0f5cd7c9165db83f8f19f22cd0b"
+      },
+      "statplots": {
+        "integrity": "sha512-DgNAwc9LPG2aLW9DD7qR8Px6Oo20HCI4afwliyzRlkWSqKu30DyVL6yJQ9LtyddWMQ9TVPGcSdMIRxPdFUavBA==",
+        "sha256": "4902756722b23bd9f54b8b4b17ed20ccaba28301cc5f0971e734e1fc20655a04"
+      }
+    }
+  }
 }
