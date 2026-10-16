@@ -81,30 +81,54 @@ async function read(page: Page) {
   });
 }
 type Snapshot = Awaited<ReturnType<typeof read>>;
+// 逐箱校验相同的几何约束，只汇总失败，避免大数据用例产生数万次测试框架调用。
 function expectRegular(result: Snapshot, count: number) {
   expect(result.errors).toEqual([]);
   expect(result.cells.reduce((sum: number, cell: Snapshot['cells'][number]) => sum + cell.datum.count, 0)).toBe(count);
   let maxDeviation = 0;
-  for (const cell of result.cells) {
-    expect(cell.datum.count).toBeGreaterThan(0);
-    expect(cell.points).toHaveLength(6);
+  const failures: string[] = [];
+  for (const [index, cell] of result.cells.entries()) {
+    if (!(cell.datum.count > 0)) failures.push(`cell ${index}: count ${cell.datum.count}`);
+    if (cell.points.length !== 6) {
+      failures.push(`cell ${index}: ${cell.points.length} vertices`);
+      continue;
+    }
     const edges = cell.points.map((p, i) => {
       const next = cell.points[(i + 1) % 6];
       return Math.hypot(p.x - next.x, p.y - next.y);
     });
     maxDeviation = Math.max(maxDeviation, Math.max(...edges) - Math.min(...edges));
-    expect(Math.min(...edges)).toBeGreaterThan(0);
+    if (!(Math.min(...edges) > 0)) failures.push(`cell ${index}: edge lengths ${edges}`);
     cell.points.forEach((p, i) => {
       const prev = cell.points[(i + 5) % 6],
         next = cell.points[(i + 1) % 6];
       const cosine =
         ((prev.x - p.x) * (next.x - p.x) + (prev.y - p.y) * (next.y - p.y)) / (edges[i] * edges[(i + 5) % 6]);
-      expect(Math.abs(cosine + 0.5)).toBeLessThan(1e-7);
+      if (!(Math.abs(cosine + 0.5) < 1e-7)) failures.push(`cell ${index}, vertex ${i}: cosine ${cosine}`);
     });
   }
+  expect(failures).toEqual([]);
   expect(maxDeviation).toBeLessThan(1e-5);
 }
 const raw = (snapshot: Snapshot) => snapshot.cells.map(cell => cell.datum);
+
+test('regularity checks reject missing, collapsed, skewed and non-finite vertices', () => {
+  const points = Array.from({ length: 6 }, (_, i) => ({
+    x: Math.cos((i * Math.PI) / 3),
+    y: Math.sin((i * Math.PI) / 3)
+  }));
+  const snapshot = (vertices: typeof points): Snapshot =>
+    ({ cells: [{ points: vertices, datum: { count: 1 } }], errors: [], region: { width: 2, height: 2 } } as Snapshot);
+  expectRegular(snapshot(points), 1);
+  for (const vertices of [
+    points.slice(1),
+    points.map(() => ({ x: 0, y: 0 })),
+    points.map((point, i) => (i ? point : { ...point, x: point.x + 0.1 })),
+    points.map((point, i) => (i ? point : { ...point, x: NaN }))
+  ]) {
+    expect(() => expectRegular(snapshot(vertices), 1)).toThrow();
+  }
+});
 
 test('raw scatter renders regular neighboring hexagons and retains the same bins across resize and themes', async ({
   page
