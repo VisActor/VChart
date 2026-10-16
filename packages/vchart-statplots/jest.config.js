@@ -1,20 +1,19 @@
 const path = require('path');
-const { moduleNameMapper } = require('../vchart/jest.config');
-
-// 复用 VChart 对 Jest 26 的 D3 / VRender 模块映射，测试使用真实主题实现。
-const engineModuleMappers = Object.fromEntries(
-  Object.entries(moduleNameMapper).filter(([name]) => name.startsWith('d3-') || name.startsWith('^@visactor/vrender'))
-);
+const core = require('../vchart/jest.config');
 
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: ['**/__tests__/unit/**/*.test.ts'],
-  globals: { 'ts-jest': { tsconfig: 'tsconfig.test.json' } },
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.test.json',
+      // 相邻包由各自单测按自己的 tsconfig 检查，保留 statplots 的严格空值检查。
+      diagnostics: { exclude: ['!**/vchart/**', '!**/vutils-extension/**'] }
+    }
+  },
   transform: { '^.+\\.[jt]s$': 'ts-jest' },
-  transformIgnorePatterns: ['/node_modules/', '/packages/[^/]+/cjs/'],
-  moduleNameMapper: {
-    ...engineModuleMappers,
-    'd3-array': path.resolve(__dirname, '../vchart/node_modules/d3-array/dist/d3-array.min.js')
-  }
+  // 工作区依赖直接使用源码，避免读取缺失或过期的本地构建产物。
+  moduleNameMapper: core.moduleNameMapper,
+  setupFiles: [path.resolve(__dirname, '../vchart/setup-mock.js')]
 };
