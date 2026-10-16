@@ -120,6 +120,21 @@ function run() {
   );
   assert(!statplotsBuildStep.if, 'release.yml must build statplots for every release branch');
   const releaseSteps = getSteps(release, 'release');
+  const artifactLifecycleStep = getStep(release, 'release', 'Verify release artifact lifecycle');
+  assertRunIncludes(
+    artifactLifecycleStep,
+    'node --test common/scripts/release-artifact-lifecycle.test.cjs',
+    'release.yml artifact lifecycle regression'
+  );
+  assert(!artifactLifecycleStep.if, 'release.yml must verify artifact lifecycle for every release branch');
+  const artifactLifecycleIndex = releaseSteps.indexOf(artifactLifecycleStep);
+  assert(
+    artifactLifecycleIndex > releaseSteps.indexOf(getStep(release, 'release', 'Install rush')) &&
+      ['release', 'hotfix', 'pre-release'].every(flow =>
+        artifactLifecycleIndex < releaseSteps.indexOf(getStep(release, 'release', `Publish to npm (${flow})`))
+      ),
+    'release.yml must verify artifact lifecycle after dependency installation and before any publication'
+  );
   const statplotsBuildIndex = releaseSteps.indexOf(statplotsBuildStep);
   assert(
     statplotsBuildIndex > releaseSteps.indexOf(getStep(release, 'release', 'Build vutils-extension && vchart')) &&

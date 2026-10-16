@@ -110,6 +110,9 @@ jobs:
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
+      - name: Verify release artifact lifecycle
+        run: node --test common/scripts/release-artifact-lifecycle.test.cjs
+
       # ===== Release flow (stable) =====
       - name: Parse semver (release)
         if: startsWith(github.ref_name, 'release/')
