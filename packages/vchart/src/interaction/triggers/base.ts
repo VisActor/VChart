@@ -49,6 +49,30 @@ export abstract class BaseTrigger<T extends IBaseTriggerOptions> implements ITri
 
   updateMarkIdByState(states: string[]) {
     this._markIdByState = groupMarksByState(this.getMarks(), states);
+
+    const reverseMarks = this.options?.reverseMarks;
+    const reverseState = (this.options as { reverseState?: string } | undefined)?.reverseState;
+    if (!reverseMarks?.length || !reverseState) {
+      return;
+    }
+
+    const extraIds = groupMarksByState(reverseMarks, [reverseState])?.[reverseState];
+    if (!extraIds?.length) {
+      return;
+    }
+
+    if (!this._markIdByState) {
+      this._markIdByState = {};
+    }
+
+    const current = this._markIdByState[reverseState] ?? [];
+    const seen = new Set(current);
+    extraIds.forEach(id => {
+      if (!seen.has(id)) {
+        current.push(id);
+      }
+    });
+    this._markIdByState[reverseState] = current;
   }
 
   getMarkIdByState() {
