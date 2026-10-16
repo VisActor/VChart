@@ -659,7 +659,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       appendLink(incoming, link.target, link);
     });
 
-    const highlightNodes: StringOrNumber[] = [];
     const seenNodes = new Set<StringOrNumber>();
     const seenLinks = new Set<StringOrNumber>();
     const addNode = (key: StringOrNumber) => {
@@ -667,7 +666,6 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
         return false;
       }
       seenNodes.add(key);
-      highlightNodes.push(key);
       return true;
     };
     const addLink = (link: Datum) => {
@@ -717,7 +715,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       }
     });
 
-    this._highLightElements(allNodeElements, highlightNodes);
+    this._highLightElements(allNodeElements, seenNodes);
   }
 
   protected _handleNodeRelatedClick = (graphic: IMarkGraphic) => {
@@ -1005,15 +1003,20 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     this._needClear = true;
   };
 
-  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: StringOrNumber[]) {
+  protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: StringOrNumber[] | Set<StringOrNumber>) {
     if (!graphics || !graphics.length) {
       return;
     }
 
+    const isHighlighted =
+      highlightNodes instanceof Set
+        ? (key: StringOrNumber) => highlightNodes.has(key)
+        : (key: StringOrNumber) => highlightNodes.includes(key);
+
     graphics.forEach(g => {
       removeGraphicState(g, [STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS]);
 
-      if (highlightNodes.includes((getDatumOfGraphic(g) as Datum).key)) {
+      if (isHighlighted((getDatumOfGraphic(g) as Datum).key)) {
         addGraphicState(g, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS, true, this._hasNodeStateAnimation());
       } else {
         addGraphicState(g, STATE_VALUE_ENUM.STATE_SANKEY_EMPHASIS_REVERSE, true, this._hasNodeStateAnimation());
