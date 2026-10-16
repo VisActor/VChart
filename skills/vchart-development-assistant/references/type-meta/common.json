@@ -1,770 +1,853 @@
 {
   "typeName": "ICommonChartSpec",
-  "description": "ICommonChartSpec 配置规范的完整实现分析",
-  "inheritanceTree": {
-    "ICommonChartSpec": {
-      "description": "ICommonChartSpec 接口配置",
-      "directExtends": [
-        "Omit<IChartSpec, 'series'>"
-      ],
-      "ownProperties": [
-        {
-          "name": "type",
-          "description": "type 配置",
-          "type": "'common'",
-          "originalType": "'common'",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "seriesField",
-          "description": "分组字段",
-          "type": "string",
-          "originalType": "string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "series",
-          "description": "series 配置",
-          "type": "(IAreaSeriesSpec | ILineSeriesSpec | IBarSeriesSpec | IRangeColumnChartSpec | IRangeAreaChartSpec | IDotSeriesSpec | IMapSeriesSpec | IPieSeriesSpec | ILinkSeriesSpec | IRadarSeriesSpec | IRoseSeriesSpec | IScatterSeriesSpec | ICircularProgressSeriesSpec | ILinearProgressSeriesSpec | IWordCloudSeriesSpec | IFunnelSeriesSpec | IBoxPlotSeriesSpec | IGaugeSeriesSpec | ISankeySeriesSpec | ITreemapSeriesSpec | ISunburstSeriesSpec | ICirclePackingSeriesSpec | IWaterfallSeriesSpec | IHeatmapSeriesSpec | IGaugePointerSeriesSpec | ICorrelationSeriesSpec)[]",
-          "originalType": "(IAreaSeriesSpec | ILineSeriesSpec | IBarSeriesSpec | IRangeColumnChartSpec | IRangeAreaChartSpec | IDotSeriesSpec | IMapSeriesSpec | IPieSeriesSpec | ILinkSeriesSpec | IRadarSeriesSpec | IRoseSeriesSpec | IScatterSeriesSpec | ICircularProgressSeriesSpec | ILinearProgressSeriesSpec | IWordCloudSeriesSpec | IFunnelSeriesSpec | IBoxPlotSeriesSpec | IGaugeSeriesSpec | ISankeySeriesSpec | ITreemapSeriesSpec | ISunburstSeriesSpec | ICirclePackingSeriesSpec | IWaterfallSeriesSpec | IHeatmapSeriesSpec | IGaugePointerSeriesSpec | ICorrelationSeriesSpec)[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IAreaSeriesSpec",
-            "ILineSeriesSpec",
-            "IBarSeriesSpec",
-            "IRangeColumnChartSpec",
-            "IRangeAreaChartSpec",
-            "IDotSeriesSpec",
-            "IMapSeriesSpec",
-            "IPieSeriesSpec",
-            "ILinkSeriesSpec",
-            "IRadarSeriesSpec",
-            "IRoseSeriesSpec",
-            "IScatterSeriesSpec",
-            "ICircularProgressSeriesSpec",
-            "ILinearProgressSeriesSpec",
-            "IWordCloudSeriesSpec",
-            "IFunnelSeriesSpec",
-            "IBoxPlotSeriesSpec",
-            "IGaugeSeriesSpec",
-            "ISankeySeriesSpec",
-            "ITreemapSeriesSpec",
-            "ISunburstSeriesSpec",
-            "ICirclePackingSeriesSpec",
-            "IWaterfallSeriesSpec",
-            "IHeatmapSeriesSpec",
-            "IGaugePointerSeriesSpec",
-            "ICorrelationSeriesSpec"
-          ]
-        },
-        {
-          "name": "axes",
-          "description": "坐标轴配置",
-          "type": "ICartesianAxisSpec[] | IPolarAxisSpec[]",
-          "originalType": "ICartesianAxisSpec[] | IPolarAxisSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICartesianAxisSpec",
-            "IPolarAxisSpec"
-          ]
-        },
-        {
-          "name": "crosshair",
-          "description": "十字辅助线配置",
-          "type": "ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[]",
-          "originalType": "ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICartesianCrosshairSpec",
-            "IPolarCrosshairSpec"
-          ]
-        },
-        {
-          "name": "markLine",
-          "description": "**仅适用于笛卡尔坐标系**，参考线配置",
-          "type": "IMarkLineSpec | IMarkLineSpec[]",
-          "originalType": "IMarkLineSpec | IMarkLineSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMarkLineSpec"
-          ]
-        },
-        {
-          "name": "markArea",
-          "description": "**仅适用于笛卡尔坐标系**，参考区域配置",
-          "type": "IMarkAreaSpec | IMarkAreaSpec[]",
-          "originalType": "IMarkAreaSpec | IMarkAreaSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMarkAreaSpec"
-          ]
-        },
-        {
-          "name": "markPoint",
-          "description": "**仅适用于笛卡尔坐标系**，参考点配置",
-          "type": "IMarkPointSpec | IMarkPointSpec[]",
-          "originalType": "IMarkPointSpec | IMarkPointSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMarkPointSpec"
-          ]
-        },
-        {
-          "name": "autoBandSize",
-          "description": "是否开启自动 bandSize。如果开启，会根据传入的 barWidth 等配置自动计算 bandSize，从而影响轴实际长度",
-          "type": "boolean | {\n        extend: number;\n    }",
-          "originalType": "boolean | {\n        extend: number;\n    }",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        }
+  "formatVersion": 3,
+  "vchartVersion": "2.1.7",
+  "effectiveProperties": [
+    {
+      "name": "animationThreshold",
+      "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "since": "1.2.0"
+    },
+    {
+      "name": "autoBandSize",
+      "description": "是否开启自动 bandSize。如果开启，会根据传入的 barWidth 等配置自动计算 bandSize，从而影响轴实际长度",
+      "type": "{\n    extend: number;\n} | boolean | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [],
+      "since": "1.11.2"
+    },
+    {
+      "name": "autoFit",
+      "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "axes",
+      "description": "坐标轴配置",
+      "type": "ICartesianAxisSpec[] | IPolarAxisSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ICartesianAxisSpec",
+        "IPolarAxisSpec"
       ]
     },
-    "Omit<IChartSpec, 'series'>": {
-      "description": "IChartSpec 的属性（排除 series）",
-      "directExtends": [],
-      "ownProperties": [
-        {
-          "name": "type",
-          "description": "图表类型",
-          "type": "string",
-          "originalType": "string",
-          "required": true,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "data",
-          "description": "data 配置",
-          "type": "IData",
-          "originalType": "IData",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IData"
-          ]
-        },
-        {
-          "name": "width",
-          "description": "画布宽度",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "height",
-          "description": "画布高度",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "autoFit",
-          "description": "是否自适应容器大小",
-          "type": "boolean",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "padding",
-          "description": "图表整体 padding 设置",
-          "type": "ILayoutPaddingSpec",
-          "originalType": "ILayoutPaddingSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILayoutPaddingSpec"
-          ]
-        },
-        {
-          "name": "color",
-          "description": "图表色系配置",
-          "type": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
-          "originalType": "string[] | Omit<IVisualSpecScale<unknown, string>, 'id'>",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ]
-        },
-        {
-          "name": "seriesStyle",
-          "description": "系列样式",
-          "type": "ISeriesStyle",
-          "originalType": "ISeriesStyle",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISeriesStyle"
-          ]
-        },
-        {
-          "name": "animationThreshold",
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "type": "number",
-          "originalType": "number",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "hover",
-          "description": "hover 交互",
-          "type": "boolean | IHoverSpec",
-          "originalType": "boolean | IHoverSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IHoverSpec"
-          ]
-        },
-        {
-          "name": "select",
-          "description": "select 交互",
-          "type": "boolean | ISelectSpec",
-          "originalType": "boolean | ISelectSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ISelectSpec"
-          ]
-        },
-        {
-          "name": "region",
-          "description": "region配置",
-          "type": "RegionSpec[]",
-          "originalType": "RegionSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "RegionSpec"
-          ]
-        },
-        {
-          "name": "title",
-          "description": "图表标题配置",
-          "type": "ITitleSpec",
-          "originalType": "ITitleSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITitleSpec"
-          ]
-        },
-        {
-          "name": "layout",
-          "description": "自定义布局函数",
-          "type": "ILayoutSpec",
-          "originalType": "ILayoutSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILayoutSpec"
-          ]
-        },
-        {
-          "name": "legends",
-          "description": "图例配置",
-          "type": "ILegendSpec | ILegendSpec[]",
-          "originalType": "ILegendSpec | ILegendSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ILegendSpec"
-          ]
-        },
-        {
-          "name": "crosshair",
-          "description": "十字辅助线配置",
-          "type": "ICrosshairSpec | ICrosshairSpec[]",
-          "originalType": "ICrosshairSpec | ICrosshairSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICrosshairSpec"
-          ]
-        },
-        {
-          "name": "tooltip",
-          "description": "tooltip配置",
-          "type": "ITooltipSpec",
-          "originalType": "ITooltipSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITooltipSpec"
-          ]
-        },
-        {
-          "name": "player",
-          "description": "播放器配置",
-          "type": "IPlayer",
-          "originalType": "IPlayer",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IPlayer"
-          ]
-        },
-        {
-          "name": "dataZoom",
-          "description": "缩略轴配置",
-          "type": "IDataZoomSpec | IDataZoomSpec[]",
-          "originalType": "IDataZoomSpec | IDataZoomSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IDataZoomSpec"
-          ]
-        },
-        {
-          "name": "scrollBar",
-          "description": "滚动条配置",
-          "type": "IScrollBarSpec | IScrollBarSpec[]",
-          "originalType": "IScrollBarSpec | IScrollBarSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IScrollBarSpec"
-          ]
-        },
-        {
-          "name": "brush",
-          "description": "框选配置",
-          "type": "IBrushSpec",
-          "originalType": "IBrushSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBrushSpec"
-          ]
-        },
-        {
-          "name": "scales",
-          "description": "全局 scale 配置",
-          "type": "IVisualSpecScale<unknown, unknown>[]",
-          "originalType": "IVisualSpecScale<unknown, unknown>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IVisualSpecScale"
-          ]
-        },
-        {
-          "name": "customMark",
-          "description": "自定义mark",
-          "type": "ICustomMarkSpec<EnableMarkType>[]",
-          "originalType": "ICustomMarkSpec<EnableMarkType>[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICustomMarkSpec"
-          ]
-        },
-        {
-          "name": "axes",
-          "description": "axes 配置",
-          "type": "ICommonAxisSpec[]",
-          "originalType": "ICommonAxisSpec[]",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ICommonAxisSpec"
-          ]
-        },
-        {
-          "name": "theme",
-          "description": "默认主题（支持完整主题对象或者主题名称，主题名称需要提前在 `ThemeManager` 中注册）",
-          "type": "Omit<ITheme, 'name'> | string",
-          "originalType": "Omit<ITheme, 'name'> | string",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "ITheme"
-          ]
-        },
-        {
-          "name": "background",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置 自1.11.6版本支持渐变色对象的配置",
-          "type": "IBackgroundSpec",
-          "originalType": "IBackgroundSpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IBackgroundSpec"
-          ]
-        },
-        {
-          "name": "stackInverse",
-          "description": "堆积时是否逆序",
-          "type": "boolean",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "stackSort",
-          "description": "堆积时是否排序",
-          "type": "boolean",
-          "originalType": "boolean",
-          "required": false,
-          "category": "未分类",
-          "isSimple": true,
-          "dependencies": []
-        },
-        {
-          "name": "media",
-          "description": "媒体查询配置",
-          "type": "IMediaQuerySpec",
-          "originalType": "IMediaQuerySpec",
-          "required": false,
-          "category": "未分类",
-          "isSimple": false,
-          "dependencies": [
-            "IMediaQuerySpec"
-          ]
-        }
-      ],
-      "note": "展开自 Omit<IChartSpec, 'series'> - 包含 29 个属性（已展开所有继承）",
-      "expandedFrom": "IChartSpec",
-      "omittedKeys": [
-        "series"
+    {
+      "name": "background",
+      "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
+      "type": "IBackgroundSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ConvertToMarkStyleSpec",
+        "IBackgroundSpec",
+        "IConicalGradient",
+        "IGroupMarkSpec",
+        "ILinearGradient",
+        "IRadialGradient"
       ]
+    },
+    {
+      "name": "brush",
+      "description": "框选配置",
+      "type": "IBrushSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IBrushSpec"
+      ]
+    },
+    {
+      "name": "color",
+      "description": "图表色系配置",
+      "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IVisualSpecScale"
+      ]
+    },
+    {
+      "name": "crosshair",
+      "description": "十字辅助线配置",
+      "type": "ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ICartesianCrosshairSpec",
+        "IPolarCrosshairSpec"
+      ]
+    },
+    {
+      "name": "customMark",
+      "description": "自定义mark",
+      "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "EnableMarkType",
+        "ICustomMarkSpec"
+      ]
+    },
+    {
+      "name": "data",
+      "description": "数据",
+      "type": "IData | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "DataView",
+        "IData",
+        "IDataType",
+        "IDataValues"
+      ]
+    },
+    {
+      "name": "dataZoom",
+      "description": "缩略轴配置",
+      "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IDataZoomSpec"
+      ]
+    },
+    {
+      "name": "height",
+      "description": "画布高度",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "hover",
+      "description": "hover 交互",
+      "type": "boolean | IHoverSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IHoverSpec"
+      ]
+    },
+    {
+      "name": "layout",
+      "description": "布局配置",
+      "type": "ILayoutSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IBaseLayoutSpec",
+        "IGridLayoutSpec",
+        "ILayoutSpec"
+      ]
+    },
+    {
+      "name": "legends",
+      "description": "图例配置",
+      "type": "ILegendSpec | ILegendSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IColorLegendSpec",
+        "IDiscreteLegendSpec",
+        "ILegendSpec",
+        "ISizeLegendSpec"
+      ]
+    },
+    {
+      "name": "markArea",
+      "description": "**仅适用于笛卡尔坐标系**，参考区域配置",
+      "type": "IMarkAreaSpec | IMarkAreaSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "BaseMarkerAnimation",
+        "IComponentSpec",
+        "IMarkAreaAngleRadiusSpec",
+        "IMarkAreaAngleSpec",
+        "IMarkAreaCoordinateSpec",
+        "IMarkAreaRadiusSpec",
+        "IMarkAreaSpec",
+        "IMarkAreaTheme",
+        "IMarkAreaXSpec",
+        "IMarkAreaXYSpec",
+        "IMarkAreaYSpec",
+        "IMarkerPositionsSpec"
+      ]
+    },
+    {
+      "name": "markLine",
+      "description": "**仅适用于笛卡尔坐标系**，参考线配置",
+      "type": "IMarkLineSpec | IMarkLineSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "BaseMarkerAnimation",
+        "IComponentSpec",
+        "IMarkerPositionsSpec",
+        "IMarkLineAngleSpec",
+        "IMarkLineAngRadRad1Spec",
+        "IMarkLineAngRadSpec",
+        "IMarkLineCoordinateSpec",
+        "IMarkLineRadAngAng1Spec",
+        "IMarkLineRadiusSpec",
+        "IMarkLineSpec",
+        "IMarkLineTheme",
+        "IMarkLineXSpec",
+        "IMarkLineXYSpec",
+        "IMarkLineXYY1Spec",
+        "IMarkLineYSpec",
+        "IMarkLineYXX1Spec",
+        "MarkCommonLineAnimationType"
+      ]
+    },
+    {
+      "name": "markPoint",
+      "description": "**仅适用于笛卡尔坐标系**，参考点配置",
+      "type": "IMarkPointSpec | IMarkPointSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "BaseMarkerAnimation",
+        "IComponentSpec",
+        "IMarkerSymbol",
+        "IMarkPointAngleRadiusSpec",
+        "IMarkPointCoordinateSpec",
+        "IMarkPointGeoNameSpec",
+        "IMarkPointPositionsSpec",
+        "IMarkPointSpec",
+        "IMarkPointTheme",
+        "IMarkPointXYSpec",
+        "MarkPointAnimationType"
+      ]
+    },
+    {
+      "name": "media",
+      "description": "媒体查询配置",
+      "type": "IMediaQuerySpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IMediaQuerySpec"
+      ],
+      "since": "1.8.0"
+    },
+    {
+      "name": "padding",
+      "description": "图表整体 padding 设置",
+      "type": "ILayoutPaddingSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ILayoutNumber",
+        "ILayoutOrientPadding",
+        "ILayoutPaddingSpec",
+        "IPercentOffset"
+      ]
+    },
+    {
+      "name": "player",
+      "description": "播放器配置",
+      "type": "IPlayer | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IPlayer"
+      ]
+    },
+    {
+      "name": "region",
+      "description": "region配置",
+      "type": "RegionSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "RegionSpec"
+      ]
+    },
+    {
+      "name": "scales",
+      "description": "全局 scale 配置",
+      "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IVisualSpecScale"
+      ]
+    },
+    {
+      "name": "scrollBar",
+      "description": "滚动条配置",
+      "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IScrollBarSpec"
+      ]
+    },
+    {
+      "name": "select",
+      "description": "select 交互",
+      "type": "boolean | ISelectSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ISelectSpec"
+      ]
+    },
+    {
+      "name": "series",
+      "description": "series 配置",
+      "type": "(IAreaSeriesSpec | IBarSeriesSpec | IBoxPlotSeriesSpec | ICirclePackingSeriesSpec | ICircularProgressSeriesSpec | ICorrelationSeriesSpec | IFunnelSeriesSpec | IGaugePointerSeriesSpec | IGaugeSeriesSpec | IHeatmapSeriesSpec | ILinearProgressSeriesSpec | ILineSeriesSpec | IMapSeriesSpec | IPieSeriesSpec | IRadarSeriesSpec | IRangeAreaChartSpec | IRangeColumnChartSpec | IRoseSeriesSpec | ISankeySeriesSpec | IScatterSeriesSpec | ISunburstSeriesSpec | ITreemapSeriesSpec | IWaterfallSeriesSpec | IWordCloudSeriesSpec)[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IAreaSeriesSpec",
+        "IBarSeriesSpec",
+        "IBoxPlotSeriesSpec",
+        "ICirclePackingSeriesSpec",
+        "ICircularProgressSeriesSpec",
+        "ICorrelationSeriesSpec",
+        "IFunnelSeriesSpec",
+        "IGaugePointerSeriesSpec",
+        "IGaugeSeriesSpec",
+        "IHeatmapSeriesSpec",
+        "ILinearProgressSeriesSpec",
+        "ILineSeriesSpec",
+        "IMapSeriesSpec",
+        "IPieSeriesSpec",
+        "IRadarSeriesSpec",
+        "IRangeAreaChartSpec",
+        "IRangeColumnChartSpec",
+        "IRoseSeriesSpec",
+        "ISankeySeriesSpec",
+        "IScatterSeriesSpec",
+        "ISunburstSeriesSpec",
+        "ITreemapSeriesSpec",
+        "IWaterfallSeriesSpec",
+        "IWordCloudSeriesSpec"
+      ]
+    },
+    {
+      "name": "seriesField",
+      "description": "分组字段",
+      "type": "string | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "seriesStyle",
+      "description": "系列样式",
+      "type": "ISeriesStyle | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ISeriesStyle"
+      ]
+    },
+    {
+      "name": "stackInverse",
+      "description": "堆积时是否逆序",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "false",
+      "since": "1.4.0"
+    },
+    {
+      "name": "stackSort",
+      "description": "堆积时是否排序",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "false",
+      "since": "1.10.4"
+    },
+    {
+      "name": "theme",
+      "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
+      "type": "Omit<ITheme, \"name\"> | string | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ITheme"
+      ]
+    },
+    {
+      "name": "title",
+      "description": "图表标题配置",
+      "type": "ITitleSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ITitleSpec",
+        "ITitleSpecWithoutText"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "description": "tooltip配置",
+      "type": "ITooltipSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ITooltipSpec"
+      ]
+    },
+    {
+      "name": "type",
+      "description": "图表类型",
+      "type": "\"common\"",
+      "required": true,
+      "isSimple": true,
+      "dependencies": [],
+      "literalValues": [
+        "common"
+      ]
+    },
+    {
+      "name": "width",
+      "description": "画布宽度",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
     }
-  },
-  "timestamp": "2025-08-06T08:00:37.268Z",
-  "version": "1.0.0",
-  "sourceFile": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/chart/common/interface.d.ts",
+  ],
   "complexTypeDefinitions": {
+    "BaseMarkerAnimation": {
+      "typeName": "BaseMarkerAnimation",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c807eb5fd121",
+      "package": "@visactor/vrender-components",
+      "version": "1.1.12"
+    },
+    "ConvertToMarkStyleSpec": {
+      "typeName": "ConvertToMarkStyleSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3f4d44a2bad5"
+    },
+    "DataView": {
+      "typeName": "DataView",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b26ccd36d8e8",
+      "package": "@visactor/vdataset",
+      "version": "1.0.28"
+    },
+    "EnableMarkType": {
+      "typeName": "EnableMarkType",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1fa7d0f6abc4"
+    },
     "IAreaSeriesSpec": {
       "typeName": "IAreaSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/area/interface.d.ts",
-      "note": "类型 IAreaSeriesSpec 的定义位置"
-    },
-    "ILineSeriesSpec": {
-      "typeName": "ILineSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/line/interface.d.ts",
-      "note": "类型 ILineSeriesSpec 的定义位置"
-    },
-    "IBarSeriesSpec": {
-      "typeName": "IBarSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/bar/interface.d.ts",
-      "note": "类型 IBarSeriesSpec 的定义位置"
-    },
-    "IRangeColumnChartSpec": {
-      "typeName": "IRangeColumnChartSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/chart/range-column/interface.d.ts",
-      "note": "类型 IRangeColumnChartSpec 的定义位置"
-    },
-    "IRangeAreaChartSpec": {
-      "typeName": "IRangeAreaChartSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/chart/range-area/interface.d.ts",
-      "note": "类型 IRangeAreaChartSpec 的定义位置"
-    },
-    "IDotSeriesSpec": {
-      "typeName": "IDotSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/dot/interface.d.ts",
-      "note": "类型 IDotSeriesSpec 的定义位置"
-    },
-    "IMapSeriesSpec": {
-      "typeName": "IMapSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/map/interface.d.ts",
-      "note": "类型 IMapSeriesSpec 的定义位置"
-    },
-    "IPieSeriesSpec": {
-      "typeName": "IPieSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/pie/interface.d.ts",
-      "note": "类型 IPieSeriesSpec 的定义位置"
-    },
-    "ILinkSeriesSpec": {
-      "typeName": "ILinkSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/link/interface.d.ts",
-      "note": "类型 ILinkSeriesSpec 的定义位置"
-    },
-    "IRadarSeriesSpec": {
-      "typeName": "IRadarSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/radar/interface.d.ts",
-      "note": "类型 IRadarSeriesSpec 的定义位置"
-    },
-    "IRoseSeriesSpec": {
-      "typeName": "IRoseSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/rose/interface.d.ts",
-      "note": "类型 IRoseSeriesSpec 的定义位置"
-    },
-    "IScatterSeriesSpec": {
-      "typeName": "IScatterSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/scatter/interface.d.ts",
-      "note": "类型 IScatterSeriesSpec 的定义位置"
-    },
-    "ICircularProgressSeriesSpec": {
-      "typeName": "ICircularProgressSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/progress/circular/interface.d.ts",
-      "note": "类型 ICircularProgressSeriesSpec 的定义位置"
-    },
-    "ILinearProgressSeriesSpec": {
-      "typeName": "ILinearProgressSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/progress/linear/interface.d.ts",
-      "note": "类型 ILinearProgressSeriesSpec 的定义位置"
-    },
-    "IWordCloudSeriesSpec": {
-      "typeName": "IWordCloudSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/word-cloud/interface.d.ts",
-      "note": "类型 IWordCloudSeriesSpec 的定义位置"
-    },
-    "IFunnelSeriesSpec": {
-      "typeName": "IFunnelSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/funnel/interface.d.ts",
-      "note": "类型 IFunnelSeriesSpec 的定义位置"
-    },
-    "IBoxPlotSeriesSpec": {
-      "typeName": "IBoxPlotSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/box-plot/interface.d.ts",
-      "note": "类型 IBoxPlotSeriesSpec 的定义位置"
-    },
-    "IGaugeSeriesSpec": {
-      "typeName": "IGaugeSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/gauge/interface.d.ts",
-      "note": "类型 IGaugeSeriesSpec 的定义位置"
-    },
-    "ISankeySeriesSpec": {
-      "typeName": "ISankeySeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/sankey/interface.d.ts",
-      "note": "类型 ISankeySeriesSpec 的定义位置"
-    },
-    "ITreemapSeriesSpec": {
-      "typeName": "ITreemapSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/treemap/interface.d.ts",
-      "note": "类型 ITreemapSeriesSpec 的定义位置"
-    },
-    "ISunburstSeriesSpec": {
-      "typeName": "ISunburstSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/sunburst/interface.d.ts",
-      "note": "类型 ISunburstSeriesSpec 的定义位置"
-    },
-    "ICirclePackingSeriesSpec": {
-      "typeName": "ICirclePackingSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/circle-packing/interface.d.ts",
-      "note": "类型 ICirclePackingSeriesSpec 的定义位置"
-    },
-    "IWaterfallSeriesSpec": {
-      "typeName": "IWaterfallSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/waterfall/interface.d.ts",
-      "note": "类型 IWaterfallSeriesSpec 的定义位置"
-    },
-    "IHeatmapSeriesSpec": {
-      "typeName": "IHeatmapSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/heatmap/interface.d.ts",
-      "note": "类型 IHeatmapSeriesSpec 的定义位置"
-    },
-    "IGaugePointerSeriesSpec": {
-      "typeName": "IGaugePointerSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/gauge/interface.d.ts",
-      "note": "类型 IGaugePointerSeriesSpec 的定义位置"
-    },
-    "ICorrelationSeriesSpec": {
-      "typeName": "ICorrelationSeriesSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/correlation/interface.d.ts",
-      "note": "类型 ICorrelationSeriesSpec 的定义位置"
-    },
-    "ICartesianAxisSpec": {
-      "typeName": "ICartesianAxisSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/axis/cartesian/interface/spec.d.ts",
-      "note": "类型 ICartesianAxisSpec 的定义位置"
-    },
-    "IPolarAxisSpec": {
-      "typeName": "IPolarAxisSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/axis/polar/interface/spec.d.ts",
-      "note": "类型 IPolarAxisSpec 的定义位置"
-    },
-    "ICartesianCrosshairSpec": {
-      "typeName": "ICartesianCrosshairSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/crosshair/interface/spec.d.ts",
-      "note": "类型 ICartesianCrosshairSpec 的定义位置"
-    },
-    "IPolarCrosshairSpec": {
-      "typeName": "IPolarCrosshairSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/crosshair/interface/spec.d.ts",
-      "note": "类型 IPolarCrosshairSpec 的定义位置"
-    },
-    "IMarkLineSpec": {
-      "typeName": "IMarkLineSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/marker/mark-line/interface/spec.d.ts",
-      "note": "类型 IMarkLineSpec 的定义位置"
-    },
-    "IMarkAreaSpec": {
-      "typeName": "IMarkAreaSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/marker/mark-area/interface/spec.d.ts",
-      "note": "类型 IMarkAreaSpec 的定义位置"
-    },
-    "IMarkPointSpec": {
-      "typeName": "IMarkPointSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/marker/mark-point/interface/spec.d.ts",
-      "note": "类型 IMarkPointSpec 的定义位置"
-    },
-    "IData": {
-      "typeName": "IData",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 IData 的定义位置"
-    },
-    "ILayoutPaddingSpec": {
-      "typeName": "ILayoutPaddingSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/layout.d.ts",
-      "note": "类型 ILayoutPaddingSpec 的定义位置"
-    },
-    "IVisualSpecScale": {
-      "typeName": "IVisualSpecScale",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/visual.d.ts",
-      "note": "类型 IVisualSpecScale 的定义位置"
-    },
-    "ISeriesStyle": {
-      "typeName": "ISeriesStyle",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/series/interface/common.d.ts",
-      "note": "类型 ISeriesStyle 的定义位置"
-    },
-    "IHoverSpec": {
-      "typeName": "IHoverSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/interaction/interface/spec.d.ts",
-      "note": "类型 IHoverSpec 的定义位置"
-    },
-    "ISelectSpec": {
-      "typeName": "ISelectSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/interaction/interface/spec.d.ts",
-      "note": "类型 ISelectSpec 的定义位置"
-    },
-    "RegionSpec": {
-      "typeName": "RegionSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/region/interface.d.ts",
-      "note": "类型 RegionSpec 的定义位置"
-    },
-    "ITitleSpec": {
-      "typeName": "ITitleSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/title/interface/spec.d.ts",
-      "note": "类型 ITitleSpec 的定义位置"
-    },
-    "ILayoutSpec": {
-      "typeName": "ILayoutSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/layout/interface.d.ts",
-      "note": "类型 ILayoutSpec 的定义位置"
-    },
-    "ILegendSpec": {
-      "typeName": "ILegendSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/legend/interface.d.ts",
-      "note": "类型 ILegendSpec 的定义位置"
-    },
-    "ICrosshairSpec": {
-      "typeName": "ICrosshairSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/crosshair/interface/spec.d.ts",
-      "note": "类型 ICrosshairSpec 的定义位置"
-    },
-    "ITooltipSpec": {
-      "typeName": "ITooltipSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/tooltip/interface/spec.d.ts",
-      "note": "类型 ITooltipSpec 的定义位置"
-    },
-    "IPlayer": {
-      "typeName": "IPlayer",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/player/interface/spec.d.ts",
-      "note": "类型 IPlayer 的定义位置"
-    },
-    "IDataZoomSpec": {
-      "typeName": "IDataZoomSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/data-zoom/data-zoom/interface.d.ts",
-      "note": "类型 IDataZoomSpec 的定义位置"
-    },
-    "IScrollBarSpec": {
-      "typeName": "IScrollBarSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/data-zoom/scroll-bar/interface.d.ts",
-      "note": "类型 IScrollBarSpec 的定义位置"
-    },
-    "IBrushSpec": {
-      "typeName": "IBrushSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/brush/interface.d.ts",
-      "note": "类型 IBrushSpec 的定义位置"
-    },
-    "ICustomMarkSpec": {
-      "typeName": "ICustomMarkSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 ICustomMarkSpec 的定义位置"
-    },
-    "ICommonAxisSpec": {
-      "typeName": "ICommonAxisSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/component/axis/interface.d.ts",
-      "note": "类型 ICommonAxisSpec 的定义位置"
-    },
-    "ITheme": {
-      "typeName": "ITheme",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/theme/interface.d.ts",
-      "note": "类型 ITheme 的定义位置"
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3c1aa405c767"
     },
     "IBackgroundSpec": {
       "typeName": "IBackgroundSpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/common.d.ts",
-      "note": "类型 IBackgroundSpec 的定义位置"
+      "reference": "type-details/IBackgroundSpec-Type-Definition.md"
+    },
+    "IBarSeriesSpec": {
+      "typeName": "IBarSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-e01baddbd8aa"
+    },
+    "IBaseLayoutSpec": {
+      "typeName": "IBaseLayoutSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5de1760225a6"
+    },
+    "IBoxPlotSeriesSpec": {
+      "typeName": "IBoxPlotSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-4f696616234f"
+    },
+    "IBrushSpec": {
+      "typeName": "IBrushSpec",
+      "reference": "type-details/IBrushSpec-Type-Definition.md"
+    },
+    "ICartesianAxisSpec": {
+      "typeName": "ICartesianAxisSpec",
+      "reference": "type-details/ICartesianAxisSpec-Type-Definition.md"
+    },
+    "ICartesianCrosshairSpec": {
+      "typeName": "ICartesianCrosshairSpec",
+      "reference": "type-details/ICartesianCrosshairSpec-Type-Definition.md"
+    },
+    "ICirclePackingSeriesSpec": {
+      "typeName": "ICirclePackingSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-bbcfdbd7ab2b"
+    },
+    "ICircularProgressSeriesSpec": {
+      "typeName": "ICircularProgressSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-30261f5b0d11"
+    },
+    "IColorLegendSpec": {
+      "typeName": "IColorLegendSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8565dc89d142"
+    },
+    "ICommonAxisSpec": {
+      "typeName": "ICommonAxisSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-500cf18886a4"
+    },
+    "IComponentSpec": {
+      "typeName": "IComponentSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d23c51c12154"
+    },
+    "IConicalGradient": {
+      "typeName": "IConicalGradient",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d7015f202839",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.12"
+    },
+    "ICorrelationSeriesSpec": {
+      "typeName": "ICorrelationSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-129af10992bf"
+    },
+    "ICrosshairSpec": {
+      "typeName": "ICrosshairSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-2c1a18c2e6b2"
+    },
+    "ICustomMarkSpec": {
+      "typeName": "ICustomMarkSpec",
+      "reference": "type-details/ICustomMarkSpec-Type-Definition.md"
+    },
+    "IData": {
+      "typeName": "IData",
+      "reference": "type-details/IData-Type-Definition.md"
+    },
+    "IDataType": {
+      "typeName": "IDataType",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3bf45e5ed347"
+    },
+    "IDataValues": {
+      "typeName": "IDataValues",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-218b08963b1d"
+    },
+    "IDataZoomSpec": {
+      "typeName": "IDataZoomSpec",
+      "reference": "type-details/IDataZoomSpec-Type-Definition.md"
+    },
+    "IDiscreteLegendSpec": {
+      "typeName": "IDiscreteLegendSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0db130a1ae74"
+    },
+    "IFunnelSeriesSpec": {
+      "typeName": "IFunnelSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0291e38eb55c"
+    },
+    "IGaugePointerSeriesSpec": {
+      "typeName": "IGaugePointerSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9fdd71c680f3"
+    },
+    "IGaugeSeriesSpec": {
+      "typeName": "IGaugeSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-dfd9dde34e4c"
+    },
+    "IGridLayoutSpec": {
+      "typeName": "IGridLayoutSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8c0cc65dc7ab"
+    },
+    "IGroupMarkSpec": {
+      "typeName": "IGroupMarkSpec",
+      "reference": "type-details/IGroupMarkSpec-Type-Definition.md"
+    },
+    "IHeatmapSeriesSpec": {
+      "typeName": "IHeatmapSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-6600af61a1ec"
+    },
+    "IHoverSpec": {
+      "typeName": "IHoverSpec",
+      "reference": "type-details/IHoverSpec-Type-Definition.md"
+    },
+    "ILayoutNumber": {
+      "typeName": "ILayoutNumber",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9638d3997297"
+    },
+    "ILayoutOrientPadding": {
+      "typeName": "ILayoutOrientPadding",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b2bc0ee5203d"
+    },
+    "ILayoutPaddingSpec": {
+      "typeName": "ILayoutPaddingSpec",
+      "reference": "type-details/ILayoutPaddingSpec-Type-Definition.md"
+    },
+    "ILayoutSpec": {
+      "typeName": "ILayoutSpec",
+      "reference": "type-details/ILayoutSpec-Type-Definition.md"
+    },
+    "ILegendSpec": {
+      "typeName": "ILegendSpec",
+      "reference": "type-details/ILegendSpec-Type-Definition.md"
+    },
+    "ILinearGradient": {
+      "typeName": "ILinearGradient",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d8d5bda2ce95",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.12"
+    },
+    "ILinearProgressSeriesSpec": {
+      "typeName": "ILinearProgressSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a272f43e66ef"
+    },
+    "ILineSeriesSpec": {
+      "typeName": "ILineSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c14fbe0b660f"
+    },
+    "IMapSeriesSpec": {
+      "typeName": "IMapSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f28afaaaf021"
+    },
+    "IMarkAreaAngleRadiusSpec": {
+      "typeName": "IMarkAreaAngleRadiusSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b2457805e643"
+    },
+    "IMarkAreaAngleSpec": {
+      "typeName": "IMarkAreaAngleSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-4eea11d6bf8d"
+    },
+    "IMarkAreaCoordinateSpec": {
+      "typeName": "IMarkAreaCoordinateSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-99ea0813e616"
+    },
+    "IMarkAreaRadiusSpec": {
+      "typeName": "IMarkAreaRadiusSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d96016d9da72"
+    },
+    "IMarkAreaSpec": {
+      "typeName": "IMarkAreaSpec",
+      "reference": "type-details/IMarkAreaSpec-Type-Definition.md"
+    },
+    "IMarkAreaTheme": {
+      "typeName": "IMarkAreaTheme",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-7880c31abf52"
+    },
+    "IMarkAreaXSpec": {
+      "typeName": "IMarkAreaXSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-ed2c343ef812"
+    },
+    "IMarkAreaXYSpec": {
+      "typeName": "IMarkAreaXYSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-23ed00b3b201"
+    },
+    "IMarkAreaYSpec": {
+      "typeName": "IMarkAreaYSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-19f94791c9c6"
+    },
+    "IMarkerPositionsSpec": {
+      "typeName": "IMarkerPositionsSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-53a3e8a64bc1"
+    },
+    "IMarkerSymbol": {
+      "typeName": "IMarkerSymbol",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3acb04a4042d"
+    },
+    "IMarkLineAngleSpec": {
+      "typeName": "IMarkLineAngleSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-cbf79085c0de"
+    },
+    "IMarkLineAngRadRad1Spec": {
+      "typeName": "IMarkLineAngRadRad1Spec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3df3d54de17a"
+    },
+    "IMarkLineAngRadSpec": {
+      "typeName": "IMarkLineAngRadSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1818f2e34d58"
+    },
+    "IMarkLineCoordinateSpec": {
+      "typeName": "IMarkLineCoordinateSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-25e80ef7b42b"
+    },
+    "IMarkLineRadAngAng1Spec": {
+      "typeName": "IMarkLineRadAngAng1Spec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-604e38ee5301"
+    },
+    "IMarkLineRadiusSpec": {
+      "typeName": "IMarkLineRadiusSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a2d55cb80bac"
+    },
+    "IMarkLineSpec": {
+      "typeName": "IMarkLineSpec",
+      "reference": "type-details/IMarkLineSpec-Type-Definition.md"
+    },
+    "IMarkLineTheme": {
+      "typeName": "IMarkLineTheme",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1ca140194889"
+    },
+    "IMarkLineXSpec": {
+      "typeName": "IMarkLineXSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-7ce1823090a0"
+    },
+    "IMarkLineXYSpec": {
+      "typeName": "IMarkLineXYSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f50693a23ba0"
+    },
+    "IMarkLineXYY1Spec": {
+      "typeName": "IMarkLineXYY1Spec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-72d0df8a5295"
+    },
+    "IMarkLineYSpec": {
+      "typeName": "IMarkLineYSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d5755e40af1e"
+    },
+    "IMarkLineYXX1Spec": {
+      "typeName": "IMarkLineYXX1Spec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9fa06e53cb0e"
+    },
+    "IMarkPointAngleRadiusSpec": {
+      "typeName": "IMarkPointAngleRadiusSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0acfdd5b8e06"
+    },
+    "IMarkPointCoordinateSpec": {
+      "typeName": "IMarkPointCoordinateSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8c827e1a43c9"
+    },
+    "IMarkPointGeoNameSpec": {
+      "typeName": "IMarkPointGeoNameSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-fd30b323288a"
+    },
+    "IMarkPointPositionsSpec": {
+      "typeName": "IMarkPointPositionsSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-78d1410fa542"
+    },
+    "IMarkPointSpec": {
+      "typeName": "IMarkPointSpec",
+      "reference": "type-details/IMarkPointSpec-Type-Definition.md"
+    },
+    "IMarkPointTheme": {
+      "typeName": "IMarkPointTheme",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a26d3a0701c1"
+    },
+    "IMarkPointXYSpec": {
+      "typeName": "IMarkPointXYSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c38f0b023570"
     },
     "IMediaQuerySpec": {
       "typeName": "IMediaQuerySpec",
-      "filePath": "/Users/bytedance/Documents/opensource/VChart/packages/vchart-types/types/typings/spec/media-query.d.ts",
-      "note": "类型 IMediaQuerySpec 的定义位置"
+      "reference": "type-details/IMediaQuerySpec-Type-Definition.md"
+    },
+    "IPercentOffset": {
+      "typeName": "IPercentOffset",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d014dbe57510"
+    },
+    "IPieSeriesSpec": {
+      "typeName": "IPieSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-71acefc8c120"
+    },
+    "IPlayer": {
+      "typeName": "IPlayer",
+      "reference": "type-details/IPlayer-Type-Definition.md"
+    },
+    "IPolarAxisSpec": {
+      "typeName": "IPolarAxisSpec",
+      "reference": "type-details/IPolarAxisSpec-Type-Definition.md"
+    },
+    "IPolarCrosshairSpec": {
+      "typeName": "IPolarCrosshairSpec",
+      "reference": "type-details/IPolarCrosshairSpec-Type-Definition.md"
+    },
+    "IRadarSeriesSpec": {
+      "typeName": "IRadarSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-702f2f2e90b8"
+    },
+    "IRadialGradient": {
+      "typeName": "IRadialGradient",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8830ca87d7a0",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.12"
+    },
+    "IRangeAreaChartSpec": {
+      "typeName": "IRangeAreaChartSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3a7b7d9563aa"
+    },
+    "IRangeColumnChartSpec": {
+      "typeName": "IRangeColumnChartSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-da04864ad35f"
+    },
+    "IRoseSeriesSpec": {
+      "typeName": "IRoseSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-50a9d844112a"
+    },
+    "ISankeySeriesSpec": {
+      "typeName": "ISankeySeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-73ad288a6b3a"
+    },
+    "IScatterSeriesSpec": {
+      "typeName": "IScatterSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-08a7bd218e9e"
+    },
+    "IScrollBarSpec": {
+      "typeName": "IScrollBarSpec",
+      "reference": "type-details/IScrollBarSpec-Type-Definition.md"
+    },
+    "ISelectSpec": {
+      "typeName": "ISelectSpec",
+      "reference": "type-details/ISelectSpec-Type-Definition.md"
+    },
+    "ISeriesStyle": {
+      "typeName": "ISeriesStyle",
+      "reference": "type-details/ISeriesStyle-Type-Definition.md"
+    },
+    "ISizeLegendSpec": {
+      "typeName": "ISizeLegendSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-19c6d929a8de"
+    },
+    "ISunburstSeriesSpec": {
+      "typeName": "ISunburstSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-42998a239bf0"
+    },
+    "ITheme": {
+      "typeName": "ITheme",
+      "reference": "type-details/ITheme-Type-Definition.md"
+    },
+    "ITitleSpec": {
+      "typeName": "ITitleSpec",
+      "reference": "type-details/ITitleSpec-Type-Definition.md"
+    },
+    "ITitleSpecWithoutText": {
+      "typeName": "ITitleSpecWithoutText",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-6d4657ffd0d7"
+    },
+    "ITooltipSpec": {
+      "typeName": "ITooltipSpec",
+      "reference": "type-details/ITooltipSpec-Type-Definition.md"
+    },
+    "ITreemapSeriesSpec": {
+      "typeName": "ITreemapSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-6cdfbc0c0174"
+    },
+    "IVisualSpecScale": {
+      "typeName": "IVisualSpecScale",
+      "reference": "type-details/IVisualSpecScale-Type-Definition.md"
+    },
+    "IWaterfallSeriesSpec": {
+      "typeName": "IWaterfallSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-312af991e7a8"
+    },
+    "IWordCloudSeriesSpec": {
+      "typeName": "IWordCloudSeriesSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-472dc2c97d50"
+    },
+    "MarkCommonLineAnimationType": {
+      "typeName": "MarkCommonLineAnimationType",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-681f4999f1eb",
+      "package": "@visactor/vrender-components",
+      "version": "1.1.12"
+    },
+    "MarkPointAnimationType": {
+      "typeName": "MarkPointAnimationType",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d28c136a90bb",
+      "package": "@visactor/vrender-components",
+      "version": "1.1.12"
+    },
+    "RegionSpec": {
+      "typeName": "RegionSpec",
+      "reference": "type-details/RegionSpec-Type-Definition.md"
     }
-  },
-  "statistics": {
-    "totalInterfaces": 2,
-    "totalProperties": 38,
-    "complexTypes": 54,
-    "typeFileLocations": 54,
-    "dependencyTypes": 923
   }
 }

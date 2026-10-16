@@ -17,7 +17,7 @@ type IDataType = IDataValues | DataView;
 
 ### 2. Multiple Data Sources
 ```typescript
-type IData = IDataType[];  // Array of data sources
+const sources: IData = [{ id: 'main', values: [{ day: '周一', value: 12 }] }];
 ```
 
 ## IDataValues Configuration
@@ -25,7 +25,7 @@ type IData = IDataType[];  // Array of data sources
 ```typescript
 interface IDataValues {
   id?: StringOrNumber;                    // Unique data identifier
-  values: Datum[] | string;               // Data array or URL string
+  values: Datum[] | string;               // Records or CSV/TSV text; not a URL loader
   fromDataIndex?: number;                 // Reference data index
   fromDataId?: StringOrNumber;            // Reference data ID
   transforms?: BuildInTransformOptions[]; // Data transformation configuration
@@ -36,7 +36,7 @@ interface IDataValues {
 
 ### Core Properties
 - **id**: Unique identifier for the data source
-- **values**: The actual data (array of objects) or URL string for remote data
+- **values**: 数据记录数组或 CSV/TSV 等文本内容。字符串不会自动发起网络请求；不能直接填 URL 期待加载远程数据。
 - **fromDataIndex/fromDataId**: Reference to other data sources for data sharing
 - **transforms**: Array of data transformation operations
 - **fields**: Field-specific metadata and configurations
@@ -188,16 +188,25 @@ const data: IData = {
 ### CSV Data with Parser
 ```typescript
 const data: IData = {
-  values: 'https://example.com/data.csv',
+  values: 'day,value\n周一,12\n周二,25',
   parser: {
-    type: 'csv',
-    options: {
-      delimiter: ',',
-      header: true
-    }
+    type: 'csv'
   }
 };
 ```
+
+### 应用代码加载远程 CSV
+
+由应用先读取文本，再传入数据配置；URL、网络请求和错误处理属于宿主能力，不是 JSON spec 中的函数或加载字段。
+
+```javascript
+const response = await fetch(csvUrl); // csvUrl 由实际应用提供
+if (!response.ok) throw new Error(`CSV 请求失败：${response.status}`);
+const csvText = await response.text();
+const data = { values: csvText, parser: { type: 'csv' } };
+```
+
+只交付 spec 且宿主提供数据时保留真实绑定，不以内嵌模拟数据替代无法访问的来源。
 
 ### Multiple Data Sources
 ```typescript
