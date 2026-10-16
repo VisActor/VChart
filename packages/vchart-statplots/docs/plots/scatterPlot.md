@@ -42,6 +42,6 @@ LOWESS 无内部置信带，只允许省略 confidence 或 false。同样本同 
 
 纯散点对应 seaborn.scatterplot；内部拟合对应 [seaborn.regplot](https://seaborn.pydata.org/generated/seaborn.regplot.html) 的原始输入、模型与区间含义。LOWESS 参数含义参考 [statsmodels.lowess](https://www.statsmodels.org/stable/generated/statsmodels.nonparametric.smoothers_lowess.lowess.html)。本包严格数值边界、小样本 CI 规则、固定 RNG、退化 bootstrap 基底与 Python 有明确差异，不宣称全参数或逐位相同。
 
-内部回归使用 vutils 自 1.0.26 起提供的稳定求解、LOWESS 和 regressionBootstrap，当前依赖下限为 `~1.0.27`。正式包隔离安装与验收状态见[验收记录](../validation.md)。
+内部回归使用 vutils 自 1.0.26 起提供的稳定求解、LOWESS 和 regressionBootstrap，当前依赖下限为 `~1.0.28`。正式包隔离安装与验收状态见[验收记录](../validation.md)。
 
 [最小纯散点](../../examples/specs/minimal/scatterPlot.json)；[主例](../../examples/specs/scatterPlot.json)；[Schema](../../schema/plots/scatterPlot.schema.json)。
