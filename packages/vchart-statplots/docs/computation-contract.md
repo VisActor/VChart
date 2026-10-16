@@ -62,6 +62,6 @@ missingValueMatrix 与 correlationMatrix 从 variables/data.observations 生成�
 
 一元线性、多项式和 LOWESS 属于图内统计，在 compile 阶段按系列独立执行。scatterPlot 内部 fit 从同一 data 原始 x/y 拟合；外部 estimates 只展示。residualPlot 原始模式直接在观测 x 上预测，regression 控制生成残差的模型，smooth 单独控制趋势。外部预测和标准化/学生化模型残差继续保留。两图共用 vutils 标准求解路径与私有分组适配，不把模型对象存入图元数据，不在交互阶段重算。
 
-线性/多项式均值响应置信带为成对 percentile bootstrap；LOWESS 无内部置信带。全量 LOWESS 的 delta 是显式插值策略，不丢观测或自动关闭稳健迭代。使用 vutils 自 1.0.26 起提供的稳定回归和 regressionBootstrap，正式依赖下限为 `~1.0.27`。
+线性/多项式均值响应置信带为成对 percentile bootstrap；LOWESS 无内部置信带。全量 LOWESS 的 delta 是显式插值策略，不丢观测或自动关闭稳健迭代。使用 vutils 自 1.0.26 起提供的稳定回归和 regressionBootstrap，正式依赖下限为 `~1.0.28`。
 
 时间序列 input=observations 按系列及真实时刻汇总，默认均值与 95% bootstrap CI；input=estimates 展示外部区间。日期稳定排序，同一真实时刻的时区别名在原始模式合并、外部模式拒绝重复。null 保留显式缺口，不补时序网格。算法与 pointIntervalPlot 共用，详见[时间序列](plots/timeSeriesPlot.md)。

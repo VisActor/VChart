@@ -85,10 +85,12 @@ npm run eslint --prefix packages/vchart-statplots
 
 ## 统计工具依赖
 
-本包使用 `@visactor/vutils ~1.0.27` 根入口的公共 `normalQuantile`、`mean`、`correlation` 和 `bootstrapEstimate`。这些 API 自 npm `1.0.25` 起提供；仓库依赖和 Rush 锁文件已同步。执行标准 Rush 安装即可使用。
+本包使用 `@visactor/vutils ~1.0.28` 根入口的公共 `normalQuantile`、`mean`、`correlation` 和 `bootstrapEstimate`。这些 API 自 npm `1.0.25` 起提供；仓库依赖和 Rush 锁文件已同步。执行标准 Rush 安装即可使用。
 
 已发布依赖的隔离安装、类型、构建与回归结果见[验收记录](docs/validation.md)。这项升级解决统计工具的依赖阻断；VChart 核心改动及其他发布要求仍须按验收记录核对。
 
-散点/残差图的内部回归使用 vutils 自 1.0.26 起提供的稳定回归与成对 bootstrap；当前依赖下限为 `~1.0.27`。正式包验证与发布验收状态见[验收记录](docs/validation.md)。
+散点/残差图的内部回归使用 vutils 自 1.0.26 起提供的稳定回归与成对 bootstrap；当前依赖下限为 `~1.0.28`。正式包验证与发布验收状态见[验收记录](docs/validation.md)。
+
+VUtils 1.0.28 将 LOWESS 公共默认参数恢复为 `span=0.3`、`iterations=2`，并保留算法正确性修复。StatPlots 继续显式传入 `span=2/3`、`iterations=3`、`delta=0`；业务默认行为保持不变，用户仍可显式覆盖。
 
 KDE/violin 默认对齐 Seaborn 的样本标准差带宽；KDE 默认全体样本归一化，violin 默认等面积、同系列跨分类归一化。旧默认可显式配置，见对应逐图文档。此项使用 npm VUtil 1.0.27 提供的 standardDeviation/bandwidthAdjust 公共接口；相关依赖和 Rush 锁文件已同步。

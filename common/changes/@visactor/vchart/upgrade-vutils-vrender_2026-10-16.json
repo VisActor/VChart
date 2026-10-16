@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "升级 VUtils 家族依赖至 ~1.0.28、VRender 家族依赖至 1.1.12，恢复 LOWESS 历史默认参数并保留算法正确性修复。",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
