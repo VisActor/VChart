@@ -28,14 +28,14 @@
     "test:visual": "node scripts/visual-test.mjs"
   },
   "dependencies": {
-    "@visactor/vrender-core": "1.1.11",
-    "@visactor/vrender-kits": "1.1.11",
-    "@visactor/vrender-components": "1.1.11",
-    "@visactor/vrender-animate": "1.1.11",
+    "@visactor/vrender-core": "1.1.12",
+    "@visactor/vrender-kits": "1.1.12",
+    "@visactor/vrender-components": "1.1.12",
+    "@visactor/vrender-animate": "1.1.12",
     "@visactor/vchart": "workspace:2.1.7",
-    "@visactor/vutils": "~1.0.27",
-    "@visactor/vdataset": "~1.0.27",
-    "@visactor/vlayouts": "~1.0.27"
+    "@visactor/vutils": "~1.0.28",
+    "@visactor/vdataset": "~1.0.28",
+    "@visactor/vlayouts": "~1.0.28"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
@@ -66,7 +66,7 @@
     "jest-electron": "^0.1.12",
     "ts-jest": "^26.0.0",
     "react-device-detect": "^2.2.2",
-    "@visactor/vscale": "~1.0.27"
+    "@visactor/vscale": "~1.0.28"
   },
   "publishConfig": {
     "access": "public",
