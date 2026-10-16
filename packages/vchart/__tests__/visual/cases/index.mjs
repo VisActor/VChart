@@ -69,6 +69,11 @@ export const cases = [
     sourceExample: 'packages/vchart/__tests__/runtime/browser/test-page/event-update-spec.ts'
   },
   {
+    id: 'resize-auto-fit',
+    purpose: '默认自动尺寸监听不覆盖手动 resize，Spec 重建后保持画布尺寸',
+    file: './api/resize-auto-fit.mjs'
+  },
+  {
     id: 'bar-area-smooth',
     purpose: '同一区域的柱图与平滑轮廓面积图叠加',
     file: './charts/combination/bar-area-smooth.mjs'
