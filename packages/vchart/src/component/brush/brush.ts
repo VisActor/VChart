@@ -252,6 +252,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     });
   }
 
+  // 更新各区域的刷选范围，已有组件共享的图元状态只在本轮布局结束后重置一次。
   onLayoutEnd(): void {
     super.onLayoutEnd();
     if (this._option.disableTriggerEvent) {
@@ -268,6 +269,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         this._relativeRegions.forEach((region: IRegion, index: number) => {
           this._updateBrushComponent(region, index);
         });
+        this._initMarkBrushState(-1, '');
       }
     }
   }
@@ -282,10 +284,6 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       brushStyle: transformToGraphic(this._spec?.style),
       ...interactiveAttr
     } as any);
-
-    // 布局变化后，清空brushMask 和 重置图元高亮状态
-    this._initMarkBrushState(componentIndex, '');
-    brushComponent.children[0].removeAllChild();
   }
 
   protected _shouldEnableInteractive() {
