@@ -17,6 +17,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -41,9 +44,14 @@ jobs:
         run: node --test packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs
       - name: Visual suite build regression
         run: node --test packages/vchart-extension/__tests__/runtime/visual-build.test.cjs
-      - run: npm run test:browser --prefix packages/vchart-statplots
+      - run: npm run test:browser --prefix packages/vchart-statplots -- --reporter=json,html,line
+        env:
+          PLAYWRIGHT_JSON_OUTPUT_FILE: ${{ github.workspace }}/.vchart-statplots/statplots-browser.json
+          PLAYWRIGHT_HTML_OUTPUT_DIR: ${{ github.workspace }}/.vchart-statplots/report
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: statplots-browser-report
-          path: .vchart-statplots/report
+          path: |
+            .vchart-statplots/report
+            .vchart-statplots/statplots-browser.json
