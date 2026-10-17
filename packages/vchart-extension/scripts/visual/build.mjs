@@ -4,8 +4,10 @@ import { build as buildCore } from '../../../vchart/scripts/visual/build.mjs';
 
 const buildEnv = { NODE_ENV: 'production', BUNDLE_ANALYZE: '', IGNORE_ENTRIES: 'true' };
 
-export async function build(root, destination, runtime, log) {
-  await buildCore(root, destination, runtime, log);
+export async function build(root, destination, runtime, log, coreBundle) {
+  // CI 可复用本轮已冻结的同侧核心资源，避免扩展导出重复编译核心。
+  if (coreBundle) await fs.copyFile(coreBundle, destination);
+  else await buildCore(root, destination, runtime, log);
   // 使用同一侧源码构建时序扩展；VChart 保持外部依赖，共享 Factory 和主题注册表。
   // 基线迁移前由 sequenceAnalysis 注册核心系列，迁移后注册扩展系列。
   const extensionDirectory = path.join(path.dirname(destination), `${path.basename(destination, '.js')}-extension`);

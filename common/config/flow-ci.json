@@ -39,7 +39,8 @@
   "browserChecks": [
     {
       "package": "vchart-statplots",
-      "config": "__tests__/browser/playwright.config.ts"
+      "config": "__tests__/browser/playwright.config.ts",
+      "shards": 2
     }
   ],
   "buildFormats": [
@@ -47,7 +48,8 @@
     "cjs"
   ],
   "nodeChecks": [
-    "packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs"
+    "packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs",
+    "packages/vchart-extension/__tests__/runtime/visual-build.test.cjs"
   ],
   "publishedUmd": {
     "version": "2.1.8-alpha.0",
