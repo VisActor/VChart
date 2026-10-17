@@ -4,6 +4,9 @@ on:
     paths:
       - 'packages/vchart-statplots/**'
       - 'packages/vchart/src/**'
+      - 'packages/vchart-extension/scripts/visual/**'
+      - 'packages/vchart-extension/__tests__/runtime/visual-build.test.cjs'
+      - 'common/config/flow-ci.json'
       - 'common/config/rush/**'
       - 'rush.json'
       - '.github/workflows/statplots-test.yml'
@@ -36,6 +39,8 @@ jobs:
       - run: npm test --prefix packages/vchart-statplots -- --runInBand
       - name: Skill resource synchronization regression
         run: node --test packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs
+      - name: Visual suite build regression
+        run: node --test packages/vchart-extension/__tests__/runtime/visual-build.test.cjs
       - run: npm run test:browser --prefix packages/vchart-statplots
       - uses: actions/upload-artifact@v4
         if: always()
