@@ -5,6 +5,7 @@ import { interactionTarget, interactionFrame } from '../../interaction-helpers.m
  * 图表类型：common/scatter。关键配置：brushLinkDataKey='id'。
  * 场景条件：两个面板中 A/B 的位置互换，框选 A 后目标面板须仍选中 A。
  * 最终检查：真实 inBrush/outOfBrush 状态；未执行框选时不能通过。
+ * 生命周期：缩放清空原刷选状态后，仍可再次按 id 联动。
  */
 export default {
   createSpec() {
@@ -79,13 +80,33 @@ export default {
     };
   },
   async exercise(page) {
-    const point = await interactionTarget(page, 'point', 0, 0);
-    await page.mouse.move(point.x - 18, point.y - 18);
-    await page.mouse.down();
-    await page.mouse.move(point.x + 18, point.y + 18, { steps: 8 });
-    await page.mouse.up();
-    await page.mouse.move(950, 750);
-    await interactionFrame(page);
+    // 先建立真实选择，再验证布局重置及重置后的第二次交互。
+    for (const resized of [false, true]) {
+      if (resized) {
+        await page.evaluate(async () => {
+          const chart = window.__visualChart;
+          const selected = chart.getChart().getAllSeries().flatMap(series => series.getSeriesMark().getGraphics());
+          if (!selected.some(graphic => graphic.hasState('inBrush'))) {
+            throw new Error('Resize regression requires an actual preceding brush selection');
+          }
+          await chart.resize(900, 700);
+          window.__brushResizeCleared = chart
+            .getChart()
+            .getAllSeries()
+            .flatMap(series => series.getSeriesMark().getGraphics())
+            .every(graphic => !graphic.hasState('inBrush') && !graphic.hasState('outOfBrush'));
+          await chart.resize(1000, 800);
+        });
+        await interactionFrame(page);
+      }
+      const point = await interactionTarget(page, 'point', 0, 0);
+      await page.mouse.move(point.x - 18, point.y - 18);
+      await page.mouse.down();
+      await page.mouse.move(point.x + 18, point.y + 18, { steps: 8 });
+      await page.mouse.up();
+      await page.mouse.move(950, 750);
+      await interactionFrame(page);
+    }
   },
   async verify(page) {
     await verifyRendered(page);
@@ -94,7 +115,7 @@ export default {
       const points = target.getSeriesMark().getGraphics();
       const a = points.find(p => p.context.data[0].id === 'A'),
         b = points.find(p => p.context.data[0].id === 'B');
-      if (!a.hasState('inBrush') || !b.hasState('outOfBrush')) {
+      if (!window.__brushResizeCleared || !a.hasState('inBrush') || !b.hasState('outOfBrush')) {
         throw new Error('Brush must link the same observation id across differently positioned panels');
       }
     });

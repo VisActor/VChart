@@ -11,6 +11,37 @@ const buildEnv = { NODE_ENV: 'production', BUNDLE_ANALYZE: '', IGNORE_ENTRIES: '
 export function git(root, args) {
   return execFileSync('git', args, { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 }).trim();
 }
+/** 输出只写入新目录；解析已有父目录，防止别名路径覆盖输入或污染源码。 */
+export async function outputDirectory(root, destination, inputs = []) {
+  destination = path.resolve(root, destination);
+  let parent = destination;
+  while (
+    !(await fs.lstat(parent).catch(error => {
+      if (error.code === 'ENOENT') return null;
+      throw error;
+    }))
+  )
+    parent = path.dirname(parent);
+  destination = path.join(await fs.realpath(parent), path.relative(parent, destination));
+  root = await fs.realpath(root);
+  if (destination === root || destination.startsWith(root + path.sep)) {
+    try {
+      git(root, ['check-ignore', '--no-index', destination]);
+    } catch {
+      throw fault('INVALID_ARGUMENT', '输出目录须位于工作区外或 Git 忽略目录');
+    }
+  }
+  for (const input of inputs) {
+    const source = await fs.realpath(input);
+    if (
+      destination === source ||
+      destination.startsWith(source + path.sep) ||
+      source.startsWith(destination + path.sep)
+    )
+      throw fault('INVALID_ARGUMENT', '输出目录不能覆盖或包含冻结输入');
+  }
+  return destination;
+}
 /** 包含未提交和未跟踪源码，不将忽略的生成产物纳入摘要。 */
 export async function workingTree(root) {
   const status = git(root, ['status', '--short']);
@@ -34,6 +65,7 @@ export async function workingTree(root) {
   }
   return {
     head: git(root, ['rev-parse', 'HEAD']),
+    parents: git(root, ['show', '--no-patch', '--format=%P', 'HEAD']).split(' ').filter(Boolean),
     dirty: Boolean(status),
     status,
     digest: digest(Buffer.concat([patch, Buffer.from(JSON.stringify(untracked))]))

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "trusted_ci_policy",
+  "repository": "VisActor/VChart",
+  "baseRef": "develop",
+  "nodeMajor": 22,
+  "rushVersion": "5.148.0",
+  "pnpmVersion": "10.7.0",
+  "unitPackages": [
+    "vchart",
+    "vchart-extension",
+    "vchart-statplots",
+    "vchart-schema",
+    "vutils-extension"
+  ],
+  "buildTargets": [
+    "@visactor/vchart",
+    "@visactor/vchart-extension",
+    "@visactor/vchart-statplots"
+  ],
+  "visualProduct": "vchart",
+  "visualSelection": "full",
+  "requiredChecks": [
+    "VisActor Flow / Build",
+    "VisActor Flow / Unit",
+    "VisActor Flow / Repository visual"
+  ],
+  "firefoxPaste": false,
+  "preBuildScripts": [
+    {
+      "package": "vchart-statplots",
+      "script": "build:schema"
+    }
+  ],
+  "visualSuites": [
+    "core",
+    "extension"
+  ],
+  "browserChecks": [
+    {
+      "package": "vchart-statplots",
+      "config": "__tests__/browser/playwright.config.ts",
+      "shards": 2
+    }
+  ],
+  "buildFormats": [
+    "es",
+    "cjs"
+  ],
+  "nodeChecks": [
+    "packages/vchart-statplots/__tests__/runtime/skill-resources.test.cjs",
+    "packages/vchart-extension/__tests__/runtime/visual-build.test.cjs"
+  ],
+  "publishedUmd": {
+    "version": "2.1.8-alpha.0",
+    "files": {
+      "vchart": {
+        "integrity": "sha512-Ufk0lzLHcaJD9BrWcIxEp66UEYtNoiobD4z/dOjJy8qBWqwaclsnx0XZ3wr/S1Da1PQE/zUhy6vLG+uLvq/5yw==",
+        "sha256": "9d0f5651b1e322f383c7101b54265c9b3a7ee0f5cd7c9165db83f8f19f22cd0b"
+      },
+      "statplots": {
+        "integrity": "sha512-DgNAwc9LPG2aLW9DD7qR8Px6Oo20HCI4afwliyzRlkWSqKu30DyVL6yJQ9LtyddWMQ9TVPGcSdMIRxPdFUavBA==",
+        "sha256": "4902756722b23bd9f54b8b4b17ed20ccaba28301cc5f0971e734e1fc20655a04"
+      }
+    }
+  }
+}

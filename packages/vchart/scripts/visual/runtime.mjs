@@ -161,13 +161,41 @@ export async function serve(runDir) {
 
 /** 按相对路径递归冻结代码资源，不跟随符号链接到工作区外。 */
 export async function fileManifest(directory, relative = '') {
+  if (!relative && !(await fs.lstat(directory)).isDirectory()) throw fault('CASE_MANIFEST_INVALID', '冻结输入必须是普通目录');
   const entries = [];
   for (const name of (await fs.readdir(path.join(directory, relative))).sort()) {
     const file = path.posix.join(relative, name);
     const stat = await fs.lstat(path.join(directory, file));
     if (stat.isSymbolicLink()) throw fault('CASE_MANIFEST_INVALID', `冻结输入不能包含符号链接：${file}`);
     if (stat.isDirectory()) entries.push(...(await fileManifest(directory, file)));
-    else if (stat.isFile()) entries.push({ path: file, digest: digest(await fs.readFile(path.join(directory, file))) });
+    else if (stat.isFile()) {
+      const bytes = await fs.readFile(path.join(directory, file));
+      entries.push({ path: file, digest: digest(bytes), size: bytes.length });
+    } else throw fault('CASE_MANIFEST_INVALID', `冻结输入必须是普通文件：${file}`);
   }
-  return entries;
+  return relative ? entries : entries.sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
+}
+
+/** 冻结完整套件并核对复制内容，供本地对比和平台导出共用。 */
+export async function freezeSuite(source, destination, sharedSource = null) {
+  const before = await fileManifest(source);
+  const shared = [];
+  if (sharedSource && sharedSource !== source) {
+    if (!(await fs.lstat(sharedSource)).isDirectory()) throw fault('CASE_MANIFEST_INVALID', '公共运行输入必须是普通目录');
+    sharedSource = await fs.realpath(sharedSource);
+    await fs.mkdir(destination, { recursive: true });
+    // 扩展套件复用核心运行文件，源套件自己的页面和配置仍有优先权。
+    for (const name of ['settings.mjs', 'playwright.config.mjs', 'visual.spec.mjs', 'reporter.mjs', 'page.html']) {
+      const file = path.join(sharedSource, name), stat = await fs.lstat(file);
+      if (!stat.isFile() || await fs.realpath(file) !== file) throw fault('CASE_MANIFEST_INVALID', '公共运行文件不能使用链接');
+      const bytes = await fs.readFile(file);
+      shared.push({ path: name, digest: digest(bytes), size: bytes.length });
+      await fs.writeFile(path.join(destination, name), bytes);
+    }
+  }
+  await fs.cp(source, destination, { recursive: true, force: Boolean(shared.length), errorOnExist: !shared.length });
+  const files = await fileManifest(destination);
+  const expected = [...new Map([...shared, ...before].map(file => [file.path, file])).values()].sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
+  if (JSON.stringify(expected) !== JSON.stringify(files)) throw fault('WORKSPACE_CHANGED', '冻结期间套件发生变化');
+  return files;
 }

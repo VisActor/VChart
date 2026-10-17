@@ -16,6 +16,7 @@ export const cases = [
   }
 ];
 
+/** 从冻结清单所在目录加载用例，与核心套件共用同一加载契约。 */
 export async function loadCase(item) {
-  return (await import(item.file)).default;
+  return (await import(new URL(item.file, import.meta.url))).default;
 }
