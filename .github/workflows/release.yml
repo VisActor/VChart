@@ -2,6 +2,12 @@ name: Release CI
 
 on:
   workflow_dispatch:
+    inputs:
+      resume_partial_publish:
+        description: '确认源码与已发布包一致后，补发缺失版本（已有版本由 Rush 跳过）'
+        type: boolean
+        required: false
+        default: false
   push:
     branches:
       - 'release/**'
@@ -109,6 +115,9 @@ jobs:
 
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
+
+      - name: Verify npm release recovery
+        run: node --test common/scripts/check-npm-release.test.cjs
 
       - name: Verify release artifact lifecycle
         run: node --test common/scripts/release-artifact-lifecycle.test.cjs
@@ -437,45 +446,8 @@ jobs:
         id: npm_version_release
         env:
           PACKAGE_VERSION: ${{ steps.semver_release.outputs.main }}
-        run: |
-          set -euo pipefail
-          package_names=()
-          while IFS= read -r package_name; do
-            [ -n "$package_name" ] && package_names+=("$package_name")
-          done < <(node <<'NODE'
-          const fs = require('fs');
-          const rush = JSON.parse(fs.readFileSync('rush.json', 'utf8'));
-          for (const project of rush.projects) {
-            if (project.shouldPublish) {
-              console.log(project.packageName);
-            }
-          }
-          NODE
-          )
-
-          existing=()
-          missing=()
-          for package_name in "${package_names[@]}"; do
-            if npm view "${package_name}@${PACKAGE_VERSION}" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
-              existing+=("${package_name}")
-            else
-              missing+=("${package_name}")
-            fi
-          done
-
-          if [ "${#missing[@]}" -eq 0 ]; then
-            echo "All packages already have version ${PACKAGE_VERSION} on npm, skip publish."
-            echo "skip_publish=true" >> "$GITHUB_OUTPUT"
-          elif [ "${#existing[@]}" -eq 0 ]; then
-            echo "No package has version ${PACKAGE_VERSION} on npm, continue publish."
-            echo "skip_publish=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "Partial npm publish detected for ${PACKAGE_VERSION}."
-            echo "Existing packages: ${existing[*]}"
-            echo "Missing packages: ${missing[*]}"
-            echo "Stop before publish to avoid masking a partial release."
-            exit 1
-          fi
+          RESUME_PARTIAL_PUBLISH: ${{ inputs.resume_partial_publish }}
+        run: node common/scripts/check-npm-release.js
 
       - name: Publish to npm (release)
         if: startsWith(github.ref_name, 'release/') && steps.npm_version_release.outputs.skip_publish != 'true'
@@ -553,45 +525,8 @@ jobs:
         id: npm_version_hotfix
         env:
           PACKAGE_VERSION: ${{ steps.semver_hotfix.outputs.main }}
-        run: |
-          set -euo pipefail
-          package_names=()
-          while IFS= read -r package_name; do
-            [ -n "$package_name" ] && package_names+=("$package_name")
-          done < <(node <<'NODE'
-          const fs = require('fs');
-          const rush = JSON.parse(fs.readFileSync('rush.json', 'utf8'));
-          for (const project of rush.projects) {
-            if (project.shouldPublish) {
-              console.log(project.packageName);
-            }
-          }
-          NODE
-          )
-
-          existing=()
-          missing=()
-          for package_name in "${package_names[@]}"; do
-            if npm view "${package_name}@${PACKAGE_VERSION}" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
-              existing+=("${package_name}")
-            else
-              missing+=("${package_name}")
-            fi
-          done
-
-          if [ "${#missing[@]}" -eq 0 ]; then
-            echo "All packages already have version ${PACKAGE_VERSION} on npm, skip publish."
-            echo "skip_publish=true" >> "$GITHUB_OUTPUT"
-          elif [ "${#existing[@]}" -eq 0 ]; then
-            echo "No package has version ${PACKAGE_VERSION} on npm, continue publish."
-            echo "skip_publish=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "Partial npm publish detected for ${PACKAGE_VERSION}."
-            echo "Existing packages: ${existing[*]}"
-            echo "Missing packages: ${missing[*]}"
-            echo "Stop before publish to avoid masking a partial release."
-            exit 1
-          fi
+          RESUME_PARTIAL_PUBLISH: ${{ inputs.resume_partial_publish }}
+        run: node common/scripts/check-npm-release.js
 
       - name: Publish to npm (hotfix)
         if: startsWith(github.ref_name, 'hotfix/') && steps.npm_version_hotfix.outputs.skip_publish != 'true'
@@ -635,45 +570,8 @@ jobs:
         id: npm_version_prerelease
         env:
           PACKAGE_VERSION: ${{ steps.semver_prerelease.outputs.full }}
-        run: |
-          set -euo pipefail
-          package_names=()
-          while IFS= read -r package_name; do
-            [ -n "$package_name" ] && package_names+=("$package_name")
-          done < <(node <<'NODE'
-          const fs = require('fs');
-          const rush = JSON.parse(fs.readFileSync('rush.json', 'utf8'));
-          for (const project of rush.projects) {
-            if (project.shouldPublish) {
-              console.log(project.packageName);
-            }
-          }
-          NODE
-          )
-
-          existing=()
-          missing=()
-          for package_name in "${package_names[@]}"; do
-            if npm view "${package_name}@${PACKAGE_VERSION}" version --registry=https://registry.npmjs.org >/dev/null 2>&1; then
-              existing+=("${package_name}")
-            else
-              missing+=("${package_name}")
-            fi
-          done
-
-          if [ "${#missing[@]}" -eq 0 ]; then
-            echo "All packages already have version ${PACKAGE_VERSION} on npm, skip publish."
-            echo "skip_publish=true" >> "$GITHUB_OUTPUT"
-          elif [ "${#existing[@]}" -eq 0 ]; then
-            echo "No package has version ${PACKAGE_VERSION} on npm, continue publish."
-            echo "skip_publish=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "Partial npm publish detected for ${PACKAGE_VERSION}."
-            echo "Existing packages: ${existing[*]}"
-            echo "Missing packages: ${missing[*]}"
-            echo "Stop before publish to avoid masking a partial release."
-            exit 1
-          fi
+          RESUME_PARTIAL_PUBLISH: ${{ inputs.resume_partial_publish }}
+        run: node common/scripts/check-npm-release.js
 
       - name: Publish to npm (pre-release)
         if: startsWith(github.ref_name, 'pre-release/') && steps.npm_version_prerelease.outputs.skip_publish != 'true'
