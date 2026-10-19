@@ -4,18 +4,21 @@ group: extension chart
 title: Clock Storyline
 keywords: extension, storyline, clock
 order: 11
+cover: /vchart/preview/storyline-clock.png
 option: storylineChart
 ---
 
 # Clock Storyline
 
-This example uses the `clock` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its six milestones, images and theme with shorter titles and descriptions while adapting the chart width and height to its container.
+This example uses the `clock` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its six milestones, images and theme with shorter titles and descriptions using a fixed-size canvas with scrolling inside this demo.
 
 The data covers six World Cup milestones from 1930 to 2022. Each milestone uses a short Chinese title and a one-sentence description.
 
 ## Key Configurations
 
-- `autoFit: true`: adapt width and height to the container without fixed `width` or `height` values; the demo container scales with the page at a `16 / 9` aspect ratio.
+- `autoFit: false`, `width: 1200`, `height: 675`: keep a fixed canvas size.
+- `scrollContainer`: fill the preview area and use `overflow: auto` to view the larger canvas without changing the site's outer container styles.
+- `window.customRelease`: remove this demo's DOM when rerunning or switching examples so scrollbars do not persist.
 - `layout: 'clock'`: arrange six World Cup nodes along a circular orbit in data order.
 - `titleImage`: use a compact `180 × 60` theme image at the top to leave room for the orbit and node text.
 - `title.style` and `content.style`: use a title font size of `14` with a line height of `18`, and a content font size of `11` with a line height of `14`. Keep one short sentence per node.
@@ -38,9 +41,13 @@ const titleImage = {
   width: 180,
   height: 60
 };
+const chartWidth = 1200;
+const chartHeight = 675;
 const spec = {
   type: 'storyline',
-  autoFit: true,
+  autoFit: false,
+  width: chartWidth,
+  height: chartHeight,
   padding: [16, 8, 16, 8],
   block: { padding: 0 },
   layout: 'clock',
@@ -92,15 +99,38 @@ const spec = {
   ]
 };
 
-// Scale the demo container with the page width and preserve the original case aspect ratio.
+// Keep the canvas size fixed and scrolling local to this demo.
 const container = document.getElementById(CONTAINER_ID);
-container.style.width = '100%';
-container.style.height = 'auto';
-container.style.contain = 'size';
-container.style.aspectRatio = '16 / 9';
+const scrollContainer = document.createElement('div');
+Object.assign(scrollContainer.style, {
+  position: 'absolute',
+  top: '0',
+  right: '0',
+  bottom: '0',
+  left: '0',
+  overflow: 'auto'
+});
+
+const chartContainer = document.createElement('div');
+Object.assign(chartContainer.style, {
+  position: 'relative',
+  width: `${chartWidth}px`,
+  height: `${chartHeight}px`
+});
+scrollContainer.appendChild(chartContainer);
+container.appendChild(scrollContainer);
+
+// The site releases the chart instance; only remove this demo's DOM here.
+const cleanup = () => {
+  scrollContainer.remove();
+  if (window.customRelease === cleanup) {
+    delete window.customRelease;
+  }
+};
+window.customRelease = cleanup;
 
 registerStorylineChart();
-const vchart = new VChart(spec, { dom: container });
+const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!

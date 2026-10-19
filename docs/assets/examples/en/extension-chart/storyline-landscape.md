@@ -4,18 +4,21 @@ group: extension chart
 title: Landscape Storyline
 keywords: extension, storyline, landscape
 order: 9
+cover: /vchart/preview/storyline-landscape.png
 option: storylineChart
 ---
 
 # Landscape Storyline
 
-This example uses the `landscape` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its images, data and theme while adapting the chart width and height to its container.
+This example uses the `landscape` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its images, data and theme using a fixed-size canvas with scrolling inside this demo.
 
 Each run generates 3–9 nodes at random and preserves the case's long text to demonstrate how the layout handles different node counts and content lengths.
 
 ## Key Configurations
 
-- `autoFit: true`: adapt width and height to the container without fixed `width` or `height` values; the demo container scales with the page at a `16 / 9` aspect ratio.
+- `autoFit: false`, `width: 1200`, `height: 675`: keep a fixed canvas size.
+- `scrollContainer`: fill the preview area and use `overflow: auto` to view the larger canvas without changing the site's outer container styles.
+- `window.customRelease`: remove this demo's DOM when rerunning or switching examples so scrollbars do not persist.
 - `layout: 'landscape'`: arrange nodes along a horizontal curve.
 - `line`: retain the test case's connection settings.
 - `image.showBackground: false`: hide main-image background decorations.
@@ -89,13 +92,16 @@ const buildData = layout => {
     const seed = baseData[index % baseData.length];
     // portrait 布局：附加 marker 时间节点（2012、2013…）以便沿中轴纵向展示
     const marker = layout === 'portrait' ? String(2012 + index) : undefined;
-    return {
-      ...seed,
-      id: `${layout}-${index}-${seed.id}`,
-      title: `${seed.title} ${index + 1}`,
-      content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`],
-      ...(marker ? { marker } : {})
-    };
+    return Object.assign(
+      {},
+      seed,
+      {
+        id: `${layout}-${index}-${seed.id}`,
+        title: `${seed.title} ${index + 1}`,
+        content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`]
+      },
+      marker ? { marker } : {}
+    );
   });
 };
 const themeColor = 'rgb(228,154,56)';
@@ -113,9 +119,13 @@ const commonLine = {
   }
 };
 const layout = 'landscape';
+const chartWidth = 1200;
+const chartHeight = 675;
 const spec = {
   type: 'storyline',
-  autoFit: true,
+  autoFit: false,
+  width: chartWidth,
+  height: chartHeight,
   padding: 20,
   data: buildData(layout),
   layout,
@@ -127,15 +137,38 @@ const spec = {
   }
 };
 
-// Scale the demo container with the page width and preserve the original case aspect ratio.
+// Keep the canvas size fixed and scrolling local to this demo.
 const container = document.getElementById(CONTAINER_ID);
-container.style.width = '100%';
-container.style.height = 'auto';
-container.style.contain = 'size';
-container.style.aspectRatio = '16 / 9';
+const scrollContainer = document.createElement('div');
+Object.assign(scrollContainer.style, {
+  position: 'absolute',
+  top: '0',
+  right: '0',
+  bottom: '0',
+  left: '0',
+  overflow: 'auto'
+});
+
+const chartContainer = document.createElement('div');
+Object.assign(chartContainer.style, {
+  position: 'relative',
+  width: `${chartWidth}px`,
+  height: `${chartHeight}px`
+});
+scrollContainer.appendChild(chartContainer);
+container.appendChild(scrollContainer);
+
+// The site releases the chart instance; only remove this demo's DOM here.
+const cleanup = () => {
+  scrollContainer.remove();
+  if (window.customRelease === cleanup) {
+    delete window.customRelease;
+  }
+};
+window.customRelease = cleanup;
 
 registerStorylineChart();
-const vchart = new VChart(spec, { dom: container });
+const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!

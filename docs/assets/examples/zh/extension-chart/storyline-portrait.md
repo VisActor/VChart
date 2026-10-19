@@ -4,18 +4,21 @@ group: extension chart
 title: 纵向叙事图
 keywords: extension, storyline, portrait
 order: 10
+cover: /vchart/preview/storyline-portrait.png
 option: storylineChart
 ---
 
 # 纵向叙事图
 
-本示例沿用 `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts` 中的 `portrait` case，保留原始图片、数据和配色，画布宽高自适应容器。
+本示例沿用 `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts` 中的 `portrait` case，保留原始图片、数据和配色，使用固定尺寸画布，并在当前示例内部滚动查看。
 
 每次运行随机生成 3–9 个节点，保留测试 case 的长文本，用于观察布局对不同节点数量和内容长度的处理。
 
 ## 关键配置
 
-- `autoFit: true`：宽高自适应容器，不设置固定的 `width`、`height`；演示容器按 `9 / 16` 的宽高比随页面缩放。
+- `autoFit: false`、`width: 675`、`height: 1200`：保持固定画布尺寸。
+- `scrollContainer`：填满站点预览区域，使用 `overflow: auto` 查看超出区域的画布，不修改站点外层容器样式。
+- `window.customRelease`：重新运行或切换示例时删除本示例创建的 DOM，避免滚动条残留。
 - `layout: 'portrait'`：图片和文字沿中轴左右交替排列。
 - `data[].marker`：显示从 2012 开始的时间标记。
 - `data[].subImage`：绘制主图后方的装饰图片。
@@ -89,13 +92,16 @@ const buildData = layout => {
     const seed = baseData[index % baseData.length];
     // portrait 布局：附加 marker 时间节点（2012、2013…）以便沿中轴纵向展示
     const marker = layout === 'portrait' ? String(2012 + index) : undefined;
-    return {
-      ...seed,
-      id: `${layout}-${index}-${seed.id}`,
-      title: `${seed.title} ${index + 1}`,
-      content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`],
-      ...(marker ? { marker } : {})
-    };
+    return Object.assign(
+      {},
+      seed,
+      {
+        id: `${layout}-${index}-${seed.id}`,
+        title: `${seed.title} ${index + 1}`,
+        content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`]
+      },
+      marker ? { marker } : {}
+    );
   });
 };
 const themeColor = 'rgb(228,154,56)';
@@ -103,24 +109,51 @@ const titleImage = {
   image: TITLE_IMAGE_URL
 };
 const layout = 'portrait';
+const chartWidth = 675;
+const chartHeight = 1200;
 const spec = {
   type: 'storyline',
-  autoFit: true,
+  autoFit: false,
+  width: chartWidth,
+  height: chartHeight,
   data: buildData(layout),
   layout,
   titleImage,
   themeColor
 };
 
-// 演示容器随页面宽度缩放，并保留原 case 的宽高比例。
+// 画布保持固定尺寸；滚动区域只属于当前 demo。
 const container = document.getElementById(CONTAINER_ID);
-container.style.width = '100%';
-container.style.height = 'auto';
-container.style.contain = 'size';
-container.style.aspectRatio = '9 / 16';
+const scrollContainer = document.createElement('div');
+Object.assign(scrollContainer.style, {
+  position: 'absolute',
+  top: '0',
+  right: '0',
+  bottom: '0',
+  left: '0',
+  overflow: 'auto'
+});
+
+const chartContainer = document.createElement('div');
+Object.assign(chartContainer.style, {
+  position: 'relative',
+  width: `${chartWidth}px`,
+  height: `${chartHeight}px`
+});
+scrollContainer.appendChild(chartContainer);
+container.appendChild(scrollContainer);
+
+// 站点自动释放图表实例；这里只清理本 demo 创建的 DOM。
+const cleanup = () => {
+  scrollContainer.remove();
+  if (window.customRelease === cleanup) {
+    delete window.customRelease;
+  }
+};
+window.customRelease = cleanup;
 
 registerStorylineChart();
-const vchart = new VChart(spec, { dom: container });
+const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!

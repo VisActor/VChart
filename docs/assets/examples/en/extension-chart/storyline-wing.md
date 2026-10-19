@@ -4,18 +4,21 @@ group: extension chart
 title: Wing Storyline
 keywords: extension, storyline, wing
 order: 13
+cover: /vchart/preview/storyline-wing.png
 option: storylineChart
 ---
 
 # Wing Storyline
 
-This example uses the `wing` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its images, data and theme while adapting the chart width and height to its container.
+This example uses the `wing` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its images, data and theme using a fixed-size canvas with scrolling inside this demo.
 
 Each run generates 3–9 nodes at random and preserves the case's long text to demonstrate how the layout handles different node counts and content lengths.
 
 ## Key Configurations
 
-- `autoFit: true`: adapt width and height to the container without fixed `width` or `height` values; the demo container scales with the page at a `9 / 16` aspect ratio.
+- `autoFit: false`, `width: 675`, `height: 1200`: keep a fixed canvas size.
+- `scrollContainer`: fill the preview area and use `overflow: auto` to view the larger canvas without changing the site's outer container styles.
+- `window.customRelease`: remove this demo's DOM when rerunning or switching examples so scrollbars do not persist.
 - `layout: { type: 'wing', direction: 'left' }`: anchor the wing layout on the left.
 - `titleImage.image`: use the test case's World Cup theme image.
 - `titleImage.style.fill: 'transparent'`: make the theme image background transparent while keeping the image visible.
@@ -90,13 +93,16 @@ const buildData = layout => {
     const seed = baseData[index % baseData.length];
     // portrait 布局：附加 marker 时间节点（2012、2013…）以便沿中轴纵向展示
     const marker = layout === 'portrait' ? String(2012 + index) : undefined;
-    return {
-      ...seed,
-      id: `${layout}-${index}-${seed.id}`,
-      title: `${seed.title} ${index + 1}`,
-      content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`],
-      ...(marker ? { marker } : {})
-    };
+    return Object.assign(
+      {},
+      seed,
+      {
+        id: `${layout}-${index}-${seed.id}`,
+        title: `${seed.title} ${index + 1}`,
+        content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`]
+      },
+      marker ? { marker } : {}
+    );
   });
 };
 const themeColor = 'rgb(228,154,56)';
@@ -105,9 +111,13 @@ const titleImage = {
   style: { fill: 'transparent' }
 };
 const layout = 'wing';
+const chartWidth = 675;
+const chartHeight = 1200;
 const spec = {
   type: 'storyline',
-  autoFit: true,
+  autoFit: false,
+  width: chartWidth,
+  height: chartHeight,
   // padding: [40, 40, 40, 40],
   data: buildData(layout),
   layout: { type: 'wing', direction: 'left' },
@@ -115,15 +125,38 @@ const spec = {
   themeColor
 };
 
-// Scale the demo container with the page width and preserve the original case aspect ratio.
+// Keep the canvas size fixed and scrolling local to this demo.
 const container = document.getElementById(CONTAINER_ID);
-container.style.width = '100%';
-container.style.height = 'auto';
-container.style.contain = 'size';
-container.style.aspectRatio = '9 / 16';
+const scrollContainer = document.createElement('div');
+Object.assign(scrollContainer.style, {
+  position: 'absolute',
+  top: '0',
+  right: '0',
+  bottom: '0',
+  left: '0',
+  overflow: 'auto'
+});
+
+const chartContainer = document.createElement('div');
+Object.assign(chartContainer.style, {
+  position: 'relative',
+  width: `${chartWidth}px`,
+  height: `${chartHeight}px`
+});
+scrollContainer.appendChild(chartContainer);
+container.appendChild(scrollContainer);
+
+// The site releases the chart instance; only remove this demo's DOM here.
+const cleanup = () => {
+  scrollContainer.remove();
+  if (window.customRelease === cleanup) {
+    delete window.customRelease;
+  }
+};
+window.customRelease = cleanup;
 
 registerStorylineChart();
-const vchart = new VChart(spec, { dom: container });
+const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!
