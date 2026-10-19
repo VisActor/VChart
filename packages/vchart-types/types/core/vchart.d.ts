@@ -71,6 +71,7 @@ export declare class VChart implements IVChart {
     private _autoSize;
     private _option;
     private _currentSize;
+    private _lastAutoSize;
     private _observer;
     private _currentThemeName;
     private _currentTheme;

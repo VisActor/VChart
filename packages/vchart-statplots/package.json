@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-statplots",
-  "version": "2.1.7",
+  "version": "2.2.0",
   "description": "Semantic statistical graphics for data science, powered by VChart",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -35,13 +35,13 @@
     "check:skill-resources": "node scripts/sync-visualization-skill.mjs --check"
   },
   "peerDependencies": {
-    "@visactor/vchart": "2.1.7"
+    "@visactor/vchart": "2.2.0"
   },
   "dependencies": {
     "@visactor/vutils": "~1.0.28"
   },
   "devDependencies": {
-    "@visactor/vchart": "workspace:2.1.7",
+    "@visactor/vchart": "workspace:2.2.0",
     "@internal/bundler": "workspace:*",
     "@internal/typescript-json-schema": "workspace:*",
     "@internal/eslint-config": "workspace:*",

@@ -61,9 +61,10 @@ export declare class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpe
     protected _handleClearEmpty: () => void;
     protected _handleNodeAdjacencyClick: (graphic: IMarkGraphic) => void;
     protected _handleLinkAdjacencyClick: (graphic: IMarkGraphic) => void;
+    private _highlightPlainRelated;
     protected _handleNodeRelatedClick: (graphic: IMarkGraphic) => void;
     protected _handleLinkRelatedClick: (graphic: IMarkGraphic) => void;
-    protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: string[]): void;
+    protected _highLightElements(graphics: IMarkGraphic[], highlightNodes: StringOrNumber[] | Set<StringOrNumber>): void;
     protected initTooltip(): void;
     _setNodeOrdinalColorScale(): void;
     getNodeList(): any;

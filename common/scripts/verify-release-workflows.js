@@ -47,11 +47,11 @@ function getSteps(workflow, jobName) {
 
 function assertUsesPublishablePackageSet(step, context) {
   assert(step && typeof step.run === 'string', `${context} step must exist`);
-  assert(step.run.includes("JSON.parse(fs.readFileSync('rush.json', 'utf8'))"), `${context} must read rush.json`);
-  assert(step.run.includes('project.shouldPublish'), `${context} must check every publishable Rush project`);
-  assert(step.run.includes('Partial npm publish detected'), `${context} must fail on partial npm publication`);
-  assert(step.run.includes('${missing[*]}'), `${context} must report missing packages`);
-  assert(step.run.includes('${existing[*]}'), `${context} must report existing packages`);
+  assert(step.run === 'node common/scripts/check-npm-release.js', `${context} must use the shared npm release check`);
+  assert(
+    step.env.RESUME_PARTIAL_PUBLISH === '${{ inputs.resume_partial_publish }}',
+    `${context} must pass the explicit manual recovery input`
+  );
 }
 
 function assertFallbackGhToken(step, context) {
@@ -80,6 +80,8 @@ function run() {
 
   const releaseOn = getOn(release);
   assert(hasOwn(releaseOn, 'workflow_dispatch'), 'release.yml must support workflow_dispatch for manual recovery');
+  const resumeInput = releaseOn.workflow_dispatch.inputs.resume_partial_publish;
+  assert(resumeInput.type === 'boolean' && resumeInput.default === false, 'partial release recovery must be opt-in');
   assert(
     release.data.jobs.release.if &&
       release.data.jobs.release.if.includes("github.event_name == 'workflow_dispatch'") &&
@@ -120,6 +122,35 @@ function run() {
   );
   assert(!statplotsBuildStep.if, 'release.yml must build statplots for every release branch');
   const releaseSteps = getSteps(release, 'release');
+  const recoveryTestStep = getStep(release, 'release', 'Verify npm release recovery');
+  assertRunIncludes(recoveryTestStep, 'node --test common/scripts/check-npm-release.test.cjs', 'npm release recovery regression');
+  assert(!recoveryTestStep.if, 'release.yml must test npm release recovery for every release branch');
+  assert(
+    releaseSteps.indexOf(recoveryTestStep) > releaseSteps.indexOf(getStep(release, 'release', 'Install rush')) &&
+      ['release', 'hotfix', 'pre-release'].every(flow => {
+        const check = getStep(release, 'release', `Check npm version (${flow})`);
+        const publish = getStep(release, 'release', `Publish to npm (${flow})`);
+        return releaseSteps.indexOf(recoveryTestStep) < releaseSteps.indexOf(check) &&
+          releaseSteps.indexOf(check) < releaseSteps.indexOf(publish) &&
+          publish.run.includes('publish --publish --include-all --tag ') && !publish.run.includes('--force');
+      }),
+    'release.yml must test recovery before npm checks and keep Rush skip-existing publication without --force'
+  );
+  const artifactLifecycleStep = getStep(release, 'release', 'Verify release artifact lifecycle');
+  assertRunIncludes(
+    artifactLifecycleStep,
+    'node --test common/scripts/release-artifact-lifecycle.test.cjs',
+    'release.yml artifact lifecycle regression'
+  );
+  assert(!artifactLifecycleStep.if, 'release.yml must verify artifact lifecycle for every release branch');
+  const artifactLifecycleIndex = releaseSteps.indexOf(artifactLifecycleStep);
+  assert(
+    artifactLifecycleIndex > releaseSteps.indexOf(getStep(release, 'release', 'Install rush')) &&
+      ['release', 'hotfix', 'pre-release'].every(flow =>
+        artifactLifecycleIndex < releaseSteps.indexOf(getStep(release, 'release', `Publish to npm (${flow})`))
+      ),
+    'release.yml must verify artifact lifecycle after dependency installation and before any publication'
+  );
   const statplotsBuildIndex = releaseSteps.indexOf(statplotsBuildStep);
   assert(
     statplotsBuildIndex > releaseSteps.indexOf(getStep(release, 'release', 'Build vutils-extension && vchart')) &&
