@@ -63,24 +63,16 @@ label: {
 
 ## 格式化
 
+`label.formatter` / `nonLeafLabel.formatter` 是模板字符串或字符串数组；函数使用 `formatMethod(text, datum, ctx)`。第一个参数是标签文本，原始数值从 datum 读取，不把文本当成数据记录。完整签名见 [ILabelSpec](../type-details/ILabelSpec-Type-Definition.md)。
+
 ```javascript
 label: {
   visible: true,
-  formatMethod: (value, datum, ctx) => {
-    // value: 原始值
-    // datum: 数据项
-    // ctx: 上下文信息
-    
-    // 数值格式化
-    if (typeof value === 'number') {
-      return value.toLocaleString();
-    }
-    
-    // 百分比
-    return `${(value * 100).toFixed(1)}%`;
-  }
+  formatMethod: (text, datum) => `${datum.amount} 次`
 }
 ```
+
+回调保留为 JS 函数，不转换成函数字符串或占位符 JSON。Tooltip 使用自己的回调和 `keyFormatter` / `valueFormatter`，见 [Tooltip](tooltip.md)。Treemap 的布局 datum 需要解包，见 [层级数据](../chart/treemap.md)。
 
 ## 偏移配置
 

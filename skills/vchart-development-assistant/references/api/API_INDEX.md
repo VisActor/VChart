@@ -28,7 +28,7 @@ VChart API 分为以下几大类别：
 | 用户需求 | 推荐 API | 文档链接 |
 |---------|---------|---------|
 | 更新图表数据 | `updateData` / `updateDataSync` | [data-api.md](data-api.md) |
-| 切换图表类型 | `updateSpec` / `updateSpecSync` | [spec-api.md](spec-api.md) |
+| 切换图表类型 | `updateSpec` / `updateSpecSync` | [Spec 配置更新 API](#spec-配置更新-api) |
 | 高亮某个数据 | `setHovered` / `setSelected` | [state-api.md](state-api.md) |
 | 响应点击事件 | `on('click')` | [event-api.md](event-api.md) |
 | 切换深色模式 | `setCurrentTheme` | [theme-api.md](theme-api.md) |
@@ -48,11 +48,11 @@ VChart API 分为以下几大类别：
 | 用户需求 | 推荐 API | 文档链接 |
 |---------|---------|---------|
 | 更新图表数据 | `updateData` / `updateDataSync` | [data-api.md](data-api.md) |
-| 切换图表类型 | `updateSpec` / `updateSpecSync` | [spec-api.md](spec-api.md) |
+| 切换图表类型 | `updateSpec` / `updateSpecSync` | [Spec 配置更新 API](#spec-配置更新-api) |
 | 高亮某个数据 | `setHovered` / `setSelected` | [state-api.md](state-api.md) |
 | 响应点击事件 | `on('click')` | [event-api.md](event-api.md) |
 | 切换深色模式 | `setCurrentTheme` | [theme-api.md](theme-api.md) |
-| 手动显示 tooltip | `showTooltip` / `hideTooltip` | [tooltip-api.md](tooltip-api.md) |
+| 手动显示 tooltip | `showTooltip` / `hideTooltip` | [interaction-api.md](interaction-api.md) |
 | 导出图片 | `exportImg` / `getDataURL` | [export-api.md](export-api.md) |
 | 窗口 resize | `resize` | [layout-api.md](layout-api.md) |
 | 控制图例选中 | `setLegendSelectedDataById` | [legend-api.md](legend-api.md) |
@@ -77,7 +77,7 @@ VChart API 分为以下几大类别：
 
 ### Spec 配置更新 API
 
-**文档**: [spec-api.md](spec-api.md)
+**文档**: [Spec 配置更新 API](#spec-配置更新-api)
 
 | API | 同步/异步 | 用途 |
 |-----|----------|------|

@@ -12,11 +12,10 @@
 
 先保存实际生成的配置为 JS 文件，格式为 `const spec = {...};`。只包含配置声明，不在该输入文件里放 `new VChart`、render 或事件绑定，因为演示模板负责实例创建。
 
-脚本的模板路径相对工作目录；从实际技能目录运行：
+脚本相对于自身定位模板，可从当前工作目录运行；输入文件应保留 spec 依赖的数据变量和辅助函数。
 
 ```sh
-cd /实际技能目录
-python3 scripts/generate_demo_html.py \
+python3 /实际技能目录/scripts/generate_demo_html.py \
   --title "周数据比较" \
   --desc "比较四天的实际数值" \
   --feature "展示周一至周四的数值" \
@@ -25,9 +24,13 @@ python3 scripts/generate_demo_html.py \
   --output /实际输出目录/chart.html
 ```
 
+生成器默认执行配置校验，错误需修正后重跑；自定义页面先对纯 JS 配置执行 `node /实际技能目录/scripts/validate_spec.cjs /实际输出目录/spec.js`。校验不等于浏览器渲染成功；宿主全局变量缺失时报告的 `RUNTIME_VALIDATION_DEFERRED` 仍需在实际环境验证。修改源码后重新生成，不能交付旧页面。最终附带的配置必须是生成器读取并校验的同一份源码，保留数据变量和辅助函数；有回调时交付 JS，不另存字符串回调或占位符 JSON。
+
 参数见 [脚本参考](../references/SCRIPT_PARAMS_REFERENCE.md)。生成器用于配置演示，不会把输入文件里的外部事件代码自动绑定到模板创建的实例；应用 API 需求应基于生成页面和其真实实例按文档接入，不另建第二个图表。
 
 脚本无法使用时可按 `../template/demo.html` 生成完整页面。正确替换占位符并检查依赖；不是只返回被截断的 HTML 片段。
+
+浏览器使用 UMD 构造器 `window.VChart.default || window.VChart`，普通 script 不直接放 npm import。保持模板或宿主指定版本，不为排错擅自升级 CDN；额外插件按该版本的导出与注册要求接入。
 
 ## 按需交互
 
