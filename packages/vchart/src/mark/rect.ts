@@ -5,9 +5,8 @@ import type { IMarkStyle, IRectMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
 import { registerRectAnimation } from '../animation/config';
-import { registerRect, registerShadowRoot } from '@visactor/vrender-kits';
-import { registerRectDataLabel } from '@visactor/vrender-components';
-import { createRect } from '@visactor/vrender-core';
+import { registerRectDataLabel } from '@visactor/vrender-components/label';
+import { createRect, registerRect, registerShadowRoot } from '../vrender-bridge';
 
 export class RectMark extends BaseMark<IRectMarkSpec> implements IRectMark {
   static readonly type = MarkTypeEnum.rect;

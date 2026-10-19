@@ -1,6 +1,7 @@
 import type { RollupOptions, Plugin } from 'rollup';
 import type { RawPackageJson } from './package';
 import type { BabelPlugins } from './babel.config';
+import type { RollupNodeResolveOptions } from '@rollup/plugin-node-resolve';
 // import type { RollupBabelInputPluginOptions } from '@rollup/plugin-babel';
 
 import resolve from '@rollup/plugin-node-resolve';
@@ -27,6 +28,13 @@ function getExternal(
   return Object.keys(rawPackageJson.peerDependencies || {});
 }
 
+function getNodeResolveOptions(entry: string, config: Config): RollupNodeResolveOptions {
+  if (typeof config.nodeResolveOptions === 'function') {
+    return config.nodeResolveOptions(entry, config) ?? {};
+  }
+  return config.nodeResolveOptions ?? {};
+}
+
 export function getRollupOptions(
   projectRoot: string,
   entry: string,
@@ -34,12 +42,15 @@ export function getRollupOptions(
   babelPlugins: BabelPlugins,
   config: Config
 ): RollupOptions {
+  const { prePlugins = [], plugins = [], ...rollupOptions } = config.rollupOptions;
+
   return {
     input: entry,
     external: getExternal(rawPackageJson, config.external),
-    ...config.rollupOptions,
+    ...rollupOptions,
     plugins: [
-      resolve(),
+      ...prePlugins,
+      resolve(getNodeResolveOptions(entry, config)),
       commonjs(),
       babel({ ...babelPlugins, babelHelpers: 'bundled' }),
       replace({ ...config.envs, preventAssignment: true }),
@@ -47,7 +58,8 @@ export function getRollupOptions(
         tsconfig: path.resolve(projectRoot, config.tsconfig),
         compilerOptions: {
           sourceMap: false,
-          declaration: false
+          declaration: false,
+          composite: false
         }
       }),
       url({
@@ -59,7 +71,7 @@ export function getRollupOptions(
       }),
       Alias({ entries: config.alias }),
       ...(config.minify ? [terser()] : []),
-      ...((config.rollupOptions.plugins as Plugin[]) || [])
+      ...(plugins as Plugin[])
     ]
   };
 }

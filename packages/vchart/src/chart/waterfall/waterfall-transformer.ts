@@ -22,6 +22,7 @@ export class WaterfallChartSpecTransformer<
 
   protected _getDefaultSeriesSpec(spec: AdaptiveSpec<T, 'type' | 'series' | 'label'>): any {
     const series = super._getDefaultSeriesSpec(spec);
+    this._addSeriesRelatedSpecKeys(['bar', 'stackLabel', 'leaderLine', 'total', 'calculationMode']);
     series.bar = spec.bar;
     series.stackLabel = spec.stackLabel;
     series.leaderLine = spec.leaderLine;

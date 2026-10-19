@@ -129,10 +129,16 @@ export function appendScatterRegressionLineConfig(
   spec?: ScatterRegressionLineSpec | ScatterRegressionLineSpec[]
 ) {
   if (!spec) {
+    const seriesSpecs: any[] = Array.isArray(chartSpec.series)
+      ? chartSpec.series
+      : chartSpec.series
+      ? [chartSpec.series]
+      : [];
+
     spec =
       get(chartSpec, REGRESSION_LINE) ??
       get(
-        chartSpec.series?.find(s => s.type === SeriesTypeEnum.scatter),
+        seriesSpecs.find((s: any) => s.type === SeriesTypeEnum.scatter),
         REGRESSION_LINE
       );
   }

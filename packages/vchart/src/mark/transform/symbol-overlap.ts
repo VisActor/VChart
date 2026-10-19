@@ -1,29 +1,7 @@
 import type { ISymbolGraphicAttribute } from '@visactor/vrender-core';
-import { PREFIX } from '../../constant/base';
 import { isNil } from '@visactor/vutils';
 import { Factory } from '../../core/factory';
 import type { IMarkGraphic } from '../interface';
-
-export const OVERLAP_HIDE_KEY = `${PREFIX}_hide_`;
-
-function setVisible(g: IMarkGraphic, visible: boolean) {
-  if (g.context.finalAttrs) {
-    g.context.finalAttrs.visible = visible;
-  }
-}
-
-function reset(graphics: IMarkGraphic[]) {
-  graphics.forEach(g => {
-    const hide = (g as any)[OVERLAP_HIDE_KEY];
-
-    if (hide) {
-      setVisible(g, true);
-
-      (g as any)[OVERLAP_HIDE_KEY] = false;
-    }
-  });
-  return graphics;
-}
 
 function overlapX(graphics: IMarkGraphic[], delta: number, deltaMul: number) {
   let lastX = -Infinity;
@@ -44,9 +22,7 @@ function overlapX(graphics: IMarkGraphic[], delta: number, deltaMul: number) {
     }
     if (Math.abs(currentX - lastX) < itemDelta + lastR + r) {
       if (!(g.context.finalAttrs as any).forceShow) {
-        (g as any)[OVERLAP_HIDE_KEY] = true;
-
-        setVisible(g, false);
+        g.context.finalAttrs.visible = false;
       }
     } else {
       lastX = currentX;
@@ -75,9 +51,7 @@ function overlapY(graphics: IMarkGraphic[], delta: number, deltaMul: number) {
     }
     if (Math.abs(currentY - lastY) < itemDelta + lastR + r) {
       if (!(g.context.finalAttrs as any).forceShow) {
-        (g as any)[OVERLAP_HIDE_KEY] = true;
-
-        setVisible(g, false);
+        g.context.finalAttrs.visible = false;
       }
     } else {
       lastY = currentY;
@@ -110,9 +84,7 @@ function overlapXY(graphics: IMarkGraphic[], delta: number, deltaMul: number) {
     dis = (lastX - currentX) ** 2 + (lastY - currentY) ** 2;
     if (dis < (itemDelta + lastR + r) ** 2) {
       if (!(g.context.finalAttrs as any).forceShow) {
-        (g as any)[OVERLAP_HIDE_KEY] = true;
-
-        setVisible(g, false);
+        g.context.finalAttrs.visible = false;
       }
     } else {
       lastY = currentY;
@@ -148,8 +120,7 @@ export const transform = (
   const { direction, delta, deltaMul = 1, groupBy } = options;
 
   const handleOverlap = (graphics: IMarkGraphic[]) => {
-    reset(graphics);
-
+    // afterEncode 消费本轮完整编码结果，旧防重叠结果不能覆盖当前配置的可见性。
     const sortedgraphics = options.sort
       ? graphics.slice().sort((a, b) => {
           return a.context.finalAttrs.x - b.context.finalAttrs.x;

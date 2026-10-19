@@ -1,0 +1,72 @@
+{
+  "name": "@visactor/vchart-statplots",
+  "version": "2.1.7",
+  "description": "Semantic statistical graphics for data science, powered by VChart",
+  "sideEffects": false,
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "unpkg": "build/index.min.js",
+  "files": [
+    "cjs",
+    "esm",
+    "build",
+    "schema",
+    "examples",
+    "docs",
+    "README.md",
+    "THIRD_PARTY_LICENSES.md",
+    "benchmarks"
+  ],
+  "scripts": {
+    "build:schema": "ts-node scripts/build-schema.ts",
+    "check:schema": "ts-node scripts/build-schema.ts --check",
+    "check:examples": "npm run build:schema && ts-node scripts/check-examples.ts",
+    "compile": "npm run build:schema && tsc --noEmit",
+    "eslint": "eslint src scripts __tests__ --ext .ts",
+    "test": "npm run build:schema && jest",
+    "test:browser": "npm run build:schema && playwright test --config __tests__/browser/playwright.config.ts",
+    "build": "npm run compile && bundle --clean",
+    "build:umd": "npm run build:schema && bundle -f umd",
+    "prepack": "npm run build",
+    "start": "npm run build:schema && vite --host 127.0.0.1",
+    "check:catalog": "npm run build:schema && ts-node scripts/check-catalog.ts",
+    "sync:skill": "node scripts/sync-visualization-skill.mjs",
+    "check:skill-resources": "node scripts/sync-visualization-skill.mjs --check"
+  },
+  "peerDependencies": {
+    "@visactor/vchart": "2.1.7"
+  },
+  "dependencies": {
+    "@visactor/vutils": "~1.0.28"
+  },
+  "devDependencies": {
+    "@visactor/vchart": "workspace:2.1.7",
+    "@internal/bundler": "workspace:*",
+    "@internal/typescript-json-schema": "workspace:*",
+    "@internal/eslint-config": "workspace:*",
+    "@internal/ts-config": "workspace:*",
+    "@rushstack/eslint-patch": "~1.1.4",
+    "@types/node": "*",
+    "@types/jest": "^26.0.0",
+    "@types/offscreencanvas": "2019.6.4",
+    "@playwright/test": "1.63.0",
+    "ajv": "^8.12.0",
+    "eslint": "~8.18.0",
+    "jest": "^26.0.0",
+    "ts-jest": "^26.0.0",
+    "ts-node": "10.9.0",
+    "typescript": "4.9.5",
+    "vite": "3.2.6"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VisActor/VChart",
+    "directory": "packages/vchart-statplots"
+  },
+  "license": "MIT"
+}

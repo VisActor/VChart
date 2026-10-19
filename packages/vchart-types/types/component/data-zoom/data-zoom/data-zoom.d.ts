@@ -36,6 +36,7 @@ export declare class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends D
     created(): void;
     updateLayoutAttribute(): void;
     protected _beforeLayoutEnd(): void;
+    protected _getComponentOnlySpecKeys(): Record<string, boolean>;
     clear(): void;
     getBoundsInRect(rect: ILayoutRect): IBoundsLike;
     setAttrFromSpec(): void;

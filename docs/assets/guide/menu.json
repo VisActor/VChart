@@ -954,6 +954,20 @@
                 "zh": "时间线图组件",
                 "en": "Timeline"
               }
+            },
+            {
+              "path": "storyline",
+              "title": {
+                "zh": "叙事图",
+                "en": "Storyline"
+              }
+            },
+            {
+              "path": "sequence_analysis",
+              "title": {
+                "zh": "时序分析图",
+                "en": "Sequence Analysis"
+              }
             }
           ]
         }

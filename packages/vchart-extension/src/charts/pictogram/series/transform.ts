@@ -1,6 +1,12 @@
 import { isValid, merge } from '@visactor/vchart';
-import type { DataView, SVGParserResult } from '@visactor/vchart';
+import type { DataView, ITextGraphicAttribute, SVGParserResult } from '@visactor/vchart';
 import { DEFAULT_DATA_INDEX, measureText } from '@visactor/vchart';
+
+const SVG_TEXT_ANCHOR_TO_ALIGN: Record<string, ITextGraphicAttribute['textAlign']> = {
+  start: 'left',
+  middle: 'center',
+  end: 'right'
+};
 
 function isValidStrokeOrFill(attr: any) {
   return isValid(attr) && attr !== 'none' && !attr.includes?.('url');
@@ -114,8 +120,7 @@ export const graphicAttributeTransform = {
     return {
       ...commonAttributes(attributes),
       text: value,
-      textAlign: attributes.textAlign ?? 'left',
-      textBaseLine: attributes.textAnchor ?? 'middle',
+      textAlign: attributes.textAlign ?? SVG_TEXT_ANCHOR_TO_ALIGN[attributes.textAnchor] ?? 'left',
       anchor: [0, 0],
       fill: getFill(attributes, '#000')
     };

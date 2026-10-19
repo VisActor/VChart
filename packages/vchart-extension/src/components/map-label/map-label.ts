@@ -22,7 +22,6 @@ import {
 } from '@visactor/vchart';
 import type {
   IPadding,
-  IRect,
   IOrientType,
   IPoint,
   Datum,
@@ -33,6 +32,7 @@ import type {
   IGeoSeries,
   IMarkGraphic
 } from '@visactor/vchart';
+import type { IRect } from '@visactor/vchart/src/typings/space';
 import type { IPairInfo } from './layout';
 import { layoutByPosition, layoutOuter, placeRectByOrient } from './layout';
 import type { IMapLabelSpec, MapLabelSceneNodeMap } from './type';

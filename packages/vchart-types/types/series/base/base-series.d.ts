@@ -16,6 +16,14 @@ import type { StatisticOperations } from '../../data/transforms/interface';
 import type { GraphicEventType } from '@visactor/vrender-core';
 import type { ICompilableData } from '../../compile/data';
 import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
+export interface ISeriesSpecUpdatePolicy {
+    compileOnlyKeys?: Record<string, true>;
+    dataRelatedKeys?: Record<string, true>;
+    compileOnlySubKeys?: Record<string, Record<string, true>>;
+    seriesOnlyKeys?: Record<string, true>;
+}
+export declare function markSeriesCompileEffect(compareResult: IUpdateSpecResult, dataRelated?: boolean): void;
+export declare function markSeriesOnlyEffect(compareResult: IUpdateSpecResult): void;
 export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
     readonly specKey: string;
     readonly type: string;
@@ -162,6 +170,7 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     initSeriesStyleState(): void;
     afterInitMark(): void;
     getMarksWithoutRoot(): IMark[];
+    protected _getMarkSpecNamesForCompare(): string[];
     getMarksInType(type: string | string[]): IMark[];
     getMarkInName(name: string): IMark | undefined;
     getMarkInId(markId: number): IMark | undefined;
@@ -170,13 +179,8 @@ export declare abstract class BaseSeries<T extends ISeriesSpec> extends BaseMode
     protected initTooltip(): void;
     _compareExtensionMarksSpec(newMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[], prevMarks: (IExtensionMarkSpec<Exclude<EnableMarkType, 'group'>> | IExtensionGroupMarkSpec)[], compareResult: IUpdateSpecResult): void;
     _compareLabelSpec(newLabels: ILabelSpec[], prevLabels: ILabelSpec[], compareResult: IUpdateSpecResult): void;
-    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
+    _compareSpec(spec: T, prevSpec: T, ignoreCheckKeys?: Record<string, boolean>): IUpdateSpecResult;
     _updateSpecData(): void;
     reInit(spec?: T): void;
     onEvaluateEnd(ctx: IModelEvaluateOption): void;

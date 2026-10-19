@@ -27,7 +27,7 @@ import type {
 } from './processor/interface';
 import { isDimensionInfo, isMarkInfo } from './processor/util';
 // eslint-disable-next-line no-duplicate-imports
-import { isValid, isNil, array, isNumber, throttle, isObject } from '@visactor/vutils';
+import { isValid, isNil, array, isNumber, throttle, isObject, isEqual } from '@visactor/vutils';
 import { VChart } from '../../core/vchart';
 import type { TooltipEventParams } from './interface/event';
 import { Factory } from '../../core/factory';
@@ -113,6 +113,23 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
     this._regions = this._option.getAllRegions();
     // event
     this._initEvent();
+  }
+
+  _compareSpec(spec: ITooltipSpec, prevSpec: ITooltipSpec) {
+    const result = super._compareSpec(spec, prevSpec);
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (specChanged && !result.reMake && !result.reCompile) {
+      result.change = true;
+      result.reRender = true;
+      result.effects = {
+        ...result.effects,
+        component: true,
+        render: true
+      };
+    }
+
+    return result;
   }
 
   release() {

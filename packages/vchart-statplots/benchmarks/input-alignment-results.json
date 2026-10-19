@@ -1,0 +1,555 @@
+{
+  "date": "2026-10-09",
+  "environment": {
+    "node": "22.23.3",
+    "browser": "Chromium 153.0.8010.12",
+    "platform": "macOS arm64"
+  },
+  "method": "每配置独立页面、单次生命周期冒烟；render 不含 compile，update 包含重新编译；不作为 SLA",
+  "cases": [
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 10000,
+        "variables": 16,
+        "method": "kendall"
+      },
+      "compileMs": 537.5999999046326,
+      "renderMs": 33.5,
+      "updateMs": 536.9000000953674,
+      "resizeMs": 10.599999904632568,
+      "releaseMs": 0.9000000953674316,
+      "graphics": 256,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 10000,
+        "variables": 16,
+        "method": "pearson"
+      },
+      "compileMs": 39.5,
+      "renderMs": 33.5,
+      "updateMs": 51.60000014305115,
+      "resizeMs": 11.299999952316284,
+      "releaseMs": 0.9000000953674316,
+      "graphics": 256,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 10000,
+        "variables": 16,
+        "method": "spearman"
+      },
+      "compileMs": 448,
+      "renderMs": 33.200000047683716,
+      "updateMs": 449.7999999523163,
+      "resizeMs": 10.700000047683716,
+      "releaseMs": 1,
+      "graphics": 256,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 10000,
+        "variables": 4,
+        "method": "kendall"
+      },
+      "compileMs": 49.5,
+      "renderMs": 25.5,
+      "updateMs": 51.90000009536743,
+      "resizeMs": 4.299999952316284,
+      "releaseMs": 0.9000000953674316,
+      "graphics": 16,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 10000,
+        "variables": 4,
+        "method": "pearson"
+      },
+      "compileMs": 10.700000047683716,
+      "renderMs": 25.399999856948853,
+      "updateMs": 16.40000009536743,
+      "resizeMs": 4.900000095367432,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 16,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 10000,
+        "variables": 4,
+        "method": "spearman"
+      },
+      "compileMs": 40.59999990463257,
+      "renderMs": 25.299999952316284,
+      "updateMs": 46.90000009536743,
+      "resizeMs": 4.400000095367432,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 16,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 100000,
+        "variables": 16,
+        "method": "kendall"
+      },
+      "compileMs": 7553.899999856949,
+      "renderMs": 37.700000047683716,
+      "updateMs": 7427.799999952316,
+      "resizeMs": 11.299999952316284,
+      "releaseMs": 0.8999998569488525,
+      "graphics": 256,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 100000,
+        "variables": 16,
+        "method": "pearson"
+      },
+      "compileMs": 307.39999985694885,
+      "renderMs": 34.90000009536743,
+      "updateMs": 304.5,
+      "resizeMs": 11.699999809265137,
+      "releaseMs": 1,
+      "graphics": 256,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 100000,
+        "variables": 16,
+        "method": "spearman"
+      },
+      "compileMs": 6212.099999904633,
+      "renderMs": 39.799999952316284,
+      "updateMs": 6219.200000047684,
+      "resizeMs": 10.799999952316284,
+      "releaseMs": 1,
+      "graphics": 256,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 100000,
+        "variables": 4,
+        "method": "kendall"
+      },
+      "compileMs": 596.9000000953674,
+      "renderMs": 26.40000009536743,
+      "updateMs": 541.5,
+      "resizeMs": 4.200000047683716,
+      "releaseMs": 0.8999998569488525,
+      "graphics": 16,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 100000,
+        "variables": 4,
+        "method": "pearson"
+      },
+      "compileMs": 70,
+      "renderMs": 27.100000143051147,
+      "updateMs": 46.59999990463257,
+      "resizeMs": 5.200000047683716,
+      "releaseMs": 1,
+      "graphics": 16,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "correlationMatrix",
+        "n": 100000,
+        "variables": 4,
+        "method": "spearman"
+      },
+      "compileMs": 525.5,
+      "renderMs": 27.300000190734863,
+      "updateMs": 456.5,
+      "resizeMs": 4.299999952316284,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 16,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "renderMs": 132.29999995231628,
+      "resizeMs": 63.30000019073486,
+      "releaseMs": 4.099999904632568,
+      "renderedCanvases": 20,
+      "canvases": 0,
+      "errors": []
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 10,
+        "folds": 10,
+        "models": 1
+      },
+      "compileMs": 1,
+      "renderMs": 27.5,
+      "updateMs": 10.5,
+      "resizeMs": 4.900000095367432,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 10,
+        "folds": 10,
+        "models": 10
+      },
+      "compileMs": 3.299999952316284,
+      "renderMs": 33.299999952316284,
+      "updateMs": 15.400000095367432,
+      "resizeMs": 8.299999952316284,
+      "releaseMs": 0.8999998569488525,
+      "graphics": 40,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 10,
+        "folds": 5,
+        "models": 1
+      },
+      "compileMs": 0.9000000953674316,
+      "renderMs": 27.800000190734863,
+      "updateMs": 10.199999809265137,
+      "resizeMs": 4.700000047683716,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 10,
+        "folds": 5,
+        "models": 10
+      },
+      "compileMs": 2.5,
+      "renderMs": 33.700000047683716,
+      "updateMs": 15.299999952316284,
+      "resizeMs": 8.299999952316284,
+      "releaseMs": 1,
+      "graphics": 40,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 100,
+        "folds": 10,
+        "models": 1
+      },
+      "compileMs": 3.5,
+      "renderMs": 32,
+      "updateMs": 14.699999809265137,
+      "resizeMs": 8.099999904632568,
+      "releaseMs": 0.9000000953674316,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 100,
+        "folds": 10,
+        "models": 10
+      },
+      "compileMs": 12,
+      "renderMs": 47.5,
+      "updateMs": 32.40000009536743,
+      "resizeMs": 18.399999856948853,
+      "releaseMs": 1.2999999523162842,
+      "graphics": 40,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 100,
+        "folds": 5,
+        "models": 1
+      },
+      "compileMs": 2.200000047683716,
+      "renderMs": 30.399999856948853,
+      "updateMs": 12.900000095367432,
+      "resizeMs": 6.6000001430511475,
+      "releaseMs": 0.9000000953674316,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "learningCurve",
+        "sizes": 100,
+        "folds": 5,
+        "models": 10
+      },
+      "compileMs": 8.399999856948853,
+      "renderMs": 48.80000019073486,
+      "updateMs": 31.899999856948853,
+      "resizeMs": 18.700000047683716,
+      "releaseMs": 1.5,
+      "graphics": 40,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "missingValueMatrix",
+        "n": 10000
+      },
+      "compileMs": 2.299999952316284,
+      "renderMs": 85.59999990463257,
+      "updateMs": 65.20000004768372,
+      "resizeMs": 63.5,
+      "releaseMs": 4,
+      "graphics": 10000,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "missingValueMatrix",
+        "n": 100000
+      },
+      "compileMs": 13.099999904632568,
+      "renderMs": 467.89999985694885,
+      "updateMs": 467.90000009536743,
+      "resizeMs": 548.2999999523163,
+      "releaseMs": 33.299999952316284,
+      "graphics": 100000,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 10000,
+        "estimator": "mean",
+        "resamples": 100
+      },
+      "compileMs": 23.09999990463257,
+      "renderMs": 23,
+      "updateMs": 38.700000047683716,
+      "resizeMs": 3.5,
+      "releaseMs": 0.6999998092651367,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 10000,
+        "estimator": "mean",
+        "resamples": 1000
+      },
+      "compileMs": 176.29999995231628,
+      "renderMs": 22.40000009536743,
+      "updateMs": 205.70000004768372,
+      "resizeMs": 3.5,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 10000,
+        "estimator": "median",
+        "resamples": 100
+      },
+      "compileMs": 118.89999985694885,
+      "renderMs": 22.600000143051147,
+      "updateMs": 128,
+      "resizeMs": 3.799999952316284,
+      "releaseMs": 0.8000001907348633,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 10000,
+        "estimator": "median",
+        "resamples": 1000
+      },
+      "compileMs": 1136.7999999523163,
+      "renderMs": 21.90000009536743,
+      "updateMs": 1174.3999998569489,
+      "resizeMs": 3.5,
+      "releaseMs": 0.7000000476837158,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 100000,
+        "estimator": "mean",
+        "resamples": 100
+      },
+      "compileMs": 273.90000009536743,
+      "renderMs": 24,
+      "updateMs": 262.30000019073486,
+      "resizeMs": 4.599999904632568,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 100000,
+        "estimator": "mean",
+        "resamples": 1000
+      },
+      "compileMs": 1787.9000000953674,
+      "renderMs": 24.700000047683716,
+      "updateMs": 2133.100000143051,
+      "resizeMs": 3.5,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 100000,
+        "estimator": "median",
+        "resamples": 100
+      },
+      "compileMs": 1278.2000000476837,
+      "renderMs": 21.399999856948853,
+      "updateMs": 1294.9000000953674,
+      "resizeMs": 3.3999998569488525,
+      "releaseMs": 0.7000000476837158,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "pointIntervalPlot",
+        "n": 100000,
+        "estimator": "median",
+        "resamples": 1000
+      },
+      "compileMs": 12600.300000190735,
+      "renderMs": 22.799999952316284,
+      "updateMs": 12882,
+      "resizeMs": 3.700000047683716,
+      "releaseMs": 0.7999999523162842,
+      "graphics": 4,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "residualPlot",
+        "n": 10000
+      },
+      "compileMs": 4.099999904632568,
+      "renderMs": 65.20000004768372,
+      "updateMs": 46.299999952316284,
+      "resizeMs": 36.799999952316284,
+      "releaseMs": 2.6000001430511475,
+      "graphics": 10000,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    },
+    {
+      "parameters": {
+        "type": "residualPlot",
+        "n": 100000
+      },
+      "compileMs": 23.100000143051147,
+      "renderMs": 336.60000014305115,
+      "updateMs": 318.59999990463257,
+      "resizeMs": 296.30000019073486,
+      "releaseMs": 16,
+      "graphics": 100000,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0
+    }
+  ]
+}

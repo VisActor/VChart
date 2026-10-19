@@ -46,7 +46,17 @@ export type {
 } from '../typings/visual';
 
 export type { IMarkRaw, IMark, IMarkStyle } from './interface/common';
-export type { ITextMark, ILabelMark, IRectMark, IRuleMark, IImageMark, IGroupMark, IGlyphMark } from './interface/mark';
+export type {
+  ITextMark,
+  ILabelMark,
+  IRectMark,
+  IRuleMark,
+  IImageMark,
+  IGroupMark,
+  IGlyphMark,
+  ISymbolMark,
+  IPathMark
+} from './interface/mark';
 
 export {
   MarkTypeEnum,

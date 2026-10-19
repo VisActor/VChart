@@ -123,9 +123,6 @@
     "key": "interactions",
     "oneDesc": "其他需要按需注册的类型交互"
   },
-  "nameKey": {
-    "key": "nameKey"
-  },
   "sourceField": {
     "key": "sourceField",
     "oneDesc": "来源节点数据字段\n层级数据不提供"

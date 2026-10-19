@@ -221,10 +221,11 @@ export interface IMarkStateTheme<T> extends Record<string, T> {
     selected?: T;
     selected_reverse?: T;
 }
+type ConvertToThemeMarkStyleSpec<T> = T extends Record<string, any> ? Partial<ConvertToMarkStyleSpec<T>> : never;
 export type IMarkTheme<T> = {
     visible?: boolean;
-    style?: T;
-    state?: IMarkStateTheme<T>;
+    style?: ConvertToThemeMarkStyleSpec<T>;
+    state?: IMarkStateTheme<ConvertToThemeMarkStyleSpec<T>>;
     interactive?: boolean;
 };
 export interface IPerformanceHook {
@@ -310,3 +311,4 @@ export type IRichTextFormatMethod<T extends any[]> = (...args: T) => {
     text: IRichTextCharacter[];
 } | IRichTextCharacter[];
 export type IFormatMethod<T extends any[]> = (...args: T) => ReturnType<ITextFormatMethod<T>> | ReturnType<IRichTextFormatMethod<T>>;
+export {};

@@ -66,7 +66,6 @@ export {
   registerRoseChart,
   registerSankeyChart,
   registerScatterChart,
-  registerSequenceChart,
   registerSunburstChart,
   registerTreemapChart,
   registerWaterfallChart,
@@ -80,3 +79,5 @@ export {
 
 // Plugins
 export { registerChartResizeZoomPlugin } from '@visactor/vchart';
+
+export { registerSequenceChart } from '@visactor/vchart-extension';

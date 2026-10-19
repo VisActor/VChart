@@ -1,4 +1,6 @@
-import type { IArcMarkSpec, IMarkRaw, IPoint, IPolygonMarkSpec, IRectMarkSpec } from '@visactor/vchart';
+import type { IMarkRaw } from '@visactor/vchart/esm/mark/interface/common';
+import type { IPoint } from '@visactor/vchart/esm/typings/coordinate';
+import type { IArcMarkSpec, IPolygonMarkSpec, IRectMarkSpec } from '@visactor/vchart/esm/typings/visual';
 
 // 3d rect，支持length表示长宽高中的长属性（深度属性）
 export interface IRect3dMarkSpec extends IRectMarkSpec {

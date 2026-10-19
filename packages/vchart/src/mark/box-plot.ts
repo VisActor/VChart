@@ -3,11 +3,11 @@ import type { BoxPlotShaftShape, IBoxPlotMarkSpec } from '../typings/visual';
 import type { IBoxPlotMark, IMarkStyle } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { createLine, createRect, type IGlyph, type ILineGraphicAttribute } from '@visactor/vrender-core';
+import type { IGlyph, ILineGraphicAttribute } from '@visactor/vrender-core';
+import { createLine, createRect, registerLine, registerRect } from '../vrender-bridge';
 import { GlyphMark, registerGlyphMark } from './glyph';
 import type { Datum } from '../typings/common';
 import { isValidNumber } from '@visactor/vutils';
-import { registerLine, registerRect } from '@visactor/vrender-kits';
 
 const BAR_BOX_PLOT_CHANNELS = [
   'x',
@@ -21,7 +21,8 @@ const BAR_BOX_PLOT_CHANNELS = [
   'min',
   'max',
   'median',
-  'angle'
+  'angle',
+  'anchor'
 ];
 
 const BOX_PLOT_CHANNELS = [
@@ -36,7 +37,8 @@ const BOX_PLOT_CHANNELS = [
   'min',
   'max',
   'median',
-  'angle'
+  'angle',
+  'anchor'
 ];
 
 export class BoxPlotMark

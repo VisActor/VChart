@@ -2,8 +2,8 @@
  * @description ExtensionMark SyncState 插件
  *
  * 将配置了 syncState: true 的 extensionMark 的 graphics 与主 mark 的 graphics
- * 通过 context.key 配对，在 afterRender 回调中将主 mark 的当前状态同步到
- * extensionMark graphic。
+ * 通过 context.key 配对，在 beforeRender 回调中将主 mark 的当前状态同步到
+ * extensionMark graphic，确保扩展 mark 在当前帧绘制前拿到最新状态。
  */
 import {
   type IChartPlugin,
@@ -18,6 +18,7 @@ import {
   registerChartPlugin,
   isValid
 } from '@visactor/vchart';
+import type { IStage } from '@visactor/vrender-core';
 import type { IExtensionMarkSpecWithSyncState } from './type';
 
 const EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE = 'ExtensionMarkSyncStatePlugin';
@@ -29,8 +30,12 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin<IChartPluginService
 
   /** 取消 afterRender 订阅的函数，release 时调用 */
   private _unsubscribeAfterRender?: () => void;
+  /** 取消 beforeRender 订阅的函数，release 时调用 */
+  private _unsubscribeBeforeRender?: () => void;
   /** 已订阅的 event 实例，chart reMake 后会更换 */
   private _subscribedEvent?: IEvent;
+  /** 已订阅的 stage 实例，chart reMake 后会更换 */
+  private _subscribedStage?: IStage;
 
   constructor() {
     super(EXTENSION_MARK_SYNC_STATE_PLUGIN_TYPE);
@@ -38,6 +43,8 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin<IChartPluginService
 
   onAfterInitChart(service: IChartPluginService, chartSpec: any) {
     if (!this._detectSyncState(chartSpec)) {
+      this._unsubscribeAfterRender?.();
+      this._unsubscribeBeforeRender?.();
       return;
     }
 
@@ -45,6 +52,8 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin<IChartPluginService
     if (!chart) {
       return;
     }
+
+    this._ensureBeforeRenderSyncHook();
 
     const event = chart.getEvent();
 
@@ -54,7 +63,8 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin<IChartPluginService
 
     this._unsubscribeAfterRender?.();
 
-    const handler = () => this._syncStates();
+    // 首次 render 后 stage 才一定存在；后续 reMake 若替换 stage，也通过该事件重新挂载 beforeRender。
+    const handler = () => this._ensureBeforeRenderSyncHook();
     event.on(ChartEvent.afterRender, handler);
     this._subscribedEvent = event;
     this._unsubscribeAfterRender = () => {
@@ -65,7 +75,31 @@ export class ExtensionMarkSyncStatePlugin extends BasePlugin<IChartPluginService
 
   release(): void {
     this._unsubscribeAfterRender?.();
+    this._unsubscribeBeforeRender?.();
     super.release();
+  }
+
+  private _ensureBeforeRenderSyncHook() {
+    let stage: IStage | undefined;
+    try {
+      stage = this.service?.globalInstance.getStage?.();
+    } catch {
+      stage = undefined;
+    }
+
+    if (!stage || this._subscribedStage === stage) {
+      return;
+    }
+
+    this._unsubscribeBeforeRender?.();
+
+    const handler = () => this._syncStates();
+    stage.hooks.beforeRender.tap(this.name, handler);
+    this._subscribedStage = stage;
+    this._unsubscribeBeforeRender = () => {
+      stage.hooks.beforeRender.unTap(this.name);
+      this._subscribedStage = undefined;
+    };
   }
 
   /** 检测 chartSpec 中是否存在配置了 syncState 的 extensionMark */

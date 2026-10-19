@@ -1,4 +1,4 @@
-import type { SankeyOptions, SankeyData } from '@visactor/vlayouts';
+import { type SankeyOptions, type SankeyData } from '@visactor/vlayouts';
 export interface ISankeyOpt extends SankeyOptions {
     targetField: string;
     sourceField: string;
@@ -10,10 +10,18 @@ export interface ISankeyOpt extends SankeyOptions {
         y1: number;
     };
 }
-export declare const collectHierarchyField: (set: Set<any>, data: any[], field: string) => void;
-export declare const sankeyFormat: (data: any[]) => SankeyData[];
-export declare const sankeyLayout: (data: SankeyData[], op: ISankeyOpt) => {
+type SankeyLayoutOption = ISankeyOpt | (() => ISankeyOpt);
+type SankeyFormatDatum = Record<string, unknown> & {
+    id?: 'links' | 'nodes';
+    values?: unknown;
+    latestData?: SankeyData[];
+    children?: SankeyFormatDatum[];
+};
+export declare const collectHierarchyField: <T>(set: Set<T>, data: SankeyFormatDatum[], field: string) => void;
+export declare const sankeyFormat: (data: SankeyFormatDatum[]) => SankeyData[];
+export declare const sankeyLayout: (data: SankeyData[], op: SankeyLayoutOption) => {
     nodes: import("@visactor/vlayouts").SankeyNodeElement[];
     links: import("@visactor/vlayouts").SankeyLinkElement[];
     columns: import("@visactor/vlayouts").SankeyNodeElement[][];
 }[];
+export {};

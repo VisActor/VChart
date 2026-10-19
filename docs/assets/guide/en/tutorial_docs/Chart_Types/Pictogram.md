@@ -36,6 +36,8 @@ SVG characters can be used as materials, and the SVG primitives currently suppor
 
 Including defs/style/switch/C/Q/pattern/use, etc. are not supported for the time being.
 
+For left-to-right text, `text-anchor` supports `start`, `middle`, and `end`, producing left-aligned, centered, and right-aligned text relative to the anchor, respectively. This attribute is inherited through `g`, `text`, and `tspan`, and child elements can override the inherited value. Text defaults to left alignment when no anchor is specified. Horizontal anchoring does not change the vertical baseline.
+
 Here is a simple example, in this example, the chart has no data, so there is no data mapping, just a display of SVG materials.
 
 ```javascript livedemo

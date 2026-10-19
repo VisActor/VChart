@@ -25,9 +25,15 @@ import { brush } from '../../theme/builtin/common/component/brush';
 import { isReverse, statePointToData } from '../data-zoom/util';
 import type { CartesianAxis } from '../axis/cartesian';
 import type { IRenderOption } from '../../compile/interface';
+import { addGraphicState, removeGraphicState, setGraphicStates } from '../../util/graphic-state';
 
 const IN_BRUSH_STATE = 'inBrush';
 const OUT_BRUSH_STATE = 'outOfBrush';
+const BRUSH_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  style: true,
+  inBrush: true,
+  outOfBrush: true
+};
 
 export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> implements IBrush {
   layoutType: 'none' = 'none';
@@ -111,6 +117,12 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       });
     });
   }
+
+  reInit(spec?: T) {
+    super.reInit(spec);
+    this.init();
+  }
+
   private _initNeedOperatedItem() {
     const seriesUserId = this._spec.seriesId;
     const seriesIndex = this._spec.seriesIndex;
@@ -213,10 +225,31 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     }
     const result = super._compareSpec(spec, prevSpec);
     if (!isEqual(prevSpec, spec)) {
+      result.change = true;
       result.reRender = true;
-      result.reMake = true;
+      if (!result.reMake && !result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          layout: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
     return result;
+  }
+
+  protected _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || BRUSH_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   onLayoutEnd(): void {
@@ -245,7 +278,10 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     const interactiveAttr = this._getBrushInteractiveAttr(region);
     // 布局变化后, 更新可交互范围
     const brushComponent = this._brushComponents[componentIndex];
-    brushComponent.setAttributes(interactiveAttr as any);
+    brushComponent.setAttributes({
+      brushStyle: transformToGraphic(this._spec?.style),
+      ...interactiveAttr
+    } as any);
 
     // 布局变化后，清空brushMask 和 重置图元高亮状态
     this._initMarkBrushState(componentIndex, '');
@@ -319,6 +355,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
+      if (updateElementsState) {
+        this._handleBrushChange(region, e);
+      }
       if (this._spec?.onBrushEnd) {
         // 如果onBrushEnd返回true，则清空brush， 并抛出clear事件
         if (this._spec.onBrushEnd(e) === true) {
@@ -345,6 +384,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       this._setRegionMarkPickable(region, true);
       const { operateMask } = e.detail as any;
       const { updateElementsState = true } = this._spec;
+      if (updateElementsState) {
+        this._handleBrushChange(region, e);
+      }
       const inBrushData = this._extendDataInBrush(this._inBrushElementsMap);
       if ((!this._spec.zoomWhenEmpty && inBrushData.length > 0) || updateElementsState) {
         this._setAxisAndDataZoom(operateMask, region);
@@ -461,6 +503,11 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   /*** end: event dispatch ***/
 
   /** start: set mark state ***/
+  private _setBrushState(graphic: IMarkGraphic, state: typeof IN_BRUSH_STATE | typeof OUT_BRUSH_STATE) {
+    const currentStates = (graphic.currentStates ?? []) as string[];
+    setGraphicStates(graphic, [...currentStates.filter(s => s !== IN_BRUSH_STATE && s !== OUT_BRUSH_STATE), state]);
+  }
+
   private _reconfigItem(operateMask: IPolygon, region: IRegion) {
     if (!operateMask?.globalTransMatrix || !operateMask?.attribute?.points) {
       return;
@@ -499,15 +546,14 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         // now: 不在当前brush中
         const isBrushContainItem = this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem);
         if (this._outOfBrushElementsMap?.[elementKey] && isBrushContainItem) {
-          graphicItem.addState(IN_BRUSH_STATE, true);
+          this._setBrushState(graphicItem, IN_BRUSH_STATE);
           if (!this._inBrushElementsMap[operateMask?.name]) {
             this._inBrushElementsMap[operateMask?.name] = {};
           }
           this._inBrushElementsMap[operateMask?.name][elementKey] = graphicItem;
           delete this._outOfBrushElementsMap[elementKey];
         } else if (this._inBrushElementsMap?.[operateMask?.name]?.[elementKey] && !isBrushContainItem) {
-          graphicItem.removeState(IN_BRUSH_STATE);
-          graphicItem.addState(OUT_BRUSH_STATE, true);
+          this._setBrushState(graphicItem, OUT_BRUSH_STATE);
           this._outOfBrushElementsMap[elementKey] = graphicItem;
           delete this._inBrushElementsMap[operateMask.name][elementKey];
         }
@@ -520,6 +566,15 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
       return;
     }
 
+    const dataKey = this._spec.brushLinkDataKey;
+    // 每次框选仅建立一次索引，避免每个目标图元扫描源数据。
+    const selectedKeys = dataKey
+      ? new Set(
+          Object.values(this._inBrushElementsMap[operateMask.name] ?? {})
+            .map(item => item.context.data[0][dataKey])
+            .filter(value => value !== undefined && value !== null)
+        )
+      : undefined;
     const regionLayoutPos = region.getLayoutStartPoint();
     const seriesId = region.getSeries().map(s => s.id);
     this._linkedSeries.forEach((s: ISeries) => {
@@ -562,8 +617,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             return;
           }
           graphics.forEach((graphicItem: IMarkGraphic) => {
-            const { key } = graphicItem.context;
-
+            const isLinked = selectedKeys
+              ? selectedKeys.has(graphicItem.context.data[0][dataKey])
+              : this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem);
             const elementKey = mark.id + '_' + graphicItem.context.key;
             // 判断逻辑:
             // 应该被置为inBrush状态的图元:
@@ -573,23 +629,17 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
             // 应该被置为outOfBrush状态的图元:
             // before: 在当前brush 的 in brush element map中, 即在当前brush中
             // now: 不在当前brush中
-            if (
-              this._linkedOutOfBrushElementsMap?.[elementKey] &&
-              this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem)
-            ) {
-              graphicItem.addState(IN_BRUSH_STATE, true);
+            if (this._linkedOutOfBrushElementsMap?.[elementKey] && isLinked) {
+              this._setBrushState(graphicItem, IN_BRUSH_STATE);
               if (!this._linkedInBrushElementsMap[operateMask?.name]) {
                 this._linkedInBrushElementsMap[operateMask?.name] = {};
               }
               this._linkedInBrushElementsMap[operateMask?.name][elementKey] = graphicItem;
               delete this._linkedOutOfBrushElementsMap[elementKey];
-            } else if (
-              this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] &&
-              !this._isBrushContainItem(operateMask.globalAABBBounds, pointsCoord, graphicItem)
-            ) {
-              graphicItem.removeState(IN_BRUSH_STATE);
-              graphicItem.addState(OUT_BRUSH_STATE, true);
+            } else if (this._linkedInBrushElementsMap?.[operateMask?.name]?.[elementKey] && !isLinked) {
+              this._setBrushState(graphicItem, OUT_BRUSH_STATE);
               this._linkedOutOfBrushElementsMap[elementKey] = graphicItem;
+              delete this._linkedInBrushElementsMap[operateMask.name][elementKey];
             }
           });
         });
@@ -643,9 +693,8 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
         }
         graphics.forEach((el: IMarkGraphic) => {
           const elementKey = mark.id + '_' + el.context.key;
-          el.removeState(IN_BRUSH_STATE);
-          el.removeState(OUT_BRUSH_STATE);
-          stateName && el.addState(stateName, true);
+          removeGraphicState(el, [IN_BRUSH_STATE, OUT_BRUSH_STATE]);
+          stateName && addGraphicState(el, stateName, true);
           elementMap[elementKey] = el;
         });
       });
@@ -776,10 +825,9 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
   clear(): void {
     if (this._brushComponents) {
       const container = this.getContainer();
-      this._brushComponents.forEach((brush, index) => {
-        // 清空元素状态
-        this._initMarkBrushState(index, '');
-
+      // 在释放任何组件前统一清空状态，避免下一轮访问已移除的容器。
+      this._initMarkBrushState(-1, '');
+      this._brushComponents.forEach(brush => {
         brush.removeAllChild();
         brush.releaseBrushEvents();
 
@@ -791,10 +839,7 @@ export class Brush<T extends IBrushSpec = IBrushSpec> extends BaseComponent<T> i
     }
   }
   clearBrushStateAndMask() {
-    this._relativeRegions.forEach((region: IRegion, componentIndex: number) => {
-      this._initMarkBrushState(componentIndex, '');
-      this._brushComponents[componentIndex].children[0].removeAllChild();
-    });
+    this._initMarkBrushState(-1, '');
   }
 }
 

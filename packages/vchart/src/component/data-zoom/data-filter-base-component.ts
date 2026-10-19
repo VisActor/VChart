@@ -102,6 +102,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _regionIndex!: number[];
   protected _newDomain: any[];
   protected _relatedAxisComponent!: IComponent;
+  protected _linkedAxisComponent!: IComponent;
   get relatedAxisComponent() {
     return this._relatedAxisComponent;
   }
@@ -215,29 +216,38 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     const reverse = isReverse(axis, this._isHorizontal);
     const newRangeFactor: [number, number] = reverse ? [1 - this._end, 1 - this._start] : [this._start, this._end];
 
+    const linkedAxis = this._linkedAxisComponent as CartesianAxis<any>;
     if (reverse) {
       switch (tag) {
         case 'startHandler':
           axis.scaleRangeFactorEnd(newRangeFactor[1]);
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
         case 'endHandler':
           axis.scaleRangeFactorStart(newRangeFactor[0]);
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0]);
           break;
-        default:
+        default: // end 保证为准确值
           axis.scaleRangeFactorStart(newRangeFactor[0], true);
-          axis.scaleRangeFactorEnd(newRangeFactor[1]); // end 保证为准确值
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0], true);
+          axis.scaleRangeFactorEnd(newRangeFactor[1]);
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1]);
       }
     } else {
       switch (tag) {
         case 'startHandler':
           axis.scaleRangeFactorStart(newRangeFactor[0]);
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0]);
           break;
         case 'endHandler':
           axis.scaleRangeFactorEnd(newRangeFactor[1]);
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1]);
           break;
-        default:
+        default: // start 保证为准确值
           axis.scaleRangeFactorEnd(newRangeFactor[1], true);
-          axis.scaleRangeFactorStart(newRangeFactor[0]); // start 保证为准确值
+          linkedAxis?.scaleRangeFactorEnd(newRangeFactor[1], true);
+          axis.scaleRangeFactorStart(newRangeFactor[0]);
+          linkedAxis?.scaleRangeFactorStart(newRangeFactor[0]);
       }
     }
 
@@ -363,11 +373,45 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   _compareSpec(spec: AdaptiveSpec<T, 'width' | 'height'>, prevSpec: AdaptiveSpec<T, 'width' | 'height'>) {
     const result = super._compareSpec(spec, prevSpec);
     if (!result.reMake && !isEqual(prevSpec, spec)) {
+      result.change = true;
       result.reRender = true;
-      result.reMake = true;
+      if (!result.reCompile && this._isComponentOnlySpecChange(spec, prevSpec)) {
+        result.effects = {
+          ...result.effects,
+          component: true,
+          layout: true,
+          render: true
+        };
+      } else {
+        result.reMake = true;
+      }
     }
 
     return result;
+  }
+
+  protected _getComponentOnlySpecKeys(): Record<string, boolean> {
+    return null;
+  }
+
+  protected _isComponentOnlySpecChange(
+    spec: AdaptiveSpec<T, 'width' | 'height'>,
+    prevSpec: AdaptiveSpec<T, 'width' | 'height'>
+  ) {
+    const componentOnlySpecKeys = this._getComponentOnlySpecKeys();
+
+    if (!componentOnlySpecKeys) {
+      return false;
+    }
+
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || componentOnlySpecKeys[key];
+    });
   }
 
   reInit(spec?: AdaptiveSpec<T, 'width' | 'height'>) {
@@ -474,6 +518,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._relatedAxisComponent = this._option.getComponentByIndex('axes', this._spec.axisIndex);
     }
 
+    if (isValid(this._spec.linkedAxisId)) {
+      this._linkedAxisComponent = this._option.getComponentByUserId(this._spec.linkedAxisId);
+    } else if (isValid(this._spec.linkedAxisIndex)) {
+      this._linkedAxisComponent = this._option.getComponentByIndex('axes', this._spec.linkedAxisIndex);
+    }
+
     // 如果用户没有配置关联轴 或 用户配置的关联轴和datazoom方向不一致
     // 则 使用与datazoom的方向相同的第一个axis作为关联轴
     if (isNil(this._spec.field) && !this._relatedAxisComponent) {
@@ -574,11 +624,18 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               : this._isHorizontal
               ? xAxisHelper
               : yAxisHelper;
+          if (s.type === 'link') {
+            // 连线不参与预览统计；过滤字段遵循 linkDotInfo 的起点字段和坐标命名。
+            const { fromField } = s.getSpec() as { fromField: string };
+            originalStateFields[s.id] = [`${fromField}_${stateAxisHelper === xAxisHelper ? 'x' : 'y'}Field`];
+            return;
+          }
           const valueAxisHelper = stateAxisHelper === xAxisHelper ? yAxisHelper : xAxisHelper;
           const isValidateValueAxis = isContinuous(valueAxisHelper.getScale(0).type);
           const isValidateStateAxis = isContinuous(stateAxisHelper.getScale(0).type);
 
           dataCollection.push(s.getRawData());
+          seriesCollection.push(s);
           // 这里获取原始的spec中的xField和yField，而非经过stack处理后的fieldX和fieldY，原因如下:
           // 1. dataFilterComputeDomain处理时拿到的viewData中没有__VCHART_STACK_START等属性，也就是还没处理
           // 2. datazoom计算的是原始的value值，如果要根据stack后的数据来算，则需要__VCHART_STACK_END - __VCHART_STACK_START
@@ -593,8 +650,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
               ? array(seriesSpec.yField)
               : array(seriesSpec.radiusField ?? seriesSpec.valueField);
 
-          originalStateFields[s.id] =
-            s.type === 'link' ? ['from_xField'] : stateAxisHelper === xAxisHelper ? xField : yField;
+          originalStateFields[s.id] = stateAxisHelper === xAxisHelper ? xField : yField;
 
           if (isValidateStateAxis) {
             isCategoryState = false;
@@ -604,11 +660,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
             stateFields.push(originalStateFields[s.id][0]);
           }
 
-          if (this._valueField) {
-            const valueField = s.type === 'link' ? ['from_yField'] : valueAxisHelper === xAxisHelper ? xField : yField;
-            if (isValidateValueAxis) {
-              valueFields.push(...valueField);
-            }
+          if (this._valueField && isValidateValueAxis) {
+            const valueField = valueAxisHelper === xAxisHelper ? xField : yField;
+            // 每个数值字段与其系列对应，分类轴不参与求和，也不挤占后续系列的位置。
+            valueFields[dataCollection.length - 1] = valueField[0];
           }
         },
         {
@@ -665,9 +720,9 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       false
     );
 
+    data.reRunAllTransform();
     // todo 似乎没必要创建
     this._data = new CompilableData(this._option, data);
-    data.reRunAllTransform();
     this._currentDataCollection = dataCollection;
     dataSet.multipleDataViewAddListener(dataCollection, 'change', this._handleDataCollectionChangeBound);
   }

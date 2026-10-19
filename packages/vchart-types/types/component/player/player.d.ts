@@ -29,6 +29,7 @@ export declare class Player extends BaseComponent<IPlayer> implements IComponent
     get orient(): IOrientType;
     set layoutOrient(v: IOrientType);
     setAttrFromSpec(): void;
+    _compareSpec(spec: IPlayer, prevSpec: IPlayer): import("../../model/interface").IUpdateSpecResult;
     afterSetLayoutStartPoint(pos: IPoint): void;
     getBoundsInRect(rect: ILayoutRect, fullSpace: ILayoutRect): {
         x1: number;

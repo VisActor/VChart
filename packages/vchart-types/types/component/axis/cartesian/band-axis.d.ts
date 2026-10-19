@@ -43,13 +43,7 @@ export declare class CartesianBandAxis<T extends ICartesianBandAxisSpec = ICarte
         maxBandSize: number;
         minBandSize: number;
     };
-    _compareSpec(spec: T, prevSpec: T): {
-        change: boolean;
-        reMake: boolean;
-        reRender: boolean;
-        reSize: boolean;
-        reCompile: boolean;
-    };
+    _compareSpec(spec: T, prevSpec: T): import("../../..").IUpdateSpecResult;
     reInit(spec?: T): void;
 }
 export declare const registerCartesianBandAxis: () => void;

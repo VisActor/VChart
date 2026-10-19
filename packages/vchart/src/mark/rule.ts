@@ -4,9 +4,8 @@ import { BaseMark } from './base/base-mark';
 import type { IMarkGraphic, IMarkStyle, IRuleMark } from './interface';
 // eslint-disable-next-line no-duplicate-imports
 import { MarkTypeEnum } from './interface/type';
-import { registerLine, registerShadowRoot } from '@visactor/vrender-kits';
 import type { IGraphic, ILineGraphicAttribute } from '@visactor/vrender-core';
-import { createLine } from '@visactor/vrender-core';
+import { createLine, registerLine, registerShadowRoot } from '../vrender-bridge';
 
 export class RuleMark extends BaseMark<IRuleMarkSpec> implements IRuleMark {
   static readonly type = MarkTypeEnum.rule;

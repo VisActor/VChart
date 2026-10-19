@@ -11,7 +11,7 @@ export declare abstract class GrammarItem extends CompilableBase implements IGra
     getProductId(): string;
     compile(option?: GrammarItemCompileOption): void;
     protected abstract _compileProduct(option?: GrammarItemCompileOption): void;
-    abstract removeProduct(): void;
+    abstract removeProduct(releaseDetach?: boolean): void;
     protected _transform: ITransformSpec[];
     setTransform(transform: ITransformSpec[]): void;
     runTransforms<T = any>(transforms: ITransformSpec[], data: T): T;

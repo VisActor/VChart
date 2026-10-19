@@ -9,47 +9,69 @@
   },
   "bar": {
     "key": "bar",
-    "oneDesc": "柱图图元样式配置"
+    "oneDesc": "柱图图元样式配置",
+    "scope": "series",
+    "specPath": "series[].bar"
   },
   "barBackground": {
     "key": "barBackground",
-    "oneDesc": "柱图中每根柱子背后的背景图元配置"
+    "oneDesc": "柱图中每根柱子背后的背景图元配置",
+    "scope": "series",
+    "specPath": "series[].barBackground"
   },
   "point": {
     "key": "point",
-    "oneDesc": "点图元配置"
+    "oneDesc": "点图元配置",
+    "scope": "series",
+    "specPath": "series[].point"
   },
   "line": {
     "key": "line",
-    "oneDesc": "线图元配置"
+    "oneDesc": "线图元配置",
+    "scope": "series",
+    "specPath": "series[].line"
   },
   "area": {
     "key": "area",
-    "oneDesc": "面积图元配置"
+    "oneDesc": "面积图元配置",
+    "scope": "series",
+    "specPath": "series[].area"
   },
   "boxPlot": {
     "key": "boxPlot",
-    "oneDesc": "箱体图元配置"
+    "oneDesc": "箱体图元配置",
+    "scope": "series",
+    "specPath": "series[].boxPlot"
   },
   "circlePacking": {
     "key": "circlePacking",
-    "oneDesc": "嵌套圆图中每个圆的图元配置"
+    "oneDesc": "嵌套圆图中每个圆的图元配置",
+    "scope": "series",
+    "specPath": "series[].circlePacking"
   },
   "cell": {
     "key": "cell",
-    "oneDesc": "单元格图元配置"
+    "oneDesc": "单元格图元配置",
+    "scope": "series",
+    "specPath": "series[].cell"
   },
   "cellBackground": {
     "key": "cellBackground",
-    "oneDesc": "每个单元格对应的背景配置"
+    "oneDesc": "每个单元格对应的背景配置",
+    "scope": "series",
+    "specPath": "series[].cellBackground"
   },
   "sunburst": {
     "key": "sunburst",
-    "oneDesc": "旭日图中单个扇区图元配置"
+    "oneDesc": "旭日图中单个扇区图元配置",
+    "scope": "series",
+    "specPath": "series[].sunburst"
   },
   "circle": {
     "key": "circle",
-    "oneDesc": "韦恩图中圆形图元配置"
+    "oneDesc": "韦恩图中圆形图元配置",
+    "scope": "series",
+    "specPath": "series[].circle"
   },
   "markLine": {
     "key": "markLine",

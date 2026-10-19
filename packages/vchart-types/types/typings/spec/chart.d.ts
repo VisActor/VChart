@@ -18,7 +18,6 @@ import type { IRangeColumnChartSpec } from '../../chart/range-column/interface';
 import type { IRoseChartSpec } from '../../chart/rose/interface';
 import type { ISankeyChartSpec } from '../../chart/sankey/interface';
 import type { IScatterChartSpec } from '../../chart/scatter/interface';
-import type { ISequenceChartSpec } from '../../chart/sequence/interface';
 import type { ISunburstChartSpec } from '../../chart/sunburst/interface';
 import type { ITreemapChartSpec } from '../../chart/treemap/interface';
 import type { IWaterfallChartSpec } from '../../chart/waterfall/interface';
@@ -39,7 +38,6 @@ export interface ChartSpecMap {
     readonly radar: IRadarChartSpec;
     readonly rose: IRoseChartSpec;
     readonly scatter: IScatterChartSpec;
-    readonly sequence: ISequenceChartSpec;
     readonly circleProgress: ICircularProgressChartSpec;
     readonly linearProgress: ILinearProgressChartSpec;
     readonly wordCloud: IWordCloudChartSpec;

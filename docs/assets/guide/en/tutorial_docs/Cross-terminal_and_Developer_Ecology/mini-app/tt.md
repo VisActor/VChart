@@ -48,7 +48,7 @@ interface IEvent {
 - `onChartInit` is a callback function called after the chart is initialized. The parameter instance is the instance of the chart, which can be used to register events, themes, etc.
 - `onChartReady` is a callback function called after the chart is rendered.
 
-For more features, please visit [VChart Official Website](visactor.io/vchart)
+For more features, please visit [VChart Official Website](https://www.visactor.io/vchart)
 
 ## How to Use
 

@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "sourceMap": true,
+    "types": ["node", "jest", "offscreencanvas"],
+    "paths": {
+      "@visactor/vchart": ["../vchart/src/index.ts"],
+      "@visactor/vutils-extension": ["../vutils-extension/src/index.ts"]
+    }
+  },
+  "include": ["src", "scripts", "__tests__", "vite.config.ts", "../vchart/src/global.d.ts"]
+}

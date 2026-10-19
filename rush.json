@@ -25,6 +25,13 @@
   ],
   "projects": [
     {
+      "packageName": "@visactor/vchart-statplots",
+      "projectFolder": "packages/vchart-statplots",
+      "tags": ["package"],
+      "shouldPublish": true,
+      "versionPolicyName": "vchartMain"
+    },
+    {
       "packageName": "@visactor/vchart-extension",
       "projectFolder": "packages/vchart-extension",
       "tags": [

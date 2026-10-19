@@ -1,0 +1,473 @@
+import {
+  DEFAULT_DATA_SERIES_FIELD,
+  CartesianSeries,
+  SeriesTypeEnum,
+  registerDataSetInstanceTransform,
+  registerRuleMark,
+  registerSymbolMark,
+  registerPathMark,
+  registerImageMark,
+  MarkTypeEnum,
+  Factory,
+  TransformLevel,
+  registerCartesianLinearAxis,
+  registerCartesianBandAxis,
+  AttributeLevel,
+  type Datum,
+  type IGroupMark,
+  type IImageMark,
+  type IMark,
+  type IPathMark,
+  type IRuleMark,
+  type ISymbolMark,
+  type SeriesMarkMap
+} from '@visactor/vchart';
+import { array, isValid } from '@visactor/vutils';
+import type { IDotSeriesSpec } from '../dot/interface';
+import { LinkSeriesTooltipHelper } from './tooltip-helper';
+import { LinkType, type ILinkSeriesSpec } from './interface';
+import { linkSeriesMark, DEFAULT_LINK_CURVE_INDEX } from './constant';
+import { linkDotInfo } from './transform';
+import { link } from './theme';
+
+export class LinkSeries<T extends ILinkSeriesSpec = ILinkSeriesSpec> extends CartesianSeries<T> {
+  static readonly type: string = SeriesTypeEnum.link;
+  type = SeriesTypeEnum.link;
+
+  static readonly mark: SeriesMarkMap = linkSeriesMark;
+  static readonly builtInTheme = { link };
+
+  protected _fromField?: string;
+  getFromField() {
+    return this._fromField;
+  }
+  setFromField(field: string) {
+    if (isValid(field)) {
+      this._fromField = field;
+    }
+  }
+
+  protected _toField?: string;
+  getToField() {
+    return this._toField;
+  }
+  setToField(field: string) {
+    if (isValid(field)) {
+      this._toField = field;
+    }
+  }
+
+  protected _dotTypeField?: string;
+  getDotTypeField() {
+    return this._dotTypeField;
+  }
+  setDotTypeField(field: string) {
+    if (isValid(field)) {
+      this._dotTypeField = field;
+    }
+  }
+
+  protected _dotSeriesSpec?: IDotSeriesSpec;
+  getDotSeriesSpec() {
+    return this._dotSeriesSpec;
+  }
+  setDotSeriesSpec(spec: IDotSeriesSpec) {
+    if (isValid(spec)) {
+      this._dotSeriesSpec = spec;
+    }
+  }
+
+  protected _getDotData() {
+    const dotSeries = this._option.getChart().getSeriesInIndex([this._spec.dotSeriesIndex])[0];
+    if (!dotSeries) {
+      return [];
+    }
+    return dotSeries.getRawData().latestData;
+  }
+
+  initData() {
+    super.initData();
+
+    registerDataSetInstanceTransform(this._option.dataSet, 'linkDotInfo', linkDotInfo);
+    this.getViewData()?.transform(
+      {
+        type: 'linkDotInfo',
+        options: {
+          infoKey: 'dots',
+          isCurve: () => this._spec.linkType === LinkType.curve,
+          fields: () => {
+            return {
+              fromField: this._fromField,
+              toField: this._toField,
+              xField: this._dotSeriesSpec.xField,
+              yField: this._dotSeriesSpec.yField
+            };
+          },
+          linkData: () => this._rawData.latestData,
+          dotData: () => this._getDotData()
+        },
+        level: TransformLevel.linkDotInfo
+      },
+      false
+    );
+  }
+
+  /**
+   * @override
+   */
+  setAttrFromSpec() {
+    super.setAttrFromSpec();
+    this.setFromField(this._spec.fromField);
+    this.setToField(this._spec.toField);
+    this.setDotTypeField(this._spec.dotTypeField);
+    this.setDotSeriesSpec(this._spec.dotSeriesSpec);
+  }
+
+  private _clipMark: IGroupMark;
+  private _containerMark: IGroupMark;
+  private _linkMark: IRuleMark | IPathMark;
+  private _arrowMark: ISymbolMark;
+  private _imageLabelMark: IImageMark;
+  initMark(): void {
+    const { linkType = LinkType.line, imageLabelField } = this._spec;
+    this._clipMark = this._createMark(LinkSeries.mark.group) as IGroupMark;
+
+    this._containerMark = this._createMark(LinkSeries.mark.group, {
+      parent: this._clipMark
+    }) as IGroupMark;
+
+    this._linkMark = this._createMark(
+      { ...LinkSeries.mark.link, type: linkType === LinkType.curve ? MarkTypeEnum.path : MarkTypeEnum.rule },
+      { skipBeforeLayouted: false, parent: this._containerMark }
+    ) as IRuleMark | IPathMark;
+
+    this._arrowMark = this._createMark(LinkSeries.mark.arrow, {
+      skipBeforeLayouted: false,
+      isSeriesMark: true,
+      parent: this._containerMark
+    }) as ISymbolMark;
+
+    if (imageLabelField) {
+      this._imageLabelMark = this._createMark(LinkSeries.mark.imageLabel, {
+        skipBeforeLayouted: false,
+        isSeriesMark: true,
+        parent: this._containerMark
+      }) as IImageMark;
+    }
+  }
+
+  initMarkStyle(): void {
+    const clipMark = this._clipMark;
+    if (clipMark) {
+      this.setMarkStyle(
+        clipMark,
+        {
+          x: -(this._spec.leftAppendPadding ?? 0),
+          y: 0,
+          // 本应使用this.getLayoutRect().width, 但这该返回值为0。考虑到横向不需要裁剪，故先采用一个较大值
+          width: 10000,
+          height: () => this._spec.clipHeight ?? this._region.getLayoutRect().height
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+      clipMark.setMarkConfig({ interactive: false, clip: true });
+    }
+
+    const containerMark = this._containerMark;
+    if (containerMark) {
+      this.setMarkStyle(
+        containerMark,
+        {
+          x: this._spec.leftAppendPadding,
+          width: this.getLayoutRect().width
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+      containerMark.setMarkConfig({ interactive: false });
+    }
+
+    const linkMark = this._linkMark;
+    const { linkType = LinkType.line } = this._spec;
+    if (linkMark) {
+      if (linkType === LinkType.curve) {
+        this.setMarkStyle(
+          linkMark,
+          {
+            stroke: this.getColorAttribute(),
+            strokeOpacity: this.dataToOpacity.bind(this),
+            path: (datum: Datum) => {
+              const fromX = this.dataToPositionXFrom(datum);
+              const fromY = this.dataToPositionYFrom(datum);
+              const toX = this.dataToPositionXTo(datum);
+              const toY = this.dataToPositionYTo(datum);
+
+              // 重复连接的序号在数据转换阶段计算，重复求值和缩放不会改变曲率。
+              const curveRatio = 0.5 + datum[DEFAULT_LINK_CURVE_INDEX] * 0.1;
+
+              // 计算控制点
+              const controlX1 = fromX + (toX - fromX) * 0.7;
+              const controlY1 = fromY;
+              const controlX2 = toX - (toX - fromX) * curveRatio;
+              const controlY2 = toY;
+
+              // 生成三次贝塞尔曲线路径
+              return `M ${fromX} ${fromY} C ${controlX1} ${controlY1}, ${controlX2} ${controlY2}, ${toX} ${toY}`;
+            },
+            lineWidth: 1
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      } else {
+        this.setMarkStyle(
+          linkMark,
+          {
+            stroke: this.getColorAttribute(),
+            strokeOpacity: this.dataToOpacity.bind(this),
+            x: this.dataToPositionXFrom.bind(this),
+            y: this.dataToPositionYFrom.bind(this),
+            x1: this.dataToPositionXTo.bind(this),
+            y1: this.dataToPositionYTo.bind(this)
+          },
+          'normal',
+          AttributeLevel.Series
+        );
+      }
+    }
+
+    const arrowMark = this._arrowMark;
+    if (arrowMark) {
+      const arrowSize = (this._theme?.arrow?.style?.size as number) ?? 10;
+
+      this.setMarkStyle(
+        arrowMark,
+        {
+          x: this.dataToPositionXTo.bind(this),
+          y: (datum: Datum) => this.dataToPositionArrowYTo(datum, arrowSize), // csj-to do：箭头的dy不生效，暂时改变y position逻辑
+          fill: this.getColorAttribute(),
+          fillOpacity: this.dataToOpacity.bind(this),
+          size: arrowSize,
+          symbolType: (datum: Datum) => {
+            return this.isPositionYFromHigher(datum) ? 'triangleDown' : 'triangleUp';
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+
+    const imageLabelMark = this._imageLabelMark;
+    if (imageLabelMark) {
+      const { style = {} } = (this._spec as ILinkSeriesSpec).imageLabel;
+      const { width = 40, height = 40 } = style;
+      this.setMarkStyle(
+        imageLabelMark,
+        {
+          x: datum => {
+            return (this.dataToPositionXFrom(datum) + this.dataToPositionXTo(datum)) / 2 - (width as number) / 2;
+          },
+          y: datum => {
+            return (this.dataToPositionYFrom(datum) + this.dataToPositionYTo(datum)) / 2 - (height as number) / 2;
+          },
+          width,
+          height,
+          image: datum => {
+            return datum[this._spec.imageLabelField];
+          }
+        },
+        'normal',
+        AttributeLevel.Series
+      );
+    }
+  }
+
+  afterInitMark(): void {
+    super.afterInitMark();
+  }
+
+  /** 以下函数用于定位link和arrow */
+
+  dataToPositionXFrom(datum: Datum): number {
+    if (!this._xAxisHelper) {
+      return Number.NaN;
+    }
+    const { dataToPosition } = this._xAxisHelper;
+
+    const allowExtend = this._spec.allowExtend;
+    const bandSize = this._xAxisHelper?.getBandwidth?.(0) ?? 0;
+
+    const { style = {} } = this._dotSeriesSpec.symbol ?? {};
+    const { size: dotSize = 10 } = style;
+
+    return (
+      dataToPosition(this.getDatumPositionValues(datum, this._fromField + '_xField'), {
+        bandPosition: this._bandPosition
+      }) +
+      (allowExtend && (!datum.isExtend || datum.isExtend === 'left')
+        ? -(array(bandSize)[0] + (dotSize as number)) / 2
+        : 0)
+    );
+  }
+
+  dataToPositionYFrom(datum: Datum): number {
+    if (!this._yAxisHelper) {
+      return Number.NaN;
+    }
+    const { dataToPosition } = this._yAxisHelper;
+
+    return dataToPosition(this.getDatumPositionValues(datum, this._fromField + '_yField'));
+  }
+
+  dataToPositionXTo(datum: Datum): number {
+    if (!this._xAxisHelper) {
+      return Number.NaN;
+    }
+    const { dataToPosition } = this._xAxisHelper;
+    const allowExtend = this._spec.allowExtend;
+    const bandSize = this._xAxisHelper?.getBandwidth?.(0) ?? 0;
+    const { style = {} } = this._dotSeriesSpec.symbol ?? {};
+    const { size: dotSize = 10 } = style;
+
+    return (
+      dataToPosition(this.getDatumPositionValues(datum, this._toField + '_xField'), {
+        bandPosition: this._bandPosition
+      }) +
+      (allowExtend && (!datum.isExtend || datum.isExtend === 'right')
+        ? (array(bandSize)[0] + (dotSize as number)) / 2
+        : 0)
+    );
+  }
+
+  dataToPositionYTo(datum: Datum): number {
+    if (!this._yAxisHelper) {
+      return Number.NaN;
+    }
+    const { dataToPosition } = this._yAxisHelper;
+
+    return dataToPosition(this.getDatumPositionValues(datum, this._toField + '_yField'), {
+      bandPosition: this._bandPosition
+    });
+  }
+
+  dataToPositionArrowYTo(datum: Datum, arrowSize: number): number {
+    if (!this._yAxisHelper) {
+      return Number.NaN;
+    }
+    const { dataToPosition } = this._yAxisHelper;
+    const offset = this.isPositionYFromHigher(datum) ? -arrowSize / 2 : arrowSize / 2;
+    return (
+      dataToPosition(this.getDatumPositionValues(datum, this._toField + '_yField'), {
+        bandPosition: this._bandPosition
+      }) + offset
+    );
+  }
+
+  dataToOpacity(datum: Datum): number {
+    if (
+      !this._spec.allowExtend &&
+      (this.isPositionXOuterRange(datum, this._fromField + '_xField') ||
+        this.isPositionXOuterRange(datum, this._toField + '_xField') ||
+        datum[this._fromField] === datum[this._toField])
+    ) {
+      return 0;
+    }
+    return 1;
+  }
+
+  /**
+   * @description 用于判断link的箭头方向
+   */
+  isPositionYFromHigher(datum: Datum): boolean {
+    return this.dataToPositionYFrom(datum) < this.dataToPositionYTo(datum);
+  }
+
+  /**
+   * @description 用于判断link的起点、终点坐标是否超出range范围
+   */
+  isPositionXOuterRange(datum: Datum, field: string): boolean {
+    if (!this._xAxisHelper) {
+      return false;
+    }
+    const { dataToPosition, getScale } = this._xAxisHelper;
+
+    if (
+      dataToPosition(this.getDatumPositionValues(datum, field), {
+        bandPosition: this._bandPosition
+      }) < getScale(0).range()[0] ||
+      dataToPosition(this.getDatumPositionValues(datum, field), {
+        bandPosition: this._bandPosition
+      }) > getScale(0).range()[1]
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @override
+   * @description 如果用户设置了dotType，则seriesGroup作为颜色映射字段
+   */
+  getDefaultColorDomain() {
+    return this._dotTypeField
+      ? this.getViewDataStatistics()?.latestData[this._dotTypeField].values
+      : this._seriesField
+      ? this.getViewDataStatistics()?.latestData[this._seriesField].values
+      : [];
+  }
+
+  /**
+   * @override
+   */
+  // 通用的默认颜色映射 用户设置优先级比这个高，会在setStyle中处理
+  getColorAttribute() {
+    return {
+      scale: this._option.globalScale.getScale('color') ?? this._getDefaultColorScale(),
+      field: this._dotTypeField ?? this._seriesField ?? DEFAULT_DATA_SERIES_FIELD
+    };
+  }
+
+  getInteractionTriggers() {
+    const marks: IMark[] = [];
+
+    if (this._linkMark) {
+      marks.push(this._linkMark);
+    }
+
+    if (this._arrowMark) {
+      marks.push(this._arrowMark);
+    }
+    return this._parseInteractionConfig(marks);
+  }
+
+  protected initTooltip() {
+    this._tooltipHelper = new LinkSeriesTooltipHelper(this);
+    this._linkMark && this._tooltipHelper.activeTriggerSet.mark.add(this._linkMark);
+    this._arrowMark && this._tooltipHelper.activeTriggerSet.mark.add(this._arrowMark);
+  }
+
+  protected onMarkTreePositionUpdate(marks: IMark[]): void {
+    marks.forEach(m => {
+      m.commit(false, true);
+    });
+  }
+
+  getDotInfoData() {
+    return (this._linkMark ?? this._arrowMark)?.getData();
+  }
+
+  getActiveMarks(): IMark[] {
+    return [this._linkMark, this._arrowMark];
+  }
+}
+
+export const registerLinkSeries = () => {
+  registerRuleMark();
+  registerSymbolMark();
+  registerPathMark();
+  registerImageMark();
+  registerCartesianBandAxis();
+  registerCartesianLinearAxis();
+  Factory.registerSeries(LinkSeries.type, LinkSeries);
+};

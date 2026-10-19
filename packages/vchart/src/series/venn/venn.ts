@@ -81,7 +81,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
 
     this._data.getDataView()?.transform({
       type: 'venn',
-      options: {
+      options: () => ({
         getViewBox: () => {
           return this._viewBox.empty()
             ? null
@@ -94,7 +94,7 @@ export class VennSeries<T extends IVennSeriesSpec = IVennSeriesSpec> extends Bas
         },
         setField: this._categoryField,
         valueField: this._valueField
-      }
+      })
     });
   }
 

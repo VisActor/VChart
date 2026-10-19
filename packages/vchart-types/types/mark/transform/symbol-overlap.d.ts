@@ -1,5 +1,4 @@
 import type { IMarkGraphic } from '../interface';
-export declare const OVERLAP_HIDE_KEY: string;
 export declare const transform: (options: {
     direction: number;
     delta?: number;

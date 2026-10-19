@@ -38,6 +38,8 @@
 
 包括 defs/style/switch/C/Q/pattern/use 等用法暂不支持。
 
+对于从左到右的文字，`text-anchor` 支持 `start`、`middle`、`end`，分别表示相对锚点左对齐、居中、右对齐。该属性可通过 `g`、`text`、`tspan` 继承，子元素可覆盖继承值；未配置时默认左对齐。水平锚点不会改变文字的垂直基线。
+
 这里有一个简单的例子，这个例子中，图表没有任何数据，所以没有任何数据映射，只是一个对 SVG 素材的展示。
 
 ```javascript livedemo

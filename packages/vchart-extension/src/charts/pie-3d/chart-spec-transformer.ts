@@ -1,5 +1,5 @@
-import type { AdaptiveSpec, ISeriesSpec } from '@visactor/vchart';
-import { BasePieChartSpecTransformer } from '@visactor/vchart';
+import type { AdaptiveSpec, ISeriesSpec } from '@visactor/vchart/esm/typings/spec/common';
+import { BasePieChartSpecTransformer } from '@visactor/vchart/esm/chart/pie/base/pie-transformer';
 import type { IPie3dChartSpec } from './interface';
 
 export class Pie3dChartSpecTransformer<T extends IPie3dChartSpec = IPie3dChartSpec> extends BasePieChartSpecTransformer<

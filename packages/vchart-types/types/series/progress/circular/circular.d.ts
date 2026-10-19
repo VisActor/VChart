@@ -1,6 +1,7 @@
 import type { Datum } from '../../../typings';
 import type { SeriesMarkMap } from '../../interface';
 import { SeriesTypeEnum } from '../../interface/type';
+import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
 import type { ICircularProgressSeriesSpec } from './interface';
 import { ProgressLikeSeries } from '../../polar/progress-like/progress-like';
 import type { IMark } from '../../../mark/interface';
@@ -16,6 +17,7 @@ export declare class CircularProgressSeries<T extends ICircularProgressSeriesSpe
     readonly transformerConstructor: typeof CircularProgressSeriesSpecTransformer;
     private _progressMark;
     private _trackMark;
+    protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy;
     getStackGroupFields(): string[];
     getGroupFields(): string[];
     initMark(): void;

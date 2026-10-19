@@ -15,6 +15,14 @@ import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import type { DataSet } from '@visactor/vdataset';
 import { AxisComponent } from '../base-axis';
 import type { IGraphic } from '@visactor/vrender-core';
+type ContinuousBarBandwidthCache = {
+    scale: IBaseScale;
+    domainStart: number;
+    domainEnd: number;
+    rangeStart: number;
+    rangeEnd: number;
+    bandWidth: number;
+};
 export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartesianAxisCommonSpec> extends AxisComponent<T> implements IAxis {
     static type: ComponentTypeEnum;
     type: ComponentTypeEnum;
@@ -28,6 +36,7 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     layoutZIndex: number;
     layoutLevel: number;
     protected _dataSet: DataSet;
+    protected _continuousBarBandwidthCache?: ContinuousBarBandwidthCache;
     protected _orient: IOrientType;
     getOrient(): IOrientType;
     protected getDefaultInteractive(): boolean;
@@ -77,6 +86,8 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected getSeriesStatisticsField(s: ICartesianSeries): string[];
     protected _tickTransformOption(): ICartesianTickDataOpt;
     protected axisHelper(): IAxisHelper;
+    protected _clearContinuousBarBandwidthCache: () => void;
+    protected _getContinuousBarBandwidth(depth?: number): number;
     afterCompile(): void;
     protected collectScale(): IBaseScale[];
     protected collectSeriesField(depth: number, series: ICartesianSeries): string | string[];
@@ -104,3 +115,4 @@ export declare abstract class CartesianAxis<T extends ICartesianAxisCommonSpec =
     protected _getNeedClearVRenderComponents(): IGraphic[];
     private _getLabelOverflowLimit;
 }
+export {};

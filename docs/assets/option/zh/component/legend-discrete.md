@@ -60,17 +60,21 @@
 
 图例整体的最大宽度，决定水平布局的图例（orient 属性为 `'left'` | `'right'`）是否自动换行。
 
-### maxCol(number)
+### maxCol(number|Function)
 
 仅当 `orient` 为 `'left'` | `'right'` 时生效，表示图例项的最大列数，超出最大列数的图例项会被隐藏。
+
+自 `2.0.23` 版本开始支持传入回调 `(ctx) => number`，在布局阶段根据图例分配到的空间动态计算列数（会在每次布局时重新求值，因此 resize 时也会自动更新）。回调入参 `ctx` 为 `{ rect, orient, id }`：`rect` 为图例分配到的布局尺寸 `{ width, height }`（不含位置），`orient` 为图例解析后的方位（未配置 `orient` 时默认 `'left'`），`id` 为图例 id。
 
 ### maxHeight(number)
 
 图例整体的最大高度，决定垂直布局的图例（orient 属性为 `'top'` | `'bottom'`）是否自动换行。
 
-### maxRow(number)
+### maxRow(number|Function)
 
 仅当 `orient` 为 `'top'` | `'bottom'` 时生效，表示图例项的最大行数，超出最大行数的图例项会被隐藏。
+
+自 `2.0.23` 版本开始支持传入回调 `(ctx) => number`，在布局阶段根据图例分配到的空间动态计算行数（会在每次布局时重新求值，因此 resize 时也会自动更新）。回调入参 `ctx` 为 `{ rect, orient, id }`：`rect` 为图例分配到的布局尺寸 `{ width, height }`（不含位置），`orient` 为图例解析后的方位（未配置 `orient` 时默认 `'left'`），`id` 为图例 id。
 
 ### lazyload(boolean)
 
@@ -800,12 +804,20 @@ value: {
 - 默认样式：带箭头的翻页器
 - `type: 'scrollbar'`: 滚动条翻页
 
-#### layout(string)
+#### layout(string|Function)
 
 翻页器的布局方式，可选值为 `'horizontal'` 和 `'vertical'`。默认值逻辑为：
 
 - 图例 `orient` 为 `'left'` 或者 `'right'` 时，默认为 `'vertical'`。
 - 图例 `orient` 为 `'top'` 或者 `'bottom'` 时，默认为 `'horizontal'`。
+
+支持回调 `(ctx) => 'horizontal' | 'vertical'`。回调在布局期、`maxRow` / `maxCol` 求值后执行，`ctx` 包含 `rect`、`orient`、`id`、`maxRow` 和 `maxCol`，可据此让多行图例的翻页按钮切换为上下排列。
+
+#### position(string|Function)
+
+翻页器在图例内容交叉轴方向上的对齐位置，可选值为 `'start'`、`'middle'` 和 `'end'`，默认值为 `'middle'`。
+
+支持回调 `(ctx) => 'start' | 'middle' | 'end'`。回调同样在布局期、`maxRow` / `maxCol` 求值后执行，并接收与 `layout` 回调相同的 `ctx`，可据此让多行图例的翻页器顶对齐、单行图例保持居中。
 
 #### defaultCurrent(number)
 
@@ -820,6 +832,10 @@ value: {
 #### space(number)
 
 翻页器同图例的间距。
+
+#### hugContent(boolean) = false
+
+是否让翻页器紧贴图例内容排布。默认为 `false`，翻页器固定在图例可用空间的末端，图例项与翻页器呈两端对齐，且图例包围盒始终占满可用空间。开启后翻页器紧跟最后一个图例项（间距为 `space`，图例内容占满可用空间时退化为末端对齐），同时分页裁剪区域收缩到图例内容的实际尺寸，使「图例项 + 翻页器」的包围盒随内容自适应，便于配合 `orient` 为 `'top'` | `'bottom'` 的图例将整块内容居中放置。
 
 #### animation(boolean) = true
 

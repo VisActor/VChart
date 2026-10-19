@@ -194,7 +194,7 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
       doRadAngAng1Process,
       doRadAngProcess
     } = getMarkLineProcessInfo(spec);
-    this._markerData = this._getRelativeDataView();
+    this._setMarkerData(this._getRelativeDataView());
 
     if (
       !doXProcess &&
@@ -240,9 +240,7 @@ export abstract class BaseMarkLine extends BaseMarker<IMarkLineSpec> implements 
       options: this._getAllRelativeSeries()
     });
 
-    data.target.on('change', () => {
-      this._markerLayout();
-    });
-    this._markerData = data;
+    this._setMarkerData(data, true);
+    this._bindMarkerDataChange();
   }
 }

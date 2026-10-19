@@ -13,7 +13,7 @@ export declare class CompilableData extends GrammarItem implements ICompilableDa
     setDataView(d?: DataView): void;
     getLatestData(): any;
     constructor(option: GrammarItemInitOption, dataView?: DataView);
-    removeProduct(): void;
+    removeProduct(_releaseDetach?: boolean): void;
     release(): void;
     protected _relatedMarks?: Record<string, ICompilableMark>;
     addRelatedMark(mark: ICompilableMark): void;

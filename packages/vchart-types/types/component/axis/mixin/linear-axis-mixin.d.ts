@@ -25,6 +25,7 @@ export interface LinearAxisMixin {
         min?: number;
     };
     _tick: ITick | undefined;
+    _lastNiceAxisLength?: number;
     isSeriesDataEnable: any;
     computeDomain: any;
     collectData: (depth?: number, rawData?: boolean) => {
@@ -56,6 +57,7 @@ export declare class LinearAxisMixin {
     setLinearScaleNice(): false | LinearScale;
     setLogScaleNice(): false | LinearScale;
     setScaleNice(): false | LinearScale;
+    reTransformDomainByLayout(): void;
     dataToPosition(values: any[], cfg?: IAxisLocationCfg): number;
     valueToPosition(value: any): number;
     computeLinearDomain(data: {

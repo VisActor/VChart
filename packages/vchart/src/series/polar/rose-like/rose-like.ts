@@ -7,8 +7,33 @@ import {
 } from '../../../constant/data';
 import { PolarSeries } from '../polar';
 import type { IRoseLikeSeriesSpec } from './interface';
+import type { ISeriesSpecUpdatePolicy } from '../../base/base-series';
+
+const ROSE_LIKE_SERIES_COMPILE_ONLY_KEYS: Record<
+  'radius' | 'outerRadius' | 'innerRadius' | 'startAngle' | 'endAngle' | 'centerX' | 'centerY',
+  true
+> = {
+  radius: true,
+  outerRadius: true,
+  innerRadius: true,
+  startAngle: true,
+  endAngle: true,
+  centerX: true,
+  centerY: true
+};
 
 export abstract class RoseLikeSeries<T extends IRoseLikeSeriesSpec> extends PolarSeries<T> {
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      compileOnlyKeys: {
+        ...policy.compileOnlyKeys,
+        ...ROSE_LIKE_SERIES_COMPILE_ONLY_KEYS
+      }
+    };
+  }
+
   getStackGroupFields(): string[] {
     return this._angleField;
   }

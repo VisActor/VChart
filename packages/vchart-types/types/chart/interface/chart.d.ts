@@ -112,6 +112,7 @@ export interface IChartSpecTransformer {
     transformSpec: (spec: any) => void;
     transformModelSpec: (spec: any) => IChartSpecInfo;
     createSpecInfo: (chartSpec: any, transform?: (constructor: IModelConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => void) => IChartSpecInfo;
+    getSeriesRelatedSpecKeys: () => Record<string, true>;
     forEachRegionInSpec: <K>(spec: any, callbackfn: (constructor: IRegionConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];
     forEachSeriesInSpec: <K>(spec: any, callbackfn: (constructor: ISeriesConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];
     forEachComponentInSpec: <K>(spec: any, callbackfn: (constructor: IComponentConstructor, specInfo: IModelSpecInfo, chartSpecInfo?: IChartSpecInfo) => K, chartSpecInfo?: IChartSpecInfo) => K[];

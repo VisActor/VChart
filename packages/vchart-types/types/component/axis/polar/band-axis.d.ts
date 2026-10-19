@@ -18,6 +18,7 @@ export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxis
     };
     protected _scale: BandScale;
     protected _scales: BandScale[];
+    protected _updateData: () => void;
     protected computeDomain(data: {
         min: number;
         max: number;
@@ -37,6 +38,7 @@ export declare class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxis
         getSpec: () => T;
     };
     protected initScales(): void;
+    reInit(spec?: T): void;
     protected registerTicksTransform(): string;
     transformScaleDomain(): void;
 }

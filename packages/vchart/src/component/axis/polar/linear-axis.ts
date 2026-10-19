@@ -50,6 +50,10 @@ export class PolarLinearAxis<T extends IPolarLinearAxisSpec = IPolarLinearAxisSp
   setAttrFromSpec(): void {
     super.setAttrFromSpec();
     this.setExtraAttrFromSpec();
+    const tickTransform = this._tickData?.[0]
+      ?.getDataView()
+      .transformsArr.find(t => t.type === this.registerTicksTransform());
+    tickTransform && (tickTransform.options = this._tickTransformOption());
   }
 
   protected initScales() {

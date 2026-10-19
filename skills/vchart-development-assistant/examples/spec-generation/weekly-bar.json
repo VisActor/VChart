@@ -1,0 +1,25 @@
+{
+  "type": "bar",
+  "data": {
+    "values": [
+      {
+        "day": "周一",
+        "value": 12
+      },
+      {
+        "day": "周二",
+        "value": 25
+      },
+      {
+        "day": "周三",
+        "value": 18
+      },
+      {
+        "day": "周四",
+        "value": 32
+      }
+    ]
+  },
+  "xField": "day",
+  "yField": "value"
+}

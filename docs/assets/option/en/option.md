@@ -67,3 +67,7 @@
 {{import: chart-common}}
 
 {{import: chart-image-cloud}}
+
+{{import: chart-storyline}}
+
+{{import: chart-sequence-analysis}}

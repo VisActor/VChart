@@ -36,8 +36,13 @@ import { CompilableData, type ICompilableData } from '../../compile/data';
 import { waterfall as waterfallTheme } from '../../theme/builtin/common/series/waterfall';
 import type { IStackCacheNode } from '../../util';
 import { getRegionStackGroup, stackTotal } from '../../util';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 
 export const DefaultBandWidth = 6; // 默认的bandWidth，避免连续轴没有bandWidth
+
+const WATERFALL_SERIES_DATA_RELATED_KEYS: Record<'calculationMode', true> = {
+  calculationMode: true
+};
 
 export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSpec> extends BarSeries<any> {
   static readonly type: string = SeriesTypeEnum.waterfall;
@@ -53,11 +58,22 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     return this._totalData?.getLatestData();
   }
 
-  declare protected _spec: T;
+  protected declare _spec: T;
 
   protected _leaderLineMark: IRuleMark = null;
   protected _stackLabelMark: ITextMark = null;
   protected _labelMark: ITextMark = null;
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...WATERFALL_SERIES_DATA_RELATED_KEYS
+      }
+    };
+  }
 
   protected initGroups() {
     const groupFields = this.getGroupFields();
@@ -99,7 +115,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
       this._rawData?.transform(
         {
           type: 'waterfallFillTotal',
-          options: {
+          options: () => ({
             indexField: this.getGroupFields()[0],
             valueField: this.getStackValueField(),
             seriesField: this.getSeriesField(),
@@ -107,7 +123,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
             total: this._spec.total,
             calculationMode: this._spec.calculationMode ?? 'increase',
             stackInverse: this.getRegion().getStackInverse()
-          }
+          })
         },
         false
       );
@@ -121,7 +137,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     totalData.transform(
       {
         type: 'waterfall',
-        options: {
+        options: () => ({
           indexField: this.getGroupFields()[0],
           valueField: this.getStackValueField(),
           seriesField: this.getSeriesField(),
@@ -132,7 +148,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
           calculationMode: this._spec.calculationMode ?? 'increase',
           groupData: () => this.getGroups().groupData,
           stackInverse: this.getRegion().getStackInverse()
-        }
+        })
       },
       false
     );
@@ -312,16 +328,17 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     );
   }
 
-  protected _isCategoryAxisInverse() {
+  protected _isCategoryAxisReversed() {
+    // Y 轴默认从下向上，横向图的 inverse=true 才对应屏幕上从上向下的分类正序。
     return this._direction === Direction.horizontal
-      ? this._yAxisHelper?.isInverse?.()
+      ? !this._yAxisHelper?.isInverse?.()
       : this._xAxisHelper?.isInverse?.();
   }
 
   protected _getLeaderLineCategoryPos(isStart: boolean, isDecrease: boolean) {
-    const inverse = !!this._isCategoryAxisInverse();
+    const reversed = !!this._isCategoryAxisReversed();
     const normalPos = isStart ? (isDecrease ? 0 : 1) : isDecrease ? 1 : 0;
-    return inverse ? 1 - normalPos : normalPos;
+    return reversed ? 1 - normalPos : normalPos;
   }
 
   initMarkStyle(): void {

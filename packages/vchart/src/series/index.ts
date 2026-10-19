@@ -28,10 +28,6 @@ import { RadarSeries, registerRadarSeries } from './radar/radar';
 import type { IRadarSeriesSpec } from './radar/interface';
 import { AreaSeries, registerAreaSeries } from './area/area';
 import type { IAreaSeriesSpec } from './area/interface';
-import { DotSeries, registerDotSeries } from './dot/dot';
-import type { IDotSeriesSpec } from './dot/interface';
-import { LinkSeries, registerLinkSeries } from './link/link';
-import type { ILinkSeriesSpec } from './link/interface';
 import { CircularProgressSeries, registerCircularProgressSeries } from './progress/circular/circular';
 import type { ICircularProgressSeriesSpec } from './progress/circular/interface';
 import { LinearProgressSeries, registerLinearProgressSeries } from './progress/linear/linear';
@@ -117,9 +113,7 @@ export {
   RoseLikeSeries,
   RoseSeries,
   AreaSeries,
-  DotSeries,
   LinearProgressSeries,
-  LinkSeries,
   CirclePackingSeries,
   CircularProgressSeries,
   BaseWordCloudSeries,
@@ -147,14 +141,12 @@ export {
   registerBoxplotSeries,
   registerCirclePackingSeries,
   registerCircularProgressSeries,
-  registerDotSeries,
   registerFunnelSeries,
   registerGaugePointerSeries,
   registerGaugeSeries,
   registerHeatmapSeries,
   registerLineSeries,
   registerLinearProgressSeries,
-  registerLinkSeries,
   registerMapSeries,
   registerPieSeries,
   registerRadarSeries,
@@ -189,14 +181,12 @@ export type {
   ICartesianSeriesSpec,
   ICirclePackingSeriesSpec,
   ICircularProgressSeriesSpec,
-  IDotSeriesSpec,
   IFunnelSeriesSpec,
   IGaugePointerSeriesSpec,
   IGaugeSeriesSpec,
   IHeatmapSeriesSpec,
   ILineSeriesSpec,
   ILinearProgressSeriesSpec,
-  ILinkSeriesSpec,
   IMapSeriesSpec,
   IPieAnimationParams,
   PieAppearPreset,

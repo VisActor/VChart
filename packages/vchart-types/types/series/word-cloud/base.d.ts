@@ -5,6 +5,7 @@ import type { Datum, IMarkSpec, IPoint, ITextMarkSpec } from '../../typings';
 import { BaseSeries } from '../base/base-series';
 import type { IMark, IRectMark, ITextMark } from '../../mark/interface';
 import type { GeometricMaskShape, TextShapeMask } from '@visactor/vlayouts';
+import type { IStage } from '@visactor/vrender-core';
 export type IBaseWordCloudSeriesSpec = Omit<IWordCloudSeriesSpec, 'type'> & {
     type: string;
 };
@@ -25,6 +26,7 @@ export declare class BaseWordCloudSeries<T extends IBaseWordCloudSeriesSpec = IB
     setFontSizeRange(fontSizeRange: [number, number] | 'auto'): void;
     protected _maskShape?: string | WordCloudShapeType | TextShapeMask | GeometricMaskShape;
     protected _isWordCloudShape: boolean;
+    protected _afterWordcloudShapeDraw: (stage: IStage) => void;
     protected _wordCloudConfig?: WordCloudConfigType;
     protected _wordCloudShapeConfig?: WordCloudShapeConfigType;
     private _wordMeasureCache?;

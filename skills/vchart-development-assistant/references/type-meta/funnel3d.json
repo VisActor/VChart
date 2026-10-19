@@ -1,0 +1,1039 @@
+{
+  "typeName": "IFunnel3dChartSpec",
+  "formatVersion": 3,
+  "vchartVersion": "2.1.7",
+  "extensionVersion": "2.1.7",
+  "effectiveProperties": [
+    {
+      "name": "animation",
+      "description": "是否开启系列动画",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "animationAppear",
+      "description": "图表入场动画\n支持配置图表内置不同动画效果",
+      "type": "boolean | IStateAnimateSpec<FunnelAppearPreset> | Partial<Record<\"funnel\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "FunnelAppearPreset",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "IMarkAnimateSpec",
+        "IStateAnimateSpec",
+        "TypeAnimationConfig"
+      ]
+    },
+    {
+      "name": "animationDisappear",
+      "description": "图表退场动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"funnel\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "TypeAnimationConfig"
+      ]
+    },
+    {
+      "name": "animationEnter",
+      "description": "数据更新 - 新增数据动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"funnel\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "TypeAnimationConfig"
+      ]
+    },
+    {
+      "name": "animationExit",
+      "description": "数据更新 - 数据删除动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"funnel\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "TypeAnimationConfig"
+      ]
+    },
+    {
+      "name": "animationNormal",
+      "description": "循环动画",
+      "type": "Partial<Record<\"funnel\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "IMarkAnimateSpec",
+        "TypeAnimationConfig"
+      ]
+    },
+    {
+      "name": "animationState",
+      "description": "状态切换动画",
+      "type": "boolean | IStateAnimationConfig | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IStateAnimationConfig"
+      ],
+      "since": "1.12.0"
+    },
+    {
+      "name": "animationThreshold",
+      "description": "自动关闭动画的阀值，对应的是单系列data的长度",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "since": "1.2.0"
+    },
+    {
+      "name": "animationUpdate",
+      "description": "数据更新 - 数据更新动画",
+      "type": "boolean | ICommonStateAnimateSpec | Partial<Record<\"funnel\", false | IAnimationConfig | IAnimationConfig[]>> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ChannelAnimationConfig",
+        "CommonAnimationConfigItem",
+        "IAnimationConfig",
+        "IAnimationTimeline",
+        "ICommonStateAnimateSpec",
+        "IMarkAnimateSpec",
+        "TypeAnimationConfig"
+      ]
+    },
+    {
+      "name": "autoFit",
+      "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "axes",
+      "description": "轴",
+      "type": "ICommonAxisSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ICommonAxisSpec"
+      ]
+    },
+    {
+      "name": "background",
+      "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置",
+      "type": "IBackgroundSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ConvertToMarkStyleSpec",
+        "IBackgroundSpec",
+        "IConicalGradient",
+        "IGroupMarkSpec",
+        "ILinearGradient",
+        "IRadialGradient"
+      ]
+    },
+    {
+      "name": "brush",
+      "description": "框选配置",
+      "type": "IBrushSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IBrushSpec"
+      ]
+    },
+    {
+      "name": "categoryField",
+      "description": "分类字段",
+      "type": "string",
+      "required": true,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "color",
+      "description": "图表色系配置",
+      "type": "Omit<IVisualSpecScale<unknown, string>, \"id\"> | string[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IVisualSpecScale"
+      ]
+    },
+    {
+      "name": "crosshair",
+      "description": "十字辅助线配置",
+      "type": "ICrosshairSpec | ICrosshairSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ICartesianCrosshairSpec",
+        "ICrosshairSpec",
+        "IPolarCrosshairSpec"
+      ]
+    },
+    {
+      "name": "customMark",
+      "description": "自定义mark",
+      "type": "ICustomMarkSpec<keyof IBuildinMarkSpec>[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "EnableMarkType",
+        "ICustomMarkSpec"
+      ]
+    },
+    {
+      "name": "data",
+      "description": "数据",
+      "type": "IData | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "DataView",
+        "IData",
+        "IDataType",
+        "IDataValues"
+      ]
+    },
+    {
+      "name": "dataId",
+      "description": "系列关联的数据id",
+      "type": "StringOrNumber | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "dataIndex",
+      "description": "系列关联的数据索引",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "0"
+    },
+    {
+      "name": "dataKey",
+      "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要.",
+      "type": "DataKeyType | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "DataKeyType"
+      ]
+    },
+    {
+      "name": "dataZoom",
+      "description": "缩略轴配置",
+      "type": "IDataZoomSpec | IDataZoomSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IDataZoomSpec"
+      ]
+    },
+    {
+      "name": "extensionMark",
+      "description": "系列的扩展mark，能够获取系列上的数据",
+      "type": "(IExtensionGroupMarkSpec | IExtensionMarkSpec<\"arc\" | \"area\" | \"boxPlot\" | \"image\" | \"line\" | \"linkPath\" | \"path\" | \"polygon\" | \"rect\" | \"ripple\" | \"rule\" | \"symbol\" | \"text\">)[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "EnableMarkType",
+        "IExtensionGroupMarkSpec",
+        "IExtensionMarkSpec"
+      ]
+    },
+    {
+      "name": "funnel",
+      "description": "漏斗层样式",
+      "type": "IMarkSpec<IPathMarkSpec> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IMarkSpec",
+        "IPathMarkSpec"
+      ]
+    },
+    {
+      "name": "funnelAlign",
+      "description": "漏斗图对齐方式。转化漏斗图仅支持'center'",
+      "type": "\"center\" | \"left\" | \"right\" | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "'center'",
+      "literalValues": [
+        "center",
+        "left",
+        "right"
+      ]
+    },
+    {
+      "name": "funnelOrient",
+      "description": "漏斗图朝向。",
+      "type": "IOrientType | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "'top'",
+      "literalValues": [
+        "bottom",
+        "left",
+        "right",
+        "top",
+        "z"
+      ]
+    },
+    {
+      "name": "gap",
+      "description": "漏斗层之间的像素间隔。转化漏斗图不支持gap配置。",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "0"
+    },
+    {
+      "name": "height",
+      "description": "画布高度",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "heightRatio",
+      "description": "漏斗层与转化层的图形高度比例\nThe height ratio between the funnel graphic and the transform graphic",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "0.5",
+      "since": "1.10.1"
+    },
+    {
+      "name": "hover",
+      "description": "hover 交互",
+      "type": "boolean | IHoverSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IHoverSpec"
+      ]
+    },
+    {
+      "name": "id",
+      "description": "用户自定义的 series id",
+      "type": "StringOrNumber | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "interactions",
+      "description": "其他需要按需注册的类型交互",
+      "type": "IInteractionItemSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IInteractionItemSpec"
+      ]
+    },
+    {
+      "name": "invalidType",
+      "description": "非合规数据点连接方式",
+      "type": "IInvalidType | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
+      "literalValues": [
+        "break",
+        "ignore",
+        "link",
+        "zero"
+      ]
+    },
+    {
+      "name": "isCone",
+      "description": "漏斗图最下层是否尖角。shape为`rect`时不生效",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "true"
+    },
+    {
+      "name": "isTransform",
+      "description": "是否是转化漏斗图",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "false"
+    },
+    {
+      "name": "label",
+      "description": "漏斗层标签配置",
+      "type": "IFunnelLabelSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IFunnelLabelSpec"
+      ]
+    },
+    {
+      "name": "layout",
+      "description": "布局配置",
+      "type": "ILayoutSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IBaseLayoutSpec",
+        "IGridLayoutSpec",
+        "ILayoutSpec"
+      ]
+    },
+    {
+      "name": "legends",
+      "description": "图例配置",
+      "type": "ILegendSpec | ILegendSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IColorLegendSpec",
+        "IDiscreteLegendSpec",
+        "ILegendSpec",
+        "ISizeLegendSpec"
+      ]
+    },
+    {
+      "name": "maxSize",
+      "description": "漏斗图最大宽度，支持配置像素值和百分比字符串。",
+      "type": "`${number}%` | number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "'80%'"
+    },
+    {
+      "name": "media",
+      "description": "媒体查询配置",
+      "type": "IMediaQuerySpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IMediaQuerySpec"
+      ],
+      "since": "1.8.0"
+    },
+    {
+      "name": "minSize",
+      "description": "漏斗图最小宽度，支持配置像素值和百分比字符串。",
+      "type": "`${number}%` | number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "0"
+    },
+    {
+      "name": "name",
+      "description": "系列名称",
+      "type": "string | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "outerLabel",
+      "description": "漏斗层外部标签配置",
+      "type": "IFunnelOuterLabelSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IFunnelOuterLabelSpec"
+      ]
+    },
+    {
+      "name": "padding",
+      "description": "图表整体 padding 设置",
+      "type": "ILayoutPaddingSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ILayoutNumber",
+        "ILayoutOrientPadding",
+        "ILayoutPaddingSpec",
+        "IPercentOffset"
+      ]
+    },
+    {
+      "name": "percent",
+      "description": "是否对数据进行百分比处理",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "player",
+      "description": "播放器配置",
+      "type": "IPlayer | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IPlayer"
+      ]
+    },
+    {
+      "name": "range",
+      "description": "指定数值映射范围，range.min 映射到 minSize，range.max 映射到 maxSize。\nrange.min 默认为 0，range.max 默认为数据最大值。",
+      "type": "{\n    min?: number | undefined;\n    max?: number | undefined;\n} | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": []
+    },
+    {
+      "name": "region",
+      "description": "region配置",
+      "type": "RegionSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "RegionSpec"
+      ]
+    },
+    {
+      "name": "regionId",
+      "description": "系列关联的region id",
+      "type": "StringOrNumber | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "regionIndex",
+      "description": "系列关联的region索引",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "0"
+    },
+    {
+      "name": "scales",
+      "description": "全局 scale 配置",
+      "type": "IVisualSpecScale<unknown, unknown>[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IVisualSpecScale"
+      ]
+    },
+    {
+      "name": "scrollBar",
+      "description": "滚动条配置",
+      "type": "IScrollBarSpec | IScrollBarSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IScrollBarSpec"
+      ]
+    },
+    {
+      "name": "select",
+      "description": "select 交互",
+      "type": "boolean | ISelectSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ISelectSpec"
+      ]
+    },
+    {
+      "name": "series",
+      "description": "系列",
+      "type": "ISeriesSpec[] | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ISeriesSpec"
+      ]
+    },
+    {
+      "name": "seriesField",
+      "description": "分组字段",
+      "type": "string | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "seriesStyle",
+      "description": "系列样式",
+      "type": "ISeriesStyle | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ISeriesStyle"
+      ]
+    },
+    {
+      "name": "shape",
+      "description": "图元形状。转化漏斗图仅支持 'rect'",
+      "type": "\"rect\" | \"trapezoid\" | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "'trapezoid'",
+      "literalValues": [
+        "rect",
+        "trapezoid"
+      ]
+    },
+    {
+      "name": "stack",
+      "description": "是否对数据进行堆叠处理",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "stackInverse",
+      "description": "堆积时是否逆序",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "false",
+      "since": "1.4.0"
+    },
+    {
+      "name": "stackOffsetSilhouette",
+      "description": "是否围绕中心轴偏移轮廓",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "stackSort",
+      "description": "堆积时是否排序",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "false",
+      "since": "1.10.4"
+    },
+    {
+      "name": "support3d",
+      "description": "是否支持3d视角",
+      "type": "boolean | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "theme",
+      "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册",
+      "type": "Omit<ITheme, \"name\"> | string | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ITheme"
+      ]
+    },
+    {
+      "name": "title",
+      "description": "图表标题配置",
+      "type": "ITitleSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ITitleSpec",
+        "ITitleSpecWithoutText"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "description": "tooltip配置",
+      "type": "ITooltipSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ITooltipSpec"
+      ]
+    },
+    {
+      "name": "totalLabel",
+      "description": "堆叠汇总标签",
+      "type": "ITotalLabelSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "ITotalLabelSpec"
+      ],
+      "since": "1.3.0"
+    },
+    {
+      "name": "transform",
+      "description": "转化层样式",
+      "type": "IMarkSpec<IPathMarkSpec> | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IMarkSpec",
+        "IPathMarkSpec"
+      ]
+    },
+    {
+      "name": "transformLabel",
+      "description": "转化层标签配置",
+      "type": "IFunnelLabelSpec | undefined",
+      "required": false,
+      "isSimple": false,
+      "dependencies": [
+        "IFunnelLabelSpec"
+      ]
+    },
+    {
+      "name": "transformRatioText",
+      "description": "漏斗图转化率文案，用于转化层 tooltip key 的显示内容",
+      "type": "string | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": [],
+      "defaultValue": "'转化率'",
+      "since": "1.13.6"
+    },
+    {
+      "name": "type",
+      "description": "图表类型",
+      "type": "\"funnel3d\"",
+      "required": true,
+      "isSimple": true,
+      "dependencies": [],
+      "literalValues": [
+        "funnel3d"
+      ]
+    },
+    {
+      "name": "valueField",
+      "description": "数值字段",
+      "type": "string",
+      "required": true,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "width",
+      "description": "画布宽度",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    },
+    {
+      "name": "zIndex",
+      "description": "今当通过`series`配置的时候，才会生效",
+      "type": "number | undefined",
+      "required": false,
+      "isSimple": true,
+      "dependencies": []
+    }
+  ],
+  "complexTypeDefinitions": {
+    "ChannelAnimationConfig": {
+      "typeName": "ChannelAnimationConfig",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5d8412d98274"
+    },
+    "CommonAnimationConfigItem": {
+      "typeName": "CommonAnimationConfigItem",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-a27ba00f90e2"
+    },
+    "ConvertToMarkStyleSpec": {
+      "typeName": "ConvertToMarkStyleSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3f4d44a2bad5"
+    },
+    "DataKeyType": {
+      "typeName": "DataKeyType",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-4bea0f6c4d4f"
+    },
+    "DataView": {
+      "typeName": "DataView",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b26ccd36d8e8",
+      "package": "@visactor/vdataset",
+      "version": "1.0.28"
+    },
+    "EnableMarkType": {
+      "typeName": "EnableMarkType",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-1fa7d0f6abc4"
+    },
+    "FunnelAppearPreset": {
+      "typeName": "FunnelAppearPreset",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-ca0d8e9e8ab0"
+    },
+    "IAnimationConfig": {
+      "typeName": "IAnimationConfig",
+      "reference": "type-details/IAnimationConfig-Type-Definition.md"
+    },
+    "IAnimationTimeline": {
+      "typeName": "IAnimationTimeline",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f36951a20ee2"
+    },
+    "IBackgroundSpec": {
+      "typeName": "IBackgroundSpec",
+      "reference": "type-details/IBackgroundSpec-Type-Definition.md"
+    },
+    "IBaseLayoutSpec": {
+      "typeName": "IBaseLayoutSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-5de1760225a6"
+    },
+    "IBrushSpec": {
+      "typeName": "IBrushSpec",
+      "reference": "type-details/IBrushSpec-Type-Definition.md"
+    },
+    "ICartesianCrosshairSpec": {
+      "typeName": "ICartesianCrosshairSpec",
+      "reference": "type-details/ICartesianCrosshairSpec-Type-Definition.md"
+    },
+    "IColorLegendSpec": {
+      "typeName": "IColorLegendSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8565dc89d142"
+    },
+    "ICommonAxisSpec": {
+      "typeName": "ICommonAxisSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-500cf18886a4"
+    },
+    "ICommonStateAnimateSpec": {
+      "typeName": "ICommonStateAnimateSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-874c3b173f64"
+    },
+    "IConicalGradient": {
+      "typeName": "IConicalGradient",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d7015f202839",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.12"
+    },
+    "ICrosshairSpec": {
+      "typeName": "ICrosshairSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-2c1a18c2e6b2"
+    },
+    "ICustomMarkSpec": {
+      "typeName": "ICustomMarkSpec",
+      "reference": "type-details/ICustomMarkSpec-Type-Definition.md"
+    },
+    "IData": {
+      "typeName": "IData",
+      "reference": "type-details/IData-Type-Definition.md"
+    },
+    "IDataType": {
+      "typeName": "IDataType",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-3bf45e5ed347"
+    },
+    "IDataValues": {
+      "typeName": "IDataValues",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-218b08963b1d"
+    },
+    "IDataZoomSpec": {
+      "typeName": "IDataZoomSpec",
+      "reference": "type-details/IDataZoomSpec-Type-Definition.md"
+    },
+    "IDiscreteLegendSpec": {
+      "typeName": "IDiscreteLegendSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-0db130a1ae74"
+    },
+    "IExtensionGroupMarkSpec": {
+      "typeName": "IExtensionGroupMarkSpec",
+      "reference": "type-details/IExtensionGroupMarkSpec-Type-Definition.md"
+    },
+    "IExtensionMarkSpec": {
+      "typeName": "IExtensionMarkSpec",
+      "reference": "type-details/IExtensionMarkSpec-Type-Definition.md"
+    },
+    "IFunnelLabelSpec": {
+      "typeName": "IFunnelLabelSpec",
+      "reference": "type-details/IFunnelLabelSpec-Type-Definition.md"
+    },
+    "IFunnelOuterLabelSpec": {
+      "typeName": "IFunnelOuterLabelSpec",
+      "reference": "type-details/IFunnelOuterLabelSpec-Type-Definition.md"
+    },
+    "IGridLayoutSpec": {
+      "typeName": "IGridLayoutSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8c0cc65dc7ab"
+    },
+    "IGroupMarkSpec": {
+      "typeName": "IGroupMarkSpec",
+      "reference": "type-details/IGroupMarkSpec-Type-Definition.md"
+    },
+    "IHoverSpec": {
+      "typeName": "IHoverSpec",
+      "reference": "type-details/IHoverSpec-Type-Definition.md"
+    },
+    "IInteractionItemSpec": {
+      "typeName": "IInteractionItemSpec",
+      "reference": "type-details/IInteractionItemSpec-Type-Definition.md"
+    },
+    "ILayoutNumber": {
+      "typeName": "ILayoutNumber",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-9638d3997297"
+    },
+    "ILayoutOrientPadding": {
+      "typeName": "ILayoutOrientPadding",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b2bc0ee5203d"
+    },
+    "ILayoutPaddingSpec": {
+      "typeName": "ILayoutPaddingSpec",
+      "reference": "type-details/ILayoutPaddingSpec-Type-Definition.md"
+    },
+    "ILayoutSpec": {
+      "typeName": "ILayoutSpec",
+      "reference": "type-details/ILayoutSpec-Type-Definition.md"
+    },
+    "ILegendSpec": {
+      "typeName": "ILegendSpec",
+      "reference": "type-details/ILegendSpec-Type-Definition.md"
+    },
+    "ILinearGradient": {
+      "typeName": "ILinearGradient",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d8d5bda2ce95",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.12"
+    },
+    "IMarkAnimateSpec": {
+      "typeName": "IMarkAnimateSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-f077d8f2c125"
+    },
+    "IMarkSpec": {
+      "typeName": "IMarkSpec",
+      "reference": "type-details/IMarkSpec-Type-Definition.md"
+    },
+    "IMediaQuerySpec": {
+      "typeName": "IMediaQuerySpec",
+      "reference": "type-details/IMediaQuerySpec-Type-Definition.md"
+    },
+    "IPathMarkSpec": {
+      "typeName": "IPathMarkSpec",
+      "reference": "type-details/IPathMarkSpec-Type-Definition.md"
+    },
+    "IPercentOffset": {
+      "typeName": "IPercentOffset",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-d014dbe57510"
+    },
+    "IPlayer": {
+      "typeName": "IPlayer",
+      "reference": "type-details/IPlayer-Type-Definition.md"
+    },
+    "IPolarCrosshairSpec": {
+      "typeName": "IPolarCrosshairSpec",
+      "reference": "type-details/IPolarCrosshairSpec-Type-Definition.md"
+    },
+    "IRadialGradient": {
+      "typeName": "IRadialGradient",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-8830ca87d7a0",
+      "package": "@visactor/vrender-core",
+      "version": "1.1.12"
+    },
+    "IScrollBarSpec": {
+      "typeName": "IScrollBarSpec",
+      "reference": "type-details/IScrollBarSpec-Type-Definition.md"
+    },
+    "ISelectSpec": {
+      "typeName": "ISelectSpec",
+      "reference": "type-details/ISelectSpec-Type-Definition.md"
+    },
+    "ISeriesSpec": {
+      "typeName": "ISeriesSpec",
+      "reference": "type-details/ISeriesSpec-Type-Definition.md"
+    },
+    "ISeriesStyle": {
+      "typeName": "ISeriesStyle",
+      "reference": "type-details/ISeriesStyle-Type-Definition.md"
+    },
+    "ISizeLegendSpec": {
+      "typeName": "ISizeLegendSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-19c6d929a8de"
+    },
+    "IStateAnimateSpec": {
+      "typeName": "IStateAnimateSpec",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-c689f8784df3"
+    },
+    "IStateAnimationConfig": {
+      "typeName": "IStateAnimationConfig",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-e4cf848bb846"
+    },
+    "ITheme": {
+      "typeName": "ITheme",
+      "reference": "type-details/ITheme-Type-Definition.md"
+    },
+    "ITitleSpec": {
+      "typeName": "ITitleSpec",
+      "reference": "type-details/ITitleSpec-Type-Definition.md"
+    },
+    "ITitleSpecWithoutText": {
+      "typeName": "ITitleSpecWithoutText",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-6d4657ffd0d7"
+    },
+    "ITooltipSpec": {
+      "typeName": "ITooltipSpec",
+      "reference": "type-details/ITooltipSpec-Type-Definition.md"
+    },
+    "ITotalLabelSpec": {
+      "typeName": "ITotalLabelSpec",
+      "reference": "type-details/ITotalLabelSpec-Type-Definition.md"
+    },
+    "IVisualSpecScale": {
+      "typeName": "IVisualSpecScale",
+      "reference": "type-details/IVisualSpecScale-Type-Definition.md"
+    },
+    "RegionSpec": {
+      "typeName": "RegionSpec",
+      "reference": "type-details/RegionSpec-Type-Definition.md"
+    },
+    "TypeAnimationConfig": {
+      "typeName": "TypeAnimationConfig",
+      "reference": "type-details/AdditionalTypes-Type-Definition.md#type-b4e071966992"
+    }
+  },
+  "registration": [
+    "registerFunnel3dChart"
+  ],
+  "registrationNote": "宿主调用图型注册入口；该入口内部已注册 3D plugin，无需重复注册。注册代码不属于 spec。",
+  "initializationIncludes": [
+    "register3DPlugin"
+  ]
+}

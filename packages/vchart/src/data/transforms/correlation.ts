@@ -3,34 +3,43 @@ import {
   isNumber,
   degreeToRadian,
   isArray,
+  isFunction,
   field as getFieldAccessor,
   extent,
   toPercent
 } from '@visactor/vutils';
 import { CORRELATION_X, CORRELATION_Y, CORRELATION_SIZE } from '../../constant/correlation';
 
+type CorrelationOptionValue<T> = T | (() => T);
+type CorrelationDatum = Record<string, unknown>;
+
 export interface ICorrelationOpt {
-  field: string;
-  radiusField?: string;
-  radiusRange?: [number, number];
-  center?: [string | number, string | number];
-  startAngle?: number;
-  endAngle?: number;
-  innerRadius?: string | number;
-  outerRadius?: string | number;
+  view: () => { x0: number; x1: number; y0: number; y1: number };
+  field: CorrelationOptionValue<string>;
+  radiusField?: CorrelationOptionValue<string | undefined>;
+  radiusRange?: CorrelationOptionValue<[number, number] | undefined>;
+  center?: CorrelationOptionValue<[string | number, string | number] | undefined>;
+  startAngle?: CorrelationOptionValue<number | undefined>;
+  endAngle?: CorrelationOptionValue<number | undefined>;
+  innerRadius?: CorrelationOptionValue<string | number | undefined>;
+  outerRadius?: CorrelationOptionValue<string | number | undefined>;
 }
 
-export interface CircularRelationItem {
+interface CorrelationLayoutItem {
   x: number;
   y: number;
   size: number;
-  datum: any;
 }
 
-export const correlation = (data: any, options: any) => {
+export type CircularRelationItem = Record<string, unknown>;
+
+const resolveOptionValue = <T>(option: CorrelationOptionValue<T>) => (isFunction(option) ? option() : option);
+
+export const correlation = (data: unknown, options: ICorrelationOpt) => {
   if (!data || !options?.view || !isArray(data)) {
     return data;
   }
+  const dataList = data as CorrelationDatum[];
 
   const viewBox = options.view();
 
@@ -45,51 +54,55 @@ export const correlation = (data: any, options: any) => {
     return data;
   }
 
-  const startAngle = degreeToRadian(options.startAngle ?? -90);
-  const endAngle = degreeToRadian(options.endAngle ?? 270);
+  const startAngle = degreeToRadian(resolveOptionValue(options.startAngle) ?? -90);
+  const endAngle = degreeToRadian(resolveOptionValue(options.endAngle) ?? 270);
   const maxRadius = Math.max((viewBox.x1 - viewBox.x0) / 2, (viewBox.y1 - viewBox.y0) / 2);
-  const innerRadius = toPercent(options.innerRadius ?? 0, maxRadius);
-  const outerRadius = toPercent(options.outerRadius, maxRadius);
+  const innerRadius = toPercent(resolveOptionValue(options.innerRadius) ?? 0, maxRadius);
+  const outerRadius = toPercent(resolveOptionValue(options.outerRadius), maxRadius);
+  const centerOption = resolveOptionValue(options.center);
 
   const center = [
-    isNumber(options.center?.[0])
-      ? options.center[0]
-      : viewBox.x0 + toPercent(options.center?.[0] ?? '50%', viewBox.x1 - viewBox.x0),
-    isNumber(options.center?.[1])
-      ? options.center[1]
-      : viewBox.y0 + toPercent(options.center?.[1] ?? '50%', viewBox.y1 - viewBox.y0)
+    isNumber(centerOption?.[0])
+      ? centerOption[0]
+      : viewBox.x0 + toPercent(centerOption?.[0] ?? '50%', viewBox.x1 - viewBox.x0),
+    isNumber(centerOption?.[1])
+      ? centerOption[1]
+      : viewBox.y0 + toPercent(centerOption?.[1] ?? '50%', viewBox.y1 - viewBox.y0)
   ] as [number, number];
-  const fieldAccessor = getFieldAccessor(options.field);
-  const values = data.map(fieldAccessor);
+  const fieldAccessor = getFieldAccessor(resolveOptionValue(options.field));
+  const values = dataList.map(fieldAccessor);
   const [min, max] = extent(values);
   const radiusScale =
     min === max
       ? (val: number) => (innerRadius + outerRadius) / 2
       : (val: number) => innerRadius + ((outerRadius - innerRadius) * (val - min)) / (max - min);
 
-  const sizeAccessor = !isNil(options.radiusField) ? getFieldAccessor(options.radiusField) : fieldAccessor;
-  const defaultSize = options?.radiusRange?.[1] ?? 5;
-  let sizeScale = (datum: any) => defaultSize;
+  const radiusField = resolveOptionValue(options.radiusField);
+  const radiusRange = resolveOptionValue(options.radiusRange);
+  const sizeAccessor = !isNil(radiusField) ? getFieldAccessor(radiusField) : fieldAccessor;
+  const defaultSize = radiusRange?.[1] ?? 5;
+  let sizeScale = (datum: CorrelationDatum) => defaultSize;
 
   if (sizeAccessor) {
-    const [minSize, maxSize] = sizeAccessor !== fieldAccessor ? extent(data.map(sizeAccessor)) : [min, max];
-    const minR = options.radiusRange?.[0] ?? 5;
-    const maxR = options.radiusRange?.[1] ?? 5;
+    const [minSize, maxSize] = sizeAccessor !== fieldAccessor ? extent(dataList.map(sizeAccessor)) : [min, max];
+    const minR = radiusRange?.[0] ?? 5;
+    const maxR = radiusRange?.[1] ?? 5;
 
     if (minSize !== maxSize) {
-      sizeScale = (datum: any) => minR + ((maxR - minR) * (sizeAccessor(datum) - minSize)) / (maxSize - minSize);
+      sizeScale = (datum: CorrelationDatum) =>
+        minR + ((maxR - minR) * (sizeAccessor(datum) - minSize)) / (maxSize - minSize);
     }
   }
 
   const minAngle = Math.min(startAngle, endAngle);
   const maxAngle = Math.max(startAngle, endAngle);
-  const angles = getPartialAngles(minAngle, maxAngle, data.length);
+  const angles = getPartialAngles(minAngle, maxAngle, dataList.length);
 
   const res: CircularRelationItem[] = [];
   const searchStep = 60;
   const searchAngle = (maxAngle - minAngle) / searchStep;
 
-  data.forEach((datum, index) => {
+  dataList.forEach((datum, index) => {
     const radius = radiusScale(values[index] as number);
     const size = sizeScale(datum);
     let x: number;
@@ -168,12 +181,15 @@ const getPartialAngles = (minAngle: number, maxAngle: number, count: number) => 
   return res;
 };
 
-const hasOverlap = (item: Omit<CircularRelationItem, 'datum'>, arr: CircularRelationItem[]) => {
+const hasOverlap = (item: CorrelationLayoutItem, arr: CircularRelationItem[]) => {
   if (!arr || !arr.length) {
     return false;
   }
 
   return arr.some(entry => {
-    return Math.pow(item.x - entry.x, 2) + Math.pow(item.y - entry.y, 2) < Math.pow(item.size + entry.size, 2);
+    const x = entry.x as number;
+    const y = entry.y as number;
+    const size = entry.size as number;
+    return Math.pow(item.x - x, 2) + Math.pow(item.y - y, 2) < Math.pow(item.size + size, 2);
   });
 };

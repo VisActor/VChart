@@ -60,17 +60,21 @@ Whether to reverse the ordering of the legend items, the default is not.
 
 The overall maximum width of the legend, which determines whether horizontally laid out legends (with an orientation attribute of `'left'` | `'right'`) are automatically line-breaking.
 
-### maxCol(number)
+### maxCol(number|Function)
 
 Effective only when `orient` is `'left'` | `'right'`, indicates the maximum number of columns for the legend item, the legend item beyond the maximum number of columns will be hidden.
+
+Since version `2.0.23`, a callback `(ctx) => number` is also supported, evaluated during layout so the column count can adapt to the space allocated to the legend (it is re-evaluated on every layout pass, so it also updates automatically on resize). The callback receives `ctx` as `{ rect, orient, id }`: `rect` is the layout size allocated to the legend `{ width, height }` (no position), `orient` is the legend's resolved orientation (defaults to `'left'` when `orient` is unset), and `id` is the legend id.
 
 ### maxHeight(number)
 
 The maximum height of the legend as a whole, which determines whether vertically laid out legends (with an orientation attribute of `'top'` | `'bottom'`) are automatically line-breaking.
 
-### maxRow(number)
+### maxRow(number|Function)
 
 Effective only when `orient` is `'top'` | `'bottom'`, indicates the maximum number of rows for the legend item, the legend item beyond the maximum number of rows will be hidden.
+
+Since version `2.0.23`, a callback `(ctx) => number` is also supported, evaluated during layout so the row count can adapt to the space allocated to the legend (it is re-evaluated on every layout pass, so it also updates automatically on resize). The callback receives `ctx` as `{ rect, orient, id }`: `rect` is the layout size allocated to the legend `{ width, height }` (no position), `orient` is the legend's resolved orientation (defaults to `'left'` when `orient` is unset), and `id` is the legend id.
 
 ### lazyload(boolean)
 
@@ -813,12 +817,20 @@ Set the pager type, currently supporting two styles:
 - Default style: pager with arrows
 - `type: 'scrollbar'`: Scrollbar pager
 
-#### layout(string)
+#### layout(string|Function)
 
 The layout of the page turner, the optional values are `'horizontal'` and `'vertical'`. The default value logic is:
 
 - Defaults to `'vertical'` when legend `orient` is `'left'` or `'right'`.
 - Defaults to `'horizontal'` when legend `orient` is `'top'` or `'bottom'`.
+
+A callback `(ctx) => 'horizontal' | 'vertical'` is also supported. It is evaluated during layout after `maxRow` / `maxCol` have been resolved. `ctx` contains `rect`, `orient`, `id`, `maxRow`, and `maxCol`, so the pager handlers can switch to a vertical arrangement for a multi-row legend.
+
+#### position(string|Function)
+
+The cross-axis alignment of the pager within the legend content. The optional values are `'start'`, `'middle'`, and `'end'`; the default is `'middle'`.
+
+A callback `(ctx) => 'start' | 'middle' | 'end'` is also supported. It is evaluated during layout after `maxRow` / `maxCol` have been resolved and receives the same `ctx` as the `layout` callback, so a multi-row legend can top-align its pager while a single-row legend remains centered.
 
 #### defaultCurrent(number)
 
@@ -833,6 +845,10 @@ Default current page number.
 #### space(number)
 
 The spacing of the page turner from the same legend.
+
+#### hugContent(boolean) = false
+
+Whether the pager hugs the legend content. Defaults to `false`, where the pager is pinned to the far end of the legend's available space, the items and the pager are justified to opposite ends, and the legend bounds always occupy the full available space. When enabled, the pager is placed right after the last legend item (using `space` as the gap, falling back to the end-pinned position when the content fills the available space), and the paging clip region shrinks to the actual content extent, so the bounds of "items + pager" hug the content. This makes it easy to center the whole block for legends with `orient` set to `'top'` | `'bottom'`.
 
 #### animation(boolean) = true
 

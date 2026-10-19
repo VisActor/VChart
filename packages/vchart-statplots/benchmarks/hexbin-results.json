@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-08",
+  "environment": "macOS arm64 / Node 22.23.3 / Chromium / DPR 1 / animation false",
+  "notes": [
+    "单次生命周期冒烟，不是性能基线或跨设备 SLA；100k 首绘受前一轮暖机影响。",
+    "compile 包含校验和分箱；update 包含新 Spec 编译；resize 时间含 Playwright 往返。",
+    "原始点固定取 x=((i*73)%997)/997、y=((i*137)%991)/991，xBins=30。",
+    "update 增加重复的第一个观测，总计数为 N+1；resize 前后箱数据一致，release 后 canvas=0。"
+  ],
+  "results": [
+    {
+      "count": 10000,
+      "compileMs": 4.299999952316284,
+      "renderMs": 35.700000047683716,
+      "updateMs": 15.5,
+      "binCount": 809,
+      "resizeMs": 12,
+      "releaseMs": 1.5
+    },
+    {
+      "count": 100000,
+      "compileMs": 18,
+      "renderMs": 11,
+      "updateMs": 16.699999809265137,
+      "binCount": 836,
+      "resizeMs": 1,
+      "releaseMs": 0.7999999523162842
+    }
+  ]
+}

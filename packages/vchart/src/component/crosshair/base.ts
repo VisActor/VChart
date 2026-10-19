@@ -1,5 +1,5 @@
 import type { IBoundsLike } from '@visactor/vutils';
-import { Tag } from '@visactor/vrender-components';
+import { Tag } from '@visactor/vrender-components/tag';
 import type { IGraphic, INode } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { throttle, PointService, isEqual, isArray, isNumber, get, isBoolean, isObject, array } from '@visactor/vutils';
@@ -34,6 +34,24 @@ const ORIENT_MAP = {
   y: ['left', 'right'],
   category: ['angle'],
   value: ['radius']
+};
+
+const CROSSHAIR_COMPONENT_ONLY_TOP_LEVEL_CHANGE_KEYS: Record<string, boolean> = {
+  labelZIndex: true,
+  gridZIndex: true
+};
+
+const CROSSHAIR_FIELD_KEYS: Record<string, boolean> = {
+  xField: true,
+  yField: true,
+  categoryField: true,
+  valueField: true
+};
+
+const CROSSHAIR_LINE_COMPONENT_ONLY_CHANGE_KEYS: Record<string, boolean> = {
+  visible: true,
+  width: true,
+  style: true
 };
 
 export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCrosshairSpec>
@@ -88,17 +106,23 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
    * @returns
    */
   protected _setAllAxisValues(axisMap: IAxisInfo<IAxis>, point: IPoint, field: string): boolean {
-    // 首先不能存在两个离散轴
+    // 未显式绑定轴时，同方向的多个离散轴无法确定唯一的维度位置；显式绑定表示调用方已选择这些轴。
     let discrete = false;
+    let multipleDiscreteAxes = false;
+    const bindingAxesIndex = get(this._spec, `${field}.bindingAxesIndex`);
+    const hasExplicitBinding = isArray(bindingAxesIndex) && bindingAxesIndex.length > 0;
     axisMap.forEach(item => {
       if (isDiscrete(item.axis.getScale().type)) {
         if (!discrete) {
           discrete = true;
         } else {
-          this.enable = false;
+          multipleDiscreteAxes = true;
         }
       }
     });
+    if (multipleDiscreteAxes && !hasExplicitBinding) {
+      this.enable = false;
+    }
     if (!this.enable) {
       return false;
     }
@@ -220,11 +244,70 @@ export abstract class BaseCrossHair<T extends ICartesianCrosshairSpec | IPolarCr
    */
   _compareSpec(spec: T, prevSpec: T) {
     const result = super._compareSpec(spec, prevSpec);
-    if (!result.reMake && !isEqual(prevSpec, spec)) {
+    const specChanged = !isEqual(prevSpec, spec);
+
+    if (specChanged) {
+      result.change = true;
       result.reRender = true;
-      result.reMake = true;
+
+      if (!result.reMake) {
+        if (this._isComponentOnlySpecChange(spec, prevSpec)) {
+          result.effects = {
+            ...result.effects,
+            component: true,
+            layout: true,
+            render: true
+          };
+        } else {
+          result.reMake = true;
+        }
+      }
     }
     return result;
+  }
+
+  private _isComponentOnlySpecChange(spec: T, prevSpec: T) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return (
+        isEqual(prevSpec?.[key], spec?.[key]) ||
+        CROSSHAIR_COMPONENT_ONLY_TOP_LEVEL_CHANGE_KEYS[key] ||
+        (CROSSHAIR_FIELD_KEYS[key] && this._isFieldComponentOnlySpecChange(prevSpec?.[key], spec?.[key]))
+      );
+    });
+  }
+
+  private _isFieldComponentOnlySpecChange(prevSpec: ICrosshairCategoryFieldSpec, spec: ICrosshairCategoryFieldSpec) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return (
+        isEqual(prevSpec?.[key], spec?.[key]) ||
+        key === 'label' ||
+        (key === 'line' && this._isLineComponentOnlySpecChange(prevSpec?.line, spec?.line))
+      );
+    });
+  }
+
+  private _isLineComponentOnlySpecChange(
+    prevSpec: ICrosshairCategoryFieldSpec['line'],
+    spec: ICrosshairCategoryFieldSpec['line']
+  ) {
+    const keys = Object.keys({
+      ...prevSpec,
+      ...spec
+    });
+
+    return keys.every(key => {
+      return isEqual(prevSpec?.[key], spec?.[key]) || CROSSHAIR_LINE_COMPONENT_ONLY_CHANGE_KEYS[key];
+    });
   }
 
   protected _initEvent() {

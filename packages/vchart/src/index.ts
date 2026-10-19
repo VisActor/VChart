@@ -31,6 +31,7 @@ export * from './util/region';
 export * from './util/scale';
 // constant
 export * from './constant/data';
+export { SCROLL_BAR_DEFAULT_SIZE } from './constant/scroll-bar';
 
 // base component model for extension
 export * from './component/base';
@@ -38,16 +39,24 @@ export * from './compile/data/compilable-data';
 export * from './animation';
 export * from './interaction';
 
+export { createImage, createPath, graphicCreator } from './vrender-bridge';
 export {
-  createImage,
-  createPath,
   createArc3d,
   createPyramid3d,
   createRect3d,
+  registerArc3d,
+  registerLine,
+  registerPyramid3d,
+  registerRect,
+  registerRect3d,
+  registerShadowRoot
+} from './vrender-bridge';
+export {
   registerDirectionalLight,
   registerOrthoCamera,
-  registerViewTransform3dPlugin,
-  graphicCreator,
+  registerViewTransform3dPlugin
+} from '@visactor/vrender-core/plugin/3d';
+export {
   type IGraphic,
   type IGlyph,
   type IGroup,
@@ -69,7 +78,9 @@ export {
   type ISymbolGraphicAttribute
 } from '@visactor/vrender-core';
 
-export { ACustomAnimate, AnimateExecutor, RotateBySphereAnimate } from '@visactor/vrender-animate';
+export { ACustomAnimate } from '@visactor/vrender-animate/custom/custom-animate';
+export { AnimateExecutor } from '@visactor/vrender-animate/executor/animate-executor';
+export { RotateBySphereAnimate } from '@visactor/vrender-animate/custom/sphere';
 
 // vrender-components
 export {
@@ -79,16 +90,6 @@ export {
   type SegmentAttributes,
   type Point
 } from '@visactor/vrender-components';
-
-// vrender-kits
-export {
-  registerLine,
-  registerRect,
-  registerArc3d,
-  registerPyramid3d,
-  registerRect3d,
-  registerShadowRoot
-} from '@visactor/vrender-kits';
 
 // vlayouts
 export * from '@visactor/vlayouts';

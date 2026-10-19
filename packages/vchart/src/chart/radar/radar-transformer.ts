@@ -9,6 +9,7 @@ export class RadarChartSpecTransformer<
   protected _getDefaultSeriesSpec(spec: any): any {
     const series = super._getDefaultSeriesSpec(spec);
     const areaTheme = this._option.getTheme?.('series', 'radar', 'area');
+    this._addSeriesRelatedSpecKeys(['line', 'point', 'area']);
     series.line = spec.line;
     series.point = spec.point;
     series.stack = spec.stack;

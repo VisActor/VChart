@@ -45,6 +45,7 @@ export declare class Tooltip extends BaseComponent<any> implements ITooltip {
     protected _releaseEvent(): void;
     onLayoutEnd(): void;
     created(): void;
+    _compareSpec(spec: ITooltipSpec, prevSpec: ITooltipSpec): import("../../model/interface").IUpdateSpecResult;
     release(): void;
     beforeRelease(): void;
     protected _initHandler(): void;

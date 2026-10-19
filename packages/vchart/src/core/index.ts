@@ -45,8 +45,8 @@ export * from '../typings/tooltip';
 export * from '../theme/index';
 
 // vrender
+export { vglobal } from '../vrender-bridge';
 export {
-  vglobal,
   createGroup,
   createRichText,
   createText,
@@ -55,8 +55,9 @@ export {
   createRect,
   createLine,
   createSymbol
-} from '@visactor/vrender-core';
-export { ManualTicker, StreamLight } from '@visactor/vrender-animate';
+} from '../vrender-bridge';
+export { ManualTicker } from '@visactor/vrender-animate/ticker/manual-ticker';
+export { StreamLight } from '@visactor/vrender-animate/custom/streamLight';
 
 // utils
 export * from '../util/space';
@@ -66,3 +67,9 @@ export { registerDataSetInstanceParser, registerDataSetInstanceTransform } from 
 export { lookup } from '../data/transforms/lookup';
 export { warn } from '../util/debug';
 export { measureText } from '../util/text';
+
+// 扩展系列共用的标准工具。
+export { ColorOrdinalScale } from '../scale/color-ordinal-scale';
+export { copyDataView } from '../data/transforms/copy-data-view';
+export { objFlat } from '../data/transforms/obj-flat';
+export { mergeSpec } from '@visactor/vutils-extension';

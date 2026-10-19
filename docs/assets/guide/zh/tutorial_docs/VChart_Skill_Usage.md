@@ -10,7 +10,7 @@ VChart 和 VTable 作为 VisActor 数据可视化解决方案的核心组件，�
 
 ## 简介
 
-`vchart-skill` 面向支持 skills 的 AI 编辑器，核心目标是让模型更准确理解 VChart 语义与实践路径，从而减少试错成本。
+`vchart-skill` 面向支持 skills 的 AI 编辑器，核心目标是让模型更准确理解 VChart 语义与实践路径，从而减少试错成本。支持生成可直接查看的 HTML，以及供宿主消费的完整 VChart spec。
 
 ## 安装与简单 Demo
 
@@ -33,7 +33,7 @@ npx skills add VisActor/VChart --skill vchart-development-assistant
 
 安装过程示意：
 
-![vchart-skill 安装示意](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/030e176313614ac087853aca647b55df~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=H2PzvppEZrBvra4nZh1fEo%2BiOJY%3D)
+![vchart-skill 安装示意](/vchart/guide/skill-usage/installation.webp)
 
 ### 2. 编辑器参考
 
@@ -44,24 +44,24 @@ npx skills add VisActor/VChart --skill vchart-development-assistant
 
 目录示意：
 
-![skills 目录示意](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/e3cd80683fb34e21a02d371b1bc360c9~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=wrXQJFCJd%2B6sMd05mYc1Ehu3fu8%3D)
+![skills 目录示意](/vchart/guide/skill-usage/directory.webp)
 
 ### 3. 示例一：生成简单图表
 
 建议提示词：
 
 ```text
-使用 VChart 生成一个基础柱状图，包含 xField、yField 和最小可运行示例。
+使用 VChart 生成一个基础柱状图，包含 xField、yField，交付可直接打开查看的完整 HTML。
 ```
 
 验收点：
 
-- 能输出可运行的最小 spec。
+- 能输出包含完整配置和实例创建的 HTML。
 - 图表可正常渲染。
 
 示例效果：
 
-![生成简单图表示例](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/fc55630c49a94d84bd3d7e3a5ca59da1~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=fcmQ6R0EEMPMDp8y%2Fw38OE4nNjY%3D)
+![生成简单图表示例](/vchart/guide/skill-usage/generate-chart.webp)
 
 ### 4. 示例二：调整图表样式
 
@@ -78,7 +78,7 @@ npx skills add VisActor/VChart --skill vchart-development-assistant
 
 示例效果：
 
-![调整图表样式示例](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/3cec7ac8dc11486ca9a61eb157ac478d~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=9ETSnU3R8KdgL%2Fl6bHV%2F70RoBDg%3D)
+![调整图表样式示例](/vchart/guide/skill-usage/style-chart.webp)
 
 ### 5. 示例三：修复配置问题
 
@@ -95,7 +95,35 @@ npx skills add VisActor/VChart --skill vchart-development-assistant
 
 示例效果：
 
-![修复配置问题示例](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/bb4911d4db814a7ca3b777f7549cf69e~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=J1olPfoWsglwVMxCukVu1otSycU%3D)
+![修复配置问题示例](/vchart/guide/skill-usage/fix-config.webp)
+
+## HTML 与 spec 交付
+
+| 需要什么 | 如何提出需求 | 得到什么 |
+| --- | --- | --- |
+| 直接查看或页面演示 | “生成可打开的完整 HTML” | 完整页面，按需包含应用交互 |
+| 宿主渲染或配置集成 | “只返回完整 spec / JSON” | 配置本身，不混入页面、实例代码或宿主外壳 |
+| 两种都需要 | “给 spec 和使用它的 HTML 预览” | 同一份配置与对应页面 |
+
+明确要求优先，其次沿用已知宿主/应用上下文；独立展示需求默认 HTML。已有 HTML 内的 spec 修改仍交付 HTML，独立 spec 修改仍交付 spec；组件和组合产物保留原目标。“加标签”默认返回修改后的完整产物，明确只要片段时才返回增量；明确“只返回 JSON”等要求时切换交付。
+
+生成完整 JSON 的提示词：
+
+```text
+周一 12、周二 25、周三 18、周四 32。
+用合适的 VChart 图表比较这些数值，只返回完整 JSON spec，不要解释。
+```
+
+宿主上下文可以在前文提供：
+
+```text
+宿主负责渲染，只接收 JSON VChart spec，支持 bar 和 line，不接受函数。
+后续给数据时按这些约束生成配置。
+```
+
+后续只需说明表达目标与数据，不重复询问 JS/React。spec 不一定是 JSON；支持函数的环境可用 JS，纯 JSON 宿主采用声明式配置，不能通过序列化丢掉回调。tooltip/图例等声明式交互可以留在 spec 内，外部事件和业务代码单独处理。
+
+配置会检查真实数据与字段，JSON 会检查可解析性；条件允许时实际渲染。未执行渲染或没有目标宿主环境时说明验证范围，不能把格式检查当作渲染验证。临时验收 HTML 不改变最终 spec 交付。
 
 ## 常见问题与注意事项
 

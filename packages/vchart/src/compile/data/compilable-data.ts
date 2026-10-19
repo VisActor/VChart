@@ -39,7 +39,7 @@ export class CompilableData extends GrammarItem implements ICompilableData {
     this._data = dataView;
   }
 
-  removeProduct() {
+  removeProduct(_releaseDetach?: boolean) {
     this._product = null;
     this._prevProduct = null;
     this._compiledProductId = null;

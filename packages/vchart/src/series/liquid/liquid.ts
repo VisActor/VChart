@@ -19,7 +19,7 @@ import { BaseSeries } from '../base';
 // eslint-disable-next-line no-duplicate-imports
 import { registerGroupMark } from '../../mark/group';
 import { getShapes } from './util';
-import { createRect, createSymbol } from '@visactor/vrender-core';
+import { createRect, createSymbol } from '../../vrender-bridge';
 import type { IColor, IGlyph } from '@visactor/vrender-core';
 import { labelSmartInvert } from '@visactor/vrender-components';
 import { normalizeLayoutPaddingSpec } from '../../util';
@@ -69,7 +69,8 @@ export class LiquidSeries<T extends ILiquidSeriesSpec = ILiquidSeriesSpec> exten
 
   viewDataUpdate(d: DataView): void {
     super.viewDataUpdate(d);
-    this._heightRatio = max(...this._data.getLatestData().map((d: Datum) => d[this._valueField]));
+    const heightRatio = max(...this._data.getLatestData().map((d: Datum) => d[this._valueField]));
+    this._heightRatio = heightRatio > 1 ? 1 : heightRatio;
   }
 
   initMark(): void {

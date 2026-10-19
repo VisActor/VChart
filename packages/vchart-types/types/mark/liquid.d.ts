@@ -2,7 +2,7 @@ import type { IMarkStyle } from './interface';
 import { MarkTypeEnum } from './interface/type';
 import type { ILiquidMark } from '../series/liquid/liquid';
 import { GlyphMark } from './glyph';
-import { type IGlyph } from '@visactor/vrender-core';
+import type { IGlyph } from '@visactor/vrender-core';
 import type { IPointLike } from '@visactor/vutils';
 import type { ILiquidMarkSpec } from '../typings/visual';
 import type { Datum } from '../typings/common';
@@ -29,6 +29,19 @@ export declare class LiquidMark extends GlyphMark<ILiquidMarkSpec> implements IL
             type: string;
             defaultAttributes: {
                 curveType: string;
+                fillOpacity: number;
+            };
+        };
+    };
+    protected _channelEncoder: {
+        fillOpacity: (fillOpacity: number) => {
+            wave0: {
+                fillOpacity: number;
+            };
+            wave1: {
+                fillOpacity: number;
+            };
+            wave2: {
                 fillOpacity: number;
             };
         };

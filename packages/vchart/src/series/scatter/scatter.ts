@@ -4,6 +4,7 @@ import type { DataView } from '@visactor/vdataset';
 import type { Datum, ScaleType, VisualType, IScatterInvalidType } from '../../typings';
 import type { IScatterSeriesSpec, ScatterAppearPreset } from './interface';
 import { CartesianSeries } from '../cartesian/cartesian';
+import type { ISeriesSpecUpdatePolicy } from '../base/base-series';
 import { isNil, isValid, isObject, isFunction, isString, isArray, isNumber, isNumeric, Matrix } from '@visactor/vutils';
 import { AttributeLevel } from '../../constant/attribute';
 import type { SeriesMarkMap } from '../interface';
@@ -30,6 +31,10 @@ import { registerCartesianLinearAxis, registerCartesianBandAxis } from '../../co
 import { scatter } from '../../theme/builtin/common/series/scatter';
 import type { IGraphic } from '@visactor/vrender-core';
 
+const SCATTER_SERIES_DATA_RELATED_KEYS: Record<'sizeField', true> = {
+  sizeField: true
+};
+
 export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.scatter;
   type = SeriesTypeEnum.scatter;
@@ -48,6 +53,17 @@ export class ScatterSeries<T extends IScatterSeriesSpec = IScatterSeriesSpec> ex
   private _shapeField: string;
 
   protected _invalidType: IScatterInvalidType = 'zero';
+
+  protected _getSpecUpdatePolicy(): ISeriesSpecUpdatePolicy {
+    const policy = super._getSpecUpdatePolicy();
+    return {
+      ...policy,
+      dataRelatedKeys: {
+        ...policy.dataRelatedKeys,
+        ...SCATTER_SERIES_DATA_RELATED_KEYS
+      }
+    };
+  }
 
   setAttrFromSpec() {
     super.setAttrFromSpec();

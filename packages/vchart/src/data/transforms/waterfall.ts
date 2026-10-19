@@ -1,4 +1,4 @@
-import { isNil, precisionAdd, precisionSub } from '@visactor/vutils';
+import { isFunction, isNil, precisionAdd, precisionSub } from '@visactor/vutils';
 
 import type { DataView } from '@visactor/vdataset';
 import type {
@@ -40,11 +40,14 @@ export interface IWaterfallOpt {
   groupData: () => DataView;
 }
 
-export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
+export type WaterfallOption = IWaterfallOpt | (() => IWaterfallOpt);
+
+export const waterfall = (lastData: Array<Datum>, op: WaterfallOption) => {
   if (!lastData || lastData.length === 0) {
     return lastData;
   }
-  const { indexField, total: totalSpec, groupData, calculationMode } = op;
+  const options = isFunction(op) ? op() : op;
+  const { indexField, total: totalSpec, groupData, calculationMode } = options;
   const totalData: {
     start: number;
     end: number;
@@ -83,7 +86,7 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
       negative: temp.end
     };
 
-    const indexData = op.stackInverse === true ? dimensionData[key].reverse() : dimensionData[key];
+    const indexData = options.stackInverse === true ? dimensionData[key].reverse() : dimensionData[key];
     indexData?.forEach((d, i) => {
       if (i === indexData.length - 1) {
         d[STACK_FIELD_TOTAL_TOP] = true;
@@ -115,14 +118,14 @@ export const waterfall = (lastData: Array<Datum>, op: IWaterfallOpt) => {
           temp,
           indexValues,
           index,
-          op,
+          options,
           isTotalCheck
         );
         totalData.push(total);
         return;
       }
     }
-    temp = computeNormalData(indexData, key, total, totalData, temp, indexValues, index, op);
+    temp = computeNormalData(indexData, key, total, totalData, temp, indexValues, index, options);
     totalData.push(total);
   });
   return totalData;
@@ -347,11 +350,13 @@ export interface IWaterfallFillEndOpt {
   calculationMode: IWaterfallSeriesSpec['calculationMode'];
 }
 
-export const waterfallFillTotal = (data: Array<Datum>, op: IWaterfallFillEndOpt) => {
+export type WaterfallFillEndOption = IWaterfallFillEndOpt | (() => IWaterfallFillEndOpt);
+
+export const waterfallFillTotal = (data: Array<Datum>, op: WaterfallFillEndOption) => {
   if (!data) {
     return data;
   }
-  const { indexField, valueField, total, seriesField, calculationMode } = op;
+  const { indexField, valueField, total, seriesField, calculationMode } = isFunction(op) ? op() : op;
   const totalData = {
     [indexField]: total?.text || 'total',
     [valueField]: data.reduce((pre, cur) => precisionAdd(pre, +cur[valueField]), 0)
@@ -360,9 +365,7 @@ export const waterfallFillTotal = (data: Array<Datum>, op: IWaterfallFillEndOpt)
     totalData[seriesField] = 'total';
   }
   if (calculationMode === 'decrease') {
-    data.unshift(totalData);
-  } else {
-    data.push(totalData);
+    return [totalData, ...data];
   }
-  return data;
+  return [...data, totalData];
 };

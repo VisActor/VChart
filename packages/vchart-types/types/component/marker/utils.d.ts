@@ -5,11 +5,11 @@ import type { IDataPos, IMarkerAttributeContext, IMarkerLabelSpec, IMarkerState,
 import type { IRegion } from '../../region/interface';
 import type { OffsetPoint } from './interface';
 export declare function isAggrSpec(spec: IDataPos): boolean;
-export declare function xyLayout(data: DataView, startRelativeSeries: IMarkerSupportSeries, endRelativeSeries: IMarkerSupportSeries, relativeSeries: IMarkerSupportSeries, autoRange: boolean, includeFullBand?: boolean): IPoint[][];
-export declare function polarLayout(data: DataView, startRelativeSeries: IMarkerSupportSeries, endRelativeSeries: IMarkerSupportSeries, relativeSeries: IMarkerSupportSeries, autoRange: boolean): IPolarPoint[][];
+export declare function xyLayout(data: DataView, startRelativeSeries: IMarkerSupportSeries, endRelativeSeries: IMarkerSupportSeries, relativeSeries: IMarkerSupportSeries, autoRange: boolean, includeFullBand?: boolean, autoRangeExtendDomainKeyPrefix?: string): IPoint[][];
+export declare function polarLayout(data: DataView, startRelativeSeries: IMarkerSupportSeries, endRelativeSeries: IMarkerSupportSeries, relativeSeries: IMarkerSupportSeries, autoRange: boolean, autoRangeExtendDomainKeyPrefix?: string): IPolarPoint[][];
 export declare function geoLayout(data: DataView, relativeSeries: IMarkerSupportSeries): IPoint[][];
-export declare function cartesianCoordinateLayout(data: DataView, relativeSeries: IMarkerSupportSeries, autoRange: boolean, coordinatesOffset: OffsetPoint[] | OffsetPoint): IPoint[];
-export declare function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSupportSeries, autoRange: boolean): IPolarPoint[];
+export declare function cartesianCoordinateLayout(data: DataView, relativeSeries: IMarkerSupportSeries, autoRange: boolean, coordinatesOffset: OffsetPoint[] | OffsetPoint, autoRangeExtendDomainKeyPrefix?: string): IPoint[];
+export declare function polarCoordinateLayout(data: DataView, relativeSeries: IMarkerSupportSeries, autoRange: boolean, autoRangeExtendDomainKeyPrefix?: string): IPolarPoint[];
 export declare function positionLayout(positions: MarkerPositionPoint | MarkerPositionPoint[] | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => MarkerPositionPoint) | ((seriesData: Datum[], relativeSeries: IMarkerSupportSeries) => MarkerPositionPoint[]), series: IMarkerSupportSeries, regionRelative: boolean): IPoint[];
 export declare function computeClipRange(regions: IRegion[]): {
     minX: number;

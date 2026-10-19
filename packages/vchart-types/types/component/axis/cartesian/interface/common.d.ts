@@ -31,7 +31,7 @@ export interface IAxisHelper {
     dataToPosition: (values: any[], cfg?: IAxisLocationCfg) => number;
     valueToPosition?: (value: any, cfg?: IAxisLocationCfg) => number;
     getScale?: (depth: number) => IBaseScale;
-    getBandwidth?: (depth: number) => number;
+    getBandwidth?: (depth: number) => number | undefined;
     setExtendDomain?: (key: string, value: number | undefined) => void;
     getAxisType: () => string;
     getAxisId: () => number;

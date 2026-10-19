@@ -11,7 +11,7 @@ export class ProgressLikeChartSpecTransformer<T extends IPolarChartSpec> extends
   }
 
   protected _getDefaultSeriesSpec(spec: any): any {
-    const series: any = super._getDefaultSeriesSpec(spec, ['startAngle', 'endAngle', 'centerX', 'centerY']);
+    const series: any = super._getDefaultSeriesSpec(spec, ['startAngle', 'endAngle', 'centerX', 'centerY', 'clamp']);
 
     series.categoryField = spec.categoryField || spec.radiusField;
     series.valueField = spec.valueField || spec.angleField;

@@ -30,7 +30,6 @@ export type {
   IRoseChartSpec,
   IScatterChartSpec,
   ISankeyChartSpec,
-  ISequenceChartSpec,
   ISunburstChartSpec,
   ITreemapChartSpec,
   IWaterfallChartSpec,
@@ -53,3 +52,5 @@ export type {
   IRangeColumn3dChartSpec,
   IWordCloud3dChartSpec
 } from '@visactor/vchart-extension';
+
+export type { ISequenceChartSpec } from '@visactor/vchart-extension';

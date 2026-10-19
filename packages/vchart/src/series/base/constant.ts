@@ -17,8 +17,18 @@ export const defaultSeriesIgnoreCheckKeys: { [key: string]: true } = {
 };
 
 export const defaultSeriesCompileCheckKeys: { [key: string]: true } = {
+  xField: true,
+  yField: true,
   invalidType: true,
   animation: true,
+  animationAppear: true,
+  animationEnter: true,
+  animationUpdate: true,
+  animationExit: true,
+  animationNormal: true
+};
+
+export const defaultSeriesCompileOnlyCheckKeys: { [key: string]: true } = {
   animationAppear: true,
   animationEnter: true,
   animationUpdate: true,

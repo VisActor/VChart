@@ -13,9 +13,20 @@ import type { ICartesianBandAxisSpec } from '../..//component/axis/cartesian/int
 import { array } from '../../util';
 import { getSpecInfo } from '../../component/util';
 
+const DEFAULT_SERIES_RELATED_CHART_SPEC_KEYS: Record<string, true> = {
+  series: true,
+  label: true,
+  animationAppear: true,
+  animationEnter: true,
+  animationUpdate: true,
+  animationExit: true,
+  animationNormal: true
+};
+
 export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpecTransformer {
   readonly type: string;
   readonly seriesType: string;
+  protected _seriesRelatedSpecKeys: Record<string, true> = { ...DEFAULT_SERIES_RELATED_CHART_SPEC_KEYS };
 
   protected _option: IChartSpecTransformerOption;
 
@@ -160,7 +171,21 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
     return true;
   }
 
+  getSeriesRelatedSpecKeys(): Record<string, true> {
+    return this._seriesRelatedSpecKeys;
+  }
+
+  protected _addSeriesRelatedSpecKeys(...keysList: Array<string[] | undefined>) {
+    keysList.forEach(keys => {
+      keys?.forEach(key => {
+        this._seriesRelatedSpecKeys[key] = true;
+      });
+    });
+  }
+
   protected _getDefaultSeriesSpec(chartSpec: any, pickKeys?: string[], pickKeys2?: string[]) {
+    this._addSeriesRelatedSpecKeys(pickKeys, pickKeys2);
+
     const series: any = {
       dataKey: chartSpec.dataKey,
 
@@ -200,6 +225,7 @@ export class BaseChartSpecTransformer<T extends IChartSpec> implements IChartSpe
 
     const seriesType = this.seriesType;
     if (seriesType) {
+      this._addSeriesRelatedSpecKeys([seriesType]);
       series.type = seriesType;
       series[seriesType] = (chartSpec as any)[seriesType];
     }

@@ -1,0 +1,21 @@
+{
+  "type": "confusionMatrix",
+  "data": [
+    {
+      "actual": "A",
+      "predicted": "A"
+    },
+    {
+      "actual": "A",
+      "predicted": "B"
+    },
+    {
+      "actual": "A",
+      "predicted": "B"
+    },
+    {
+      "actual": "B",
+      "predicted": "B"
+    }
+  ]
+}

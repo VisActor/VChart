@@ -1,6 +1,7 @@
 import type { Feature } from '@visactor/vchart';
 import { isPointInPolygon, destination, getAABBFromPoints } from '@visactor/vchart';
-import type { IRect, IOrientType, IPoint } from '@visactor/vchart';
+import type { IOrientType, IPoint } from '@visactor/vchart';
+import type { IRect } from '@visactor/vchart/src/typings/space';
 
 type IBound = {
   x1: number;

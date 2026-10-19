@@ -7,6 +7,7 @@ import { generateFilterValue } from './util';
 import type { IMarkGraphic } from '../../mark/interface';
 import type { BaseEventParams } from '../../core';
 import { STATE_VALUE_ENUM } from '../../compile/mark/interface';
+import { removeGraphicState } from '../../util/graphic-state';
 
 const type = 'element-active-by-legend';
 const defaultOptions: Partial<IElementActiveByLegendOptions> = {
@@ -80,7 +81,7 @@ export class ElementActiveByLegend
     if (g) {
       const statedGraphics = interaction.getStatedGraphics(this);
       if (statedGraphics && statedGraphics.includes(g)) {
-        g.removeState(state);
+        removeGraphicState(g, state);
         interaction.setStatedGraphics(
           this,
           statedGraphics.filter(sg => sg !== g)

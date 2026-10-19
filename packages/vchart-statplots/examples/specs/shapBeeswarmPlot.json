@@ -1,0 +1,731 @@
+{
+  "type": "shapBeeswarmPlot",
+  "title": "SHAP 蜂群图",
+  "data": [
+    {
+      "id": "0",
+      "feature": "收入",
+      "shapValue": 0.0,
+      "featureValue": null
+    },
+    {
+      "id": "1",
+      "feature": "收入",
+      "shapValue": 1.3139731974375781,
+      "featureValue": 0.025
+    },
+    {
+      "id": "2",
+      "feature": "收入",
+      "shapValue": 1.9812147113897407,
+      "featureValue": 0.05
+    },
+    {
+      "id": "3",
+      "feature": "收入",
+      "shapValue": 1.673311277072112,
+      "featureValue": 0.075
+    },
+    {
+      "id": "4",
+      "feature": "收入",
+      "shapValue": 0.5418115766157381,
+      "featureValue": 0.1
+    },
+    {
+      "id": "5",
+      "feature": "收入",
+      "shapValue": -0.856365338992302,
+      "featureValue": 0.125
+    },
+    {
+      "id": "6",
+      "feature": "收入",
+      "shapValue": -1.8330430958312676,
+      "featureValue": 0.15
+    },
+    {
+      "id": "7",
+      "feature": "收入",
+      "shapValue": -1.9075053055189437,
+      "featureValue": 0.175
+    },
+    {
+      "id": "8",
+      "feature": "收入",
+      "shapValue": -1.0431020041738237,
+      "featureValue": 0.2
+    },
+    {
+      "id": "9",
+      "feature": "收入",
+      "shapValue": 0.33471140060561383,
+      "featureValue": 0.225
+    },
+    {
+      "id": "10",
+      "feature": "收入",
+      "shapValue": 1.5477813631157782,
+      "featureValue": 0.25
+    },
+    {
+      "id": "11",
+      "feature": "收入",
+      "shapValue": 1.9990403171614626,
+      "featureValue": 0.275
+    },
+    {
+      "id": "12",
+      "feature": "收入",
+      "shapValue": 1.4663806401465844,
+      "featureValue": 0.3
+    },
+    {
+      "id": "13",
+      "feature": "收入",
+      "shapValue": 0.2119750235023137,
+      "featureValue": 0.325
+    },
+    {
+      "id": "14",
+      "feature": "收入",
+      "shapValue": -1.1467637439808458,
+      "featureValue": 0.35
+    },
+    {
+      "id": "15",
+      "feature": "收入",
+      "shapValue": -1.9410705670749695,
+      "featureValue": 0.375
+    },
+    {
+      "id": "16",
+      "feature": "收入",
+      "shapValue": -1.7799912087336667,
+      "featureValue": 0.4
+    },
+    {
+      "id": "17",
+      "feature": "收入",
+      "shapValue": -0.7428082028761804,
+      "featureValue": 0.425
+    },
+    {
+      "id": "18",
+      "feature": "收入",
+      "shapValue": 0.659981651347564,
+      "featureValue": 0.45
+    },
+    {
+      "id": "19",
+      "feature": "收入",
+      "shapValue": 1.7379315124284713,
+      "featureValue": null
+    },
+    {
+      "id": "20",
+      "feature": "收入",
+      "shapValue": 1.960479318880623,
+      "featureValue": 0.5
+    },
+    {
+      "id": "21",
+      "feature": "收入",
+      "shapValue": 1.2180880437665849,
+      "featureValue": 0.525
+    },
+    {
+      "id": "22",
+      "feature": "收入",
+      "shapValue": -0.12384067451211463,
+      "featureValue": 0.55
+    },
+    {
+      "id": "23",
+      "feature": "收入",
+      "shapValue": -1.404815571154742,
+      "featureValue": 0.575
+    },
+    {
+      "id": "24",
+      "feature": "收入",
+      "shapValue": -1.9943465775481597,
+      "featureValue": 0.6
+    },
+    {
+      "id": "25",
+      "feature": "收入",
+      "shapValue": -1.6022691903560815,
+      "featureValue": 0.625
+    },
+    {
+      "id": "26",
+      "feature": "收入",
+      "shapValue": -0.42156213180038304,
+      "featureValue": 0.65
+    },
+    {
+      "id": "27",
+      "feature": "收入",
+      "shapValue": 0.9666359073359253,
+      "featureValue": 0.675
+    },
+    {
+      "id": "28",
+      "feature": "收入",
+      "shapValue": 1.8790601111398626,
+      "featureValue": 0.7
+    },
+    {
+      "id": "29",
+      "feature": "收入",
+      "shapValue": 1.8666194003339207,
+      "featureValue": 0.725
+    },
+    {
+      "id": "30",
+      "feature": "收入",
+      "shapValue": 0.9354370366855179,
+      "featureValue": 0.75
+    },
+    {
+      "id": "31",
+      "feature": "收入",
+      "shapValue": -0.4561632188270557,
+      "featureValue": 0.775
+    },
+    {
+      "id": "32",
+      "feature": "收入",
+      "shapValue": -1.6232419947299488,
+      "featureValue": 0.8
+    },
+    {
+      "id": "33",
+      "feature": "收入",
+      "shapValue": -1.9913683795162065,
+      "featureValue": 0.825
+    },
+    {
+      "id": "34",
+      "feature": "收入",
+      "shapValue": -1.3793522263605342,
+      "featureValue": 0.85
+    },
+    {
+      "id": "35",
+      "feature": "收入",
+      "shapValue": -0.08842512645711932,
+      "featureValue": 0.875
+    },
+    {
+      "id": "36",
+      "feature": "收入",
+      "shapValue": 1.246024422007306,
+      "featureValue": 0.9
+    },
+    {
+      "id": "37",
+      "feature": "收入",
+      "shapValue": 1.9671863678933617,
+      "featureValue": 0.925
+    },
+    {
+      "id": "38",
+      "feature": "收入",
+      "shapValue": 1.7201080529291395,
+      "featureValue": null
+    },
+    {
+      "id": "39",
+      "feature": "收入",
+      "shapValue": 0.6264003097413398,
+      "featureValue": 0.975
+    },
+    {
+      "id": "0",
+      "feature": "年龄",
+      "shapValue": 0.0,
+      "featureValue": null
+    },
+    {
+      "id": "1",
+      "feature": "年龄",
+      "shapValue": 0.6569865987187891,
+      "featureValue": 0.025
+    },
+    {
+      "id": "2",
+      "feature": "年龄",
+      "shapValue": 0.9906073556948704,
+      "featureValue": 0.05
+    },
+    {
+      "id": "3",
+      "feature": "年龄",
+      "shapValue": 0.836655638536056,
+      "featureValue": 0.075
+    },
+    {
+      "id": "4",
+      "feature": "年龄",
+      "shapValue": 0.27090578830786904,
+      "featureValue": 0.1
+    },
+    {
+      "id": "5",
+      "feature": "年龄",
+      "shapValue": -0.428182669496151,
+      "featureValue": 0.125
+    },
+    {
+      "id": "6",
+      "feature": "年龄",
+      "shapValue": -0.9165215479156338,
+      "featureValue": 0.15
+    },
+    {
+      "id": "7",
+      "feature": "年龄",
+      "shapValue": -0.9537526527594719,
+      "featureValue": 0.175
+    },
+    {
+      "id": "8",
+      "feature": "年龄",
+      "shapValue": -0.5215510020869119,
+      "featureValue": 0.2
+    },
+    {
+      "id": "9",
+      "feature": "年龄",
+      "shapValue": 0.16735570030280691,
+      "featureValue": 0.225
+    },
+    {
+      "id": "10",
+      "feature": "年龄",
+      "shapValue": 0.7738906815578891,
+      "featureValue": 0.25
+    },
+    {
+      "id": "11",
+      "feature": "年龄",
+      "shapValue": 0.9995201585807313,
+      "featureValue": 0.275
+    },
+    {
+      "id": "12",
+      "feature": "年龄",
+      "shapValue": 0.7331903200732922,
+      "featureValue": 0.3
+    },
+    {
+      "id": "13",
+      "feature": "年龄",
+      "shapValue": 0.10598751175115685,
+      "featureValue": 0.325
+    },
+    {
+      "id": "14",
+      "feature": "年龄",
+      "shapValue": -0.5733818719904229,
+      "featureValue": 0.35
+    },
+    {
+      "id": "15",
+      "feature": "年龄",
+      "shapValue": -0.9705352835374847,
+      "featureValue": 0.375
+    },
+    {
+      "id": "16",
+      "feature": "年龄",
+      "shapValue": -0.8899956043668333,
+      "featureValue": 0.4
+    },
+    {
+      "id": "17",
+      "feature": "年龄",
+      "shapValue": -0.3714041014380902,
+      "featureValue": 0.425
+    },
+    {
+      "id": "18",
+      "feature": "年龄",
+      "shapValue": 0.329990825673782,
+      "featureValue": 0.45
+    },
+    {
+      "id": "19",
+      "feature": "年龄",
+      "shapValue": 0.8689657562142357,
+      "featureValue": null
+    },
+    {
+      "id": "20",
+      "feature": "年龄",
+      "shapValue": 0.9802396594403116,
+      "featureValue": 0.5
+    },
+    {
+      "id": "21",
+      "feature": "年龄",
+      "shapValue": 0.6090440218832924,
+      "featureValue": 0.525
+    },
+    {
+      "id": "22",
+      "feature": "年龄",
+      "shapValue": -0.06192033725605731,
+      "featureValue": 0.55
+    },
+    {
+      "id": "23",
+      "feature": "年龄",
+      "shapValue": -0.702407785577371,
+      "featureValue": 0.575
+    },
+    {
+      "id": "24",
+      "feature": "年龄",
+      "shapValue": -0.9971732887740798,
+      "featureValue": 0.6
+    },
+    {
+      "id": "25",
+      "feature": "年龄",
+      "shapValue": -0.8011345951780408,
+      "featureValue": 0.625
+    },
+    {
+      "id": "26",
+      "feature": "年龄",
+      "shapValue": -0.21078106590019152,
+      "featureValue": 0.65
+    },
+    {
+      "id": "27",
+      "feature": "年龄",
+      "shapValue": 0.48331795366796265,
+      "featureValue": 0.675
+    },
+    {
+      "id": "28",
+      "feature": "年龄",
+      "shapValue": 0.9395300555699313,
+      "featureValue": 0.7
+    },
+    {
+      "id": "29",
+      "feature": "年龄",
+      "shapValue": 0.9333097001669604,
+      "featureValue": 0.725
+    },
+    {
+      "id": "30",
+      "feature": "年龄",
+      "shapValue": 0.46771851834275896,
+      "featureValue": 0.75
+    },
+    {
+      "id": "31",
+      "feature": "年龄",
+      "shapValue": -0.22808160941352784,
+      "featureValue": 0.775
+    },
+    {
+      "id": "32",
+      "feature": "年龄",
+      "shapValue": -0.8116209973649744,
+      "featureValue": 0.8
+    },
+    {
+      "id": "33",
+      "feature": "年龄",
+      "shapValue": -0.9956841897581032,
+      "featureValue": 0.825
+    },
+    {
+      "id": "34",
+      "feature": "年龄",
+      "shapValue": -0.6896761131802671,
+      "featureValue": 0.85
+    },
+    {
+      "id": "35",
+      "feature": "年龄",
+      "shapValue": -0.04421256322855966,
+      "featureValue": 0.875
+    },
+    {
+      "id": "36",
+      "feature": "年龄",
+      "shapValue": 0.623012211003653,
+      "featureValue": 0.9
+    },
+    {
+      "id": "37",
+      "feature": "年龄",
+      "shapValue": 0.9835931839466808,
+      "featureValue": 0.925
+    },
+    {
+      "id": "38",
+      "feature": "年龄",
+      "shapValue": 0.8600540264645697,
+      "featureValue": null
+    },
+    {
+      "id": "39",
+      "feature": "年龄",
+      "shapValue": 0.3132001548706699,
+      "featureValue": 0.975
+    },
+    {
+      "id": "0",
+      "feature": "地区",
+      "shapValue": 0.0,
+      "featureValue": null
+    },
+    {
+      "id": "1",
+      "feature": "地区",
+      "shapValue": 0.26279463948751564,
+      "featureValue": 0.025
+    },
+    {
+      "id": "2",
+      "feature": "地区",
+      "shapValue": 0.39624294227794815,
+      "featureValue": 0.05
+    },
+    {
+      "id": "3",
+      "feature": "地区",
+      "shapValue": 0.3346622554144224,
+      "featureValue": 0.075
+    },
+    {
+      "id": "4",
+      "feature": "地区",
+      "shapValue": 0.10836231532314762,
+      "featureValue": 0.1
+    },
+    {
+      "id": "5",
+      "feature": "地区",
+      "shapValue": -0.1712730677984604,
+      "featureValue": 0.125
+    },
+    {
+      "id": "6",
+      "feature": "地区",
+      "shapValue": -0.36660861916625354,
+      "featureValue": 0.15
+    },
+    {
+      "id": "7",
+      "feature": "地区",
+      "shapValue": -0.3815010611037888,
+      "featureValue": 0.175
+    },
+    {
+      "id": "8",
+      "feature": "地区",
+      "shapValue": -0.20862040083476474,
+      "featureValue": 0.2
+    },
+    {
+      "id": "9",
+      "feature": "地区",
+      "shapValue": 0.06694228012112277,
+      "featureValue": 0.225
+    },
+    {
+      "id": "10",
+      "feature": "地区",
+      "shapValue": 0.30955627262315566,
+      "featureValue": 0.25
+    },
+    {
+      "id": "11",
+      "feature": "地区",
+      "shapValue": 0.3998080634322925,
+      "featureValue": 0.275
+    },
+    {
+      "id": "12",
+      "feature": "地区",
+      "shapValue": 0.2932761280293169,
+      "featureValue": 0.3
+    },
+    {
+      "id": "13",
+      "feature": "地区",
+      "shapValue": 0.04239500470046274,
+      "featureValue": 0.325
+    },
+    {
+      "id": "14",
+      "feature": "地区",
+      "shapValue": -0.22935274879616918,
+      "featureValue": 0.35
+    },
+    {
+      "id": "15",
+      "feature": "地区",
+      "shapValue": -0.3882141134149939,
+      "featureValue": 0.375
+    },
+    {
+      "id": "16",
+      "feature": "地区",
+      "shapValue": -0.35599824174673333,
+      "featureValue": 0.4
+    },
+    {
+      "id": "17",
+      "feature": "地区",
+      "shapValue": -0.1485616405752361,
+      "featureValue": 0.425
+    },
+    {
+      "id": "18",
+      "feature": "地区",
+      "shapValue": 0.13199633026951282,
+      "featureValue": 0.45
+    },
+    {
+      "id": "19",
+      "feature": "地区",
+      "shapValue": 0.3475863024856943,
+      "featureValue": null
+    },
+    {
+      "id": "20",
+      "feature": "地区",
+      "shapValue": 0.39209586377612465,
+      "featureValue": 0.5
+    },
+    {
+      "id": "21",
+      "feature": "地区",
+      "shapValue": 0.24361760875331698,
+      "featureValue": 0.525
+    },
+    {
+      "id": "22",
+      "feature": "地区",
+      "shapValue": -0.024768134902422925,
+      "featureValue": 0.55
+    },
+    {
+      "id": "23",
+      "feature": "地区",
+      "shapValue": -0.28096311423094844,
+      "featureValue": 0.575
+    },
+    {
+      "id": "24",
+      "feature": "地区",
+      "shapValue": -0.39886931550963195,
+      "featureValue": 0.6
+    },
+    {
+      "id": "25",
+      "feature": "地区",
+      "shapValue": -0.3204538380712163,
+      "featureValue": 0.625
+    },
+    {
+      "id": "26",
+      "feature": "地区",
+      "shapValue": -0.08431242636007662,
+      "featureValue": 0.65
+    },
+    {
+      "id": "27",
+      "feature": "地区",
+      "shapValue": 0.19332718146718508,
+      "featureValue": 0.675
+    },
+    {
+      "id": "28",
+      "feature": "地区",
+      "shapValue": 0.37581202222797255,
+      "featureValue": 0.7
+    },
+    {
+      "id": "29",
+      "feature": "地区",
+      "shapValue": 0.3733238800667842,
+      "featureValue": 0.725
+    },
+    {
+      "id": "30",
+      "feature": "地区",
+      "shapValue": 0.1870874073371036,
+      "featureValue": 0.75
+    },
+    {
+      "id": "31",
+      "feature": "地区",
+      "shapValue": -0.09123264376541114,
+      "featureValue": 0.775
+    },
+    {
+      "id": "32",
+      "feature": "地区",
+      "shapValue": -0.3246483989459898,
+      "featureValue": 0.8
+    },
+    {
+      "id": "33",
+      "feature": "地区",
+      "shapValue": -0.3982736759032413,
+      "featureValue": 0.825
+    },
+    {
+      "id": "34",
+      "feature": "地区",
+      "shapValue": -0.27587044527210686,
+      "featureValue": 0.85
+    },
+    {
+      "id": "35",
+      "feature": "地区",
+      "shapValue": -0.017685025291423864,
+      "featureValue": 0.875
+    },
+    {
+      "id": "36",
+      "feature": "地区",
+      "shapValue": 0.2492048844014612,
+      "featureValue": 0.9
+    },
+    {
+      "id": "37",
+      "feature": "地区",
+      "shapValue": 0.39343727357867236,
+      "featureValue": 0.925
+    },
+    {
+      "id": "38",
+      "feature": "地区",
+      "shapValue": 0.3440216105858279,
+      "featureValue": null
+    },
+    {
+      "id": "39",
+      "feature": "地区",
+      "shapValue": 0.12528006194826796,
+      "featureValue": 0.975
+    }
+  ],
+  "featureOrder": [
+    "收入",
+    "年龄",
+    "地区"
+  ]
+}

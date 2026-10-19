@@ -44,6 +44,7 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
   protected _scale: BandScale = new BandScale();
 
   protected declare _scales: BandScale[];
+  protected declare _updateData: () => void;
 
   protected computeDomain(data: { min: number; max: number; values: any[] }[]): StringOrNumber[] {
     return this.computeBandDomain(data);
@@ -69,6 +70,12 @@ export class PolarBandAxis<T extends IPolarBandAxisSpec = IPolarBandAxisSpec> ex
   protected initScales() {
     super.initScales();
     this.calcScales(this._defaultBandInnerPadding, this._defaultBandOuterPadding);
+  }
+
+  reInit(spec?: T): void {
+    super.reInit(spec);
+
+    this._updateData();
   }
 
   protected registerTicksTransform() {

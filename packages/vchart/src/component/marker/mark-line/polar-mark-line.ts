@@ -81,7 +81,8 @@ export class PolarMarkLine extends BaseMarkLine {
         startRelativeSeries as IPolarSeries,
         endRelativeSeries as IPolarSeries,
         relativeSeries as IPolarSeries,
-        autoRange
+        autoRange,
+        this._getAutoRangeExtendDomainKeyPrefix()
       );
 
       points = (polarPoints.length === 1 ? polarPoints[0] : polarPoints.map(point => point[0])) as IPolarPoint[];
@@ -101,7 +102,7 @@ export class PolarMarkLine extends BaseMarkLine {
         };
       }
     } else if (doCoordinatesProcess) {
-      points = polarCoordinateLayout(data, relativeSeries, autoRange);
+      points = polarCoordinateLayout(data, relativeSeries, autoRange, this._getAutoRangeExtendDomainKeyPrefix());
       pointsAttr = {
         points: points.map(point => {
           return polarToCartesian(center, point.radius, point.angle);

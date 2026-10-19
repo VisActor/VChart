@@ -1,9 +1,11 @@
+import type { DataView } from '@visactor/vdataset';
 import type { IComponent } from '../../../interface';
-import type { IAggrType, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec, IMarkerCrossSeriesSpec, OffsetPoint, MarkerStateValue, MarkerStateCallback, IMarkerSupportSeries } from '../../interface';
+import type { IAggrType, IMarkerAttributeContext, IMarkerPositionsSpec, IDataPointSpec, IMarkerSpec, IDataPos, IDataPosCallback, IMarkerLabelSpec, IMarkerCrossSeriesSpec, OffsetPoint, MarkerStateValue, MarkerStateCallback, IMarkerSupportSeries } from '../../interface';
 import type { IRegressType } from '../../mark-area/interface';
 import type { IMarkLineTheme } from './theme';
 import type { Datum, ILineMarkSpec, IPoint } from '../../../../typings';
 import type { BaseMarkerAnimation, MarkCommonLineAnimationType } from '@visactor/vrender-components';
+import type { IRegion } from '../../../../region/interface';
 export type IMarkLine = IComponent;
 export type IMarkLineSpec = (IMarkerSpec & (IMarkLineXSpec | IMarkLineYSpec | IMarkLineXYSpec | IMarkLineXYY1Spec | IMarkLineYXX1Spec | IMarkLineAngleSpec | IMarkLineRadiusSpec | IMarkLineAngRadRad1Spec | IMarkLineRadAngAng1Spec | IMarkLineAngRadSpec | IMarkLineCoordinateSpec | IMarkerPositionsSpec) & IMarkLineTheme & BaseMarkerAnimation<MarkCommonLineAnimationType>) | (IStepMarkLineSpec & BaseMarkerAnimation<MarkCommonLineAnimationType>);
 export interface IMarkLineXSpec extends IMarkerCrossSeriesSpec {
@@ -64,7 +66,12 @@ export type IMarkLineCoordinateSpec = {
 export type IStepMarkLineSpec = IMarkerSpec & {
     type: 'type-step';
     connectDirection: 'top' | 'bottom' | 'left' | 'right';
-    expandDistance?: number | string;
+    expandDistance?: number | string | ((markerData: DataView, context: IMarkerAttributeContext & {
+        region: IRegion;
+        startRegion: IRegion;
+        endRegion: IRegion;
+        coordinatePoints: IPoint[];
+    }) => number | string);
     label?: IMarkerLabelSpec;
     line?: {
         multiSegment?: boolean;

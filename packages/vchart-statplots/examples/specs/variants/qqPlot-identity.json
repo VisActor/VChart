@@ -1,0 +1,24 @@
+{
+  "type": "qqPlot",
+  "data": [
+    {
+      "value": 3
+    },
+    {
+      "value": -1
+    },
+    {
+      "value": 0
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 5
+    }
+  ],
+  "referenceLine": "identity"
+}

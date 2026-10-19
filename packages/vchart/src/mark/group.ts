@@ -16,7 +16,7 @@ import {
 import { MarkTypeEnum } from './interface/type';
 import { type IMarkCompileOption } from '../compile/mark';
 import type { IGroup, IGroupGraphicAttribute } from '@visactor/vrender-core';
-import { registerGroup, registerShadowRoot } from '@visactor/vrender-kits';
+import { registerGroup, registerShadowRoot } from '../vrender-bridge';
 import { isNil } from '@visactor/vutils';
 import { traverseGroupMark } from '../compile/util';
 import { getDiffAttributesOfGraphic } from '../util/mark';
@@ -126,6 +126,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     };
     this._setAnimationState(this._product as unknown as IMarkGraphic);
     const newAttrs = this._getAttrsFromConfig(style);
+    this._product.context.finalAttrs = newAttrs;
 
     // TODO: 需要优化，现在group mark 走了一些特殊逻辑
     if (this._product.context.diffState === DiffState.update) {
@@ -134,11 +135,12 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
       this._product.context.diffAttrs = diffAttrs;
 
       if (!this.hasAnimationByState(this._product.context.animationState)) {
-        hasAnimation ? this._product.setAttributesAndPreventAnimate(diffAttrs) : this._product.setAttributes(diffAttrs);
-      }
-
-      if (hasAnimation) {
-        this._product.setFinalAttributes(newAttrs);
+        if (hasAnimation) {
+          this._product.setAttributesAndPreventAnimate(diffAttrs);
+          this._commitPreventedAnimationStaticAttrs(this._product as unknown as IMarkGraphic, diffAttrs);
+        } else {
+          this._product.setAttributes(diffAttrs);
+        }
       }
     } else {
       this._product.setAttributes(newAttrs);
@@ -166,7 +168,7 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
 
   release() {
     super.release();
-    this.removeProduct();
+    this.removeProduct(true);
   }
 }
 

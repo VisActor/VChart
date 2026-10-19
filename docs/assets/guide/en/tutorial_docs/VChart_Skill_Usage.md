@@ -21,7 +21,7 @@ npx skills add VisActor/VChart --skill vchart-development-assistant
 
 Installation preview:
 
-![vchart-skill installation preview](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/030e176313614ac087853aca647b55df~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=H2PzvppEZrBvra4nZh1fEo%2BiOJY%3D)
+![vchart-skill installation preview](/vchart/guide/skill-usage/installation.webp)
 
 ## Editor References
 
@@ -30,7 +30,7 @@ Installation preview:
 
 Skill directory preview:
 
-![skills directory preview](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/e3cd80683fb34e21a02d371b1bc360c9~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=wrXQJFCJd%2B6sMd05mYc1Ehu3fu8%3D)
+![skills directory preview](/vchart/guide/skill-usage/directory.webp)
 
 ## Demo Scenarios
 
@@ -39,15 +39,15 @@ Skill directory preview:
 Suggested prompt:
 
 ```text
-Use VChart to generate a basic bar chart with xField, yField, and a minimal runnable example.
+Use VChart to generate a basic bar chart with xField and yField, and deliver a complete HTML file I can open.
 ```
 
 Expected result:
 
-- A runnable minimal spec is generated.
+- A complete HTML file contains the spec and chart initialization.
 - The chart can render correctly.
 
-![simple chart demo](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/fc55630c49a94d84bd3d7e3a5ca59da1~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=fcmQ6R0EEMPMDp8y%2Fw38OE4nNjY%3D)
+![simple chart demo](/vchart/guide/skill-usage/generate-chart.webp)
 
 ### 2. Adjust chart styles
 
@@ -62,7 +62,7 @@ Expected result:
 - Style changes are clearly visible.
 - Existing chart structure and data mapping remain valid.
 
-![style adjustment demo](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/3cec7ac8dc11486ca9a61eb157ac478d~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=9ETSnU3R8KdgL%2Fl6bHV%2F70RoBDg%3D)
+![style adjustment demo](/vchart/guide/skill-usage/style-chart.webp)
 
 ### 3. Fix spec/config issues
 
@@ -77,7 +77,33 @@ Expected result:
 - Incorrect config locations are identified.
 - A directly replaceable fixed config is provided.
 
-![config fix demo](https://p6-xtjj-sign.byteimg.com/tos-cn-i-73owjymdk6/bb4911d4db814a7ca3b777f7549cf69e~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAg546E6a2C:q75.awebp?rk3s=f64ab15b&x-expires=1773307752&x-signature=J1olPfoWsglwVMxCukVu1otSycU%3D)
+![config fix demo](/vchart/guide/skill-usage/fix-config.webp)
+
+## HTML and spec delivery
+
+| Goal | Request | Result |
+| --- | --- | --- |
+| View a chart or run a demo | “Generate complete runnable HTML” | A page with application interactions when requested |
+| Let a host render the chart | “Return only the complete spec / JSON” | Configuration without HTML, instance code or a host envelope |
+| Both | “Provide the spec and an HTML preview using it” | The same configuration and its preview |
+
+Explicit output requirements take priority, followed by established host/application context. Standalone viewing defaults to HTML. Editing a spec inside existing HTML keeps HTML delivery; editing a standalone spec keeps spec delivery. Components and combined deliverables also retain their established target. “Add labels” returns the complete updated artifact unless a patch is explicitly requested. An explicit request such as “return only JSON” changes the delivery target.
+
+```text
+Monday 12, Tuesday 25, Wednesday 18, Thursday 32.
+Use an appropriate VChart chart to compare the values. Return only the complete JSON spec, without explanation.
+```
+
+Host constraints may be established earlier:
+
+```text
+The host renders VChart specs and accepts JSON only. It supports bar and line charts, but no functions.
+Apply these constraints to subsequent data visualization requests.
+```
+
+The agent can then work from the goal and data without repeatedly asking for JS/React. Specs may be JSON or JavaScript; preserve documented callbacks in JS and never silently drop them to serialize JSON. Declarative tooltip and legend interactions stay in the spec; external events and business logic need application integration.
+
+Check actual data, field mappings and JSON syntax, and render when possible. Parsing does not prove rendering or host compatibility. A temporary validation page does not replace the requested spec deliverable.
 
 ## Notes
 
