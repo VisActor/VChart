@@ -4,10 +4,11 @@ import json
 import tempfile
 import unittest
 from html.parser import HTMLParser
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
+from _paths import SKILL
+sys.path.insert(0,str(SKILL/'scripts'))
 from visualization_io import build_payload
 from visualization_html import render_html, write_outputs
-ASSETS=Path(__file__).resolve().parents[1]/'assets'
+ASSETS=SKILL/'assets'
 
 class DataParser(HTMLParser):
     def __init__(self):super().__init__();self.active=False;self.data=''

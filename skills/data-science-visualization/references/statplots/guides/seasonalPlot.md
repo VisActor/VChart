@@ -1,6 +1,6 @@
 # 季节图 `seasonalPlot`
 
-[TS 类型](../types/plots/seasonal/types.d.ts) · [最小输入](../examples/specs/minimal/seasonalPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/seasonalPlot.md)
+[TS 类型](../types/plots/seasonal/types.d.ts) · [最小输入](../examples/specs/minimal/seasonalPlot.json) · [公共约束](common.md)
 
 比较不同年份的季度形状。
 

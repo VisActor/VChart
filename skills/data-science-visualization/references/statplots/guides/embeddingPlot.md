@@ -1,6 +1,6 @@
 # 降维散点图 `embeddingPlot`
 
-[TS 类型](../types/plots/embedding/types.d.ts) · [最小输入](../examples/specs/minimal/embeddingPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/embeddingPlot.md)
+[TS 类型](../types/plots/embedding/types.d.ts) · [最小输入](../examples/specs/minimal/embeddingPlot.json) · [公共约束](common.md)
 
 展示已计算的二维降维坐标。
 

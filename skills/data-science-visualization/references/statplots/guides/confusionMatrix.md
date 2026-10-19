@@ -1,6 +1,6 @@
 # 混淆矩阵 `confusionMatrix`
 
-[TS 类型](../types/plots/confusion-matrix/types.d.ts) · [最小输入](../examples/specs/minimal/confusionMatrix.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/confusionMatrix.md)
+[TS 类型](../types/plots/confusion-matrix/types.d.ts) · [最小输入](../examples/specs/minimal/confusionMatrix.json) · [公共约束](common.md)
 
 `data: [{actual, predicted}]`，每行一个样本的实际类别、预测类别，均为非空字符串。不支持 series。
 

@@ -1,6 +1,6 @@
 # 概率校准曲线 `calibrationCurve`
 
-[TS 类型](../types/plots/calibration/types.d.ts) · [最小输入](../examples/specs/minimal/calibrationCurve.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/calibrationCurve.md)
+[TS 类型](../types/plots/calibration/types.d.ts) · [最小输入](../examples/specs/minimal/calibrationCurve.json) · [公共约束](common.md)
 
 `data: [{actual: boolean, probability: number, series?}]`，true 为正类，probability 必须在 [0,1]。允许单样本、全正/全负和恒定概率。
 

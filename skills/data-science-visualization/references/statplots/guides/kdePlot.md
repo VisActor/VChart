@@ -1,6 +1,6 @@
 # 核密度估计图 `kdePlot`
 
-[TS 类型](../types/plots/kde/types.d.ts) · [最小输入](../examples/specs/minimal/kdePlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/kdePlot.md)
+[TS 类型](../types/plots/kde/types.d.ts) · [最小输入](../examples/specs/minimal/kdePlot.json) · [公共约束](common.md)
 
 从原始样本估计一维概率密度，比较不同系列的分布。编译阶段直接使用 vutils.kde；density 是每单位 value 的概率密度，峰值可以大于 1。
 

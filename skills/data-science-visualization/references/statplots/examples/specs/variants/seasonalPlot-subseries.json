@@ -1,0 +1,78 @@
+{
+  "type": "seasonalPlot",
+  "title": "seasonal",
+  "layout": "subseries",
+  "data": [
+    {
+      "value": 10,
+      "cycle": "2024",
+      "phase": "Q1"
+    },
+    {
+      "value": 12,
+      "cycle": "2024",
+      "phase": "Q2"
+    },
+    {
+      "value": 14,
+      "cycle": "2024",
+      "phase": "Q3"
+    },
+    {
+      "value": 16,
+      "cycle": "2024",
+      "phase": "Q4"
+    },
+    {
+      "value": 13,
+      "cycle": "2025",
+      "phase": "Q1"
+    },
+    {
+      "value": 15,
+      "cycle": "2025",
+      "phase": "Q2"
+    },
+    {
+      "value": 17,
+      "cycle": "2025",
+      "phase": "Q3"
+    },
+    {
+      "value": 19,
+      "cycle": "2025",
+      "phase": "Q4"
+    },
+    {
+      "value": 12,
+      "cycle": "2026",
+      "phase": "Q1"
+    },
+    {
+      "value": 14,
+      "cycle": "2026",
+      "phase": "Q2"
+    },
+    {
+      "value": 16,
+      "cycle": "2026",
+      "phase": "Q3"
+    },
+    {
+      "value": 18,
+      "cycle": "2026",
+      "phase": "Q4"
+    }
+  ],
+  "phaseOrder": [
+    "Q1",
+    "Q2",
+    "Q3",
+    "Q4"
+  ],
+  "cycleOrder": [
+    "2024",
+    "2025",
+    "2026"
+  ]
+}

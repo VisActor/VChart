@@ -1,6 +1,6 @@
 # 箱线图 `boxPlot`
 
-[TS 类型](../types/plots/box-plot/types.d.ts) · [最小输入](../examples/specs/minimal/boxPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/boxPlot.md)
+[TS 类型](../types/plots/box-plot/types.d.ts) · [最小输入](../examples/specs/minimal/boxPlot.json) · [公共约束](common.md)
 
 从原始分类观测计算箱线统计，比较组间四分位数、中位数与异常值。
 

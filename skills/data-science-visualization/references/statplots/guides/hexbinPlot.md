@@ -1,6 +1,6 @@
 # 六边形分箱图 `hexbinPlot`
 
-[TS 类型](../types/plots/hexbin/types.d.ts) · [最小输入](../examples/specs/minimal/hexbinPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/hexbinPlot.md)
+[TS 类型](../types/plots/hexbin/types.d.ts) · [最小输入](../examples/specs/minimal/hexbinPlot.json) · [公共约束](common.md)
 
 汇总大量二维散点的局部分布，颜色表示每个六边形箱内的观测数。输入原始散点，库计算分箱；所有箱面积相同，不按计数改变大小。
 

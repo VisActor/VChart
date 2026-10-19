@@ -4,7 +4,8 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+from _paths import SKILL
+sys.path.insert(0, str(SKILL / 'scripts'))
 from visualization_io import build_payload
 
 class InputTests(unittest.TestCase):
