@@ -249,6 +249,45 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     return labelGraphic;
   }
 
+  /**
+   * 把标签组件的 postMatrix 重置为单位矩阵。
+   *
+   * 纯交互缩放/平移时，标签不会重新编码，其基准 x/y 仍是布局期的位置，
+   * 需要靠 postMatrix 来跟随地图。但一旦数据更新触发标签重新编码（renderInner），
+   * 标签的基准 x/y 会经由 dataToPosition（走投影，已包含交互缩放）重新计算，
+   * 此时基准位置本身已经是缩放后的，残留的 postMatrix 会造成二次变换。
+   * 因此在重新编码路径上需要先把 postMatrix 清空。
+   */
+  private _resetLabelGraphicPostMatrix() {
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+    if (labelGraphic?.attribute.postMatrix) {
+      labelGraphic.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+    return labelGraphic;
+  }
+
+  /**
+   * 当多个 map 系列共享同一个标签组件时（labelLayout: 'region'），
+   * 一次交互事件会被每个系列各自处理一次。标签组件是共享图元，
+   * 若每个系列都对它应用一次变换，就会产生重复变换（如 1.5 倍缩放变成 2.25 倍）。
+   *
+   * 事件派发时每个 handler 拿到的是 `{ ...params }` 浅拷贝，因此 `scaleCenter` / `delta`
+   * 这类嵌套对象在同一次事件的多个系列之间是「同一个引用」，而不同事件之间引用不同。
+   * 借助这一点，用事件的共享子对象作为去重 token，保证共享标签在一次交互中只变换一次。
+   */
+  private _shouldTransformSharedLabel(labelGraphic: any, token: unknown) {
+    if (!labelGraphic) {
+      return false;
+    }
+    if (labelGraphic._lastRoamToken === token) {
+      return false;
+    }
+    labelGraphic._lastRoamToken = token;
+    return true;
+  }
+
   handleZoom(e: ZoomEventParam) {
     const { scale, scaleCenter } = e;
     if (scale === 1) {
@@ -266,7 +305,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     }
 
     const labelGraphic = this._ensureLabelGraphicPostMatrix();
-    if (labelGraphic) {
+    if (labelGraphic && this._shouldTransformSharedLabel(labelGraphic, scaleCenter)) {
       labelGraphic.scale(scale, scale, scaleCenter);
     }
   }
@@ -287,7 +326,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     }
 
     const labelGraphic = this._ensureLabelGraphicPostMatrix();
-    if (labelGraphic) {
+    if (labelGraphic && this._shouldTransformSharedLabel(labelGraphic, delta)) {
       labelGraphic.translate(delta[0], delta[1]);
     }
   }
@@ -295,12 +334,7 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   onLayoutEnd(): void {
     super.onLayoutEnd();
 
-    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
-    if (labelGraphic?.attribute.postMatrix) {
-      labelGraphic.setAttributes({
-        postMatrix: new Matrix()
-      });
-    }
+    this._resetLabelGraphicPostMatrix();
 
     const vgrammarLabel = this._labelMark?.getComponent();
     if (vgrammarLabel) {
@@ -360,6 +394,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   viewDataUpdate(d: DataView): void {
     super.viewDataUpdate(d);
+    // 数据更新会触发共享标签组件重新编码（renderInner），标签基准 x/y 会经由
+    // dataToPosition（走投影，已包含交互缩放）重新计算。此时若保留交互阶段叠加的
+    // postMatrix，会与投影缩放重复，造成标签二次变换。因此在重新编码前先重置。
+    this._resetLabelGraphicPostMatrix();
     this._mapViewData?.getDataView()?.reRunAllTransform();
     this._mapViewData?.updateData();
   }
