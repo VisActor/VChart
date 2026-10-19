@@ -58,7 +58,7 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     return this._totalData?.getLatestData();
   }
 
-  declare protected _spec: T;
+  protected declare _spec: T;
 
   protected _leaderLineMark: IRuleMark = null;
   protected _stackLabelMark: ITextMark = null;
@@ -328,16 +328,17 @@ export class WaterfallSeries<T extends IWaterfallSeriesSpec = IWaterfallSeriesSp
     );
   }
 
-  protected _isCategoryAxisInverse() {
+  protected _isCategoryAxisReversed() {
+    // Y 轴默认从下向上，横向图的 inverse=true 才对应屏幕上从上向下的分类正序。
     return this._direction === Direction.horizontal
-      ? this._yAxisHelper?.isInverse?.()
+      ? !this._yAxisHelper?.isInverse?.()
       : this._xAxisHelper?.isInverse?.();
   }
 
   protected _getLeaderLineCategoryPos(isStart: boolean, isDecrease: boolean) {
-    const inverse = !!this._isCategoryAxisInverse();
+    const reversed = !!this._isCategoryAxisReversed();
     const normalPos = isStart ? (isDecrease ? 0 : 1) : isDecrease ? 1 : 0;
-    return inverse ? 1 - normalPos : normalPos;
+    return reversed ? 1 - normalPos : normalPos;
   }
 
   initMarkStyle(): void {

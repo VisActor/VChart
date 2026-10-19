@@ -136,3 +136,11 @@ packages/vchart/__tests__/runtime/node/**.png
 *.tsbuildinfo
 .github/hooks/copilot-hooks.json
 .omx/
+
+# Local visual regression artifacts
+.vchart-visual/
+.vchart-statplots/
+
+# StatPlots resources generated from public TypeScript types
+/packages/vchart-statplots/schema/
+/packages/vchart-statplots/src/generated/

@@ -1,0 +1,78 @@
+{
+  "type": "boxPlot",
+  "title": "箱线图",
+  "data": [
+    {
+      "category": "A",
+      "value": -3
+    },
+    {
+      "category": "A",
+      "value": -0.6
+    },
+    {
+      "category": "A",
+      "value": -0.4
+    },
+    {
+      "category": "A",
+      "value": -0.2
+    },
+    {
+      "category": "A",
+      "value": 0
+    },
+    {
+      "category": "A",
+      "value": 0.2
+    },
+    {
+      "category": "A",
+      "value": 0.4
+    },
+    {
+      "category": "A",
+      "value": 0.6
+    },
+    {
+      "category": "A",
+      "value": 2.8
+    },
+    {
+      "category": "B",
+      "value": -0.2
+    },
+    {
+      "category": "B",
+      "value": 0
+    },
+    {
+      "category": "B",
+      "value": 0.1
+    },
+    {
+      "category": "B",
+      "value": 0.2
+    },
+    {
+      "category": "B",
+      "value": 0.3
+    },
+    {
+      "category": "B",
+      "value": 0.4
+    },
+    {
+      "category": "B",
+      "value": 0.5
+    },
+    {
+      "category": "B",
+      "value": 0.6
+    },
+    {
+      "category": "B",
+      "value": 3.5
+    }
+  ]
+}

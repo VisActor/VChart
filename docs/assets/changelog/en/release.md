@@ -1,3 +1,30 @@
+# v2.2.0
+
+2026-10-19
+
+**🆕 New Features**
+
+- **@visactor/vchart**: 将 dot、link 系列及其类型、注册方法迁移至 @visactor/vchart-extension，主包不再导出或自动注册这些系列。
+
+**🐛 Bug Fixes**
+
+- **@visactor/vchart**: 类型构建先清理输出并禁用此次增量缓存，避免旧声明残留或重复构建缺失文件。
+- **@visactor/vchart**: 修复手动 resize 后 updateSpec 重建图表时恢复旧尺寸的问题，保持布局与画布尺寸一致。
+- **@visactor/vchart**: ignore unmatched datums in filterGraphicsByDatum collection-mark matching so setHovered does not throw
+- **@visactor/vchart**: 修复横向瀑布图连接线端点方向错误，避免连接线覆盖相邻柱体边缘，并保持反向轴和反向累计模式的正确连接。
+- **@visactor/vchart**: 修复默认 autoFit 的首次或重复尺寸通知覆盖手动 resize 的问题，同时保持 Spec 重建后的画布尺寸及真实容器变化的自动适配。
+- **@visactor/vchart**: sankey related emphasis no longer throws on plain node-link data and highlights the full upstream and downstream path
+- **@visactor/vchart**: restore sequence link filtering in dataZoom and exclude categorical IDs from preview sums
+- **@visactor/vchart**: 升级 VUtils 家族依赖至 ~1.0.28、VRender 家族依赖至 1.1.12，恢复 LOWESS 历史默认参数并保留算法正确性修复。
+
+**🔨 Chores**
+
+- **@visactor/vchart**: 测试：锁定箱型图在空数据后 updateDataSync 仍渲染离群点。#4270 的公共 spec 已由图表 transformer 与 viewDataUpdate 覆盖，不增加统计字段兜底。
+- **@visactor/vchart**: 将 sequence 时序图迁移至 vchart-extension，原 spec 保持不变，需从扩展包导入并调用 registerSequenceChart
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.1.7...v2.2.0
+
+[more detail about v2.2.0](https://github.com/VisActor/VChart/releases/tag/v2.2.0)
 # v2.1.7
 
 2026-09-18

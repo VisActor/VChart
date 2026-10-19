@@ -1,6 +1,7 @@
 import { isArray, isValid, last } from '@visactor/vutils';
 import { array, isNil } from '../../util';
 import type { DataView } from '@visactor/vdataset';
+import { objFlat } from '../../data/transforms/obj-flat';
 import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
 import { isContinuous } from '@visactor/vscale';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
@@ -119,7 +120,8 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
       return;
     }
     const series = seriesCollection[i];
-    if (series) {
+    // 关联轴已确定分类或连续类型；仅无关联轴时通过系列统计推断，避免额外统计和分类重排。
+    if (series && isCategoryState === undefined) {
       const statistics = series.getRawDataStatisticsByField(stateFields[i]);
       if (isValid(statistics?.max) && isValid(statistics?.min)) {
         isAllLinearValue = true;
@@ -137,7 +139,8 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
         }
       });
     }
-    dv.latestData.forEach((d: any) => {
+    const seriesData = series?.type === 'dot' ? objFlat(dv.latestData, 'dots') : dv.latestData;
+    seriesData.forEach((d: any) => {
       // 针对rangeColumn等xField为数组形式的图表，需要将xField的所有value都记录下来
       array(stateFields[i]).forEach(state => {
         if (!isNil(d[state])) {

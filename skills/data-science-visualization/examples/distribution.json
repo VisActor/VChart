@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "title": "指标分布探索",
+  "dataset": {
+    "source": {
+      "path": "observations.csv",
+      "format": "csv"
+    },
+    "columns": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "age",
+        "type": "number",
+        "label": "年龄",
+        "unit": "岁"
+      },
+      {
+        "name": "income",
+        "type": "number",
+        "label": "收入",
+        "unit": "元"
+      },
+      {
+        "name": "spend",
+        "type": "number",
+        "label": "消费",
+        "unit": "元"
+      },
+      {
+        "name": "region",
+        "type": "string",
+        "label": "地区"
+      },
+      {
+        "name": "department",
+        "type": "string",
+        "label": "部门"
+      },
+      {
+        "name": "active",
+        "type": "boolean",
+        "label": "活跃"
+      }
+    ],
+    "idColumn": "id"
+  },
+  "charts": [
+    {
+      "id": "distribution",
+      "binding": {
+        "type": "histogram",
+        "fields": {
+          "value": "income"
+        },
+        "options": {
+          "title": "指标分布",
+          "binning": {
+            "binCount": 5
+          }
+        }
+      }
+    }
+  ]
+}

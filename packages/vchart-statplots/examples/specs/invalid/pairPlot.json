@@ -1,0 +1,27 @@
+{
+  "type": "pairPlot",
+  "variables": ["x", "y"],
+  "diagonal": {
+    "binning": {
+      "binCount": 0
+    }
+  },
+  "data": {
+    "observations": [
+      {
+        "id": "0",
+        "values": {
+          "x": 0,
+          "y": 1
+        }
+      },
+      {
+        "id": "1",
+        "values": {
+          "x": 1,
+          "y": 2
+        }
+      }
+    ]
+  }
+}

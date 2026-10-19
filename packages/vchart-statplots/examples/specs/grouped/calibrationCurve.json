@@ -1,0 +1,79 @@
+{
+  "type": "calibrationCurve",
+  "data": [
+    {
+      "actual": false,
+      "probability": 0,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "probability": 0.2,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "probability": 0.3,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "probability": 0.5,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "probability": 0.65,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "probability": 0.8,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "probability": 1,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "probability": 0,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "probability": 0.2,
+      "series": "模型 B"
+    },
+    {
+      "actual": false,
+      "probability": 0.3,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "probability": 0.5,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "probability": 0.65,
+      "series": "模型 B"
+    },
+    {
+      "actual": false,
+      "probability": 0.8,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "probability": 1,
+      "series": "模型 B"
+    }
+  ],
+  "binning": {
+    "binCount": 4,
+    "strategy": "uniform"
+  }
+}

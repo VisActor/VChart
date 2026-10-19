@@ -1,0 +1,111 @@
+{
+  "reference": "前版 UMD 与本轮本地 VUtil 构建；KDE/violin 使用相同 10k 原始输入，time-estimates 使用 100 条预估计；raw bootstrap/no-interval/direct 为新增能力",
+  "node": "22.23.3",
+  "measurements": [
+    {
+      "scenario": "kdePlot",
+      "inputRows": 10000,
+      "renderMs": 31.199999809265137,
+      "updateMs": 26.700000047683716,
+      "resizeMs": 5.799999952316284,
+      "hoverMs": 5.599999904632568,
+      "releaseMs": 1,
+      "outputRows": 1024,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0,
+      "compileMedianMs": 16.5,
+      "baseline": {
+        "renderMs": 42.5,
+        "updateMs": 25.700000047683716,
+        "resizeMs": 6.299999952316284,
+        "releaseMs": 1.2000000476837158,
+        "compileMedianMs": 16
+      }
+    },
+    {
+      "scenario": "violinPlot",
+      "inputRows": 10000,
+      "renderMs": 31.700000047683716,
+      "updateMs": 36,
+      "resizeMs": 10.099999904632568,
+      "hoverMs": 3.5,
+      "releaseMs": 0.7999999523162842,
+      "outputRows": 5120,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0,
+      "compileMedianMs": 11.900000095367432,
+      "baseline": {
+        "renderMs": 34.39999985694885,
+        "updateMs": 30.100000143051147,
+        "resizeMs": 9.600000143051147,
+        "releaseMs": 0.7999999523162842,
+        "compileMedianMs": 10.799999952316284
+      }
+    },
+    {
+      "scenario": "time-estimates",
+      "inputRows": 100,
+      "renderMs": 27.200000047683716,
+      "updateMs": 12.199999809265137,
+      "resizeMs": 7.6000001430511475,
+      "hoverMs": 3.6999998092651367,
+      "releaseMs": 0.9000000953674316,
+      "outputRows": 100,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0,
+      "compileMedianMs": 0.10000014305114746,
+      "baseline": {
+        "renderMs": 26.100000143051147,
+        "updateMs": 11.899999856948853,
+        "resizeMs": 6.800000190734863,
+        "releaseMs": 0.9000000953674316,
+        "compileMedianMs": 0.09999990463256836
+      }
+    },
+    {
+      "scenario": "time-bootstrap",
+      "inputRows": 10000,
+      "renderMs": 25.40000009536743,
+      "updateMs": 220.40000009536743,
+      "resizeMs": 6.599999904632568,
+      "hoverMs": 3,
+      "releaseMs": 0.7999999523162842,
+      "outputRows": 100,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0,
+      "compileMedianMs": 207.5
+    },
+    {
+      "scenario": "time-no-interval",
+      "inputRows": 10000,
+      "renderMs": 24.5,
+      "updateMs": 20.90000009536743,
+      "resizeMs": 6.5,
+      "hoverMs": 3.3000001907348633,
+      "releaseMs": 0.7999999523162842,
+      "outputRows": 100,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0,
+      "compileMedianMs": 8.299999952316284
+    },
+    {
+      "scenario": "time-direct",
+      "inputRows": 10000,
+      "renderMs": 61.200000047683716,
+      "updateMs": 53.700000047683716,
+      "resizeMs": 38.799999952316284,
+      "hoverMs": 14.100000143051147,
+      "releaseMs": 3.200000047683716,
+      "outputRows": 10000,
+      "unchanged": true,
+      "errors": [],
+      "canvases": 0,
+      "compileMedianMs": 7.700000047683716
+    }
+  ]
+}

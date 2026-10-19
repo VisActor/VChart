@@ -81,4 +81,71 @@ describe('DataZoom preview validity', () => {
     expect(viewData().map((d: Row) => d.category)).toEqual(['A', 'B', 'C']);
     expectPreview();
   });
+
+  it('keeps numeric categories in axis order when the same field also has continuous statistics', () => {
+    chart = new VChart(
+      {
+        type: 'bar',
+        width: 500,
+        height: 500,
+        animation: false,
+        xField: 'value',
+        yField: 'value',
+        data: { id: 'data', values: [{ value: 3 }, { value: 1 }, { value: 2 }] },
+        axes: [
+          { orient: 'bottom', type: 'band' },
+          { orient: 'left', type: 'linear' }
+        ],
+        dataZoom: [{ orient: 'bottom', filterMode: 'axis' }]
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const model = zoom('bottom');
+    const previewValues = () =>
+      model
+        .getData()
+        .getLatestData()
+        .map((d: { x: number }) => d.x);
+    expect(previewValues()).toEqual([3, 1, 2]);
+    model.setStartAndEnd(0, 0.5);
+    expect(model.stateScale.domain()).toEqual([3, 1, 2]);
+    model.setStartAndEnd(0, 1);
+    chart.updateDataSync('data', [{ value: 6 }, { value: 4 }, { value: 5 }]);
+    expect(previewValues()).toEqual([6, 4, 5]);
+    expect(model.stateScale.domain()).toEqual([6, 4, 5]);
+  });
+
+  it('does not collect discrete values for a continuous DataZoom axis on data updates', () => {
+    chart = new VChart(
+      {
+        type: 'scatter',
+        width: 500,
+        height: 500,
+        animation: false,
+        xField: 'x',
+        yField: 'y',
+        data: { id: 'data', values: [{ x: 1, y: 1 }] },
+        axes: [
+          { orient: 'bottom', type: 'linear' },
+          { orient: 'left', type: 'linear' }
+        ],
+        dataZoom: [{ orient: 'bottom' }]
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const series = chart.getChart().getAllSeries()[0];
+    const statistics = jest.spyOn(series, 'getRawDataStatisticsByField');
+    chart.updateDataSync(
+      'data',
+      Array.from({ length: 10000 }, (_, x) => ({ x, y: x % 100 }))
+    );
+    const xCalls = statistics.mock.calls.filter(([field]) => String(field) === 'x');
+    expect(xCalls.length).toBeGreaterThan(0);
+    expect(xCalls.every(([, isNumeric]) => isNumeric === true)).toBe(true);
+    expect(series.getRawDataStatisticsByField('x', true).values).toBeUndefined();
+    expect(zoom('bottom').stateScale.domain()).toEqual([0, 9999]);
+    statistics.mockRestore();
+  });
 });

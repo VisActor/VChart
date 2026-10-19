@@ -24,6 +24,7 @@ export * from './util/mark';
 export * from './util/region';
 export * from './util/scale';
 export * from './constant/data';
+export { SCROLL_BAR_DEFAULT_SIZE } from './constant/scroll-bar';
 export * from './component/base';
 export * from './compile/data/compilable-data';
 export * from './animation';

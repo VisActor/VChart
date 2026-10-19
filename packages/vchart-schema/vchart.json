@@ -80,9 +80,6 @@
       "$ref": "#/definitions/IAreaChartSpec"
     },
     {
-      "$ref": "#/definitions/ISequenceChartSpec"
-    },
-    {
       "$ref": "#/definitions/ILiquidChartSpec"
     }
   ],
@@ -8879,15 +8876,18 @@
       ]
     },
     "DataSet": {
+      "description": "数据集",
       "properties": {
         "_callMap": {
-          "$ref": "#/definitions/Map<Function,(...args:any[])=>void>"
+          "$ref": "#/definitions/Map<Function,(...args:any[])=>void>",
+          "description": "多 DataView消息监听工具"
         },
         "_logger": {
           "$ref": "#/definitions/ILogger"
         },
         "dataViewMap": {
           "additionalProperties": false,
+          "description": "所有挂在数据集上的数据视图（key-value 对）",
           "patternProperties": {
             "^[a-zA-Z0-9]+$": {
               "$ref": "#/definitions/DataView"
@@ -8905,11 +8905,15 @@
           "$ref": "#/definitions/IDataSetOptions"
         },
         "parserMap": {
-          "$ref": "#/definitions/Record<string,any>"
+          "$ref": "#/definitions/Record<string,any>",
+          "description": "已注册的 Parser(key-value 对）"
         },
-        "target": {},
+        "target": {
+          "description": "消息的监听与触发"
+        },
         "transformMap": {
-          "$ref": "#/definitions/Record<string,any>"
+          "$ref": "#/definitions/Record<string,any>",
+          "description": "已注册的 Transform（key-value 对）"
         }
       },
       "required": [
@@ -8925,9 +8929,11 @@
       "type": "object"
     },
     "DataView": {
+      "description": "数据视图",
       "properties": {
         "_fields": {
-          "$ref": "#/definitions/IFields"
+          "$ref": "#/definitions/IFields",
+          "description": "数据维度信息"
         },
         "cloneParseData": {},
         "dataSet": {
@@ -8938,6 +8944,7 @@
           "type": "boolean"
         },
         "historyData": {
+          "description": "中间态数据，默认 history false 不存储",
           "items": {},
           "type": "array"
         },
@@ -8945,9 +8952,12 @@
           "type": "boolean"
         },
         "isRunning": {
+          "description": "是否正在运行 parse 和 transform",
           "type": "boolean"
         },
-        "latestData": {},
+        "latestData": {
+          "description": "最终数据"
+        },
         "latestDataAUD": {
           "typeof": "function"
         },
@@ -8964,16 +8974,22 @@
           "$ref": "#/definitions/IDataViewOptions"
         },
         "parseOption": {
-          "$ref": "#/definitions/IParserOptions"
+          "$ref": "#/definitions/IParserOptions",
+          "description": "当前parser"
         },
-        "parserData": {},
-        "rawData": {},
+        "parserData": {
+          "description": "parser后的数据"
+        },
+        "rawData": {
+          "description": "原始数据"
+        },
         "reRunAllTransform": {
           "typeof": "function"
         },
         "resetTransformData": {},
         "target": {},
         "transformsArr": {
+          "description": "已应用的 transform",
           "items": {
             "$ref": "#/definitions/ITransformOptions"
           },
@@ -10715,6 +10731,7 @@
       "type": "object"
     },
     "GeometricMaskShape": {
+      "description": "text mask of wordcloud",
       "properties": {
         "backgroundColor": {
           "type": "string"
@@ -25372,6 +25389,10 @@
         "beforeBrushChange": {
           "typeof": "function"
         },
+        "brushLinkDataKey": {
+          "description": "联动系列按观测标识字段匹配；省略时沿用相对像素区域联动。\n两侧须提供相同类型的非空标识。仅影响 brushLinkSeriesId/Index 指定的系列。",
+          "type": "string"
+        },
         "brushLinkSeriesId": {
           "anyOf": [
             {
@@ -29558,12 +29579,6 @@
                 "$ref": "#/definitions/IRadarSeriesSpec"
               },
               {
-                "$ref": "#/definitions/IDotSeriesSpec"
-              },
-              {
-                "$ref": "#/definitions/ILinkSeriesSpec"
-              },
-              {
                 "$ref": "#/definitions/ICircularProgressSeriesSpec"
               },
               {
@@ -32777,6 +32792,14 @@
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块绝对布局下，与图表左侧的距离。注意仅在 layoutType === 'absolute' 时生效"
         },
+        "linkedAxisId": {
+          "description": "联动的轴ID, 仅filterMode: 'axis'时生效",
+          "type": "string"
+        },
+        "linkedAxisIndex": {
+          "description": "联动的轴序号, 仅filterMode: 'axis'时生效",
+          "type": "number"
+        },
         "maxHeight": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最大高度"
@@ -34324,288 +34347,6 @@
       },
       "type": "object"
     },
-    "IDotSeriesSpec": {
-      "properties": {
-        "animation": {
-          "description": "是否开启系列动画",
-          "type": "boolean"
-        },
-        "animationThreshold": {
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "since": "1.2.0",
-          "type": "number"
-        },
-        "clipHeight": {
-          "description": "dot 系列的可视高度",
-          "type": "number"
-        },
-        "data": {
-          "$ref": "#/definitions/IDataType",
-          "description": "系列可以配置自身的数据，也可以从chart.data中获取数据"
-        },
-        "dataId": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "系列关联的数据id"
-        },
-        "dataIndex": {
-          "default": 0,
-          "description": "系列关联的数据索引",
-          "type": "number"
-        },
-        "dataKey": {
-          "$ref": "#/definitions/DataKeyType",
-          "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
-        },
-        "direction": {
-          "$ref": "#/definitions/DirectionType_1",
-          "description": "direction\nrow means layout by rows，col means layout by columns"
-        },
-        "dot": {
-          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
-          "description": "图元配置"
-        },
-        "dotTypeField": {
-          "description": "用于区分dot的fill逻辑。如果未配置，默认按照yField字段处理",
-          "type": "string"
-        },
-        "extensionMark": {
-          "description": "系列的扩展mark，能够获取系列上的数据",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/IExtensionGroupMarkSpec"
-              },
-              {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
-              }
-            ]
-          },
-          "type": "array"
-        },
-        "grid": {
-          "$ref": "#/definitions/ISequenceGrid",
-          "description": "时间线"
-        },
-        "highLightSeriesGroup": {
-          "description": "高亮series配置",
-          "type": "string"
-        },
-        "hover": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IHoverSpec"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "图表hover相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "用户自定义的 series id"
-        },
-        "interactions": {
-          "description": "其他需要按需注册的类型交互",
-          "items": {
-            "$ref": "#/definitions/IInteractionItemSpec"
-          },
-          "type": "array"
-        },
-        "invalidType": {
-          "$ref": "#/definitions/IInvalidType",
-          "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
-          "description": "null，undefined等非法数据点连接方式。"
-        },
-        "leftAppendPadding": {
-          "description": "dot 系列的左边距(主要用于放置title和subTitle)",
-          "type": "number"
-        },
-        "morph": {
-          "$ref": "#/definitions/IMorphSeriesSpec",
-          "description": "morph 动画配置"
-        },
-        "name": {
-          "description": "用于标记node name，便于绘制link。",
-          "type": "string"
-        },
-        "percent": {
-          "description": "是否对数据进行百分比处理",
-          "type": "boolean"
-        },
-        "regionId": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "系列关联的region id"
-        },
-        "regionIndex": {
-          "default": 0,
-          "description": "系列关联的region索引",
-          "type": "number"
-        },
-        "select": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ISelectSpec"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "图表选中相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置"
-        },
-        "seriesField": {
-          "description": "分组字段",
-          "type": "string"
-        },
-        "seriesGroupField": {
-          "description": "用于区分grid、symbol的fill和stroke逻辑。如果未配置,默认按照yField字段处理",
-          "type": "string"
-        },
-        "seriesStyle": {
-          "description": "仅在图表配置了seriesField时生效",
-          "items": {
-            "$ref": "#/definitions/ISeriesStyleItem"
-          },
-          "type": "array"
-        },
-        "sortDataByAxis": {
-          "default": false,
-          "description": "是否将数据按照数轴排序",
-          "since": "1.3.0",
-          "type": "boolean"
-        },
-        "stack": {
-          "description": "是否对数据进行堆叠处理",
-          "type": "boolean"
-        },
-        "stackOffsetSilhouette": {
-          "description": "是否围绕中心轴偏移轮廓",
-          "type": "boolean"
-        },
-        "stackValue": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
-          "since": "1.4.0"
-        },
-        "subTitle": {
-          "$ref": "#/definitions/ISequenceLabel",
-          "description": "具体信息"
-        },
-        "subTitleField": {
-          "description": "用于显示subTitle。如果未配置，默认按照yField字段处理",
-          "type": "string"
-        },
-        "support3d": {
-          "description": "是否支持3d视角",
-          "type": "boolean"
-        },
-        "symbol": {
-          "$ref": "#/definitions/IMarkSpec<ISymbolMarkSpec>",
-          "description": "标识符"
-        },
-        "title": {
-          "$ref": "#/definitions/ISequenceLabel",
-          "description": "标题"
-        },
-        "titleField": {
-          "description": "用于显示title。如果未配置，默认按照yField字段处理",
-          "type": "string"
-        },
-        "tooltip": {
-          "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
-        },
-        "totalLabel": {
-          "$ref": "#/definitions/ITotalLabelSpec",
-          "description": "堆叠汇总标签",
-          "since": "1.3.0"
-        },
-        "type": {
-          "const": "dot",
-          "description": "系列类型",
-          "type": "string"
-        },
-        "x2Field": {
-          "description": "用于区间数据，声明区间末尾的数据字段。",
-          "type": "string"
-        },
-        "xField": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "x轴字段"
-        },
-        "y2Field": {
-          "description": "用于区间数据，声明区间末尾的数据字段。",
-          "type": "string"
-        },
-        "yField": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
-        },
-        "zField": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "z轴字段\n用于3d散点图等"
-        },
-        "zIndex": {
-          "description": "今当通过`series`配置的时候，才会生效",
-          "type": "number"
-        }
-      },
-      "required": [
-        "name",
-        "type"
-      ],
-      "type": "object"
-    },
-    "IDotSeriesTheme": {
-      "properties": {
-        "dot": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
-        },
-        "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>"
-        },
-        "subTitle": {
-          "$ref": "#/definitions/ISequenceLabel"
-        },
-        "symbol": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
-        },
-        "title": {
-          "$ref": "#/definitions/ISequenceLabel"
-        }
-      },
-      "type": "object"
-    },
     "IDrawContribution": {
       "properties": {
         "afterDraw": {
@@ -35346,6 +35087,7 @@
           "type": "array"
         },
         "sort": {
+          "description": "排序简易配置\n当配置了 sort 时，sortIndex 默认为 0 ，sortReverse 跟随 sort 的值，'desc' 时为 true，'asc' 时为 false\n当配置了 sortIndex 和 sortReverser 时，优先级会高于 sort 的默认效果",
           "enum": [
             "asc",
             "desc"
@@ -48980,272 +48722,6 @@
       },
       "type": "object"
     },
-    "ILinkSeriesSpec": {
-      "properties": {
-        "animation": {
-          "description": "是否开启系列动画",
-          "type": "boolean"
-        },
-        "animationThreshold": {
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "since": "1.2.0",
-          "type": "number"
-        },
-        "clipHeight": {
-          "description": "link 系列的可视高度",
-          "type": "number"
-        },
-        "data": {
-          "$ref": "#/definitions/IDataType",
-          "description": "系列可以配置自身的数据，也可以从chart.data中获取数据"
-        },
-        "dataDot": {
-          "$ref": "#/definitions/DataView",
-          "description": "被关联dot series的数据"
-        },
-        "dataId": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "系列关联的数据id"
-        },
-        "dataIndex": {
-          "default": 0,
-          "description": "系列关联的数据索引",
-          "type": "number"
-        },
-        "dataKey": {
-          "$ref": "#/definitions/DataKeyType",
-          "description": "dataKey用于绑定数据与Mark的关系, 该配置在动画中非常重要."
-        },
-        "direction": {
-          "$ref": "#/definitions/DirectionType_1",
-          "description": "direction\nrow means layout by rows，col means layout by columns"
-        },
-        "dotSeriesIndex": {
-          "description": "被关联的dot series index",
-          "type": "number"
-        },
-        "dotSeriesSpec": {
-          "$ref": "#/definitions/IDotSeriesSpec",
-          "description": "被关联的dot series的spec"
-        },
-        "dotTypeField": {
-          "description": "用于区分link的stroke逻辑。如果没有配置，则每条link都使用相同的stroke",
-          "type": "string"
-        },
-        "extensionMark": {
-          "description": "系列的扩展mark，能够获取系列上的数据",
-          "items": {
-            "anyOf": [
-              {
-                "$ref": "#/definitions/IExtensionGroupMarkSpec"
-              },
-              {
-                "$ref": "#/definitions/IExtensionMarkSpec<\"symbol\"|\"image\"|\"line\"|\"path\"|\"polygon\"|\"rect\"|\"text\"|\"area\"|\"arc\"|\"rule\"|\"boxPlot\"|\"linkPath\"|\"ripple\">"
-              }
-            ]
-          },
-          "type": "array"
-        },
-        "fromField": {
-          "description": "用于绘制link的起点。",
-          "type": "string"
-        },
-        "hover": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IHoverSpec"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "图表hover相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置"
-        },
-        "id": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "用户自定义的 series id"
-        },
-        "interactions": {
-          "description": "其他需要按需注册的类型交互",
-          "items": {
-            "$ref": "#/definitions/IInteractionItemSpec"
-          },
-          "type": "array"
-        },
-        "invalidType": {
-          "$ref": "#/definitions/IInvalidType",
-          "default": "'break'\n'break'指在该数据点处断开\n'link' 指忽略该点保持连续\n'zero' 指该点默认数值为0\n'ignore' 指不处理",
-          "description": "null，undefined等非法数据点连接方式。"
-        },
-        "leftAppendPadding": {
-          "description": "link 系列的左边距(和dot 系列保持一致，主要用于放置dot 系列的title和subTitle)",
-          "type": "number"
-        },
-        "link": {
-          "$ref": "#/definitions/IMarkSpec<ILineMarkSpec>",
-          "description": "图元配置"
-        },
-        "morph": {
-          "$ref": "#/definitions/IMorphSeriesSpec",
-          "description": "morph 动画配置"
-        },
-        "name": {
-          "description": "系列名称",
-          "type": "string"
-        },
-        "percent": {
-          "description": "是否对数据进行百分比处理",
-          "type": "boolean"
-        },
-        "regionId": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "系列关联的region id"
-        },
-        "regionIndex": {
-          "default": 0,
-          "description": "系列关联的region索引",
-          "type": "number"
-        },
-        "select": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ISelectSpec"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "图表选中相关交互配置，当值为boolean类型时，表示开启或者关闭该交互\n也支持更详细的交互配置"
-        },
-        "seriesField": {
-          "description": "分组字段",
-          "type": "string"
-        },
-        "seriesStyle": {
-          "description": "仅在图表配置了seriesField时生效",
-          "items": {
-            "$ref": "#/definitions/ISeriesStyleItem"
-          },
-          "type": "array"
-        },
-        "sortDataByAxis": {
-          "default": false,
-          "description": "是否将数据按照数轴排序",
-          "since": "1.3.0",
-          "type": "boolean"
-        },
-        "stack": {
-          "description": "是否对数据进行堆叠处理",
-          "type": "boolean"
-        },
-        "stackOffsetSilhouette": {
-          "description": "是否围绕中心轴偏移轮廓",
-          "type": "boolean"
-        },
-        "stackValue": {
-          "$ref": "#/definitions/StringOrNumber",
-          "description": "堆叠时的分组值\nstackValue 相等的系列将在一起堆积。没有配置的系列将在一组",
-          "since": "1.4.0"
-        },
-        "support3d": {
-          "description": "是否支持3d视角",
-          "type": "boolean"
-        },
-        "toField": {
-          "description": "用于绘制link的终点。",
-          "type": "string"
-        },
-        "tooltip": {
-          "$ref": "#/definitions/ISeriesTooltipSpec",
-          "description": "系列对应的提示信息设置，优先级高于图表的tooltip配置"
-        },
-        "totalLabel": {
-          "$ref": "#/definitions/ITotalLabelSpec",
-          "description": "堆叠汇总标签",
-          "since": "1.3.0"
-        },
-        "type": {
-          "const": "link",
-          "description": "系列类型",
-          "type": "string"
-        },
-        "x2Field": {
-          "description": "用于区间数据，声明区间末尾的数据字段。",
-          "type": "string"
-        },
-        "xField": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "x轴字段"
-        },
-        "y2Field": {
-          "description": "用于区间数据，声明区间末尾的数据字段。",
-          "type": "string"
-        },
-        "yField": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "y轴字段\n运行双轴都为离散，连续。所以 yField 也可以像 xField 一样支持多维度"
-        },
-        "zField": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "z轴字段\n用于3d散点图等"
-        },
-        "zIndex": {
-          "description": "今当通过`series`配置的时候，才会生效",
-          "type": "number"
-        }
-      },
-      "required": [
-        "dotSeriesIndex",
-        "fromField",
-        "toField",
-        "type"
-      ],
-      "type": "object"
-    },
-    "ILinkSeriesTheme": {
-      "properties": {
-        "arrow": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ISymbolMarkSpec>>"
-        },
-        "label": {
-          "$ref": "#/definitions/Partial<ILabelSpec>"
-        },
-        "link": {
-          "$ref": "#/definitions/Partial<IMarkTheme<ILineMarkSpec>>"
-        }
-      },
-      "type": "object"
-    },
     "ILiquidChartSpec": {
       "properties": {
         "animationAppear": {
@@ -54845,21 +54321,26 @@
     "IMatrix": {
       "properties": {
         "a": {
+          "description": "scale x",
           "type": "number"
         },
         "b": {
+          "description": "skew y",
           "type": "number"
         },
         "c": {
+          "description": "skewx",
           "type": "number"
         },
         "clone": {
           "typeof": "function"
         },
         "d": {
+          "description": "scale y",
           "type": "number"
         },
         "e": {
+          "description": "translate x",
           "type": "number"
         },
         "equalTo": {
@@ -54869,6 +54350,7 @@
           "typeof": "function"
         },
         "f": {
+          "description": "translate y",
           "type": "number"
         },
         "getInverse": {
@@ -54951,18 +54433,23 @@
           "type": "number"
         },
         "b": {
+          "description": "skew y",
           "type": "number"
         },
         "c": {
+          "description": "skewx",
           "type": "number"
         },
         "d": {
+          "description": "scale y",
           "type": "number"
         },
         "e": {
+          "description": "translate x",
           "type": "number"
         },
         "f": {
+          "description": "translate y",
           "type": "number"
         }
       },
@@ -67587,6 +67074,14 @@
           "minItems": 2,
           "type": "array"
         },
+        "linkedAxisId": {
+          "description": "联动的轴ID, 仅filterMode: 'axis'时生效",
+          "type": "string"
+        },
+        "linkedAxisIndex": {
+          "description": "联动的轴序号, 仅filterMode: 'axis'时生效",
+          "type": "number"
+        },
         "maxHeight": {
           "$ref": "#/definitions/ILayoutNumber",
           "description": "模块的布局最大高度"
@@ -68037,293 +67532,6 @@
       },
       "type": "object"
     },
-    "ISequenceChartSpec": {
-      "properties": {
-        "animationThreshold": {
-          "description": "自动关闭动画的阀值，对应的是单系列data的长度",
-          "since": "1.2.0",
-          "type": "number"
-        },
-        "appendPadding": {
-          "$ref": "#/definitions/IPadding",
-          "description": "可以为左边的title预留padding"
-        },
-        "autoFit": {
-          "description": "图表宽高是否自适应容器，浏览器环境下默认为 true。\n该配置的优先级高于构造函数中的 autoFit 配置。\n如果用户配置了 width，则以用户配置的 width 为准，height 同理。",
-          "type": "boolean"
-        },
-        "axes": {
-          "description": "轴配置",
-          "items": {
-            "$ref": "#/definitions/ICartesianAxisSpec"
-          },
-          "type": "array"
-        },
-        "background": {
-          "$ref": "#/definitions/IBackgroundSpec",
-          "description": "图表背景色配置，优先级高于构造函数中的 background 配置\n自1.11.6版本支持渐变色对象的配置"
-        },
-        "brush": {
-          "$ref": "#/definitions/IBrushSpec",
-          "description": "框选配置"
-        },
-        "color": {
-          "anyOf": [
-            {
-              "items": {
-                "type": "string"
-              },
-              "type": "array"
-            },
-            {
-              "$ref": "#/definitions/Omit<IVisualSpecScale<unknown,string>,\"id\">"
-            }
-          ],
-          "description": "图表色系配置"
-        },
-        "crosshair": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ICartesianCrosshairSpec"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/ICartesianCrosshairSpec"
-              },
-              "type": "array"
-            }
-          ],
-          "description": "十字辅助线配置"
-        },
-        "customMark": {
-          "description": "自定义mark",
-          "items": {
-            "$ref": "#/definitions/ICustomMarkSpec<keyofIBuildinMarkSpec>"
-          },
-          "type": "array"
-        },
-        "data": {
-          "$ref": "#/definitions/IData",
-          "description": "数据"
-        },
-        "dataZoom": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IDataZoomSpec"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IDataZoomSpec"
-              },
-              "type": "array"
-            }
-          ],
-          "description": "缩略轴配置"
-        },
-        "dataZooms": {
-          "description": "缩略轴配置",
-          "items": {
-            "$ref": "#/definitions/IDataZoomSpec"
-          },
-          "type": "array"
-        },
-        "height": {
-          "description": "画布高度",
-          "type": "number"
-        },
-        "hover": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IHoverSpec"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "hover 交互"
-        },
-        "layout": {
-          "$ref": "#/definitions/ILayoutSpec",
-          "description": "布局配置"
-        },
-        "legends": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IDiscreteLegendSpec"
-            },
-            {
-              "$ref": "#/definitions/IColorLegendSpec"
-            },
-            {
-              "$ref": "#/definitions/ISizeLegendSpec"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/ILegendSpec"
-              },
-              "type": "array"
-            }
-          ],
-          "description": "图例配置"
-        },
-        "media": {
-          "description": "媒体查询配置",
-          "items": {
-            "$ref": "#/definitions/IMediaQueryItem"
-          },
-          "since": "1.8.0",
-          "type": "array"
-        },
-        "padding": {
-          "$ref": "#/definitions/ILayoutPaddingSpec",
-          "description": "图表整体 padding 设置"
-        },
-        "player": {
-          "$ref": "#/definitions/IPlayer",
-          "description": "播放器配置"
-        },
-        "region": {
-          "description": "region配置",
-          "items": {
-            "$ref": "#/definitions/RegionSpec"
-          },
-          "type": "array"
-        },
-        "scales": {
-          "description": "全局 scale 配置",
-          "items": {
-            "$ref": "#/definitions/IVisualSpecScale<unknown,unknown>"
-          },
-          "type": "array"
-        },
-        "scrollBar": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/IScrollBarSpec"
-            },
-            {
-              "items": {
-                "$ref": "#/definitions/IScrollBarSpec"
-              },
-              "type": "array"
-            }
-          ],
-          "description": "滚动条配置"
-        },
-        "scrollBars": {
-          "description": "滚动条配置",
-          "items": {
-            "$ref": "#/definitions/IScrollBarSpec"
-          },
-          "type": "array"
-        },
-        "select": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/ISelectSpec"
-            },
-            {
-              "type": "boolean"
-            }
-          ],
-          "description": "select 交互"
-        },
-        "series": {
-          "description": "仅在组合图中使用, 文档中除组合图外均未透出该配置",
-          "items": {
-            "$ref": "#/definitions/ISeriesSpec"
-          },
-          "type": "array"
-        },
-        "seriesStyle": {
-          "description": "仅在图表配置了seriesField时生效",
-          "items": {
-            "$ref": "#/definitions/ISeriesStyleItem"
-          },
-          "type": "array"
-        },
-        "stackInverse": {
-          "default": false,
-          "description": "堆积时是否逆序",
-          "since": "1.4.0",
-          "type": "boolean"
-        },
-        "stackSort": {
-          "default": false,
-          "description": "堆积时是否排序",
-          "since": "1.10.4",
-          "type": "boolean"
-        },
-        "theme": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/Omit<ITheme,\"name\">"
-            },
-            {
-              "type": "string"
-            }
-          ],
-          "description": "图表上的主题定义。\n可以直接配置主题名，前提是该主题名已经注册"
-        },
-        "title": {
-          "$ref": "#/definitions/ITitleSpec",
-          "description": "图表标题配置"
-        },
-        "tooltip": {
-          "$ref": "#/definitions/ITooltipSpec",
-          "description": "tooltip配置"
-        },
-        "type": {
-          "const": "sequence",
-          "description": "图表类型",
-          "type": "string"
-        },
-        "width": {
-          "description": "画布宽度",
-          "type": "number"
-        }
-      },
-      "required": [
-        "type"
-      ],
-      "type": "object"
-    },
-    "ISequenceGrid": {
-      "properties": {
-        "background": {
-          "typeof": "function"
-        },
-        "style": {
-          "additionalProperties": false,
-          "patternProperties": {
-            "^[a-zA-Z0-9]+$": {}
-          },
-          "type": "object"
-        },
-        "visible": {
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
-    "ISequenceLabel": {
-      "properties": {
-        "formatMethod": {
-          "typeof": "function"
-        },
-        "style": {
-          "additionalProperties": false,
-          "patternProperties": {
-            "^[a-zA-Z0-9]+$": {}
-          },
-          "type": "object"
-        },
-        "visible": {
-          "type": "boolean"
-        }
-      },
-      "type": "object"
-    },
     "ISeriesSpec": {
       "description": "series",
       "properties": {
@@ -68536,9 +67744,6 @@
         "correlation": {
           "$ref": "#/definitions/ICorrelationSeriesTheme"
         },
-        "dot": {
-          "$ref": "#/definitions/IDotSeriesTheme"
-        },
         "funnel": {
           "$ref": "#/definitions/IFunnelSeriesTheme"
         },
@@ -68574,9 +67779,6 @@
         },
         "linearProgress_vertical": {
           "$ref": "#/definitions/ILinearProgressSeriesTheme"
-        },
-        "link": {
-          "$ref": "#/definitions/ILinkSeriesTheme"
         },
         "liquid": {
           "$ref": "#/definitions/ILiquidSeriesTheme"
@@ -80978,7 +80180,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -80986,14 +80188,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81001,14 +80203,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81016,14 +80218,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81031,14 +80233,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81046,14 +80248,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81061,14 +80263,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Record<string,any>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81076,14 +80278,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<any>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81091,14 +80293,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81106,14 +80308,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81121,14 +80323,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81136,14 +80338,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -81151,7 +80353,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
@@ -81299,6 +80501,7 @@
         "continuousLegend",
         "correlation",
         "crosshair",
+        "curveLink",
         "customMark",
         "data",
         "dataZoom",
@@ -104159,6 +103362,9 @@
         "correlation": {
           "$ref": "#/definitions/ColorScheme"
         },
+        "curveLink": {
+          "$ref": "#/definitions/ColorScheme"
+        },
         "dot": {
           "$ref": "#/definitions/ColorScheme"
         },
@@ -105380,34 +104586,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12863"
+        "__@toStringTag@12835"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12863"
+        "__@toStringTag@12835"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12863"
+        "__@toStringTag@12835"
       ],
       "type": "object"
     },
@@ -119475,7 +118681,7 @@
     },
     "Set<IGraphic<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -119483,14 +118689,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -119498,14 +118704,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -119513,14 +118719,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -119528,14 +118734,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<any>>": {
       "properties": {
-        "__@toStringTag@12863": {
+        "__@toStringTag@12835": {
           "type": "string"
         },
         "size": {
@@ -119543,7 +118749,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12863",
+        "__@toStringTag@12835",
         "size"
       ],
       "type": "object"
@@ -120271,6 +119477,7 @@
       "type": "string"
     },
     "TextShapeMask": {
+      "description": "text mask of wordcloud",
       "properties": {
         "backgroundColor": {
           "type": "string"

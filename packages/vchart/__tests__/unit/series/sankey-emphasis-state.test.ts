@@ -197,4 +197,245 @@ describe('sankey emphasis state', () => {
       expect(thickness).toBeCloseTo((target.attribute.thickness * 30) / 130);
     }
   });
+
+  const createPlainRelatedSpec = () => ({
+    type: 'sankey',
+    width: 500,
+    height: 300,
+    data: [
+      {
+        values: [
+          {
+            nodes: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }],
+            links: [
+              { source: 'A', target: 'B', value: 6 },
+              { source: 'A', target: 'C', value: 4 },
+              { source: 'B', target: 'D', value: 6 },
+              { source: 'C', target: 'D', value: 4 }
+            ]
+          }
+        ]
+      }
+    ],
+    nodeKey: 'name',
+    categoryField: 'name',
+    sourceField: 'source',
+    targetField: 'target',
+    valueField: 'value',
+    nodeWidth: 20,
+    nodeGap: 20,
+    label: { visible: true },
+    node: {
+      state: {
+        selected: { fillOpacity: 1 },
+        blur: { fillOpacity: 0.08 }
+      }
+    },
+    link: {
+      state: {
+        selected: { fillOpacity: 0.9 },
+        blur: { fillOpacity: 0.05 }
+      }
+    },
+    emphasis: { enable: true, trigger: 'hover', effect: 'related' }
+  });
+
+  const hoverRelated = (targetChart, series, graphic, mark) => {
+    const nested = graphic?.getSubGraphic?.()?.[0];
+    const item = graphic
+      ? findMarkGraphic(targetChart.getCompiler().getRootGroup(), nested ?? graphic) ?? graphic
+      : undefined;
+    series.event.emit('pointerover', { item, mark: item ? mark : undefined }, Event_Bubble_Level.chart);
+  };
+
+  const expectPlainRelated = (series, selectedNodes, selectedLinks) => {
+    const nodes = series._nodeMark.getGraphics();
+    const links = series._linkMark.getGraphics();
+    expect(nodes.length).toBeGreaterThan(0);
+    expect(links.length).toBeGreaterThan(0);
+    nodes.forEach(node => {
+      const key = node.context.data[0].key;
+      const selected = selectedNodes.includes(key);
+      expect(node.currentStates).toContain(selected ? 'selected' : 'blur');
+      expect(node.currentStates).not.toContain(selected ? 'blur' : 'selected');
+      expect(node.attribute.fillOpacity).toBe(selected ? 1 : 0.08);
+    });
+    links.forEach(link => {
+      const { source, target } = link.context.data[0];
+      const selected = selectedLinks.some(([linkSource, linkTarget]) => linkSource === source && linkTarget === target);
+      expect(link.currentStates).toContain(selected ? 'selected' : 'blur');
+      expect(link.currentStates).not.toContain(selected ? 'blur' : 'selected');
+      expect(link.attribute.fillOpacity).toBe(selected ? 0.9 : 0.05);
+    });
+  };
+
+  test('plain node-link related hover highlights the fork and merge path', () => {
+    chart = new VChart(createPlainRelatedSpec(), { dom, animation: false });
+    chart.renderSync();
+    const series = chart.getChart().getAllSeries()[0];
+    const nodeMark = series._nodeMark;
+    const linkMark = series._linkMark;
+    const node = name => nodeMark.getGraphics().find(g => g.context.data[0].key === name);
+    const link = (source, target) =>
+      linkMark.getGraphics().find(g => g.context.data[0].source === source && g.context.data[0].target === target);
+    const nodeA = node('A');
+    const linkAB = link('A', 'B');
+    expect(nodeMark.getGraphics()).toHaveLength(4);
+    expect(linkMark.getGraphics()).toHaveLength(4);
+    const initialNodeOpacity = nodeA.attribute.fillOpacity;
+    const initialLinkOpacity = linkAB.attribute.fillOpacity;
+
+    hoverRelated(chart, series, nodeA, nodeMark);
+    expectPlainRelated(
+      series,
+      ['A', 'B', 'C', 'D'],
+      [
+        ['A', 'B'],
+        ['A', 'C'],
+        ['B', 'D'],
+        ['C', 'D']
+      ]
+    );
+
+    hoverRelated(chart, series, node('B'), nodeMark);
+    expectPlainRelated(
+      series,
+      ['A', 'B', 'D'],
+      [
+        ['A', 'B'],
+        ['B', 'D']
+      ]
+    );
+
+    hoverRelated(chart, series, link('A', 'C'), linkMark);
+    expectPlainRelated(
+      series,
+      ['A', 'C', 'D'],
+      [
+        ['A', 'C'],
+        ['C', 'D']
+      ]
+    );
+
+    hoverRelated(chart, series, link('B', 'D'), linkMark);
+    expectPlainRelated(
+      series,
+      ['A', 'B', 'D'],
+      [
+        ['A', 'B'],
+        ['B', 'D']
+      ]
+    );
+
+    hoverRelated(chart, series);
+    series._nodeMark.getGraphics().forEach(g => {
+      expect(g.currentStates).toEqual([]);
+    });
+    series._linkMark.getGraphics().forEach(g => {
+      expect(g.currentStates).toEqual([]);
+    });
+    expect(nodeA.attribute.fillOpacity).toBe(initialNodeOpacity);
+    expect(linkAB.attribute.fillOpacity).toBe(initialLinkOpacity);
+
+    hoverRelated(chart, series, node('D'), nodeMark);
+    expectPlainRelated(
+      series,
+      ['A', 'B', 'C', 'D'],
+      [
+        ['A', 'B'],
+        ['A', 'C'],
+        ['B', 'D'],
+        ['C', 'D']
+      ]
+    );
+  });
+
+  test('plain node-link related hover follows paths longer than two hops', () => {
+    chart = new VChart(
+      {
+        type: 'sankey',
+        width: 500,
+        height: 300,
+        data: [
+          {
+            values: [
+              {
+                nodes: [{ name: 'A' }, { name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }],
+                links: [
+                  { source: 0, target: 1, value: 1 },
+                  { source: 1, target: 2, value: 1 },
+                  { source: 2, target: 3, value: 1 },
+                  { source: 4, target: 2, value: 1 }
+                ]
+              }
+            ]
+          }
+        ],
+        categoryField: 'name',
+        sourceField: 'source',
+        targetField: 'target',
+        valueField: 'value',
+        nodeWidth: 20,
+        nodeGap: 20,
+        node: {
+          state: {
+            selected: { fillOpacity: 1 },
+            blur: { fillOpacity: 0.08 }
+          }
+        },
+        link: {
+          state: {
+            selected: { fillOpacity: 0.9 },
+            blur: { fillOpacity: 0.05 }
+          }
+        },
+        emphasis: { enable: true, trigger: 'hover', effect: 'related' }
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const series = chart.getChart().getAllSeries()[0];
+    const nodeMark = series._nodeMark;
+    const linkMark = series._linkMark;
+    const node = key => nodeMark.getGraphics().find(g => g.context.data[0].key === key);
+    const link = (source, target) =>
+      linkMark.getGraphics().find(g => g.context.data[0].source === source && g.context.data[0].target === target);
+
+    expect(nodeMark.getGraphics()).toHaveLength(5);
+    expect(linkMark.getGraphics()).toHaveLength(4);
+
+    hoverRelated(chart, series, node(0), nodeMark);
+    expectPlainRelated(
+      series,
+      [0, 1, 2, 3],
+      [
+        [0, 1],
+        [1, 2],
+        [2, 3]
+      ]
+    );
+
+    hoverRelated(chart, series, link(1, 2), linkMark);
+    expectPlainRelated(
+      series,
+      [0, 1, 2, 3],
+      [
+        [0, 1],
+        [1, 2],
+        [2, 3]
+      ]
+    );
+
+    hoverRelated(chart, series, node(2), nodeMark);
+    expectPlainRelated(
+      series,
+      [0, 1, 2, 3, 4],
+      [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [4, 2]
+      ]
+    );
+  });
 });

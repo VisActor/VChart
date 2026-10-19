@@ -1,0 +1,24 @@
+{
+  "type": "violinPlot",
+  "data": [
+    {
+      "category": "A",
+      "value": 2
+    },
+    {
+      "category": "A",
+      "value": 2
+    },
+    {
+      "category": "A",
+      "value": 2
+    },
+    {
+      "category": "B",
+      "value": 5
+    }
+  ],
+  "estimation": {
+    "bandwidth": 0.5
+  }
+}

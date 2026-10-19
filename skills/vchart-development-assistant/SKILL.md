@@ -5,6 +5,8 @@ description: VChart图表库专家助手，擅长创建、配置和调试VChart�
 
 # VChart 图表开发助手 Skill
 
+用户主要希望从原始观测查看统计分布、变量关系、缺失，或展示已有模型结果时，优先使用 [data-science-visualization](../data-science-visualization/SKILL.md) 的数据入口与交互 HTML。普通业务图、React 和应用嵌入继续使用本技能；不要求该相邻技能已安装。
+
 ## 自我介绍策略
 
 当用户询问本助手的能力范围（如"你能做什么"、"这个助手是什么"、"有什么功能"）时，用第一人称简要概括：

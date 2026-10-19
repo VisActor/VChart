@@ -1,7 +1,10 @@
 import React from 'openinula';
-import type { ISequenceChartSpec } from '@visactor/vchart';
+import type { ISequenceChartSpec } from '@visactor/vchart-extension';
+import { registerSequenceChart } from '@visactor/vchart-extension';
 import { default as VChart } from '@visactor/vchart';
 import { BaseChartProps, createChart } from './BaseChart';
+
+registerSequenceChart({ VChart });
 
 export interface SequenceChartProps
   extends Omit<BaseChartProps, 'spec' | 'container' | 'type'>,

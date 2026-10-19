@@ -184,6 +184,8 @@ interface ITheme {
 
   其类型`ISeriesTheme`的定义如下：
 
+  `dot`、`link` 系列主题随系列实现迁至 `@visactor/vchart-extension`，对应的 `IDotSeriesTheme`、`ILinkSeriesTheme` 类型从扩展包导入；自定义主题仍使用 `series.dot`、`series.link` 配置。
+
   ```typescript
   interface ISeriesTheme {
     [SeriesTypeEnum.bar]?: IBarSeriesTheme;
@@ -197,8 +199,6 @@ interface ITheme {
     [SeriesTypeEnum.rose]?: IRoseSeriesTheme;
     [SeriesTypeEnum.map]?: IMapSeriesTheme;
     [SeriesTypeEnum.circularProgress]?: ICircularProgressSeriesTheme;
-    [SeriesTypeEnum.link]?: ILinkSeriesTheme;
-    [SeriesTypeEnum.dot]?: IDotSeriesTheme;
     [SeriesTypeEnum.wordCloud]?: IWordCloudSeriesTheme;
     [SeriesTypeEnum.wordCloud3d]?: IWordCloud3dSeriesTheme;
     [SeriesTypeEnum.funnel]?: IFunnelSeriesTheme;

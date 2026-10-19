@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-extension",
+      "comment": "feat: 提供 sequence 时序图及 registerSequenceChart，保留原有时序图配置与布局",
+      "type": "minor"
+    }
+  ],
+  "packageName": "@visactor/vchart-extension"
+}

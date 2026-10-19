@@ -1,0 +1,1092 @@
+{
+  "valid": [
+    {
+      "type": "autocorrelationPlot",
+      "variant": "minimal",
+      "file": "minimal/autocorrelationPlot.json",
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "grouped",
+      "file": "grouped/autocorrelationPlot.json",
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "boxPlot",
+      "variant": "minimal",
+      "file": "minimal/boxPlot.json",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "type": "boxPlot",
+      "variant": "grouped",
+      "file": "grouped/boxPlot.json",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "type": "calibrationCurve",
+      "variant": "minimal",
+      "file": "minimal/calibrationCurve.json",
+      "documentation": "../../docs/plots/calibrationCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "calibrationCurve",
+      "variant": "grouped",
+      "file": "grouped/calibrationCurve.json",
+      "documentation": "../../docs/plots/calibrationCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "minimal",
+      "file": "minimal/confusionMatrix.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "correlationMatrix",
+      "variant": "minimal",
+      "file": "minimal/correlationMatrix.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
+    },
+    {
+      "type": "correlationMatrix",
+      "variant": "upper",
+      "file": "variants/correlationMatrix-upper.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
+    },
+    {
+      "type": "correlationMatrix",
+      "variant": "signed",
+      "file": "variants/correlationMatrix-signed.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
+    },
+    {
+      "type": "countPlot",
+      "variant": "minimal",
+      "file": "minimal/countPlot.json",
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "countPlot",
+      "variant": "grouped",
+      "file": "grouped/countPlot.json",
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "ecdfPlot",
+      "variant": "minimal",
+      "file": "minimal/ecdfPlot.json",
+      "documentation": "../../docs/plots/ecdfPlot.md",
+      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
+    },
+    {
+      "type": "ecdfPlot",
+      "variant": "grouped",
+      "file": "grouped/ecdfPlot.json",
+      "documentation": "../../docs/plots/ecdfPlot.md",
+      "computation": "原始 value 观测；各系列独立复用 vutils 计算，重复值分别计入样本"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "minimal",
+      "file": "minimal/embeddingPlot.json",
+      "documentation": "../../docs/plots/embedding.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "grouped",
+      "file": "grouped/embeddingPlot.json",
+      "documentation": "../../docs/plots/embedding.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "minimal",
+      "file": "minimal/pointIntervalPlot.json",
+      "documentation": "../../docs/plots/estimateInterval.md",
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "grouped",
+      "file": "grouped/pointIntervalPlot.json",
+      "documentation": "../../docs/plots/estimateInterval.md",
+      "computation": "外部估计区间直接展示"
+    },
+    {
+      "type": "featureImportancePlot",
+      "variant": "minimal",
+      "file": "minimal/featureImportancePlot.json",
+      "documentation": "../../docs/plots/featureImportance.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "featureImportancePlot",
+      "variant": "grouped",
+      "file": "grouped/featureImportancePlot.json",
+      "documentation": "../../docs/plots/featureImportance.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "minimal",
+      "file": "minimal/hexbinPlot.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点；本包计算六边形分箱计数，xBins 默认 30"
+    },
+    {
+      "type": "histogram",
+      "variant": "minimal",
+      "file": "minimal/histogram.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数与显示归一化"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "minimal",
+      "file": "minimal/kdePlot.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "grouped",
+      "file": "grouped/kdePlot.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "type": "learningCurve",
+      "variant": "minimal",
+      "file": "minimal/learningCurve.json",
+      "documentation": "../../docs/plots/learningCurve.md",
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
+    },
+    {
+      "type": "learningCurve",
+      "variant": "grouped",
+      "file": "grouped/learningCurve.json",
+      "documentation": "../../docs/plots/learningCurve.md",
+      "computation": "外部学习曲线汇总直接展示"
+    },
+    {
+      "type": "missingValueMatrix",
+      "variant": "minimal",
+      "file": "minimal/missingValueMatrix.json",
+      "documentation": "../../docs/plots/missingness.md",
+      "computation": "原始观测或各折结果；编译时按逐图契约生成统计结果"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "minimal",
+      "file": "minimal/pairPlot.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始 observations；按变量独立排除 null，由本包计算共享边界和分组计数"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "grouped",
+      "file": "grouped/pairPlot.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始 observations；按变量独立排除 null，由本包计算共享边界和分组计数"
+    },
+    {
+      "type": "pairedComparisonPlot",
+      "variant": "minimal",
+      "file": "minimal/pairedComparisonPlot.json",
+      "documentation": "../../docs/plots/paired.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "pairedComparisonPlot",
+      "variant": "grouped",
+      "file": "grouped/pairedComparisonPlot.json",
+      "documentation": "../../docs/plots/paired.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "variant": "minimal",
+      "file": "minimal/precisionRecallCurve.json",
+      "documentation": "../../docs/plots/precisionRecallCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "variant": "grouped",
+      "file": "grouped/precisionRecallCurve.json",
+      "documentation": "../../docs/plots/precisionRecallCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "minimal",
+      "file": "minimal/qqPlot.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "grouped",
+      "file": "grouped/qqPlot.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "minimal",
+      "file": "minimal/residualPlot.json",
+      "documentation": "../../docs/plots/residual.md",
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "grouped",
+      "file": "grouped/residualPlot.json",
+      "documentation": "../../docs/plots/residual.md",
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
+    },
+    {
+      "type": "rocCurve",
+      "variant": "minimal",
+      "file": "minimal/rocCurve.json",
+      "documentation": "../../docs/plots/rocCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "rocCurve",
+      "variant": "grouped",
+      "file": "grouped/rocCurve.json",
+      "documentation": "../../docs/plots/rocCurve.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "minimal",
+      "file": "minimal/scatterPlot.json",
+      "documentation": "../../docs/plots/scatter.md",
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "grouped",
+      "file": "grouped/scatterPlot.json",
+      "documentation": "../../docs/plots/scatter.md",
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
+    },
+    {
+      "type": "screePlot",
+      "variant": "minimal",
+      "file": "minimal/screePlot.json",
+      "documentation": "../../docs/plots/scree.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "minimal",
+      "file": "minimal/seasonalPlot.json",
+      "documentation": "../../docs/plots/seasonal.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "grouped",
+      "file": "grouped/seasonalPlot.json",
+      "documentation": "../../docs/plots/seasonal.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "shapBeeswarmPlot",
+      "variant": "minimal",
+      "file": "minimal/shapBeeswarmPlot.json",
+      "documentation": "../../docs/plots/shapBeeswarm.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "minimal",
+      "file": "minimal/stripPlot.json",
+      "documentation": "../../docs/plots/stripPlot.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "grouped",
+      "file": "grouped/stripPlot.json",
+      "documentation": "../../docs/plots/stripPlot.md",
+      "computation": "分系列提供同一种统计结果；分母和拟合结果按 series 对应"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "variant": "minimal",
+      "file": "minimal/timeSeriesPlot.json",
+      "documentation": "../../docs/plots/timeSeries.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "variant": "grouped",
+      "file": "grouped/timeSeriesPlot.json",
+      "documentation": "../../docs/plots/timeSeries.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "minimal",
+      "file": "minimal/violinPlot.json",
+      "documentation": "../../docs/plots/violin.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "grouped",
+      "file": "grouped/violinPlot.json",
+      "documentation": "../../docs/plots/violin.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "swarm",
+      "file": "variants/stripPlot-swarm.json",
+      "documentation": "../../docs/plots/stripPlot.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "pacf",
+      "file": "variants/autocorrelationPlot-pacf.json",
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "overlay",
+      "file": "variants/seasonalPlot-overlay.json",
+      "documentation": "../../docs/plots/seasonal.md",
+      "computation": "见对应逐图契约，统计结果由调用方提供"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "area",
+      "file": "variants/violinPlot-area.json",
+      "documentation": "../../docs/plots/violin.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "predicted",
+      "file": "variants/confusionMatrix-predicted.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "all",
+      "file": "variants/confusionMatrix-all.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "log",
+      "file": "variants/pointIntervalPlot-log.json",
+      "documentation": "../../docs/plots/estimateInterval.md",
+      "computation": "外部估计区间直接展示"
+    },
+    {
+      "type": "countPlot",
+      "variant": "proportion",
+      "file": "variants/countPlot-proportion.json",
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "histogram",
+      "variant": "density",
+      "file": "variants/histogram-density.json",
+      "computation": "原始 value 观测；本包计算单分布分箱计数与显示归一化"
+    },
+    {
+      "type": "histogram",
+      "variant": "proportion",
+      "file": "variants/histogram-proportion.json",
+      "computation": "原始 value 观测；本包计算单分布分箱计数与显示归一化"
+    },
+    {
+      "type": "stripPlot",
+      "variant": "jitter",
+      "file": "variants/stripPlot-jitter.json"
+    },
+    {
+      "type": "seasonalPlot",
+      "variant": "subseries",
+      "file": "variants/seasonalPlot-subseries.json"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "acf",
+      "file": "variants/autocorrelationPlot-acf.json",
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "输入原始观测；编译时按逐图契约计算统计量，series 各自独立（count 全表比例除外）"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "pca",
+      "file": "variants/embeddingPlot-pca.json"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "tsne",
+      "file": "variants/embeddingPlot-tsne.json"
+    },
+    {
+      "type": "embeddingPlot",
+      "variant": "umap",
+      "file": "variants/embeddingPlot-umap.json"
+    },
+    {
+      "type": "confusionMatrix",
+      "variant": "actual",
+      "file": "variants/confusionMatrix-actual.json",
+      "documentation": "../../docs/plots/confusionMatrix.md",
+      "computation": "逐样本计数，按实际类别归一化；classOrder 声明未出现的 C 类，零分母为 NA"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "coarse",
+      "file": "variants/hexbinPlot-coarse.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "fine",
+      "file": "variants/hexbinPlot-fine.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "constant",
+      "file": "variants/hexbinPlot-constant.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "hexbinPlot",
+      "variant": "different-units",
+      "file": "variants/hexbinPlot-different-units.json",
+      "documentation": "../../docs/plots/hexbinPlot.md",
+      "computation": "原始 x/y 散点，由本包按 binning.xBins 计算非空六边形箱计数；恒定轴扩展仅用于显示"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "histogram",
+      "file": "variants/pairPlot-histogram.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始观测；对角直方图内部计算，none 明确关闭对角分布"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "none",
+      "file": "variants/pairPlot-none.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始观测；对角直方图内部计算，none 明确关闭对角分布"
+    },
+    {
+      "type": "pairPlot",
+      "variant": "missing-constant",
+      "file": "variants/pairPlot-missing-constant.json",
+      "documentation": "../../docs/plots/pairPlot.md",
+      "computation": "原始观测；对角直方图内部计算，none 明确关闭对角分布"
+    },
+    {
+      "type": "histogram",
+      "variant": "coarse",
+      "file": "variants/histogram-coarse.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "histogram",
+      "variant": "fine",
+      "file": "variants/histogram-fine.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "histogram",
+      "variant": "constant",
+      "file": "variants/histogram-constant.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "histogram",
+      "variant": "zero-bin",
+      "file": "variants/histogram-zero-bin.json",
+      "documentation": "../../docs/plots/histogram.md",
+      "computation": "原始 value 观测；本包计算单分布分箱计数"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "fixed",
+      "file": "variants/kdePlot-fixed.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "epanechnikov",
+      "file": "variants/kdePlot-epanechnikov.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "type": "kdePlot",
+      "variant": "constant",
+      "file": "variants/kdePlot-constant.json",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "type": "ecdfPlot",
+      "variant": "constant",
+      "file": "variants/ecdfPlot-constant.json",
+      "documentation": "../../docs/plots/ecdfPlot.md",
+      "computation": "本包复用 vutils，从原始观测计算统计曲线"
+    },
+    {
+      "file": "variants/boxPlot-singleton.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-singleton",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-constant.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-constant",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-zero-iqr.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-zero-iqr",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-whiskers.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-whiskers",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "file": "variants/boxPlot-small-sample.json",
+      "type": "boxPlot",
+      "variant": "boxPlot-small-sample",
+      "documentation": "../../docs/plots/boxPlot.md",
+      "computation": "原始 category/value/series，编译时独立计算线性插值四分位、IQR 须与异常值"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "fixed",
+      "file": "variants/violinPlot-fixed.json",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "constant",
+      "file": "variants/violinPlot-constant.json",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "type": "violinPlot",
+      "variant": "epanechnikov",
+      "file": "variants/violinPlot-epanechnikov.json",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "type": "countPlot",
+      "variant": "series-proportion",
+      "file": "variants/countPlot-series-proportion.json",
+      "documentation": "../../docs/plots/countPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "variant": "baseline",
+      "file": "variants/precisionRecallCurve-baseline.json",
+      "documentation": "../../docs/plots/precisionRecallCurve.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "calibrationCurve",
+      "variant": "quantile",
+      "file": "variants/calibrationCurve-quantile.json",
+      "documentation": "../../docs/plots/calibrationCurve.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "quartiles",
+      "file": "variants/qqPlot-quartiles.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "regression",
+      "file": "variants/qqPlot-regression.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "identity",
+      "file": "variants/qqPlot-identity.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "qqPlot",
+      "variant": "normal-parameters",
+      "file": "variants/qqPlot-normal-parameters.json",
+      "documentation": "../../docs/plots/qqPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "autocorrelationPlot",
+      "variant": "no-confidence",
+      "file": "variants/autocorrelationPlot-no-confidence.json",
+      "documentation": "../../docs/plots/autocorrelationPlot.md",
+      "computation": "根据原始观测内部计算，参数定义见逐图契约"
+    },
+    {
+      "type": "correlationMatrix",
+      "variant": "spearman-ties",
+      "file": "variants/correlationMatrix-spearman-ties.json",
+      "documentation": "../../docs/plots/correlationMatrix.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "standard-error",
+      "file": "variants/pointIntervalPlot-standard-error.json",
+      "documentation": "../../docs/plots/pointIntervalPlot.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "median-percentile",
+      "file": "variants/pointIntervalPlot-median-percentile.json",
+      "documentation": "../../docs/plots/pointIntervalPlot.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "variant": "single-sample",
+      "file": "variants/pointIntervalPlot-single-sample.json",
+      "documentation": "../../docs/plots/pointIntervalPlot.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "learningCurve",
+      "variant": "folds-no-spread",
+      "file": "variants/learningCurve-folds-no-spread.json",
+      "documentation": "../../docs/plots/learningCurve.md",
+      "computation": "见逐图契约；显式输入模式与参数"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "studentized",
+      "file": "variants/residualPlot-studentized.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始 x/y 按系列内部回归；外部结果使用显式 input；残差趋势与生成残差的模型分离"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "polynomial",
+      "file": "variants/scatterPlot-polynomial.json",
+      "documentation": "../../docs/plots/scatterPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "lowess",
+      "file": "variants/scatterPlot-lowess.json",
+      "documentation": "../../docs/plots/scatterPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "scatterPlot",
+      "variant": "external",
+      "file": "variants/scatterPlot-external.json",
+      "documentation": "../../docs/plots/scatterPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "polynomial",
+      "file": "variants/residualPlot-polynomial.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "lowess",
+      "file": "variants/residualPlot-lowess.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "smooth",
+      "file": "variants/residualPlot-smooth.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "type": "residualPlot",
+      "variant": "predictions",
+      "file": "variants/residualPlot-predictions.json",
+      "documentation": "../../docs/plots/residualPlot.md",
+      "computation": "原始配对回归或明确的外部结果展示"
+    },
+    {
+      "file": "variants/timeSeriesPlot-standard-error.json",
+      "type": "timeSeriesPlot",
+      "variant": "standard-error",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "file": "variants/timeSeriesPlot-direct.json",
+      "type": "timeSeriesPlot",
+      "variant": "direct",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "file": "variants/kdePlot-series.json",
+      "type": "kdePlot",
+      "variant": "series",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "file": "variants/violinPlot-legacy.json",
+      "type": "violinPlot",
+      "variant": "legacy",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "file": "variants/violinPlot-count.json",
+      "type": "violinPlot",
+      "variant": "count",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "file": "variants/timeSeriesPlot-median.json",
+      "type": "timeSeriesPlot",
+      "variant": "median",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    },
+    {
+      "file": "variants/kdePlot-cut-zero.json",
+      "type": "kdePlot",
+      "variant": "cut-zero",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "file": "variants/kdePlot-legacy.json",
+      "type": "kdePlot",
+      "variant": "legacy",
+      "documentation": "../../docs/plots/kdePlot.md",
+      "computation": "各系列独立 KDE，默认样本标准差带宽、按全体样本比例缩放概率密度"
+    },
+    {
+      "file": "variants/violinPlot-all.json",
+      "type": "violinPlot",
+      "variant": "all",
+      "documentation": "../../docs/plots/violinPlot.md",
+      "computation": "category+series 独立 KDE，默认样本标准差带宽、同系列跨分类等面积；count/width 可显式配置"
+    },
+    {
+      "file": "variants/timeSeriesPlot-estimates.json",
+      "type": "timeSeriesPlot",
+      "variant": "estimates",
+      "documentation": "../../docs/plots/timeSeriesPlot.md",
+      "computation": "input=observations 原始时间观测分组估计；input=estimates 展示外部结果；UTC 排序，null 断线"
+    }
+  ],
+  "invalid": [
+    {
+      "type": "autocorrelationPlot",
+      "file": "invalid/autocorrelationPlot.json",
+      "code": "INVALID_RANGE",
+      "path": "/data/0/value",
+      "reason": "常量序列没有可定义的相关系数"
+    },
+    {
+      "type": "boxPlot",
+      "file": "invalid/boxPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/whiskers/iqrMultiplier",
+      "reason": "IQR 围栏倍数必须为有限非负数"
+    },
+    {
+      "type": "calibrationCurve",
+      "file": "invalid/calibrationCurve.json",
+      "code": "INVALID_RANGE",
+      "path": "/data/0/probability",
+      "reason": "预测概率必须在 [0,1]"
+    },
+    {
+      "type": "confusionMatrix",
+      "file": "invalid/confusionMatrix.json",
+      "code": "INVALID_RANGE",
+      "path": "/data/0/predicted",
+      "reason": "classOrder 必须覆盖所有实际和预测类别"
+    },
+    {
+      "type": "correlationMatrix",
+      "file": "invalid/correlationMatrix.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "countPlot",
+      "file": "invalid/countPlot.json",
+      "code": "UNSUPPORTED_COMBINATION",
+      "path": "/normalizationScope",
+      "reason": "计数模式不能指定比例分母"
+    },
+    {
+      "type": "ecdfPlot",
+      "file": "invalid/ecdfPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "embeddingPlot",
+      "file": "invalid/embeddingPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "pointIntervalPlot",
+      "file": "invalid/pointIntervalPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "featureImportancePlot",
+      "file": "invalid/featureImportancePlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "hexbinPlot",
+      "file": "invalid/hexbinPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/binning/xBins",
+      "reason": "xBins 必须为 1–200 的整数"
+    },
+    {
+      "type": "histogram",
+      "file": "invalid/histogram.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/binning/binCount",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "kdePlot",
+      "file": "invalid/kdePlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "learningCurve",
+      "file": "invalid/learningCurve.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "missingValueMatrix",
+      "file": "invalid/missingValueMatrix.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "pairPlot",
+      "file": "invalid/pairPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/diagonal/binning/binCount",
+      "reason": "箱数必须为 1–200 的整数"
+    },
+    {
+      "type": "pairedComparisonPlot",
+      "file": "invalid/pairedComparisonPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "precisionRecallCurve",
+      "file": "invalid/precisionRecallCurve.json",
+      "code": "INVALID_RANGE",
+      "path": "/data/0/actual",
+      "reason": "每个 PR 系列至少需要一个正样本"
+    },
+    {
+      "type": "qqPlot",
+      "file": "invalid/qqPlot.json",
+      "code": "INVALID_RANGE",
+      "path": "/distribution/standardDeviation",
+      "reason": "理论正态标准差必须为正"
+    },
+    {
+      "type": "residualPlot",
+      "file": "invalid/residualPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "rocCurve",
+      "file": "invalid/rocCurve.json",
+      "code": "INVALID_RANGE",
+      "path": "/data/0/actual",
+      "reason": "每个 ROC 系列需要正负样本"
+    },
+    {
+      "type": "scatterPlot",
+      "file": "invalid/scatterPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "screePlot",
+      "file": "invalid/screePlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "seasonalPlot",
+      "file": "invalid/seasonalPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "shapBeeswarmPlot",
+      "file": "invalid/shapBeeswarmPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "stripPlot",
+      "file": "invalid/stripPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot.json",
+      "code": "SCHEMA_ERROR",
+      "path": "/xField",
+      "reason": "语义协议不接受原生字段映射"
+    },
+    {
+      "type": "violinPlot",
+      "file": "invalid/violinPlot.json",
+      "code": "INVALID_RANGE",
+      "path": "/estimation/bandwidth",
+      "reason": "固定带宽必须为正数"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-missing-input.json",
+      "path": "/input",
+      "code": "SCHEMA_ERROR"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-raw-bounds.json",
+      "path": "/data/0/lower",
+      "code": "SCHEMA_ERROR"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-duplicate-estimate.json",
+      "path": "/data/1/time",
+      "code": "DUPLICATE_KEY"
+    },
+    {
+      "type": "kdePlot",
+      "file": "invalid/kdePlot-fixed-deviation.json",
+      "path": "/estimation/standardDeviation",
+      "code": "UNSUPPORTED_COMBINATION"
+    },
+    {
+      "type": "kdePlot",
+      "file": "invalid/kdePlot-adjust.json",
+      "path": "/estimation/bandwidthAdjust",
+      "code": "INVALID_RANGE"
+    },
+    {
+      "type": "violinPlot",
+      "file": "invalid/violinPlot-cut.json",
+      "path": "/sampling/cut",
+      "code": "INVALID_RANGE"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-direct-interval.json",
+      "path": "/errorBar",
+      "code": "SCHEMA_ERROR"
+    },
+    {
+      "type": "timeSeriesPlot",
+      "file": "invalid/timeSeriesPlot-estimates-estimator.json",
+      "path": "/estimator",
+      "code": "SCHEMA_ERROR"
+    }
+  ]
+}

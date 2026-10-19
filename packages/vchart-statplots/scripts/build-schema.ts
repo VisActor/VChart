@@ -1,0 +1,161 @@
+import fs from 'fs';
+import path from 'path';
+import ts from 'typescript';
+import { getProgramFromFiles, buildGenerator } from '@internal/typescript-json-schema';
+import Ajv from 'ajv';
+import standaloneCode from 'ajv/dist/standalone';
+
+const root = path.resolve(__dirname, '..');
+const file = path.join(root, 'src/types.ts');
+const check = process.argv.includes('--check');
+const version = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).version;
+const program = getProgramFromFiles(
+  [file],
+  {
+    strictNullChecks: true,
+    skipLibCheck: true,
+    types: [],
+    target: 'ES2016'
+  },
+  root
+);
+const generator = buildGenerator(program, { required: true, noExtraProps: true, strictNullChecks: true });
+if (!generator) {
+  throw new Error('统计图表类型包含错误，无法生成 Schema');
+}
+
+function output(relative: string, content: string): void {
+  const destination = path.join(root, relative);
+  const current = fs.existsSync(destination) ? fs.readFileSync(destination, 'utf8') : undefined;
+  if (check) {
+    if (current !== content) {
+      throw new Error(`生成物已过期：${relative}，请运行 npm run build:schema`);
+    }
+  } else if (current !== content) {
+    fs.mkdirSync(path.dirname(destination), { recursive: true });
+    // 开发服务与测试可同时生成；避免读到半份文件或因相同内容触发重载。
+    const temporary = `${destination}.${process.pid}.tmp`;
+    fs.writeFileSync(temporary, content);
+    fs.renameSync(temporary, destination);
+  }
+}
+
+// 从公开联合的具名引用枚举图表，避免把一个图表的输入模式展开成同 type 分支。
+const source = program.getSourceFile(file)!;
+const alias = source.statements.find(
+  node => ts.isTypeAliasDeclaration(node) && node.name.text === 'StatPlotSpec'
+) as ts.TypeAliasDeclaration;
+const checker = program.getTypeChecker();
+const references = ts.isUnionTypeNode(alias.type) ? alias.type.types : [alias.type];
+const schema = generator.getSchemaForSymbol('StatPlotSpec');
+schema.$id = `https://visactor.io/schemas/vchart-statplots/${version}/statplot.schema.json`;
+const definitions = schema.definitions ?? {};
+const branches: any[] = [];
+const runtimeBranches: any[] = [];
+const expectedPlotFiles = new Set<string>();
+for (const reference of references) {
+  const name = reference.getText(source);
+  const plotSchema = generator.getSchemaForSymbol(name);
+  const union = checker.getTypeFromTypeNode(reference);
+  const members = union.isUnion() ? union.types : [union];
+  const types = members.map(member => {
+    const property = member.getProperty('type')!;
+    return (checker.getTypeOfSymbolAtLocation(property, source) as ts.StringLiteralType).value;
+  });
+  if (new Set(types).size !== 1) {
+    throw new Error(`${name} 必须属于同一种图表`);
+  }
+  const type = types[0];
+  if (members.length > 1) {
+    plotSchema.type = 'object';
+    plotSchema.properties = { type: { const: type } };
+    plotSchema.required = ['type', 'input'];
+  }
+  Object.assign(definitions, plotSchema.definitions);
+  const body = { ...plotSchema };
+  delete body.definitions;
+  delete body.$schema;
+  definitions[name] = body;
+  expectedPlotFiles.add(`${type}.schema.json`);
+  output(`schema/plots/${type}.schema.json`, JSON.stringify(plotSchema, null, 2) + '\n');
+  branches.push({ $ref: `#/definitions/${name}` });
+  if (members.length > 1) {
+    const modes = body.anyOf ?? body.oneOf;
+    // 一个 input 可以包含多个互斥配置（如时间序列估计与直接连线），先按 input 分派再校验其联合。
+    const byInput = new Map<string, any[]>();
+    for (const mode of modes) {
+      const definition = mode.$ref ? definitions[mode.$ref.split('/').pop()] : mode;
+      const input = definition.properties.input.const ?? definition.properties.input.enum[0];
+      const group = byInput.get(input) ?? [];
+      group.push(mode);
+      byInput.set(input, group);
+    }
+    runtimeBranches.push({
+      type: 'object',
+      properties: { type: { const: type } },
+      required: ['type', 'input'],
+      oneOf: Array.from(byInput, ([input, group]) =>
+        group.length === 1
+          ? group[0]
+          : {
+              type: 'object',
+              properties: { input: { const: input } },
+              required: ['input'],
+              anyOf: group
+            }
+      ),
+      discriminator: { propertyName: 'input' }
+    });
+  } else {
+    runtimeBranches.push({ $ref: `#/definitions/${name}` });
+  }
+}
+schema.definitions = definitions;
+schema.anyOf = branches;
+output('schema/statplot.schema.json', JSON.stringify(schema, null, 2) + '\n');
+const plotDirectory = path.join(root, 'schema/plots');
+const stale = fs
+  .readdirSync(plotDirectory)
+  .filter(name => name.endsWith('.schema.json') && !expectedPlotFiles.has(name));
+if (check && stale.length) {
+  throw new Error(`存在过期图表 Schema：${stale.join(', ')}`);
+}
+if (!check) {
+  stale.forEach(name => fs.unlinkSync(path.join(plotDirectory, name)));
+}
+// type 先选择图表；双模式图内部再用必填 input 选择结构。
+const runtimeSchema = {
+  ...schema,
+  type: 'object',
+  required: ['type'],
+  anyOf: undefined,
+  oneOf: runtimeBranches,
+  discriminator: { propertyName: 'type' }
+};
+const ajv = new Ajv({
+  strict: false,
+  strictNumbers: true,
+  discriminator: true,
+  allErrors: true,
+  // 小行结构仍内联；共用 colors 等复杂定义只生成一次，避免 28 类重复膨胀。
+  inlineRefs: 32,
+  code: { source: true, esm: true, lines: true }
+});
+const validate = ajv.compile(runtimeSchema);
+output(
+  'src/generated/validate.js',
+  '// Generated by scripts/build-schema.ts. Do not edit.\n' + standaloneCode(ajv, validate).trimEnd() + '\n'
+);
+output(
+  'src/generated/validate.d.ts',
+  [
+    '// Generated by scripts/build-schema.ts. Do not edit.',
+    'interface SchemaError { instancePath: string; message?: string; keyword: string; params: Record<string, unknown> }',
+    'interface StructureValidator { (input: unknown): boolean; errors?: SchemaError[] | null }',
+    'declare const validate: StructureValidator;',
+    'export default validate;',
+    ''
+  ].join('\n')
+);
+// eslint-disable-next-line no-console
+console.log(check ? 'Schema 与校验器一致' : 'Schema 与 standalone 校验器已生成');

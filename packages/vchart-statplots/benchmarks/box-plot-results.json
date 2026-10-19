@@ -1,0 +1,103 @@
+{
+  "date": "2026-10-08",
+  "environment": "macOS arm64 / Node.js 22.23.3 / Chromium Playwright 1.63.0",
+  "method": "确定性样本；compile 暖机一次、测量九次；生命周期单次冒烟，不设跨设备毫秒阈值",
+  "timings": [
+    {
+      "count": 10000,
+      "mode": "single",
+      "boxCount": 1,
+      "outlierCount": 0,
+      "compileMedianMs": 0.9000000953674316,
+      "compileMaxMs": 1.3999998569488525,
+      "renderMs": 29.200000047683716,
+      "updateMs": 8.200000047683716,
+      "resizeMs": 3.299999952316284,
+      "releaseMs": 1.0999999046325684,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 10000,
+      "mode": "grouped",
+      "boxCount": 10,
+      "outlierCount": 0,
+      "compileMedianMs": 0.7999999523162842,
+      "compileMaxMs": 1,
+      "renderMs": 6.599999904632568,
+      "updateMs": 6.400000095367432,
+      "resizeMs": 3.9000000953674316,
+      "releaseMs": 0.39999985694885254,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 10000,
+      "mode": "outliers",
+      "boxCount": 1,
+      "outlierCount": 2000,
+      "compileMedianMs": 0.5,
+      "compileMaxMs": 0.7999999523162842,
+      "renderMs": 13.700000047683716,
+      "updateMs": 10.400000095367432,
+      "resizeMs": 9.299999952316284,
+      "releaseMs": 0.5999999046325684,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 100000,
+      "mode": "single",
+      "boxCount": 1,
+      "outlierCount": 0,
+      "compileMedianMs": 9.599999904632568,
+      "compileMaxMs": 10.200000047683716,
+      "renderMs": 13.200000047683716,
+      "updateMs": 12.5,
+      "resizeMs": 2,
+      "releaseMs": 0.2999999523162842,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 100000,
+      "mode": "grouped",
+      "boxCount": 10,
+      "outlierCount": 0,
+      "compileMedianMs": 8.600000143051147,
+      "compileMaxMs": 8.899999856948853,
+      "renderMs": 12.900000095367432,
+      "updateMs": 12.700000047683716,
+      "resizeMs": 3.0999999046325684,
+      "releaseMs": 0.20000004768371582,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    },
+    {
+      "count": 100000,
+      "mode": "outliers",
+      "boxCount": 1,
+      "outlierCount": 20000,
+      "compileMedianMs": 5,
+      "compileMaxMs": 5.400000095367432,
+      "renderMs": 61,
+      "updateMs": 52.799999952316284,
+      "resizeMs": 54.39999985694885,
+      "releaseMs": 3.299999952316284,
+      "preserved": true,
+      "sameInstance": true,
+      "errors": []
+    }
+  ],
+  "dashboard": {
+    "chartCount": 20,
+    "canvasCount": 20,
+    "renderMs": 55.89999985694885,
+    "releaseMs": 1.4000000953674316
+  }
+}

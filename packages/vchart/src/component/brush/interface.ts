@@ -30,6 +30,11 @@ interface IBrushDataBindSpec {
    * 刷取联动的seriesId
    */
   brushLinkSeriesId?: string | string[]; // 默认无系列
+  /**
+   * 联动系列按观测标识字段匹配；省略时沿用相对像素区域联动。
+   * 两侧须提供相同类型的非空标识。仅影响 brushLinkSeriesId/Index 指定的系列。
+   */
+  brushLinkDataKey?: string;
 
   /**
    * 刷取后是否更新axis/dataZoom范围

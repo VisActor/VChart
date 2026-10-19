@@ -24,3 +24,12 @@ VChart 是高性能可视化渲染库。工程取舍应优先面向正确、文�
 2. render、update、interaction、animation、release 的高性能。
 3. 稳定且易用的公共调用方式。
 4. 最小化兼容性兜底，只在真实 API 承诺需要时引入。
+
+## 本地视觉回归测试
+
+- 开发完成后，依据改动运行相关目录或单用例；影响公共渲染、布局、数据或状态路径时考虑多个目录，不确定范围时运行全量。命令从仓库根目录执行：`node packages/vchart/scripts/visual-test.mjs --dir components/label` 或 `--case pie-label`。
+- 每次提交 PR 前运行全量：`node packages/vchart/scripts/visual-test.mjs`。默认比较当前工作区（含未提交修改）与官方 develop。`--self-compare` 仅验证稳定性，不能代替基线比较。
+- 查看三图 HTML 或 `agent-summary.md`：视觉差异需要审查和说明，执行错误必须解决；无法运行、基线不支持新功能等阻断应如实记录，不得写成通过，不跳过用例或放宽阈值。
+- 新增功能、修复 bug 或发现覆盖空缺时，补充有明确目的的确定性回归用例，或补强相关用例；交互必须断言真实状态变化。登记到显式清单并按用例指南完成稳定性及反例检查。
+- 开发者或 Agent 独立新增用例不填写 `BugServer case IDs` 行，不填空值或占位 ID。现有迁移项保留真实来源，改写保留原 ID、合并保留多个。未来同步到 BugServer 成功后再补齐真实 ID；本期没有同步功能。
+- 使用 Node.js 22；环境准备、全量/目录/单例命令、报告及清理见 [视觉测试说明](./packages/vchart/__tests__/visual/README.md)，目录与编写规范见 [用例指南](./packages/vchart/__tests__/visual/cases/README.md)。测试不替代必要的单元、性能及发版前全量测试。

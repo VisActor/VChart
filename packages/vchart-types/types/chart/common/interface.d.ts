@@ -4,10 +4,8 @@ import type { IChartSpec } from '../../typings/spec/common';
 import type { IBarSeriesSpec } from '../../series/bar/interface';
 import type { IRangeColumnChartSpec } from '../range-column/interface';
 import type { IRangeAreaChartSpec } from '../range-area/interface';
-import type { IDotSeriesSpec } from '../../series/dot/interface';
 import type { IMapSeriesSpec } from '../../series/map/interface';
 import type { IPieSeriesSpec } from '../../series/pie/interface';
-import type { ILinkSeriesSpec } from '../../series/link/interface';
 import type { IRadarSeriesSpec } from '../../series/radar/interface';
 import type { IRoseSeriesSpec } from '../../series/rose/interface';
 import type { IScatterSeriesSpec } from '../../series/scatter/interface';
@@ -33,7 +31,7 @@ import type { IMarkPointSpec } from '../../component/marker/mark-point/interface
 export interface ICommonChartSpec extends Omit<IChartSpec, 'series'> {
     type: 'common';
     seriesField?: string;
-    series?: (IAreaSeriesSpec | ILineSeriesSpec | IBarSeriesSpec | IRangeColumnChartSpec | IRangeAreaChartSpec | IDotSeriesSpec | IMapSeriesSpec | IPieSeriesSpec | ILinkSeriesSpec | IRadarSeriesSpec | IRoseSeriesSpec | IScatterSeriesSpec | ICircularProgressSeriesSpec | ILinearProgressSeriesSpec | IWordCloudSeriesSpec | IFunnelSeriesSpec | IBoxPlotSeriesSpec | IGaugeSeriesSpec | ISankeySeriesSpec | ITreemapSeriesSpec | ISunburstSeriesSpec | ICirclePackingSeriesSpec | IWaterfallSeriesSpec | IHeatmapSeriesSpec | IGaugePointerSeriesSpec | ICorrelationSeriesSpec)[];
+    series?: (IAreaSeriesSpec | ILineSeriesSpec | IBarSeriesSpec | IRangeColumnChartSpec | IRangeAreaChartSpec | IMapSeriesSpec | IPieSeriesSpec | IRadarSeriesSpec | IRoseSeriesSpec | IScatterSeriesSpec | ICircularProgressSeriesSpec | ILinearProgressSeriesSpec | IWordCloudSeriesSpec | IFunnelSeriesSpec | IBoxPlotSeriesSpec | IGaugeSeriesSpec | ISankeySeriesSpec | ITreemapSeriesSpec | ISunburstSeriesSpec | ICirclePackingSeriesSpec | IWaterfallSeriesSpec | IHeatmapSeriesSpec | IGaugePointerSeriesSpec | ICorrelationSeriesSpec)[];
     axes?: ICartesianAxisSpec[] | IPolarAxisSpec[];
     crosshair?: ICartesianCrosshairSpec | ICartesianCrosshairSpec[] | IPolarCrosshairSpec | IPolarCrosshairSpec[];
     markLine?: IMarkLineSpec | IMarkLineSpec[];

@@ -1,0 +1,403 @@
+{
+  "provenance": "确定性合成验收数据，非用户真实业务数据",
+  "dataset": {
+    "idColumn": "id",
+    "columns": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "employee_no",
+        "type": "number",
+        "label": "员工编号（标识）"
+      },
+      {
+        "name": "income",
+        "type": "number",
+        "label": "收入",
+        "unit": "元"
+      },
+      {
+        "name": "department",
+        "type": "string",
+        "label": "部门"
+      },
+      {
+        "name": "region",
+        "type": "string",
+        "label": "地区"
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "label": "身高",
+        "unit": "cm"
+      },
+      {
+        "name": "weight",
+        "type": "number",
+        "label": "体重",
+        "unit": "kg"
+      },
+      {
+        "name": "fixed_score",
+        "type": "number",
+        "label": "固定评分"
+      }
+    ],
+    "records": [
+      {
+        "id": "001",
+        "employee_no": 1001,
+        "income": 0,
+        "department": "A",
+        "region": "东区",
+        "height": 170,
+        "weight": 60,
+        "fixed_score": 1
+      },
+      {
+        "id": "002",
+        "employee_no": 1002,
+        "income": 1000,
+        "department": "B",
+        "region": "东区",
+        "height": 180,
+        "weight": 70,
+        "fixed_score": 1
+      },
+      {
+        "id": "003",
+        "employee_no": 1003,
+        "income": 1000,
+        "department": "B",
+        "region": "西区",
+        "height": null,
+        "weight": 80,
+        "fixed_score": 1
+      },
+      {
+        "id": "004",
+        "employee_no": 1004,
+        "income": 2000,
+        "department": "A",
+        "region": "东区",
+        "height": 190,
+        "weight": null,
+        "fixed_score": 1
+      },
+      {
+        "id": "005",
+        "employee_no": 1005,
+        "income": 5000,
+        "department": "C",
+        "region": "西区",
+        "height": 175,
+        "weight": 65,
+        "fixed_score": 1
+      },
+      {
+        "id": "006",
+        "employee_no": 1006,
+        "income": 20000,
+        "department": "D",
+        "region": "西区",
+        "height": 185,
+        "weight": 75,
+        "fixed_score": 1
+      },
+      {
+        "id": "007",
+        "employee_no": 1007,
+        "income": null,
+        "department": "D",
+        "region": "西区",
+        "height": 195,
+        "weight": 85,
+        "fixed_score": 1
+      }
+    ]
+  },
+  "rewriteDataset": {
+    "idColumn": "id",
+    "columns": [
+      {
+        "name": "id",
+        "type": "string"
+      },
+      {
+        "name": "income",
+        "type": "number",
+        "label": "收入",
+        "unit": "元"
+      },
+      {
+        "name": "department",
+        "type": "string",
+        "label": "部门"
+      },
+      {
+        "name": "region",
+        "type": "string",
+        "label": "地区"
+      }
+    ],
+    "records": [
+      {
+        "id": "001",
+        "income": 0,
+        "department": "A",
+        "region": "东区"
+      },
+      {
+        "id": "002",
+        "income": 1000,
+        "department": "B",
+        "region": "东区"
+      },
+      {
+        "id": "003",
+        "income": 2000,
+        "department": "A",
+        "region": "东区"
+      },
+      {
+        "id": "004",
+        "income": 3000,
+        "department": "B",
+        "region": "东区"
+      },
+      {
+        "id": "005",
+        "income": 5000,
+        "department": "A",
+        "region": "西区"
+      },
+      {
+        "id": "006",
+        "income": 8000,
+        "department": "B",
+        "region": "西区"
+      },
+      {
+        "id": "007",
+        "income": 20000,
+        "department": "A",
+        "region": "西区"
+      },
+      {
+        "id": "008",
+        "income": 10000,
+        "department": "B",
+        "region": "西区"
+      }
+    ]
+  },
+  "embeddingResult": {
+    "method": "umap",
+    "source": "外部提供的合成 UMAP 坐标，仅用于展示验收；未从本表拟合",
+    "records": [
+      {
+        "id": "p0",
+        "x": 0,
+        "y": 0,
+        "series": "A"
+      },
+      {
+        "id": "p1",
+        "x": 1,
+        "y": 2,
+        "series": "A"
+      },
+      {
+        "id": "p2",
+        "x": 4,
+        "y": 3,
+        "series": "B"
+      },
+      {
+        "id": "p3",
+        "x": 6,
+        "y": 5,
+        "series": "B"
+      }
+    ]
+  },
+  "aggregatedCounts": [
+    {
+      "category": "A",
+      "count": 100
+    },
+    {
+      "category": "B",
+      "count": 50
+    }
+  ],
+  "unknownIntervals": [
+    {
+      "category": "A",
+      "estimate": 2,
+      "lower": 1,
+      "upper": 3
+    }
+  ],
+  "rawHighDimensional": [
+    {
+      "id": "r0",
+      "v0": 0,
+      "v1": 0,
+      "v2": 0,
+      "v3": 0,
+      "v4": 0,
+      "v5": 0,
+      "v6": 0,
+      "v7": 0,
+      "v8": 0,
+      "v9": 0,
+      "v10": 0,
+      "v11": 0,
+      "v12": 0,
+      "v13": 0,
+      "v14": 0,
+      "v15": 0,
+      "v16": 0,
+      "v17": 0,
+      "v18": 0,
+      "v19": 0
+    },
+    {
+      "id": "r1",
+      "v0": 1,
+      "v1": 2,
+      "v2": 3,
+      "v3": 4,
+      "v4": 5,
+      "v5": 6,
+      "v6": 7,
+      "v7": 8,
+      "v8": 9,
+      "v9": 10,
+      "v10": 11,
+      "v11": 12,
+      "v12": 13,
+      "v13": 14,
+      "v14": 15,
+      "v15": 16,
+      "v16": 17,
+      "v17": 18,
+      "v18": 19,
+      "v19": 20
+    },
+    {
+      "id": "r2",
+      "v0": 2,
+      "v1": 4,
+      "v2": 6,
+      "v3": 8,
+      "v4": 10,
+      "v5": 12,
+      "v6": 14,
+      "v7": 16,
+      "v8": 18,
+      "v9": 20,
+      "v10": 22,
+      "v11": 24,
+      "v12": 26,
+      "v13": 28,
+      "v14": 30,
+      "v15": 32,
+      "v16": 34,
+      "v17": 36,
+      "v18": 38,
+      "v19": 40
+    },
+    {
+      "id": "r3",
+      "v0": 3,
+      "v1": 6,
+      "v2": 9,
+      "v3": 12,
+      "v4": 15,
+      "v5": 18,
+      "v6": 21,
+      "v7": 24,
+      "v8": 27,
+      "v9": 30,
+      "v10": 33,
+      "v11": 36,
+      "v12": 39,
+      "v13": 42,
+      "v14": 45,
+      "v15": 48,
+      "v16": 51,
+      "v17": 54,
+      "v18": 57,
+      "v19": 60
+    },
+    {
+      "id": "r4",
+      "v0": 4,
+      "v1": 8,
+      "v2": 12,
+      "v3": 16,
+      "v4": 20,
+      "v5": 24,
+      "v6": 28,
+      "v7": 32,
+      "v8": 36,
+      "v9": 40,
+      "v10": 44,
+      "v11": 48,
+      "v12": 52,
+      "v13": 56,
+      "v14": 60,
+      "v15": 64,
+      "v16": 68,
+      "v17": 72,
+      "v18": 76,
+      "v19": 80
+    },
+    {
+      "id": "r5",
+      "v0": 5,
+      "v1": 10,
+      "v2": 15,
+      "v3": 20,
+      "v4": 25,
+      "v5": 30,
+      "v6": 35,
+      "v7": 40,
+      "v8": 45,
+      "v9": 50,
+      "v10": 55,
+      "v11": 60,
+      "v12": 65,
+      "v13": 70,
+      "v14": 75,
+      "v15": 80,
+      "v16": 85,
+      "v17": 90,
+      "v18": 95,
+      "v19": 100
+    }
+  ],
+  "queries": [
+    "看收入分布。",
+    "各部门收入有什么差别？",
+    "工资不超过 2000 元的比例是多少？",
+    "denseData 的两个指标有关系吗？需要保留两种传感器的分组。",
+    "看身高、体重、固定评分的关系。员工编号只是标识。",
+    "展示给定的 UMAP 结果。",
+    "在 rewriteDataset 中只看东区，按部门比较收入；随后箱线改成小提琴，保留条件与单位。",
+    "这些类别与汇总人数如何展示？",
+    "展示 lower/upper，区间含义未知。",
+    "只有原始 20 维数据，想看 PCA。",
+    "在 dataset 中指定按部门画小提琴。"
+  ],
+  "denseRecipe": {
+    "n": 5000,
+    "seed": 17,
+    "method": "LCG32, x=10*u, y=0.7*x+(u-0.5); alternating sensor A/B"
+  }
+}

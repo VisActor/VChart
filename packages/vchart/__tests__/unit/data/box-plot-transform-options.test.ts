@@ -34,4 +34,26 @@ describe('box plot transform options', () => {
     );
     expect(second[0]).toMatchObject({ [BOX_PLOT_OUTLIER_VALUE_FIELD]: 2, y: 'B', nextSeries: 'T' });
   });
+
+  test('folds each numeric value from an outliersField array', () => {
+    const rows = foldOutlierData(
+      [
+        {
+          latestData: [
+            { x: 'Sub-Saharan Africa', y6: [12.01, 12.02, 14.03] },
+            { x: 'South Asia', y1: 9.4 }
+          ]
+        }
+      ] as unknown as Parameters<typeof foldOutlierData>[0],
+      {
+        dimensionField: ['x'],
+        outliersField: 'y6'
+      }
+    );
+
+    expect(rows.map(row => row[BOX_PLOT_OUTLIER_VALUE_FIELD]).filter(value => typeof value === 'number')).toEqual([
+      12.01, 12.02, 14.03
+    ]);
+    expect(rows[0]).toMatchObject({ [BOX_PLOT_OUTLIER_VALUE_FIELD]: 12.01, x: 'Sub-Saharan Africa' });
+  });
 });

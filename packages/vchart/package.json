@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart",
-  "version": "2.1.7",
+  "version": "2.2.0",
   "description": "charts lib based @visactor/VGrammar",
   "main": "cjs/index.js",
   "module": "esm/index.js",
@@ -22,7 +22,7 @@
     "build": "cross-env DEBUG='Bundler*' bundle --clean && npm run build:schema && npm run build:types && npm run build:es5",
     "build:es5": "rimraf lib && rollup -c --bundleConfigAsCjs",
     "build:schema": "schema src/typings/spec/chart.ts ISpec --useTypeOfKeyword --ignoreErrors --required > ../vchart-schema/vchart.json",
-    "build:types": "tsc --declaration --emitDeclarationOnly --outDir ../vchart-types/types",
+    "build:types": "rimraf ../vchart-types/types && tsc --declaration --emitDeclarationOnly --composite false --incremental false --outDir ../vchart-types/types",
     "build:spec-types": "rimraf ./spec-types && tsc -p ./tsconfig.spec.json --declaration --emitDeclarationOnly --outDir ./spec-types",
     "build:umd": "cross-env DEBUG='Bundler*' IGNORE_ENTRIES='true' bundle -f umd",
     "build:cjs": "cross-env DEBUG='Bundler*' IGNORE_ENTRIES='true' bundle --clean -f cjs --ignorePostTasks --ignoreUmdEntries",
@@ -43,13 +43,13 @@
     "eslint": "eslint --debug --fix src/",
     "eslint:check": "eslint .",
     "eslint:err": "eslint . --quiet",
-    "postpublish": "npm run clear",
     "test": "jest",
     "test-cov": "jest -w 16 --coverage",
     "test-live": "npm run test-watch __tests__/unit",
     "test-watch": "cross-env DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",
-    "size": "size-limit"
+    "size": "size-limit",
+    "test:visual": "node scripts/visual-test.mjs"
   },
   "files": [
     "esm",
@@ -121,19 +121,20 @@
     "size-limit": "9.0.0",
     "@size-limit/file": "9.0.0",
     "rimraf": "3.0.2",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "@playwright/test": "1.63.0"
   },
   "dependencies": {
-    "@visactor/vutils": "~1.0.24",
-    "@visactor/vdataset": "~1.0.24",
-    "@visactor/vscale": "~1.0.24",
-    "@visactor/vlayouts": "~1.0.24",
-    "@visactor/vrender": "1.1.11",
-    "@visactor/vrender-core": "1.1.11",
-    "@visactor/vrender-kits": "1.1.11",
-    "@visactor/vrender-components": "1.1.11",
-    "@visactor/vrender-animate": "1.1.11",
-    "@visactor/vutils-extension": "workspace:2.1.7"
+    "@visactor/vutils": "~1.0.28",
+    "@visactor/vdataset": "~1.0.28",
+    "@visactor/vscale": "~1.0.28",
+    "@visactor/vlayouts": "~1.0.28",
+    "@visactor/vrender": "1.1.12",
+    "@visactor/vrender-core": "1.1.12",
+    "@visactor/vrender-kits": "1.1.12",
+    "@visactor/vrender-components": "1.1.12",
+    "@visactor/vrender-animate": "1.1.12",
+    "@visactor/vutils-extension": "workspace:2.2.0"
   },
   "publishConfig": {
     "access": "public",

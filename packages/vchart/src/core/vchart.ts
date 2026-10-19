@@ -353,7 +353,9 @@ export class VChart implements IVChart {
     }
   };
 
-  private _currentSize: { width: number; height: number };
+  private _currentSize: Readonly<{ width: number; height: number }>;
+  // 自动尺寸来源的快照；手动 resize 只改变当前画布，不能使未变化的来源被误判为变化。
+  private _lastAutoSize: Readonly<{ width: number; height: number }>;
   private _observer: ResizeObserver = null;
 
   private _currentThemeName: string;
@@ -419,6 +421,7 @@ export class VChart implements IVChart {
     this._setNewSpec(spec);
     this._updateCurrentTheme();
     this._currentSize = this.getCurrentSize();
+    this._lastAutoSize = this._currentSize;
     const pluginList: string[] = [];
     const runtimePluginInstallers: ((app?: IApp) => void)[] = [];
 
@@ -630,8 +633,9 @@ export class VChart implements IVChart {
 
   private _doResize = () => {
     const { width, height } = this.getCurrentSize();
-    if (this._currentSize.width !== width || this._currentSize.height !== height) {
+    if (this._lastAutoSize.width !== width || this._lastAutoSize.height !== height) {
       this._currentSize = { width, height };
+      this._lastAutoSize = this._currentSize;
       this.resizeSync(width, height);
     }
   };
@@ -740,6 +744,7 @@ export class VChart implements IVChart {
       const { width, height } = this.getCurrentSize();
 
       this._currentSize = { width, height };
+      this._lastAutoSize = this._currentSize;
       this._chart?.onResize(width, height, false);
       this._compiler?.resize(width, height, false);
     }
@@ -1330,6 +1335,8 @@ export class VChart implements IVChart {
     this._chartPluginApply('onBeforeResize', width, height);
 
     this._option.performanceHook?.beforeResizeWithUpdate?.(this);
+    // updateSpec 重建 chart 时沿用当前尺寸，不能恢复到手动 resize 之前的画布大小。
+    this._currentSize = { width, height };
     this._chart.onResize(width, height, false);
     this._option.performanceHook?.afterResizeWithUpdate?.(this);
 

@@ -1,0 +1,29 @@
+{
+  "type": "pairPlot",
+  "variables": ["x", "y"],
+  "data": {
+    "observations": [
+      {
+        "id": "0",
+        "values": {
+          "x": 0,
+          "y": null
+        }
+      },
+      {
+        "id": "1",
+        "values": {
+          "x": 1,
+          "y": 2
+        }
+      },
+      {
+        "id": "2",
+        "values": {
+          "x": 2,
+          "y": 1
+        }
+      }
+    ]
+  }
+}

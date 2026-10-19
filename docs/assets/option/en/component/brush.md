@@ -32,6 +32,10 @@ The index of series that support linked selection.
 
 The ID of series that support linked selection.
 
+### brushLinkDataKey(string)
+
+Link the specified series by a shared observation key. Both sides must provide non-null identifiers of the same type; matching uses strict equality. Useful for scatterplot matrices. When omitted, linked panels use relative pixel regions.
+
 ### inBrush(Object)
 
 The graphical element style within the selection range.

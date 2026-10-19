@@ -22,16 +22,26 @@ export const objFlat = (data: Array<DataView>, op: string) => {
     }
 
     const dataOp = datum[op];
-    dataOp?.forEach((d: any, i: number) => {
+    if (dataOp && dataOp.length > 0) {
+      dataOp?.forEach((d: any, i: number) => {
+        result.push(
+          Object.assign({}, dataKeyObj, d, {
+            [DEFAULT_DATA_INDEX]: index,
+            [DEFAULT_DATA_KEY]: `${dataKey}_${i}`
+          })
+        );
+
+        index++;
+      });
+    } else {
       result.push(
-        Object.assign({}, dataKeyObj, d, {
+        Object.assign({}, dataKeyObj, {
           [DEFAULT_DATA_INDEX]: index,
-          [DEFAULT_DATA_KEY]: `${dataKey}_${i}`
+          [DEFAULT_DATA_KEY]: dataKey
         })
       );
-
-      index++;
-    });
+    }
   });
+  // console.log('result', result);
   return result;
 };

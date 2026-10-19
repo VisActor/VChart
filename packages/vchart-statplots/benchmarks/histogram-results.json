@@ -1,0 +1,61 @@
+{
+  "date": "2026-10-08",
+  "environment": {
+    "node": "v22.23.3",
+    "platform": "darwin",
+    "arch": "arm64",
+    "browser": "Chromium 153.0.8010.12 / Playwright 1.63.0",
+    "viewport": [
+      1000,
+      800
+    ],
+    "chart": [
+      800,
+      600
+    ],
+    "deviceScaleFactor": 1,
+    "locale": "en-US",
+    "timezone": "UTC",
+    "animation": false
+  },
+  "method": {
+    "observations": "value=((i*73)%997)/997; repeats are retained",
+    "binCount": 30,
+    "compileWarmup": 1,
+    "compileRepetitions": 9,
+    "lifecycleRepetitions": 1,
+    "update": "append one repeated observation; sum(count)=N+1",
+    "resize": [
+      420,
+      320
+    ],
+    "dashboard": "20 charts × 1000 observations",
+    "notes": "Compile includes validation and binning; update includes compilation. Lifecycle times include browser noise; 100k follows a warm 10k run. No SLA or historical matched comparison."
+  },
+  "timings": [
+    {
+      "count": 10000,
+      "compileMedianMs": 0.2999999523162842,
+      "compileMaxMs": 0.7000000476837158,
+      "renderMs": 24.90000009536743,
+      "updateMs": 6.200000047683716,
+      "resizeMs": 3.3999998569488525,
+      "releaseMs": 1
+    },
+    {
+      "count": 100000,
+      "compileMedianMs": 1.6000001430511475,
+      "compileMaxMs": 2.8000001907348633,
+      "renderMs": 6.200000047683716,
+      "updateMs": 5.599999904632568,
+      "resizeMs": 2.5,
+      "releaseMs": 0.3000001907348633
+    }
+  ],
+  "dashboard": {
+    "chartCount": 20,
+    "canvasCount": 20,
+    "renderMs": 49.700000047683716,
+    "releaseMs": 1.5999999046325684
+  }
+}

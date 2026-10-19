@@ -1,0 +1,23 @@
+{
+  "type": "precisionRecallCurve",
+  "title": "PR 曲线",
+  "data": [
+    {
+      "actual": false,
+      "score": 0.1
+    },
+    {
+      "actual": false,
+      "score": 0.4
+    },
+    {
+      "actual": true,
+      "score": 0.35
+    },
+    {
+      "actual": true,
+      "score": 0.8
+    }
+  ],
+  "baseline": true
+}

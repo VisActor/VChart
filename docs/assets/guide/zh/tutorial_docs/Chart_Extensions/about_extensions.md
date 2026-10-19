@@ -44,3 +44,7 @@ $ yarn add @visactor/vchart-extension
 
 1. 你可以直接从 GitHub clone 源码。
 2. 你也可以从 VChart 的 [release](https://github.com/VisActor/VChart/releases) 页面选择对应的版本，点击页面下方 Assets 中的 Source code，将其下载至本地解压后使用。
+
+## 时序图
+
+[时序图（sequence）](/vchart/guide/tutorial_docs/Chart_Types/Sequence) 已迁移到扩展包，支持在同一时间轴上组合事件点、关联线和统计系列。使用前从扩展包导入并调用 `registerSequenceChart({ VChart })`；原有 spec 配置不变。

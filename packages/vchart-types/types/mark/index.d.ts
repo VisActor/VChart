@@ -19,7 +19,7 @@ import { BasePolygonMark } from './polygon/base-polygon';
 import { MarkTypeEnum } from './interface/type';
 export type { IBoxPlotMarkSpec, ILineMarkSpec, ISymbolMarkSpec, IGroupMarkSpec, IRuleMarkSpec, ITextMarkSpec, IAreaMarkSpec, IRectMarkSpec, IPathMarkSpec, IArcMarkSpec, ICommonSpec, IPolygonMarkSpec, ILinkPathMarkSpec, IRippleMarkSpec, ICellMarkSpec, ILiquidMarkSpec, ConvertToMarkStyleSpec } from '../typings/visual';
 export type { IMarkRaw, IMark, IMarkStyle } from './interface/common';
-export type { ITextMark, ILabelMark, IRectMark, IRuleMark, IImageMark, IGroupMark, IGlyphMark } from './interface/mark';
+export type { ITextMark, ILabelMark, IRectMark, IRuleMark, IImageMark, IGroupMark, IGlyphMark, ISymbolMark, IPathMark } from './interface/mark';
 export { MarkTypeEnum, LineMark, SymbolMark, GroupMark, RuleMark, TextMark, AreaMark, RectMark, PathMark, GlyphMark, BaseArcMark, ArcMark, ComponentMark, BasePolygonMark, PolygonMark, RippleMark, ImageMark, BaseMark };
 export { registerLineMark, registerSymbolMark, registerGroupMark, registerRuleMark, registerTextMark, registerAreaMark, registerRectMark, registerPathMark, registerArcMark, registerPolygonMark, registerGlyphMark, registerRippleMark, registerImageMark, registerComponentMark, registerMarkMapTransform, registerMarkFilterTransform };
 export declare const registerAllMarks: () => void;

@@ -41,6 +41,14 @@ export interface IDataFilterComponentSpec extends Omit<IComponentSpec, 'width' |
    * 关联的轴序号
    */
   axisIndex?: number;
+  /**
+   * 联动的轴ID, 仅filterMode: 'axis'时生效
+   */
+  linkedAxisId?: string;
+  /**
+   * 联动的轴序号, 仅filterMode: 'axis'时生效
+   */
+  linkedAxisIndex?: number;
 
   /**
    * 组件关联的region索引，与axis关联的region取交集
