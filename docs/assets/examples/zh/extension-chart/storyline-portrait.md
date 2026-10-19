@@ -4,6 +4,7 @@ group: extension chart
 title: 纵向叙事图
 keywords: extension, storyline, portrait
 order: 10
+cover: /vchart/preview/storyline-portrait.png
 option: storylineChart
 ---
 

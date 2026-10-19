@@ -4,6 +4,7 @@ group: extension chart
 title: 弧形叙事图
 keywords: extension, storyline, arc
 order: 12
+cover: /vchart/preview/storyline-arc.png
 option: storylineChart
 ---
 

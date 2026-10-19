@@ -4,6 +4,7 @@ group: extension chart
 title: 翼形叙事图
 keywords: extension, storyline, wing
 order: 13
+cover: /vchart/preview/storyline-wing.png
 option: storylineChart
 ---
 

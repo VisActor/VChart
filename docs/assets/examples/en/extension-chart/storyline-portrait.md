@@ -4,6 +4,7 @@ group: extension chart
 title: Portrait Storyline
 keywords: extension, storyline, portrait
 order: 10
+cover: /vchart/preview/storyline-portrait.png
 option: storylineChart
 ---
 

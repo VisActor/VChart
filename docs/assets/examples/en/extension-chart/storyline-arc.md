@@ -4,6 +4,7 @@ group: extension chart
 title: Arc Storyline
 keywords: extension, storyline, arc
 order: 12
+cover: /vchart/preview/storyline-arc.png
 option: storylineChart
 ---
 

@@ -4,6 +4,7 @@ group: extension chart
 title: 横向叙事图
 keywords: extension, storyline, landscape
 order: 9
+cover: /vchart/preview/storyline-landscape.png
 option: storylineChart
 ---
 

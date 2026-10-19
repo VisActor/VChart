@@ -4,6 +4,7 @@ group: extension chart
 title: Landscape Storyline
 keywords: extension, storyline, landscape
 order: 9
+cover: /vchart/preview/storyline-landscape.png
 option: storylineChart
 ---
 

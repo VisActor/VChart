@@ -4,6 +4,7 @@ group: extension chart
 title: Clock Storyline
 keywords: extension, storyline, clock
 order: 11
+cover: /vchart/preview/storyline-clock.png
 option: storylineChart
 ---
 
