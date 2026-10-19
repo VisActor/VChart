@@ -144,3 +144,7 @@ packages/vchart/__tests__/runtime/node/**.png
 # StatPlots resources generated from public TypeScript types
 /packages/vchart-statplots/schema/
 /packages/vchart-statplots/src/generated/
+
+# Local caches for the data science skill and its maintenance tests
+/skills/data-science-visualization/**/__pycache__/
+/packages/vchart-statplots/skill-maintenance/**/__pycache__/

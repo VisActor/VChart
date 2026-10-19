@@ -1,0 +1,28 @@
+{
+  "type": "qqPlot",
+  "data": [
+    {
+      "value": 3
+    },
+    {
+      "value": -1
+    },
+    {
+      "value": 0
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 5
+    }
+  ],
+  "distribution": {
+    "type": "normal",
+    "mean": 2,
+    "standardDeviation": 3
+  }
+}

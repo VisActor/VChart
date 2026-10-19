@@ -65,4 +65,11 @@ controls 只有明确请求页面操作时填写：
 
 对话修改 request，保留完整使用行、ID、单位、initialFilters/presentation/interactions，写新目录。新增字段从已知原数据按真实 ID 补回。浏览器选择不会自动写回磁盘；明确请求 saveView 才下载当前字段/参数/主题及已接受条件，框选不保存为样本过滤。exportSpec 输出最后成功的规范 Spec 数组，没有成功 Spec 时输出原始 payload，不能把筛选后的 Spec 当完整源数据。
 
-HTML 使用固定 VChart/statplots 2.1.8-alpha.0 UMD；npm peer 仍为 2.1.7，本技能验收的是该固定组合，无需 npm/TypeScript 安装。快照来源/转换在 statplots/manifest.json，controller 源与副本同步核验。ready 仅表示结束，检查每图 rendered 和真实图元/Tooltip/所请求交互；__DSV_CONTROLLERS__ 用于检查公共 chart/spec，不依赖私有编译 ID。
+HTML 使用 [release.json](../release.json) 指定的 VChart/statplots 同版本固定 UMD，无需 npm/TypeScript 安装。ready 仅表示结束，检查每图 rendered 和真实图元/Tooltip/所请求交互；__DSV_CONTROLLERS__ 用于检查公共 chart/spec，不依赖私有编译 ID。
+
+
+## 资源与版本
+
+参考指南、类型、最小输入及变体示例均随技能包分发，按本地索引读取。variants.json 的 example 路径相对 references/statplots 根目录，只读取选中变体，不预读全部示例。
+
+release.json 指定库版本，snapshot.json 是技能包内参考资源的版本标记。资源缺失、标记无效或版本不一致时停止生成，请更新完整匹配的技能包，不单独修改库版本。参考内容无需联网读取；HTML 图表仍需加载固定版本的 JavaScript CDN。

@@ -1,6 +1,6 @@
 # 类别计数图 `countPlot`
 
-[TS 类型](../types/plots/count/types.d.ts) · [最小输入](../examples/specs/minimal/countPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/countPlot.md)
+[TS 类型](../types/plots/count/types.d.ts) · [最小输入](../examples/specs/minimal/countPlot.json) · [公共约束](common.md)
 
 `data: [{category, series?}]`，每行是一条类别观测，重复类别分别计数。不接受 count、proportion 或权重。
 

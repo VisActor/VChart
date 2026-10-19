@@ -1,6 +1,6 @@
 # 残差图 `residualPlot`
 
-[TS 类型](../types/plots/residual/types.d.ts) · [最小输入](../examples/specs/minimal/residualPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/residualPlot.md)
+[TS 类型](../types/plots/residual/types.d.ts) · [最小输入](../examples/specs/minimal/residualPlot.json) · [公共约束](common.md)
 
 检查残差随原始自变量或拟合值变化的结构，内置 y=0 参考线。使用必填 `input` 区分三种真实用途，禁止跨模式字段。
 

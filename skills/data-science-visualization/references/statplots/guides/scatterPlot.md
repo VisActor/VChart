@@ -1,6 +1,6 @@
 # 散点与回归图 `scatterPlot`
 
-[TS 类型](../types/plots/scatter/types.d.ts) · [最小输入](../examples/specs/minimal/scatterPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/scatterPlot.md)
+[TS 类型](../types/plots/scatter/types.d.ts) · [最小输入](../examples/specs/minimal/scatterPlot.json) · [公共约束](common.md)
 
 `data` 始终为原始 `{x, y, id?, series?}[]`。省略 `fit` 显示纯散点；需要探索性回归时，配置 `fit.input="observations"`，直接从同一份观测拟合。数值必须有限，series 全表提供非空名称或全部省略，重复样本保留。空表为空态，不修改输入。
 

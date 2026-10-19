@@ -1,6 +1,6 @@
 # 学习曲线 `learningCurve`
 
-[TS 类型](../types/plots/learning-curve/types.d.ts) · [最小输入](../examples/specs/minimal/learningCurve.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/learningCurve.md)
+[TS 类型](../types/plots/learning-curve/types.d.ts) · [最小输入](../examples/specs/minimal/learningCurve.json) · [公共约束](common.md)
 
 比较训练规模变化时的训练与验证分数。metric 必填，模型训练和打分由调用方完成。
 
