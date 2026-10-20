@@ -5,7 +5,7 @@
 ```javascript
 tooltip: {
   visible: true,
-  trigger: 'hover',   // 触发事件：'hover' | 'click' | 'none' | string[]
+  trigger: 'hover',   // 悬停触发；其他触发方式见下文
   activeType: 'mark'  // 内容类型：'mark' | 'dimension' | 'group'
 }
 ```
@@ -17,7 +17,10 @@ tooltip: {
 | `'hover'` | 悬停触发 tooltip | 默认交互 |
 | `'click'` | 点击触发 tooltip | 移动端/点选场景 |
 | `'none'` | 不自动触发 tooltip | 配合 API 手动控制 |
-| `string[]` | 自定义事件名数组 | 高级事件编排 |
+| `['hover', 'click']` | 组合内置触发方式 | 同时支持悬停与点击 |
+| `{ eventType, source?, consume? }` | 自定义事件对象，也可与内置触发方式组合为数组 | 高级事件编排 |
+
+自定义事件必须使用对象形式，不能将事件名直接写成字符串或字符串数组。完整类型见 [ITooltipSpec](../type-details/ITooltipSpec-Type-Definition.md#trigger-configuration)。
 
 ```javascript
 // 默认：hover 触发
@@ -33,6 +36,11 @@ tooltip: {
 // 不自动触发（手动控制）
 tooltip: {
   trigger: 'none'
+}
+
+// 自定义事件，也可与 'hover' / 'click' 组合为数组
+tooltip: {
+  trigger: { eventType: 'pointerdown', source: 'chart' }
 }
 ```
 
