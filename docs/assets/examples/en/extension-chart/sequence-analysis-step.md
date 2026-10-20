@@ -10,6 +10,8 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Step Mode
 
+**Version requirement:** `sequenceAnalysis` is available from `@visactor/vchart-extension` since **VChart 2.2.0**. Use **2.2.0 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
 **Design meaning: risk behavior patterns.** Highlight or connect action nodes that match a business-defined risk pattern to compare behavioral segments across users.
 
 **Hypothetical scenario:** a business marks “log in from a new device → change the linked email → send messages in bulk” as a pattern requiring review. Connecting the matching actions shows which users exhibit the pattern and at which steps. This rule is illustrative.
@@ -23,6 +25,11 @@ option: sequenceAnalysisChart
 ## Demo
 
 ```javascript livedemo
+// sequenceAnalysis requires VChart 2.2.0+ and the matching @visactor/vchart-extension.
+// The core package does not include this chart; report missing support before creating it.
+if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerSequenceAnalysis !== 'function') {
+  throw new Error('This demo requires VChart 2.2.0 or later. Select a supported version and load the matching @visactor/vchart-extension (registerSequenceAnalysis).');
+}
 const { registerSequenceAnalysis } = VChartExtension;
 registerSequenceAnalysis({ VChart });
 

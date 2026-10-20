@@ -1,5 +1,7 @@
 # 扩展图表：叙事图
 
+**版本要求：** `storyline` 自 **VChart 2.1.7** 起由 `@visactor/vchart-extension` 提供。请使用 **2.1.7 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
 叙事图（Storyline Chart）将图片、标题和正文组合成一系列节点，适合展示产品演进、项目里程碑和故事发展过程。节点按照 `data` 数组的顺序排列，不会根据日期排序，也不使用时间比例尺计算间距。
 
 Storyline 由 `@visactor/vchart-extension` 提供，支持 `landscape`、`portrait`、`clock`、`arc` 和 `wing` 五种布局。
@@ -41,9 +43,14 @@ vchart.renderSync();
 
 ```html
 <div id="chart"></div>
-<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart-extension/build/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart@2.1.7/build/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart-extension@2.1.7/build/index.min.js"></script>
 <script>
+  // storyline 自 VChart 2.1.7 起支持；请加载同版本的 @visactor/vchart-extension。
+  // 旧版本主包不内置此图表；方法缺失时提示升级，避免继续创建不支持的图表。
+  if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerStorylineChart !== 'function') {
+    throw new Error('此示例需要 VChart 2.1.7 及以上版本，请选择支持的版本并加载同版本的 @visactor/vchart-extension（registerStorylineChart）。');
+  }
   VChartExtension.registerStorylineChart({ VChart: VChart.default });
   const vchart = new VChart.default(
     {

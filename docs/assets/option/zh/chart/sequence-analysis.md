@@ -2,6 +2,8 @@
 
 # sequenceAnalysisChart
 
+**版本要求：** `sequenceAnalysis` 自 **VChart 2.2.0** 起由 `@visactor/vchart-extension` 提供。请使用 **2.2.0 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
 时序分析扩展图表，以用户为纵轴，按时间、步骤或介质展示事件及连接。来自 `@visactor/vchart-extension`，使用前调用 `registerSequenceAnalysis()`；扩展包与 VChart 应使用相同且包含该功能的版本。
 
 ```js

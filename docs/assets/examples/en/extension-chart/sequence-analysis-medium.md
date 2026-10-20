@@ -10,6 +10,8 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Medium Curves
 
+**Version requirement:** `sequenceAnalysis` is available from `@visactor/vchart-extension` since **VChart 2.2.0**. Use **2.2.0 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
 **Design meaning: shared media.** Identify whether different users' activities pass through the same specific device, IP address or live room.
 
 **Hypothetical scenario:** user A connects through IP₁ and user B through IP₂, but both log in using device D. Their medium paths meet at D, providing a link between the accounts. The shared entity is the actual device D, not merely the Device category.
@@ -23,6 +25,11 @@ option: sequenceAnalysisChart
 ## Demo
 
 ```javascript livedemo
+// sequenceAnalysis requires VChart 2.2.0+ and the matching @visactor/vchart-extension.
+// The core package does not include this chart; report missing support before creating it.
+if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerSequenceAnalysis !== 'function') {
+  throw new Error('This demo requires VChart 2.2.0 or later. Select a supported version and load the matching @visactor/vchart-extension (registerSequenceAnalysis).');
+}
 const { registerSequenceAnalysis } = VChartExtension;
 registerSequenceAnalysis({ VChart });
 

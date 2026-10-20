@@ -10,6 +10,8 @@ option: sequenceAnalysisChart
 
 # 时序分析：步骤模式
 
+**版本要求：** `sequenceAnalysis` 自 **VChart 2.2.0** 起由 `@visactor/vchart-extension` 提供。请使用 **2.2.0 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
 **设计上表达的关系：风险行为模式。** 将命中某种业务风险特征的动作节点高亮或连接起来，方便比较不同用户的行为片段。
 
 **假设场景**：某业务将“更换设备登录 → 修改绑定邮箱 → 批量发送消息”标记为待复核的行为模式。图中把命中的动作连接起来，分析人员就能找到哪些用户出现了这组行为，以及它们处于哪些步骤。这里是帮助理解的假设规则。
@@ -23,6 +25,11 @@ option: sequenceAnalysisChart
 ## 代码演示
 
 ```javascript livedemo
+// sequenceAnalysis 自 VChart 2.2.0 起支持；请加载同版本的 @visactor/vchart-extension。
+// 旧版本主包不内置此图表；方法缺失时提示升级，避免继续创建不支持的图表。
+if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerSequenceAnalysis !== 'function') {
+  throw new Error('此示例需要 VChart 2.2.0 及以上版本，请选择支持的版本并加载同版本的 @visactor/vchart-extension（registerSequenceAnalysis）。');
+}
 const { registerSequenceAnalysis } = VChartExtension;
 registerSequenceAnalysis({ VChart });
 

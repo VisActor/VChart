@@ -10,6 +10,8 @@ option: sequenceAnalysisChart
 
 # 时序分析：时间模式 + 目标头像
 
+**版本要求：** `sequenceAnalysis` 自 **VChart 2.2.0** 起由 `@visactor/vchart-extension` 提供。请使用 **2.2.0 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
 **设计上表达的关系：行为作用对象。** 查看多个用户是否在相近时间对同一个对象采取行动，例如向同一用户发送消息。
 
 **假设场景**：用户 A、B、C 在同一分钟内都给用户 T 发消息。时间轴展示行为的时间聚集，目标头像标识 T，让分析人员同时看到这些行为也集中作用于同一个对象。T 是行为接收方，不是发送者。
@@ -23,6 +25,11 @@ option: sequenceAnalysisChart
 ## 代码演示
 
 ```javascript livedemo
+// sequenceAnalysis 自 VChart 2.2.0 起支持；请加载同版本的 @visactor/vchart-extension。
+// 旧版本主包不内置此图表；方法缺失时提示升级，避免继续创建不支持的图表。
+if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerSequenceAnalysis !== 'function') {
+  throw new Error('此示例需要 VChart 2.2.0 及以上版本，请选择支持的版本并加载同版本的 @visactor/vchart-extension（registerSequenceAnalysis）。');
+}
 const { registerSequenceAnalysis } = VChartExtension;
 registerSequenceAnalysis({ VChart });
 

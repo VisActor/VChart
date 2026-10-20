@@ -10,6 +10,8 @@ option: sequenceAnalysisChart
 
 # 时序分析：介质曲线连接
 
+**版本要求：** `sequenceAnalysis` 自 **VChart 2.2.0** 起由 `@visactor/vchart-extension` 提供。请使用 **2.2.0 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
 **设计上表达的关系：共享介质关系。** 查看不同用户经过的具体介质是否重合，例如同一台设备、同一个 IP 或同一个直播间。
 
 **假设场景**：用户 A 通过 IP₁、用户 B 通过 IP₂，都使用设备 D 登录。两人的介质路径在设备 D 重合，提供了账号之间的关联线索；共同点是同一台设备 D，而不仅是都属于 Device 类型。
@@ -23,6 +25,11 @@ option: sequenceAnalysisChart
 ## 代码演示
 
 ```javascript livedemo
+// sequenceAnalysis 自 VChart 2.2.0 起支持；请加载同版本的 @visactor/vchart-extension。
+// 旧版本主包不内置此图表；方法缺失时提示升级，避免继续创建不支持的图表。
+if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerSequenceAnalysis !== 'function') {
+  throw new Error('此示例需要 VChart 2.2.0 及以上版本，请选择支持的版本并加载同版本的 @visactor/vchart-extension（registerSequenceAnalysis）。');
+}
 const { registerSequenceAnalysis } = VChartExtension;
 registerSequenceAnalysis({ VChart });
 

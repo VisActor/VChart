@@ -1,5 +1,7 @@
 # Extension Chart: Storyline
 
+**Version requirement:** `storyline` is available from `@visactor/vchart-extension` since **VChart 2.1.7**. Use **2.1.7 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
 A Storyline chart combines images, titles and descriptions into a sequence of nodes. Use it for product evolution, project milestones and narrative sequences. Nodes follow the order of the `data` array; the chart does not sort dates or use a time scale to determine spacing.
 
 Storyline is provided by `@visactor/vchart-extension` and supports five layouts: `landscape`, `portrait`, `clock`, `arc` and `wing`.
@@ -41,9 +43,14 @@ When loading through a CDN, use the extension's global object and pass the page'
 
 ```html
 <div id="chart"></div>
-<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart/build/index.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart-extension/build/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart@2.1.7/build/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@visactor/vchart-extension@2.1.7/build/index.min.js"></script>
 <script>
+  // storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
+  // The core package does not include this chart; report missing support before creating it.
+  if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerStorylineChart !== 'function') {
+    throw new Error('This demo requires VChart 2.1.7 or later. Select a supported version and load the matching @visactor/vchart-extension (registerStorylineChart).');
+  }
   VChartExtension.registerStorylineChart({ VChart: VChart.default });
   const vchart = new VChart.default(
     {
