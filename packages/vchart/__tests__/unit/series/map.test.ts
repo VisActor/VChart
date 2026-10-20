@@ -588,4 +588,60 @@ describe('map series roam label - regression (issue #4585 / PR #4592 review)', (
     const actual = collectLabelCenters(labelGraphic);
     expectCentersClose(actual, expected);
   });
+
+  it('[P1+] 缩放→更新数据→再次缩放，标签不应把第一次缩放重复计入（普通 map）', async () => {
+    // 参照：连续两次缩放（中间不更新数据）后的正确文本位置。
+    // 由于 updateDataSync 只改数值、不改地理坐标，最终标签位置应与纯两次缩放完全一致。
+    const refChart = await createSingleMapChart();
+    (refChart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    (refChart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    const expected = collectLabelCenters(getLabelGraphic(firstSeries(refChart)));
+
+    // 复现：缩放 1.5 → updateDataSync 只更新数值 → 再次缩放 1.5
+    const vchart = await createSingleMapChart();
+    const series = firstSeries(vchart);
+    const labelGraphic = getLabelGraphic(series);
+    const pathGroup = series.getRootMark().getProduct() as any;
+
+    (vchart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    vchart.updateDataSync('data', [
+      { name: 'A', value: 100 },
+      { name: 'B', value: 200 }
+    ]);
+    (vchart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+
+    // 路径为两次 1.5 叠加 => 2.25
+    const pathM = pathGroup.attribute.postMatrix;
+    expect(pathM.a).toBeCloseTo(SCALE * SCALE);
+
+    // 标签最终文本位置应与「纯两次缩放」一致，而不是被重复计入第一次缩放后偏移
+    const actual = collectLabelCenters(labelGraphic);
+    expectCentersClose(actual, expected);
+  });
+
+  it('[P1+] 缩放→更新数据→再次缩放，共享标签不应把第一次缩放重复计入（多系列）', async () => {
+    const refChart = await createCommonMapChart(1);
+    (refChart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    (refChart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    const expected = collectLabelCenters(getLabelGraphic(firstSeries(refChart)));
+
+    const vchart = await createCommonMapChart(2);
+    const seriesList = (vchart.getChart() as any).getAllSeries() as MapSeries[];
+    const labelGraphic = getLabelGraphic(seriesList[0]);
+    expect(getLabelGraphic(seriesList[1])).toBe(labelGraphic);
+    const pathGroup0 = seriesList[0].getRootMark().getProduct() as any;
+
+    (vchart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    vchart.updateDataSync('data-0', [
+      { name: 'A', value: 100 },
+      { name: 'B', value: 200 }
+    ]);
+    (vchart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+
+    const pathM = pathGroup0.attribute.postMatrix;
+    expect(pathM.a).toBeCloseTo(SCALE * SCALE);
+
+    const actual = collectLabelCenters(labelGraphic);
+    expectCentersClose(actual, expected);
+  });
 });
