@@ -34,11 +34,7 @@
 
 从 `../references/topkey/[图型].json` 或 `all_common.json` 定位配置；再查询对应 type-meta 和必要的 type-details，不凭近似属性名构造配置。
 
-生成或修改 Sankey 时，先读取 [Sankey 专项示例](../references/examples/sankey/basic-sankey.md)，确认 `data` 数据源描述与 `values` 图数组的层次，再选择适用形式。
-
-生成或修改 Treemap 时，先读取 [Treemap 专项](../references/chart/treemap.md)，确认布局节点的原始记录取值与默认图例。
-
-已知图型或遇到空数据、图/树结构、回调问题时，按 [数据结构排查](../references/chart/common-issues.md#图数据与层级数据) 读取相关参考。
+按 [共享配置知识](../SKILL.md#共享配置知识) 中的导航读取对应图型和组件参考。
 
 ## 生成和检查
 

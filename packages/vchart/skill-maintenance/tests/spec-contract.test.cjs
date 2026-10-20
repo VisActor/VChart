@@ -45,26 +45,23 @@ test('reports deferred runtime globals without claiming spec was checked',()=>{
 });
 test('limits source evaluation',()=>assert.equal(validateSource('while(true) {}').ok,false));
 
-test('treemap example computes shares from changed data and preserves original records',()=>{
-  const fs=require('node:fs'),vm=require('node:vm');
-  const source=fs.readFileSync(require.resolve('../../../../skills/vchart-development-assistant/references/examples/treemap/hierarchy-treemap.js'),'utf8');
-  const ctx={document:{createElement:()=>({getContext:()=>({measureText:text=>({width:text.length*7})})})}};
-  vm.runInNewContext(source,ctx);
+test('treemap example preserves records and optional tooltip reads layout nodes',()=>{
+  const fs=require('node:fs'),vm=require('node:vm'),ctx={};
+  vm.runInNewContext(fs.readFileSync(require.resolve('../../../../skills/vchart-development-assistant/references/examples/treemap/hierarchy-treemap.js'),'utf8'),ctx);
   const rows=[{region:'East',sku:'Blueberry',units:11},{region:'East',sku:'Cherry',units:32},{region:'West',sku:'Apple',units:7}];
-  const spec=ctx.createTreemapSpec(rows,{hierarchyFields:['region','sku'],valueField:'units',groupField:'region',palette:{East:'#123456',West:'#654321'}});
-  const raw=spec.data.values[0].children[0].children[0];
-  const node={datum:[{sku:'Total'},{sku:'East'},raw],x0:0,x1:220,y0:0,y1:100};
-  assert.equal(spec.label.formatMethod('',node),'Blueberry 22%');
-  assert.equal(spec.leaf.style.fill(node),'#123456');
-  assert.equal(spec.tooltip.mark.content[1].value(node),'11');
-  assert.equal(spec.label.formatMethod('',{...node,x1:20}), '');
+  const spec=ctx.createTreemapSpec(rows,{hierarchyFields:['region','sku'],valueField:'units'});
   assert.deepEqual(JSON.parse(JSON.stringify(spec.data.values[0].children.flatMap(p=>p.children))),rows);
+  const tooltip=ctx.createTreemapTooltip('sku','units');
+  for (const node of [rows[0],{datum:rows[0]},{datum:[{sku:'Total'},rows[0]]}]) {
+    assert.equal(tooltip.mark.title.value(node),'Blueberry');
+    assert.equal(tooltip.mark.content[0].value(node),'11');
+  }
 });
 
 test('treemap example preserves empty input without synthetic leaves',()=>{
   const fs=require('node:fs'),vm=require('node:vm'),ctx={};
   vm.runInNewContext(fs.readFileSync(require.resolve('../../../../skills/vchart-development-assistant/references/examples/treemap/hierarchy-treemap.js'),'utf8'),ctx);
-  const spec=ctx.createTreemapSpec([],{hierarchyFields:['category','item'],valueField:'quantity',groupField:'category',palette:{}});
+  const spec=ctx.createTreemapSpec([],{hierarchyFields:['category','item'],valueField:'quantity'});
   assert.equal(spec.data.values.length,0);
 });
 
@@ -129,9 +126,11 @@ for (const legends of [undefined, {}, {data:null}, {type:'color',data:[]}, {type
 test('source validation rejects discrete legend arrays',()=>assert.deepEqual(validateSource('const spec={type:"bar",legends:{data:[]}};').errors.map(e=>e.code),['DISCRETE_LEGEND_DATA_FUNCTION']));
 
 
-test('treemap helper omits legends even when explicit group colors are supplied',()=>{
+test('treemap example leaves optional presentation features to the caller',()=>{
   const fs=require('node:fs'),vm=require('node:vm'),ctx={};
   vm.runInNewContext(fs.readFileSync(require.resolve('../../../../skills/vchart-development-assistant/references/examples/treemap/hierarchy-treemap.js'),'utf8'),ctx);
-  const spec=ctx.createTreemapSpec([{department:'Ops',name:'Service',amount:9}],{hierarchyFields:['department','name'],valueField:'amount',groupField:'department',palette:{Ops:'#123456'}});
-  assert.equal(Object.hasOwn(spec, 'legends'),false);
+  const spec=ctx.createTreemapSpec([{department:'Ops',name:'Service',amount:9}],{hierarchyFields:['department','name'],valueField:'amount'});
+  for (const key of ['legends','leaf','splitType']) assert.equal(Object.hasOwn(spec,key),false);
+  assert.deepEqual(JSON.parse(JSON.stringify(spec.tooltip)),{visible:true});
+  assert.deepEqual(JSON.parse(JSON.stringify(spec.label)),{visible:true});
 });
