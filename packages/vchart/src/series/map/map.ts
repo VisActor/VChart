@@ -237,18 +237,6 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._mapViewData = null as any;
   }
 
-  private _ensureLabelGraphicPostMatrix() {
-    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
-
-    if (labelGraphic && !labelGraphic.attribute.postMatrix) {
-      labelGraphic.setAttributes({
-        postMatrix: new Matrix()
-      });
-    }
-
-    return labelGraphic;
-  }
-
   /**
    * 把标签组件的 postMatrix 重置为单位矩阵。
    *
@@ -269,23 +257,26 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
   }
 
   /**
-   * 当多个 map 系列共享同一个标签组件时（labelLayout: 'region'），
-   * 一次交互事件会被每个系列各自处理一次。标签组件是共享图元，
-   * 若每个系列都对它应用一次变换，就会产生重复变换（如 1.5 倍缩放变成 2.25 倍）。
+   * 把共享标签组件的 postMatrix 同步为地图 pathGroup 的 postMatrix。
    *
-   * 事件派发时每个 handler 拿到的是 `{ ...params }` 浅拷贝，因此 `scaleCenter` / `delta`
-   * 这类嵌套对象在同一次事件的多个系列之间是「同一个引用」，而不同事件之间引用不同。
-   * 借助这一点，用事件的共享子对象作为去重 token，保证共享标签在一次交互中只变换一次。
+   * 交互缩放/平移时，pathGroup 自身会增量累积变换（例如连续两次 1.5 倍缩放后为 2.25 倍）。
+   * 标签需要和地图保持完全一致的变换，因此这里采用「幂等地镜像」而非「增量叠加」：
+   * 每次交互后直接把标签矩阵设置为 pathGroup 当前矩阵的克隆。
+   *
+   * 这样做天然解决了共享标签的重复变换问题（labelLayout: 'region' 下多个系列共享同一标签组件）：
+   * 同一次事件被每个系列各处理一次时，每个系列的 pathGroup 都已被缩放到相同的目标矩阵，
+   * 标签镜像其中任意一个都得到相同结果，重复设置也只是写入同一个值，而不会叠加。
+   * 它也不依赖任何「事件唯一标识」，因此调用方复用同一个 scaleCenter / delta 对象连续交互时同样正确。
    */
-  private _shouldTransformSharedLabel(labelGraphic: any, token: unknown) {
+  private _syncLabelGraphicToPathGroup(pathGroup: any) {
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
     if (!labelGraphic) {
-      return false;
+      return;
     }
-    if (labelGraphic._lastRoamToken === token) {
-      return false;
-    }
-    labelGraphic._lastRoamToken = token;
-    return true;
+    const pathMatrix = pathGroup?.attribute.postMatrix;
+    labelGraphic.setAttributes({
+      postMatrix: pathMatrix ? pathMatrix.clone() : new Matrix()
+    });
   }
 
   handleZoom(e: ZoomEventParam) {
@@ -295,19 +286,17 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     }
 
     const pathGroup = this.getRootMark().getProduct();
-    if (pathGroup) {
-      if (!pathGroup.attribute.postMatrix) {
-        pathGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      pathGroup.scale(scale, scale, scaleCenter);
+    if (!pathGroup) {
+      return;
     }
+    if (!pathGroup.attribute.postMatrix) {
+      pathGroup.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+    pathGroup.scale(scale, scale, scaleCenter);
 
-    const labelGraphic = this._ensureLabelGraphicPostMatrix();
-    if (labelGraphic && this._shouldTransformSharedLabel(labelGraphic, scaleCenter)) {
-      labelGraphic.scale(scale, scale, scaleCenter);
-    }
+    this._syncLabelGraphicToPathGroup(pathGroup);
   }
 
   handlePan(e: PanEventParam) {
@@ -316,19 +305,17 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       return;
     }
     const pathGroup = this.getRootMark().getProduct();
-    if (pathGroup) {
-      if (!pathGroup.attribute.postMatrix) {
-        pathGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      pathGroup.translate(delta[0], delta[1]);
+    if (!pathGroup) {
+      return;
     }
+    if (!pathGroup.attribute.postMatrix) {
+      pathGroup.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+    pathGroup.translate(delta[0], delta[1]);
 
-    const labelGraphic = this._ensureLabelGraphicPostMatrix();
-    if (labelGraphic && this._shouldTransformSharedLabel(labelGraphic, delta)) {
-      labelGraphic.translate(delta[0], delta[1]);
-    }
+    this._syncLabelGraphicToPathGroup(pathGroup);
   }
 
   onLayoutEnd(): void {

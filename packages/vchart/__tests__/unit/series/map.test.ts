@@ -526,4 +526,66 @@ describe('map series roam label - regression (issue #4585 / PR #4592 review)', (
     const actual = collectLabelCenters(labelGraphic);
     expectCentersClose(actual, expected);
   });
+
+  it('[P2] 复用同一 scaleCenter 对象连续缩放，标签应与地图保持一致（普通 map）', async () => {
+    // 参照：两次独立缩放后的正确文本位置（每次都用新的 center 对象）
+    const refChart = await createSingleMapChart();
+    (refChart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    (refChart as any).geoZoomByIndex(0, SCALE, { x: 250, y: 250 });
+    const expected = collectLabelCenters(getLabelGraphic(firstSeries(refChart)));
+
+    // 复现：两次缩放复用「同一个」center 对象引用
+    const vchart = await createSingleMapChart();
+    const series = firstSeries(vchart);
+    const labelGraphic = getLabelGraphic(series);
+    const pathGroup = series.getRootMark().getProduct() as any;
+
+    const sharedCenter = { x: 250, y: 250 };
+    (vchart as any).geoZoomByIndex(0, SCALE, sharedCenter);
+    (vchart as any).geoZoomByIndex(0, SCALE, sharedCenter);
+
+    // 两次 1.5 倍叠加 => 2.25，标签矩阵必须跟上，而不是停在第一次的 1.5
+    const pathM = pathGroup.attribute.postMatrix;
+    const labelM = labelGraphic.attribute.postMatrix;
+    expect(pathM.a).toBeCloseTo(SCALE * SCALE);
+    expect(labelM.a).toBeCloseTo(pathM.a);
+    expect(labelM.d).toBeCloseTo(pathM.d);
+    expect(labelM.e).toBeCloseTo(pathM.e);
+    expect(labelM.f).toBeCloseTo(pathM.f);
+
+    const actual = collectLabelCenters(labelGraphic);
+    expectCentersClose(actual, expected);
+  });
+
+  it('[P2] 复用同一 scaleCenter 对象连续缩放，共享标签应与地图保持一致（多系列）', async () => {
+    // 参照：单系列两次缩放（复用同一 center）后的正确文本位置
+    const singleChart = await createCommonMapChart(1);
+    const sharedCenterRef = { x: 250, y: 250 };
+    (singleChart as any).geoZoomByIndex(0, SCALE, sharedCenterRef);
+    (singleChart as any).geoZoomByIndex(0, SCALE, sharedCenterRef);
+    const expected = collectLabelCenters(getLabelGraphic(firstSeries(singleChart)));
+
+    // 复现：两个系列共享标签 + 两次缩放复用同一 center 对象
+    const vchart = await createCommonMapChart(2);
+    const seriesList = (vchart.getChart() as any).getAllSeries() as MapSeries[];
+    const labelGraphic = getLabelGraphic(seriesList[0]);
+    expect(getLabelGraphic(seriesList[1])).toBe(labelGraphic);
+    const pathGroup0 = seriesList[0].getRootMark().getProduct() as any;
+
+    const sharedCenter = { x: 250, y: 250 };
+    (vchart as any).geoZoomByIndex(0, SCALE, sharedCenter);
+    (vchart as any).geoZoomByIndex(0, SCALE, sharedCenter);
+
+    const pathM = pathGroup0.attribute.postMatrix;
+    const labelM = labelGraphic.attribute.postMatrix;
+    // 地图 2.25 倍，共享标签必须同为 2.25 倍（既不停在 1.5，也不是 2.25 的二次叠加）
+    expect(pathM.a).toBeCloseTo(SCALE * SCALE);
+    expect(labelM.a).toBeCloseTo(pathM.a);
+    expect(labelM.d).toBeCloseTo(pathM.d);
+    expect(labelM.e).toBeCloseTo(pathM.e);
+    expect(labelM.f).toBeCloseTo(pathM.f);
+
+    const actual = collectLabelCenters(labelGraphic);
+    expectCentersClose(actual, expected);
+  });
 });
