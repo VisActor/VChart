@@ -163,3 +163,33 @@ test('source validation distinguishes malformed series from source evaluation fa
   assert.equal(result.specChecked, true);
   assert.deepEqual(result.errors.map(e => e.code), ['SERIES_ARRAY_REQUIRED']);
 });
+
+for (const data of ['input.csv', 0, false, [null], [1], [['nested']]]) {
+  test(`rejects malformed data sources without throwing: ${JSON.stringify(data)}`, () => {
+    const result = validateSpec({type: 'sankey', data});
+    assert.equal(result.ok, false);
+    assert.deepEqual(result.errors.map(({code, path}) => ({code, path})), [
+      {code: 'DATA_SOURCE_OBJECT_REQUIRED', path: 'spec.data[0]'},
+    ]);
+  });
+}
+test('reports invalid inline series data at the series path', () => {
+  const result = validateSpec({type: 'common', series: [{type: 'sankey', data: [false]}]});
+  assert.deepEqual(result.errors.map(({code, path}) => ({code, path})), [
+    {code: 'DATA_SOURCE_OBJECT_REQUIRED', path: 'spec.series[0].data[0]'},
+  ]);
+});
+test('reports invalid referenced root data once at its source path', () => {
+  const result = validateSpec({type: 'common', data: [{values: []}, 1], series: [{type: 'sankey', dataIndex: 1}]});
+  assert.deepEqual(result.errors.map(({code, path}) => ({code, path})), [
+    {code: 'DATA_SOURCE_OBJECT_REQUIRED', path: 'spec.data[1]'},
+  ]);
+});
+test('accepts parsed text inside a data descriptor', () => {
+  assert.equal(validateSpec({type: 'bar', data: {values: 'category,value\nA,1', parser: {type: 'csv'}}}).ok, true);
+});
+test('source validation classifies malformed data as a configuration error', () => {
+  const result = validateSource('const spec = {type:"sankey", data:[1]};');
+  assert.equal(result.specChecked, true);
+  assert.deepEqual(result.errors.map(e => e.code), ['DATA_SOURCE_OBJECT_REQUIRED']);
+});

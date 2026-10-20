@@ -175,27 +175,34 @@ legends: {
 }
 ```
 
-## 自定义图例数据
+## 自定义图例内容与样式
 
-离散图例的 `data` 是返回图例项的回调，不能直接传数组（数组会被忽略）。优先修改自动生成的项目；完全自定义时，项目与数据的对应关系和点击筛选需要另行验证。
+离散图例通过 `data` 回调调整图例项及顺序，通过 `item` 配置图标、文字和交互状态样式。可以基于自动生成的图例项修改，也可以返回完全自定义的图例项。
+
+以下示例反转图例顺序、使用圆形图标，并自定义文字显示和样式，同时保留图表生成的颜色等属性：
 
 ```javascript
 legends: {
   visible: true,
-  data: (data) => {
-    // data 是自动生成的图例数据
-    // 可以进行过滤、排序、修改
-    return data.map(item => ({
-      label: item.label + ' (自定义)',
-      shape: {
-        fill: item.shape.fill,
-        symbolType: 'circle'
-      }
-    }));
+  data: items => items.slice().reverse().map(item => ({
+    ...item,
+    shape: { ...item.shape, symbolType: 'circle' }
+  })),
+  item: {
+    shape: {
+      style: { size: 10 }
+    },
+    label: {
+      formatMethod: label => `${label}（系列）`,
+      style: { fontSize: 14, fill: '#333' }
+    }
   }
 }
+```
 
-// 或完全自定义
+如果需要自行定义图例内容，可通过回调返回图例项。下面假设图表已使用“系列A/系列B”作为分类，并采用相同的颜色映射：
+
+```javascript
 legends: {
   visible: true,
   data: () => [
@@ -204,6 +211,8 @@ legends: {
   ]
 }
 ```
+
+注意：`label` 同时是默认筛选键，应与数据分类一致；仅修改显示文字时用 `item.label.formatMethod`。纯展示图例可设置 `filter: false` 关闭筛选，但颜色、符号仍应与图表编码对应。
 
 ## 图例标题
 

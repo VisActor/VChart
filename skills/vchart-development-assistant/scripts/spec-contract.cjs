@@ -48,9 +48,12 @@
           errors.push({code: 'FUNCTION_FORMATTER', path: `${path}.${key}.formatter`, message: 'formatter is a template string; use formatMethod for a function.'});
         }
       }
-      const data = Array.isArray(config.data) ? config.data : config.data ? [config.data] : [];
+      const data = Array.isArray(config.data) ? config.data : config.data != null ? [config.data] : [];
       for (const [index, entry] of data.entries()) {
-        if (!entry || typeof entry !== 'object') continue;
+        if (!entry || typeof entry !== 'object' || Array.isArray(entry)) {
+          errors.push({code: 'DATA_SOURCE_OBJECT_REQUIRED', path: `${path}.data[${index}]`, message: 'Each data source must be a descriptor object; put records or parsed text in values.'});
+          continue;
+        }
         if ('value' in entry && !('values' in entry)) {
           errors.push({code: 'DATA_VALUES_REQUIRED', path: `${path}.data[${index}]`, message: 'Use data.values for inline data; a hierarchy root belongs inside the values array.'});
         }
@@ -68,7 +71,7 @@
     }
     // Resolve each series' actual data rather than treating every root dataset
     // as graph data. Combined charts may keep unrelated datasets at the root.
-    const sources = data => Array.isArray(data) ? data : data ? [data] : [];
+    const sources = data => Array.isArray(data) ? data : data != null ? [data] : [];
     const dataSeries = series.length ? series : [spec];
     for (const [index, config] of dataSeries.entries()) {
       if ((config.type || spec.type) !== 'sankey') continue;
@@ -83,7 +86,7 @@
       }
       const entries = sources(data);
       for (const [i, entry] of entries.entries()) {
-        if (!entry || !('values' in entry) || entry.parser || entry.transforms?.length ||
+        if (!entry || typeof entry !== 'object' || Array.isArray(entry) || !('values' in entry) || entry.parser || entry.transforms?.length ||
             entry.fromDataId != null || entry.fromDataIndex != null) continue;
         if (!Array.isArray(entry.values)) {
           errors.push({code: 'SANKEY_GRAPH_REQUIRED', path: `${path}[${i}].values`, message: 'Inline Sankey values must be an array containing a graph: [{nodes, links}], not a bare graph object. See references/examples/sankey/basic-sankey.md.'});
