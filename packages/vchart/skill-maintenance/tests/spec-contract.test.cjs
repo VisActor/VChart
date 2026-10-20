@@ -134,3 +134,32 @@ test('treemap example leaves optional presentation features to the caller',()=>{
   assert.deepEqual(JSON.parse(JSON.stringify(spec.tooltip)),{visible:true});
   assert.deepEqual(JSON.parse(JSON.stringify(spec.label)),{visible:true});
 });
+
+for (const value of [{}, 'bar', 42, false]) {
+  test(`reports non-array series as configuration errors: ${JSON.stringify(value)}`, () => {
+    const result = validateSpec({type: 'common', series: value});
+    assert.equal(result.ok, false);
+    assert.deepEqual(result.errors.map(({code, path}) => ({code, path})), [
+      {code: 'SERIES_ARRAY_REQUIRED', path: 'spec.series'},
+    ]);
+  });
+}
+for (const value of [null, undefined, 'bar', 42, [], false]) {
+  test(`reports invalid series entries at their original index: ${String(value)}`, () => {
+    const result = validateSpec({type: 'common', series: [{type: 'bar'}, value]});
+    assert.equal(result.ok, false);
+    assert.deepEqual(result.errors.map(({code, path}) => ({code, path})), [
+      {code: 'SERIES_OBJECT_REQUIRED', path: 'spec.series[1]'},
+    ]);
+  });
+}
+for (const series of [undefined, null, []]) {
+  test(`preserves root chart validation without active series: ${String(series)}`, () => {
+    assert.deepEqual(codes({type: 'sankey', series, data: {values: edges}}), ['SANKEY_GRAPH_REQUIRED']);
+  });
+}
+test('source validation distinguishes malformed series from source evaluation failure', () => {
+  const result = validateSource('const spec = {type:"common", series:{type:"bar"}};');
+  assert.equal(result.specChecked, true);
+  assert.deepEqual(result.errors.map(e => e.code), ['SERIES_ARRAY_REQUIRED']);
+});

@@ -5,6 +5,17 @@
     if (!spec || typeof spec !== 'object' || Array.isArray(spec)) {
       return {ok: false, errors: [{code: 'SPEC_OBJECT_REQUIRED', path: 'spec', message: 'Define a spec object.'}]};
     }
+    // Validate the series boundary before inspecting individual configurations.
+    const series = spec.series ?? [];
+    if (!Array.isArray(series)) {
+      return {ok: false, errors: [{code: 'SERIES_ARRAY_REQUIRED', path: 'spec.series', message: 'series must be an array of series configuration objects.'}]};
+    }
+    for (const [index, config] of series.entries()) {
+      if (!config || typeof config !== 'object' || Array.isArray(config)) {
+        errors.push({code: 'SERIES_OBJECT_REQUIRED', path: `spec.series[${index}]`, message: 'Each series must be a configuration object.'});
+      }
+    }
+    if (errors.length) return {ok: false, errors};
     // Graphic coordinates are not CSS lengths. Do not evaluate callbacks here:
     // their pixel values depend on the actual browser layout.
     function checkCustomMarks(marks, path) {
@@ -27,7 +38,7 @@
         errors.push({code: 'DISCRETE_LEGEND_DATA_FUNCTION', path: `spec.legends[${index}].data`, message: 'Discrete legend data must be a callback returning legend items, not an array. Omit data to use generated items; see references/components/legend.md.'});
       }
     });
-    const charts = [{config: spec, path: 'spec'}, ...(spec.series || []).map((config, index) => ({config, path: `spec.series[${index}]`}))];
+    const charts = [{config: spec, path: 'spec'}, ...series.map((config, index) => ({config, path: `spec.series[${index}]`}))];
     for (const {config, path} of charts) {
       for (const key of ['label', 'nonLeafLabel']) {
         if (config[key]?.formatMethod != null && typeof config[key].formatMethod !== 'function') {
@@ -58,10 +69,10 @@
     // Resolve each series' actual data rather than treating every root dataset
     // as graph data. Combined charts may keep unrelated datasets at the root.
     const sources = data => Array.isArray(data) ? data : data ? [data] : [];
-    const series = spec.series?.length ? spec.series : [spec];
-    for (const [index, config] of series.entries()) {
+    const dataSeries = series.length ? series : [spec];
+    for (const [index, config] of dataSeries.entries()) {
       if ((config.type || spec.type) !== 'sankey') continue;
-      const path = spec.series?.length ? `spec.series[${index}].data` : 'spec.data';
+      const path = series.length ? `spec.series[${index}].data` : 'spec.data';
       let data = config.data;
       if (data == null && config !== spec) {
         const rootData = sources(spec.data);
