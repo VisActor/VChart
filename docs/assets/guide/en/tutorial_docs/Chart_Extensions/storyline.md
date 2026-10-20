@@ -48,7 +48,7 @@ When loading through a CDN, use the extension's global object and pass the page'
 <script>
   // storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
   // Register when available in the live demo; this chart still requires a supported version.
-  if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerStorylineChart === 'function') {
+  if (VChartExtension.registerStorylineChart) {
     VChartExtension.registerStorylineChart({ VChart: VChart.default });
   }
   const vchart = new VChart.default(

@@ -90,7 +90,7 @@ For CDN usage, load the matching build/index.min.js files for both packages. Pas
 ```js
 // sequenceAnalysis requires VChart 2.2.0+ and the matching @visactor/vchart-extension.
 // Register when available in the live demo; this chart still requires a supported version.
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceAnalysis === 'function') {
+if (VChartExtension.registerSequenceAnalysis) {
   VChartExtension.registerSequenceAnalysis({ VChart: VChart.default });
 }
 const vchart = new VChart.default(spec, { dom: 'chart' });

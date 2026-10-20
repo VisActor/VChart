@@ -34,7 +34,7 @@ option: storylineChart
 // 文档演示环境提供 VChartExtension 全局变量。
 // storyline 自 VChart 2.1.7 起支持；请加载同版本的 @visactor/vchart-extension。
 // 在线 demo 按方法是否存在注册；使用此图表仍需选择上述支持的版本。
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerStorylineChart === 'function') {
+if (VChartExtension.registerStorylineChart) {
   VChartExtension.registerStorylineChart();
 }
 

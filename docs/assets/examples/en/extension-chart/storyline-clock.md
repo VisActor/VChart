@@ -36,7 +36,7 @@ The data covers six World Cup milestones from 1930 to 2022. Each milestone uses 
 // The documentation demo provides the VChartExtension global.
 // storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
 // Register when available in the live demo; this chart still requires a supported version.
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerStorylineChart === 'function') {
+if (VChartExtension.registerStorylineChart) {
   VChartExtension.registerStorylineChart();
 }
 

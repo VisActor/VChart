@@ -53,7 +53,7 @@ registerSequenceChart({ VChart });
 ```javascript livedemo
 // VChart 2.2.0 起，sequence 迁至同版本的 @visactor/vchart-extension，需显式注册。
 // 旧版本完整包已内置该图表；先检查方法是否存在，兼容在线 demo 切换版本。
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceChart === 'function') {
+if (VChartExtension.registerSequenceChart) {
   VChartExtension.registerSequenceChart({ VChart });
 }
 
@@ -1320,7 +1320,7 @@ data: [
 ```javascript livedemo
 // VChart 2.2.0 起，sequence 迁至同版本的 @visactor/vchart-extension，需显式注册。
 // 旧版本完整包已内置该图表；先检查方法是否存在，兼容在线 demo 切换版本。
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceChart === 'function') {
+if (VChartExtension.registerSequenceChart) {
   VChartExtension.registerSequenceChart({ VChart });
 }
 

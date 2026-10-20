@@ -53,7 +53,7 @@ Sequence charts typically also include the following components:
 ```javascript livedemo
 // Since VChart 2.2.0, sequence requires registration from the matching @visactor/vchart-extension.
 // Older full bundles include this chart; check the function to support switching demo versions.
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceChart === 'function') {
+if (VChartExtension.registerSequenceChart) {
   VChartExtension.registerSequenceChart({ VChart });
 }
 
@@ -1308,7 +1308,7 @@ As mentioned above, events or event relationships will come with some additional
 ```javascript livedemo
 // Since VChart 2.2.0, sequence requires registration from the matching @visactor/vchart-extension.
 // Older full bundles include this chart; check the function to support switching demo versions.
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceChart === 'function') {
+if (VChartExtension.registerSequenceChart) {
   VChartExtension.registerSequenceChart({ VChart });
 }
 

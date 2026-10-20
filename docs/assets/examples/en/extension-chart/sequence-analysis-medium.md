@@ -27,7 +27,7 @@ option: sequenceAnalysisChart
 ```javascript livedemo
 // sequenceAnalysis requires VChart 2.2.0+ and the matching @visactor/vchart-extension.
 // Register when available in the live demo; this chart still requires a supported version.
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceAnalysis === 'function') {
+if (VChartExtension.registerSequenceAnalysis) {
   VChartExtension.registerSequenceAnalysis({ VChart });
 }
 

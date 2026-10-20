@@ -35,7 +35,7 @@ Each run generates 3–9 nodes at random and preserves the case's long text to d
 // The documentation demo provides the VChartExtension global.
 // storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
 // Register when available in the live demo; this chart still requires a supported version.
-if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerStorylineChart === 'function') {
+if (VChartExtension.registerStorylineChart) {
   VChartExtension.registerStorylineChart();
 }
 

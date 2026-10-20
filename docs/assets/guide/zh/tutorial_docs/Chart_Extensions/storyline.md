@@ -48,7 +48,7 @@ vchart.renderSync();
 <script>
   // storyline 自 VChart 2.1.7 起支持；请加载同版本的 @visactor/vchart-extension。
   // 在线 demo 按方法是否存在注册；使用此图表仍需选择上述支持的版本。
-  if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerStorylineChart === 'function') {
+  if (VChartExtension.registerStorylineChart) {
     VChartExtension.registerStorylineChart({ VChart: VChart.default });
   }
   const vchart = new VChart.default(
