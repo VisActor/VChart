@@ -35,11 +35,10 @@ The data covers six World Cup milestones from 1930 to 2022. Each milestone uses 
 // import { registerStorylineChart } from '@visactor/vchart-extension';
 // The documentation demo provides the VChartExtension global.
 // storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
-// The core package does not include this chart; report missing support before creating it.
-if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerStorylineChart !== 'function') {
-  throw new Error('This demo requires VChart 2.1.7 or later. Select a supported version and load the matching @visactor/vchart-extension (registerStorylineChart).');
+// Register when available in the live demo; this chart still requires a supported version.
+if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerStorylineChart === 'function') {
+  VChartExtension.registerStorylineChart();
 }
-const { registerStorylineChart } = VChartExtension;
 
 const TITLE_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/title-world-cap.png';
 const themeColor = 'rgb(228,154,56)';
@@ -136,7 +135,6 @@ const cleanup = () => {
 };
 window.customRelease = cleanup;
 
-registerStorylineChart();
 const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 

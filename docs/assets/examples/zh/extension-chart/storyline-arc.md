@@ -33,11 +33,10 @@ option: storylineChart
 // import { registerStorylineChart } from '@visactor/vchart-extension';
 // 文档演示环境提供 VChartExtension 全局变量。
 // storyline 自 VChart 2.1.7 起支持；请加载同版本的 @visactor/vchart-extension。
-// 旧版本主包不内置此图表；方法缺失时提示升级，避免继续创建不支持的图表。
-if (typeof VChartExtension === 'undefined' || typeof VChartExtension.registerStorylineChart !== 'function') {
-  throw new Error('此示例需要 VChart 2.1.7 及以上版本，请选择支持的版本并加载同版本的 @visactor/vchart-extension（registerStorylineChart）。');
+// 在线 demo 按方法是否存在注册；使用此图表仍需选择上述支持的版本。
+if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerStorylineChart === 'function') {
+  VChartExtension.registerStorylineChart();
 }
-const { registerStorylineChart } = VChartExtension;
 
 const TITLE_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/title-world-cap.png';
 const SUB_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-2022.png';
@@ -160,7 +159,6 @@ const cleanup = () => {
 };
 window.customRelease = cleanup;
 
-registerStorylineChart();
 const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
