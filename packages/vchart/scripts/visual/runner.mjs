@@ -162,7 +162,7 @@ export async function runVisual(root, options, configuration = {}) {
     outputDirectory = '.vchart-visual',
     buildBundle = build
   } = configuration;
-  const runtime = createRuntime();
+  const runtime = createRuntime({ offline: options.offline === true });
   const detach = runtime.listenSignals();
   const output = path.join(root, outputDirectory);
   const runId = `${Date.now()}-${randomUUID().slice(0, 8)}`;
