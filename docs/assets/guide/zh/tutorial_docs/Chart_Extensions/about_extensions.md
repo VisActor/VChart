@@ -47,4 +47,4 @@ $ yarn add @visactor/vchart-extension
 
 ## 时序图
 
-[时序图（sequence）](/vchart/guide/tutorial_docs/Chart_Types/Sequence) 已迁移到扩展包，支持在同一时间轴上组合事件点、关联线和统计系列。使用前从扩展包导入并调用 `registerSequenceChart({ VChart })`；原有 spec 配置不变。
+自 **VChart 2.2.0** 起，[时序图（sequence）](/vchart/guide/tutorial_docs/Chart_Types/Sequence) 迁移到同版本的扩展包，支持在同一时间轴上组合事件点、关联线和统计系列。使用前从扩展包导入并调用 `registerSequenceChart({ VChart })`；原有 spec 配置不变。

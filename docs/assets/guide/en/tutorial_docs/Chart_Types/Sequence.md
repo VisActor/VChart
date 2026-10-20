@@ -1,14 +1,17 @@
 # Sequence Chart
 
-`dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
+Since **2.2.0**, the `dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
 
 [\[Configuration Guide\]](../../../option/sequenceChart)
 
 ## Registration and migration
 
-The sequence chart is provided by `@visactor/vchart-extension`. Install the extension package with the same version as VChart and call `registerSequenceChart({ VChart })` before creating a chart. Existing `type: 'sequence'` and series configuration remain unchanged.
+Since **VChart 2.2.0**, the sequence chart (`type: 'sequence'`) has moved from the core package to `@visactor/vchart-extension`. Install the extension package with the same version as VChart and call `registerSequenceChart({ VChart })` before creating a chart. Existing `type: 'sequence'` and series configuration remain unchanged.
+
+**Older versions:** The full VChart bundle before 2.2.0 includes the sequence chart and does not require `registerSequenceChart` from the extension package. For on-demand imports, use the registration API from the matching core package. The live demos below check whether the extension registration function exists to support version switching. With 2.2.0 or later, you must still install and load the extension package matching VChart; the existence check does not replace that requirement.
 
 ```ts
+// Business usage with VChart 2.2.0 or later (use matching package versions):
 import VChart from '@visactor/vchart';
 import { registerSequenceChart } from '@visactor/vchart-extension';
 import type { ISequenceChartSpec } from '@visactor/vchart-extension';
@@ -48,7 +51,11 @@ Sequence charts typically also include the following components:
 ## Quick Start
 
 ```javascript livedemo
-VChartExtension.registerSequenceChart({ VChart });
+// Since VChart 2.2.0, sequence requires registration from the matching @visactor/vchart-extension.
+// Older full bundles include this chart; check the function to support switching demo versions.
+if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceChart === 'function') {
+  VChartExtension.registerSequenceChart({ VChart });
+}
 
 const spec = {
   type: 'sequence',
@@ -1299,7 +1306,11 @@ data: [
 As mentioned above, events or event relationships will come with some additional information,
 
 ```javascript livedemo
-VChartExtension.registerSequenceChart({ VChart });
+// Since VChart 2.2.0, sequence requires registration from the matching @visactor/vchart-extension.
+// Older full bundles include this chart; check the function to support switching demo versions.
+if (typeof VChartExtension !== 'undefined' && typeof VChartExtension.registerSequenceChart === 'function') {
+  VChartExtension.registerSequenceChart({ VChart });
+}
 
 const spec = {
   type: 'sequence',

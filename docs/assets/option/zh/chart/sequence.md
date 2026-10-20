@@ -4,7 +4,7 @@
 
 时序图
 
-时序图由 `@visactor/vchart-extension` 提供。先安装与 VChart 版本一致的扩展包，并在创建图表前调用 `registerSequenceChart({ VChart })`。原有 `type: 'sequence'` 和 series 配置保持不变。
+自 **VChart 2.2.0** 起，时序图（`type: 'sequence'`）从主包迁移至 `@visactor/vchart-extension`。 VChart 2.2.0 之前的完整包内置该图表，无需扩展注册。先安装与 VChart 版本一致的扩展包，并在创建图表前调用 `registerSequenceChart({ VChart })`。原有 `type: 'sequence'` 和 series 配置保持不变。
 
 类型 `ISequenceChartSpec` 也从扩展包导入。[注册与迁移教程](/vchart/guide/tutorial_docs/Chart_Types/Sequence)。
 
