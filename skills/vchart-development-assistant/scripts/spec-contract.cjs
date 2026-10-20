@@ -70,13 +70,15 @@
       }
     }
     // Resolve each series' actual data rather than treating every root dataset
-    // as graph data. Combined charts may keep unrelated datasets at the root.
+    // as graph data. Both ordinary and combined charts may keep auxiliary data.
     const sources = data => Array.isArray(data) ? data : data != null ? [data] : [];
     const dataSeries = series.length ? series : [spec];
     for (const [index, config] of dataSeries.entries()) {
       if ((config.type || spec.type) !== 'sankey') continue;
       const path = series.length ? `spec.series[${index}].data` : 'spec.data';
-      let data = config.data;
+      // An ordinary chart creates a default series using the first root dataset;
+      // the root data collection is not series-inline data.
+      let data = config === spec ? sources(spec.data)[0] : config.data;
       if (data == null && config !== spec) {
         const rootData = sources(spec.data);
         // A series without inline data uses one root dataset, first by default.

@@ -76,6 +76,16 @@ def test_empty_data_can_be_delivered(tmp_path: Path, kind: str) -> None:
     assert output.is_file()
 
 
+def test_sankey_with_auxiliary_data_can_be_delivered(tmp_path: Path) -> None:
+    source = """const spec = {type:'sankey',categoryField:'name',valueField:'value',data:[
+      {id:'flow',values:[{nodes:[{name:'A'},{name:'B'}],links:[{source:0,target:1,value:5}]}]},
+      {id:'notes',values:[{note:'total',amount:5}]}
+    ]};"""
+    result, output = generate(tmp_path, source)
+    assert result.returncode == 0, result.stderr
+    assert output.is_file()
+
+
 @pytest.mark.parametrize("name", ["A", "</script>", "</ScRiPt >", "<!-- <script> -->", "引号\"、反斜杠\\、`和${value}\n下一行"])
 def test_editor_preserves_source_and_helper_closures_and_validates_edits(tmp_path: Path, name: str) -> None:
     source = """window.sourceRuns = (window.sourceRuns || 0) + 1;

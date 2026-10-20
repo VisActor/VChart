@@ -20,6 +20,23 @@ for (const [name,data] of [
 test('does not validate an unrelated combined-chart dataset as sankey',()=>{
   assert.equal(validateSpec({type:'common',data:[{id:'bars',values:[{x:'a',y:3}]},{id:'flow',values:[graph]}],series:[{type:'bar',dataId:'bars'},{type:'sankey',dataId:'flow'}]}).ok,true);
 });
+for (const series of [undefined, null, []]) {
+  test(`ordinary sankey ignores auxiliary dataset shapes with series ${String(series)}`, () => {
+    assert.equal(validateSpec({type:'sankey',series,data:[
+      {id:'flow',values:[graph]},
+      {id:'notes',values:[{note:'total',amount:49}]},
+      {id:'metadata',values:{description:'Flow context'}}
+    ]}).ok,true);
+  });
+}
+test('ordinary sankey still rejects malformed selected data with valid auxiliary graph', () => {
+  assert.deepEqual(validateSpec({type:'sankey',data:[{values:edges},{values:[graph]}]}).errors.map(({code,path})=>({code,path})), [
+    {code:'SANKEY_GRAPH_REQUIRED',path:'spec.data[0].values'}
+  ]);
+});
+test('source validation accepts ordinary sankey with auxiliary records', () => {
+  assert.equal(validateSource(`const spec = ${JSON.stringify({type:'sankey',data:[{values:[graph]},{values:[{note:'total'}]}]})};`).ok,true);
+});
 for (const [name, config] of [
   ['default first dataset', {}],
   ['explicit index zero', {dataIndex:0}],
@@ -112,7 +129,7 @@ for (const [name, data] of [
 test('does not impose the Sankey graph wrapper on another chart',()=>assert.equal(validateSpec({type:'custom',data:{values:graph}}).ok,true));
 test('source validator catches a bare graph before generation',()=>assert.deepEqual(validateSource('const spec = {type:"sankey", data:{values:{nodes:[],links:[]}}};').errors.map(e=>e.code),['SANKEY_GRAPH_REQUIRED']));
 
-test('does not confuse root datasets with named graph records',()=>assert.deepEqual(codes({type:'sankey',data:[{id:'nodes',values:graph.nodes},{id:'links',values:edges}]}),['SANKEY_GRAPH_REQUIRED','SANKEY_GRAPH_REQUIRED']));
+test('does not confuse root datasets with named graph records',()=>assert.deepEqual(codes({type:'sankey',data:[{id:'nodes',values:graph.nodes},{id:'links',values:edges}]}),['SANKEY_GRAPH_REQUIRED']));
 test('rejects malformed named graph record values',()=>assert.deepEqual(codes({type:'sankey',data:{values:[{id:'nodes',values:{}},{id:'links',values:edges}]}}),['SANKEY_GRAPH_REQUIRED']));
 
 for (const data of [[], [{label:'A'}], 'items', {}]) {
