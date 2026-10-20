@@ -10,6 +10,8 @@ option: storylineChart
 
 # 时钟叙事图
 
+**版本要求：** `storyline` 自 **VChart 2.1.7** 起由 `@visactor/vchart-extension` 提供。请使用 **2.1.7 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
 本示例沿用 `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts` 中的 `clock` case，保留六个历史节点、原始图片和配色，精简标题与正文，使用固定尺寸画布，并在当前示例内部滚动查看。
 
 展示 1930 至 2022 年的六个世界杯历史节点。
@@ -32,7 +34,11 @@ option: storylineChart
 // import VChart from '@visactor/vchart';
 // import { registerStorylineChart } from '@visactor/vchart-extension';
 // 文档演示环境提供 VChartExtension 全局变量。
-const { registerStorylineChart } = VChartExtension;
+// storyline 自 VChart 2.1.7 起支持；请加载同版本的 @visactor/vchart-extension。
+// 在线 demo 按方法是否存在注册；使用此图表仍需选择上述支持的版本。
+if (VChartExtension.registerStorylineChart) {
+  VChartExtension.registerStorylineChart();
+}
 
 const TITLE_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/title-world-cap.png';
 const themeColor = 'rgb(228,154,56)';
@@ -129,7 +135,6 @@ const cleanup = () => {
 };
 window.customRelease = cleanup;
 
-registerStorylineChart();
 const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 

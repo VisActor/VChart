@@ -1,6 +1,8 @@
 # 扩展图表：时序分析图
 
-`dot`、`link` 系列也已整体移至 `@visactor/vchart-extension`，主包不再导出或自动注册 `DotSeries`、`LinkSeries`、`registerDotSeries`、`registerLinkSeries`，对应的 `IDotSeriesSpec`、`ILinkSeriesSpec` 类型也从扩展包导入。`registerSequenceChart({ VChart })` 和 `registerSequenceAnalysis({ VChart })` 会注册各自需要的系列；在 `common` 图表中单独使用时，需要从扩展包导入并调用 `registerDotSeries()`、`registerLinkSeries()`。
+**版本要求：** `sequenceAnalysis` 自 **VChart 2.2.0** 起由 `@visactor/vchart-extension` 提供。请使用 **2.2.0 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
+自 **2.2.0** 起，`dot`、`link` 系列也整体移至 `@visactor/vchart-extension`，主包不再导出或自动注册 `DotSeries`、`LinkSeries`、`registerDotSeries`、`registerLinkSeries`，对应的 `IDotSeriesSpec`、`ILinkSeriesSpec` 类型也从扩展包导入。`registerSequenceChart({ VChart })` 和 `registerSequenceAnalysis({ VChart })` 会注册各自需要的系列；在 `common` 图表中单独使用时，需要从扩展包导入并调用 `registerDotSeries()`、`registerLinkSeries()`。
 
 时序分析图（Sequence Analysis）把每个用户的事件放在同一条水平线上，通过时间、步骤或介质分类对齐事件，再用连接线表达事件之间的关系。适合展示行为路径、跨用户事件关联和重复模式。
 
@@ -19,7 +21,7 @@
 
 ## 注册并创建图表
 
-安装与 VChart 版本一致、且包含 sequenceAnalysis 的扩展包，在创建图表前注册。页面需要提供 `id="chart"` 的容器。
+安装 2.2.0 或更高版本、且与 VChart 版本一致的扩展包，在创建图表前注册。页面需要提供 `id="chart"` 的容器。
 
 下面是完整的最小步骤示例。这里通过转换回调把纵轴头像改成用户名称，所以 `userImageMap` 可以为空；演示页沿用本地 demo 的用户头像地址。
 
@@ -86,7 +88,11 @@ vchart.renderSync();
 通过 CDN 使用时，加载两个包对应版本的 `build/index.min.js`，并把页面实际使用的 VChart 构造函数传入注册方法：
 
 ```js
-VChartExtension.registerSequenceAnalysis({ VChart: VChart.default });
+// sequenceAnalysis 自 VChart 2.2.0 起支持；请加载同版本的 @visactor/vchart-extension。
+// 在线 demo 按方法是否存在注册；使用此图表仍需选择上述支持的版本。
+if (VChartExtension.registerSequenceAnalysis) {
+  VChartExtension.registerSequenceAnalysis({ VChart: VChart.default });
+}
 const vchart = new VChart.default(spec, { dom: 'chart' });
 vchart.renderSync();
 ```

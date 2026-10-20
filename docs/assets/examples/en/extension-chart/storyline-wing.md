@@ -10,6 +10,8 @@ option: storylineChart
 
 # Wing Storyline
 
+**Version requirement:** `storyline` is available from `@visactor/vchart-extension` since **VChart 2.1.7**. Use **2.1.7 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
 This example uses the `wing` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its images, data and theme using a fixed-size canvas with scrolling inside this demo.
 
 Each run generates 3–9 nodes at random and preserves the case's long text to demonstrate how the layout handles different node counts and content lengths.
@@ -31,7 +33,11 @@ Each run generates 3–9 nodes at random and preserves the case's long text to d
 // import VChart from '@visactor/vchart';
 // import { registerStorylineChart } from '@visactor/vchart-extension';
 // The documentation demo provides the VChartExtension global.
-const { registerStorylineChart } = VChartExtension;
+// storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
+// Register when available in the live demo; this chart still requires a supported version.
+if (VChartExtension.registerStorylineChart) {
+  VChartExtension.registerStorylineChart();
+}
 
 const TITLE_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/title-world-cap.png';
 const SUB_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-2022.png';
@@ -155,7 +161,6 @@ const cleanup = () => {
 };
 window.customRelease = cleanup;
 
-registerStorylineChart();
 const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
