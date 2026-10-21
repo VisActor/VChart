@@ -186,28 +186,22 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // ====== SPEC_START ======
-        {{SPEC_CODE}}
-        // ====== SPEC_END ======
+        {{SPEC_CONTRACT}}
 
         // Monaco Editor 初始代码
-        const initialCode = `{{INITIAL_CODE}}`;
+        const initialCode = {{INITIAL_CODE}};
 
         // 初始化 Monaco Editor（需要使用 require 异步加载）
         let chart = null;
         
-        // 解析 spec 对象
-        function parseSpec(codeStr) {
+        // 执行完整源码；配置检查统一由 validateSpec 处理。
+        function evaluateSpec(codeStr) {
           try {
-            const specMatch = codeStr.match(/const\s+spec\s*=\s*({[\s\S]*});?\s*$/m);
-            if (specMatch) {
-              const specJson = specMatch[1];
-              const fn = new Function(`return ${specJson}`);
-              return fn();
-            }
-            throw new Error('无法解析 spec 对象，请确保代码格式为: const spec = {...};');
+            // Execute the complete source so data variables and helper
+            // functions remain in the callbacks' lexical scope.
+            return new Function(codeStr + '\n; return typeof spec !== "undefined" ? spec : undefined;')();
           } catch (e) {
-            throw new Error('代码解析错误: ' + e.message);
+            throw new Error('代码执行错误: ' + e.message);
           }
         }
         
@@ -216,7 +210,7 @@
           const chartContainer = document.getElementById('chart');
           
           try {
-            const spec = parseSpec(code);
+            const spec = evaluateSpec(code);
             
             // 销毁旧图表
             if (chart) {
@@ -227,6 +221,8 @@
             // 清空容器
             chartContainer.innerHTML = '';
             
+            const validation = window.VChartSpecContract.validateSpec(spec);
+            if (!validation.ok) throw new Error(validation.errors.map(e => `${e.code}: ${e.message}`).join('\n'));
             // 创建新图表
             chart = new VChart.default(spec, { dom: 'chart' });
             chart.renderSync();

@@ -22,7 +22,7 @@ description: 使用 VChart 生成可查看的 HTML 或供宿主消费的完整 s
 
 - 尚未建立交付目标时，独立的配置生成/修改请求选择 spec。“已有 spec”是配置输入，不等于请求 spec 作为最终产物；修改已有 HTML 内的 spec 继续交付 HTML，组件或组合产物也保留原目标，除非用户明确改变输出要求。已有 React 组件问题继续交付组件修复。
 - “加标签”“换图型”“修复报错”改变任务内容，通常不改变交付目标；沿用前文的格式和产物。只有明确要求片段或补丁时才仅返回局部配置，增量修改默认交付整合后的完整产物。
-- 同时要 spec 和 HTML 时交付两者，HTML 使用同一份 spec。spec 任务的临时验证页面不代替最终配置。
+- 同时要 spec 和 HTML 时交付两者，HTML 使用同一份 spec。校验、生成和最终链接使用同一份完整配置源码；不要另交一份丢失回调或包含占位符的 JSON。spec 任务的临时验证页面不代替最终配置。
 - 信息充分时直接选图和生成，不逐次确认图型。只澄清会影响图义、字段含义、数据口径或交付可用性的缺失信息；不要默认询问 JS/React。
 - 独立 HTML 默认原生 JS；明确的 React 上下文使用相应组件/API。交付目标不明且选错会影响使用时，只询问必要的交付形式。
 - 既有宿主约束持续有效，但不把未知版本、图型或回调支持当作已知。要求与已知宿主能力冲突时说明限制，不静默换产物。
@@ -31,7 +31,7 @@ description: 使用 VChart 生成可查看的 HTML 或供宿主消费的完整 s
 
 ## 共享配置知识
 
-按需查询，不一次加载所有图型、API 或类型详情。
+按需查询，不一次加载所有图型、API 或类型详情。Markdown 链接相对于所在文档；下表路径相对于本 Skill 根目录。类型元数据的 `complexTypeDefinitions[*].reference` 相对于 `references/`：例如 `type-details/IMediaQuerySpec-Type-Definition.md` 实际位于 `references/type-details/IMediaQuerySpec-Type-Definition.md`。读取失败时先核对目录，不继续猜路径。
 
 | 资源 | 用途 |
 | --- | --- |
@@ -40,7 +40,11 @@ description: 使用 VChart 生成可查看的 HTML 或供宿主消费的完整 s
 | `references/type-meta/[图型].json` | 最终属性、类型、必需字段 |
 | `references/type-details/[类型名]-Type-Definition.md` | 复杂类型的定义与示例；函数需求查询对应签名 |
 | [示例库](references/examples/) | 相近配置参考；示例数据不能充当用户数据 |
-| [组件参考](references/components/) | 轴、标签、图例、tooltip 等配置 |
+| [Sankey 专项示例](references/examples/sankey/basic-sankey.md) | 生成或修改桑基图时读取：图数组、命名节点/边记录、层级图及端点映射 |
+| [Treemap 专项](references/chart/treemap.md) | 生成或修改矩形树图时读取：层级数据、回调取值、颜色、标签及默认图例 |
+| [数据结构排查](references/chart/common-issues.md#图数据与层级数据) | 层级/图数据、空数据、回调及 HTML 运行约束 |
+| [轴](references/components/axis.md)、[标签](references/components/label.md)、[图例](references/components/legend.md) | 按需求读取对应组件配置 |
+| [Tooltip](references/components/tooltip.md) | 修改 tooltip 内容或格式化时读取，确认触发类型及回调参数 |
 | [API 索引](references/api/API_INDEX.md) | 只有需要实例 API 时才查询相关文档 |
 
 配置查询顺序：用户意图 → 对应 topkey → type-meta → 必要 type-details。`isSimple: true` 的属性可直接使用元数据类型，复杂属性再读取详情。
@@ -57,6 +61,7 @@ description: 使用 VChart 生成可查看的 HTML 或供宿主消费的完整 s
 - 使用实际数据检查字段映射。按图型检查 xField/yField、categoryField/valueField、seriesField、数据引用和所需配置，不要求所有图型都有 xField/yField。
 - 属性值与文档类型一致，配置与已知目标版本及宿主约束相符。数据可以采用 VChart 支持的对象或数组形式，不为示例样式机械归一化。
 - 信息充分时直接修正生成错误，不仅提醒用户自行检查。缺少真实业务数据时澄清；功能教学或样式演示可用明确标注的 mock 数据。
+- 标签 `formatMethod(text, datum)` 的第一个参数是文本，记录在第二个参数；[tooltip 回调](references/components/tooltip.md#回调参数层级)另查对应签名，不能混用。函数保留为 JS 函数，不写成字符串或占位符。详见 [标签格式化](references/components/label.md#格式化)。
 - JSON 用标准解析器检查，不能混入注释、函数、NaN/Infinity；格式通过不代表 VChart 配置或图义正确。本期不使用 schema 校验。
 - 能渲染时检查实际交付配置的图元、数据和可见效果；HTML 交互需要验证真实状态或 datum。未实际渲染则说明验证范围，不因生成文件或存在 canvas 就报成功。浏览器验收不等于目标宿主验收。
 
@@ -104,6 +109,6 @@ description: 使用 VChart 生成可查看的 HTML 或供宿主消费的完整 s
 | JS 诊断页面 | `scripts/generate_diagnosis_html.py`、`template/diagnosis.html` |
 | React 诊断页面 | `scripts/generate_diagnosis_react_html.py`、`template/diagnosis-react.html` |
 | 参数、脚本问题、文件命名 | [参数参考](references/SCRIPT_PARAMS_REFERENCE.md)、[排错指南](references/SCRIPTS_TROUBLESHOOTING.md)、[命名约定](references/FILE_NAMING_CONVENTIONS.md) |
-| 完整 JSON 与 JS 回调示例 | [spec 示例](examples/spec-generation/README.md) |
+| 完整 JSON 与 JS 回调示例 | [spec 示例](references/examples/spec-generation/README.md) |
 
 只有用户询问能力范围时才简要介绍：支持 HTML/spec 生成、配置修改、诊断、视觉还原和 React/API 集成；不主动输出自我介绍。

@@ -1,0 +1,32 @@
+name: Skill generation contracts
+
+on:
+  pull_request:
+    branches: ['develop', 'main']
+    paths:
+      - 'skills/vchart-development-assistant/**'
+      - 'packages/vchart/skill-maintenance/**'
+      - '.github/workflows/skill-generation-test.yml'
+  push:
+    branches: ['develop', 'main']
+    paths:
+      - 'skills/vchart-development-assistant/**'
+      - 'packages/vchart/skill-maintenance/**'
+      - '.github/workflows/skill-generation-test.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.11'
+      - run: node --test packages/vchart/skill-maintenance/tests/spec-contract.test.cjs
+      - run: uv run --no-project --with pytest python -m pytest packages/vchart/skill-maintenance/tests -q

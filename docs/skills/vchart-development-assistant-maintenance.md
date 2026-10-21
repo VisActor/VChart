@@ -37,3 +37,25 @@ node --test packages/vchart/scripts/skill-metadata/distribution.test.mjs package
 `audit/check` 只读，差异使退出码非零。`audit --report` 的 `provenance` 记录核心/扩展版本、TypeScript 版本、输入内容指纹和相关源码提交，报告保存在指定位置，不复制到技能目录。指纹不包含当前时间或无关文档提交。
 
 生成只更新 type-meta 和补充声明；topkey 与人工详情按源码依据维护，audit 检查字段、作用域及导航。这些检查不要求用户对生成配置执行 schema 或编译验证。
+
+## 生成器与配置契约回归
+
+维护测试位于 `packages/vchart/skill-maintenance/tests`，不随运行 Skill 分发。
+从仓库根执行，无需安装 VChart 仓库的 npm 依赖：
+
+```sh
+node --test packages/vchart/skill-maintenance/tests/spec-contract.test.cjs
+uv run --no-project --with pytest python -m pytest packages/vchart/skill-maintenance/tests -q
+```
+
+对应 CI 为 `skill-generation-test.yml`。覆盖完整源码与辅助函数闭包、初始/编辑执行一致性、
+内联源码安全序列化、任意工作目录输出，以及图/树数据、回调和空状态的有限配置检查。
+这些测试不证明浏览器渲染、交互或模型行为正确，实际产物仍按 HTML/spec 工作流验收。
+
+## 按变更范围选择模型回归
+
+- 层级示例或 tooltip 取值变更：简单 Treemap 验证默认展示；明确要求自定义内容时，用不同字段和层级核对叶子记录、名称、数值及指定配色。
+- 空状态变更：串行验证有数据、清空、恢复、再次清空和容器 resize；无数据时提示可见且不溢出，恢复后无残留提示。
+- 图数据说明变更：按业务口径验证边的权重和聚合粒度。
+
+这些是按实际变更选择的维护场景，不要求每次用户生成任务执行整套矩阵。空状态及其清空/恢复生命周期属于可选边缘回归，不作为本次知识库收敛的必过项；未通过的模型用例仍须如实记录。
