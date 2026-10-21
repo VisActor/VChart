@@ -7,25 +7,35 @@ VChart 诊断 HTML 生成脚本
     --title "诊断报告标题" \\
     --desc "诊断报告描述" \\
     --config-file config.js \\
-    --output output/diagnosis.html
+    --output-dir ./chart-output
 
 更多信息请查看: workflows/scenario-1-diagnosis.md
 """
 
-from pathlib import Path
+from __future__ import annotations
+
 import argparse
+from pathlib import Path
+
+from artifact_paths import resolve_output_path
+
+
+def get_script_dir() -> Path:
+    return Path(__file__).parent.resolve()
+
 
 def main():
     parser = argparse.ArgumentParser(description="Generate diagnosis HTML from template/diagnosis.html")
     parser.add_argument("--title", default="VChart 问题诊断报告", help="报告标题")
     parser.add_argument("--desc", default="基于用户配置的诊断与修复结果", help="报告描述")
     parser.add_argument("--config-file", help="包含 problemReview/diagnosis/solutions 的 JS 代码块文件路径")
+    parser.add_argument("--output-dir", help="输出目录：绝对路径或相对于当前工作目录的路径")
     parser.add_argument("--output", default="output/diagnosis.html", help="输出 HTML 文件路径")
     args = parser.parse_args()
 
-    template_path = Path("template/diagnosis.html")
+    template_path = get_script_dir().parent / "template" / "diagnosis.html"
     if not template_path.exists():
-        raise FileNotFoundError(f"❌ 模板不存在: {template_path}\n💡 请确保在项目根目录运行脚本")
+        raise FileNotFoundError(f"❌ 模板不存在: {template_path}\n💡 请检查 skill 目录结构或使用正确的脚本路径")
 
     html = template_path.read_text(encoding="utf-8")
 
@@ -87,12 +97,11 @@ const solutions = [
 
     filled = html.replace("{{CONFIG_BLOCK}}", config_block)
 
-    output_path = Path(args.output)
+    output_path = resolve_output_path(args.output, args.output_dir, "diagnosis.html")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(filled, encoding="utf-8")
 
-    print(f"✅ 诊断 HTML 已生成: {output_path.resolve()}")
-    print(f"📖 请在浏览器中打开以查看交互式诊断报告")
+    print(str(output_path))
 
 if __name__ == "__main__":
     main()

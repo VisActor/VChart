@@ -9,32 +9,37 @@ VChart 示例 HTML 生成脚本
     --feature "主要功能说明" \\
     --tips "编辑提示" \\
     --spec-file spec.js \\
-    --output output/demo.html
+    --output-dir ./chart-output
 
 更多信息请查看: workflows/scenario-2-generation.md
 """
 
-from pathlib import Path
+from __future__ import annotations
+
 import argparse
+import json
+import subprocess
 import sys
+from pathlib import Path
 
-def escape_js_string(s: str) -> str:
-    """转义 JavaScript 字符串中的特殊字符"""
-    s = s.replace("\\", "\\\\")
-    s = s.replace("`", "\\`")
-    # 编辑器中的回调代码是文本，不能被外层模板字符串提前插值。
-    s = s.replace("${", "\\${")
-    s = s.replace("\n", "\\n")
-    return s
+from artifact_paths import resolve_output_path
 
-def validate_spec_code(spec_code: str) -> bool:
-    """验证 spec 代码基本格式"""
-    # 检查是否包含基本的 spec 结构
-    if "const spec" not in spec_code and "let spec" not in spec_code and "var spec" not in spec_code:
-        return False
-    if "type:" not in spec_code:
-        return False
-    return True
+
+def get_script_dir() -> Path:
+    return Path(__file__).parent.resolve()
+
+
+def validate_spec_code(spec_code: str) -> None:
+    """Validate executable configuration, not incidental source formatting."""
+    result = subprocess.run(
+        ["node", str(get_script_dir() / "validate_spec.cjs"), "--stdin"],
+        input=spec_code, capture_output=True, text=True, timeout=10,
+    )
+    if result.returncode:
+        raise ValueError(f"Spec validation failed: {result.stdout.strip() or result.stderr.strip()}")
+    report = json.loads(result.stdout)
+    for warning in report.get("warnings", []):
+        print(f"{warning['code']}: {warning['message']}", file=sys.stderr)
 
 def main():
     try:
@@ -44,14 +49,14 @@ def main():
             epilog="""
 示例：
   # 使用自定义 spec 文件
-  python3 scripts/generate_demo_html.py --spec-file my-spec.js --output demo.html
+  python3 scripts/generate_demo_html.py --spec-file my-spec.js --output-dir ./chart-output
 
   # 完整参数
   python3 scripts/generate_demo_html.py \\
     --title "柱状图示例" \\
     --desc "基础柱状图配置" \\
     --spec-file spec.js \\
-    --output output/demo.html
+    --output-dir ./chart-output
             """
         )
         parser.add_argument("--title", default="VChart 图表示例", help="页面标题")
@@ -59,15 +64,16 @@ def main():
         parser.add_argument("--feature", default="补充主要功能说明", help="主要功能说明")
         parser.add_argument("--tips", default="补充编辑提示", help="编辑提示")
         parser.add_argument("--spec-file", help="包含完整 spec 代码的文件路径")
+        parser.add_argument("--output-dir", help="输出目录：绝对路径或相对于当前工作目录的路径")
         parser.add_argument("--output", default="output/demo.html", help="输出 HTML 文件路径")
-        parser.add_argument("--validate", action="store_true", help="验证 spec 代码格式")
+        parser.add_argument("--validate", action="store_true", help="兼容参数；配置校验默认执行")
         args = parser.parse_args()
 
         # 检查模板文件
-        template_path = Path("template/demo.html")
+        template_path = get_script_dir().parent / "template" / "demo.html"
         if not template_path.exists():
             print(f"❌ 错误: 模板文件不存在: {template_path}", file=sys.stderr)
-            print(f"💡 提示: 请确保在 skills/vchart-development-assistant 目录运行脚本", file=sys.stderr)
+            print("💡 提示: 请检查 skill 目录结构或使用正确的脚本路径", file=sys.stderr)
             sys.exit(1)
 
         html = template_path.read_text(encoding="utf-8")
@@ -85,10 +91,6 @@ def main():
 
             spec_code = spec_path.read_text(encoding="utf-8")
 
-            # 验证 spec 代码格式
-            if args.validate and not validate_spec_code(spec_code):
-                print(f"⚠️  警告: Spec 代码格式可能不正确", file=sys.stderr)
-                print(f"   请确保包含 'const spec = {{...}}' 和 'type: \"...\"'", file=sys.stderr)
         else:
             # 使用内置示例
             spec_code = """const spec = {
@@ -107,26 +109,27 @@ def main():
 };"""
             print(f"ℹ️  使用内置示例 spec", file=sys.stderr)
 
-        # 转义 spec 代码供 JavaScript 字符串使用
-        initial_code_escaped = escape_js_string(spec_code.strip())
+        validate_spec_code(spec_code)
+        contract = (get_script_dir() / "spec-contract.cjs").read_text(encoding="utf-8")
+        html = html.replace("{{SPEC_CONTRACT}}", contract)
+        # Serialize the complete source; literal HTML tags must not end the script.
+        initial_code_json = json.dumps(spec_code.strip()).replace("<", "\\u003c")
 
-        # 填充 spec 和 initialCode 模板变量
-        html = html.replace("{{SPEC_CODE}}", spec_code)
-        html = html.replace("{{INITIAL_CODE}}", initial_code_escaped)
+        # 初次渲染与编辑共用 updateChart，源码只作为编辑器初始值注入。
+        html = html.replace("{{INITIAL_CODE}}", initial_code_json)
 
         # 检查模板占位符是否都被替换
-        if "{{SPEC_CODE}}" in html or "{{INITIAL_CODE}}" in html:
+        if "{{SPEC_CONTRACT}}" in html or "{{INITIAL_CODE}}" in html:
             print(f"❌ 错误: 模板占位符替换失败", file=sys.stderr)
             print(f"💡 提示: 请检查模板文件: {template_path}", file=sys.stderr)
             sys.exit(1)
 
         # 创建输出目录并写入文件
-        output_path = Path(args.output)
+        output_path = resolve_output_path(args.output, args.output_dir, "demo.html")
         output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(html, encoding="utf-8")
 
-        print(f"✅ 示例 HTML 已生成: {output_path.resolve()}")
-        print(f"📖 请在浏览器中打开以查看交互式图表")
+        print(str(output_path))
 
     except FileNotFoundError as e:
         print(f"❌ 文件错误: {e}", file=sys.stderr)

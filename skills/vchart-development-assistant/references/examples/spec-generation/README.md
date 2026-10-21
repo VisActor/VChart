@@ -1,6 +1,6 @@
 # spec 生成示例
 
-这些是演示数据，不能替代用户真实数据。完整生成和修改后交付遵循 [spec 工作流](../../workflows/scenario-2-spec-generation.md)。
+这些是演示数据，不能替代用户真实数据。完整生成和修改后交付遵循 [spec 工作流](../../../workflows/scenario-2-spec-generation.md)。
 
 | 文件 | 表达目标与数据 | 格式与边界 |
 | --- | --- | --- |

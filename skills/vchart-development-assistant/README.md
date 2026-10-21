@@ -63,6 +63,6 @@ spec 临时渲染页是验收材料，不会取代最终配置。JSON 不能承�
 ## 参考
 
 - [共享生成流程](workflows/scenario-2-generation.md)、[HTML 流程](workflows/scenario-2-html-generation.md)、[spec 流程](workflows/scenario-2-spec-generation.md)
-- [JSON/JS 示例](examples/spec-generation/README.md)
+- [JSON/JS 示例](references/examples/spec-generation/README.md)
 - [VChart Skill 教程](https://www.visactor.io/vchart/guide/tutorial_docs/VChart_Skill_Usage)
 - [配置文档](https://www.visactor.io/vchart/option)、[API 文档](https://www.visactor.io/vchart/api/API/vchart)
