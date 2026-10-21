@@ -54,11 +54,12 @@ export async function resolveBaseline(root, sha, runtime, log) {
   if (sha && resolved !== sha.toLowerCase()) throw fault('BASELINE_FETCH_FAILED', '基线 SHA 与请求不一致');
   return resolved;
 }
-/** 缓存命中前也核对完整 Rush 配置，不能借旧依赖掩盖本次变化。 */
+/** 缓存命中前核对 Rush 配置和项目清单，锁不变也不能共享不同依赖链接。 */
 async function assertOfflineConfiguration(root, sha) {
+  const files = ['common/config/rush', 'rush.json', 'package.json', '**/package.json'];
   if (
-    git(root, ['diff', sha, '--', 'common/config/rush', 'rush.json']) ||
-    git(root, ['ls-files', '--others', '--exclude-standard', '--', 'common/config/rush'])
+    git(root, ['diff', sha, '--', ...files]) ||
+    git(root, ['ls-files', '--others', '--exclude-standard', '--', ...files])
   )
     throw fault('DEPENDENCIES_CHANGED', '两侧依赖配置不同，需要分别准备后再运行');
 }

@@ -85,6 +85,17 @@ test('离线基线固定提交、依赖来源和缓存配置', async () => {
     await baselineBuild(root, runDir, sha, cacheRuntime, report, (_name, action) => action(), buildOptions);
     await baselineBuild(root, runDir, sha, cacheRuntime, report, (_name, action) => action(), buildOptions);
     assert.equal(report.baseline.cacheHit, true);
+    // 锁文件不变也不能共享不同的项目声明，已有基线缓存不能绕过检查。
+    await fs.writeFile(path.join(root, 'packages/vchart/package.json'), '{"dependencies":{"beta":"1.0.0"}}\n');
+    await assert.rejects(
+      () => offlineDependencies(root, path.join(worktree, 'manifest-mismatch'), sha),
+      /依赖配置不同/
+    );
+    await assert.rejects(
+      () => baselineBuild(root, runDir, sha, cacheRuntime, report, (_name, action) => action(), buildOptions),
+      /依赖配置不同/
+    );
+    await fs.writeFile(path.join(root, 'packages/vchart/package.json'), '{}\n');
     await fs.writeFile(path.join(root, 'common/config/rush/pnpm-config.json'), '{"useWorkspaces":false}\n');
     await assert.rejects(
       () => baselineBuild(root, runDir, sha, cacheRuntime, report, (_name, action) => action(), buildOptions),
