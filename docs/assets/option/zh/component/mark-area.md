@@ -179,6 +179,24 @@ y 轴上的标注区域边界，与 markArea.y 共同构造标注区域。可以
 - `'arcOuterMiddle'`: 弧线中点外侧
 - `'center'`: 弧线中心
 
+#### dx(number|function)
+
+标签在x方向的偏移量，可以是具体的像素值或返回偏移量的函数。当为函数时，其参数为：
+```ts
+(data: any[], seriesData: any[]) => number
+```
+- `data`: 当前标注区域的数据
+- `seriesData`: 关联的系列数据
+
+#### dy(number|function)
+
+标签在y方向的偏移量，可以是具体的像素值或返回偏移量的函数。当为函数时，其参数为：
+```ts
+(data: any[], seriesData: any[]) => number
+```
+- `data`: 当前标注区域的数据
+- `seriesData`: 关联的系列数据
+
 {{ use: component-marker-label(
   prefix = '###',
   noMarkerRef = true
