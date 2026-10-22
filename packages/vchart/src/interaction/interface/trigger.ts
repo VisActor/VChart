@@ -29,6 +29,11 @@ export interface IBaseTriggerOptions {
    * 需要处理状态的所有图元
    */
   marks?: IMark[];
+  /**
+   * 不响应本触发器事件，但需要一起应用 reverse 状态的图元。
+   * 部分 element-select 拆走默认 select 的事件覆盖后，这些图元仍应收到 selected_reverse。
+   */
+  reverseMarks?: IMark[];
   mode?: RenderMode;
   event: {
     on: (eType: string, callback: ITriggerEventHandler) => void;
