@@ -101,6 +101,6 @@ vchart.ThemeManager.setCurrentTheme('myTheme');</br>
 
 # Related Documentation
 
-Theme：[https://www.visactor.io/vchart/guide/tutorial_docs/Theme/Customize_Theme](https%3A%2F%2Fwww.visactor.io%2Fvchart%2Fguide%2Ftutorial_docs%2FTheme%2FCustomize_Theme)
-Github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+Theme：[https://www.visactor.io/vchart/guide/tutorial_docs/Theme/Customize_Theme](https://www.visactor.io/vchart/guide/tutorial_docs/Theme/Customize_Theme)
+Github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>
 

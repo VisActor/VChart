@@ -44,8 +44,8 @@ label: {
 
 ## Related Documents
 
-formatMethod demo: [https://visactor.io/vchart/demo/label/richtext-label](https%3A%2F%2Fvisactor.io%2Fvchart%2Fdemo%2Flabel%2Frichtext-label)</br>
-Formatter demo：[https://visactor.io/vchart/demo/label/label-formatter](https%3A%2F%2Fvisactor.io%2Fvchart%2Fdemo%2Flabel%2Flabel-formatter)</br>
+formatMethod demo: [https://visactor.io/vchart/demo/label/richtext-label](https://visactor.io/vchart/demo/label/richtext-label)</br>
+Formatter demo：[https://visactor.io/vchart/demo/label/label-formatter](https://visactor.io/vchart/demo/label/label-formatter)</br>
 Related configuration items: https://visactor.io/vchart/option/barChart#label.formatMethod</br>
 github：https://github.com/VisActor/VChart</br>
 
