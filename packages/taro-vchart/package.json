@@ -9,6 +9,7 @@
     "cjs"
   ],
   "scripts": {
+    "test": "node scripts/test-spec-equal.cjs",
     "build": "bundle --clean",
     "build:tt": "taro build --type tt",
     "build:lark": "taro build --type lark",

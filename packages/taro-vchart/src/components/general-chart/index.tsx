@@ -6,7 +6,8 @@ import {
   style_cs_canvas,
   style_cs_canvas_hidden,
   style_cs_tooltip_canvas,
-  style_container
+  style_container,
+  isSpecEqual
 } from '../../utils';
 
 import { IChartProps, IVChart, IDomRef, RenderMode } from '../../typings';
@@ -83,7 +84,7 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
     if (
       this.ttCanvas &&
       this.ttCanvas.chartInstance &&
-      JSON.stringify(prevProps.spec) !== JSON.stringify(this.props.spec)
+      !isSpecEqual(prevProps.spec, this.props.spec)
     ) {
       this.ttCanvas.updateSpec(this.props);
     }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { isSpecEqual } from '../../utils';
 import { IChartProps, IVChart, RenderMode } from '../../typings';
 
 export interface WebChartProps extends IChartProps {
@@ -48,7 +49,7 @@ export class WebChart extends React.Component<WebChartProps> {
 
     const { spec, onChartReady } = this.props;
 
-    if (JSON.stringify(prevProps.spec) !== JSON.stringify(spec)) {
+    if (!isSpecEqual(prevProps.spec, spec)) {
       this.vchart.updateSpec(spec, true);
       onChartReady && onChartReady(this.vchart);
     }
