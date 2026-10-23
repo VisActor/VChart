@@ -12,7 +12,7 @@ Can vchart display multi-line labels? I want to customize the label content of t
 
 # Solution
 
-The label configuration of the pie chart is in the `label` field: [https://visactor.io/vchart/option/pieChart#label](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23label). The `formatMethod` attribute is used to format the label content: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23label.formatMethod). The configuration function can be used to format the label. The function receives parameters including the original text and data, and returns a string representing the formatted label text. If an array is returned, each item in the array represents a line.</br>
+The label configuration of the pie chart is in the `label` field: [https://visactor.io/vchart/option/pieChart#label](https://visactor.io/vchart/option/pieChart#label). The `formatMethod` attribute is used to format the label content: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https://visactor.io/vchart/option/pieChart#label.formatMethod). The configuration function can be used to format the label. The function receives parameters including the original text and data, and returns a string representing the formatted label text. If an array is returned, each item in the array represents a line.</br>
 # Code Example
 
 ```
@@ -71,11 +71,11 @@ window['vchart'] = vchart;</br>
 # Result
 
 After running the code, the label can be formatted with line breaks.</br>
-Online demo: [https://codesandbox.io/p/sandbox/label-multiline-hhqm7j?file=%2Fsrc%2Findex.ts%3A34%2C37](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Flabel-multiline-hhqm7j%3Ffile%3D%252Fsrc%252Findex.ts%253A34%252C37)</br>
+Online demo: [https://codesandbox.io/p/sandbox/label-multiline-hhqm7j?file=%2Fsrc%2Findex.ts%3A34%2C37](https://codesandbox.io/p/sandbox/label-multiline-hhqm7j?file=%2Fsrc%2Findex.ts%3A34%2C37)</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/InADbL5jKo4FVMxMXfwc3H3Snih.gif' alt='' width='1266' height='896'>
 
 # Related Documents
 
-*  VChart official website: [https://visactor.io/vchart/](https%3A%2F%2Fvisactor.io%2Fvchart%2F)</br>
-*  formatMethod documentation: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23label.formatMethod)</br>
-*  VChart github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart official website: [https://visactor.io/vchart/](https://visactor.io/vchart/)</br>
+*  formatMethod documentation: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https://visactor.io/vchart/option/pieChart#label.formatMethod)</br>
+*  VChart github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>

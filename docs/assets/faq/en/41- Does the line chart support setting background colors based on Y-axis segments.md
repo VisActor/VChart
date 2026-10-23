@@ -178,6 +178,6 @@ const spec = {
 
 ## Related Documents
 
-*  [github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
-*  [Marker Data Labeling Tutorial](https%3A%2F%2Fvisactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2Fmarker)</br>
-*  [MarkArea Configuration Document](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart%23markArea)</br>
+*  [github](https://github.com/VisActor/VChart)</br>
+*  [Marker Data Labeling Tutorial](https://visactor.com/vchart/guide/tutorial_docs/Chart_Concepts/marker)</br>
+*  [MarkArea Configuration Document](https://visactor.com/vchart/option/lineChart#markArea)</br>

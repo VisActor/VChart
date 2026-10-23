@@ -108,7 +108,7 @@ window['vchart'] = vchart;</br>
 
 ## 相关文档
 
-*  [lineDash 配置项目](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart-extensionMark-symbol%23style.lineDash(number%5B%5D))</br>
-*  [坐标轴教程](https%3A%2F%2Fvisactor.io%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FAxes)</br>
+*  [lineDash 配置项目](https://visactor.io/vchart/option/barChart-extensionMark-symbol#style.lineDash(number[]))</br>
+*  [坐标轴教程](https://visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Axes)</br>
 *  github：https://github.com/VisActor/VChart</br>
 

@@ -106,7 +106,7 @@ window['vchart'] = vchart;</br>
 
 ## 相关文档
 
-*  [Tooltip提示信息教程](https%3A%2F%2Fvisactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FTooltip)</br>
-*  [Tooltip配置文档](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FbarChart%23tooltip.dimension.maxLineCount)</br>
-*  [VChart github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  [Tooltip提示信息教程](https://visactor.com/vchart/guide/tutorial_docs/Chart_Concepts/Tooltip)</br>
+*  [Tooltip配置文档](https://visactor.com/vchart/option/barChart#tooltip.dimension.maxLineCount)</br>
+*  [VChart github](https://github.com/VisActor/VChart)</br>
 

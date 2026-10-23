@@ -10,7 +10,7 @@ Can server-side rendering be used?</br>
 Can server-side rendering be used? I want to provide a service to obtain chart images at the server level.</br>
 ## Solution
 
-VChart supports Node server-side rendering. The drawing library VRender used by VChart supports Node environment rendering. In addition to VChart, you only need to install the [canvas ](https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fcanvas)package at the server level.</br>
+VChart supports Node server-side rendering. The drawing library VRender used by VChart supports Node environment rendering. In addition to VChart, you only need to install the [canvas ](https://www.npmjs.com/package/canvas)package at the server level.</br>
 
 
 ## Code example
