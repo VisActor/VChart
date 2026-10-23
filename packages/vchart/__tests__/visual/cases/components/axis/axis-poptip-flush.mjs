@@ -1,5 +1,5 @@
 import { verifySourceSpec, verifyRendered } from '../../../helpers.mjs';
-import { interactionFrame } from '../../../interaction-helpers.mjs';
+import { interactionFrame, clippedAxisLabelTarget } from '../../../interaction-helpers.mjs';
 /**
  * BugServer case IDs: 64b7beba14220f89e4720c80
  * 迁移边界：来源固定 350×200；执行时缩窄到 180×200，形成截断后悬停，保留 flush/autoLimit 配置和原始数据。
@@ -43,22 +43,7 @@ export default {
     // 执行来源配置或回调要求的动作并保存实际结果。
 
     await page.evaluate(() => window.__visualChart.resize(180, 200));
-    const p = await page.evaluate(() => {
-      const g = window.__visualChart
-        .getStage()
-        .find(
-          g =>
-            g.name === 'axis-label' &&
-            g.type === 'text' &&
-            g.cliped &&
-            g.globalAABBBounds.y1 > 30 &&
-            g.globalAABBBounds.y2 < 500,
-          true
-        );
-      if (!g) throw Error('来源未产生截断轴标签');
-      const b = g.globalAABBBounds;
-      return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2, text: String(g.attribute.text) };
-    });
+    const p = await clippedAxisLabelTarget(page);
     await page.mouse.move(p.x, p.y);
     await interactionFrame(page);
     await page.evaluate(p => (window.__poptipTarget = p), p);

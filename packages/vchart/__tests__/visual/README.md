@@ -31,6 +31,7 @@ Rush 安装还需要项目现有的 node-canvas 编译依赖；按仓库贡献�
 ```sh
 node packages/vchart/scripts/visual-test.mjs
 node packages/vchart/scripts/visual-test.mjs --baseline <完整的40位commit-sha>
+node packages/vchart/scripts/visual-test.mjs --baseline <完整的40位commit-sha> --offline
 node packages/vchart/scripts/visual-test.mjs --dir components
 node packages/vchart/scripts/visual-test.mjs --dir components/label
 node packages/vchart/scripts/visual-test.mjs --case pie-label
@@ -49,6 +50,7 @@ node packages/vchart/scripts/visual-test.mjs --check
 
 - 默认每次从官方仓库获取 develop，并固定本次 SHA；fork 的 `origin` 不影响基线选择。断网或拉取失败会报错，缓存不会冒充最新版本。
 - 指定 SHA 仍从官方仓库获取该提交；用于复现已知基线。首期不支持任意仓库或共同祖先自动选择。
+- `--offline` 仅配合完整 `--baseline` 使用：宿主先准备官方提交和同配置依赖，执行时复用本地提交与依赖存储。两侧完整 Rush 配置及根目录、各项目的 `package.json` 必须相同；锁文件相同或缓存命中也不能绕过清单检查。项目链接各自解析到基线或当前源码，不执行联网 fetch/install，无法满足时直接失败。
 - 当前工作区包含未提交修改，每次重新构建；构建过程中源码发生变化会要求重跑。
 - 基线按自己的锁文件独立安装和构建。只缓存最近一次成功的基线构建，每次重新截图；缓存失效由 SHA、锁文件、Node、系统架构和构建配方决定；报告样式修改不使缓存失效，内容损坏会重建。
 - 自比较只构建本地一次，在两套隔离 context 中执行；它验证测试确定性，不能证明图表结果正确。
@@ -97,7 +99,7 @@ node packages/vchart/node_modules/@playwright/test/cli.js show-report .vchart-vi
 
 ## 用例约定
 
-当前 262 个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/`、`data/`、`layout/`、`theme/`、`interaction/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
+当前 264 个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/`、`data/`、`layout/`、`theme/`、`interaction/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
 
 ID 必须唯一且符合 `^[a-z][a-z0-9-]*$`；file 使用 cases 内的 `./<目录>/<name>.mjs`，目录层级和文件名使用小写字母、数字与连字符。缺文件、非法导出、越界、符号链接和空选择集在构建前失败，未登记的模块不会自动执行。
 
