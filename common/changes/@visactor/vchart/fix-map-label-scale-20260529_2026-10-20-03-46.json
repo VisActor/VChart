@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "fix the shared map label scale offset when reusing the same zoom center, mirror the label postMatrix from the map pathGroup idempotently",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "ouxiaofeng.utlf@bytedance.com"
+}
