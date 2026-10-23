@@ -9,6 +9,15 @@ module.exports = {
   },
   parserOptions: { tsconfigRootDir: __dirname, project: './tsconfig.eslint.json' },
   // ignorePatterns: [],
+  overrides: [
+    {
+      files: ['jest.config.js', 'jest.setup.js'],
+      parserOptions: {
+        ecmaVersion: 2020,
+        sourceType: 'script'
+      }
+    }
+  ],
   rules: {
     "@typescript-eslint/no-unused-vars": "warn",
     "react/display-name": "off",
