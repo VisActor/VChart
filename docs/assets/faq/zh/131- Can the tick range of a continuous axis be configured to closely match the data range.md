@@ -88,4 +88,4 @@ const spec = {
 ## 相关文档
 
 *  [github](https://github.com/VisActor/VChart)</br>
-*  [轴配置文档](https://visactor.com/vchart/option/lineChart-axes-linear#tick.tickMode('average'%7C'd3')%2520%3D%2520'average')</br>
+*  [轴配置文档](https://visactor.com/vchart/option/lineChart-axes-linear#tick.tickMode('average'%7C'd3')%20=%20'average')</br>

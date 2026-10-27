@@ -89,4 +89,4 @@ const spec = {
 ## Related documents
 
 *  [github](https://github.com/VisActor/VChart)</br>
-*  [Axis configuration document](https://visactor.com/vchart/option/lineChart-axes-linear#tick.tickMode('average'%7C'd3')%2520%3D%2520'average')</br>
+*  [Axis configuration document](https://visactor.com/vchart/option/lineChart-axes-linear#tick.tickMode('average'%7C'd3')%20=%20'average')</br>
