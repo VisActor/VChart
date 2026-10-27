@@ -25,6 +25,15 @@ assert.equal(isSpecEqual({ axis: { visible: true } }, { axis: { visible: true } 
 assert.equal(isSpecEqual({ date: new Date(0) }, { date: new Date(0) }), true);
 assert.equal(isSpecEqual({ date: new Date(0) }, { date: new Date(1) }), false);
 
+class Row {
+  constructor(name, value) {
+    this.name = name;
+    this.value = value;
+  }
+}
+assert.equal(isSpecEqual({ data: [new Row('A', 3)] }, { data: [new Row('A', 3)] }), true);
+assert.equal(isSpecEqual({ data: [new Row('A', 3)] }, { data: [new Row('A', 4)] }), false);
+
 function cyclicSpec(value) {
   const spec = { value };
   spec.self = spec;
@@ -32,5 +41,19 @@ function cyclicSpec(value) {
 }
 assert.equal(isSpecEqual(cyclicSpec(1), cyclicSpec(1)), true);
 assert.equal(isSpecEqual(cyclicSpec(1), cyclicSpec(2)), false);
+
+function cyclicData(twoNodes) {
+  const first = { value: 1 };
+  if (twoNodes) {
+    const second = { value: 1 };
+    first.next = second;
+    second.next = first;
+  } else {
+    first.next = first;
+  }
+  return { data: first };
+}
+assert.equal(isSpecEqual(cyclicData(true), cyclicData(false)), false);
+assert.equal(isSpecEqual(cyclicData(false), cyclicData(true)), false);
 
 console.log('Taro VChart spec equality checks passed');

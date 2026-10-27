@@ -1,9 +1,18 @@
-function isPlainObject(value: object): boolean {
+function isComparableObject(value: object): boolean {
   const prototype = Object.getPrototypeOf(value);
-  return prototype === Object.prototype || prototype === null;
+  return (
+    prototype === Object.prototype ||
+    prototype === null ||
+    Object.keys(value).length > 0
+  );
 }
 
-function equalSpecValue(left: unknown, right: unknown, active: WeakMap<object, object>): boolean {
+function equalSpecValue(
+  left: unknown,
+  right: unknown,
+  active: WeakMap<object, object>,
+  activeReverse: WeakMap<object, object>
+): boolean {
   if (left === right) return true;
   if (typeof left === 'number' && typeof right === 'number' && Number.isNaN(left) && Number.isNaN(right)) {
     return true;
@@ -20,28 +29,35 @@ function equalSpecValue(left: unknown, right: unknown, active: WeakMap<object, o
 
   const leftIsArray = Array.isArray(left);
   if (leftIsArray !== Array.isArray(right)) return false;
-  if (!leftIsArray && (!isPlainObject(left) || !isPlainObject(right))) return false;
+  if (!leftIsArray && (!isComparableObject(left) || !isComparableObject(right))) return false;
 
   const leftObject = left as object;
   const rightObject = right as object;
   const activeRight = active.get(leftObject);
   if (activeRight) return activeRight === rightObject;
+  const activeLeft = activeReverse.get(rightObject);
+  if (activeLeft) return activeLeft === leftObject;
   active.set(leftObject, rightObject);
+  activeReverse.set(rightObject, leftObject);
+  const untrack = () => {
+    active.delete(leftObject);
+    activeReverse.delete(rightObject);
+  };
 
   if (leftIsArray) {
     const leftArray = left as unknown[];
     const rightArray = right as unknown[];
     if (leftArray.length !== rightArray.length) {
-      active.delete(leftObject);
+      untrack();
       return false;
     }
     for (let index = leftArray.length - 1; index >= 0; index--) {
-      if (!equalSpecValue(leftArray[index], rightArray[index], active)) {
-        active.delete(leftObject);
+      if (!equalSpecValue(leftArray[index], rightArray[index], active, activeReverse)) {
+        untrack();
         return false;
       }
     }
-    active.delete(leftObject);
+    untrack();
     return true;
   }
 
@@ -50,23 +66,23 @@ function equalSpecValue(left: unknown, right: unknown, active: WeakMap<object, o
   const leftKeys = Object.keys(leftRecord);
   const rightKeys = Object.keys(rightRecord);
   if (leftKeys.length !== rightKeys.length) {
-    active.delete(leftObject);
+    untrack();
     return false;
   }
   for (const key of leftKeys) {
     if (
       !Object.prototype.hasOwnProperty.call(rightRecord, key) ||
-      !equalSpecValue(leftRecord[key], rightRecord[key], active)
+      !equalSpecValue(leftRecord[key], rightRecord[key], active, activeReverse)
     ) {
-      active.delete(leftObject);
+      untrack();
       return false;
     }
   }
-  active.delete(leftObject);
+  untrack();
   return true;
 }
 
 /** Compare chart specs without serializing callback values or cyclic data. */
 export function isSpecEqual(left: unknown, right: unknown): boolean {
-  return equalSpecValue(left, right, new WeakMap());
+  return equalSpecValue(left, right, new WeakMap(), new WeakMap());
 }
