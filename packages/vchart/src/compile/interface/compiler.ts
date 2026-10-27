@@ -1,6 +1,6 @@
 import type { IApp, IColor, IStageParams, IStage, ILayer, IOption3D, ITicker } from '@visactor/vrender-core';
 import type { IPerformanceHook, RenderMode } from '../../typings/spec/common';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, IMatrixLike } from '@visactor/vutils';
 import type { StringOrNumber } from '../../typings';
 
 /** 布局阶段 */
@@ -66,7 +66,40 @@ export interface GestureConfig {
   };
 }
 
+/** 外部画布模式由宿主统一合成，并显式输入图表本地坐标的指针。 */
+export interface IExternalRenderOption {
+  /** Schedule host composition; do not synchronously paint from this callback. */
+  requestRender: () => void;
+}
+
+export interface IExternalViewport {
+  /** 图表局部坐标到浏览器 client 坐标；与 renderTo 的目标矩阵独立。 */
+  transform: IMatrixLike;
+  /** 可见区域，使用 client 坐标。 */
+  clip?: IBoundsLike;
+}
+
+export interface IExternalPointerEvent {
+  type: 'pointerover' | 'pointermove' | 'pointerdown' | 'pointerup' | 'pointerleave' | 'pointercancel';
+  x: number;
+  y: number;
+  clientX: number;
+  clientY: number;
+  pointerId?: number;
+  pointerType?: string;
+  isPrimary?: boolean;
+  button?: number;
+  buttons?: number;
+  pressure?: number;
+  shiftKey?: boolean;
+  ctrlKey?: boolean;
+  altKey?: boolean;
+  metaKey?: boolean;
+  nativeEvent?: PointerEvent | MouseEvent | TouchEvent;
+}
+
 export interface IRenderOption {
+  externalRender?: IExternalRenderOption;
   /**
    * 配置渲染环境，默认为 'desktop-browser'，当需要在非浏览器环境渲染 VChart 时，需要配置该属性。
    * - 'desktop-browser': 默认模式，适用于 PC 及 H5

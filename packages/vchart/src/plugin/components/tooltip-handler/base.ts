@@ -1,3 +1,4 @@
+import { getExternalViewportBounds } from '../../../util/external-viewport';
 import { DEFAULT_CHART_WIDTH, DEFAULT_CHART_HEIGHT } from '../../../constant/base';
 // eslint-disable-next-line no-duplicate-imports
 import { DEFAULT_OPTIONS } from './constants';
@@ -238,6 +239,10 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     const { width: tooltipBoxWidth = 0, height: tooltipBoxHeight = 0 } = tooltipBoxSize ?? {};
 
     const isCanvas = tooltipSpec.renderMode === 'canvas';
+    const externalViewport = !isCanvas ? this._compiler.getExternalViewport() : undefined;
+    if (!isCanvas && this._compiler.getOption().externalRender && !externalViewport) {
+      return invalidPosition;
+    }
     const canvasRect = params?.chart?.getCanvasRect();
     const canvasWidth = canvasRect?.width ?? DEFAULT_CHART_WIDTH;
     const canvasHeight = canvasRect?.height ?? DEFAULT_CHART_HEIGHT;
@@ -265,13 +270,17 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
     if (isBrowser && !isCanvas) {
       const tooltipParentElement = this._getParentElement(tooltipSpec);
       tooltipParentElementRect = tooltipParentElement?.getBoundingClientRect?.() ?? invalidPosition;
-      const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
-      chartElementRect = chartElement?.getBoundingClientRect();
-      relativePosOffset = {
-        x: chartElementRect.x - tooltipParentElementRect.x,
-        y: chartElementRect.y - tooltipParentElementRect.y
-      };
-      chartElementScale = getScale(chartElement, chartElementRect);
+      if (externalViewport) {
+        chartElementScale = Math.hypot(externalViewport.transform.a, externalViewport.transform.b);
+      } else {
+        const chartElement = (this._compiler.getCanvas() ?? this._chartContainer) as HTMLElement;
+        chartElementRect = chartElement?.getBoundingClientRect();
+        relativePosOffset = {
+          x: chartElementRect.x - tooltipParentElementRect.x,
+          y: chartElementRect.y - tooltipParentElementRect.y
+        };
+        chartElementScale = getScale(chartElement, chartElementRect);
+      }
       tooltipParentElementScale = getScale(tooltipParentElement, tooltipParentElementRect as DOMRect);
     }
     const tooltipSizeScale = tooltipParentElementScale / chartElementScale;
@@ -399,6 +408,9 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
           result[dim] = value0 - boxSize * tooltipSizeScale - offset;
         }
       }
+      if (externalViewport) {
+        return;
+      }
       result[dim] *= chartElementScale;
 
       if (isBrowser) {
@@ -455,6 +467,18 @@ export abstract class BaseTooltipHandler extends BasePlugin implements ITooltipH
       }
     });
 
+    if (externalViewport) {
+      const { a, b, c, d, e, f } = externalViewport.transform;
+      let x = a * result.x + c * result.y + e;
+      let y = b * result.x + d * result.y + f;
+      const bounds = tooltipSpec.confine
+        ? (externalViewport.clip ?? getExternalViewportBounds(externalViewport, canvasWidth, canvasHeight))
+        : { x1: 0, y1: 0, x2: window.innerWidth, y2: window.innerHeight };
+      x = Math.max(bounds.x1, Math.min(x, bounds.x2 - tooltipBoxWidth * tooltipParentElementScale));
+      y = Math.max(bounds.y1, Math.min(y, bounds.y2 - tooltipBoxHeight * tooltipParentElementScale));
+      result.x = (x - tooltipParentElementRect.x) / tooltipParentElementScale;
+      result.y = (y - tooltipParentElementRect.y) / tooltipParentElementScale;
+    }
     return result;
   };
 

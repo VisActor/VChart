@@ -1,3 +1,4 @@
+import { isPointInExternalViewport } from '../../util/external-viewport';
 import { ComponentTypeEnum } from '../interface/type';
 import type { IModelRenderOption } from '../../model/interface';
 import type { IRegion } from '../../region/interface';
@@ -755,6 +756,11 @@ export class Tooltip extends BaseComponent<any> implements ITooltip {
       return false;
     }
     const { x, y } = point;
+    const viewport = globalInstance.getCompiler().getExternalViewport();
+    if (viewport) {
+      const { width, height } = globalInstance.getChart().getCanvasRect();
+      return isPointInExternalViewport(viewport, width, height, x, y);
+    }
     const canvas = globalInstance.getCanvas();
     const { x: chartX, y: chartY, width: chartWidth, height: chartHeight } = canvas.getBoundingClientRect();
     // 鼠标仍在图表范围内，则不处理

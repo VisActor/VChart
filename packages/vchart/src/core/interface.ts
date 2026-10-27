@@ -14,7 +14,7 @@ import type {
   StringOrNumber
 } from '../typings';
 import type { IMorphConfig } from '../animation/spec';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, IMatrixLike } from '@visactor/vutils';
 import type { EventCallback, EventParamsDefinition, EventQuery, EventType, ExtendEventParam } from '../event/interface';
 import type { IMark, IMarkDataTransform } from '../mark/interface';
 import type { ISeries } from '../series/interface/series';
@@ -22,11 +22,11 @@ import type { ITheme } from '../theme/interface';
 import type { IComponent } from '../component/interface';
 import type { LayoutCallBack } from '../layout/interface';
 import type { DimensionIndexOption, IChart, IChartSpecInfo } from '../chart/interface';
-import type { IEventTarget, IStage } from '@visactor/vrender-core';
+import type { IEventTarget, IStage, IWindow } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IUpdateSpecResult } from '../model/interface';
-import type { ICompiler } from '../compile/interface';
+import type { ICompiler, IExternalPointerEvent, IExternalViewport } from '../compile/interface';
 
 export type DataLinkSeries = {
   /**
@@ -60,6 +60,9 @@ export interface IVChartConstructor {
 }
 
 export interface IVChart {
+  renderTo: (target: IWindow, transform: IMatrixLike) => void;
+  dispatchPointerEvent: (event: IExternalPointerEvent) => string;
+  setExternalViewport: (viewport?: IExternalViewport) => void;
   readonly id: number;
 
   /**

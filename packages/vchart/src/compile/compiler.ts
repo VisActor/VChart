@@ -4,13 +4,15 @@ import type { CompilerListenerParameters, ICompiler, IRenderContainer, IRenderOp
 import { LayoutState } from './interface';
 import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isClass, isString } from '../util/type';
-import type { IBoundsLike } from '@visactor/vutils';
+import type { IBoundsLike, IMatrixLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isObject, isValid } from '@visactor/vutils';
+import { isArray, isObject, isValid, Matrix } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import { createGroup, vglobal, waitForAllSubLayers } from '../vrender-bridge';
-import type { IColor, IEventTarget, IGroup, IPlugin, IStage } from '@visactor/vrender-core';
+import type { IColor, IEventTarget, IGroup, IPlugin, IStage, IWindow } from '@visactor/vrender-core';
+import { FederatedPointerEvent } from '@visactor/vrender-core';
+import type { IExternalPointerEvent, IExternalViewport } from './interface';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
 import type { AnimationStateValues } from '../mark/interface';
@@ -33,6 +35,65 @@ type EventListener = {
 const POPTIP_FOR_TEXT_PLUGIN_NAME = 'poptipForText';
 
 export class Compiler implements ICompiler {
+  private _externalViewport?: IExternalViewport;
+  private readonly _externalRenderMatrix = new Matrix();
+
+  setExternalViewport(viewport?: IExternalViewport): void {
+    this._externalViewport = viewport;
+  }
+
+  getExternalViewport(): IExternalViewport | undefined {
+    return this._externalViewport;
+  }
+
+  renderTo(target: IWindow, transform: IMatrixLike): void {
+    if (this._released || !this._stage) {
+      return;
+    }
+    const { a, b, c, d, e, f } = transform;
+    this._externalRenderMatrix.setValue(a, b, c, d, e, f);
+    this._stage.renderTo(target, {
+      viewBox: this._stage.window.getViewBox(),
+      transMatrix: this._externalRenderMatrix,
+      clear: false
+    });
+  }
+
+  dispatchPointerEvent(input: IExternalPointerEvent): string {
+    if (this._released || !this._option.externalRender || !this._stage?.eventSystem) {
+      return 'default';
+    }
+    const manager = this._stage.eventSystem.manager;
+    const event = new FederatedPointerEvent();
+    event.type = input.type;
+    if (input.nativeEvent) {
+      event.nativeEvent = input.nativeEvent;
+    }
+    event.pointerId = input.pointerId ?? 1;
+    event.pointerType = input.pointerType ?? 'mouse';
+    event.isPrimary = input.isPrimary ?? true;
+    event.button = input.button ?? 0;
+    event.buttons = input.buttons ?? 0;
+    event.pressure = input.pressure ?? 0;
+    event.shiftKey = !!input.shiftKey;
+    event.ctrlKey = !!input.ctrlKey;
+    event.altKey = !!input.altKey;
+    event.metaKey = !!input.metaKey;
+    event.canvas.x = event.viewport.x = event.offset.x = event.global.x = input.x;
+    event.canvas.y = event.viewport.y = event.offset.y = event.global.y = input.y;
+    event.client.x = event.page.x = event.screen.x = input.clientX;
+    event.client.y = event.page.y = event.screen.y = input.clientY;
+    manager.mapEvent(event);
+    // Canvas 来源指的是本图逻辑边界，不能监听共享物理 Canvas。
+    const boundary = input.type === 'pointerleave' || input.type === 'pointercancel' ? 'pointerout' : input.type;
+    this._canvasListeners.forEach(listener => {
+      if (listener.type === boundary) {
+        listener.callback(event);
+      }
+    });
+    return manager.cursor || 'default';
+  }
+
   private _count: number = 0;
   /**
    *  更新后缓存的mark
@@ -183,14 +244,16 @@ export class Compiler implements ICompiler {
         // Canvas view binding is stage-scoped. Keep it out of app envParams so
         // one app can safely host multiple VChart/VTable stages in Lynx pages.
         this._stage = createStageFromApp(resolvedApp.app, {
-          background,
+          background: this._option.externalRender ? 'transparent' : background,
           width: this._width,
           height: this._height,
           container: this._container.dom ?? null,
           canvas: this._container.canvas ?? null,
           dpr,
           viewBox: this._option.viewBox,
-          canvasControled: this._option.canvasControled,
+          canvasControled: this._option.externalRender ? false : this._option.canvasControled,
+          interactiveLayer: this._option.externalRender ? 'group' : true,
+          requestRender: this._option.externalRender?.requestRender,
           beforeRender: (stage: IStage) => {
             this._compileChart?.onBeforeRender();
             this._option.beforeRender?.(stage);
@@ -206,10 +269,11 @@ export class Compiler implements ICompiler {
           supportsPointerEvents: this._option.supportsPointerEvents,
           event: {
             clickInterval: clickInterval,
-            autoPreventDefault: autoPreventDefault
+            autoPreventDefault: autoPreventDefault,
+            nativeEvents: !this._option.externalRender
           },
           ReactDOM: this._option.ReactDOM,
-          autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
+          autoRefresh: this._option.externalRender ? false : isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
           ...(this._option.renderHooks ?? {})
         }) as unknown as IStage;
       } catch (error) {
@@ -220,7 +284,9 @@ export class Compiler implements ICompiler {
     }
 
     this._dedupePoptipPlugin();
-    this._stage.enableIncrementalAutoRender();
+    if (!this._option.externalRender) {
+      this._stage.enableIncrementalAutoRender();
+    }
 
     // 之前vgrammar 设置了一些默认配置
     (this._stage as any).setTheme({
@@ -605,8 +671,8 @@ export class Compiler implements ICompiler {
     const animationState = markAnimationStates.every(state => state === AnimationStateEnum.appear)
       ? AnimationStateEnum.appear
       : markAnimationStates.every(state => state === AnimationStateEnum.disappear)
-      ? AnimationStateEnum.disappear
-      : AnimationStateEnum.none;
+        ? AnimationStateEnum.disappear
+        : AnimationStateEnum.none;
     if (!this._stage.context) {
       this._stage.context = {};
     }
@@ -651,6 +717,9 @@ export class Compiler implements ICompiler {
   }
 
   setBackground(color: IColor) {
+    if (this._option.externalRender) {
+      return;
+    }
     if (this._stage) {
       this._stage.background = color;
     }
@@ -753,7 +822,9 @@ export class Compiler implements ICompiler {
       }.bind(this);
       this._canvasListeners.set(callback, { type, callback: wrappedCallback });
       const canvasObject = this.getStage()?.window;
-      canvasObject?.addEventListener(type, wrappedCallback);
+      if (!this._option.externalRender) {
+        canvasObject?.addEventListener(type, wrappedCallback);
+      }
     }
   }
 
@@ -777,7 +848,9 @@ export class Compiler implements ICompiler {
     } else if (source === Event_Source_Type.canvas) {
       const canvasObject = this.getStage()?.window;
       const wrappedCallback = this._canvasListeners.get(callback)?.callback;
-      canvasObject && wrappedCallback && canvasObject?.removeEventListener(type, wrappedCallback);
+      if (!this._option.externalRender) {
+        canvasObject && wrappedCallback && canvasObject.removeEventListener(type, wrappedCallback);
+      }
       this._canvasListeners.delete(callback);
     }
   }
@@ -819,6 +892,7 @@ export class Compiler implements ICompiler {
     this._rootGroup = null;
     this._isExternalStage = false;
     this._releaseVRenderAppRef = undefined;
+    this._externalViewport = undefined;
     this._option = this._container = null as any;
 
     this.isInited = false;

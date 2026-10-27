@@ -1,6 +1,9 @@
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
+import type { IExternalPointerEvent, IExternalViewport } from '../compile/interface';
+import type { IWindow } from '@visactor/vrender-core';
+import type { IMatrixLike } from '@visactor/vutils';
 import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
@@ -1896,10 +1899,24 @@ export class VChart implements IVChart {
     this._chart.onEvaluateEnd();
   }
 
-  /**
-   * 获取编译器实例
-   * @returns
-   */
+  /** Paint into the host target without clearing it or changing its viewport. */
+  renderTo(target: IWindow, transform: IMatrixLike): void {
+    this._compiler?.renderTo(target, transform);
+  }
+
+  /** Route host input in chart-local coordinates; native Canvas listeners remain disabled. */
+  dispatchPointerEvent(event: IExternalPointerEvent): string {
+    return this._compiler?.dispatchPointerEvent(event) ?? 'default';
+  }
+
+  /** Update DOM overlay geometry after host scroll, resize or transform changes. */
+  setExternalViewport(viewport?: IExternalViewport): void {
+    this._compiler?.setExternalViewport(viewport);
+    if (!viewport) {
+      this.hideTooltip();
+    }
+  }
+
   getCompiler() {
     return this._compiler;
   }

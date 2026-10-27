@@ -28,6 +28,7 @@ export * from './util/data';
 export * from './util/spec/transform';
 export * from './util/mark';
 export * from './util/region';
+export { isPointInExternalViewport } from './util/external-viewport';
 export * from './util/scale';
 // constant
 export * from './constant/data';

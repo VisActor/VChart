@@ -13,3 +13,5 @@ export * from './common';
 export * from './spec';
 export * from './group';
 export * from './layout';
+
+export type { IExternalRenderOption, IExternalPointerEvent, IExternalViewport } from '../compile/interface';

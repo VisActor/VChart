@@ -444,12 +444,13 @@ export function getItemLayoutWithTag(
       rect = item.getLayoutRect();
     } else {
       rect = item.computeBoundsInRect(layoutRect);
+      // 测量可能临时修改 item 的尺寸；即使厚度未变，也要恢复最终测量结果供后续布局复用。
+      setRectToItem && item.setLayoutRect(rect);
       // 如果当前布局了，但是结果没变化，那么也不需要重新布局
       // 注意左右2侧只考虑的宽度变化, 上下2侧只考虑的高度变化
       if (isEqual(lastRect[rectKey], rect[rectKey])) {
         layoutTag = false;
       } else {
-        setRectToItem && item.setLayoutRect(rect);
         recompute[setTagKey] = true;
       }
     }
