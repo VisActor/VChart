@@ -65,14 +65,24 @@ function equalSpecValue(
   const rightRecord = right as Record<string, unknown>;
   const leftKeys = Object.keys(leftRecord);
   const rightKeys = Object.keys(rightRecord);
-  if (leftKeys.length !== rightKeys.length) {
+  let leftDefinedKeyCount = 0;
+  let rightDefinedKeyCount = 0;
+  for (const key of leftKeys) {
+    if (leftRecord[key] !== undefined) leftDefinedKeyCount++;
+  }
+  for (const key of rightKeys) {
+    if (rightRecord[key] !== undefined) rightDefinedKeyCount++;
+  }
+  if (leftDefinedKeyCount !== rightDefinedKeyCount) {
     untrack();
     return false;
   }
   for (const key of leftKeys) {
+    const leftValue = leftRecord[key];
+    if (leftValue === undefined) continue;
     if (
       !Object.prototype.hasOwnProperty.call(rightRecord, key) ||
-      !equalSpecValue(leftRecord[key], rightRecord[key], active, activeReverse)
+      !equalSpecValue(leftValue, rightRecord[key], active, activeReverse)
     ) {
       untrack();
       return false;

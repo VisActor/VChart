@@ -22,6 +22,12 @@ const secondFormatter = () => 'second';
 assert.equal(isSpecEqual({ formatter: firstFormatter }, { formatter: secondFormatter }), false);
 assert.equal(isSpecEqual({ formatter: firstFormatter }, { formatter: firstFormatter }), true);
 assert.equal(isSpecEqual({ axis: { visible: true } }, { axis: { visible: true } }), true);
+assert.equal(isSpecEqual({ seriesField: undefined }, {}), true);
+assert.equal(isSpecEqual({}, { seriesField: undefined }), true);
+assert.equal(
+  isSpecEqual({ seriesField: undefined }, { seriesField: 'value' }),
+  false
+);
 assert.equal(isSpecEqual({ date: new Date(0) }, { date: new Date(0) }), true);
 assert.equal(isSpecEqual({ date: new Date(0) }, { date: new Date(1) }), false);
 
