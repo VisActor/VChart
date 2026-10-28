@@ -5,6 +5,7 @@ import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { parseOptions } from './visual-test.mjs';
+import { saveReport } from '../__tests__/visual/report.mjs';
 import { resolveBaseline, offlineDependencies, baselineBuild, build } from './visual/build.mjs';
 
 /** 离线模式既不联网，也不能让基线链接借用候选源码或旧配置缓存。 */
@@ -140,5 +141,24 @@ test('离线构建禁止自动安装 Rush', async () => {
     assert.equal(await fs.readFile(path.join(root, 'bundle.js'), 'utf8'), 'fresh bundle');
   } finally {
     await fs.rm(root, { recursive: true, force: true });
+  }
+});
+
+/** 全量和单例复现命令均保留离线模式，预检失败时也不能退回联网。 */
+test('离线报告复现命令保留执行模式', async () => {
+  const dir = await fs.mkdtemp(path.join(tmpdir(), 'vchart-offline-report-'));
+  try {
+    for (const offline of [true, false]) {
+      const report = await saveReport(dir, {
+        status: 'error', environment: {}, timings: {}, request: { baseline: 'a'.repeat(40), offline },
+        selection: { mode: 'all', value: null, totalCount: 1, selectedCount: 1, selectedIds: ['bar'] },
+        cases: [{ id: 'bar', purpose: '复现参数检查' }]
+      });
+      const command = `node packages/vchart/scripts/visual-test.mjs --baseline ${'a'.repeat(40)}${offline ? ' --offline' : ''}`;
+      assert.equal(report.rerun, command);
+      assert.equal(report.cases[0].rerun, `${command} --case 'bar'`);
+    }
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
   }
 });

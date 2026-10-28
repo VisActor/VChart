@@ -102,7 +102,7 @@ export async function saveReport(runDir, summary) {
     summary.baseline?.repository === 'working-tree' || summary.request?.['self-compare']
       ? '--self-compare'
       : baselineSha
-      ? `--baseline ${baselineSha}`
+      ? `--baseline ${baselineSha}${summary.request?.offline ? ' --offline' : ''}`
       : '';
   const cases = [];
   for (const item of summary.cases) {
