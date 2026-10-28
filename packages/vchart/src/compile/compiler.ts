@@ -10,9 +10,16 @@ import { isArray, isObject, isValid, Matrix } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import { createGroup, vglobal, waitForAllSubLayers } from '../vrender-bridge';
-import type { IColor, IEventTarget, IGroup, IPlugin, IStage, IWindow } from '@visactor/vrender-core';
-import { FederatedPointerEvent } from '@visactor/vrender-core';
-import type { IExternalPointerEvent, IExternalViewport } from './interface';
+import type {
+  INativeEventOptions,
+  IColor,
+  IEventTarget,
+  IGroup,
+  IPlugin,
+  IStage,
+  IWindow
+} from '@visactor/vrender-core';
+import type { IExternalViewport } from './interface';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
 import type { AnimationStateValues } from '../mark/interface';
@@ -59,39 +66,15 @@ export class Compiler implements ICompiler {
     });
   }
 
-  dispatchPointerEvent(input: IExternalPointerEvent): string {
-    if (this._released || !this._option.externalRender || !this._stage?.eventSystem) {
-      return 'default';
+  setNativeEventOptions(options?: INativeEventOptions): void {
+    if (options && !this._option.externalRender) {
+      throw new Error('Custom native input requires externalRender.');
     }
-    const manager = this._stage.eventSystem.manager;
-    const event = new FederatedPointerEvent();
-    event.type = input.type;
-    if (input.nativeEvent) {
-      event.nativeEvent = input.nativeEvent;
-    }
-    event.pointerId = input.pointerId ?? 1;
-    event.pointerType = input.pointerType ?? 'mouse';
-    event.isPrimary = input.isPrimary ?? true;
-    event.button = input.button ?? 0;
-    event.buttons = input.buttons ?? 0;
-    event.pressure = input.pressure ?? 0;
-    event.shiftKey = !!input.shiftKey;
-    event.ctrlKey = !!input.ctrlKey;
-    event.altKey = !!input.altKey;
-    event.metaKey = !!input.metaKey;
-    event.canvas.x = event.viewport.x = event.offset.x = event.global.x = input.x;
-    event.canvas.y = event.viewport.y = event.offset.y = event.global.y = input.y;
-    event.client.x = event.page.x = event.screen.x = input.clientX;
-    event.client.y = event.page.y = event.screen.y = input.clientY;
-    manager.mapEvent(event);
-    // Canvas 来源指的是本图逻辑边界，不能监听共享物理 Canvas。
-    const boundary = input.type === 'pointerleave' || input.type === 'pointercancel' ? 'pointerout' : input.type;
-    this._canvasListeners.forEach(listener => {
-      if (listener.type === boundary) {
-        listener.callback(event);
-      }
-    });
-    return manager.cursor || 'default';
+    this._stage?.eventSystem?.setNativeEventOptions(options);
+  }
+
+  resetNativeEvents(): void {
+    this._stage?.eventSystem?.resetNativeEvents();
   }
 
   private _count: number = 0;
@@ -803,7 +786,11 @@ export class Compiler implements ICompiler {
       }.bind(this);
       this._windowListeners.set(callback, { type, callback: wrappedCallback });
       const windowObject = this._getGlobalThis();
-      windowObject?.addEventListener(type, wrappedCallback);
+      if (this._option.externalRender) {
+        this._stage?.eventSystem.manager.dispatch.on(type, wrappedCallback);
+      } else {
+        windowObject?.addEventListener(type, wrappedCallback);
+      }
     } else if (source === Event_Source_Type.canvas) {
       const wrappedCallback = function wrappedCallback(event: any) {
         // TODO: vgrammar 暂未提供基于事件直接筛选相应 mark 的能力，这里无法获取到相应的 item
@@ -822,7 +809,9 @@ export class Compiler implements ICompiler {
       }.bind(this);
       this._canvasListeners.set(callback, { type, callback: wrappedCallback });
       const canvasObject = this.getStage()?.window;
-      if (!this._option.externalRender) {
+      if (this._option.externalRender) {
+        this._stage?.eventSystem.manager.dispatch.on(type, wrappedCallback);
+      } else {
         canvasObject?.addEventListener(type, wrappedCallback);
       }
     }
@@ -843,13 +832,23 @@ export class Compiler implements ICompiler {
     } else if (source === Event_Source_Type.window) {
       const windowObject = this._getGlobalThis();
       const wrappedCallback = this._windowListeners.get(callback)?.callback;
-      wrappedCallback && windowObject?.removeEventListener(type, wrappedCallback);
+      if (wrappedCallback) {
+        if (this._option.externalRender) {
+          this._stage?.eventSystem.manager.dispatch.off(type, wrappedCallback);
+        } else {
+          windowObject?.removeEventListener(type, wrappedCallback);
+        }
+      }
       this._windowListeners.delete(callback);
     } else if (source === Event_Source_Type.canvas) {
       const canvasObject = this.getStage()?.window;
       const wrappedCallback = this._canvasListeners.get(callback)?.callback;
-      if (!this._option.externalRender) {
-        canvasObject && wrappedCallback && canvasObject.removeEventListener(type, wrappedCallback);
+      if (wrappedCallback) {
+        if (this._option.externalRender) {
+          this._stage?.eventSystem.manager.dispatch.off(type, wrappedCallback);
+        } else {
+          canvasObject?.removeEventListener(type, wrappedCallback);
+        }
       }
       this._canvasListeners.delete(callback);
     }
@@ -864,6 +863,14 @@ export class Compiler implements ICompiler {
 
     // 相应的事件remove在model中完成
     this._viewListeners.clear();
+    if (this._option.externalRender) {
+      this._windowListeners.forEach(listener =>
+        stage?.eventSystem.manager.dispatch.off(listener.type, listener.callback)
+      );
+      this._canvasListeners.forEach(listener =>
+        stage?.eventSystem.manager.dispatch.off(listener.type, listener.callback)
+      );
+    }
     this._windowListeners.clear();
     this._canvasListeners.clear();
   }

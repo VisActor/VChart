@@ -14,4 +14,6 @@ export * from './spec';
 export * from './group';
 export * from './layout';
 
-export type { IExternalRenderOption, IExternalPointerEvent, IExternalViewport } from '../compile/interface';
+export type { IExternalRenderOption, IExternalViewport } from '../compile/interface';
+
+export type { INativeEventOptions } from '@visactor/vrender-core';

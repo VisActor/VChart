@@ -1,3 +1,4 @@
+import type { INativeEventOptions } from '@visactor/vrender-core';
 import type { StringOrNumber } from '../../typings';
 import type { IColor, IGroup, IStage, IWindow } from '@visactor/vrender-core';
 import type { IChart } from '../../chart/interface/chart';
@@ -6,7 +7,7 @@ import type { IMorphConfig } from '../../animation/spec';
 import type { IBoundsLike, IMatrixLike } from '@visactor/vutils';
 import type { EventSourceType, EventType } from '../../event/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface';
-import type { IRenderOption, LayoutState, IExternalPointerEvent, IExternalViewport } from '../interface/compiler';
+import type { IRenderOption, LayoutState, IExternalViewport } from '../interface/compiler';
 import type { MarkAnimationSpec } from '../../animation/interface';
 
 export type CompilerListenerParameters = {
@@ -34,7 +35,8 @@ export interface IGrammarItemMap<T extends IGrammarItem> {
 export type ICompilerModel = Record<GrammarType, IProductMap<IGrammarItem>>;
 
 export interface ICompiler {
-  dispatchPointerEvent: (event: IExternalPointerEvent) => string;
+  setNativeEventOptions(options?: INativeEventOptions): void;
+  resetNativeEvents(): void;
   setExternalViewport: (viewport?: IExternalViewport) => void;
   getExternalViewport: () => IExternalViewport | undefined;
   renderTo: (target: IWindow, transform: IMatrixLike) => void;

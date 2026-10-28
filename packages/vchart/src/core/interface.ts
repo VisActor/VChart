@@ -1,3 +1,4 @@
+import type { INativeEventOptions } from '@visactor/vrender-core';
 import type { DataSet, IParserOptions } from '@visactor/vdataset';
 import type {
   Datum,
@@ -26,7 +27,7 @@ import type { IEventTarget, IStage, IWindow } from '@visactor/vrender-core';
 import type { IContainerSize } from '@visactor/vrender-components';
 import type { IBaseScale } from '@visactor/vscale';
 import type { IUpdateSpecResult } from '../model/interface';
-import type { ICompiler, IExternalPointerEvent, IExternalViewport } from '../compile/interface';
+import type { ICompiler, IExternalViewport } from '../compile/interface';
 
 export type DataLinkSeries = {
   /**
@@ -61,7 +62,8 @@ export interface IVChartConstructor {
 
 export interface IVChart {
   renderTo: (target: IWindow, transform: IMatrixLike) => void;
-  dispatchPointerEvent: (event: IExternalPointerEvent) => string;
+  setNativeEventOptions(options?: INativeEventOptions): void;
+  resetNativeEvents(): void;
   setExternalViewport: (viewport?: IExternalViewport) => void;
   readonly id: number;
 

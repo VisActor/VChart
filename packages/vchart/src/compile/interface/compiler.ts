@@ -66,7 +66,7 @@ export interface GestureConfig {
   };
 }
 
-/** 外部画布模式由宿主统一合成，并显式输入图表本地坐标的指针。 */
+/** 外部画布模式由宿主统一合成，通过独立的原生事件源接收交互。 */
 export interface IExternalRenderOption {
   /** Schedule host composition; do not synchronously paint from this callback. */
   requestRender: () => void;
@@ -77,25 +77,6 @@ export interface IExternalViewport {
   transform: IMatrixLike;
   /** 可见区域，使用 client 坐标。 */
   clip?: IBoundsLike;
-}
-
-export interface IExternalPointerEvent {
-  type: 'pointerover' | 'pointermove' | 'pointerdown' | 'pointerup' | 'pointerleave' | 'pointercancel';
-  x: number;
-  y: number;
-  clientX: number;
-  clientY: number;
-  pointerId?: number;
-  pointerType?: string;
-  isPrimary?: boolean;
-  button?: number;
-  buttons?: number;
-  pressure?: number;
-  shiftKey?: boolean;
-  ctrlKey?: boolean;
-  altKey?: boolean;
-  metaKey?: boolean;
-  nativeEvent?: PointerEvent | MouseEvent | TouchEvent;
 }
 
 export interface IRenderOption {

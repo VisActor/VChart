@@ -1,7 +1,8 @@
+import type { INativeEventOptions } from '@visactor/vrender-core';
 import type { ISeries } from '../series/interface/series';
 import { arrayParser } from '../data/parser/array';
 import type { ILayoutConstructor, LayoutCallBack } from '../layout/interface';
-import type { IExternalPointerEvent, IExternalViewport } from '../compile/interface';
+import type { IExternalViewport } from '../compile/interface';
 import type { IWindow } from '@visactor/vrender-core';
 import type { IMatrixLike } from '@visactor/vutils';
 import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/common';
@@ -1904,9 +1905,16 @@ export class VChart implements IVChart {
     this._compiler?.renderTo(target, transform);
   }
 
-  /** Route host input in chart-local coordinates; native Canvas listeners remain disabled. */
-  dispatchPointerEvent(event: IExternalPointerEvent): string {
-    return this._compiler?.dispatchPointerEvent(event) ?? 'default';
+  /** Listen to host-filtered native input independently from the render canvas. */
+  setNativeEventOptions(options?: INativeEventOptions): void {
+    this.resetNativeEvents();
+    this._compiler?.setNativeEventOptions(options);
+  }
+
+  /** End hover and press when host geometry or interaction ownership changes. */
+  resetNativeEvents(): void {
+    this._compiler?.resetNativeEvents();
+    this.hideTooltip();
   }
 
   /** Update DOM overlay geometry after host scroll, resize or transform changes. */
