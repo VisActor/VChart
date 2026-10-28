@@ -4,22 +4,13 @@ import type { CompilerListenerParameters, ICompiler, IRenderContainer, IRenderOp
 import { LayoutState } from './interface';
 import { isMobileLikeMode, isTrueBrowser } from '../util/env';
 import { isClass, isString } from '../util/type';
-import type { IBoundsLike, IMatrixLike } from '@visactor/vutils';
+import type { IBoundsLike } from '@visactor/vutils';
 // eslint-disable-next-line no-duplicate-imports
-import { isArray, isObject, isValid, Matrix } from '@visactor/vutils';
+import { isArray, isObject, isValid } from '@visactor/vutils';
 import type { EventSourceType } from '../event/interface';
 import type { IChart } from '../chart/interface';
 import { createGroup, vglobal, waitForAllSubLayers } from '../vrender-bridge';
-import type {
-  INativeEventOptions,
-  IColor,
-  IEventTarget,
-  IGroup,
-  IPlugin,
-  IStage,
-  IWindow
-} from '@visactor/vrender-core';
-import type { IExternalViewport } from './interface';
+import type { IColor, IEventTarget, IGroup, IPlugin, IStage } from '@visactor/vrender-core';
 import type { IMorphConfig } from '../animation/spec';
 import type { IVChart, IVChartRenderOption } from '../core/interface';
 import type { AnimationStateValues } from '../mark/interface';
@@ -42,41 +33,6 @@ type EventListener = {
 const POPTIP_FOR_TEXT_PLUGIN_NAME = 'poptipForText';
 
 export class Compiler implements ICompiler {
-  private _externalViewport?: IExternalViewport;
-  private readonly _externalRenderMatrix = new Matrix();
-
-  setExternalViewport(viewport?: IExternalViewport): void {
-    this._externalViewport = viewport;
-  }
-
-  getExternalViewport(): IExternalViewport | undefined {
-    return this._externalViewport;
-  }
-
-  renderTo(target: IWindow, transform: IMatrixLike): void {
-    if (this._released || !this._stage) {
-      return;
-    }
-    const { a, b, c, d, e, f } = transform;
-    this._externalRenderMatrix.setValue(a, b, c, d, e, f);
-    this._stage.renderTo(target, {
-      viewBox: this._stage.window.getViewBox(),
-      transMatrix: this._externalRenderMatrix,
-      clear: false
-    });
-  }
-
-  setNativeEventOptions(options?: INativeEventOptions): void {
-    if (options && !this._option.externalRender) {
-      throw new Error('Custom native input requires externalRender.');
-    }
-    this._stage?.eventSystem?.setNativeEventOptions(options);
-  }
-
-  resetNativeEvents(): void {
-    this._stage?.eventSystem?.resetNativeEvents();
-  }
-
   private _count: number = 0;
   /**
    *  更新后缓存的mark
@@ -187,6 +143,10 @@ export class Compiler implements ICompiler {
     this._dedupeStagePlugin(POPTIP_FOR_TEXT_PLUGIN_NAME);
   }
 
+  private handleBeforeRender = () => {
+    this._compileChart?.onBeforeRender();
+  };
+
   initView() {
     if (this._released) {
       return;
@@ -227,16 +187,14 @@ export class Compiler implements ICompiler {
         // Canvas view binding is stage-scoped. Keep it out of app envParams so
         // one app can safely host multiple VChart/VTable stages in Lynx pages.
         this._stage = createStageFromApp(resolvedApp.app, {
-          background: this._option.externalRender ? 'transparent' : background,
+          background,
           width: this._width,
           height: this._height,
           container: this._container.dom ?? null,
           canvas: this._container.canvas ?? null,
           dpr,
           viewBox: this._option.viewBox,
-          canvasControled: this._option.externalRender ? false : this._option.canvasControled,
-          interactiveLayer: this._option.externalRender ? 'group' : true,
-          requestRender: this._option.externalRender?.requestRender,
+          canvasControled: this._option.canvasControled,
           beforeRender: (stage: IStage) => {
             this._compileChart?.onBeforeRender();
             this._option.beforeRender?.(stage);
@@ -252,11 +210,10 @@ export class Compiler implements ICompiler {
           supportsPointerEvents: this._option.supportsPointerEvents,
           event: {
             clickInterval: clickInterval,
-            autoPreventDefault: autoPreventDefault,
-            nativeEvents: !this._option.externalRender
+            autoPreventDefault: autoPreventDefault
           },
           ReactDOM: this._option.ReactDOM,
-          autoRefresh: this._option.externalRender ? false : isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
+          autoRefresh: isValid(autoRefreshDpr) ? autoRefreshDpr : !isValid(dpr),
           ...(this._option.renderHooks ?? {})
         }) as unknown as IStage;
       } catch (error) {
@@ -267,8 +224,11 @@ export class Compiler implements ICompiler {
     }
 
     this._dedupePoptipPlugin();
-    if (!this._option.externalRender) {
+    if (!externalStage) {
       this._stage.enableIncrementalAutoRender();
+    } else {
+      // The caller owns stage scheduling; chart preparation still runs before each draw.
+      this._stage.hooks.beforeRender.tap('chart-event', this.handleBeforeRender);
     }
 
     // 之前vgrammar 设置了一些默认配置
@@ -700,9 +660,6 @@ export class Compiler implements ICompiler {
   }
 
   setBackground(color: IColor) {
-    if (this._option.externalRender) {
-      return;
-    }
     if (this._stage) {
       this._stage.background = color;
     }
@@ -786,8 +743,8 @@ export class Compiler implements ICompiler {
       }.bind(this);
       this._windowListeners.set(callback, { type, callback: wrappedCallback });
       const windowObject = this._getGlobalThis();
-      if (this._option.externalRender) {
-        this._stage?.eventSystem.manager.dispatch.on(type, wrappedCallback);
+      if (this._option.eventSource) {
+        this._option.eventSource.on(type, wrappedCallback);
       } else {
         windowObject?.addEventListener(type, wrappedCallback);
       }
@@ -809,8 +766,8 @@ export class Compiler implements ICompiler {
       }.bind(this);
       this._canvasListeners.set(callback, { type, callback: wrappedCallback });
       const canvasObject = this.getStage()?.window;
-      if (this._option.externalRender) {
-        this._stage?.eventSystem.manager.dispatch.on(type, wrappedCallback);
+      if (this._option.eventSource) {
+        this._option.eventSource.on(type, wrappedCallback);
       } else {
         canvasObject?.addEventListener(type, wrappedCallback);
       }
@@ -833,8 +790,8 @@ export class Compiler implements ICompiler {
       const windowObject = this._getGlobalThis();
       const wrappedCallback = this._windowListeners.get(callback)?.callback;
       if (wrappedCallback) {
-        if (this._option.externalRender) {
-          this._stage?.eventSystem.manager.dispatch.off(type, wrappedCallback);
+        if (this._option.eventSource) {
+          this._option.eventSource.off(type, wrappedCallback);
         } else {
           windowObject?.removeEventListener(type, wrappedCallback);
         }
@@ -844,8 +801,8 @@ export class Compiler implements ICompiler {
       const canvasObject = this.getStage()?.window;
       const wrappedCallback = this._canvasListeners.get(callback)?.callback;
       if (wrappedCallback) {
-        if (this._option.externalRender) {
-          this._stage?.eventSystem.manager.dispatch.off(type, wrappedCallback);
+        if (this._option.eventSource) {
+          this._option.eventSource.off(type, wrappedCallback);
         } else {
           canvasObject?.removeEventListener(type, wrappedCallback);
         }
@@ -859,18 +816,17 @@ export class Compiler implements ICompiler {
 
     if (stage) {
       stage.hooks.afterRender.unTap('chart-event', this.handleStageRender);
+      stage.hooks.beforeRender.unTap('chart-event', this.handleBeforeRender);
     }
 
     // 相应的事件remove在model中完成
     this._viewListeners.clear();
-    if (this._option.externalRender) {
-      this._windowListeners.forEach(listener =>
-        stage?.eventSystem.manager.dispatch.off(listener.type, listener.callback)
-      );
-      this._canvasListeners.forEach(listener =>
-        stage?.eventSystem.manager.dispatch.off(listener.type, listener.callback)
-      );
-    }
+    this._windowListeners.forEach(({ type }, callback) =>
+      this.removeEventListener(Event_Source_Type.window, type, callback)
+    );
+    this._canvasListeners.forEach(({ type }, callback) =>
+      this.removeEventListener(Event_Source_Type.canvas, type, callback)
+    );
     this._windowListeners.clear();
     this._canvasListeners.clear();
   }
@@ -899,7 +855,6 @@ export class Compiler implements ICompiler {
     this._rootGroup = null;
     this._isExternalStage = false;
     this._releaseVRenderAppRef = undefined;
-    this._externalViewport = undefined;
     this._option = this._container = null as any;
 
     this.isInited = false;
