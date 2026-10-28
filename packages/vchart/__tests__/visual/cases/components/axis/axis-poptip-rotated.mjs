@@ -1,5 +1,5 @@
 import { verifySourceSpec, verifyRendered } from '../../../helpers.mjs';
-import { interactionFrame } from '../../../interaction-helpers.mjs';
+import { interactionFrame, clippedAxisLabelTarget } from '../../../interaction-helpers.mjs';
 /**
  * BugServer case IDs: 64b7bf3f14220f89e4720c82
  * 迁移边界：定位实际截断的中间轴标签，避免轴交点的遮挡；记录的旧坐标未被当作新宿主的目标。
@@ -86,22 +86,7 @@ export default {
   async exercise(page) {
     // 执行来源配置或回调要求的动作并保存实际结果。
 
-    const p = await page.evaluate(() => {
-      const g = window.__visualChart
-        .getStage()
-        .find(
-          g =>
-            g.name === 'axis-label' &&
-            g.type === 'text' &&
-            g.cliped &&
-            g.globalAABBBounds.y1 > 30 &&
-            g.globalAABBBounds.y2 < 500,
-          true
-        );
-      if (!g) throw Error('来源未产生截断轴标签');
-      const b = g.globalAABBBounds;
-      return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2, text: String(g.attribute.text) };
-    });
+    const p = await clippedAxisLabelTarget(page);
     await page.mouse.move(p.x, p.y);
     await interactionFrame(page);
     await page.evaluate(p => (window.__poptipTarget = p), p);

@@ -34,10 +34,33 @@ export async function interactionTarget(page, name, index = 0, seriesIndex) {
           y: matrix.b * local.x + matrix.d * local.y + matrix.f
         };
       const b = g.globalAABBBounds;
+      // 混合系列可能遮住柱体中点；优先找可命中内点，刷选覆盖层仍保留原中心坐标。
+      if (name === 'bar') {
+        for (const fraction of [0.5, 0.25, 0.75]) {
+          const x = b.x1 + (b.x2 - b.x1) * fraction,
+            y = (b.y1 + b.y2) / 2;
+          if (window.__visualChart.getStage().pick(x, y)?.graphic === g) return { x, y };
+        }
+      }
       return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
     },
     { name, index, seriesIndex }
   );
+}
+
+/** 选实际可命中的截断轴标签，排除被轴交点遮挡的包围盒中心。 */
+export async function clippedAxisLabelTarget(page) {
+  return page.evaluate(() => {
+    const stage = window.__visualChart.getStage();
+    const graphic = stage.find(g => {
+      if (g.name !== 'axis-label' || g.type !== 'text' || !g.cliped) return false;
+      const b = g.globalAABBBounds;
+      return b.y1 > 30 && b.y2 < 500 && stage.pick((b.x1 + b.x2) / 2, (b.y1 + b.y2) / 2)?.graphic === g;
+    }, true);
+    if (!graphic) throw new Error('来源未产生可命中的截断轴标签');
+    const b = graphic.globalAABBBounds;
+    return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2, text: String(graphic.attribute.text) };
+  });
 }
 
 /** 让输入事件后的绘制队列完成；是否生效仍由独立 verify 检查真实状态。 */

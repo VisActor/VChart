@@ -155,6 +155,28 @@ export async function acquireLock(output, owner) {
     await fs.rm(lock, { recursive: true, force: true });
   };
 }
+/** 截图及清理期间也可能发生编辑，结束快照必须保留并阻止旧构建冒充新源码。 */
+export async function snapshotSource(root, report) {
+  if (!report.local) return;
+  try {
+    report.localAfter = await workingTree(root);
+    if (report.local.head !== report.localAfter.head || report.local.digest !== report.localAfter.digest)
+      report.issues.push({
+        phase: 'source',
+        category: 'execution',
+        code: 'WORKSPACE_CHANGED',
+        message: '检查前后源码或 HEAD 发生变化，请重跑'
+      });
+  } catch (error) {
+    report.issues.push({
+      phase: 'source',
+      category: 'execution',
+      code: 'SOURCE_SNAPSHOT_FAILED',
+      message: error.message
+    });
+  }
+}
+
 /** 编排一次完整对比；所有准备失败和清理失败尽可能进入统一报告。 */
 export async function runVisual(root, options, configuration = {}) {
   const {
@@ -162,7 +184,7 @@ export async function runVisual(root, options, configuration = {}) {
     outputDirectory = '.vchart-visual',
     buildBundle = build
   } = configuration;
-  const runtime = createRuntime();
+  const runtime = createRuntime({ offline: options.offline === true });
   const detach = runtime.listenSignals();
   const output = path.join(root, outputDirectory);
   const runId = `${Date.now()}-${randomUUID().slice(0, 8)}`;
@@ -315,6 +337,7 @@ export async function runVisual(root, options, configuration = {}) {
         report.issues.push({ phase: 'cleanup', category: 'execution', code: 'CLEANUP_FAILED', message: String(error) });
       }
     }
+    await snapshotSource(root, report);
     detach();
     report.finalized = true;
     report.timings.totalMs = Math.round(performance.now() - started);
