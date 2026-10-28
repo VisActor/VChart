@@ -14,6 +14,8 @@ test('离线基线固定提交、依赖来源和缓存配置', async () => {
   assert.equal(parseOptions(['--offline', '--baseline', 'a'.repeat(40)]).offline, true);
   const root = await fs.mkdtemp(path.join(tmpdir(), 'vchart-offline-'));
   const worktree = await fs.mkdtemp(path.join(tmpdir(), 'vchart-offline-base-'));
+  const customTemp = await fs.mkdtemp(path.join(tmpdir(), 'vchart-rush-temp-')), previousTemp = process.env.RUSH_TEMP_FOLDER;
+  process.env.RUSH_TEMP_FOLDER = customTemp;
   const git = args =>
     execFileSync('git', args, {
       cwd: root,
@@ -61,7 +63,7 @@ test('离线基线固定提交、依赖来源和缓存配置', async () => {
     await offlineDependencies(root, worktree, sha);
     assert.equal(
       await fs.realpath(path.join(worktree, 'common/temp')),
-      await fs.realpath(path.join(root, 'common/temp'))
+      await fs.realpath(customTemp)
     );
     assert.equal(
       await fs.readFile(
@@ -108,6 +110,8 @@ test('离线基线固定提交、依赖来源和缓存配置', async () => {
   } finally {
     await fs.rm(root, { recursive: true, force: true });
     await fs.rm(worktree, { recursive: true, force: true });
+    await fs.rm(customTemp, { recursive: true, force: true });
+    if (previousTemp === undefined) delete process.env.RUSH_TEMP_FOLDER; else process.env.RUSH_TEMP_FOLDER = previousTemp;
   }
 });
 
@@ -116,7 +120,8 @@ test('离线构建禁止自动安装 Rush', async () => {
   const root = await fs.mkdtemp(path.join(tmpdir(), 'vchart-offline-build-'));
   const output = path.join(root, 'packages/vchart/build/index.js');
   const launcher = path.join(root, 'common/temp/install-run/@microsoft+rush@5.148.0/node_modules/@microsoft/rush/bin/rushx');
-  const calls = [];
+  const calls = [], previousTemp = process.env.RUSH_TEMP_FOLDER;
+  delete process.env.RUSH_TEMP_FOLDER;
   const runtime = { offline: true, async run(command, args) {
     calls.push({ command, args });
     if (calls.length === 3) await fs.writeFile(output, 'fresh bundle');
@@ -139,8 +144,20 @@ test('离线构建禁止自动安装 Rush', async () => {
       assert.equal(call.args[0], launcher);
     }
     assert.equal(await fs.readFile(path.join(root, 'bundle.js'), 'utf8'), 'fresh bundle');
+    // 宿主指定目录后，默认缓存不能充当替代；缺失时保持旧产物和零子进程。
+    process.env.RUSH_TEMP_FOLDER = path.join(root, 'custom-temp');
+    calls.length = 0;
+    await fs.writeFile(output, 'keep original');
+    await assert.rejects(() => build(root, path.join(root, 'bundle.js'), runtime, ''), /预先安装/);
+    assert.equal(calls.length, 0); assert.equal(await fs.readFile(output, 'utf8'), 'keep original');
+    const customLauncher = path.join(process.env.RUSH_TEMP_FOLDER, 'install-run/@microsoft+rush@5.148.0/node_modules/@microsoft/rush/bin/rushx');
+    await fs.mkdir(path.dirname(customLauncher), { recursive: true }); await fs.writeFile(customLauncher, '// configured Rush');
+    await build(root, path.join(root, 'bundle.js'), runtime, '');
+    assert.equal(calls.length, 3); assert(calls.every(call => call.args[0] === customLauncher));
+
   } finally {
     await fs.rm(root, { recursive: true, force: true });
+    if (previousTemp === undefined) delete process.env.RUSH_TEMP_FOLDER; else process.env.RUSH_TEMP_FOLDER = previousTemp;
   }
 });
 

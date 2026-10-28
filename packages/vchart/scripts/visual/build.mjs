@@ -67,7 +67,7 @@ async function assertOfflineConfiguration(root, sha) {
 export async function offlineDependencies(root, worktree, sha) {
   await assertOfflineConfiguration(root, sha);
   await fs.mkdir(path.join(worktree, 'common'), { recursive: true });
-  await fs.symlink(path.join(root, 'common/temp'), path.join(worktree, 'common/temp'), 'dir');
+  await fs.symlink(process.env.RUSH_TEMP_FOLDER ?? path.join(root, 'common/temp'), path.join(worktree, 'common/temp'), 'dir');
   const packages = git(root, [
     'ls-files',
     '--',
@@ -96,7 +96,7 @@ export async function build(root, destination, runtime, log) {
   if (runtime.offline) {
     // 离线构建只调用配置版本的现有 Rush，禁止安装型启动器在缓存缺失时联网。
     const version = (await fs.readFile(path.join(root, 'rush.json'), 'utf8')).match(/"rushVersion"\s*:\s*"([0-9A-Za-z.+-]+)"/)?.[1];
-    launcher = path.join(root, 'common/temp/install-run', `@microsoft+rush@${version}`, 'node_modules/@microsoft/rush/bin/rushx');
+    launcher = path.join(process.env.RUSH_TEMP_FOLDER ?? path.join(root, 'common/temp'), 'install-run', `@microsoft+rush@${version}`, 'node_modules/@microsoft/rush/bin/rushx');
     if (!version || !(await fs.stat(launcher).catch(error => error.code === 'ENOENT' ? null : Promise.reject(error)))?.isFile())
       throw fault('BUILD_FAILED', '离线构建需要预先安装 rush.json 指定版本的 Rush');
   }
