@@ -92,6 +92,14 @@ export async function offlineDependencies(root, worktree, sha) {
 }
 /** 执行既有最小构建链，仅删除已知且被忽略的 UMD 目标以排除旧文件。 */
 export async function build(root, destination, runtime, log) {
+  let launcher = path.join(root, 'common/scripts/install-run-rushx.js');
+  if (runtime.offline) {
+    // 离线构建只调用配置版本的现有 Rush，禁止安装型启动器在缓存缺失时联网。
+    const version = (await fs.readFile(path.join(root, 'rush.json'), 'utf8')).match(/"rushVersion"\s*:\s*"([0-9A-Za-z.+-]+)"/)?.[1];
+    launcher = path.join(root, 'common/temp/install-run', `@microsoft+rush@${version}`, 'node_modules/@microsoft/rush/bin/rushx');
+    if (!version || !(await fs.stat(launcher).catch(error => error.code === 'ENOENT' ? null : Promise.reject(error)))?.isFile())
+      throw fault('BUILD_FAILED', '离线构建需要预先安装 rush.json 指定版本的 Rush');
+  }
   const output = 'packages/vchart/build/index.js';
   if (git(root, ['ls-files', '--', output])) throw fault('BUILD_FAILED', '构建目标被 Git 跟踪，拒绝删除');
   try {
@@ -107,7 +115,7 @@ export async function build(root, destination, runtime, log) {
   ])
     await runtime.run(
       process.execPath,
-      [path.join(root, 'common/scripts/install-run-rushx.js'), ...args],
+      [launcher, ...args],
       path.join(root, folder),
       log,
       {

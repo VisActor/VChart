@@ -5,7 +5,7 @@ import path from 'node:path';
 import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { parseOptions } from './visual-test.mjs';
-import { resolveBaseline, offlineDependencies, baselineBuild } from './visual/build.mjs';
+import { resolveBaseline, offlineDependencies, baselineBuild, build } from './visual/build.mjs';
 
 /** 离线模式既不联网，也不能让基线链接借用候选源码或旧配置缓存。 */
 test('离线基线固定提交、依赖来源和缓存配置', async () => {
@@ -107,5 +107,38 @@ test('离线基线固定提交、依赖来源和缓存配置', async () => {
   } finally {
     await fs.rm(root, { recursive: true, force: true });
     await fs.rm(worktree, { recursive: true, force: true });
+  }
+});
+
+/** 缺少 Rush 时在删除产物或启动子进程前失败，存在时直接使用已安装入口。 */
+test('离线构建禁止自动安装 Rush', async () => {
+  const root = await fs.mkdtemp(path.join(tmpdir(), 'vchart-offline-build-'));
+  const output = path.join(root, 'packages/vchart/build/index.js');
+  const launcher = path.join(root, 'common/temp/install-run/@microsoft+rush@5.148.0/node_modules/@microsoft/rush/bin/rushx');
+  const calls = [];
+  const runtime = { offline: true, async run(command, args) {
+    calls.push({ command, args });
+    if (calls.length === 3) await fs.writeFile(output, 'fresh bundle');
+  } };
+  try {
+    await fs.mkdir(path.dirname(output), { recursive: true });
+    await fs.writeFile(output, 'old bundle');
+    await fs.writeFile(path.join(root, 'rush.json'), '{"rushVersion":"5.148.0"}');
+    await fs.writeFile(path.join(root, '.gitignore'), 'packages/vchart/build/\n');
+    execFileSync('git', ['init', '--quiet'], { cwd: root });
+    await assert.rejects(() => build(root, path.join(root, 'bundle.js'), runtime, ''), /预先安装/);
+    assert.equal(calls.length, 0);
+    assert.equal(await fs.readFile(output, 'utf8'), 'old bundle');
+    await fs.mkdir(path.dirname(launcher), { recursive: true });
+    await fs.writeFile(launcher, '// preinstalled Rush fixture');
+    await build(root, path.join(root, 'bundle.js'), runtime, '');
+    assert.equal(calls.length, 3);
+    for (const call of calls) {
+      assert.equal(call.command, process.execPath);
+      assert.equal(call.args[0], launcher);
+    }
+    assert.equal(await fs.readFile(path.join(root, 'bundle.js'), 'utf8'), 'fresh bundle');
+  } finally {
+    await fs.rm(root, { recursive: true, force: true });
   }
 });
