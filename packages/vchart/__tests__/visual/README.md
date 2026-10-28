@@ -158,7 +158,7 @@ node --test packages/vchart/scripts/visual-test.test.mjs
 
 灰度使用完整 SHA 的 `--baseline <40 位 SHA> --offline`，宿主提前准备匹配当前工程清单的只读依赖和浏览器；缺少提交、依赖或预装工具时停止，不回退联网安装，也不把自比较作为正式通过证据。每次保留真实 head/base、全量范围、执行错误及差异解释，更新提交后重新核对版本。
 
-当前仅本仓 `codex/workflow-gray-readiness-20261028` 分支的 PR 暂停旧 `Bug Server CI`；其他分支、fork 和手动入口保持原触发行为，不能将 Bot 的 manual 模式理解为全仓旧 CI 已停用。旧 BugServer 工作流预计在新工作流正式上线并验收后统一删除；删除前须另行核对自动/手动/回调入口、分支保护及下游引用。本准备不触发截图、不采用标准图。
+当前仅本仓 `codex/workflow-gray-readiness-20261028` 分支的 PR 暂停旧 `Bug Server CI`；其他分支、fork 和手动入口保持原触发行为，不能将 Bot 的 manual 模式理解为全仓旧 CI 已停用。旧 BugServer 工作流预计在新工作流正式上线并验收后统一删除；删除前须另行核对自动/手动/回调入口、分支保护及下游引用。本准备不触发 BugServer 截图、不采用标准图。
 
 触发范围回归可在仓库根目录执行：
 
