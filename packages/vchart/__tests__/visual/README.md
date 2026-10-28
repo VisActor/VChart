@@ -31,6 +31,7 @@ Rush 安装还需要项目现有的 node-canvas 编译依赖；按仓库贡献�
 ```sh
 node packages/vchart/scripts/visual-test.mjs
 node packages/vchart/scripts/visual-test.mjs --baseline <完整的40位commit-sha>
+node packages/vchart/scripts/visual-test.mjs --baseline <完整的40位commit-sha> --offline
 node packages/vchart/scripts/visual-test.mjs --dir components
 node packages/vchart/scripts/visual-test.mjs --dir components/label
 node packages/vchart/scripts/visual-test.mjs --case pie-label
@@ -49,6 +50,7 @@ node packages/vchart/scripts/visual-test.mjs --check
 
 - 默认每次从官方仓库获取 develop，并固定本次 SHA；fork 的 `origin` 不影响基线选择。断网或拉取失败会报错，缓存不会冒充最新版本。
 - 指定 SHA 仍从官方仓库获取该提交；用于复现已知基线。首期不支持任意仓库或共同祖先自动选择。
+- `--offline` 仅配合完整 `--baseline` 使用：宿主先准备官方提交和同配置依赖，执行时复用本地提交与依赖存储。两侧完整 Rush 配置及根目录、各项目的 `package.json` 必须相同；锁文件相同或缓存命中也不能绕过清单检查。项目链接各自解析到基线或当前源码，不执行联网 fetch/install，无法满足时直接失败。
 - 当前工作区包含未提交修改，每次重新构建；构建过程中源码发生变化会要求重跑。
 - 基线按自己的锁文件独立安装和构建。只缓存最近一次成功的基线构建，每次重新截图；缓存失效由 SHA、锁文件、Node、系统架构和构建配方决定；报告样式修改不使缓存失效，内容损坏会重建。
 - 自比较只构建本地一次，在两套隔离 context 中执行；它验证测试确定性，不能证明图表结果正确。
@@ -97,7 +99,7 @@ node packages/vchart/node_modules/@playwright/test/cli.js show-report .vchart-vi
 
 ## 用例约定
 
-当前 262 个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/`、`data/`、`layout/`、`theme/`、`interaction/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
+当前 264 个本地用例在 `cases/index.mjs` 显式注册，一用例一文件，按主要验证目的归入 `charts/`、`components/`、`data/`、`layout/`、`theme/`、`interaction/` 和 `api/`。详见 [目录导航、用例说明和待补场景](./cases/README.md)。元数据仅在清单中维护，每项包含 `id`、`purpose`、`file`，`sourceExample` 为可选的真实公开示例来源。
 
 ID 必须唯一且符合 `^[a-z][a-z0-9-]*$`；file 使用 cases 内的 `./<目录>/<name>.mjs`，目录层级和文件名使用小写字母、数字与连字符。缺文件、非法导出、越界、符号链接和空选择集在构建前失败，未登记的模块不会自动执行。
 
@@ -149,3 +151,17 @@ node --test packages/vchart/scripts/visual-test.test.mjs
 自检在独立临时目录中验证：相同产物通过、仅候选构建改变颜色产生差异、缺图不自动生成基线、脚本缺失/异常/外部请求/超时及构建命令失败被归类为执行错误。自检结束自动清理目录和服务。
 
 平台验收及实测耗时见 [验收摘要](./cases/ACCEPTANCE.md)。视觉测试不替代单元测试、性能测试及内网 BugServer 的发版前全量测试。
+
+## 三项建议工作流灰度准备
+
+自动工作流先只提供 CR、单测和全量 Playwright 建议；BugServer 结果由管理员人工核查，当前提交的管理员 Approve 表示已确认，合入仍由管理员手动执行。Photo 自动执行、差异评估和标准图更新暂停，Playwright 截图通过不替代 BugServer 人工确认。
+
+灰度使用完整 SHA 的 `--baseline <40 位 SHA> --offline`，宿主提前准备匹配当前工程清单的只读依赖和浏览器；缺少提交、依赖或预装工具时停止，不回退联网安装，也不把自比较作为正式通过证据。每次保留真实 head/base、全量范围、执行错误及差异解释，更新提交后重新核对版本。
+
+当前仅本仓 `codex/workflow-gray-readiness-20261028` 分支的 PR 暂停旧 `Bug Server CI`；其他分支、fork 和手动入口保持原触发行为，不能将 Bot 的 manual 模式理解为全仓旧 CI 已停用。旧 BugServer 工作流预计在新工作流正式上线并验收后统一删除；删除前须另行核对自动/手动/回调入口、分支保护及下游引用。本准备不触发截图、不采用标准图。
+
+触发范围回归可在仓库根目录执行：
+
+```sh
+node --test .github/scripts/bug-server-gray-scope.test.cjs
+```

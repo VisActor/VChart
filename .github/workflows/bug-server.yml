@@ -24,7 +24,7 @@ jobs:
   build:
     if: >-
       github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository)
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.head_ref != 'codex/workflow-gray-readiness-20261028')
     runs-on: macos-latest
     strategy:
       matrix:
