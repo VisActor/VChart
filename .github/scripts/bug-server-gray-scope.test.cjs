@@ -24,12 +24,13 @@ test('旧 BugServer CI 只跳过本仓指定分支，大小写变体和 fork 不
       assert.equal(result.status, 0, result.stderr);
       return fs.readFileSync(output, 'utf8');
     };
-    for (const branch of ['codex/manual-photo-dryrun-20261028','codex/workflow-cn-acceptance-20261028']) {
+    for (const branch of ['codex/workflow-cn-acceptance-20261028']) {
       assert.equal(check('pull_request',branch,'VisActor/VChart'),'skip=true\n');
       assert.equal(check('pull_request',branch,'contributor/VChart'),'skip=false\n');
       assert.equal(check('pull_request',branch.replace('codex/','Codex/'),'VisActor/VChart'),'skip=false\n');
       assert.equal(check('pull_request',branch.toUpperCase(),'VisActor/VChart'),'skip=false\n');
     }
+    assert.equal(check('pull_request','codex/manual-photo-dryrun-20261028','VisActor/VChart'),'skip=false\n');
     assert.equal(check('pull_request','fix/real-change','VisActor/VChart'),'skip=false\n');
     assert.equal(check('push','','VisActor/VChart'),'skip=false\n');
     assert.equal(check('workflow_dispatch','','VisActor/VChart'),'skip=false\n');
