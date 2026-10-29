@@ -40,7 +40,7 @@ Thank you!
 
 ### 🐞 Bugserver case id
 
-<!-- paste the `fileid` field in the bugserver case url -->
+<!-- Optional: provide an existing, publicly shareable BugServer case fileid. Ask a maintainer if access is unavailable; do not invent an ID. -->
 
 ### 💡 Background and solution
 
@@ -63,8 +63,11 @@ Describe changes from the user side, and list all potential break changes or oth
 
 ### ☑️ Self-Check before Merge
 
+Follow [PR checks and merge process](../CONTRIBUTING.md#pr-checks-and-merge-process): describe executed tests and results, explain unrun checks, and document expected visual changes and their verification.
+
 ⚠️ Please check all items below before requesting a reviewing. ⚠️
 
+- [ ] Test results and the reasons for any unrun checks are documented.
 - [ ] Doc is updated/provided or not needed
 - [ ] Demo is updated/provided or not needed
 - [ ] TypeScript definition is updated/provided or not needed

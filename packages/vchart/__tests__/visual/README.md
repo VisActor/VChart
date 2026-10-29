@@ -150,11 +150,14 @@ node --test packages/vchart/scripts/visual-test.test.mjs
 
 平台验收及实测耗时见 [验收摘要](./cases/ACCEPTANCE.md)。视觉测试不替代单元测试、性能测试及内网 BugServer 的发版前全量测试。
 
+## PR 工作流
 
-## 内部新 PR 的旧 Photo CI 交接
+完整的适用范围、反馈处理、Photo 人工核查、当前提交批准与合入步骤，统一见[贡献指南：PR 检查与合入流程](../../../../CONTRIBUTING.zh-CN.md#pr-检查与合入流程)。是否启用以贡献指南中的维护者说明为准；不能把本地视觉通过当作 Photo 通过或仓库已开放。
 
-仓库变量 `VISACTOR_WORKFLOW_INTERNAL_SINCE` 为与 Bot discovery.createdAfter、BugServer internalSince 完全一致的 Unix 毫秒起点；未配置时保持旧 CI。必须先完成两仓交接代码合入、正式身份与发现基线准备，再在未来同一起点启用，避免首次快照把交接期间的新 PR 当存量排除。
+旧 Photo CI 的原验收分支精确例外仍保留；新 PR 交接规则见 [Bug Server CI](../../../../.github/workflows/bug-server.yml)。启用变量未配置时保持原行为，不能将本次代码合入理解为旧 CI 已全仓停用。保留现有徽章和仍有效的 fork、存量、push、手动及回调入口；未执行旧 CI 的整体退役。
 
-仅起点后新建且源/目标均为本仓、仓库编号相同的 PR 跳过旧 Photo；新 Draft 也暂停旧 Photo，转 ready 后由新工作流接入。存量 PR、fork、push 和手动入口保持原规则；原验收分支精确例外保留。已配置交接却起点或内部 PR 元数据非法时停止旧构建，不退回旧 Photo 造成重复派发。单测继续执行，Photo 非阻塞、管理员人工核查、自动基准更新暂停。
+触发范围回归已接入单测 CI，也可在仓库根目录执行：
 
-回归：`node --test .github/scripts/bug-server-gray-scope.test.cjs`，执行 workflow 中的原 Bash/Python；该回归同时接入单测 CI。交接变量只能在 Bot 尚未接管时清空；回退前先停止新工作流，保留所有原请求和去重记录。实际起点以受控线上配置为准，不把代码合入当作全量启用。
+```sh
+node --test .github/scripts/bug-server-gray-scope.test.cjs
+```
