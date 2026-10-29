@@ -13,24 +13,38 @@ export default {
       height: 600,
       autoFit: false,
       animation: false,
-      xField: 'x',
+      xField: ['x', 's'],
+      seriesField: 's',
       yField: 'y',
       data: {
         id: 'data',
         values: [
-          { x: 'A', y: 9 },
-          { x: 'B', y: 4 }
+          { x: 'A', s: 'Gold', y: 9 },
+          { x: 'A', s: 'Silver', y: 5 },
+          { x: 'B', s: 'Gold', y: 7 },
+          { x: 'B', s: 'Silver', y: 4 }
         ]
       },
-      tooltip: { visible: false }
+      tooltip: { visible: true, renderMode: 'html' }
     };
   },
   async exercise(page) {
     const point = await page.evaluate(() => {
       const owner = window.__visualChart;
       const stage = owner.getStage();
-      const source = stage.eventSystem.manager.dispatch;
-      const count = () => source.eventNames().reduce((n, type) => n + source.listenerCount(type), 0);
+      let subscriptions = 0;
+      const wrap = source => ({
+        on(type, listener) {
+          subscriptions++;
+          source.on(type, listener);
+        },
+        off(type, listener) {
+          subscriptions--;
+          source.off(type, listener);
+        }
+      });
+      const source = { canvas: wrap(stage.eventSystem.input.canvas), window: wrap(stage.eventSystem.input.window) };
+      const count = () => subscriptions;
       const initialListeners = count();
       const initialChildren = stage.defaultLayer.childrenCount;
       const initialHooks = stage.hooks.beforeRender.taps.length;
@@ -49,6 +63,8 @@ export default {
       const crosshairVisible =
         !!rect && rect.attribute.visible !== false && rect.attribute.width > 0 && rect.attribute.height > 0;
       const counts = { canvas: 0, window: 0 };
+      const dimensions = [];
+      chart.on('dimensionHover', p => dimensions.push(p.action));
       chart.on('pointermove', { source: 'canvas' }, () => counts.canvas++);
       chart.on('pointerup', { source: 'window' }, () => counts.window++);
       window.__injectedStage = {
@@ -56,6 +72,7 @@ export default {
         stage,
         count,
         counts,
+        dimensions,
         initialListeners,
         initialChildren,
         initialHooks,
@@ -65,7 +82,17 @@ export default {
       };
       stage.eventSystem.setTargetElement(null);
       const box = owner.getCanvas().getBoundingClientRect();
-      return { x: box.x + 300, y: box.y + 300 };
+      const bars = chart
+        .getChart()
+        .getAllMarks()
+        .flatMap(mark => mark.getGraphics?.() || [])
+        .filter(g => g.type === 'rect' && g.globalAABBBounds.height() > 2)
+        .sort((a, b) => a.globalAABBBounds.x1 - b.globalAABBBounds.x1);
+      const center = g => ({
+        x: box.x + (g.globalAABBBounds.x1 + g.globalAABBBounds.x2) / 2,
+        y: box.y + (g.globalAABBBounds.y1 + g.globalAABBBounds.y2) / 2
+      });
+      return { ...center(bars[0]), sibling: center(bars[1]) };
     });
     await page.mouse.click(point.x, point.y);
     await page.evaluate(() => {
@@ -75,9 +102,22 @@ export default {
     });
     await page.mouse.move(point.x + 1, point.y + 1);
     await page.mouse.click(point.x + 1, point.y + 1);
+    await page.mouse.move(point.sibling.x, point.sibling.y);
     await page.evaluate(() => {
       const state = window.__injectedStage;
+      state.sameDimension = state.dimensions[0] === 'enter' && !state.dimensions.includes('leave');
+      state.stage.eventSystem.cancelPointer(1);
+      state.stage.eventSystem.cancelPointer(1);
+      state.cancelledOnce = state.dimensions.filter(action => action === 'leave').length === 1;
       state.allowed = { ...state.counts };
+      // Cleanup must use the source actually subscribed, even if options have since been replaced.
+      const unexpected = {
+        on() {},
+        off() {
+          throw new Error('unsubscribed from the wrong source');
+        }
+      };
+      state.chart.getCompiler().getOption().eventSource = { canvas: unexpected, window: unexpected };
       state.chart.release();
       state.cleaned =
         state.stage.releaseStatus !== 'released' &&
@@ -91,6 +131,8 @@ export default {
     await page.evaluate(() => {
       const s = window.__injectedStage;
       if (
+        !s.sameDimension ||
+        !s.cancelledOnce ||
         !s.crosshairVisible ||
         !s.keepsScheduling ||
         s.blocked.canvas !== 0 ||
@@ -102,6 +144,9 @@ export default {
         throw new Error(
           '传入 Stage 的绘制、输入或释放边界异常：' +
             JSON.stringify({
+              dimensions: s.dimensions,
+              sameDimension: s.sameDimension,
+              cancelledOnce: s.cancelledOnce,
               crosshairVisible: s.crosshairVisible,
               keepsScheduling: s.keepsScheduling,
               blocked: s.blocked,

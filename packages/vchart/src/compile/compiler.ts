@@ -28,6 +28,7 @@ import { createStageFromApp, getVRenderAppEnvParams, resolveVRenderApp } from '.
 type EventListener = {
   type: string;
   callback: (...args: any[]) => void;
+  unbind?: () => void;
 };
 
 const POPTIP_FOR_TEXT_PLUGIN_NAME = 'poptipForText';
@@ -741,13 +742,20 @@ export class Compiler implements ICompiler {
         };
         callback.call(null, params);
       }.bind(this);
-      this._windowListeners.set(callback, { type, callback: wrappedCallback });
-      const windowObject = this._getGlobalThis();
-      if (this._option.eventSource) {
-        this._option.eventSource.on(type, wrappedCallback);
+      const emitter = this._option.eventSource?.window;
+      const domTarget = this._getGlobalThis();
+      if (emitter) {
+        emitter.on(type, wrappedCallback);
       } else {
-        windowObject?.addEventListener(type, wrappedCallback);
+        domTarget?.addEventListener(type, wrappedCallback);
       }
+      this._windowListeners.set(callback, {
+        type,
+        callback: wrappedCallback,
+        unbind: emitter
+          ? () => emitter.off(type, wrappedCallback)
+          : () => domTarget?.removeEventListener(type, wrappedCallback)
+      });
     } else if (source === Event_Source_Type.canvas) {
       const wrappedCallback = function wrappedCallback(event: any) {
         // TODO: vgrammar 暂未提供基于事件直接筛选相应 mark 的能力，这里无法获取到相应的 item
@@ -764,13 +772,20 @@ export class Compiler implements ICompiler {
         };
         callback.call(null, params);
       }.bind(this);
-      this._canvasListeners.set(callback, { type, callback: wrappedCallback });
-      const canvasObject = this.getStage()?.window;
-      if (this._option.eventSource) {
-        this._option.eventSource.on(type, wrappedCallback);
+      const emitter = this._option.eventSource?.canvas;
+      const domTarget = this.getStage()?.window;
+      if (emitter) {
+        emitter.on(type, wrappedCallback);
       } else {
-        canvasObject?.addEventListener(type, wrappedCallback);
+        domTarget?.addEventListener(type, wrappedCallback);
       }
+      this._canvasListeners.set(callback, {
+        type,
+        callback: wrappedCallback,
+        unbind: emitter
+          ? () => emitter.off(type, wrappedCallback)
+          : () => domTarget?.removeEventListener(type, wrappedCallback)
+      });
     }
   }
 
@@ -787,26 +802,10 @@ export class Compiler implements ICompiler {
       wrappedCallback && this._stage?.removeEventListener(type, wrappedCallback);
       this._viewListeners.delete(callback);
     } else if (source === Event_Source_Type.window) {
-      const windowObject = this._getGlobalThis();
-      const wrappedCallback = this._windowListeners.get(callback)?.callback;
-      if (wrappedCallback) {
-        if (this._option.eventSource) {
-          this._option.eventSource.off(type, wrappedCallback);
-        } else {
-          windowObject?.removeEventListener(type, wrappedCallback);
-        }
-      }
+      this._windowListeners.get(callback)?.unbind?.();
       this._windowListeners.delete(callback);
     } else if (source === Event_Source_Type.canvas) {
-      const canvasObject = this.getStage()?.window;
-      const wrappedCallback = this._canvasListeners.get(callback)?.callback;
-      if (wrappedCallback) {
-        if (this._option.eventSource) {
-          this._option.eventSource.off(type, wrappedCallback);
-        } else {
-          canvasObject?.removeEventListener(type, wrappedCallback);
-        }
-      }
+      this._canvasListeners.get(callback)?.unbind?.();
       this._canvasListeners.delete(callback);
     }
   }
