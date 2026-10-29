@@ -1,4 +1,11 @@
-import type { IVChart, IData, IInitOption, ISpec, IVChartConstructor } from '@visactor/vchart';
+import {
+  DataView,
+  type IVChart,
+  type IData,
+  type IInitOption,
+  type ISpec,
+  type IVChartConstructor
+} from '@visactor/vchart';
 import React, { useState, useEffect, useRef, useImperativeHandle, ReactNode } from 'openinula';
 import withContainer, { ContainerProps } from '../containers/withContainer';
 import RootChartContext, { ChartContextType } from '../context/chart';
@@ -89,27 +96,47 @@ const getComponentId = (child: React.ReactNode, index: number) => {
   return `${componentName}-${index}`;
 };
 
-const getDataItemId = (item: { id?: unknown; name?: unknown } | null | undefined) => {
-  const id = item?.id ?? item?.name;
-  if ((typeof id === 'string' || typeof id === 'number') && id !== '') {
-    return id;
-  }
-  return null;
+const isDataId = (id: unknown): id is string | number => {
+  return (typeof id === 'string' || typeof id === 'number') && id !== '';
 };
 
-const collectDataIds = (data?: IData | null) => {
+const toDataList = (data?: IData | null) => {
   if (!isValid(data)) {
+    return [];
+  }
+  return (Array.isArray(data) ? data : [data]) as unknown[];
+};
+
+/**
+ * `updateFullDataSync` looks up `d.id` and parses `d.values`.
+ * A DataView is keyed by `name` and has no `values`, so it is not compatible.
+ */
+const getDataValuesId = (item: unknown) => {
+  if (!item || typeof item !== 'object' || item instanceof DataView) {
     return null;
   }
+  const id = (item as { id?: unknown }).id;
+  return isDataId(id) ? id : null;
+};
 
-  const list = Array.isArray(data) ? data : [data];
+/** Data already on the spec may be the original values or a bound DataView (`name`). */
+const getSpecDataId = (item: unknown) => {
+  if (!item || typeof item !== 'object') {
+    return null;
+  }
+  const id = item instanceof DataView ? item.name : (item as { id?: unknown }).id;
+  return isDataId(id) ? id : null;
+};
+
+const collectDataIds = (data: IData | null | undefined, readId: (item: unknown) => string | number | null) => {
+  const list = toDataList(data);
   if (!list.length) {
     return null;
   }
 
   const ids = new Set<string | number>();
   for (let i = 0; i < list.length; i++) {
-    const id = getDataItemId(list[i] as { id?: unknown; name?: unknown } | null);
+    const id = readId(list[i]);
     if (id === null) {
       return null;
     }
@@ -119,13 +146,32 @@ const collectDataIds = (data?: IData | null) => {
   return ids;
 };
 
+const containsDataView = (data?: IData | null) => {
+  return toDataList(data).some(item => item instanceof DataView);
+};
+
+/** Same DataView instances, including a new array wrapped around an unchanged view. */
+const isSameDataViewList = (prev?: IData | null, next?: IData | null) => {
+  const prevList = toDataList(prev);
+  const nextList = toDataList(next);
+  if (!nextList.length || prevList.length !== nextList.length) {
+    return false;
+  }
+  for (let i = 0; i < nextList.length; i++) {
+    if (!(nextList[i] instanceof DataView) || prevList[i] !== nextList[i]) {
+      return false;
+    }
+  }
+  return true;
+};
+
 /**
  * `updateFullDataSync` only replaces datasets that already exist under the same id
- * and never removes missing ones. Use it only when every incoming dataset already
- * exists and the effective spec data membership is unchanged.
+ * and never removes missing ones. Use it only for compatible `IDataValues` when
+ * every incoming dataset already exists and the effective spec data membership is unchanged.
  */
 const canUpdateFullDataByExistingId = (chart: IVChart, data?: IData) => {
-  const incomingIds = collectDataIds(data);
+  const incomingIds = collectDataIds(data, getDataValuesId);
   if (!incomingIds) {
     return false;
   }
@@ -141,7 +187,7 @@ const canUpdateFullDataByExistingId = (chart: IVChart, data?: IData) => {
     }
   }
 
-  const currentIds = collectDataIds(chart.getSpec()?.data as IData | undefined);
+  const currentIds = collectDataIds(chart.getSpec()?.data as IData | undefined, getSpecDataId);
   if (!currentIds || currentIds.size !== incomingIds.size) {
     return false;
   }
@@ -153,6 +199,15 @@ const canUpdateFullDataByExistingId = (chart: IVChart, data?: IData) => {
   }
 
   return true;
+};
+
+/**
+ * `updateData` ignores DataView items, and `updateFullData` cannot see `DataView.name`.
+ * Remaking the chart re-runs data parsing, which installs the replacement view.
+ */
+const DATA_VIEW_REBIND = {
+  reMake: true,
+  change: true
 };
 
 const SPEC_UPDATE_MORPH = {
@@ -286,9 +341,15 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
         eventsBinded.current = props;
       } else if (eventsBinded.current.data !== props.data) {
         // updateFullDataSync is id-keyed and never drops datasets. Keep it only
-        // when membership is unchanged; otherwise re-parse the effective spec
-        // (no-id data, removed ids, or removing the optional data prop).
-        if (canUpdateFullDataByExistingId(chartContext.current.chart, props.data)) {
+        // for compatible IDataValues whose membership is unchanged. A replacement
+        // DataView (even one named like an existing id) has to be rebound.
+        // No-id data, removed ids, or removing the optional data prop re-parse
+        // the effective spec.
+        if (containsDataView(props.data)) {
+          if (!isSameDataViewList(eventsBinded.current.data, props.data)) {
+            chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, SPEC_UPDATE_MORPH, DATA_VIEW_REBIND);
+          }
+        } else if (canUpdateFullDataByExistingId(chartContext.current.chart, props.data)) {
           chartContext.current.chart.updateFullDataSync(props.data as any);
         } else {
           chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, SPEC_UPDATE_MORPH);

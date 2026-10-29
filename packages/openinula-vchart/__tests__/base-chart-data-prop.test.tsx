@@ -1,6 +1,7 @@
 import React, { act, render, unmountComponentAtNode } from 'openinula';
 import { createRequire } from 'module';
 import path from 'path';
+import { DataSet, DataView } from '@visactor/vchart';
 import { VChart } from '../src/VChart';
 
 const requireFromVChart = createRequire(path.resolve(__dirname, '../../vchart/package.json'));
@@ -197,5 +198,40 @@ describe('openinula VChart data prop', () => {
     const remounted = await renderChart(<VChart ref={setChart} spec={spec} data={shrunkData} options={chartOptions} />);
     expect(readDataIds(remounted)).toEqual(['id0']);
     expect(readYValues(remounted)).toEqual([99]);
+  });
+
+  it('rebinds a replacement DataView whose name matches an existing id', async () => {
+    const spec = createBarSpec([{ id: 'id0', values: [{ x: 'A', y: 1 }] }]);
+
+    const first = await renderChart(
+      <VChart ref={setChart} spec={spec} data={[{ id: 'id0', values: [{ x: 'A', y: 10 }] }]} options={chartOptions} />
+    );
+    expect(readYValues(first)).toEqual([10]);
+
+    const dataSet = new DataSet();
+    const nextView = new DataView(dataSet, { name: 'id0' });
+    nextView.parse([{ x: 'A', y: 99 }]);
+
+    const updateFullDataSync = jest.spyOn(first, 'updateFullDataSync');
+    const updateSpecSync = jest.spyOn(first, 'updateSpecSync');
+
+    const second = await renderChart(<VChart ref={setChart} spec={spec} data={[nextView]} options={chartOptions} />);
+
+    expect(second).toBe(first);
+    expect(updateFullDataSync).not.toHaveBeenCalled();
+    expect(updateSpecSync).toHaveBeenCalled();
+    expect(readYValues(second)).toEqual([99]);
+    expect(second.getChart().getAllSeries()[0].getRawData()).toBe(nextView);
+
+    updateFullDataSync.mockClear();
+    updateSpecSync.mockClear();
+
+    const third = await renderChart(<VChart ref={setChart} spec={spec} data={[nextView]} options={chartOptions} />);
+
+    expect(third).toBe(first);
+    expect(updateFullDataSync).not.toHaveBeenCalled();
+    expect(updateSpecSync).not.toHaveBeenCalled();
+    expect(readYValues(third)).toEqual([99]);
+    expect(third.getChart().getAllSeries()[0].getRawData()).toBe(nextView);
   });
 });
