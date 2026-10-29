@@ -55,6 +55,9 @@ test('CLI rejects unknown cases and conflicting baseline options', () => {
     ['--dir', 'components', '--dir=charts'],
     ['--list', '--dir', 'components'],
     ['--check', '--dir', 'components'],
+    ['--offline'],
+    ['--offline', '--self-compare'],
+    ['--list', '--offline'],
     ['--baseline', ''],
     ['--baseline', 'a'.repeat(40), '--self-compare'],
     ['--update-snapshots'],
@@ -213,7 +216,7 @@ test(
           assert.ok(
             (await page.locator('[data-testid="selection"]').textContent()).includes(`选中 1 / ${caseMetadata.length}`)
           );
-          assert.match(await page.locator('header').textContent(), /所选用例完成比较/);
+          assert.match(await page.locator('header').textContent(), /所选用例执行完整/);
           assert.equal(
             await page.locator('a', { hasText: '查看冻结用例' }).getAttribute('href'),
             `suite/cases/${barFile}`
@@ -331,13 +334,57 @@ test(
             original.replace('export default {', 'const original = {') +
               '\nexport default {...original, async exercise() {}};\n'
           );
-          await assert.rejects(executePhase(dir, 'baseline', url, id), id);
+          // 超时仍抛错；明确的旧版业务断言失败可返回诊断，但不能变成通过。
+          let baselineResult;
+          try {
+            baselineResult = await executePhase(dir, 'baseline', url, id);
+          } catch (error) {
+            assert.equal(error.code, 'EXECUTION_FAILED');
+          }
+          if (baselineResult) {
+            assert.equal(baselineResult.status, 'error', id);
+            assert.ok(['CASE_ASSERTION_FAILED', 'INTERACTION_ASSERTION_FAILED'].includes(baselineResult.tests[0].code));
+          }
+          await assert.rejects(executePhase(dir, 'current', url, id), id);
           const result = JSON.parse(await fs.readFile(path.join(dir, 'baseline-result.json'), 'utf8'));
           assert.equal(result.tests[0].id, id);
           assert.equal(result.tests[0].status, 'error');
           await fs.writeFile(casesFile, original);
         }
         await fs.writeFile(configFile, config);
+      });
+      await t.test('baseline assertion failure preserves current evidence without creating a baseline', async () => {
+        const caseFile = path.join(dir, 'suite/cases', barFile);
+        const original = await fs.readFile(caseFile, 'utf8');
+        const snapshot = path.join(dir, 'snapshots/bar-stack.png');
+        await fs.rename(snapshot, `${snapshot}.saved`);
+        try {
+          await fs.writeFile(
+            caseFile,
+            original.replace('export default {', 'const original = {') +
+              '\nexport default {...original, async verify(page) { await original.verify(page); await page.evaluate(() => { if (window.__baselineRegression) throw new Error("regression assertion fixture"); }); }};\n'
+          );
+          await fs.writeFile(
+            path.join(dir, 'baseline.js'),
+            Buffer.concat([bundle, Buffer.from('\nwindow.__baselineRegression=true;')])
+          );
+          const baseline = await executePhase(dir, 'baseline', url, 'bar-stack');
+          assert.equal(baseline.status, 'error');
+          assert.equal(baseline.tests[0].code, 'CASE_ASSERTION_FAILED');
+          const current = await executePhase(dir, 'current', url, 'bar-stack');
+          assert.equal(current.status, 'passed');
+          await assert.rejects(fs.access(snapshot));
+          const report = await saveReport(dir, summary());
+          assert.equal(report.status, 'diff');
+          assert.equal(report.cases[0].status, 'new_baseline');
+          assert.ok(report.cases[0].images.current);
+          assert.equal(report.cases[0].images.baseline, null);
+          assert.ok(report.cases[0].errors.some(error => error.code === 'CASE_ASSERTION_FAILED'));
+        } finally {
+          await fs.writeFile(caseFile, original);
+          await fs.writeFile(path.join(dir, 'baseline.js'), bundle);
+          await fs.rename(`${snapshot}.saved`, snapshot);
+        }
       });
       await t.test('server cannot expose files outside its allowlist', async () => {
         // 服务只能读取两份产物和冻结用例。

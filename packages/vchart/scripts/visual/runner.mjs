@@ -129,7 +129,21 @@ export async function executePhase(root, runDir, phase, url, ids, runtime) {
     throw fault('RESULT_SET_MISMATCH', `${phase} 缺少有效阶段结果`, error);
   }
   validateResults(result, ids);
-  if (!result.finalized || result.status === 'error' || (code !== 0 && !(code === 1 && result.status === 'diff')))
+  // 仅完整的旧版业务断言失败允许继续当前版；执行级错误和缺失任务仍中止。
+  const baselineAssertionFailure =
+    phase === 'baseline' &&
+    !result.errors?.length &&
+    result.tests.some(test => test.status === 'error') &&
+    result.tests.every(
+      test =>
+        test.status === 'passed' ||
+        (test.status === 'error' && ['INTERACTION_ASSERTION_FAILED', 'CASE_ASSERTION_FAILED'].includes(test.code))
+    );
+  if (
+    !result.finalized ||
+    (result.status === 'error' && !baselineAssertionFailure) ||
+    (code !== 0 && !(code === 1 && (result.status === 'diff' || baselineAssertionFailure)))
+  )
     throw fault('EXECUTION_FAILED', `${phase} 阶段执行失败，请查看 ${phase}-result.json 和 ${phase}.log`);
   return result;
 }
@@ -162,7 +176,7 @@ export async function runVisual(root, options, configuration = {}) {
     outputDirectory = '.vchart-visual',
     buildBundle = build
   } = configuration;
-  const runtime = createRuntime();
+  const runtime = createRuntime({ offline: options.offline === true });
   const detach = runtime.listenSignals();
   const output = path.join(root, outputDirectory);
   const runId = `${Date.now()}-${randomUUID().slice(0, 8)}`;

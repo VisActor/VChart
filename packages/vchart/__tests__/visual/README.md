@@ -161,3 +161,12 @@ node --test packages/vchart/scripts/visual-test.test.mjs
 ```sh
 node --test .github/scripts/bug-server-gray-scope.test.cjs
 ```
+
+
+## 双侧离线依赖与旧版缺陷复现
+
+自动工作流可通过 `--baseline <完整40位SHA> --offline` 执行全部用例，使用宿主预先准备的提交和依赖，不执行 fetch 或安装。head/base 依赖不同时，设置 `VISUAL_BASELINE_DEPENDENCIES` 指向只读基线依赖快照；运行器按基线 SHA 逐文件核对 Rush 配置和工程清单，拒绝越界链接，缓存命中也不能绕过校验。当前版本依赖仍取当前工作区。主包及共享运行器的 extension 入口均适用；依赖和浏览器准备需在执行前完成。
+
+基线完整执行后，仅 `CASE_ASSERTION_FAILED` / `INTERACTION_ASSERTION_FAILED` 业务断言失败允许继续当前版；超时、资源失败、运行级错误和不完整集合仍中止。旧版业务断言失败、当前断言通过并生成截图时标记 `new_baseline`（旧版断言失败，修复待确认），保留原始错误，不代表像素比较通过。当前失败、普通缺图和缺失差异图继续报错；当前图不会自动写成标准图。新增/修改断言需要结合源码审查，确认没有删除或弱化覆盖。
+
+新增契约确定性测试：`node --test packages/vchart/scripts/visual-regression.test.mjs`；完整工具测试（包含真实浏览器）仍为 `node --test packages/vchart/scripts/visual-test.test.mjs`。本次不修改视觉阈值、截图基准或产品用例断言。
