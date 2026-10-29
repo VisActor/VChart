@@ -27,6 +27,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
+      - name: Test Photo CI handoff
+        run: node --test .github/scripts/bug-server-gray-scope.test.cjs
+
       - name: Install Python distutils (macOS)
         if: runner.os == 'macOS'
         run: |

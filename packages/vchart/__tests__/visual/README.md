@@ -149,3 +149,12 @@ node --test packages/vchart/scripts/visual-test.test.mjs
 自检在独立临时目录中验证：相同产物通过、仅候选构建改变颜色产生差异、缺图不自动生成基线、脚本缺失/异常/外部请求/超时及构建命令失败被归类为执行错误。自检结束自动清理目录和服务。
 
 平台验收及实测耗时见 [验收摘要](./cases/ACCEPTANCE.md)。视觉测试不替代单元测试、性能测试及内网 BugServer 的发版前全量测试。
+
+
+## 内部新 PR 的旧 Photo CI 交接
+
+仓库变量 `VISACTOR_WORKFLOW_INTERNAL_SINCE` 为与 Bot discovery.createdAfter、BugServer internalSince 完全一致的 Unix 毫秒起点；未配置时保持旧 CI。必须先完成两仓交接代码合入、正式身份与发现基线准备，再在未来同一起点启用，避免首次快照把交接期间的新 PR 当存量排除。
+
+仅起点后新建且源/目标均为本仓、仓库编号相同的 PR 跳过旧 Photo；新 Draft 也暂停旧 Photo，转 ready 后由新工作流接入。存量 PR、fork、push 和手动入口保持原规则；原验收分支精确例外保留。已配置交接却起点或内部 PR 元数据非法时停止旧构建，不退回旧 Photo 造成重复派发。单测继续执行，Photo 非阻塞、管理员人工核查、自动基准更新暂停。
+
+回归：`node --test .github/scripts/bug-server-gray-scope.test.cjs`，执行 workflow 中的原 Bash/Python；该回归同时接入单测 CI。交接变量只能在 Bot 尚未接管时清空；回退前先停止新工作流，保留所有原请求和去重记录。实际起点以受控线上配置为准，不把代码合入当作全量启用。
