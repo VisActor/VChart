@@ -14,8 +14,8 @@ title: 7. 如何调整柱状图的柱间距</br>
 ## 解决方案 
 
 在 VChart 上提供了如下配置用于调整柱子间距：</br>
-1. `axes` 配置上，为 `type: 'band'` 类型的轴提供了 [`paddingInner`](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart-axes-band%23paddingInner(number%257Cnumber%255B%255D)) 和 [`paddingOuter`](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart-axes-band%23paddingOuter(number%257Cnumber%255B%255D)) 属性，用于配置组内和组外间距</br>
-1. 对于分组柱图，还可以使用 [`**barGapInGroup**`](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart%23barGapInGroup)** **属性调整分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。</br>
+1. `axes` 配置上，为 `type: 'band'` 类型的轴提供了 [`paddingInner`](https://visactor.io/vchart/option/barChart-axes-band#paddingInner(number%7Cnumber%5B%5D)) 和 [`paddingOuter`](https://visactor.io/vchart/option/barChart-axes-band#paddingOuter(number%7Cnumber%5B%5D)) 属性，用于配置组内和组外间距</br>
+1. 对于分组柱图，还可以使用 [`**barGapInGroup**`](https://visactor.io/vchart/option/barChart#barGapInGroup)** **属性调整分组柱图中各个分组内的柱子间距，可以设置绝对的像素值，也可以使用百分比（如 '10%'）。</br>
 ## 代码示例  
 
 ### `barGapInGroup`

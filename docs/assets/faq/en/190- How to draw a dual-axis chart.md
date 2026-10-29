@@ -98,9 +98,9 @@ window['vchart'] = vchart;</br>
 https://visactor.io/vchart/demo/combination/dual-axis</br>
 ### Related Documents
 
-Demo: [https://visactor.io/vchart/demo/combination/dual-axis](https%3A%2F%2Fvisactor.io%2Fvchart%2Fdemo%2Fcombination%2Fdual-axis)</br>
+Demo: [https://visactor.io/vchart/demo/combination/dual-axis](https://visactor.io/vchart/demo/combination/dual-axis)</br>
 ### Tutorial:
 
-*  Combination Chart: [https://visactor.io/vchart/guide/tutorial_docs/Chart_Types/Combination](https%3A%2F%2Fvisactor.io%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Types%2FCombination) API:</br>
-*  Combination Chart: [https://visactor.io/vchart/option/commonChart](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FcommonChart) Github: [https://github.com/VisActor/VChart/](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart%2F)</br>
+*  Combination Chart: [https://visactor.io/vchart/guide/tutorial_docs/Chart_Types/Combination](https://visactor.io/vchart/guide/tutorial_docs/Chart_Types/Combination) API:</br>
+*  Combination Chart: [https://visactor.io/vchart/option/commonChart](https://visactor.io/vchart/option/commonChart) Github: [https://github.com/VisActor/VChart/](https://github.com/VisActor/VChart/)</br>
 
