@@ -66,7 +66,20 @@ export interface GestureConfig {
   };
 }
 
+export interface ScopedEventSource {
+  on(type: string, listener: (...args: any[]) => void): unknown;
+  off(type: string, listener: (...args: any[]) => void): unknown;
+}
+
 export interface IRenderOption {
+  /** Scoped accepted input; chart events still use the scenegraph.
+   * canvas out/leave are logical viewport transitions, window includes owned drags outside it.
+   * Events are pooled and must be consumed synchronously. The caller owns both sources.
+   */
+  eventSource?: {
+    canvas: ScopedEventSource;
+    window: ScopedEventSource;
+  };
   /**
    * 配置渲染环境，默认为 'desktop-browser'，当需要在非浏览器环境渲染 VChart 时，需要配置该属性。
    * - 'desktop-browser': 默认模式，适用于 PC 及 H5

@@ -19,6 +19,7 @@ export type EventType =
   | 'pointermove'
   | 'pointerenter'
   | 'pointerleave'
+  | 'pointercancel'
   | 'pointerout'
   | 'mousedown'
   | 'mouseup'
@@ -247,6 +248,7 @@ export type EventParamsDefinition = {
   pointermove: BaseEventParams;
   pointerenter: BaseEventParams;
   pointerleave: BaseEventParams;
+  pointercancel: BaseEventParams;
   pointerout: BaseEventParams;
   mousedown: BaseEventParams;
   mouseup: BaseEventParams;
