@@ -18,7 +18,19 @@ type SeriesLike = { getRawData: () => SeriesData };
 type ChartLike = {
   getChart: () => { getAllSeries: () => SeriesLike[] };
   release: () => void;
+  updateFullDataSync: (...args: unknown[]) => unknown;
+  updateSpecSync: (...args: unknown[]) => unknown;
 };
+
+const createBarSpec = (data: Array<{ id?: string; values: Datum[] }>) => ({
+  type: 'bar' as const,
+  width: 400,
+  height: 300,
+  animation: false,
+  xField: 'x',
+  yField: 'y',
+  data
+});
 
 const readYValues = (chart: ChartLike) => {
   const series = chart.getChart().getAllSeries();
@@ -63,73 +75,71 @@ describe('openinula VChart data prop', () => {
     return chart;
   };
 
-  it('updates data that has no matchable id', async () => {
-    const spec = {
-      type: 'bar' as const,
-      width: 400,
-      height: 300,
-      animation: false,
-      xField: 'x',
-      yField: 'y',
-      data: [{ values: [{ x: 'A', y: 1 }] }]
-    };
+  it('updates data that already has a matching id via updateFullDataSync', async () => {
+    const spec = createBarSpec([{ id: 'id0', values: [{ x: 'A', y: 1 }] }]);
 
-    await renderChart(
-      <VChart ref={setChart} spec={spec} data={[{ values: [{ x: 'A', y: 10 }] }]} options={chartOptions} />
+    const first = await renderChart(
+      <VChart ref={setChart} spec={spec} data={[{ id: 'id0', values: [{ x: 'A', y: 10 }] }]} options={chartOptions} />
     );
-    expect(readYValues(chart as ChartLike)).toEqual([10]);
+    expect(readYValues(first)).toEqual([10]);
 
-    await renderChart(
-      <VChart ref={setChart} spec={spec} data={[{ values: [{ x: 'A', y: 99 }] }]} options={chartOptions} />
+    const updateFullDataSync = jest.spyOn(first, 'updateFullDataSync');
+    const updateSpecSync = jest.spyOn(first, 'updateSpecSync');
+
+    const second = await renderChart(
+      <VChart ref={setChart} spec={spec} data={[{ id: 'id0', values: [{ x: 'A', y: 99 }] }]} options={chartOptions} />
     );
-    expect(readYValues(chart as ChartLike)).toEqual([99]);
+
+    expect(second).toBe(first);
+    expect(updateFullDataSync).toHaveBeenCalled();
+    expect(updateSpecSync).not.toHaveBeenCalled();
+    expect(readYValues(second)).toEqual([99]);
   });
 
-  it('restores spec.data when the data override is removed', async () => {
-    const spec = {
-      type: 'bar' as const,
-      width: 400,
-      height: 300,
-      animation: false,
-      xField: 'x',
-      yField: 'y',
-      data: [{ id: 'id0', values: [{ x: 'A', y: 1 }] }]
-    };
+  it('re-parses the effective spec when data has no matchable id', async () => {
+    const spec = createBarSpec([{ values: [{ x: 'A', y: 1 }] }]);
+
+    const first = await renderChart(
+      <VChart ref={setChart} spec={spec} data={[{ values: [{ x: 'A', y: 10 }] }]} options={chartOptions} />
+    );
+    expect(readYValues(first)).toEqual([10]);
+
+    const updateFullDataSync = jest.spyOn(first, 'updateFullDataSync');
+    const updateSpecSync = jest.spyOn(first, 'updateSpecSync');
+
+    const second = await renderChart(
+      <VChart ref={setChart} spec={spec} data={[{ values: [{ x: 'A', y: 99 }] }]} options={chartOptions} />
+    );
+
+    expect(second).toBe(first);
+    expect(updateFullDataSync).not.toHaveBeenCalled();
+    expect(updateSpecSync).toHaveBeenCalled();
+    expect(readYValues(second)).toEqual([99]);
+  });
+
+  it('restores spec.data by re-parse when the optional data prop is removed', async () => {
+    const spec = createBarSpec([{ id: 'id0', values: [{ x: 'A', y: 1 }] }]);
     const override = [{ id: 'id0', values: [{ x: 'A', y: 10 }] }];
 
-    await renderChart(<VChart ref={setChart} spec={spec} data={override} options={chartOptions} />);
-    expect(readYValues(chart as ChartLike)).toEqual([10]);
+    const first = await renderChart(<VChart ref={setChart} spec={spec} data={override} options={chartOptions} />);
+    expect(readYValues(first)).toEqual([10]);
 
-    await renderChart(<VChart ref={setChart} spec={spec} options={chartOptions} />);
-    expect(readYValues(chart as ChartLike)).toEqual([1]);
+    const updateFullDataSync = jest.spyOn(first, 'updateFullDataSync');
+    const updateSpecSync = jest.spyOn(first, 'updateSpecSync');
+
+    const second = await renderChart(<VChart ref={setChart} spec={spec} options={chartOptions} />);
+
+    expect(second).toBe(first);
+    expect(updateFullDataSync).not.toHaveBeenCalled();
+    expect(updateFullDataSync).not.toHaveBeenCalledWith(undefined);
+    expect(updateSpecSync).toHaveBeenCalled();
+    expect(readYValues(second)).toEqual([1]);
 
     act(() => {
       unmountComponentAtNode(container);
     });
     chart = null;
-    await renderChart(<VChart ref={setChart} spec={spec} options={chartOptions} />);
-    expect(readYValues(chart as ChartLike)).toEqual([1]);
-  });
-
-  it('still updates data when every dataset id already exists', async () => {
-    const spec = {
-      type: 'bar' as const,
-      width: 400,
-      height: 300,
-      animation: false,
-      xField: 'x',
-      yField: 'y',
-      data: [{ id: 'id0', values: [{ x: 'A', y: 1 }] }]
-    };
-
-    await renderChart(
-      <VChart ref={setChart} spec={spec} data={[{ id: 'id0', values: [{ x: 'A', y: 10 }] }]} options={chartOptions} />
-    );
-    expect(readYValues(chart as ChartLike)).toEqual([10]);
-
-    await renderChart(
-      <VChart ref={setChart} spec={spec} data={[{ id: 'id0', values: [{ x: 'A', y: 99 }] }]} options={chartOptions} />
-    );
-    expect(readYValues(chart as ChartLike)).toEqual([99]);
+    const remounted = await renderChart(<VChart ref={setChart} spec={spec} options={chartOptions} />);
+    expect(readYValues(remounted)).toEqual([1]);
   });
 });

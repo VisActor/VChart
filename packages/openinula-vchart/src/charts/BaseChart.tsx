@@ -244,12 +244,13 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
 
     if (hasSpec) {
       if (!isEqual(eventsBinded.current.spec, props.spec, { skipFunction: skipFunctionDiff })) {
-        eventsBinded.current = props;
         chartContext.current.chart.updateSpecSync(parseSpec(props), undefined, SPEC_UPDATE_MORPH);
         handleChartRender();
+        eventsBinded.current = props;
       } else if (eventsBinded.current.data !== props.data) {
-        // Removing the data prop, or passing data with no existing id, must re-parse
-        // the effective spec so the result matches the first render's data priority.
+        // updateFullDataSync is id-keyed. Keep it only when every incoming dataset
+        // already exists; otherwise re-parse the effective spec (same as create /
+        // spec change). That covers no-id data and removing the optional data prop.
         if (canUpdateFullDataByExistingId(chartContext.current.chart, props.data)) {
           chartContext.current.chart.updateFullDataSync(props.data as any);
         } else {
