@@ -20,6 +20,10 @@ type ChartLike = {
   release: () => void;
   updateFullDataSync: (...args: unknown[]) => unknown;
   updateSpecSync: (...args: unknown[]) => unknown;
+  getSpec: () => {
+    data?: Array<{ id?: string | number; name?: string | number }> | { id?: string | number; name?: string | number };
+  };
+  getDataSet: () => { getDataView: (id: string | number) => unknown };
 };
 
 const createBarSpec = (data: Array<{ id?: string; values: Datum[] }>) => ({
@@ -31,6 +35,12 @@ const createBarSpec = (data: Array<{ id?: string; values: Datum[] }>) => ({
   yField: 'y',
   data
 });
+
+const readDataIds = (chart: ChartLike) => {
+  const data = chart.getSpec()?.data;
+  const list = Array.isArray(data) ? data : data ? [data] : [];
+  return list.map(item => item.id ?? item.name);
+};
 
 const readYValues = (chart: ChartLike) => {
   const series = chart.getChart().getAllSeries();
@@ -141,5 +151,51 @@ describe('openinula VChart data prop', () => {
     chart = null;
     const remounted = await renderChart(<VChart ref={setChart} spec={spec} options={chartOptions} />);
     expect(readYValues(remounted)).toEqual([1]);
+  });
+
+  it('re-parses the effective spec when the data list shrinks', async () => {
+    const spec = {
+      type: 'common' as const,
+      width: 400,
+      height: 300,
+      animation: false,
+      data: [
+        { id: 'id0', values: [{ x: 'A', y: 1 }] },
+        { id: 'id1', values: [{ x: 'B', y: 2 }] }
+      ],
+      series: [
+        { type: 'bar', dataId: 'id0', xField: 'x', yField: 'y' },
+        { type: 'bar', dataId: 'id1', xField: 'x', yField: 'y' }
+      ]
+    };
+    const firstData = [
+      { id: 'id0', values: [{ x: 'A', y: 10 }] },
+      { id: 'id1', values: [{ x: 'B', y: 20 }] }
+    ];
+    const shrunkData = [{ id: 'id0', values: [{ x: 'A', y: 99 }] }];
+
+    const first = await renderChart(<VChart ref={setChart} spec={spec} data={firstData} options={chartOptions} />);
+    expect(readDataIds(first)).toEqual(['id0', 'id1']);
+    expect(readYValues(first)).toEqual([10]);
+
+    const updateFullDataSync = jest.spyOn(first, 'updateFullDataSync');
+    const updateSpecSync = jest.spyOn(first, 'updateSpecSync');
+
+    const second = await renderChart(<VChart ref={setChart} spec={spec} data={shrunkData} options={chartOptions} />);
+
+    expect(second).toBe(first);
+    expect(updateFullDataSync).not.toHaveBeenCalled();
+    expect(updateSpecSync).toHaveBeenCalled();
+    expect(readDataIds(second)).toEqual(['id0']);
+    expect(readYValues(second)).toEqual([99]);
+    expect(second.getDataSet().getDataView('id1')).toBeFalsy();
+
+    act(() => {
+      unmountComponentAtNode(container);
+    });
+    chart = null;
+    const remounted = await renderChart(<VChart ref={setChart} spec={spec} data={shrunkData} options={chartOptions} />);
+    expect(readDataIds(remounted)).toEqual(['id0']);
+    expect(readYValues(remounted)).toEqual([99]);
   });
 });

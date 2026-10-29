@@ -89,12 +89,44 @@ const getComponentId = (child: React.ReactNode, index: number) => {
   return `${componentName}-${index}`;
 };
 
+const getDataItemId = (item: { id?: unknown; name?: unknown } | null | undefined) => {
+  const id = item?.id ?? item?.name;
+  if ((typeof id === 'string' || typeof id === 'number') && id !== '') {
+    return id;
+  }
+  return null;
+};
+
+const collectDataIds = (data?: IData | null) => {
+  if (!isValid(data)) {
+    return null;
+  }
+
+  const list = Array.isArray(data) ? data : [data];
+  if (!list.length) {
+    return null;
+  }
+
+  const ids = new Set<string | number>();
+  for (let i = 0; i < list.length; i++) {
+    const id = getDataItemId(list[i] as { id?: unknown; name?: unknown } | null);
+    if (id === null) {
+      return null;
+    }
+    ids.add(id);
+  }
+
+  return ids;
+};
+
 /**
- * `updateFullDataSync` only replaces datasets that already exist under the same id.
- * Valid data without a matchable id must go through the spec update path instead.
+ * `updateFullDataSync` only replaces datasets that already exist under the same id
+ * and never removes missing ones. Use it only when every incoming dataset already
+ * exists and the effective spec data membership is unchanged.
  */
 const canUpdateFullDataByExistingId = (chart: IVChart, data?: IData) => {
-  if (!isValid(data)) {
+  const incomingIds = collectDataIds(data);
+  if (!incomingIds) {
     return false;
   }
 
@@ -103,14 +135,19 @@ const canUpdateFullDataByExistingId = (chart: IVChart, data?: IData) => {
     return false;
   }
 
-  const list = Array.isArray(data) ? data : [data];
-  if (!list.length) {
+  for (const id of incomingIds) {
+    if (!dataSet.getDataView(id)) {
+      return false;
+    }
+  }
+
+  const currentIds = collectDataIds(chart.getSpec()?.data as IData | undefined);
+  if (!currentIds || currentIds.size !== incomingIds.size) {
     return false;
   }
 
-  for (let i = 0; i < list.length; i++) {
-    const id = (list[i] as { id?: unknown } | null)?.id;
-    if ((typeof id !== 'string' && typeof id !== 'number') || id === '' || !dataSet.getDataView(id)) {
+  for (const id of incomingIds) {
+    if (!currentIds.has(id)) {
       return false;
     }
   }
@@ -248,9 +285,9 @@ const BaseChart: React.FC<Props> = React.forwardRef((props, ref) => {
         handleChartRender();
         eventsBinded.current = props;
       } else if (eventsBinded.current.data !== props.data) {
-        // updateFullDataSync is id-keyed. Keep it only when every incoming dataset
-        // already exists; otherwise re-parse the effective spec (same as create /
-        // spec change). That covers no-id data and removing the optional data prop.
+        // updateFullDataSync is id-keyed and never drops datasets. Keep it only
+        // when membership is unchanged; otherwise re-parse the effective spec
+        // (no-id data, removed ids, or removing the optional data prop).
         if (canUpdateFullDataByExistingId(chartContext.current.chart, props.data)) {
           chartContext.current.chart.updateFullDataSync(props.data as any);
         } else {
