@@ -399,6 +399,58 @@ test(
   }
 );
 
+test('source edits during screenshots cannot pass and retain both snapshots', { timeout: 60000 }, async () => {
+  // 故障只写独立 Git 夹具：两侧图片可一致，源码结束快照仍必须拒绝过期构建。
+  const dir = await fs.mkdtemp(path.join(root, '.vchart-visual/source-edit-'));
+  const git = args => {
+    const result = spawnSync('git', ['-c', 'core.hooksPath=/dev/null', ...args], { cwd: dir, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+  };
+  try {
+    for (const folder of ['tools/bundler', 'packages/vutils-extension', 'packages/vchart']) {
+      await fs.mkdir(path.join(dir, folder), { recursive: true });
+      await fs.copyFile(path.join(root, folder, 'package.json'), path.join(dir, folder, 'package.json'));
+      await fs.symlink(path.join(root, folder, 'node_modules'), path.join(dir, folder, 'node_modules'), 'dir');
+    }
+    const suite = path.join(dir, 'packages/vchart/__tests__/visual');
+    await fs.cp(path.join(packageDir, '__tests__/visual'), suite, { recursive: true });
+    const marker = path.join(dir, 'source-marker.txt');
+    await fs.writeFile(marker, 'before');
+    await fs.writeFile(path.join(dir, '.gitignore'), 'node_modules\n.vchart-visual/\n');
+    const caseFile = path.join(suite, 'cases', caseMetadata.find(item => item.id === 'bar-stack').file);
+    const original = await fs.readFile(caseFile, 'utf8');
+    await fs.writeFile(
+      caseFile,
+      original.replace('export default {', 'const original = {') +
+        '\nexport default {...original, async verify(page) { await original.verify(page); const sourceFs = await import("node:fs"); sourceFs.writeFileSync(' +
+        JSON.stringify(marker) +
+        ', "after"); }};\n'
+    );
+    git(['init', '-q']);
+    git(['add', '.']);
+    git(['-c', 'user.name=Visual Test', '-c', 'user.email=visual@example.invalid', 'commit', '-qm', 'fixture']);
+    const code = await runVisual(
+      dir,
+      { 'self-compare': true, case: 'bar-stack' },
+      {
+        async buildBundle(_root, destination) {
+          await fs.copyFile(path.join(packageDir, 'build/index.js'), destination);
+        }
+      }
+    );
+    assert.equal(code, 2);
+    const runs = path.join(dir, '.vchart-visual/runs');
+    const result = JSON.parse(await fs.readFile(path.join(runs, (await fs.readdir(runs))[0], 'summary.json')));
+    assert.ok(result.issues.some(issue => issue.code === 'WORKSPACE_CHANGED'));
+    assert.equal(result.local.head, result.localAfter.head);
+    assert.notEqual(result.local.digest, result.localAfter.digest);
+    assert.equal(result.cases[0].status, 'passed');
+    assert.equal(result.status, 'error');
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
+});
+
 test('preparation errors preserve not-run cases and escape HTML', async () => {
   // 未进入 Playwright 的失败也生成可读报告，不伪造图片、通过状态或详细报告链接。
   const dir = await fs.mkdtemp(path.join(root, '.vchart-visual/report-check-'));

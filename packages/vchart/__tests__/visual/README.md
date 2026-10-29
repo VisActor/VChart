@@ -170,3 +170,5 @@ node --test .github/scripts/bug-server-gray-scope.test.cjs
 基线完整执行后，仅 `CASE_ASSERTION_FAILED` / `INTERACTION_ASSERTION_FAILED` 业务断言失败允许继续当前版；超时、资源失败、运行级错误和不完整集合仍中止。旧版业务断言失败、当前断言通过并生成截图时标记 `new_baseline`（旧版断言失败，修复待确认），保留原始错误，不代表像素比较通过。当前失败、普通缺图和缺失差异图继续报错；当前图不会自动写成标准图。新增/修改断言需要结合源码审查，确认没有删除或弱化覆盖。
 
 新增契约确定性测试：`node --test packages/vchart/scripts/visual-regression.test.mjs`；完整工具测试（包含真实浏览器）仍为 `node --test packages/vchart/scripts/visual-test.test.mjs`。本次不修改视觉阈值、截图基准或产品用例断言。
+
+运行结束保存 `localAfter` 源码快照并与 `local` 核对；截图或清理期间源码/HEAD变化即报 `WORKSPACE_CHANGED`，快照读取失败同样报错。像素相同不能代替源码版本一致。
