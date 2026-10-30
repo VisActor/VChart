@@ -42,6 +42,8 @@ Thank you!
 
 <!-- Optional: provide an existing, publicly shareable BugServer case fileid. Ask a maintainer if access is unavailable; do not invent an ID. -->
 
+**BugServer case creation is restricted to project administrators.** External contributors: provide reproduction material and ask an administrator to create/link the case. Only report a real, publicly shareable caseId; otherwise state that administrator follow-up is pending. [Case workflow](../packages/vchart/__tests__/visual/BUGSERVER_CASE_WORKFLOW.md).
+
 ### 💡 Background and solution
 
 <!--
