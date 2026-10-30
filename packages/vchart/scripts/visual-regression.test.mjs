@@ -41,7 +41,10 @@ test('修复报告保留旧版失败并严格区分执行错误', async () => {
     assert.match(await fs.readFile(path.join(dir, 'index.html'), 'utf8'), /待确认项不代表比较通过/);
     assert.match(await fs.readFile(path.join(dir, 'agent-summary.md'), 'utf8'), /完整执行：true/);
     assert.equal(result.cases[0].errors[0].message, '漏洞复现');
-    await saveReport(dir, { ...summary, baselineResult: { ...summary.baselineResult, tests: [{ ...baseline, businessAssertion: false }] } });
+    await saveReport(dir, {
+      ...summary,
+      baselineResult: { ...summary.baselineResult, tests: [{ ...baseline, businessAssertion: false }] }
+    });
     result = JSON.parse(await fs.readFile(path.join(dir, 'summary.json')));
     assert.equal(result.status, 'error');
     assert.equal(result.cases[0].errors[0].message, '漏洞复现');
@@ -403,5 +406,79 @@ test('扩展冻结包含可实际导入的业务断言协议', async () => {
     assert.equal(isBusinessAssertion(assertionError('冻结依赖已包含')), true);
   } finally {
     await fs.rm(dir, { recursive: true, force: true });
+  }
+});
+
+// 自动准备的两个快照分别匹配自己的冻结提交，不能把旧依赖误当成候选。
+test('候选与基线可用不同版本，但显式候选快照必须匹配候选提交', async () => {
+  const { offlineConfiguration } = await import('./visual/build.mjs');
+  const { execFileSync } = await import('node:child_process');
+  const directory = await fs.mkdtemp(path.join(tmpdir(), 'chart-head-dependencies-'));
+  const root = path.join(directory, 'source'),
+    head = path.join(directory, 'head'),
+    base = path.join(directory, 'base');
+  const git = args =>
+    execFileSync('git', ['-c', 'core.hooksPath=/dev/null', ...args], {
+      cwd: root,
+      encoding: 'utf8',
+      env: {
+        ...process.env,
+        GIT_AUTHOR_NAME: 'test',
+        GIT_AUTHOR_EMAIL: 'test@example.invalid',
+        GIT_COMMITTER_NAME: 'test',
+        GIT_COMMITTER_EMAIL: 'test@example.invalid'
+      }
+    }).trim();
+  try {
+    await fs.mkdir(path.join(root, 'common/config/rush'), { recursive: true });
+    await fs.mkdir(path.join(root, 'packages/vchart'), { recursive: true });
+    await fs.writeFile(path.join(root, 'rush.json'), '{}');
+    git(['init', '--quiet']);
+    const commit = async version => {
+      await fs.writeFile(path.join(root, 'common/config/rush/pnpm-lock.yaml'), version);
+      await fs.writeFile(
+        path.join(root, 'packages/vchart/package.json'),
+        JSON.stringify({ dependencies: { renderer: version } })
+      );
+      git(['add', '.']);
+      git(['commit', '--quiet', '-m', version]);
+      return git(['rev-parse', 'HEAD']);
+    };
+    const baseSha = await commit('1.1.12');
+    await fs.cp(root, base, { recursive: true });
+    const headSha = await commit('1.1.13');
+    await fs.cp(root, head, { recursive: true });
+    assert.equal(await offlineConfiguration(root, baseSha, base), await fs.realpath(base));
+    assert.equal(await offlineConfiguration(root, headSha, head), await fs.realpath(head));
+    await assert.rejects(offlineConfiguration(root, headSha, base), { code: 'DEPENDENCIES_CHANGED' });
+    await fs.cp(new URL('../__tests__/visual/', import.meta.url), path.join(root, 'packages/vchart/__tests__/visual'), {
+      recursive: true
+    });
+    const suite = path.join(root, 'fixture/cases');
+    await fs.mkdir(suite, { recursive: true });
+    await fs.writeFile(
+      path.join(suite, 'index.mjs'),
+      "export const cases=[{id:'one',purpose:'候选依赖校验',file:'./one.mjs'}];export async function loadCase(){return(await import('./one.mjs')).default;}"
+    );
+    await fs.writeFile(path.join(suite, 'one.mjs'), 'export default {createSpec(){return{}},async verify(){}};');
+    const previous = process.env.VISUAL_HEAD_DEPENDENCIES;
+    try {
+      process.env.VISUAL_HEAD_DEPENDENCIES = base;
+      const { runVisual } = await import('./visual/runner.mjs');
+      assert.equal(await runVisual(root, { offline: true, baseline: baseSha }, { suitePath: 'fixture' }), 2);
+      const runs = path.join(root, '.vchart-visual/runs'),
+        run = path.join(runs, (await fs.readdir(runs))[0]);
+      const result = JSON.parse(await fs.readFile(path.join(run, 'summary.json')));
+      assert.ok(result.issues.some(issue => issue.code === 'DEPENDENCIES_CHANGED'));
+      assert.ok(result.cases.every(item => item.status === 'not_run'));
+    } finally {
+      if (previous === undefined) delete process.env.VISUAL_HEAD_DEPENDENCIES;
+      else process.env.VISUAL_HEAD_DEPENDENCIES = previous;
+    }
+    await fs.unlink(path.join(head, 'rush.json'));
+    await fs.symlink(path.join(root, 'rush.json'), path.join(head, 'rush.json'));
+    await assert.rejects(offlineConfiguration(root, headSha, head), { code: 'DEPENDENCIES_CHANGED' });
+  } finally {
+    await fs.rm(directory, { recursive: true, force: true });
   }
 });

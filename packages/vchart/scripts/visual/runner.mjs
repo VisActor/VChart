@@ -4,7 +4,7 @@ import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { randomUUID } from 'node:crypto';
 import { createRuntime, serve, fault, digest, atomicJson, fileManifest } from './runtime.mjs';
-import { git, workingTree, resolveBaseline, build, baselineBuild, official } from './build.mjs';
+import { git, workingTree, resolveBaseline, build, baselineBuild, official, offlineConfiguration } from './build.mjs';
 import { saveReport } from '../../__tests__/visual/report.mjs';
 
 /** 验证元数据和可执行契约，只导入实际使用的清单目录。 */
@@ -225,7 +225,14 @@ export async function runVisual(root, options, configuration = {}) {
     const suite = path.join(runDir, 'suite');
     const source = path.join(root, suitePath);
     await fs.mkdir(suite, { recursive: true });
-    for (const file of ['settings.mjs', 'playwright.config.mjs', 'visual.spec.mjs', 'reporter.mjs', 'assertions.mjs', 'page.html']) {
+    for (const file of [
+      'settings.mjs',
+      'playwright.config.mjs',
+      'visual.spec.mjs',
+      'reporter.mjs',
+      'assertions.mjs',
+      'page.html'
+    ]) {
       await fs.copyFile(path.join(root, 'packages/vchart/__tests__/visual', file), path.join(suite, file));
     }
     await fileManifest(source);
@@ -262,6 +269,9 @@ export async function runVisual(root, options, configuration = {}) {
         frozenPath: `suite/cases/${file.slice(2)}`
       }
     }));
+    // 自动安装快照由宿主提供；当前侧也在启动浏览器前核对，不能误用旧依赖。
+    if (runtime.offline && process.env.VISUAL_HEAD_DEPENDENCIES)
+      await offlineConfiguration(root, git(root, ['rev-parse', 'HEAD']), process.env.VISUAL_HEAD_DEPENDENCIES);
     report.environment = { ...report.environment, ...(await timed('preflightMs', () => preflight(root, runtime))) };
     await fs.symlink(path.join(root, 'packages/vchart/node_modules'), path.join(runDir, 'node_modules'), 'dir');
     runtime.defer(() => fs.rm(path.join(runDir, 'node_modules'), { force: true }));

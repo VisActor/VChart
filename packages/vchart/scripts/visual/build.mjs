@@ -58,8 +58,8 @@ export async function resolveBaseline(root, sha, runtime, log) {
   return resolved;
 }
 /** 每侧逐文件核对冻结提交的工程清单，拒绝目录链接读取快照之外的内容。 */
-async function offlineConfiguration(root, sha) {
-  const directory = await fs.realpath(process.env.VISUAL_BASELINE_DEPENDENCIES ?? root);
+export async function offlineConfiguration(root, sha, snapshot = process.env.VISUAL_BASELINE_DEPENDENCIES ?? root) {
+  const directory = await fs.realpath(snapshot);
   const files = new Set([
     'rush.json',
     'common/config/rush/pnpm-lock.yaml',
@@ -77,7 +77,7 @@ async function offlineConfiguration(root, sha) {
         execFileSync('git', ['show', `${sha}:${file}`], { cwd: root, maxBuffer: 64 * 1024 * 1024 })
       )
     )
-      throw fault('DEPENDENCIES_CHANGED', '基线依赖配置不同，需要分别准备后再运行');
+      throw fault('DEPENDENCIES_CHANGED', '离线依赖配置不同，需要按各侧提交分别准备后再运行');
   }
   return directory;
 }
