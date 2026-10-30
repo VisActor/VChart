@@ -28,10 +28,10 @@
     "test:visual": "node scripts/visual-test.mjs"
   },
   "dependencies": {
-    "@visactor/vrender-core": "1.1.12",
-    "@visactor/vrender-kits": "1.1.12",
-    "@visactor/vrender-components": "1.1.12",
-    "@visactor/vrender-animate": "1.1.12",
+    "@visactor/vrender-core": "1.1.13",
+    "@visactor/vrender-kits": "1.1.13",
+    "@visactor/vrender-components": "1.1.13",
+    "@visactor/vrender-animate": "1.1.13",
     "@visactor/vchart": "workspace:2.2.0",
     "@visactor/vutils": "~1.0.28",
     "@visactor/vdataset": "~1.0.28",
