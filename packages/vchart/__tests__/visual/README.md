@@ -174,3 +174,5 @@ node --test .github/scripts/bug-server-gray-scope.test.cjs
 新增契约确定性测试：`node --test packages/vchart/scripts/visual-regression.test.mjs`；完整工具测试（包含真实浏览器）仍为 `node --test packages/vchart/scripts/visual-test.test.mjs`。本次不修改视觉阈值、截图基准或产品用例断言。
 
 运行结束保存 `localAfter` 源码快照并与 `local` 核对；截图或清理期间源码/HEAD变化即报 `WORKSPACE_CHANGED`，快照读取失败同样报错。像素相同不能代替源码版本一致。
+
+阶段结果保存 Playwright 原始 `endedStatus`，仅正常 `passed` / `failed` 终态可进入完整报告；超时、中断或终态缺失均保留原结果并报告执行不完整。旧版业务断言失败只有在阶段正常结束、无运行级错误且退出码一致时才能继续当前版；仍保留原失败证据，不计为基线比较通过。旧报告不会被重写，缺失终态的阶段不能据此补认通过。
