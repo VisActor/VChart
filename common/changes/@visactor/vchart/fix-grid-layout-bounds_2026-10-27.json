@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "fix: validate grid layout indices and spans before accessing row and column size entries",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
