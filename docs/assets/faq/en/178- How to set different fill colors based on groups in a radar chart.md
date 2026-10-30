@@ -265,5 +265,5 @@ window['vchart'] = vchart;</br>
 
 ## Related Documents
 
-*  [Tutorial of Graphical Elements](https%3A%2F%2Fwww.visactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FSeries%2FMark)[ ](https%3A%2F%2Fvisactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FAxes)</br>
-*  [VChart github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  [Tutorial of Graphical Elements](https://www.visactor.com/vchart/guide/tutorial_docs/Chart_Concepts/Series/Mark)[ ](https://visactor.com/vchart/guide/tutorial_docs/Chart_Concepts/Axes)</br>
+*  [VChart github](https://github.com/VisActor/VChart)</br>

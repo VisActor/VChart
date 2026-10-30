@@ -7,7 +7,7 @@ from pathlib import Path
 import re
 import shutil
 import tempfile
-from visualization_io import VERSION, json_text
+from visualization_io import json_text
 
 def replay_request(payload):
     request = {key:payload[key] for key in ('version','title','charts','controls','presentation')}
@@ -75,7 +75,7 @@ def render_html(payload, asset_root):
     if 'provenance' in details and data:
         provenance = f'<p class="provenance">来源：{esc(data["source"]["label"])} · SHA-256 {esc(data["source"]["sha256"])}</p>'
     replacements = {'TITLE':esc(payload['title']), 'CSS':content['page.css'], 'CARDS':''.join(cards),
-      'SOURCE':provenance, 'TOOLBAR':toolbar, 'DATA':json_text(payload).replace('<','\\u003c'), 'VERSION':VERSION,
+      'SOURCE':provenance, 'TOOLBAR':toolbar, 'DATA':json_text(payload).replace('<','\\u003c'), 'VERSION':payload['libraries']['vchart'],
       'CONTROLLER':content['statplot-controller.js'], 'BINDINGS':content['data-bindings.js'], 'RUNTIME':content['page-runtime.js']}
     return re.sub(r'@@([A-Z]+)@@', lambda match:replacements[match[1]], content['page.html'])
 

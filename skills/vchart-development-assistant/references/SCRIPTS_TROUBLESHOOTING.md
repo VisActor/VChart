@@ -12,33 +12,9 @@
 ❌ 模板不存在: template/diagnosis-react.html
 ```
 
-**原因**：脚本运行位置不正确，未在项目根目录执行
+**原因**：安装目录缺少模板，或脚本与模板版本不一致。脚本按自身位置读取模板，不要求切换工作目录。
 
-**解决步骤**：
-
-1. 确认当前工作目录：
-
-   ```bash
-   pwd
-   ```
-
-2. 切换到项目根目录：
-
-   ```bash
-   cd /path/to/vchart-development-assistant
-   ```
-
-3. 验证模板文件存在：
-
-   ```bash
-   ls template/diagnosis.html
-   ls template/demo.html
-   ls template/diagnosis-react.html
-   ```
-
-4. 重新运行脚本
-
-**💡 提示**：脚本必须在 `vchart-development-assistant` 目录下运行，因为模板路径是相对路径。
+核对实际 Skill 安装目录下的 `scripts/` 与 `template/` 来自同一版本，检查报错中的绝对路径。用完整脚本路径调用，输入/输出相对路径仍基于当前工作目录。
 
 ---
 
@@ -86,7 +62,7 @@
 
 ```
 ❌ 模板中未找到 {{CONFIG_BLOCK}} 占位符
-❌ 模板中未找到 {{SPEC_CODE}} 占位符
+❌ 模板中未找到 {{INITIAL_CODE}} 占位符
 ```
 
 **原因**：模板文件被意外修改或损坏
@@ -100,7 +76,7 @@
    cat template/diagnosis.html | grep "{{CONFIG_BLOCK}}"
 
    # 检查 demo.html
-   cat template/demo.html | grep "{{SPEC_CODE}}"
+   cat template/demo.html | grep "{{INITIAL_CODE}}"
 
    # 检查 diagnosis-react.html
    cat template/diagnosis-react.html | grep "{{CONFIG_BLOCK}}"
@@ -119,6 +95,10 @@
 **💡 提示**：模板文件是只读的，不要手动修改其中的标记注释。
 
 ---
+
+## 回调代码含模板字符串时页面空白
+
+演示生成器将完整源码序列化为 JSON 字符串，并转义 `<`，避免回调中的模板字符串被提前插值或字符串中的 HTML 标签截断 script。若出现此类错误，检查脚本和模板是否来自同一版本；不要删除回调、只截取 spec 对象或通过 JSON 往返丢掉函数。诊断模板的代码字符串须另外按其输入格式转义。
 
 ## 按脚本分类故障排除
 
@@ -149,7 +129,6 @@
    ls -la output/config.js
    ```
 
-   ### ❌ 模板中未找到 {{SPEC_CODE}} 占位符
 
 3. 创建配置文件示例：
 
@@ -163,7 +142,6 @@
      problem: "图表显示问题",
      cause: "配置项错误"
    };
-      cat template/demo.html | grep "{{SPEC_CODE}}"
 
    const solutions = [
      {
@@ -184,7 +162,6 @@
 
 **症状**：HTML 生成成功但无法正确显示
 
-    检查模板中是否有 {{SPEC_CODE}} 占位符
 
 1. 验证配置文件是否为有效 JavaScript：
 
@@ -259,8 +236,8 @@
    ```
 
 2. 确保数据格式符合 VChart 要求：
-   - `data.values` 必须是数组
-   - 数组中的对象必须包含 `xField` 和 `yField` 指定的字段
+   - 按实际图型核对数据结构，参考 [数据契约](chart/common-issues.md#图数据与层级数据)；不能把所有输入都当作平铺二维表
+   - 字段映射必须对应实际数据；缺少宿主绑定时在宿主中验证
 
 3. 验证字段映射：
 

@@ -1,6 +1,6 @@
 # 直方图 `histogram`
 
-[TS 类型](../types/plots/histogram/types.d.ts) · [最小输入](../examples/specs/minimal/histogram.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/histogram.md)
+[TS 类型](../types/plots/histogram/types.d.ts) · [最小输入](../examples/specs/minimal/histogram.json) · [公共约束](common.md)
 
 从一个连续变量的原始观测查看分箱分布和尾部。库在编译阶段分箱、计数并换算显示量。
 

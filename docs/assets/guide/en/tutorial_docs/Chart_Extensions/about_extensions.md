@@ -47,4 +47,4 @@ You can directly get the source code of VChart-extension from GitHub:
 
 ## Sequence chart
 
-The [sequence chart](/vchart/guide/tutorial_docs/Chart_Types/Sequence) is now provided by the extension package. It combines events, links and statistics on a shared time axis. Import and call `registerSequenceChart({ VChart })` from the extension package before use; existing specs remain unchanged.
+Since **VChart 2.2.0**, the [sequence chart](/vchart/guide/tutorial_docs/Chart_Types/Sequence) is provided by the matching extension package. It combines events, links and statistics on a shared time axis. Import and call `registerSequenceChart({ VChart })` from the extension package before use; existing specs remain unchanged.

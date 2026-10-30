@@ -1,6 +1,8 @@
 # Extension Chart: Sequence Analysis
 
-`dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
+**Version requirement:** `sequenceAnalysis` is available from `@visactor/vchart-extension` since **VChart 2.2.0**. Use **2.2.0 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
+Since **2.2.0**, the `dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
 
 Sequence Analysis places each user's events on a horizontal row, aligns events by time, step or medium, and draws their relationships. It supports behavior paths, relationships across users and repeated patterns.
 
@@ -86,7 +88,11 @@ vchart.renderSync();
 For CDN usage, load the matching build/index.min.js files for both packages. Pass the actual chart constructor used by your page to the registration method:
 
 ```js
-VChartExtension.registerSequenceAnalysis({ VChart: VChart.default });
+// sequenceAnalysis requires VChart 2.2.0+ and the matching @visactor/vchart-extension.
+// Register when available in the live demo; this chart still requires a supported version.
+if (VChartExtension.registerSequenceAnalysis) {
+  VChartExtension.registerSequenceAnalysis({ VChart: VChart.default });
+}
 const vchart = new VChart.default(spec, { dom: 'chart' });
 vchart.renderSync();
 ```

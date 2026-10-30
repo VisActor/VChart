@@ -136,7 +136,7 @@ window['vchart'] = vchart;</br>
 ```
 ## Related documents
 
-*  [github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
-*  [Axis labelsformatMethodConfiguration document](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart-axes-band%23label.formatMethod)</br>
-*  [HTML extension plugin tutorial](https%3A%2F%2Fvisactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FRichtext_and_Dom)</br>
+*  [github](https://github.com/VisActor/VChart)</br>
+*  [Axis labelsformatMethodConfiguration document](https://visactor.com/vchart/option/lineChart-axes-band#label.formatMethod)</br>
+*  [HTML extension plugin tutorial](https://visactor.com/vchart/guide/tutorial_docs/Richtext_and_Dom)</br>
 

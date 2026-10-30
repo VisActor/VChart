@@ -9,7 +9,6 @@ import math
 from pathlib import Path
 import re
 
-VERSION = '2.1.8-alpha.0'
 BINDING_TYPES = {'countPlot', 'missingValueMatrix', 'histogram', 'kdePlot', 'ecdfPlot', 'boxPlot',
                  'violinPlot', 'stripPlot', 'scatterPlot', 'hexbinPlot', 'correlationMatrix', 'pairPlot'}
 ASSET_ROOT = Path(__file__).resolve().parents[1]
@@ -42,6 +41,17 @@ def parse_json(value):
 
 def load_request(path):
     return parse_json(Path(path).read_text(encoding='utf-8-sig'))
+
+def load_release_version(skill_root: Path) -> str:
+    path = skill_root/'release.json'
+    release = parse_json(path.read_text(encoding='utf-8'))
+    version = release.get('version') if isinstance(release, dict) else None
+    require(isinstance(version, str) and re.fullmatch(r'[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?', version),
+            f'{path}: version 需要固定发布版本（主.次.补丁，可含预发布标识）')
+    snapshot = parse_json((skill_root/'references/statplots/snapshot.json').read_text(encoding='utf-8'))
+    require(snapshot['version'] == version,
+            f'{path}: 库版本与参考快照不一致；请使用版本匹配的完整技能包')
+    return version
 
 def read_source(source, base_dir):
     keys(source, {'records', 'path', 'format', 'sheet'}, '/dataset/source')
@@ -132,6 +142,7 @@ def build_payload(request, base_dir):
         'details': choices(display.get('details', []), {'counts','provenance'}, 'presentation.details')}
     charts = request.get('charts')
     require(isinstance(charts, list) and 1 <= len(charts) <= 8, 'charts 需要 1–8 张图')
+    version = load_release_version(ASSET_ROOT)
     catalog = parse_json((ASSET_ROOT/'references/statplots/index.json').read_text())
     types = {entry['type'] for entry in catalog}
     needed, chart_ids = set(), set()
@@ -267,7 +278,7 @@ def build_payload(request, base_dir):
                                    'data':{'observations':rows}})
     else:
         require(not needed, '表格绑定或控件需要 dataset')
-    payload = {'version':1,'title':title,'libraries':{'vchart':VERSION,'statplots':VERSION},
+    payload = {'version':1,'title':title,'libraries':{'vchart':version,'statplots':version},
                'dataset':dataset,'charts':copy.deepcopy(charts),'controls':copy.deepcopy(controls),
                'presentation':copy.deepcopy(presentation)}
     require(len(json_text(payload).encode()) <= 10*1024*1024, '内嵌 payload 超过 10 MiB，请明确选择范围')

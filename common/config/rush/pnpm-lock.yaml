@@ -19,16 +19,16 @@ importers:
         specifier: 2.46.1
         version: 2.46.1(@types/react@18.3.31)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@visactor/openinula-vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../packages/openinula-vchart
       '@visactor/react-vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../packages/react-vchart
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../packages/vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../packages/vchart-extension
       '@visactor/vchart-theme':
         specifier: ~1.6.6
@@ -200,10 +200,10 @@ importers:
   ../../packages/openinula-vchart:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart-extension
       '@visactor/vrender-core':
         specifier: 1.1.12
@@ -291,10 +291,10 @@ importers:
   ../../packages/react-vchart:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart-extension
       '@visactor/vrender-core':
         specifier: 1.1.12
@@ -391,10 +391,10 @@ importers:
   ../../packages/taro-vchart:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart-extension
     devDependencies:
       '@babel/core':
@@ -553,7 +553,7 @@ importers:
         specifier: ~1.0.28
         version: 1.0.28
       '@visactor/vutils-extension':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vutils-extension
     devDependencies:
       '@esbuild-plugins/node-globals-polyfill':
@@ -692,7 +692,7 @@ importers:
   ../../packages/vchart-extension:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart
       '@visactor/vdataset':
         specifier: ~1.0.28
@@ -877,7 +877,7 @@ importers:
         specifier: 2019.6.4
         version: 2019.6.4
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../vchart
       ajv:
         specifier: ^8.12.0
@@ -1073,10 +1073,10 @@ importers:
   ../../tools/bugserver-trigger:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../../packages/vchart
       '@visactor/vchart-extension':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../../packages/vchart-extension
     devDependencies:
       '@internal/bundler':
@@ -1339,7 +1339,7 @@ importers:
   ../../tools/story-player:
     dependencies:
       '@visactor/vchart':
-        specifier: workspace:2.2.0
+        specifier: workspace:2.2.1
         version: link:../../packages/vchart
       '@visactor/vrender':
         specifier: 1.1.12

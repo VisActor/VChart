@@ -1,6 +1,6 @@
 # 缺失值矩阵 `missingValueMatrix`
 
-[TS 类型](../types/plots/missingness/types.d.ts) · [最小输入](../examples/specs/minimal/missingValueMatrix.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/missingValueMatrix.md)
+[TS 类型](../types/plots/missingness/types.d.ts) · [最小输入](../examples/specs/minimal/missingValueMatrix.json) · [公共约束](common.md)
 
 从原始表格检查每条观测各变量的缺失位置。
 

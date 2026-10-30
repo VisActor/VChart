@@ -1,6 +1,6 @@
 # 点估计区间图 `pointIntervalPlot`
 
-[TS 类型](../types/plots/estimate-interval/types.d.ts) · [最小输入](../examples/specs/minimal/pointIntervalPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/pointIntervalPlot.md)
+[TS 类型](../types/plots/estimate-interval/types.d.ts) · [最小输入](../examples/specs/minimal/pointIntervalPlot.json) · [公共约束](common.md)
 
 从分组样本估计区间，或展示外部模型已计算的区间。必填 input 明确区分用途，不根据字段猜测。
 

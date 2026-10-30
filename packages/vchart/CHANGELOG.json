@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.2.1",
+      "tag": "@visactor/vchart_v2.2.1",
+      "date": "Fri, 30 Oct 2026 09:15:10 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: preserve measured layout bounds when title size is unchanged, preventing charts from collapsing after resize and legend filtering"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.2.0",
       "tag": "@visactor/vchart_v2.2.0",
       "date": "Mon, 19 Oct 2026 06:37:56 GMT",

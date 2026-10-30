@@ -1,0 +1,44 @@
+{
+  "type": "boxPlot",
+  "data": [
+    {
+      "category": "A",
+      "value": 0
+    },
+    {
+      "category": "A",
+      "value": 1
+    },
+    {
+      "category": "A",
+      "value": 2
+    },
+    {
+      "category": "A",
+      "value": 3
+    },
+    {
+      "category": "A",
+      "value": 4
+    },
+    {
+      "category": "A",
+      "value": 5
+    },
+    {
+      "category": "A",
+      "value": 6
+    },
+    {
+      "category": "A",
+      "value": 7
+    },
+    {
+      "category": "A",
+      "value": 100
+    }
+  ],
+  "whiskers": {
+    "iqrMultiplier": 0
+  }
+}

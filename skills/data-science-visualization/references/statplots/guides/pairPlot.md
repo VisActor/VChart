@@ -1,6 +1,6 @@
 # 散点矩阵图 `pairPlot`
 
-[TS 类型](../types/plots/pair-plot/types.d.ts) · [最小输入](../examples/specs/minimal/pairPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/pairPlot.md)
+[TS 类型](../types/plots/pair-plot/types.d.ts) · [最小输入](../examples/specs/minimal/pairPlot.json) · [公共约束](common.md)
 
 同时查看多个变量两两关系及对角分布。
 

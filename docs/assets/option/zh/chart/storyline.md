@@ -2,6 +2,8 @@
 
 # storylineChart
 
+**版本要求：** `storyline` 自 **VChart 2.1.7** 起由 `@visactor/vchart-extension` 提供。请使用 **2.1.7 或更高版本**，并保持 `@visactor/vchart` 与 `@visactor/vchart-extension` 版本一致。在线演示切换到不支持此图表的版本时，需要升级；主包不内置该扩展图表。
+
 叙事图，使用图片、标题和正文展示一系列有顺序的节点，支持 `landscape`（横向布局）、`portrait`（纵向布局）、`clock`（时钟布局）、`arc`（弧形布局）和 `wing`（翼形布局）。
 
 使用前需要安装与 `@visactor/vchart` 版本一致的扩展包并注册图表：
