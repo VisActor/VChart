@@ -61,3 +61,5 @@ node packages/vchart/scripts/visual-test.mjs
 - 已有 ID 不应因重命名、移动或改写用例丢失。ID 只用于追溯，不代表已与线上内容实时同步；测试无需访问 BugServer。
 
 新增平台用例的完整步骤见[BugServer case 流程](../BUGSERVER_CASE_WORKFLOW.md)。**只有对应项目管理员可新增；外部开发者提供材料，由管理员代建。** 手动创建成功后才能回填真实 ID；本地用例与平台不会自动同步。
+
+需要确认旧版业务断言失败时，仅在明确的状态比较失败处 `throw assertionError(原错误消息)`，使用 [assertions.mjs](../assertions.mjs) 的显式错误类型；浏览器端可在 `page.evaluate(async () => { ... })` 内从 `/suite/assertions.mjs` 动态导入。不要捕获整段浏览器/API 异常再统一包装。普通 `Error` 继续使测试失败，但不再仅凭所在阶段获准转成 `new_baseline`。

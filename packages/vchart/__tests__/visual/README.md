@@ -176,3 +176,5 @@ node --test .github/scripts/bug-server-gray-scope.test.cjs
 运行结束保存 `localAfter` 源码快照并与 `local` 核对；截图或清理期间源码/HEAD变化即报 `WORKSPACE_CHANGED`，快照读取失败同样报错。像素相同不能代替源码版本一致。
 
 阶段结果保存 Playwright 原始 `endedStatus`，仅正常 `passed` / `failed` 终态可进入完整报告；超时、中断或终态缺失均保留原结果并报告执行不完整。旧版业务断言失败只有在阶段正常结束、无运行级错误且退出码一致时才能继续当前版；仍保留原失败证据，不计为基线比较通过。旧报告不会被重写，缺失终态的阶段不能据此补认通过。
+
+只有通过 [assertionError](./assertions.mjs) 显式标记的业务状态断言，且阶段正常结束时，才可用于 `new_baseline`。仅凭 `interaction` / `verify` 阶段不能确认失败性质；浏览器关闭、上下文销毁、协议错误及未标记异常均按执行错误保留并阻断，不因当前版成功而转为待基准。当前版任何断言失败仍失败。旧记录缺少明确业务断言标记时，不补认 `new_baseline`。

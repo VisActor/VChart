@@ -362,7 +362,7 @@ test(
           await fs.writeFile(
             caseFile,
             original.replace('export default {', 'const original = {') +
-              '\nexport default {...original, async verify(page) { await original.verify(page); await page.evaluate(() => { if (window.__baselineRegression) throw new Error("regression assertion fixture"); }); }};\n'
+              '\nexport default {...original, async verify(page) { await original.verify(page); await page.evaluate(async () => { const { assertionError } = await import(new URL("/suite/assertions.mjs", location.href).href); if (window.__baselineRegression) throw assertionError("regression assertion fixture"); }); }};\n'
           );
           await fs.writeFile(
             path.join(dir, 'baseline.js'),
@@ -385,6 +385,28 @@ test(
           await fs.writeFile(path.join(dir, 'baseline.js'), bundle);
           await fs.rename(`${snapshot}.saved`, snapshot);
         }
+      });
+      await t.test('browser closure cannot become a baseline business assertion', async () => {
+        // 真实浏览器关闭后触发 page.evaluate，当前阶段恢复正常，执行错误仍必须保留。
+        const caseFile = path.join(dir, 'suite/cases', barFile);
+        const original = await fs.readFile(caseFile, 'utf8');
+        try {
+          await fs.writeFile(caseFile, original.replace('export default {', 'const original = {') +
+            '\nexport default {...original, async exercise(page) { await page.close(); await page.evaluate(() => true); }};\n');
+          await assert.rejects(executePhase(dir, 'baseline', url, 'bar-stack'), { code: 'EXECUTION_FAILED' });
+          const baseline = JSON.parse(await fs.readFile(path.join(dir, 'baseline-result.json')));
+          assert.equal(baseline.endedStatus, 'failed');
+          assert.equal(baseline.tests[0].businessAssertion, false);
+          assert.ok(!['INTERACTION_ASSERTION_FAILED', 'CASE_ASSERTION_FAILED'].includes(baseline.tests[0].code));
+          assert.match(baseline.tests[0].errors.join('\n'), /Target page, context or browser has been closed/);
+          await fs.writeFile(caseFile, original);
+          assert.equal((await executePhase(dir, 'current', url, 'bar-stack')).status, 'passed');
+          const report = await saveReport(dir, summary());
+          assert.equal(report.status, 'error');
+          assert.equal(report.complete, false);
+          assert.equal(report.cases[0].status, 'error');
+          assert.ok(report.cases[0].errors.some(error => error.message.includes('has been closed')));
+        } finally { await fs.writeFile(caseFile, original); }
       });
       await t.test('server cannot expose files outside its allowlist', async () => {
         // 服务只能读取两份产物和冻结用例。

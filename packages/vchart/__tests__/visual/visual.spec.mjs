@@ -110,9 +110,9 @@ for (const metadata of cases.filter(item => selectedIds.includes(item.id))) {
           const baseline = JSON.parse(await fs.readFile(`${process.env.VISUAL_RUN_DIR}/baseline-result.json`, 'utf8'));
           const previous = baseline.tests.find(test => test.id === item.id);
           if (
-            baseline.finalized &&
+            baseline.finalized && baseline.endedStatus === 'failed' &&
             !baseline.errors.length &&
-            previous?.status === 'error' &&
+            previous?.status === 'error' && previous.businessAssertion === true &&
             ['INTERACTION_ASSERTION_FAILED', 'CASE_ASSERTION_FAILED'].includes(previous.code)
           )
             return;
