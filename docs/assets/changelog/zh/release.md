@@ -1,3 +1,14 @@
+# v2.2.1
+
+2026-10-30
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: preserve measured layout bounds when title size is unchanged, preventing charts from collapsing after resize and 图例 filtering
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.2.0...v2.2.1
+
+[更多详情请查看 v2.2.1](https://github.com/VisActor/VChart/releases/tag/v2.2.1)
 # v2.2.0
 
 2026-10-19
