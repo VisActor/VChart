@@ -374,3 +374,34 @@ test('阶段超时、中断及退出码异常不能被已完成用例或旧版�
       }
     });
 });
+
+// 扩展套件只提供自身用例时，共享 reporter 的全部依赖也必须一并冻结。
+test('扩展冻结包含可实际导入的业务断言协议', async () => {
+  const { runVisual } = await import('./visual/runner.mjs');
+  const { pathToFileURL } = await import('node:url');
+  const dir = await fs.mkdtemp(path.join(tmpdir(), 'visual-extension-freeze-'));
+  try {
+    await fs.cp(new URL('../__tests__/visual/', import.meta.url), path.join(dir, 'packages/vchart/__tests__/visual'), {
+      recursive: true
+    });
+    const source = path.join(dir, 'extension/cases');
+    await fs.mkdir(source, { recursive: true });
+    await fs.writeFile(
+      path.join(source, 'index.mjs'),
+      "export const cases=[{id:'one',purpose:'冻结依赖',file:'./one.mjs'}]; export async function loadCase(){return (await import('./one.mjs')).default;}\n"
+    );
+    await fs.writeFile(path.join(source, 'one.mjs'), 'export default {createSpec(){return{}},async verify(){}};\n');
+    // 夹具刻意没有安装依赖；预检失败不能影响此前已完成的框架冻结校验。
+    assert.equal(await runVisual(dir, { 'self-compare': true }, { suitePath: 'extension' }), 2);
+    const runs = path.join(dir, '.vchart-visual/runs');
+    const run = path.join(runs, (await fs.readdir(runs))[0]);
+    const report = JSON.parse(await fs.readFile(path.join(run, 'summary.json')));
+    assert.ok(report.issues.some(issue => issue.code === 'PREFLIGHT_FAILED'));
+    const { default: Reporter } = await import(pathToFileURL(path.join(run, 'suite/reporter.mjs')));
+    const { assertionError, isBusinessAssertion } = await import(pathToFileURL(path.join(run, 'suite/assertions.mjs')));
+    assert.equal(typeof Reporter, 'function');
+    assert.equal(isBusinessAssertion(assertionError('冻结依赖已包含')), true);
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
+});

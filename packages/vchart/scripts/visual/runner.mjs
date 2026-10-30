@@ -225,7 +225,7 @@ export async function runVisual(root, options, configuration = {}) {
     const suite = path.join(runDir, 'suite');
     const source = path.join(root, suitePath);
     await fs.mkdir(suite, { recursive: true });
-    for (const file of ['settings.mjs', 'playwright.config.mjs', 'visual.spec.mjs', 'reporter.mjs', 'page.html']) {
+    for (const file of ['settings.mjs', 'playwright.config.mjs', 'visual.spec.mjs', 'reporter.mjs', 'assertions.mjs', 'page.html']) {
       await fs.copyFile(path.join(root, 'packages/vchart/__tests__/visual', file), path.join(suite, file));
     }
     await fileManifest(source);
