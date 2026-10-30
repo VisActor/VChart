@@ -57,6 +57,30 @@ export async function resolveBaseline(root, sha, runtime, log) {
   if (sha && resolved !== sha.toLowerCase()) throw fault('BASELINE_FETCH_FAILED', '基线 SHA 与请求不一致');
   return resolved;
 }
+/** 离线依赖绑定已提交配置；拒绝暂存、未暂存及新增配置，保留普通源码修改。 */
+export function assertOfflineDependencyConfiguration(root) {
+  const options = { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 };
+  const changed = [
+    ...execFileSync(
+      'git',
+      ['diff', '--no-ext-diff', '--no-textconv', '--name-only', '--no-renames', '-z', 'HEAD', '--'],
+      options
+    ).split('\0'),
+    ...execFileSync('git', ['ls-files', '--others', '--exclude-standard', '-z'], options).split('\0')
+  ].find(
+    file =>
+      file === 'rush.json' ||
+      file === 'package.json' ||
+      file.endsWith('/package.json') ||
+      file.startsWith('common/config/rush/')
+  );
+  if (changed)
+    throw fault(
+      'DEPENDENCIES_CHANGED',
+      `离线运行的依赖配置存在未提交修改：${JSON.stringify(changed)}；请先提交并准备匹配依赖`
+    );
+}
+
 /** 每侧逐文件核对冻结提交的工程清单，拒绝目录链接读取快照之外的内容。 */
 export async function offlineConfiguration(root, sha, snapshot = process.env.VISUAL_BASELINE_DEPENDENCIES ?? root) {
   const directory = await fs.realpath(snapshot);

@@ -4,7 +4,16 @@ import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { randomUUID } from 'node:crypto';
 import { createRuntime, serve, fault, digest, atomicJson, fileManifest } from './runtime.mjs';
-import { git, workingTree, resolveBaseline, build, baselineBuild, official, offlineConfiguration } from './build.mjs';
+import {
+  git,
+  workingTree,
+  resolveBaseline,
+  build,
+  baselineBuild,
+  official,
+  offlineConfiguration,
+  assertOfflineDependencyConfiguration
+} from './build.mjs';
 import { saveReport } from '../../__tests__/visual/report.mjs';
 
 /** 验证元数据和可执行契约，只导入实际使用的清单目录。 */
@@ -269,13 +278,17 @@ export async function runVisual(root, options, configuration = {}) {
         frozenPath: `suite/cases/${file.slice(2)}`
       }
     }));
-    // 自动安装快照由宿主提供；当前侧也在启动浏览器前核对，不能误用旧依赖。
-    if (runtime.offline && process.env.VISUAL_HEAD_DEPENDENCIES)
-      await offlineConfiguration(root, git(root, ['rev-parse', 'HEAD']), process.env.VISUAL_HEAD_DEPENDENCIES);
+    // 离线依赖必须匹配实际工作区；提前保存快照也覆盖预检期间的源码变化。
+    if (runtime.offline) {
+      report.local = await workingTree(root);
+      assertOfflineDependencyConfiguration(root);
+      if (process.env.VISUAL_HEAD_DEPENDENCIES)
+        await offlineConfiguration(root, report.local.head, process.env.VISUAL_HEAD_DEPENDENCIES);
+    }
     report.environment = { ...report.environment, ...(await timed('preflightMs', () => preflight(root, runtime))) };
     await fs.symlink(path.join(root, 'packages/vchart/node_modules'), path.join(runDir, 'node_modules'), 'dir');
     runtime.defer(() => fs.rm(path.join(runDir, 'node_modules'), { force: true }));
-    report.local = await workingTree(root);
+    report.local ??= await workingTree(root);
     report.stage = 'fetch';
     const log = path.join(runDir, 'build.log');
     const sha = options['self-compare']
