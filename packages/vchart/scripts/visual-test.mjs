@@ -14,6 +14,7 @@ export function parseOptions(args) {
       tokens: true,
       options: {
         baseline: { type: 'string' },
+        offline: { type: 'boolean' },
         case: { type: 'string' },
         dir: { type: 'string' },
         'self-compare': { type: 'boolean' },
@@ -35,6 +36,7 @@ export function parseOptions(args) {
     (values.list || values.check) &&
     ((values.list && values.check) ||
       values.baseline !== undefined ||
+      values.offline ||
       values.case !== undefined ||
       values.dir !== undefined ||
       values['self-compare'])
@@ -43,6 +45,7 @@ export function parseOptions(args) {
   if (values.baseline !== undefined && !/^[a-f0-9]{40}$/i.test(values.baseline))
     throw fault('INVALID_ARGUMENT', '--baseline 需要完整 40 位 SHA');
   if (values.baseline && values['self-compare']) throw fault('INVALID_ARGUMENT', '--baseline 与 --self-compare 互斥');
+  if (values.offline && !values.baseline) throw fault('INVALID_ARGUMENT', '--offline 需要已准备的 --baseline 完整 SHA');
   if (values.case !== undefined && !/^[a-z][a-z0-9-]*$/.test(values.case))
     throw fault('INVALID_ARGUMENT', '--case 需要有效用例 ID');
   return values;
@@ -56,7 +59,7 @@ export async function main(configuration = {}) {
   if (options.help) {
     console.log(
       command +
-        ' [--baseline <40位SHA> | --self-compare] [--dir <目录> | --case <id>]\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
+        ' [--baseline <40位SHA> [--offline] | --self-compare] [--dir <目录> | --case <id>]\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--offline 使用已准备提交与逐侧校验的依赖，不联网或安装。\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
     );
     return;
   }
