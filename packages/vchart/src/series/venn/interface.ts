@@ -17,7 +17,10 @@ export interface IVennSeriesSpec extends ISeriesSpec, IAnimationSpec<VennMark, V
    * 权重字段
    */
   valueField: string;
-
+  /**
+   * 空集合标签
+   */
+  emptySetKey?: string;
   /**
    * 圆形图元配置
    */

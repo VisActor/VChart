@@ -3,10 +3,10 @@ import { getVennSeriesDataKey } from './util';
 
 export class VennTooltipHelper extends BaseSeriesTooltipHelper {
   dimensionTooltipTitleCallback = (datum: any) => {
-    return getVennSeriesDataKey(datum?.[this.series.getDimensionField()[0]]);
+    return getVennSeriesDataKey(datum?.[this.series.getDimensionField()[0]], this.series.getSpec().emptySetKey);
   };
 
   markTooltipKeyCallback = (datum: any) => {
-    return getVennSeriesDataKey(datum?.[this.series.getDimensionField()[0]]);
+    return getVennSeriesDataKey(datum?.[this.series.getDimensionField()[0]], this.series.getSpec().emptySetKey);
   };
 }

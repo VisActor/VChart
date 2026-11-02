@@ -9,6 +9,7 @@ export class VennChartSpecTransformer<T extends IVennChartSpec = IVennChartSpec>
     const series: any = super._getDefaultSeriesSpec(spec, [
       'categoryField',
       'valueField',
+      'emptySetKey',
       'circle',
       'overlap',
       'overlapLabel'
