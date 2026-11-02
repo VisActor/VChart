@@ -129,6 +129,6 @@ const spec = {
 
 ## Related documents
 
-*  [Tutorial on Data Types and Data Definitions](https%3A%2F%2Fwww.visactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FData%2FData_Types_and_Interface)</br>
-*  [VChart github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  [Tutorial on Data Types and Data Definitions](https://www.visactor.com/vchart/guide/tutorial_docs/Chart_Concepts/Data/Data_Types_and_Interface)</br>
+*  [VChart github](https://github.com/VisActor/VChart)</br>
 

@@ -2,6 +2,8 @@
 
 # sequenceAnalysisChart
 
+**Version requirement:** `sequenceAnalysis` is available from `@visactor/vchart-extension` since **VChart 2.2.0**. Use **2.2.0 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
 A sequence analysis extension that places users on the vertical axis and events on a time, step or medium axis. Register it from `@visactor/vchart-extension` before use. Use matching package versions that include this feature.
 
 ```js
@@ -16,7 +18,7 @@ The transformer generates a common chart, dot/link series, axes and zoom compone
 
 ## type(string) = 'sequenceAnalysis'
 
-Required. Distinct from the built-in `sequence` chart and the `sequenceScatterLink` extension.
+Required. Distinct from the `sequence` chart and the `sequenceScatterLink` extension.
 
 ## mode(string)
 

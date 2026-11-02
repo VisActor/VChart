@@ -4,18 +4,23 @@ group: extension chart
 title: Clock Storyline
 keywords: extension, storyline, clock
 order: 11
+cover: /vchart/preview/storyline-clock.png
 option: storylineChart
 ---
 
 # Clock Storyline
 
-This example uses the `clock` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its six milestones, images and theme with shorter titles and descriptions while adapting the chart width and height to its container.
+**Version requirement:** `storyline` is available from `@visactor/vchart-extension` since **VChart 2.1.7**. Use **2.1.7 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
+This example uses the `clock` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its six milestones, images and theme with shorter titles and descriptions using a fixed-size canvas with scrolling inside this demo.
 
 The data covers six World Cup milestones from 1930 to 2022. Each milestone uses a short Chinese title and a one-sentence description.
 
 ## Key Configurations
 
-- `autoFit: true`: adapt width and height to the container without fixed `width` or `height` values; the demo container scales with the page at a `16 / 9` aspect ratio.
+- `autoFit: false`, `width: 1200`, `height: 675`: keep a fixed canvas size.
+- `scrollContainer`: fill the preview area and use `overflow: auto` to view the larger canvas without changing the site's outer container styles.
+- `window.customRelease`: remove this demo's DOM when rerunning or switching examples so scrollbars do not persist.
 - `layout: 'clock'`: arrange six World Cup nodes along a circular orbit in data order.
 - `titleImage`: use a compact `180 × 60` theme image at the top to leave room for the orbit and node text.
 - `title.style` and `content.style`: use a title font size of `14` with a line height of `18`, and a content font size of `11` with a line height of `14`. Keep one short sentence per node.
@@ -29,7 +34,11 @@ The data covers six World Cup milestones from 1930 to 2022. Each milestone uses 
 // import VChart from '@visactor/vchart';
 // import { registerStorylineChart } from '@visactor/vchart-extension';
 // The documentation demo provides the VChartExtension global.
-const { registerStorylineChart } = VChartExtension;
+// storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
+// Register when available in the live demo; this chart still requires a supported version.
+if (VChartExtension.registerStorylineChart) {
+  VChartExtension.registerStorylineChart();
+}
 
 const TITLE_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/title-world-cap.png';
 const themeColor = 'rgb(228,154,56)';
@@ -38,9 +47,13 @@ const titleImage = {
   width: 180,
   height: 60
 };
+const chartWidth = 1200;
+const chartHeight = 675;
 const spec = {
   type: 'storyline',
-  autoFit: true,
+  autoFit: false,
+  width: chartWidth,
+  height: chartHeight,
   padding: [16, 8, 16, 8],
   block: { padding: 0 },
   layout: 'clock',
@@ -92,15 +105,37 @@ const spec = {
   ]
 };
 
-// Scale the demo container with the page width and preserve the original case aspect ratio.
+// Keep the canvas size fixed and scrolling local to this demo.
 const container = document.getElementById(CONTAINER_ID);
-container.style.width = '100%';
-container.style.height = 'auto';
-container.style.contain = 'size';
-container.style.aspectRatio = '16 / 9';
+const scrollContainer = document.createElement('div');
+Object.assign(scrollContainer.style, {
+  position: 'absolute',
+  top: '0',
+  right: '0',
+  bottom: '0',
+  left: '0',
+  overflow: 'auto'
+});
 
-registerStorylineChart();
-const vchart = new VChart(spec, { dom: container });
+const chartContainer = document.createElement('div');
+Object.assign(chartContainer.style, {
+  position: 'relative',
+  width: `${chartWidth}px`,
+  height: `${chartHeight}px`
+});
+scrollContainer.appendChild(chartContainer);
+container.appendChild(scrollContainer);
+
+// The site releases the chart instance; only remove this demo's DOM here.
+const cleanup = () => {
+  scrollContainer.remove();
+  if (window.customRelease === cleanup) {
+    delete window.customRelease;
+  }
+};
+window.customRelease = cleanup;
+
+const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!

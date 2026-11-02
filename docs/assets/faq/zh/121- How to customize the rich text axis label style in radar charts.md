@@ -18,7 +18,7 @@ VChart 能否支持类似富文本样式的轴标签样式？</br>
 通过格式化函数 `formatMethod` 配置 `axes[0].label` 为富文本。</br>
 `formatMethod` 返回一个富文本内容的配置对象</br>
 1. `type: 'rich'`：定义返回文本类型为富文本</br>
-1. `text`: 富文本的详细配置。支持文字和图片两种类型，详细配置可以参考[配置项文档](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart%23title.textStyle.character)。</br>
+1. `text`: 富文本的详细配置。支持文字和图片两种类型，详细配置可以参考[配置项文档](https://visactor.io/vchart/option/barChart#title.textStyle.character)。</br>
 ```
 formatMethod: (value, data, c, d) => {
   return {

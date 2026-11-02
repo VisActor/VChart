@@ -103,6 +103,6 @@ const spec = {
 
 ## Related documents
 
-*  [github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
-*  [style.zIndex configuration document](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart%23line.style.zIndex)</br>
+*  [github](https://github.com/VisActor/VChart)</br>
+*  [style.zIndex configuration document](https://visactor.com/vchart/option/lineChart#line.style.zIndex)</br>
 

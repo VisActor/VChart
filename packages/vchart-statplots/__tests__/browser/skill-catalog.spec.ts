@@ -19,3 +19,26 @@ for (const entry of catalog) {
     expect(errors).toEqual([]);
   });
 }
+
+const variants: Record<string, { name: string; example: string }[]> = JSON.parse(
+  fs.readFileSync(path.join(resource, 'variants.json'), 'utf8')
+);
+for (const [type, items] of Object.entries(variants)) {
+  for (const entry of items) {
+    test(`published UMD renders local variant ${entry.example}`, async ({ page }) => {
+      const spec = JSON.parse(fs.readFileSync(path.join(resource, entry.example), 'utf8'));
+      expect(spec.type).toBe(type);
+      const errors: string[] = [];
+      page.on('pageerror', error => errors.push(error.message));
+      const html = generate({
+        version: 1,
+        title: entry.name,
+        charts: [{ id: 'plot', spec, source: { label: '发布变体示例' } }]
+      });
+      await openGenerated(page, html);
+      await expectRendered(page);
+      expect((await marks(page, 'plot')).length).toBeGreaterThan(0);
+      expect(errors).toEqual([]);
+    });
+  }
+}

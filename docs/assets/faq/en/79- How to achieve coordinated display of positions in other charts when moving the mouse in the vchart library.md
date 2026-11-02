@@ -11,13 +11,13 @@ I encountered a problem when using the vchart library. I hope that when I move t
 # Solution
 
 This linkage effect can indeed be achieved. You need to listen to the dimensionHover event of a chart and then simulate dimensionHover for other charts.</br>
-First, you need to use the `on `method to listen to the `dimensionHover `event of the chart. The detailed API usage can be referred to the [vchart API ](https%3A%2F%2Fvisactor.io%2Fvchart%2Fapi%2FAPI%2Fvchart%23on).</br>
+First, you need to use the `on `method to listen to the `dimensionHover `event of the chart. The detailed API usage can be referred to the [vchart API ](https://visactor.io/vchart/api/API/vchart#on).</br>
 ```
 vChart.on('dimensionHover', function(params) {
 // 处理逻辑
 });</br>
 ```
-Then, you can use the `setDimensionIndex `method to simulate the `dimensionHover `effect on other charts. Please refer to the [vchart API ](https%3A%2F%2Fvisactor.io%2Fvchart%2Fapi%2FAPI%2Fvchart%23setdimensionindex)for API details.</br>
+Then, you can use the `setDimensionIndex `method to simulate the `dimensionHover `effect on other charts. Please refer to the [vchart API ](https://visactor.io/vchart/api/API/vchart#setdimensionindex)for API details.</br>
 ```
 vChart.setDimensionIndex(value, {
 // options
@@ -28,6 +28,6 @@ Among them,</br>
 *  `Options `is a DimensionIndexOption type of parameter that can be used to filter the axis to trigger the dimension effect, configure tooltips and crosshairs, etc.</br>
 # Related Documents
 
-*  [vchart on API](https%3A%2F%2Fvisactor.io%2Fvchart%2Fapi%2FAPI%2Fvchart%23on)</br>
-*  [vchart setDimensionIndex API](https%3A%2F%2Fvisactor.io%2Fvchart%2Fapi%2FAPI%2Fvchart%23setdimensionindex)</br>
+*  [vchart on API](https://visactor.io/vchart/api/API/vchart#on)</br>
+*  [vchart setDimensionIndex API](https://visactor.io/vchart/api/API/vchart#setdimensionindex)</br>
 

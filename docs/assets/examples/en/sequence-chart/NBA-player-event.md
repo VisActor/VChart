@@ -10,12 +10,14 @@ option: sequenceChart
 
 # NBA Athlete Timing Chart
 
-`dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
+Since **2.2.0**, the `dot` and `link` series have also moved to `@visactor/vchart-extension`. The core package no longer exports or automatically registers `DotSeries`, `LinkSeries`, `registerDotSeries`, or `registerLinkSeries`; import `IDotSeriesSpec` and `ILinkSeriesSpec` from the extension package as well. `registerSequenceChart({ VChart })` and `registerSequenceAnalysis({ VChart })` register their required series. For standalone use in a `common` chart, import and call `registerDotSeries()` and `registerLinkSeries()` from the extension package.
 
 NBA player timing chart tracks each player's dribble time. Users can quickly see game times, changes made by coaches, and lineups.
 This use case only configures the dot or link series, not the column series. If you need to show pure timing data, you can refer to this use case.
 
-The sequence chart is provided by `@visactor/vchart-extension`. Install the extension package with the same version as VChart and call `registerSequenceChart({ VChart })` before creating a chart. Existing `type: 'sequence'` and series configuration remain unchanged.
+Since **VChart 2.2.0**, the sequence chart (`type: 'sequence'`) has moved from the core package to `@visactor/vchart-extension`. Install the extension package with the same version as VChart and call `registerSequenceChart({ VChart })` before creating a chart. Existing `type: 'sequence'` and series configuration remain unchanged.
+
+**Older versions:** The full VChart bundle before 2.2.0 includes the sequence chart and does not require `registerSequenceChart` from the extension package. For on-demand imports, use the registration API from the matching core package. The live demos below check whether the extension registration function exists to support version switching. With 2.2.0 or later, you must still install and load the extension package matching VChart; the existence check does not replace that requirement.
 
 ## Key option
 
@@ -51,10 +53,15 @@ The data of the link series depends on the event series
 ## Demo source
 
 ```javascript livedemo
+// Business usage with VChart 2.2.0 or later (use matching package versions):
 // import VChart from '@visactor/vchart';
 // import { registerSequenceChart } from '@visactor/vchart-extension';
 // registerSequenceChart({ VChart });
-VChartExtension.registerSequenceChart({ VChart });
+// Since VChart 2.2.0, sequence requires registration from the matching @visactor/vchart-extension.
+// Older full bundles include this chart; check the function to support switching demo versions.
+if (VChartExtension.registerSequenceChart) {
+  VChartExtension.registerSequenceChart({ VChart });
+}
 
 const spec = {
   type: 'sequence',

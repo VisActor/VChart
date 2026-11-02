@@ -13,8 +13,8 @@ How to adjust the column spacing of a bar chart?</br>
 ## Solution
 
 The following configuration is provided on VChart for adjusting column spacing:</br>
-1. In terms of `axes` configuration, the [`paddingInner`](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart-axes-band%23paddingInner(number%257Cnumber%255B%255D)) and [`paddingOuter`](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart-axes-band%23paddingOuter(number%257Cnumber%255B%255D)) properties are provided for axes of type `type: 'band'`, which are used to configure the spacing within and outside the group</br>
-1. For grouped bar charts, you can also use the [`barGapInGroup`](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart%23barGapInGroup) property to adjust the bar spacing within each group in the grouped bar chart. You can set absolute pixel values or use percentages (such as' 10% ').</br>
+1. In terms of `axes` configuration, the [`paddingInner`](https://visactor.io/vchart/option/barChart-axes-band#paddingInner(number%7Cnumber%5B%5D)) and [`paddingOuter`](https://visactor.io/vchart/option/barChart-axes-band#paddingOuter(number%7Cnumber%5B%5D)) properties are provided for axes of type `type: 'band'`, which are used to configure the spacing within and outside the group</br>
+1. For grouped bar charts, you can also use the [`barGapInGroup`](https://visactor.io/vchart/option/barChart#barGapInGroup) property to adjust the bar spacing within each group in the grouped bar chart. You can set absolute pixel values or use percentages (such as' 10% ').</br>
 ## Code Example
 
 ### `barGapInGroup`

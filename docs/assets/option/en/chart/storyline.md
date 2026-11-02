@@ -2,6 +2,8 @@
 
 # storylineChart
 
+**Version requirement:** `storyline` is available from `@visactor/vchart-extension` since **VChart 2.1.7**. Use **2.1.7 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
 A Storyline chart presents an ordered sequence of nodes with images, titles and descriptions. It supports landscape, portrait, clock, arc and wing layouts.
 
 Install the extension package with the same version as `@visactor/vchart` and register the chart before use:

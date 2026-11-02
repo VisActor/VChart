@@ -1,22 +1,42 @@
 // Maintainer-only sync; installed skills never run npm or this script.
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { mkdir, mkdtemp, readFile, writeFile, rm, rename, access, readdir } from 'node:fs/promises';
+import fs, { mkdir, mkdtemp, readFile, writeFile, rm, access, readdir } from 'node:fs/promises';
 import { readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { resolve, dirname, join } from 'node:path';
+import { resolve, dirname, join, sep } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { posix } from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
 import ts from 'typescript';
 
-export const version = '2.1.8-alpha.0';
 const repository = fileURLToPath(new URL('../../../', import.meta.url));
 const skill = join(repository, 'skills/data-science-visualization');
+export function readReleaseVersion(file) {
+  const release = JSON.parse(readFileSync(file, 'utf8'));
+  const value = release?.version;
+  if (typeof value !== 'string' || !/^[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z]+(?:[.-][0-9A-Za-z]+)*)?$/.test(value) || value.trim() !== value) {
+    throw new Error(`${file}: version 需要固定发布版本（主.次.补丁，可含预发布标识）`);
+  }
+  return value;
+}
+export const version = readReleaseVersion(join(skill, 'release.json'));
 const defaultRoot = join(skill, 'references/statplots');
+const defaultManifestPath = join(repository, 'packages/vchart-statplots/skill-maintenance/manifest.json');
 const selectorsPath = join(repository, 'packages/vchart-statplots/scripts/visualization-skill-resources.json');
 const generatorPath = 'packages/vchart-statplots/scripts/sync-visualization-skill.mjs';
 const hash = bytes => createHash('sha256').update(bytes).digest('hex');
 const releaseURL = name => `https://unpkg.com/@visactor/vchart-statplots@${version}/${name}`;
+const variantExamplePattern = /^examples\/specs\/variants\/[A-Za-z0-9_-]+\.json$/;
+function resourceManifestPath(root, manifestPath) {
+  if (manifestPath === undefined) {
+    if (resolve(root) !== defaultRoot) throw new Error('Custom resource root requires manifestPath (--manifest)');
+    return defaultManifestPath;
+  }
+  const path = resolve(manifestPath);
+  if (path === resolve(root) || path.startsWith(resolve(root) + sep)) throw new Error('Manifest must be outside the resource root');
+  return path;
+}
 function declarationPath(from, target) {
   if (!target.startsWith('.')) throw new Error(`External declaration import: ${target}`);
   const name = posix.normalize(posix.join(posix.dirname(from), target));
@@ -89,9 +109,12 @@ export function buildPlotIndex(catalog, typeFiles) {
     if (!mapping.has(entry.type)) throw new Error(`Missing catalog declaration: ${entry.type}`);
     return { type: entry.type, name: entry.name, useWhen: entry.useWhen, avoidWhen: entry.avoidWhen,
       ...mapping.get(entry.type), guide: `guides/${entry.type}.md`, example: entry.example,
-      ...(entry.variants.length ? { variantFile: 'variants.json' } : {}),
-      fullDocsUrl: releaseURL(`docs/plots/${entry.type}.md`) };
+      ...(entry.variants.length ? { variantFile: 'variants.json' } : {}) };
   });
+}
+export function buildVariantIndex(catalog) {
+  return Object.fromEntries(catalog.filter(entry => entry.variants.length).map(entry => [entry.type,
+    entry.variants.map(({ name, aliases, options, example }) => ({ name, aliases, options, example }))]));
 }
 function markdownSections(text) {
   const clean = text.replace(/```[^\n]*\n[\s\S]*?```/g, '').trim();
@@ -143,20 +166,20 @@ function selectedMarkdown(text, selectors) {
 }
 function rewriteLinks(content, links) {
   return content.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, target) => {
-    if (/^(https?:|#)/.test(target)) return match;
-    const resolved = new URL(target, links.fullDocsUrl);
-    const name = resolved.pathname.split(`@${version}/`)[1]?.split('#')[0];
+    if (target.startsWith('#')) return match;
+    const resolved = new URL(target, links.sourceUrl);
+    const name = resolved.href.startsWith(releaseURL('')) ? resolved.pathname.split(`@${version}/`)[1] : null;
     if (name?.startsWith('schema/plots/') && links.typeFile) return `[TS 类型](${links.typeFile})`;
     if (name?.startsWith('examples/specs/minimal/')) return `[${label}](../${name}${resolved.hash})`;
     if (name?.startsWith('docs/plots/')) return `[${label}](${posix.basename(name)}${resolved.hash})`;
     if (name === 'docs/spec.md' || name === 'docs/colors.md') return `[${label}](common.md${resolved.hash})`;
-    return `[${label}](${resolved.href})`;
+    throw new Error(`Unmapped guide link: ${links.sourceUrl} -> ${target}`);
   });
 }
 export function buildPlotGuide(sourceText, selectors, links) {
   const title = sourceText.split('\n')[0];
   const body = rewriteLinks(selectedMarkdown(sourceText, selectors), links);
-  return `${title}\n\n[TS 类型](${links.typeFile}) · [最小输入](${links.example}) · [公共约束](common.md) · [完整文档](${links.fullDocsUrl})\n\n${body}\n`;
+  return `${title}\n\n[TS 类型](${links.typeFile}) · [最小输入](${links.example}) · [公共约束](common.md)\n\n${body}\n`;
 }
 export function verifyTarball(bytes, integrity) {
   const [algorithm, expected] = integrity.split('-');
@@ -167,9 +190,11 @@ async function get(url) {
   if (!result.ok) throw new Error(`${url}: HTTP ${result.status}`);
   return result;
 }
-export async function checkResources(root = defaultRoot, { checkWorkspace = true } = {}) {
-  const manifest = JSON.parse(await readFile(join(root, 'manifest.json'), 'utf8'));
-  if (manifest.version !== version || manifest.formatVersion !== 2) throw new Error('Unexpected resource version/format; sync required');
+export async function checkResources(root = defaultRoot, { manifestPath, checkWorkspace = true } = {}) {
+  manifestPath = resourceManifestPath(root, manifestPath);
+  const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
+  const snapshot = JSON.parse(await readFile(join(root, 'snapshot.json'), 'utf8'));
+  if (manifest.version !== version || snapshot.version !== version || manifest.formatVersion !== 3) throw new Error('Unexpected resource version/format; sync required');
   if (hash(await readFile(join(repository, generatorPath))) !== manifest.generator.sha256 ||
       hash(await readFile(selectorsPath)) !== manifest.generator.selectorsSha256) throw new Error('Resource generator/selectors changed; sync required');
   for (const [name, record] of Object.entries(manifest.files)) {
@@ -185,11 +210,12 @@ export async function checkResources(root = defaultRoot, { checkWorkspace = true
     }
   }
   await walk(root);
-  const expected = new Set(['manifest.json', ...Object.keys(manifest.files)]);
+  const expected = new Set(Object.keys(manifest.files));
   for (const name of names) if (!expected.has(name)) throw new Error(`Unexpected/stale resource: ${name}`);
   for (const name of expected) {
-    if (!['manifest.json','index.json','variants.json','package.json','LICENSE','THIRD_PARTY_LICENSES.md'].includes(name) &&
-        !/^(types\/.+\.d\.ts|guides\/[a-zA-Z]+\.md|examples\/specs\/minimal\/[a-zA-Z]+\.json)$/.test(name)) {
+    if (!['snapshot.json','index.json','variants.json','LICENSE','THIRD_PARTY_LICENSES.md'].includes(name) &&
+        !/^(types\/.+\.d\.ts|guides\/[a-zA-Z]+\.md|examples\/specs\/minimal\/[a-zA-Z]+\.json)$/.test(name) &&
+        !variantExamplePattern.test(name)) {
       throw new Error(`Unexpected/stale resource: ${name}`);
     }
   }
@@ -207,21 +233,35 @@ export async function checkResources(root = defaultRoot, { checkWorkspace = true
   });
   const derived = buildPlotIndex(catalog, files);
   for (let i = 0; i < index.length; i++) {
+    if (Object.hasOwn(index[i], 'fullDocsUrl')) throw new Error(`Remote index documentation: ${index[i].type}`);
+    for (const key of ['typeFile','guide','example']) {
+      const target = index[i][key];
+      if (/^(?:[a-z][a-z0-9+.-]*:|\/)/i.test(target)) throw new Error(`Local index target required: ${target}`);
+      if (!manifest.files[target]) throw new Error(`Missing index target: ${target}`);
+    }
     if (index[i].typeFile !== derived[i].typeFile || index[i].typeName !== derived[i].typeName || index[i].variantFile !== derived[i].variantFile) throw new Error(`Type index mismatch: ${index[i].type}`);
-    for (const key of ['typeFile','guide','example']) if (!manifest.files[index[i][key]]) throw new Error(`Missing index target: ${index[i][key]}`);
-    for (const url of [index[i].fullDocsUrl, ...catalog[i].variants.map(variant => variant.exampleUrl)]) {
-      if (!url.startsWith(releaseURL(''))) throw new Error(`Unpinned resource link: ${url}`);
+    for (const variant of catalog[i].variants) {
+      if (Object.hasOwn(variant, 'exampleUrl')) throw new Error(`Remote variant example: ${index[i].type}`);
+      if (!variantExamplePattern.test(variant.example)) throw new Error(`Local variant example required: ${variant.example}`);
+      if (!manifest.files[variant.example]) throw new Error(`Missing variant example: ${variant.example}`);
+      const spec = JSON.parse(await readFile(join(root, variant.example), 'utf8'));
+      if (spec.type !== index[i].type) throw new Error(`Variant example type mismatch: ${variant.example}`);
+      for (const [key, value] of Object.entries(variant.options)) {
+        if (!isDeepStrictEqual(spec[key], value)) throw new Error(`Variant example option mismatch: ${variant.example}: ${key}`);
+      }
     }
   }
   if (JSON.stringify(index.map(entry => entry.type)) !== JSON.stringify(manifest.supportedTypes)) throw new Error('Supported type list mismatch');
-  const referenced = new Set(['manifest.json','index.json','variants.json','package.json','LICENSE','THIRD_PARTY_LICENSES.md','guides/common.md',
+  const referenced = new Set(['snapshot.json','index.json','variants.json','LICENSE','THIRD_PARTY_LICENSES.md','guides/common.md',
     ...[...files.keys()].map(name => name.replace(/^esm\//,'types/')),
-    ...index.flatMap(entry => [entry.guide, entry.example])]);
+    ...index.flatMap(entry => [entry.guide, entry.example]),
+    ...Object.values(variants).flat().map(variant => variant.example)]);
   for (const name of expected) if (!referenced.has(name)) throw new Error(`Unreferenced resource: ${name}`);
   for (const name of names.filter(name => name.endsWith('.md'))) {
     const text = await readFile(join(root, name), 'utf8');
     if (name.startsWith('guides/') && /```json/.test(text)) throw new Error(`Duplicated inline example: ${name}`);
     for (const [,target] of text.matchAll(/\]\(([^)]+)\)/g)) {
+      if (name.startsWith('guides/') && /^(?:[a-z][a-z0-9+.-]*:|\/)/i.test(target)) throw new Error(`Remote guide link: ${name} -> ${target}`);
       if (/^(https?:|#)/.test(target)) continue;
       const local = posix.normalize(posix.join(posix.dirname(name), target.split('#')[0]));
       if (!manifest.files[local]) throw new Error(`Broken local link: ${name} -> ${target}`);
@@ -234,14 +274,59 @@ export async function checkResources(root = defaultRoot, { checkWorkspace = true
   }
   return manifest;
 }
-export async function syncResources(root = defaultRoot) {
+export async function publishSnapshot({ root, stagingRoot, manifestPath, stagingManifestPath, controllerPath, controllerBytes, validate }) {
+  const backupRoot = `${root}.backup-${process.pid}`;
+  const backupManifest = `${manifestPath}.backup-${process.pid}`;
+  let rootBackedUp = false, manifestBackedUp = false, rootInstalled = false, manifestInstalled = false, controllerTouched = false;
+  const previousController = controllerBytes === undefined ? undefined : await fs.readFile(controllerPath).catch(error => {
+    if (error.code !== 'ENOENT') throw error;
+    return null;
+  });
+  try {
+    try { await fs.rename(root, backupRoot); rootBackedUp = true; } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    try { await fs.rename(manifestPath, backupManifest); manifestBackedUp = true; } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    await fs.rename(stagingRoot, root); rootInstalled = true;
+    await fs.rename(stagingManifestPath, manifestPath); manifestInstalled = true;
+    if (controllerBytes !== undefined) {
+      await fs.mkdir(dirname(controllerPath), { recursive: true });
+      controllerTouched = true;
+      await fs.writeFile(controllerPath, controllerBytes);
+    }
+    await validate();
+  } catch (error) {
+    const rollback = await Promise.allSettled([
+      (async () => {
+        if (rootInstalled) await fs.rm(root, { recursive: true, force: true });
+        if (rootBackedUp) await fs.rename(backupRoot, root);
+      })(),
+      (async () => {
+        if (manifestInstalled) await fs.rm(manifestPath, { force: true });
+        if (manifestBackedUp) await fs.rename(backupManifest, manifestPath);
+      })(),
+      (async () => {
+        if (!controllerTouched) return;
+        if (previousController === null) await fs.rm(controllerPath, { force: true });
+        else await fs.writeFile(controllerPath, previousController);
+      })()
+    ]);
+    const failures = rollback.filter(result => result.status === 'rejected').map(result => result.reason);
+    if (failures.length) throw new AggregateError([error, ...failures], 'Snapshot publication and rollback failed; preserve remaining backups');
+    throw error;
+  } finally {
+    await fs.rm(stagingRoot, { recursive: true, force: true });
+    await fs.rm(stagingManifestPath, { force: true });
+  }
+  await fs.rm(backupRoot, { recursive: true, force: true });
+  await fs.rm(backupManifest, { force: true });
+}
+export async function syncResources(root = defaultRoot, { manifestPath } = {}) {
+  manifestPath = resourceManifestPath(root, manifestPath);
   const metadata = await (await get(`https://registry.npmjs.org/@visactor%2fvchart-statplots/${version}`)).json();
   const tarball = Buffer.from(await (await get(metadata.dist.tarball)).arrayBuffer());
   verifyTarball(tarball, metadata.dist.integrity);
   const temp = await mkdtemp(join(tmpdir(), 'dsv-sync-'));
   const staging = `${root}.staging-${process.pid}`;
-  const backup = `${root}.backup-${process.pid}`;
-  let backedUp = false;
+  const stagingManifestPath = `${manifestPath}.staging-${process.pid}`;
   try {
     const archive = join(temp, 'package.tgz');
     await writeFile(archive, tarball);
@@ -254,10 +339,10 @@ export async function syncResources(root = defaultRoot) {
     const catalog = JSON.parse(read('docs/plot-catalog.json'));
     const selectorsBytes = await readFile(selectorsPath);
     const selectors = JSON.parse(selectorsBytes);
-    if (selectors.version !== version || Object.keys(selectors.plots).length !== catalog.length) throw new Error('Selector release/coverage mismatch');
+    if (Object.keys(selectors.plots).length !== catalog.length) throw new Error('Selector coverage mismatch');
     const typeFiles = collectTypeFiles('esm/types.d.ts', name => read(name).toString());
     const index = buildPlotIndex(catalog, typeFiles);
-    const manifest = { formatVersion: 2, package: metadata.name, version, license: metadata.license,
+    const manifest = { formatVersion: 3, package: metadata.name, version, license: metadata.license,
       integrity: metadata.dist.integrity, tarball: metadata.dist.tarball,
       generator: { source: generatorPath, sha256: hash(await readFile(join(repository, generatorPath))), selectorsSha256: hash(selectorsBytes) },
       supportedTypes: catalog.map(entry => entry.type), files: {}, workspaceAssets: {} };
@@ -267,29 +352,34 @@ export async function syncResources(root = defaultRoot) {
       await writeFile(join(staging, name), bytes);
       manifest.files[name] = { ...origin, sha256: hash(bytes) };
     }
-    for (const name of ['package.json','THIRD_PARTY_LICENSES.md']) await write(name, read(name), sourceRecord(name));
+    await write('snapshot.json', Buffer.from(JSON.stringify({ version }, null, 2) + '\n'), {
+      sources: [], transform: { rule: 'snapshot-version-v1' }
+    });
+    await write('THIRD_PARTY_LICENSES.md', read('THIRD_PARTY_LICENSES.md'), sourceRecord('THIRD_PARTY_LICENSES.md'));
     for (const [name, content] of typeFiles) await write(name.replace(/^esm\//,'types/'), Buffer.from(content), sourceRecord(name));
     for (const entry of index) {
       await write(entry.example, read(entry.example), sourceRecord(entry.example));
       const name = `docs/plots/${entry.type}.md`;
       const guide = buildPlotGuide(read(name).toString(), selectors.plots[entry.type], {
-        typeFile: '../' + entry.typeFile, example: '../' + entry.example, fullDocsUrl: entry.fullDocsUrl
+        typeFile: '../' + entry.typeFile, example: '../' + entry.example, sourceUrl: releaseURL(name)
       });
-      await write(entry.guide, Buffer.from(guide), { sources: [sourceRecord(name)], transform: { rule: 'plot-guide-v1', selectors: selectors.plots[entry.type] } });
+      await write(entry.guide, Buffer.from(guide), { sources: [sourceRecord(name)], transform: { rule: 'plot-guide-v2', selectors: selectors.plots[entry.type] } });
     }
     const common = selectors.common.map(settings => rewriteLinks(selectedMarkdown(read(settings.source).toString(), settings), {
-      fullDocsUrl: releaseURL(settings.source)
+      sourceUrl: releaseURL(settings.source)
     })).join('\n\n');
     await write('guides/common.md', Buffer.from('# 公共输入与表达约束\n\n' + common + '\n'), {
       sources: [...new Set(selectors.common.map(item => item.source))].map(sourceRecord), transform: { rule: 'common-guide-v1', selectors: selectors.common }
     });
     await write('index.json', Buffer.from('[\n' + index.map(entry => JSON.stringify(entry)).join(',\n') + '\n]\n'), {
-      sources: [sourceRecord('docs/plot-catalog.json'), ...[...typeFiles.keys()].map(sourceRecord)], transform: { rule: 'type-index-v1' }
+      sources: [sourceRecord('docs/plot-catalog.json'), ...[...typeFiles.keys()].map(sourceRecord)], transform: { rule: 'type-index-v2' }
     });
-    const variants = catalog.filter(entry => entry.variants.length).map(entry => [entry.type,
-      entry.variants.map(({name,aliases,options,example}) => ({name,aliases,options,exampleUrl:releaseURL(example)}))]);
-    await write('variants.json', Buffer.from('{\n' + variants.map(([type,values]) => `${JSON.stringify(type)}:${JSON.stringify(values)}`).join(',\n') + '\n}\n'), {
-      sources: [sourceRecord('docs/plot-catalog.json')], transform: { rule: 'variant-index-v1' }
+    const variants = buildVariantIndex(catalog);
+    for (const name of new Set(Object.values(variants).flat().map(variant => variant.example))) {
+      await write(name, read(name), sourceRecord(name));
+    }
+    await write('variants.json', Buffer.from('{\n' + Object.entries(variants).map(([type,values]) => `${JSON.stringify(type)}:${JSON.stringify(values)}`).join(',\n') + '\n}\n'), {
+      sources: [sourceRecord('docs/plot-catalog.json')], transform: { rule: 'variant-index-v2' }
     });
     const license = await readFile(join(repository, 'LICENSE'));
     await writeFile(join(staging, 'LICENSE'), license);
@@ -302,35 +392,27 @@ export async function syncResources(root = defaultRoot) {
       controller = await readFile(join(repository, controllerPath));
       manifest.workspaceAssets[target] = { source: controllerPath, sha256: hash(controller) };
     } catch (error) { if (error.code !== 'ENOENT') throw error; }
-    await writeFile(join(staging, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
-    // Validate complete references before replacing either resource tree or controller copy.
-    await checkResources(staging, { checkWorkspace: false });
-    await mkdir(dirname(root), { recursive: true });
-    const previousController = controller ? await readFile(join(repository, target)).catch(error => { if (error.code !== 'ENOENT') throw error; return null; }) : null;
-    try { await rename(root, backup); backedUp = true; } catch (error) { if (error.code !== 'ENOENT') throw error; }
-    try {
-      await rename(staging, root);
-      if (controller) { await mkdir(dirname(join(repository, target)), { recursive: true }); await writeFile(join(repository, target), controller); }
-      await checkResources(root);
-    } catch (error) {
-      await rm(root, { recursive: true, force: true });
-      if (backedUp) await rename(backup, root);
-      if (controller && previousController) await writeFile(join(repository, target), previousController);
-      else if (controller) await rm(join(repository, target), { force: true });
-      throw error;
-    }
-    await rm(backup, { recursive: true, force: true });
+    await mkdir(dirname(stagingManifestPath), { recursive: true });
+    await writeFile(stagingManifestPath, JSON.stringify(manifest, null, 2) + '\n');
+    await checkResources(staging, { manifestPath: stagingManifestPath, checkWorkspace: false });
+    await publishSnapshot({
+      root, stagingRoot: staging, manifestPath, stagingManifestPath,
+      controllerPath: join(repository, target), controllerBytes: controller,
+      validate: () => checkResources(root, { manifestPath })
+    });
     console.log(`Synced ${typeFiles.size} declarations, ${index.length} guides/minimal inputs`);
   } finally {
     await rm(temp, { recursive: true, force: true });
     await rm(staging, { recursive: true, force: true });
+    await rm(stagingManifestPath, { force: true });
   }
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   const args = process.argv.slice(2);
   const root = args.includes('--root') ? resolve(args[args.indexOf('--root') + 1]) : defaultRoot;
+  const manifestPath = args.includes('--manifest') ? resolve(args[args.indexOf('--manifest') + 1]) : undefined;
   try {
-    if (args.includes('--check')) { await checkResources(root); console.log('Skill resources verified offline'); }
-    else await syncResources(root);
+    if (args.includes('--check')) { await checkResources(root, { manifestPath }); console.log('Skill resources verified offline'); }
+    else await syncResources(root, { manifestPath });
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }

@@ -1,6 +1,6 @@
 # 相关矩阵 `correlationMatrix`
 
-[TS 类型](../types/plots/correlation-matrix/types.d.ts) · [最小输入](../examples/specs/minimal/correlationMatrix.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/correlationMatrix.md)
+[TS 类型](../types/plots/correlation-matrix/types.d.ts) · [最小输入](../examples/specs/minimal/correlationMatrix.json) · [公共约束](common.md)
 
 从原始数值表格计算变量间的相关方向和强度。
 

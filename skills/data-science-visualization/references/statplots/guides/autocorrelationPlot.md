@@ -1,6 +1,6 @@
 # 自相关与偏自相关图 `autocorrelationPlot`
 
-[TS 类型](../types/plots/autocorrelation/types.d.ts) · [最小输入](../examples/specs/minimal/autocorrelationPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/autocorrelationPlot.md)
+[TS 类型](../types/plots/autocorrelation/types.d.ts) · [最小输入](../examples/specs/minimal/autocorrelationPlot.json) · [公共约束](common.md)
 
 `data: [{value: number, series?}]`，原始有限时间序列，按同系列在输入中的出现顺序计算，不排序、不插值、不丢弃缺失。
 

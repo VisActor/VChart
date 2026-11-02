@@ -28,7 +28,7 @@ For a complete demo, please visit the [this page](https://www.visactor.io/vchart
 
 ### Installation
 
-[https://www.npmjs.com/package/@visactor/vchart-ve-o-theme](https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40visactor%2Fvchart-ve-o-theme)
+[https://www.npmjs.com/package/@visactor/vchart-ve-o-theme](https://www.npmjs.com/package/@visactor/vchart-ve-o-theme)
 
 ```bash
 # npm

@@ -1,0 +1,17 @@
+{
+  "type": "kdePlot",
+  "data": [
+    {
+      "value": 2
+    },
+    {
+      "value": 2
+    },
+    {
+      "value": 2
+    }
+  ],
+  "estimation": {
+    "bandwidth": 0.5
+  }
+}

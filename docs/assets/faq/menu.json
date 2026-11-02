@@ -1150,7 +1150,7 @@
       "path": "145- How to show the full content of abbreviated text when hovering with the mouse",
       "title": {
         "zh": "145- 如何实现鼠标悬浮时展示缩略文字的全部内容？",
-        "en": "145- How to show the full content of abbreviated text when hovering with the mouse"
+        "en": "145- How to show the full content of abbreviated text when hovering with the mouse (Chinese only)"
       }
     },
     {
@@ -1478,7 +1478,7 @@
       "path": "186- How to add custom content to the bottom of a tooltip card in vChart",
       "title": {
         "zh": "186- 如何在vChart的tooltip卡片底部添加自定义内容？",
-        "en": "186- How to add custom content to the bottom of a tooltip card in vChart"
+        "en": "186- How to add custom content to the bottom of a tooltip card in vChart (Chinese only)"
       }
     },
     {

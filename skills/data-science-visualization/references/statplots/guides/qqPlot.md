@@ -1,6 +1,6 @@
 # Q–Q 图 `qqPlot`
 
-[TS 类型](../types/plots/qq/types.d.ts) · [最小输入](../examples/specs/minimal/qqPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/qqPlot.md)
+[TS 类型](../types/plots/qq/types.d.ts) · [最小输入](../examples/specs/minimal/qqPlot.json) · [公共约束](common.md)
 
 `data: [{value: number, series?}]`，原始有限数值，顺序任意、重复值有效。每系列独立排序，保留全部样本。
 

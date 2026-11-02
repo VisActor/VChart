@@ -1,0 +1,46 @@
+{
+  "type": "precisionRecallCurve",
+  "data": [
+    {
+      "actual": false,
+      "score": 0.1,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "score": 0.4,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "score": 0.35,
+      "series": "模型 A"
+    },
+    {
+      "actual": true,
+      "score": 0.8,
+      "series": "模型 A"
+    },
+    {
+      "actual": false,
+      "score": 0.14,
+      "series": "模型 B"
+    },
+    {
+      "actual": false,
+      "score": 0.44,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "score": 0.38999999999999996,
+      "series": "模型 B"
+    },
+    {
+      "actual": true,
+      "score": 0.8400000000000001,
+      "series": "模型 B"
+    }
+  ],
+  "baseline": true
+}

@@ -15,7 +15,7 @@ When the number of words in vchart word cloud is large and the canvas size is no
 # Solution
 
 The word cloud has a configuration `fontSizeRange` that controls the size range of words. The default value is `[20, 40]`. If you want the text to automatically adapt to the canvas size and fill the entire canvas, you can set it to `auto`.</br>
-Reference: [VisActor](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FwordCloudChart%23fontWeightRange)</br>
+Reference: [VisActor](https://visactor.io/vchart/option/wordCloudChart#fontWeightRange)</br>
 # Code Example
 
 ```
@@ -246,8 +246,8 @@ window['vchart'] = vchart;</br>
 After running the code, all the text is displayed (of course, the text has become smaller).</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/WmUAbesf6oiKBBxZzZGcfRhBnoc.gif' alt='' width='578' height='566'>
 
-Online demo: [https://codesandbox.io/p/sandbox/wordcloud-fontsizerange-x4cflw?file=%2Fsrc%2Findex.ts%3A12%2C3-12%2C16](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fwordcloud-fontsizerange-x4cflw%3Ffile%3D%252Fsrc%252Findex.ts%253A12%252C3-12%252C16)</br>
+Online demo: [https://codesandbox.io/p/sandbox/wordcloud-fontsizerange-x4cflw?file=%2Fsrc%2Findex.ts%3A12%2C3-12%2C16](https://codesandbox.io/p/sandbox/wordcloud-fontsizerange-x4cflw?file=%2Fsrc%2Findex.ts%3A12%2C3-12%2C16)</br>
 # Related Documents
 
-*  VChart word cloud `fontSizeRange` configuration: [VisActor](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FwordCloudChart%23fontWeightRange)</br>
-*  VChart github: [GitHub - VisActor/VChart: VChart, more than just a cross-platform charting library, but also an expressive data storyteller.](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart word cloud `fontSizeRange` configuration: [VisActor](https://visactor.io/vchart/option/wordCloudChart#fontWeightRange)</br>
+*  VChart github: [GitHub - VisActor/VChart: VChart, more than just a cross-platform charting library, but also an expressive data storyteller.](https://github.com/VisActor/VChart)</br>

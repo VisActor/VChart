@@ -365,3 +365,28 @@ export default {
 3. 动画配置优化
 
 详细迁移指南请参考：[VChart 2.0 升级指南](https://www.visactor.io/vchart/guide/tutorial_docs/migrate)
+
+
+## 图数据与层级数据
+
+桑基图先核对 [Sankey 数据与配置](../examples/sankey/basic-sankey.md)：数据源描述、图对象、边记录是不同层级；sourceField/targetField 只映射字段，不负责转换数据。
+
+### 层级图数据与回调
+
+Treemap / sunburst 的 `data` 是数据源描述，节点放在 `values` 数组中：
+
+```js
+const root = { name: 'Total', children: [{ name: 'One', amount: 3 }, { name: 'Two', amount: 7 }] };
+const spec = {
+  type: 'treemap', categoryField: 'name', valueField: 'amount',
+  data: { values: [root] }
+};
+```
+
+不要写 `data.value` 或把节点直接放在 `data` 数组里。保留所有叶子与原始字段，按实际层级组织 children；占比分母从完整输入求和。合法空输入为 `values: []`，文本数据可配 csv/dsv/tsv parser，数据引用不当作树节点检查。
+
+Treemap 的布局回调、分组颜色、标签和默认图例见 [Treemap 专项](treemap.md)。
+
+### 空数据与恢复
+
+保留真实空数据；0 值记录不等于无记录。中央提示使用 [图表级 customMark](../components/mark.md#空数据与居中提示)，不要把标题或虚构数据当作空状态。恢复后重新计算提示状态。

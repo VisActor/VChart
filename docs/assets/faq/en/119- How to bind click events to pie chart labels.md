@@ -97,6 +97,6 @@ window['vchart'] = vchart;</br>
 
 ## Related documents
 
-*  [Event API](https%3A%2F%2Fwww.visactor.io%2Fvchart%2Fapi%2FAPI%2Fevent)</br>
-*  [VChart github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  [Event API](https://www.visactor.io/vchart/api/API/event)</br>
+*  [VChart github](https://github.com/VisActor/VChart)</br>
 

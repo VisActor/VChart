@@ -10,6 +10,8 @@ option: sequenceAnalysisChart
 
 # Sequence Analysis: Time with Target Avatars
 
+**Version requirement:** `sequenceAnalysis` is available from `@visactor/vchart-extension` since **VChart 2.2.0**. Use **2.2.0 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
 **Design meaning: action targets.** Inspect whether multiple users act on the same object at similar times, such as sending messages to the same user.
 
 **Hypothetical scenario:** users A, B and C all message user T within the same minute. The time axis shows temporal concentration, while T's target avatar reveals concentration on the same recipient. T receives the actions rather than sending them.
@@ -23,8 +25,11 @@ option: sequenceAnalysisChart
 ## Demo
 
 ```javascript livedemo
-const { registerSequenceAnalysis } = VChartExtension;
-registerSequenceAnalysis({ VChart });
+// sequenceAnalysis requires VChart 2.2.0+ and the matching @visactor/vchart-extension.
+// Register when available in the live demo; this chart still requires a supported version.
+if (VChartExtension.registerSequenceAnalysis) {
+  VChartExtension.registerSequenceAnalysis({ VChart });
+}
 
 const eventData = [
   {

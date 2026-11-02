@@ -1,0 +1,427 @@
+{
+  "type": "residualPlot",
+  "residualKind": "studentized",
+  "data": [
+    {
+      "id": "A-0",
+      "fittedValue": 0.0,
+      "residual": 0.0,
+      "series": "A"
+    },
+    {
+      "id": "A-1",
+      "fittedValue": 0.2,
+      "residual": 0.07391099235586378,
+      "series": "A"
+    },
+    {
+      "id": "A-2",
+      "fittedValue": 0.4,
+      "residual": 0.1238259194618588,
+      "series": "A"
+    },
+    {
+      "id": "A-3",
+      "fittedValue": 0.6,
+      "residual": 0.1150401502987077,
+      "series": "A"
+    },
+    {
+      "id": "A-4",
+      "fittedValue": 0.8,
+      "residual": 0.04063586824618036,
+      "series": "A"
+    },
+    {
+      "id": "A-5",
+      "fittedValue": 1.0,
+      "residual": -0.06957968379312454,
+      "series": "A"
+    },
+    {
+      "id": "A-6",
+      "fittedValue": 1.2,
+      "residual": -0.16039127088523591,
+      "series": "A"
+    },
+    {
+      "id": "A-7",
+      "fittedValue": 1.4,
+      "residual": -0.17882862239240097,
+      "series": "A"
+    },
+    {
+      "id": "A-8",
+      "fittedValue": 1.6,
+      "residual": -0.10431020041738237,
+      "series": "A"
+    },
+    {
+      "id": "A-9",
+      "fittedValue": 1.8,
+      "residual": 0.03556308631434647,
+      "series": "A"
+    },
+    {
+      "id": "A-10",
+      "fittedValue": 2.0,
+      "residual": 0.17412540335052504,
+      "series": "A"
+    },
+    {
+      "id": "A-11",
+      "fittedValue": 2.2,
+      "residual": 0.2373860376629237,
+      "series": "A"
+    },
+    {
+      "id": "A-12",
+      "fittedValue": 2.4,
+      "residual": 0.18329758001832305,
+      "series": "A"
+    },
+    {
+      "id": "A-13",
+      "fittedValue": 2.6,
+      "residual": 0.027821721834678674,
+      "series": "A"
+    },
+    {
+      "id": "A-14",
+      "fittedValue": 2.8,
+      "residual": -0.15768001479736632,
+      "series": "A"
+    },
+    {
+      "id": "A-15",
+      "fittedValue": 3.0,
+      "residual": -0.27902889401702685,
+      "series": "A"
+    },
+    {
+      "id": "A-16",
+      "fittedValue": 3.2,
+      "residual": -0.26699868131005006,
+      "series": "A"
+    },
+    {
+      "id": "A-17",
+      "fittedValue": 3.4,
+      "residual": -0.11606378169940319,
+      "series": "A"
+    },
+    {
+      "id": "A-18",
+      "fittedValue": 3.6,
+      "residual": 0.10724701834397916,
+      "series": "A"
+    },
+    {
+      "id": "A-19",
+      "fittedValue": 3.8,
+      "residual": 0.29327594272230456,
+      "series": "A"
+    },
+    {
+      "id": "A-20",
+      "fittedValue": 4.0,
+      "residual": 0.343083880804109,
+      "series": "A"
+    },
+    {
+      "id": "A-21",
+      "fittedValue": 4.2,
+      "residual": 0.22077845793269354,
+      "series": "A"
+    },
+    {
+      "id": "A-22",
+      "fittedValue": 4.4,
+      "residual": -0.023220126471021493,
+      "series": "A"
+    },
+    {
+      "id": "A-23",
+      "fittedValue": 4.6,
+      "residual": -0.27218301691123126,
+      "series": "A"
+    },
+    {
+      "id": "A-24",
+      "fittedValue": 4.8,
+      "residual": -0.39886931550963195,
+      "series": "A"
+    },
+    {
+      "id": "A-25",
+      "fittedValue": 5.0,
+      "residual": -0.3304680205109418,
+      "series": "A"
+    },
+    {
+      "id": "A-26",
+      "fittedValue": 5.2,
+      "residual": -0.0895819530075814,
+      "series": "A"
+    },
+    {
+      "id": "A-27",
+      "fittedValue": 5.4,
+      "residual": 0.21145160472973365,
+      "series": "A"
+    },
+    {
+      "id": "A-28",
+      "fittedValue": 5.6,
+      "residual": 0.422788525006469,
+      "series": "A"
+    },
+    {
+      "id": "A-29",
+      "fittedValue": 5.8,
+      "residual": 0.4316557363272192,
+      "series": "A"
+    },
+    {
+      "id": "A-30",
+      "fittedValue": 6.0,
+      "residual": 0.2221662962128105,
+      "series": "A"
+    },
+    {
+      "id": "A-31",
+      "fittedValue": 6.2,
+      "residual": -0.11118978458909483,
+      "series": "A"
+    },
+    {
+      "id": "A-32",
+      "fittedValue": 6.4,
+      "residual": -0.4058104986824872,
+      "series": "A"
+    },
+    {
+      "id": "A-33",
+      "fittedValue": 6.6,
+      "residual": -0.5102881472510279,
+      "series": "A"
+    },
+    {
+      "id": "A-34",
+      "fittedValue": 6.8,
+      "residual": -0.3620799594196403,
+      "series": "A"
+    },
+    {
+      "id": "B-0",
+      "fittedValue": 0.0,
+      "residual": 0.0,
+      "series": "B"
+    },
+    {
+      "id": "B-1",
+      "fittedValue": 0.2,
+      "residual": 0.07391099235586378,
+      "series": "B"
+    },
+    {
+      "id": "B-2",
+      "fittedValue": 0.4,
+      "residual": 0.1238259194618588,
+      "series": "B"
+    },
+    {
+      "id": "B-3",
+      "fittedValue": 0.6,
+      "residual": 0.1150401502987077,
+      "series": "B"
+    },
+    {
+      "id": "B-4",
+      "fittedValue": 0.8,
+      "residual": 0.04063586824618036,
+      "series": "B"
+    },
+    {
+      "id": "B-5",
+      "fittedValue": 1.0,
+      "residual": -0.06957968379312454,
+      "series": "B"
+    },
+    {
+      "id": "B-6",
+      "fittedValue": 1.2,
+      "residual": -0.16039127088523591,
+      "series": "B"
+    },
+    {
+      "id": "B-7",
+      "fittedValue": 1.4,
+      "residual": -0.17882862239240097,
+      "series": "B"
+    },
+    {
+      "id": "B-8",
+      "fittedValue": 1.6,
+      "residual": -0.10431020041738237,
+      "series": "B"
+    },
+    {
+      "id": "B-9",
+      "fittedValue": 1.8,
+      "residual": 0.03556308631434647,
+      "series": "B"
+    },
+    {
+      "id": "B-10",
+      "fittedValue": 2.0,
+      "residual": 0.17412540335052504,
+      "series": "B"
+    },
+    {
+      "id": "B-11",
+      "fittedValue": 2.2,
+      "residual": 0.2373860376629237,
+      "series": "B"
+    },
+    {
+      "id": "B-12",
+      "fittedValue": 2.4,
+      "residual": 0.18329758001832305,
+      "series": "B"
+    },
+    {
+      "id": "B-13",
+      "fittedValue": 2.6,
+      "residual": 0.027821721834678674,
+      "series": "B"
+    },
+    {
+      "id": "B-14",
+      "fittedValue": 2.8,
+      "residual": -0.15768001479736632,
+      "series": "B"
+    },
+    {
+      "id": "B-15",
+      "fittedValue": 3.0,
+      "residual": -0.27902889401702685,
+      "series": "B"
+    },
+    {
+      "id": "B-16",
+      "fittedValue": 3.2,
+      "residual": -0.26699868131005006,
+      "series": "B"
+    },
+    {
+      "id": "B-17",
+      "fittedValue": 3.4,
+      "residual": -0.11606378169940319,
+      "series": "B"
+    },
+    {
+      "id": "B-18",
+      "fittedValue": 3.6,
+      "residual": 0.10724701834397916,
+      "series": "B"
+    },
+    {
+      "id": "B-19",
+      "fittedValue": 3.8,
+      "residual": 0.29327594272230456,
+      "series": "B"
+    },
+    {
+      "id": "B-20",
+      "fittedValue": 4.0,
+      "residual": 0.343083880804109,
+      "series": "B"
+    },
+    {
+      "id": "B-21",
+      "fittedValue": 4.2,
+      "residual": 0.22077845793269354,
+      "series": "B"
+    },
+    {
+      "id": "B-22",
+      "fittedValue": 4.4,
+      "residual": -0.023220126471021493,
+      "series": "B"
+    },
+    {
+      "id": "B-23",
+      "fittedValue": 4.6,
+      "residual": -0.27218301691123126,
+      "series": "B"
+    },
+    {
+      "id": "B-24",
+      "fittedValue": 4.8,
+      "residual": -0.39886931550963195,
+      "series": "B"
+    },
+    {
+      "id": "B-25",
+      "fittedValue": 5.0,
+      "residual": -0.3304680205109418,
+      "series": "B"
+    },
+    {
+      "id": "B-26",
+      "fittedValue": 5.2,
+      "residual": -0.0895819530075814,
+      "series": "B"
+    },
+    {
+      "id": "B-27",
+      "fittedValue": 5.4,
+      "residual": 0.21145160472973365,
+      "series": "B"
+    },
+    {
+      "id": "B-28",
+      "fittedValue": 5.6,
+      "residual": 0.422788525006469,
+      "series": "B"
+    },
+    {
+      "id": "B-29",
+      "fittedValue": 5.8,
+      "residual": 0.4316557363272192,
+      "series": "B"
+    },
+    {
+      "id": "B-30",
+      "fittedValue": 6.0,
+      "residual": 0.2221662962128105,
+      "series": "B"
+    },
+    {
+      "id": "B-31",
+      "fittedValue": 6.2,
+      "residual": -0.11118978458909483,
+      "series": "B"
+    },
+    {
+      "id": "B-32",
+      "fittedValue": 6.4,
+      "residual": -0.4058104986824872,
+      "series": "B"
+    },
+    {
+      "id": "B-33",
+      "fittedValue": 6.6,
+      "residual": -0.5102881472510279,
+      "series": "B"
+    },
+    {
+      "id": "B-34",
+      "fittedValue": 6.8,
+      "residual": -0.3620799594196403,
+      "series": "B"
+    }
+  ],
+  "input": "residuals"
+}

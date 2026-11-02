@@ -1,6 +1,6 @@
 # PR 曲线 `precisionRecallCurve`
 
-[TS 类型](../types/plots/precision-recall/types.d.ts) · [最小输入](../examples/specs/minimal/precisionRecallCurve.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/precisionRecallCurve.md)
+[TS 类型](../types/plots/precision-recall/types.d.ts) · [最小输入](../examples/specs/minimal/precisionRecallCurve.json) · [公共约束](common.md)
 
 `data: [{actual: boolean, score: number, series?}]`，与 ROC 使用相同的二分类原始输入；每系列至少一个正样本，全正允许，全负拒绝。
 

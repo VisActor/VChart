@@ -11,13 +11,21 @@ python3 generate_diagnosis_react_html.py \\
   --solution-1-title "方案标题" \\
   --solution-1-desc "方案描述" \\
   --solution-1-code "修复代码" \\
-  --output output.html
+  --output-dir ./chart-output
 """
 
-from pathlib import Path
+from __future__ import annotations
+
 import argparse
 import re
+from pathlib import Path
 from typing import Dict, List
+
+from artifact_paths import resolve_output_path
+
+
+def get_script_dir() -> Path:
+    return Path(__file__).parent.resolve()
 
 
 def escape_js_string(s: str) -> str:
@@ -104,6 +112,7 @@ def main():
     parser.add_argument("--problem-title", required=True, help="问题简述")
     parser.add_argument("--cause", required=True, help="问题原因分析")
     parser.add_argument("--suggestion", help="修复建议（可选）")
+    parser.add_argument("--output-dir", help="输出目录：绝对路径或相对于当前工作目录的路径")
     parser.add_argument("--output", default="output/diagnosis_react.html", help="输出 HTML 文件路径")
     
     # 解析动态参数（支持多个解决方案）
@@ -127,9 +136,9 @@ def main():
                 solutions[sol_num][sol_type] = unknown[i + 1]
     
     # 检查模板文件
-    template_path = Path("template/diagnosis-react.html")
+    template_path = get_script_dir().parent / "template" / "diagnosis-react.html"
     if not template_path.exists():
-        raise FileNotFoundError(f"❌ 模板不存在: {template_path}\n💡 请确保在项目根目录运行脚本")
+        raise FileNotFoundError(f"❌ 模板不存在: {template_path}\n💡 请检查 skill 目录结构或使用正确的脚本路径")
     
     # 读取模板
     html = template_path.read_text(encoding="utf-8")
@@ -161,12 +170,12 @@ def main():
     html = html.replace("{{CONFIG_BLOCK}}", new_config)
     
     # 创建输出目录
-    output_path = Path(args.output)
+    output_path = resolve_output_path(args.output, args.output_dir, "diagnosis_react.html")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     
     # 写入输出文件
     output_path.write_text(html, encoding="utf-8")
-    print(f"✅ 诊断 HTML 已生成: {output_path}")
+    print(str(output_path))
 
 
 if __name__ == "__main__":

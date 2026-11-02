@@ -119,15 +119,26 @@ interface ITooltipHandlerSpec {
 }
 ```
 
+### Callback inputs
+
+```typescript
+// Pattern factories receive the tooltip data collection.
+type TooltipPatternCallback<T> = (data?: TooltipData, params?: TooltipHandlerParams) => T | undefined;
+type TooltipPatternProperty<T> = T | TooltipPatternCallback<T>;
+// Line properties receive the current datum.
+type TooltipContentCallback<T> = (datum?: Datum, params?: TooltipHandlerParams) => T | undefined;
+type TooltipContentProperty<T> = T | TooltipContentCallback<T> | { field: string };
+```
+
 ### Tooltip Line Pattern
 
 ```typescript
 interface ITooltipLinePattern {
-  key?: TooltipPatternProperty<string>; // Line key
-  value?: TooltipPatternProperty<string>; // Line value
-  hasShape?: TooltipPatternProperty<boolean>; // Show shape
-  shapeType?: TooltipPatternProperty<string>; // Shape type
-  shapeColor?: TooltipPatternProperty<string>; // Shape color
+  key?: TooltipContentProperty<string>; // Line key
+  value?: TooltipContentProperty<string>; // Line value
+  hasShape?: TooltipContentProperty<boolean>; // Show shape
+  shapeType?: TooltipContentProperty<string>; // Shape type
+  shapeColor?: TooltipContentProperty<string>; // Shape color
   // ... other shape properties
 }
 ```

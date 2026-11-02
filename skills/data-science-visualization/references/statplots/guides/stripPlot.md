@@ -1,6 +1,6 @@
 # 条带图 `stripPlot`
 
-[TS 类型](../types/plots/strip-plot/types.d.ts) · [最小输入](../examples/specs/minimal/stripPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/stripPlot.md)
+[TS 类型](../types/plots/strip-plot/types.d.ts) · [最小输入](../examples/specs/minimal/stripPlot.json) · [公共约束](common.md)
 
 查看各类别中每条观测的数值。
 

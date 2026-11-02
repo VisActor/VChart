@@ -1,0 +1,1388 @@
+{
+  "formatVersion": 3,
+  "package": "@visactor/vchart-statplots",
+  "version": "2.2.0",
+  "license": "MIT",
+  "integrity": "sha512-WOh+rFFNvcxHgswfYr/1kOJOcFgdva5E/1qJARnvhmFBg6+tvZPVOWdOLUQwR60Cyigl57oAlbFZJqwI+AdS8A==",
+  "tarball": "https://registry.npmjs.org/@visactor/vchart-statplots/-/vchart-statplots-2.2.0.tgz",
+  "generator": {
+    "source": "packages/vchart-statplots/scripts/sync-visualization-skill.mjs",
+    "sha256": "65192a18f49063a19770e7b329d86ef01d713c30e520cfcbca37c802dc5310dd",
+    "selectorsSha256": "c6b73088de16dd968dfd0244a8422348fd757fe9ef744a68475f1bb7ceba4b1d"
+  },
+  "supportedTypes": [
+    "countPlot",
+    "missingValueMatrix",
+    "histogram",
+    "kdePlot",
+    "ecdfPlot",
+    "boxPlot",
+    "violinPlot",
+    "stripPlot",
+    "pointIntervalPlot",
+    "pairedComparisonPlot",
+    "scatterPlot",
+    "hexbinPlot",
+    "correlationMatrix",
+    "pairPlot",
+    "timeSeriesPlot",
+    "seasonalPlot",
+    "autocorrelationPlot",
+    "screePlot",
+    "embeddingPlot",
+    "residualPlot",
+    "qqPlot",
+    "confusionMatrix",
+    "rocCurve",
+    "precisionRecallCurve",
+    "calibrationCurve",
+    "learningCurve",
+    "featureImportancePlot",
+    "shapBeeswarmPlot"
+  ],
+  "files": {
+    "snapshot.json": {
+      "sources": [],
+      "transform": {
+        "rule": "snapshot-version-v1"
+      },
+      "sha256": "71f469db17234851fe4d2282b3c8691b711f0cec094fd88c27c7d2b77d49e318"
+    },
+    "THIRD_PARTY_LICENSES.md": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/THIRD_PARTY_LICENSES.md",
+      "sourceSha256": "89e7da90c265bff98e69b816cf119fc9ccff7ef5b0a09a3e0ea73deee317141a",
+      "sha256": "89e7da90c265bff98e69b816cf119fc9ccff7ef5b0a09a3e0ea73deee317141a"
+    },
+    "types/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/types.d.ts",
+      "sourceSha256": "99c40302e434c5964328eb14264a283aca6848b2ca2d30aed1d68dff21dec515",
+      "sha256": "99c40302e434c5964328eb14264a283aca6848b2ca2d30aed1d68dff21dec515"
+    },
+    "types/plots/pair-plot/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/pair-plot/types.d.ts",
+      "sourceSha256": "566875b6fc9feb4cedf8d9d7b1e723013b3410da09297f3c0ad948323a5b6c0a",
+      "sha256": "566875b6fc9feb4cedf8d9d7b1e723013b3410da09297f3c0ad948323a5b6c0a"
+    },
+    "types/common/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/types.d.ts",
+      "sourceSha256": "34904675f71e461cfacba9480e05701f4b6656172a55caede32f54c9dd9ce61b",
+      "sha256": "34904675f71e461cfacba9480e05701f4b6656172a55caede32f54c9dd9ce61b"
+    },
+    "types/common/regression-types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/regression-types.d.ts",
+      "sourceSha256": "2a2231da1e140602c860eb48e45f702e58b80ab226b48a75d371e6c22dc1fcba",
+      "sha256": "2a2231da1e140602c860eb48e45f702e58b80ab226b48a75d371e6c22dc1fcba"
+    },
+    "types/plots/shap-beeswarm/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/shap-beeswarm/types.d.ts",
+      "sourceSha256": "b09354b4e7ddd28c74f215cde9e84ee49f9c3be99938d0ac9c97d97f96e3d49f",
+      "sha256": "b09354b4e7ddd28c74f215cde9e84ee49f9c3be99938d0ac9c97d97f96e3d49f"
+    },
+    "types/plots/hexbin/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/hexbin/types.d.ts",
+      "sourceSha256": "bb3290a36694d54feac32fa2979b4c5cb7b6d7a9dd476c97e386071111cb8e22",
+      "sha256": "bb3290a36694d54feac32fa2979b4c5cb7b6d7a9dd476c97e386071111cb8e22"
+    },
+    "types/plots/feature-importance/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/feature-importance/types.d.ts",
+      "sourceSha256": "01d14d8400cae163a59b83c0b6ae29caf998f2db35ee57547746661c7b9f8fcd",
+      "sha256": "01d14d8400cae163a59b83c0b6ae29caf998f2db35ee57547746661c7b9f8fcd"
+    },
+    "types/plots/learning-curve/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/learning-curve/types.d.ts",
+      "sourceSha256": "0e03acba899667310edc854a683a49ddc17a27ff4d9c7be72d360a991a1d2bd5",
+      "sha256": "0e03acba899667310edc854a683a49ddc17a27ff4d9c7be72d360a991a1d2bd5"
+    },
+    "types/plots/qq/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/qq/types.d.ts",
+      "sourceSha256": "171d34e5ce46e9dae51114e68dc793fea5cff9e896c88219035e7f9fa1de444b",
+      "sha256": "171d34e5ce46e9dae51114e68dc793fea5cff9e896c88219035e7f9fa1de444b"
+    },
+    "types/plots/residual/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/residual/types.d.ts",
+      "sourceSha256": "57051d14f3f8321a614a9da4dd7e196174a7d3beda5578d342e34f2b886556dd",
+      "sha256": "57051d14f3f8321a614a9da4dd7e196174a7d3beda5578d342e34f2b886556dd"
+    },
+    "types/plots/embedding/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/embedding/types.d.ts",
+      "sourceSha256": "cfccf9b4c8128868e1630169240eeb60da1221ac7fb04230299da5166e5331f8",
+      "sha256": "cfccf9b4c8128868e1630169240eeb60da1221ac7fb04230299da5166e5331f8"
+    },
+    "types/plots/scree/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/scree/types.d.ts",
+      "sourceSha256": "7f64249dbfa8db3dbb23a163c739a583a367af508321688404680fd89eb62649",
+      "sha256": "7f64249dbfa8db3dbb23a163c739a583a367af508321688404680fd89eb62649"
+    },
+    "types/plots/autocorrelation/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/autocorrelation/types.d.ts",
+      "sourceSha256": "7f83509f88bbe8094180382bb0ce59a4c689565264423694c431095ac9af155d",
+      "sha256": "7f83509f88bbe8094180382bb0ce59a4c689565264423694c431095ac9af155d"
+    },
+    "types/plots/seasonal/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/seasonal/types.d.ts",
+      "sourceSha256": "807628665c71dd4727b6677af303fcc89fb588f38ee663cf8f19ea1031874278",
+      "sha256": "807628665c71dd4727b6677af303fcc89fb588f38ee663cf8f19ea1031874278"
+    },
+    "types/plots/time-series/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/time-series/types.d.ts",
+      "sourceSha256": "b9dd46d38b62077eced17e955fe163ec1836cf703674e8f67606482db4a89724",
+      "sha256": "b9dd46d38b62077eced17e955fe163ec1836cf703674e8f67606482db4a89724"
+    },
+    "types/common/sample-estimate-types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/sample-estimate-types.d.ts",
+      "sourceSha256": "2a74c34a55a26f3c0d21572dc06036c7513c7bded50c8b2531e7b43b815ca75c",
+      "sha256": "2a74c34a55a26f3c0d21572dc06036c7513c7bded50c8b2531e7b43b815ca75c"
+    },
+    "types/plots/calibration/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/calibration/types.d.ts",
+      "sourceSha256": "faa62742722fc9bee982a71552c784aa062ae3bf44f02a7edeca7019a938793f",
+      "sha256": "faa62742722fc9bee982a71552c784aa062ae3bf44f02a7edeca7019a938793f"
+    },
+    "types/plots/precision-recall/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/precision-recall/types.d.ts",
+      "sourceSha256": "7383073e365d61c5a7c6193ba595d410462bf99de5dcb40a4dc95d1a48079fd5",
+      "sha256": "7383073e365d61c5a7c6193ba595d410462bf99de5dcb40a4dc95d1a48079fd5"
+    },
+    "types/plots/roc/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/roc/types.d.ts",
+      "sourceSha256": "cfad955d1f42be8bb6db5dcac8a4f00c89e00984b02bb810222b2699b82191dc",
+      "sha256": "cfad955d1f42be8bb6db5dcac8a4f00c89e00984b02bb810222b2699b82191dc"
+    },
+    "types/plots/confusion-matrix/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/confusion-matrix/types.d.ts",
+      "sourceSha256": "e2605817c19ebc806a36456f251b79b0027f634525e137936ec5317d0df74280",
+      "sha256": "e2605817c19ebc806a36456f251b79b0027f634525e137936ec5317d0df74280"
+    },
+    "types/plots/scatter/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/scatter/types.d.ts",
+      "sourceSha256": "3017d6ab6a71c50f593ff0a9b01eff9a6ebf27c1856fb543c86e7e2e8064e2f4",
+      "sha256": "3017d6ab6a71c50f593ff0a9b01eff9a6ebf27c1856fb543c86e7e2e8064e2f4"
+    },
+    "types/plots/paired/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/paired/types.d.ts",
+      "sourceSha256": "2738925411add59966e576ded6d25d14f1a60d9e7e06826aff0b3d22f908a171",
+      "sha256": "2738925411add59966e576ded6d25d14f1a60d9e7e06826aff0b3d22f908a171"
+    },
+    "types/plots/strip-plot/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/strip-plot/types.d.ts",
+      "sourceSha256": "0521a03a890474bd811e589298a59d15c2beafae6a5e2c15ad3d325398bee2c3",
+      "sha256": "0521a03a890474bd811e589298a59d15c2beafae6a5e2c15ad3d325398bee2c3"
+    },
+    "types/plots/missingness/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/missingness/types.d.ts",
+      "sourceSha256": "0745fff4a3a1a492b129e0ee49127b9d63010e5d68ce4049ab2190e3fa5c3f5c",
+      "sha256": "0745fff4a3a1a492b129e0ee49127b9d63010e5d68ce4049ab2190e3fa5c3f5c"
+    },
+    "types/common/observation-table-types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/observation-table-types.d.ts",
+      "sourceSha256": "93d974a95be939dc2dad4278f3e0707adfc517c65d6fa14442adbfe2099a3177",
+      "sha256": "93d974a95be939dc2dad4278f3e0707adfc517c65d6fa14442adbfe2099a3177"
+    },
+    "types/plots/count/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/count/types.d.ts",
+      "sourceSha256": "37df124fa5bf3d56817de83b79dc1ab3a40835b5e5c754302b159647948495c4",
+      "sha256": "37df124fa5bf3d56817de83b79dc1ab3a40835b5e5c754302b159647948495c4"
+    },
+    "types/plots/box-plot/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/box-plot/types.d.ts",
+      "sourceSha256": "45c58d7caff9f180334a6c20f980aebcb28cc5c8ecac12d9fb61d1512962e598",
+      "sha256": "45c58d7caff9f180334a6c20f980aebcb28cc5c8ecac12d9fb61d1512962e598"
+    },
+    "types/plots/correlation-matrix/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/correlation-matrix/types.d.ts",
+      "sourceSha256": "f769508881a9669fc55df80fc21d8640697c35e2b9c2634c53e7cc87b1cbe128",
+      "sha256": "f769508881a9669fc55df80fc21d8640697c35e2b9c2634c53e7cc87b1cbe128"
+    },
+    "types/plots/ecdf/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/ecdf/types.d.ts",
+      "sourceSha256": "20cafcb7c5e1369f352d544f4ca92162abbd2a639488133baa176383331509ab",
+      "sha256": "20cafcb7c5e1369f352d544f4ca92162abbd2a639488133baa176383331509ab"
+    },
+    "types/plots/estimate-interval/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/estimate-interval/types.d.ts",
+      "sourceSha256": "ad5ad44ed25d6c3223f7be0a471b2e1759c4f513264694ede7a4e0e15967208e",
+      "sha256": "ad5ad44ed25d6c3223f7be0a471b2e1759c4f513264694ede7a4e0e15967208e"
+    },
+    "types/plots/histogram/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/histogram/types.d.ts",
+      "sourceSha256": "9d543aa9564661dbc9f34e2a671b350ca237c4e5aee494c4d0e1048e082eda6e",
+      "sha256": "9d543aa9564661dbc9f34e2a671b350ca237c4e5aee494c4d0e1048e082eda6e"
+    },
+    "types/plots/kde/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/kde/types.d.ts",
+      "sourceSha256": "5571b0cf8d3eef921cc770ed6e20164b3942eff520064645641ec135e816524e",
+      "sha256": "5571b0cf8d3eef921cc770ed6e20164b3942eff520064645641ec135e816524e"
+    },
+    "types/common/kde-types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/kde-types.d.ts",
+      "sourceSha256": "e799865ed067e6088388ec41055c400b94884a9fedaa20bacaf1c025d82ed980",
+      "sha256": "e799865ed067e6088388ec41055c400b94884a9fedaa20bacaf1c025d82ed980"
+    },
+    "types/plots/violin/types.d.ts": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/violin/types.d.ts",
+      "sourceSha256": "feed5751151dcca30aced759b2dd41d86b28a843320cb2f3c4d7b183d2e2ff52",
+      "sha256": "feed5751151dcca30aced759b2dd41d86b28a843320cb2f3c4d7b183d2e2ff52"
+    },
+    "examples/specs/minimal/countPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/countPlot.json",
+      "sourceSha256": "e605c8d0c7325cba531154203190d1ef16301e892316922d0fd549b5a3a96b4c",
+      "sha256": "e605c8d0c7325cba531154203190d1ef16301e892316922d0fd549b5a3a96b4c"
+    },
+    "guides/countPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/countPlot.md",
+          "sourceSha256": "6eb3cd7d7a1ea63394f897a27c8530dc1140979202f70376fb92de69823e909d"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "计算与配置"
+        ]
+      },
+      "sha256": "4fc0611fd5cd9c9b4382d355fd5fdd607b4a5ff2d6df43c48011ed6134f6499a"
+    },
+    "examples/specs/minimal/missingValueMatrix.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/missingValueMatrix.json",
+      "sourceSha256": "56f0b2e5e6160eaf6212ee560319a6994ac13f1e6f71a707f3e0fcbcaf4d97f5",
+      "sha256": "56f0b2e5e6160eaf6212ee560319a6994ac13f1e6f71a707f3e0fcbcaf4d97f5"
+    },
+    "guides/missingValueMatrix.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/missingValueMatrix.md",
+          "sourceSha256": "ff148a411662d4fe194613cc8be1da0e7e0917177940dbe00a8bdd00c5921d9a"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与计算"
+        ]
+      },
+      "sha256": "b65f253d9207ec9a1d9113efcb98247c5ad3db7825293d4ecb3fff5614481121"
+    },
+    "examples/specs/minimal/histogram.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/histogram.json",
+      "sourceSha256": "e895111827c9a4c6bc2dc55109854cf61e79beb4dbda75f4096f548f4a483d5f",
+      "sha256": "e895111827c9a4c6bc2dc55109854cf61e79beb4dbda75f4096f548f4a483d5f"
+    },
+    "guides/histogram.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/histogram.md",
+          "sourceSha256": "5b8af2fda2ba20691c52108a89e15f01c33756bb17831b30ec23fb657440a88f"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "输入与配置",
+            "分箱与数值边界",
+            "选型边界"
+          ],
+          "omit": [
+            "渲染使用原生 bar"
+          ]
+        }
+      },
+      "sha256": "9815166486bf6c9a8d1b726173ae73f73fee9ef2241280da0b39dc4ab49c05c6"
+    },
+    "examples/specs/minimal/kdePlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/kdePlot.json",
+      "sourceSha256": "5c26f33f6a4e56820d39e00dd0932d7038e486368d97f8b60f3b8251ef0e656b",
+      "sha256": "5c26f33f6a4e56820d39e00dd0932d7038e486368d97f8b60f3b8251ef0e656b"
+    },
+    "guides/kdePlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/kdePlot.md",
+          "sourceSha256": "c7335780607b30ff8abde0ba51da24eee9a64f7a88d3941211f2dfa094345067"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "输入与配置",
+            "估计、绘制与边界"
+          ],
+          "omit": [
+            "统计只发生在"
+          ]
+        }
+      },
+      "sha256": "70389dbfa5f605288bee9ff51abce2d9624dce15cef01e32e7ff0414e18bd79c"
+    },
+    "examples/specs/minimal/ecdfPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/ecdfPlot.json",
+      "sourceSha256": "4cf9df901441a072678f64d9457d5c57e002fd16002a4f92ddcdd43f40ea523f",
+      "sha256": "4cf9df901441a072678f64d9457d5c57e002fd16002a4f92ddcdd43f40ea523f"
+    },
+    "guides/ecdfPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/ecdfPlot.md",
+          "sourceSha256": "3a30a78b6600ab1fdb965ef6d1d48ee555630553ce6859473bef6e97349afa2b"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "输入与配置",
+            "精确跳点与绘制"
+          ],
+          "omit": [
+            "计算仅发生在 compileStatPlot",
+            "在排序去重后的"
+          ],
+          "fragments": [
+            {
+              "section": "精确跳点与绘制",
+              "from": "在排序去重后的",
+              "until": "。"
+            }
+          ]
+        }
+      },
+      "sha256": "63d4fb18c5b76220cc69d93acf57286cf4408a6624f9de76ce4457a5b9bd64b0"
+    },
+    "examples/specs/minimal/boxPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/boxPlot.json",
+      "sourceSha256": "f36b9ffb1121c4137365b58abeefe884f2b4f0c4ffb2d849da6d558afb044458",
+      "sha256": "f36b9ffb1121c4137365b58abeefe884f2b4f0c4ffb2d849da6d558afb044458"
+    },
+    "guides/boxPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/boxPlot.md",
+          "sourceSha256": "31255cf99971e02fcc21e41b6cb8c29817310f9d68f461e947397ede7518c826"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "统计定义",
+          "小样本与数值边界"
+        ]
+      },
+      "sha256": "694ce07c0b6a81d4a56ac478bd1309b85f2ffc38649cd213884fc98d3dfc516e"
+    },
+    "examples/specs/minimal/violinPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/violinPlot.json",
+      "sourceSha256": "3358436b0fe77fabdaede13ea1a3521723d98c47a187b3ea66e8c3eadd0a4331",
+      "sha256": "3358436b0fe77fabdaede13ea1a3521723d98c47a187b3ea66e8c3eadd0a4331"
+    },
+    "guides/violinPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/violinPlot.md",
+          "sourceSha256": "956a5e02248fcfb670af009dc0e9ff437adc872a63ce72c7274c346aabc3783e"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "输入与配置",
+            "轮廓、交互与边界",
+            "选型边界"
+          ],
+          "omit": [
+            "更新使用"
+          ]
+        }
+      },
+      "sha256": "02a2e005ded99ffcf0850f254bae4a805f2ea330be4a8361a80f190434f87b87"
+    },
+    "examples/specs/minimal/stripPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/stripPlot.json",
+      "sourceSha256": "03dcf84ad091ef81a74fbb32545f705485fbb24eb8776c4694f25cbf2e76014b",
+      "sha256": "03dcf84ad091ef81a74fbb32545f705485fbb24eb8776c4694f25cbf2e76014b"
+    },
+    "guides/stripPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/stripPlot.md",
+          "sourceSha256": "ce62254d583278d9997a2989138718a1f6a7a35914a02a5bdf24931c00722aac"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "选型边界"
+        ]
+      },
+      "sha256": "3431fcd7abd4b73b9505bcb6d6d07b0d88e66b62bfb2526598e4b2af4a226aea"
+    },
+    "examples/specs/minimal/pointIntervalPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/pointIntervalPlot.json",
+      "sourceSha256": "7961559df13e3bd09f1003033702782d998a3158ecf360915106d277ec1058aa",
+      "sha256": "7961559df13e3bd09f1003033702782d998a3158ecf360915106d277ec1058aa"
+    },
+    "guides/pointIntervalPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/pointIntervalPlot.md",
+          "sourceSha256": "f09ad5ea7411a5a799aee8d193c05d340762fa3f6f8e9843cee5de371c069fb7"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "原始样本",
+            "外部估计"
+          ],
+          "omit": [
+            "迁移原结果数据只需增加",
+            "bootstrap mean 为"
+          ],
+          "fragments": [
+            {
+              "section": "外部估计",
+              "from": "percentile 是样本百分位区间",
+              "until": "。"
+            }
+          ]
+        }
+      },
+      "sha256": "721f2284de34af2e5aad6a56a223d74f7503212ed10925b70b79ad15a1eb3855"
+    },
+    "examples/specs/minimal/pairedComparisonPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/pairedComparisonPlot.json",
+      "sourceSha256": "9b75d9a1f836b188203052b3790faebd9b6cfd76bec288060cd2b28632c19ec5",
+      "sha256": "9b75d9a1f836b188203052b3790faebd9b6cfd76bec288060cd2b28632c19ec5"
+    },
+    "guides/pairedComparisonPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/pairedComparisonPlot.md",
+          "sourceSha256": "6cac82805f9f1020efdb0c2591ea7ae9a718d257866a4e8549e5c89a7036e1e4"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "选型边界"
+        ]
+      },
+      "sha256": "a71be62bf264fc7a98de9d73878dbd6b99d355c9ee00e5d69d0fd40dc6b0353e"
+    },
+    "examples/specs/minimal/scatterPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/scatterPlot.json",
+      "sourceSha256": "501b51b738b5c5d9f73d1e06071054a43eb1ecb3866f8a841cc56a5bbb0064ad",
+      "sha256": "501b51b738b5c5d9f73d1e06071054a43eb1ecb3866f8a841cc56a5bbb0064ad"
+    },
+    "guides/scatterPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/scatterPlot.md",
+          "sourceSha256": "bd9e55686ff0d14f5fa95d7660289e70a0cea0057898d24172f58ab51ebcc7bd"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "内部拟合",
+          "外部结果与迁移"
+        ]
+      },
+      "sha256": "eb0b33f97c9fbcfb730efd5636aa506533ec3995f9682eb8235ebbb37172f651"
+    },
+    "examples/specs/minimal/hexbinPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/hexbinPlot.json",
+      "sourceSha256": "dcc8be78b2f3ea0382b01d6de5e452bdc0bf207fbbf04b658a65a98e637dbf18",
+      "sha256": "dcc8be78b2f3ea0382b01d6de5e452bdc0bf207fbbf04b658a65a98e637dbf18"
+    },
+    "guides/hexbinPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/hexbinPlot.md",
+          "sourceSha256": "18b59c1e3a486fd9619f929c07b516b59e3105ddf120f599a8906531c7636604"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "输入与配置",
+            "分箱与解读",
+            "选型边界与迁移"
+          ],
+          "omit": [
+            "编译阶段做两遍扫描",
+            "旧 id/count/vertices"
+          ]
+        }
+      },
+      "sha256": "7a4e0ebe3e4f02afbd67e977648ca6dbf75ad7580228058f4fab58e0c5ab1b9c"
+    },
+    "examples/specs/minimal/correlationMatrix.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/correlationMatrix.json",
+      "sourceSha256": "8ab64fbcca367a448c08a24c9e5fe7989ce0dad237122e2041f872fb8a361cd9",
+      "sha256": "8ab64fbcca367a448c08a24c9e5fe7989ce0dad237122e2041f872fb8a361cd9"
+    },
+    "guides/correlationMatrix.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/correlationMatrix.md",
+          "sourceSha256": "bb64b666391f283555e2d39932aa637c49913f500489de9bcac6b8286a1d59da"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与计算"
+        ]
+      },
+      "sha256": "8d1cad9b14a96209a87d56a2723e9e543ccc50a79e9067abe0c2b56f5fdd350f"
+    },
+    "examples/specs/minimal/pairPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/pairPlot.json",
+      "sourceSha256": "33177cc98d9653f952d3640b5ac3825b3456ce770058a91ef4ede9ec52d39d1c",
+      "sha256": "33177cc98d9653f952d3640b5ac3825b3456ce770058a91ef4ede9ec52d39d1c"
+    },
+    "guides/pairPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/pairPlot.md",
+          "sourceSha256": "17a2041f6c3b2e535d4603647c16b60992a7bd03872d56df8f9d480988272d9d"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "输入与配置",
+            "统计规则与解读",
+            "选型边界"
+          ],
+          "fragments": [
+            {
+              "section": "输入与配置",
+              "from": "此图不提供 fieldLabels",
+              "until": "。"
+            }
+          ]
+        }
+      },
+      "sha256": "9e638d946dfacc827a0b7d676647738c553ee02f1032cb0a4380f42d220219ec"
+    },
+    "examples/specs/minimal/timeSeriesPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/timeSeriesPlot.json",
+      "sourceSha256": "6d655615e2d190ce5344416989f4bca88376da4e47029771df08e94812e6fb5c",
+      "sha256": "6d655615e2d190ce5344416989f4bca88376da4e47029771df08e94812e6fb5c"
+    },
+    "guides/timeSeriesPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/timeSeriesPlot.md",
+          "sourceSha256": "cc6eeb7ed807cf29c0038f89d7d90ea9e31026352471d98a5d47d2c86d03e47b"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro"
+          ],
+          "omit": [
+            "曲线和区间带遇到 null",
+            "流程对应"
+          ],
+          "omitFragments": [
+            {
+              "from": "，第一时刻上例",
+              "until": "。",
+              "keepTerminator": true
+            }
+          ]
+        }
+      },
+      "sha256": "d82527538e72c7d91cf2251b8f6a7751ab12741a94b58c8ac4f0ccc115c53e1c"
+    },
+    "examples/specs/minimal/seasonalPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/seasonalPlot.json",
+      "sourceSha256": "bdb7b8e8cbf645892224e8c649e84c813a2cb16cef7da0075262240b558fa141",
+      "sha256": "bdb7b8e8cbf645892224e8c649e84c813a2cb16cef7da0075262240b558fa141"
+    },
+    "guides/seasonalPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/seasonalPlot.md",
+          "sourceSha256": "7072f422774b7c028ea529599a05ef03325079d4655b9f02def7dbc0c3f00387"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "选型边界"
+        ]
+      },
+      "sha256": "363ed8599e17a5bc0698111bf83c8a5310bf10aba27bdab6f1db8d7f1a8a2fb6"
+    },
+    "examples/specs/minimal/autocorrelationPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/autocorrelationPlot.json",
+      "sourceSha256": "46439780e351fcbfae57c28ec7ad0c97ec860c80236484ba5db805e125eb8202",
+      "sha256": "46439780e351fcbfae57c28ec7ad0c97ec860c80236484ba5db805e125eb8202"
+    },
+    "guides/autocorrelationPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/autocorrelationPlot.md",
+          "sourceSha256": "238754eea66ced01ffe1ebec8fcda64faa6ac03eb350e565ef4c376fd847bcc1"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "计算与配置"
+        ]
+      },
+      "sha256": "af81d45f932192445132bdb53e9f9b478a1ad8ea69db32ec1c4b03effc6395e7"
+    },
+    "examples/specs/minimal/screePlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/screePlot.json",
+      "sourceSha256": "87e769a427c008f7a7058c072834d0395a672ee312877a3909910aeaccb75232",
+      "sha256": "87e769a427c008f7a7058c072834d0395a672ee312877a3909910aeaccb75232"
+    },
+    "guides/screePlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/screePlot.md",
+          "sourceSha256": "165d8020599ad68f5c80ed7701170c658b104c94362e8533e1ad61324e2cd1c5"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "选型边界"
+        ]
+      },
+      "sha256": "1de972af36ad265fa0bc79866fee471dae9b99cc15d490cb6d2f855fcce89df7"
+    },
+    "examples/specs/minimal/embeddingPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/embeddingPlot.json",
+      "sourceSha256": "aa1931c3cb7c95946b234122f369a54c9a25ddfee3ef23658098c7c610153403",
+      "sha256": "aa1931c3cb7c95946b234122f369a54c9a25ddfee3ef23658098c7c610153403"
+    },
+    "guides/embeddingPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/embeddingPlot.md",
+          "sourceSha256": "7858400cb4e0c154712be97e368066849cf8ee1abdb565ea3aeef10859b5cb7e"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "选型边界"
+        ]
+      },
+      "sha256": "67c4ec84722f1263c9118309fad5a11a8736c6052f1aecb8f249e233796e8cd1"
+    },
+    "examples/specs/minimal/residualPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/residualPlot.json",
+      "sourceSha256": "78a12b67f086610ae9485588b762b23d1a6de3b4fdc7cee2e57d6b5317634355",
+      "sha256": "78a12b67f086610ae9485588b762b23d1a6de3b4fdc7cee2e57d6b5317634355"
+    },
+    "guides/residualPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/residualPlot.md",
+          "sourceSha256": "2c7e91af8dd99d90734a0edfde1b38ad661ee473d667e050360d9377ae6e19b2"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "原始观测",
+          "外部预测与模型残差",
+          "LOWESS 残差趋势"
+        ]
+      },
+      "sha256": "22beed8e4ba9b45e0096db05f84f2def9ff35c27683b25d55625e392d65e3a3e"
+    },
+    "examples/specs/minimal/qqPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/qqPlot.json",
+      "sourceSha256": "af82fdf7e011f1b93f25b09526c3820288395284feee2e175e4cbde588703d99",
+      "sha256": "af82fdf7e011f1b93f25b09526c3820288395284feee2e175e4cbde588703d99"
+    },
+    "guides/qqPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/qqPlot.md",
+          "sourceSha256": "c414c97d1266f69cdc78752f50eaee0e1ba5d203cd5138673bb7d98ad7b06b34"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "计算与配置"
+        ]
+      },
+      "sha256": "1f9c9166efbed724df6973a4f780afb839df48386bdba400aec70d63897159ea"
+    },
+    "examples/specs/minimal/confusionMatrix.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/confusionMatrix.json",
+      "sourceSha256": "976d90acf543bac1c7c0597fbb2029fe9da19dd2ba617555e6e87f5d61b69b2b",
+      "sha256": "976d90acf543bac1c7c0597fbb2029fe9da19dd2ba617555e6e87f5d61b69b2b"
+    },
+    "guides/confusionMatrix.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/confusionMatrix.md",
+          "sourceSha256": "76d5c34129cd1254a047281d3cce501fd12ce400564ed6a9339c74f5a77a4ed8"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "计算与配置",
+          "默认显示与解读"
+        ]
+      },
+      "sha256": "e8dcd6eb8cb334ea9b38bc0efacebc2fa225dbf2214bc8a61985b76d173bb264"
+    },
+    "examples/specs/minimal/rocCurve.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/rocCurve.json",
+      "sourceSha256": "5059ec0236d21d8ba2ef2010edb098f145dcd218ab1f7e1065f8e6b75b3810fb",
+      "sha256": "5059ec0236d21d8ba2ef2010edb098f145dcd218ab1f7e1065f8e6b75b3810fb"
+    },
+    "guides/rocCurve.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/rocCurve.md",
+          "sourceSha256": "987a5d70053123dcb456fe56b6724d2ba534435ce93020ed0e03d95fbb44c0cf"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "计算与配置"
+        ]
+      },
+      "sha256": "603a84e2f86e349140dfec635713218312bd121362e998b6c0a5f5db1610b9ad"
+    },
+    "examples/specs/minimal/precisionRecallCurve.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/precisionRecallCurve.json",
+      "sourceSha256": "a125a0da19f9a5ed299b9e542c6688baf676dc95cb6c531faeadf991b267e3e3",
+      "sha256": "a125a0da19f9a5ed299b9e542c6688baf676dc95cb6c531faeadf991b267e3e3"
+    },
+    "guides/precisionRecallCurve.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/precisionRecallCurve.md",
+          "sourceSha256": "ea5a1933c18e0fb4e18b369ab2650cc88b1d3c1d844bcc114995898e93749bba"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "计算与配置"
+        ]
+      },
+      "sha256": "2507e2c54c356c95511502836535f5b058541c1504de02f713dbe6e3c5b0adca"
+    },
+    "examples/specs/minimal/calibrationCurve.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/calibrationCurve.json",
+      "sourceSha256": "02473636a6ec399c6975c2e31c7531e3db22960e0dc9f3bd4b37272fd27c5222",
+      "sha256": "02473636a6ec399c6975c2e31c7531e3db22960e0dc9f3bd4b37272fd27c5222"
+    },
+    "guides/calibrationCurve.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/calibrationCurve.md",
+          "sourceSha256": "33de0ecc5dbb0742847e77fdc9715cd2dd1565940a5a06b62902469e69c89bab"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "计算与配置"
+        ]
+      },
+      "sha256": "e4734fd58a360bf03e41eabfb85feb53bf262651dea6369ea6ceffd6c2299ba0"
+    },
+    "examples/specs/minimal/learningCurve.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/learningCurve.json",
+      "sourceSha256": "6861dde640b3ff5a0b59943cabafe79e3c99ccc7ae7c7ed259fa2b968a5b1232",
+      "sha256": "6861dde640b3ff5a0b59943cabafe79e3c99ccc7ae7c7ed259fa2b968a5b1232"
+    },
+    "guides/learningCurve.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/learningCurve.md",
+          "sourceSha256": "9f81f5e5abd24144f000f52834a4076b4478b9d093002ac9433c5e7cc7a34b1e"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": {
+          "sections": [
+            "$intro",
+            "两种输入"
+          ],
+          "fragments": [
+            {
+              "section": "迁移与 Python 对照",
+              "from": "带表示折间离散程度",
+              "until": "。"
+            }
+          ]
+        }
+      },
+      "sha256": "877a5d0c55403c5143c2d276f9988c4971470c61921ff0d70a267417bc3f3e76"
+    },
+    "examples/specs/minimal/featureImportancePlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/featureImportancePlot.json",
+      "sourceSha256": "8fafeaf179e1eb287c456db4fdfad36e6748ce9b2af5c5b78dfd3435d27dd2c0",
+      "sha256": "8fafeaf179e1eb287c456db4fdfad36e6748ce9b2af5c5b78dfd3435d27dd2c0"
+    },
+    "guides/featureImportancePlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/featureImportancePlot.md",
+          "sourceSha256": "933733102e20c7b6bcfd3ec8780cf38b7cbccfb7c7e16fb6853c7509e7b35dca"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "选型边界"
+        ]
+      },
+      "sha256": "f65cba892872f426d07e7ef78d8b738e082ba20466b735bf46dfdab866969a6e"
+    },
+    "examples/specs/minimal/shapBeeswarmPlot.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/minimal/shapBeeswarmPlot.json",
+      "sourceSha256": "f11ba0c760c60fc912b3802f17a8846c24b9c0261eb6f668c76285ca0e311da8",
+      "sha256": "f11ba0c760c60fc912b3802f17a8846c24b9c0261eb6f668c76285ca0e311da8"
+    },
+    "guides/shapBeeswarmPlot.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plots/shapBeeswarmPlot.md",
+          "sourceSha256": "08cf54af84d5efdb774268d6c07e519129dcc37516100d0091d33d11c3f2931b"
+        }
+      ],
+      "transform": {
+        "rule": "plot-guide-v2",
+        "selectors": [
+          "$intro",
+          "输入与配置",
+          "选型边界"
+        ]
+      },
+      "sha256": "d4d38595bc94accc7831bcf1f245b8c11cb829bc6a73419a0acd850f1382304c"
+    },
+    "guides/common.md": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/spec.md",
+          "sourceSha256": "5399564710d4660fd5ba812ea6b36bb924595fbb9f907244ec3ef39cce6f9400"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/colors.md",
+          "sourceSha256": "bf6cd4b71f32ca7645c71dc9daa9b4cdaa5c70eae50863d997a30d30ded7478f"
+        }
+      ],
+      "transform": {
+        "rule": "common-guide-v1",
+        "selectors": [
+          {
+            "source": "docs/spec.md",
+            "sections": [
+              "公共配置"
+            ]
+          },
+          {
+            "source": "docs/spec.md",
+            "sections": [
+              "区间与外部方法"
+            ],
+            "paragraphs": [
+              "confidence、prediction"
+            ]
+          },
+          {
+            "source": "docs/colors.md",
+            "sections": [
+              "$intro"
+            ],
+            "omit": [
+              "上例列出"
+            ]
+          }
+        ]
+      },
+      "sha256": "5850bfc20e0b9628f4414f21a67e731cd7e02b29b09ba50d9aedb662124a6894"
+    },
+    "index.json": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plot-catalog.json",
+          "sourceSha256": "a80eac8fa20d29c54c0f6c861e2a98645e345ae40e317758248701ec50c1af97"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/types.d.ts",
+          "sourceSha256": "99c40302e434c5964328eb14264a283aca6848b2ca2d30aed1d68dff21dec515"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/pair-plot/types.d.ts",
+          "sourceSha256": "566875b6fc9feb4cedf8d9d7b1e723013b3410da09297f3c0ad948323a5b6c0a"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/types.d.ts",
+          "sourceSha256": "34904675f71e461cfacba9480e05701f4b6656172a55caede32f54c9dd9ce61b"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/regression-types.d.ts",
+          "sourceSha256": "2a2231da1e140602c860eb48e45f702e58b80ab226b48a75d371e6c22dc1fcba"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/shap-beeswarm/types.d.ts",
+          "sourceSha256": "b09354b4e7ddd28c74f215cde9e84ee49f9c3be99938d0ac9c97d97f96e3d49f"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/hexbin/types.d.ts",
+          "sourceSha256": "bb3290a36694d54feac32fa2979b4c5cb7b6d7a9dd476c97e386071111cb8e22"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/feature-importance/types.d.ts",
+          "sourceSha256": "01d14d8400cae163a59b83c0b6ae29caf998f2db35ee57547746661c7b9f8fcd"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/learning-curve/types.d.ts",
+          "sourceSha256": "0e03acba899667310edc854a683a49ddc17a27ff4d9c7be72d360a991a1d2bd5"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/qq/types.d.ts",
+          "sourceSha256": "171d34e5ce46e9dae51114e68dc793fea5cff9e896c88219035e7f9fa1de444b"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/residual/types.d.ts",
+          "sourceSha256": "57051d14f3f8321a614a9da4dd7e196174a7d3beda5578d342e34f2b886556dd"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/embedding/types.d.ts",
+          "sourceSha256": "cfccf9b4c8128868e1630169240eeb60da1221ac7fb04230299da5166e5331f8"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/scree/types.d.ts",
+          "sourceSha256": "7f64249dbfa8db3dbb23a163c739a583a367af508321688404680fd89eb62649"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/autocorrelation/types.d.ts",
+          "sourceSha256": "7f83509f88bbe8094180382bb0ce59a4c689565264423694c431095ac9af155d"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/seasonal/types.d.ts",
+          "sourceSha256": "807628665c71dd4727b6677af303fcc89fb588f38ee663cf8f19ea1031874278"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/time-series/types.d.ts",
+          "sourceSha256": "b9dd46d38b62077eced17e955fe163ec1836cf703674e8f67606482db4a89724"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/sample-estimate-types.d.ts",
+          "sourceSha256": "2a74c34a55a26f3c0d21572dc06036c7513c7bded50c8b2531e7b43b815ca75c"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/calibration/types.d.ts",
+          "sourceSha256": "faa62742722fc9bee982a71552c784aa062ae3bf44f02a7edeca7019a938793f"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/precision-recall/types.d.ts",
+          "sourceSha256": "7383073e365d61c5a7c6193ba595d410462bf99de5dcb40a4dc95d1a48079fd5"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/roc/types.d.ts",
+          "sourceSha256": "cfad955d1f42be8bb6db5dcac8a4f00c89e00984b02bb810222b2699b82191dc"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/confusion-matrix/types.d.ts",
+          "sourceSha256": "e2605817c19ebc806a36456f251b79b0027f634525e137936ec5317d0df74280"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/scatter/types.d.ts",
+          "sourceSha256": "3017d6ab6a71c50f593ff0a9b01eff9a6ebf27c1856fb543c86e7e2e8064e2f4"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/paired/types.d.ts",
+          "sourceSha256": "2738925411add59966e576ded6d25d14f1a60d9e7e06826aff0b3d22f908a171"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/strip-plot/types.d.ts",
+          "sourceSha256": "0521a03a890474bd811e589298a59d15c2beafae6a5e2c15ad3d325398bee2c3"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/missingness/types.d.ts",
+          "sourceSha256": "0745fff4a3a1a492b129e0ee49127b9d63010e5d68ce4049ab2190e3fa5c3f5c"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/observation-table-types.d.ts",
+          "sourceSha256": "93d974a95be939dc2dad4278f3e0707adfc517c65d6fa14442adbfe2099a3177"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/count/types.d.ts",
+          "sourceSha256": "37df124fa5bf3d56817de83b79dc1ab3a40835b5e5c754302b159647948495c4"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/box-plot/types.d.ts",
+          "sourceSha256": "45c58d7caff9f180334a6c20f980aebcb28cc5c8ecac12d9fb61d1512962e598"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/correlation-matrix/types.d.ts",
+          "sourceSha256": "f769508881a9669fc55df80fc21d8640697c35e2b9c2634c53e7cc87b1cbe128"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/ecdf/types.d.ts",
+          "sourceSha256": "20cafcb7c5e1369f352d544f4ca92162abbd2a639488133baa176383331509ab"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/estimate-interval/types.d.ts",
+          "sourceSha256": "ad5ad44ed25d6c3223f7be0a471b2e1759c4f513264694ede7a4e0e15967208e"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/histogram/types.d.ts",
+          "sourceSha256": "9d543aa9564661dbc9f34e2a671b350ca237c4e5aee494c4d0e1048e082eda6e"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/kde/types.d.ts",
+          "sourceSha256": "5571b0cf8d3eef921cc770ed6e20164b3942eff520064645641ec135e816524e"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/common/kde-types.d.ts",
+          "sourceSha256": "e799865ed067e6088388ec41055c400b94884a9fedaa20bacaf1c025d82ed980"
+        },
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/esm/plots/violin/types.d.ts",
+          "sourceSha256": "feed5751151dcca30aced759b2dd41d86b28a843320cb2f3c4d7b183d2e2ff52"
+        }
+      ],
+      "transform": {
+        "rule": "type-index-v2"
+      },
+      "sha256": "cb9526257592424d639bfed6faff8fabac9a348eee3c26d265a2128d0de39d2b"
+    },
+    "examples/specs/variants/countPlot-proportion.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/countPlot-proportion.json",
+      "sourceSha256": "5122d6fdde3a6f7641bb91490ee84215fe87df4d57dbab268e3f5dbbd45fac17",
+      "sha256": "5122d6fdde3a6f7641bb91490ee84215fe87df4d57dbab268e3f5dbbd45fac17"
+    },
+    "examples/specs/variants/countPlot-series-proportion.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/countPlot-series-proportion.json",
+      "sourceSha256": "3b206f952b22cd42e3fb1d92f0940a7f0553087746bc8ed101b0c87ab650f2e3",
+      "sha256": "3b206f952b22cd42e3fb1d92f0940a7f0553087746bc8ed101b0c87ab650f2e3"
+    },
+    "examples/specs/variants/histogram-density.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/histogram-density.json",
+      "sourceSha256": "0015ef9c05330e668ab9f6f344c77443f47f1350285b07d9e04ab8e71eb82276",
+      "sha256": "0015ef9c05330e668ab9f6f344c77443f47f1350285b07d9e04ab8e71eb82276"
+    },
+    "examples/specs/variants/histogram-proportion.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/histogram-proportion.json",
+      "sourceSha256": "6ae4342644b37c7b6c2dc0d02adb40c968e0c0f7c53b8c56e492616deb06088a",
+      "sha256": "6ae4342644b37c7b6c2dc0d02adb40c968e0c0f7c53b8c56e492616deb06088a"
+    },
+    "examples/specs/variants/histogram-coarse.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/histogram-coarse.json",
+      "sourceSha256": "fc2721396ea92530463a07d9c7cb0638711d6a2fe175cb23abfe0c3692b327a1",
+      "sha256": "fc2721396ea92530463a07d9c7cb0638711d6a2fe175cb23abfe0c3692b327a1"
+    },
+    "examples/specs/variants/histogram-fine.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/histogram-fine.json",
+      "sourceSha256": "229040a1dfd999428a47e6e464c8520e4ef2a595a624419fb2dd1a25270be9e2",
+      "sha256": "229040a1dfd999428a47e6e464c8520e4ef2a595a624419fb2dd1a25270be9e2"
+    },
+    "examples/specs/variants/kdePlot-fixed.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/kdePlot-fixed.json",
+      "sourceSha256": "c25490b5c0590f4e4201e557b990b5bfc112def8267ee0afcfc2f9992b32da93",
+      "sha256": "c25490b5c0590f4e4201e557b990b5bfc112def8267ee0afcfc2f9992b32da93"
+    },
+    "examples/specs/variants/kdePlot-epanechnikov.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/kdePlot-epanechnikov.json",
+      "sourceSha256": "b808f6bd454422d12a2e3404adf8d89ae2060eda61e49adbdcf7687cfbd06467",
+      "sha256": "b808f6bd454422d12a2e3404adf8d89ae2060eda61e49adbdcf7687cfbd06467"
+    },
+    "examples/specs/variants/kdePlot-constant.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/kdePlot-constant.json",
+      "sourceSha256": "cda41357e9efc268ede210626354fa813f70828efc9087362c678fe33a5ca7c8",
+      "sha256": "cda41357e9efc268ede210626354fa813f70828efc9087362c678fe33a5ca7c8"
+    },
+    "examples/specs/variants/kdePlot-series.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/kdePlot-series.json",
+      "sourceSha256": "06bd19472a4f64c2b5dc92836f0990429acbd0aafda4af895be45ae0aeace802",
+      "sha256": "06bd19472a4f64c2b5dc92836f0990429acbd0aafda4af895be45ae0aeace802"
+    },
+    "examples/specs/variants/boxPlot-whiskers.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/boxPlot-whiskers.json",
+      "sourceSha256": "4cd7bd1c1788fdbb1d8f7b18549d0a6eb73deb4fd7143e2e7d934c0a90d829ca",
+      "sha256": "4cd7bd1c1788fdbb1d8f7b18549d0a6eb73deb4fd7143e2e7d934c0a90d829ca"
+    },
+    "examples/specs/variants/violinPlot-area.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/violinPlot-area.json",
+      "sourceSha256": "3c3c211e8cfcfca92e1a1ef106907f734ef356cca2604b548e05c7957fa15626",
+      "sha256": "3c3c211e8cfcfca92e1a1ef106907f734ef356cca2604b548e05c7957fa15626"
+    },
+    "examples/specs/variants/violinPlot-count.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/violinPlot-count.json",
+      "sourceSha256": "464796f2a73bd391f0c7d74680529f05b85cbd9c9f2c6b33f1abb757e1d6d9f3",
+      "sha256": "464796f2a73bd391f0c7d74680529f05b85cbd9c9f2c6b33f1abb757e1d6d9f3"
+    },
+    "examples/specs/variants/violinPlot-all.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/violinPlot-all.json",
+      "sourceSha256": "a332f1a64285475b4c2e7276de777905d7658e7a7475cf1c0ccc083310f54f9f",
+      "sha256": "a332f1a64285475b4c2e7276de777905d7658e7a7475cf1c0ccc083310f54f9f"
+    },
+    "examples/specs/variants/stripPlot-jitter.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/stripPlot-jitter.json",
+      "sourceSha256": "38b864457350194790ebbb9a5b481aac9dfab1dd13671b7274280d920a6919df",
+      "sha256": "38b864457350194790ebbb9a5b481aac9dfab1dd13671b7274280d920a6919df"
+    },
+    "examples/specs/variants/stripPlot-swarm.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/stripPlot-swarm.json",
+      "sourceSha256": "9e457f28080e99a069b1346833f38e6b4ce7c33247b7411a2a1b02d47f2d2e1a",
+      "sha256": "9e457f28080e99a069b1346833f38e6b4ce7c33247b7411a2a1b02d47f2d2e1a"
+    },
+    "examples/specs/variants/pointIntervalPlot-standard-error.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/pointIntervalPlot-standard-error.json",
+      "sourceSha256": "87e0d1ead29a6c7717ff6d35d558419e729cae8401f22a589652c99be9ca88c5",
+      "sha256": "87e0d1ead29a6c7717ff6d35d558419e729cae8401f22a589652c99be9ca88c5"
+    },
+    "examples/specs/variants/pointIntervalPlot-median-percentile.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/pointIntervalPlot-median-percentile.json",
+      "sourceSha256": "8bca75340ad38da3cd1113cd2c902322e6a35829004e605717ab80b55d876416",
+      "sha256": "8bca75340ad38da3cd1113cd2c902322e6a35829004e605717ab80b55d876416"
+    },
+    "examples/specs/variants/pointIntervalPlot-single-sample.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/pointIntervalPlot-single-sample.json",
+      "sourceSha256": "f06c165be4791f025140e90d491687ac61fbdd2295d0cb6180e681692a2cdea8",
+      "sha256": "f06c165be4791f025140e90d491687ac61fbdd2295d0cb6180e681692a2cdea8"
+    },
+    "examples/specs/variants/scatterPlot-polynomial.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/scatterPlot-polynomial.json",
+      "sourceSha256": "91757bbad1c0fd3faca2c65beed7d26fc9675bfcabdbcdc4364675cb1e374166",
+      "sha256": "91757bbad1c0fd3faca2c65beed7d26fc9675bfcabdbcdc4364675cb1e374166"
+    },
+    "examples/specs/variants/scatterPlot-lowess.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/scatterPlot-lowess.json",
+      "sourceSha256": "1b42d8fe93f95fbad3264bb83d491770fcd1b61720f90e32c70614d73c1c0d71",
+      "sha256": "1b42d8fe93f95fbad3264bb83d491770fcd1b61720f90e32c70614d73c1c0d71"
+    },
+    "examples/specs/variants/scatterPlot-external.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/scatterPlot-external.json",
+      "sourceSha256": "995ef5731be0957956592975930984e55b8bb02d1839ae03887efa08159012c9",
+      "sha256": "995ef5731be0957956592975930984e55b8bb02d1839ae03887efa08159012c9"
+    },
+    "examples/specs/variants/hexbinPlot-coarse.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/hexbinPlot-coarse.json",
+      "sourceSha256": "9da4a2e4fa1c8ef51bd4d73c25625e84a4177bb206c95a5e3dc00948827ae2e9",
+      "sha256": "9da4a2e4fa1c8ef51bd4d73c25625e84a4177bb206c95a5e3dc00948827ae2e9"
+    },
+    "examples/specs/variants/hexbinPlot-fine.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/hexbinPlot-fine.json",
+      "sourceSha256": "5dcd698d0b8d952b67a701017e80bddc2725d7e83094be5cdc88db817c14c730",
+      "sha256": "5dcd698d0b8d952b67a701017e80bddc2725d7e83094be5cdc88db817c14c730"
+    },
+    "examples/specs/variants/correlationMatrix-spearman-ties.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/correlationMatrix-spearman-ties.json",
+      "sourceSha256": "d9a0846aa791c821e68a11e369917a42e111535ca2b4cb77c629dfa0006bc86d",
+      "sha256": "d9a0846aa791c821e68a11e369917a42e111535ca2b4cb77c629dfa0006bc86d"
+    },
+    "examples/specs/variants/pairPlot-histogram.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/pairPlot-histogram.json",
+      "sourceSha256": "d2d217d8a89604a2ed9d4286d6546ef0a3ef738eaa45f08b8550fb483eece1d5",
+      "sha256": "d2d217d8a89604a2ed9d4286d6546ef0a3ef738eaa45f08b8550fb483eece1d5"
+    },
+    "examples/specs/variants/pairPlot-none.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/pairPlot-none.json",
+      "sourceSha256": "402b531d806fe50d6546fd34eb803e181d6e497831532f1eccbf774c0e96743c",
+      "sha256": "402b531d806fe50d6546fd34eb803e181d6e497831532f1eccbf774c0e96743c"
+    },
+    "examples/specs/variants/timeSeriesPlot-estimates.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/timeSeriesPlot-estimates.json",
+      "sourceSha256": "8ff29bd71bc3519667cf7a25f50772c305fb249a6a87886fbf81cfd9cc99856f",
+      "sha256": "8ff29bd71bc3519667cf7a25f50772c305fb249a6a87886fbf81cfd9cc99856f"
+    },
+    "examples/specs/variants/timeSeriesPlot-direct.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/timeSeriesPlot-direct.json",
+      "sourceSha256": "2cc4d1510ee52daa18161b6511e7420bc33bafb00637da8028d2855f40347342",
+      "sha256": "2cc4d1510ee52daa18161b6511e7420bc33bafb00637da8028d2855f40347342"
+    },
+    "examples/specs/variants/seasonalPlot-overlay.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/seasonalPlot-overlay.json",
+      "sourceSha256": "90e8703aa6999516352575fc89d0eed1bd0940c039ba0a131299fcbac77e4299",
+      "sha256": "90e8703aa6999516352575fc89d0eed1bd0940c039ba0a131299fcbac77e4299"
+    },
+    "examples/specs/variants/seasonalPlot-subseries.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/seasonalPlot-subseries.json",
+      "sourceSha256": "4b82421ef83dfba68972a94858b2b26e08027c1181d7f305add5c0dfde6e5182",
+      "sha256": "4b82421ef83dfba68972a94858b2b26e08027c1181d7f305add5c0dfde6e5182"
+    },
+    "examples/specs/variants/autocorrelationPlot-acf.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/autocorrelationPlot-acf.json",
+      "sourceSha256": "0cd2a24b1f74f0af931824dd18cdbd15d51befb49462d861aa909c238e1fd395",
+      "sha256": "0cd2a24b1f74f0af931824dd18cdbd15d51befb49462d861aa909c238e1fd395"
+    },
+    "examples/specs/variants/autocorrelationPlot-pacf.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/autocorrelationPlot-pacf.json",
+      "sourceSha256": "96190e8264c5858af91298283fedfcf52706bbca740a6e316037fd1e45dc3144",
+      "sha256": "96190e8264c5858af91298283fedfcf52706bbca740a6e316037fd1e45dc3144"
+    },
+    "examples/specs/variants/autocorrelationPlot-no-confidence.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/autocorrelationPlot-no-confidence.json",
+      "sourceSha256": "70d95b9ca70e913c9abcdb6e31a846364c7999fb71a41077767c2bb2710a80e3",
+      "sha256": "70d95b9ca70e913c9abcdb6e31a846364c7999fb71a41077767c2bb2710a80e3"
+    },
+    "examples/specs/variants/embeddingPlot-pca.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/embeddingPlot-pca.json",
+      "sourceSha256": "07987a4288a5e9d36d9068ec7b8c3405df0dcf2eb548aaea4cf164dfaaed3b2f",
+      "sha256": "07987a4288a5e9d36d9068ec7b8c3405df0dcf2eb548aaea4cf164dfaaed3b2f"
+    },
+    "examples/specs/variants/embeddingPlot-tsne.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/embeddingPlot-tsne.json",
+      "sourceSha256": "5c46b433075c2e1ca8601c5c0603bf80009cdb6914b9516639d93f597ebcc636",
+      "sha256": "5c46b433075c2e1ca8601c5c0603bf80009cdb6914b9516639d93f597ebcc636"
+    },
+    "examples/specs/variants/embeddingPlot-umap.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/embeddingPlot-umap.json",
+      "sourceSha256": "8fb44c58db007fa91238fdfbcd1d19acfdf5d9b82efb4b5ebf0150f7e9ee7531",
+      "sha256": "8fb44c58db007fa91238fdfbcd1d19acfdf5d9b82efb4b5ebf0150f7e9ee7531"
+    },
+    "examples/specs/variants/residualPlot-studentized.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/residualPlot-studentized.json",
+      "sourceSha256": "24cde6aa3830b28fa087164fa0e197e6a1b27258ca13eb3aec9b2066a473f9f0",
+      "sha256": "24cde6aa3830b28fa087164fa0e197e6a1b27258ca13eb3aec9b2066a473f9f0"
+    },
+    "examples/specs/variants/residualPlot-polynomial.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/residualPlot-polynomial.json",
+      "sourceSha256": "05cafe7afe3c830f337d65de1c86864a45163da14a07d326636b44d6db076439",
+      "sha256": "05cafe7afe3c830f337d65de1c86864a45163da14a07d326636b44d6db076439"
+    },
+    "examples/specs/variants/residualPlot-lowess.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/residualPlot-lowess.json",
+      "sourceSha256": "0a4f19694bf8d7de0c886df95285d0e0526db940feb51803687ed15e6144c0b4",
+      "sha256": "0a4f19694bf8d7de0c886df95285d0e0526db940feb51803687ed15e6144c0b4"
+    },
+    "examples/specs/variants/residualPlot-smooth.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/residualPlot-smooth.json",
+      "sourceSha256": "7274bbb8abc2853cbb12364a07e8fb836f650db3553709fe88d03fc1b42d314d",
+      "sha256": "7274bbb8abc2853cbb12364a07e8fb836f650db3553709fe88d03fc1b42d314d"
+    },
+    "examples/specs/variants/residualPlot-predictions.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/residualPlot-predictions.json",
+      "sourceSha256": "288093e4063b06d1c0b2e10da8712bc5082174eaa7d499240f91a1892bf97278",
+      "sha256": "288093e4063b06d1c0b2e10da8712bc5082174eaa7d499240f91a1892bf97278"
+    },
+    "examples/specs/variants/qqPlot-quartiles.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/qqPlot-quartiles.json",
+      "sourceSha256": "b18887b991b8826ae5d330b378c6afd00bdfc9123e406182d65112591da9eab7",
+      "sha256": "b18887b991b8826ae5d330b378c6afd00bdfc9123e406182d65112591da9eab7"
+    },
+    "examples/specs/variants/qqPlot-regression.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/qqPlot-regression.json",
+      "sourceSha256": "d02483d23a61063483f29c429b360fdd19cd78558d2ab5f5af94079f86948b37",
+      "sha256": "d02483d23a61063483f29c429b360fdd19cd78558d2ab5f5af94079f86948b37"
+    },
+    "examples/specs/variants/qqPlot-identity.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/qqPlot-identity.json",
+      "sourceSha256": "737b9d9256992d82673e447cf78a1752a00271b9911bba1212530c27a247fe4b",
+      "sha256": "737b9d9256992d82673e447cf78a1752a00271b9911bba1212530c27a247fe4b"
+    },
+    "examples/specs/variants/qqPlot-normal-parameters.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/qqPlot-normal-parameters.json",
+      "sourceSha256": "f3a28f80ecdf8c37f571a413a96d4652b3ca32f6752727d42180bcc0d768da7a",
+      "sha256": "f3a28f80ecdf8c37f571a413a96d4652b3ca32f6752727d42180bcc0d768da7a"
+    },
+    "examples/specs/variants/confusionMatrix-actual.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/confusionMatrix-actual.json",
+      "sourceSha256": "f765b675f800b109386c12fa410d45ebc4616ea7300d4be32188f679ada79488",
+      "sha256": "f765b675f800b109386c12fa410d45ebc4616ea7300d4be32188f679ada79488"
+    },
+    "examples/specs/variants/confusionMatrix-predicted.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/confusionMatrix-predicted.json",
+      "sourceSha256": "f05c0ff24b3bd3ad7887fb4d4aa9cf6ac257e2c306b7d365a6e756b789d84458",
+      "sha256": "f05c0ff24b3bd3ad7887fb4d4aa9cf6ac257e2c306b7d365a6e756b789d84458"
+    },
+    "examples/specs/variants/confusionMatrix-all.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/confusionMatrix-all.json",
+      "sourceSha256": "8a991a91aff56d6c35a00c78373c3efdf91f13082a7c955557e93abfaa3ab80b",
+      "sha256": "8a991a91aff56d6c35a00c78373c3efdf91f13082a7c955557e93abfaa3ab80b"
+    },
+    "examples/specs/variants/precisionRecallCurve-baseline.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/precisionRecallCurve-baseline.json",
+      "sourceSha256": "a6c8f6f6c687ae39e099925662b90592ab476dea1853b5483ee0f7eacbcafe1e",
+      "sha256": "a6c8f6f6c687ae39e099925662b90592ab476dea1853b5483ee0f7eacbcafe1e"
+    },
+    "examples/specs/variants/calibrationCurve-quantile.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/calibrationCurve-quantile.json",
+      "sourceSha256": "1057aa9b660793eda7b5fdc7f466042d661140ab3279107351d09eb5fca1ac5c",
+      "sha256": "1057aa9b660793eda7b5fdc7f466042d661140ab3279107351d09eb5fca1ac5c"
+    },
+    "examples/specs/variants/learningCurve-folds-no-spread.json": {
+      "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/examples/specs/variants/learningCurve-folds-no-spread.json",
+      "sourceSha256": "77f38ba46a04b8708acc5aeb679b44a343bf1be6f4cbeb0ddb7519e9db3c90e6",
+      "sha256": "77f38ba46a04b8708acc5aeb679b44a343bf1be6f4cbeb0ddb7519e9db3c90e6"
+    },
+    "variants.json": {
+      "sources": [
+        {
+          "source": "https://unpkg.com/@visactor/vchart-statplots@2.2.0/docs/plot-catalog.json",
+          "sourceSha256": "a80eac8fa20d29c54c0f6c861e2a98645e345ae40e317758248701ec50c1af97"
+        }
+      ],
+      "transform": {
+        "rule": "variant-index-v2"
+      },
+      "sha256": "136ee36194682babc15809f960c977f4bd6aedc0d41769a9841a2e16e093631a"
+    },
+    "LICENSE": {
+      "source": "workspace:LICENSE",
+      "sha256": "c938403ee99774c305d734fe77774527fb20a90a5e896de4a83e2e513555b757"
+    }
+  },
+  "workspaceAssets": {
+    "skills/data-science-visualization/assets/statplot-controller.js": {
+      "source": "packages/vchart-statplots/examples/shared/statplot-controller.js",
+      "sha256": "6809d93e219d98a0a81c76dda59ffb2f1b705f0704d4b565a1dae98da9c96bbc"
+    }
+  }
+}

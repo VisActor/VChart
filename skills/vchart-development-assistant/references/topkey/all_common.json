@@ -117,6 +117,8 @@
   },
   "state": {
     "key": "state",
-    "oneDesc": "跟交互状态相关的配置，例如选中态/hover态/激活态等相关的内容"
+    "oneDesc": "图元的交互状态样式（如 bar.state.hover），不是图表根属性。",
+    "scope": "mark",
+    "specPath": "<mark>.state"
   }
 }

@@ -121,7 +121,7 @@
   },
   "bar": {
     "key": "bar",
-    "oneDesc": "柱图图元样式配置.同时可以配置选中，hover等交互状态下的柱子和对应鼠标的样式"
+    "oneDesc": "继承公开类型中的二维柱样式字段；3D 运行时的 bar3d 样式尚未在该类型声明，参见元数据 contractNotes 的来源与示例。"
   },
   "barBackground": {
     "key": "barBackground",

@@ -1,6 +1,6 @@
 # 特征重要性图 `featureImportancePlot`
 
-[TS 类型](../types/plots/feature-importance/types.d.ts) · [最小输入](../examples/specs/minimal/featureImportancePlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/featureImportancePlot.md)
+[TS 类型](../types/plots/feature-importance/types.d.ts) · [最小输入](../examples/specs/minimal/featureImportancePlot.json) · [公共约束](common.md)
 
 比较给定方法算出的各特征重要性。
 

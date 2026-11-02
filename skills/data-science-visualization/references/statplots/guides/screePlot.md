@@ -1,6 +1,6 @@
 # 碎石图 `screePlot`
 
-[TS 类型](../types/plots/scree/types.d.ts) · [最小输入](../examples/specs/minimal/screePlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/screePlot.md)
+[TS 类型](../types/plots/scree/types.d.ts) · [最小输入](../examples/specs/minimal/screePlot.json) · [公共约束](common.md)
 
 查看各成分解释方差比例。
 

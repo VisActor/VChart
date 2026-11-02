@@ -1,0 +1,17 @@
+{
+  "type": "pie",
+  "data": {
+    "values": [
+      {
+        "category": "A",
+        "value": 30
+      },
+      {
+        "category": "B",
+        "value": 70
+      }
+    ]
+  },
+  "categoryField": "category",
+  "valueField": "value"
+}

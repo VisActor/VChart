@@ -187,8 +187,8 @@ Result</br>
 
 
 Related documentation</br>
-*  Related API: [https://www.visactor.io/vchart/option/barChart#sortDataByAxis](https%3A%2F%2Fwww.visactor.io%2Fvchart%2Foption%2FbarChart%23sortDataByAxis)</br>
-*  Github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  Related API: [https://www.visactor.io/vchart/option/barChart#sortDataByAxis](https://www.visactor.io/vchart/option/barChart#sortDataByAxis)</br>
+*  Github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>
 
 
 

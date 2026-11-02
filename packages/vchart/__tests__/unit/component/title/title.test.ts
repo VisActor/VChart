@@ -1,6 +1,15 @@
 import { Title } from '../../../../src/component/title/title';
 import { ComponentTypeEnum } from '../../../../src/component/interface/type';
 import { getTheme } from '../../../util/context';
+import { Layout } from '../../../../src/layout';
+import { LayoutItem } from '../../../../src/layout/layout-item';
+import { registerBrowserEnv } from '../../../../src/env';
+import { application } from '@visactor/vrender-core';
+
+beforeAll(() => {
+  registerBrowserEnv();
+  application.global.setEnv('browser');
+});
 
 const ctx: any = {
   type: ComponentTypeEnum.title,
@@ -11,7 +20,7 @@ const ctx: any = {
     getTooltipHandlerByUser: (): any => undefined,
     getStage: () => ({
       find: (): any => ({
-        add: () => {}
+        add: (component: { render: () => void }) => component.render()
       })
     })
   },
@@ -50,6 +59,56 @@ describe('Title Component Repro', () => {
     expect(() => {
       title.getBoundsInRect(layoutRect);
     }).not.toThrow();
+  });
+});
+
+describe('Title layout cache', () => {
+  it.each([
+    ['top', 'normal'],
+    ['bottom', 'normal'],
+    ['left', 'normal'],
+    ['right', 'normal'],
+    ['top', 'normal-inline']
+  ])('should preserve measured bounds for %s %s titles across incremental layouts', (orient, layoutType) => {
+    const title = createTitle({
+      visible: true,
+      text: 'Title',
+      textStyle: { fontSize: 12, lineHeight: 16 },
+      orient,
+      layoutType
+    });
+    const region = new LayoutItem({ id: 1 } as any, { layoutType: 'region', layoutLevel: 100 });
+    const layout = new Layout();
+    const runLayout = (width: number) => {
+      layout.layoutItems(
+        null as any,
+        [title.layout, region],
+        { x: 0, y: 0, width, height: 300 },
+        {
+          x1: 0,
+          y1: 0,
+          x2: width,
+          y2: 300
+        }
+      );
+    };
+
+    runLayout(400);
+    const dimension = orient === 'top' || orient === 'bottom' ? 'height' : 'width';
+    const measuredSize = title.getLayoutRect()[dimension];
+    expect(measuredSize).toBeGreaterThan(0);
+
+    // resize 会重新测量标题；文字尺寸不变时也必须保存真实测量结果。
+    title.layout.setWillLayoutTag();
+    runLayout(401);
+    expect(title.getLayoutRect()[dimension]).toBe(measuredSize);
+    const resizedRegion = { ...region.getLayoutRect() };
+
+    // 轴或图例触发的后续布局不会把标题标为 dirty，会直接复用标题缓存。
+    runLayout(401);
+    expect(region.getLayoutRect()).toEqual(resizedRegion);
+    expect(region.getLayoutRect().width).toBeGreaterThan(0);
+    expect(region.getLayoutRect().height).toBeGreaterThan(0);
   });
 });
 

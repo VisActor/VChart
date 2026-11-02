@@ -4,18 +4,23 @@ group: extension chart
 title: Arc Storyline
 keywords: extension, storyline, arc
 order: 12
+cover: /vchart/preview/storyline-arc.png
 option: storylineChart
 ---
 
 # Arc Storyline
 
-This example uses the `arc` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its images, data and theme while adapting the chart width and height to its container.
+**Version requirement:** `storyline` is available from `@visactor/vchart-extension` since **VChart 2.1.7**. Use **2.1.7 or later** and keep `@visactor/vchart` and `@visactor/vchart-extension` versions identical. If you select an unsupported version in the live demo, upgrade it; this extension chart is not built into the core package.
+
+This example uses the `arc` case from `packages/vchart-extension/__tests__/runtime/browser/test-page/storyline.ts`, retaining its images, data and theme using a fixed-size canvas with scrolling inside this demo.
 
 Each run generates 3–9 nodes at random and preserves the case's long text to demonstrate how the layout handles different node counts and content lengths.
 
 ## Key Configurations
 
-- `autoFit: true`: adapt width and height to the container without fixed `width` or `height` values; the demo container scales with the page at a `16 / 9` aspect ratio.
+- `autoFit: false`, `width: 1200`, `height: 675`: keep a fixed canvas size.
+- `scrollContainer`: fill the preview area and use `overflow: auto` to view the larger canvas without changing the site's outer container styles.
+- `window.customRelease`: remove this demo's DOM when rerunning or switching examples so scrollbars do not persist.
 - `layout: { type: 'arc', direction: 'up' }`: use a dome arrangement.
 - `titleImage.image`: show the World Cup theme image at the bottom.
 - `themeColor`: use the test case's orange theme.
@@ -27,7 +32,11 @@ Each run generates 3–9 nodes at random and preserves the case's long text to d
 // import VChart from '@visactor/vchart';
 // import { registerStorylineChart } from '@visactor/vchart-extension';
 // The documentation demo provides the VChartExtension global.
-const { registerStorylineChart } = VChartExtension;
+// storyline requires VChart 2.1.7+ and the matching @visactor/vchart-extension.
+// Register when available in the live demo; this chart still requires a supported version.
+if (VChartExtension.registerStorylineChart) {
+  VChartExtension.registerStorylineChart();
+}
 
 const TITLE_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/title-world-cap.png';
 const SUB_IMAGE_URL = 'https://lf9-dp-fe-cms-tos.byteorg.com/obj/bit-cloud/node-world-cup-2022.png';
@@ -89,13 +98,16 @@ const buildData = layout => {
     const seed = baseData[index % baseData.length];
     // portrait 布局：附加 marker 时间节点（2012、2013…）以便沿中轴纵向展示
     const marker = layout === 'portrait' ? String(2012 + index) : undefined;
-    return {
-      ...seed,
-      id: `${layout}-${index}-${seed.id}`,
-      title: `${seed.title} ${index + 1}`,
-      content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`],
-      ...(marker ? { marker } : {})
-    };
+    return Object.assign(
+      {},
+      seed,
+      {
+        id: `${layout}-${index}-${seed.id}`,
+        title: `${seed.title} ${index + 1}`,
+        content: [`${seed.content}`, `Layout ${layout} / Block ${index + 1} of ${count}.`]
+      },
+      marker ? { marker } : {}
+    );
   });
 };
 const themeColor = 'rgb(228,154,56)';
@@ -103,9 +115,13 @@ const titleImage = {
   image: TITLE_IMAGE_URL
 };
 const layout = 'arc';
+const chartWidth = 1200;
+const chartHeight = 675;
 const spec = {
   type: 'storyline',
-  autoFit: true,
+  autoFit: false,
+  width: chartWidth,
+  height: chartHeight,
   // padding: 0,
   data: buildData(layout),
   layout: { type: 'arc', direction: 'up' },
@@ -113,15 +129,37 @@ const spec = {
   themeColor
 };
 
-// Scale the demo container with the page width and preserve the original case aspect ratio.
+// Keep the canvas size fixed and scrolling local to this demo.
 const container = document.getElementById(CONTAINER_ID);
-container.style.width = '100%';
-container.style.height = 'auto';
-container.style.contain = 'size';
-container.style.aspectRatio = '16 / 9';
+const scrollContainer = document.createElement('div');
+Object.assign(scrollContainer.style, {
+  position: 'absolute',
+  top: '0',
+  right: '0',
+  bottom: '0',
+  left: '0',
+  overflow: 'auto'
+});
 
-registerStorylineChart();
-const vchart = new VChart(spec, { dom: container });
+const chartContainer = document.createElement('div');
+Object.assign(chartContainer.style, {
+  position: 'relative',
+  width: `${chartWidth}px`,
+  height: `${chartHeight}px`
+});
+scrollContainer.appendChild(chartContainer);
+container.appendChild(scrollContainer);
+
+// The site releases the chart instance; only remove this demo's DOM here.
+const cleanup = () => {
+  scrollContainer.remove();
+  if (window.customRelease === cleanup) {
+    delete window.customRelease;
+  }
+};
+window.customRelease = cleanup;
+
+const vchart = new VChart(spec, { dom: chartContainer });
 vchart.renderSync();
 
 // Just for the convenience of console debugging, DO NOT COPY!

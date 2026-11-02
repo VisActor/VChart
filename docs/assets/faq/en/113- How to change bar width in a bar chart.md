@@ -76,5 +76,5 @@ window['vchart'] = vchart;</br>
 # Related Documentation
 
 *  `barWidth` configuration: [https://visactor.bytedance.net/vchart/option/barChart#barWidth](https%3A%2F%2Fvisactor.bytedance.net%2Fvchart%2Foption%2FbarChart%23barWidth)</br>
-*  VChart github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>
 

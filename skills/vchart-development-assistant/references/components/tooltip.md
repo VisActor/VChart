@@ -5,7 +5,8 @@
 ```javascript
 tooltip: {
   visible: true,
-  trigger: 'axis'     // 触发方式
+  trigger: 'hover',   // 悬停触发；其他触发方式见下文
+  activeType: 'mark'  // 内容类型：'mark' | 'dimension' | 'group'
 }
 ```
 
@@ -13,24 +14,50 @@ tooltip: {
 
 | 值 | 说明 | 适用场景 |
 |---|------|---------|
-| `'mark'` | 图元触发 | 散点图、饼图等 |
-| `'axis'` | 坐标轴触发 | 折线图、柱状图等 |
+| `'hover'` | 悬停触发 tooltip | 默认交互 |
+| `'click'` | 点击触发 tooltip | 移动端/点选场景 |
+| `'none'` | 不自动触发 tooltip | 配合 API 手动控制 |
+| `['hover', 'click']` | 组合内置触发方式 | 同时支持悬停与点击 |
+| `{ eventType, source?, consume? }` | 自定义事件对象，也可与内置触发方式组合为数组 | 高级事件编排 |
+
+自定义事件必须使用对象形式，不能将事件名直接写成字符串或字符串数组。完整类型见 [ITooltipSpec](../type-details/ITooltipSpec-Type-Definition.md#trigger-configuration)。
 
 ```javascript
-// mark 触发 - hover到具体图形才显示
+// 默认：hover 触发
 tooltip: {
-  trigger: 'mark'
+  trigger: 'hover'
 }
 
-// axis 触发 - hover到X轴位置就显示
+// click 触发
 tooltip: {
-  trigger: 'axis'
+  trigger: 'click'
+}
+
+// 不自动触发（手动控制）
+tooltip: {
+  trigger: 'none'
+}
+
+// 自定义事件，也可与 'hover' / 'click' 组合为数组
+tooltip: {
+  trigger: { eventType: 'pointerdown', source: 'chart' }
 }
 ```
 
+> `trigger` 负责“何时触发”；`activeType` 负责“展示 mark / dimension / group 哪种 tooltip 内容”。
+
 ## 内容配置
 
+### 回调参数层级
+
+- `content: (data, params) => [...]` 是内容工厂，接收 `TooltipData` 集合（如 mark 类型的 `[{ datum: [图元数据], series }]`），不是单条记录。不要直接访问 `data.value`。
+- `content: [{ key: ..., value: (datum, params) => ... }]` 中的行回调接收当前图元数据，不保证就是输入的业务记录；`title.value` 同理。普通柱状图等可直接读取业务字段，经过布局转换的图表需按该图表的数据结构取值。只需格式化字段时优先使用行回调。
+- Treemap 的行回调和标题回调接收布局节点。先按 [Treemap 数据与回调](../chart/treemap.md) 解包，再读取业务字段；标签或配色中的解包不会自动应用到 tooltip。完整示例见 [hierarchy-treemap.js](../examples/treemap/hierarchy-treemap.js)。
+- 工厂返回的是行配置，仍可让行的 `value` 回调读取当前记录。dimension/group 的集合结构不同，不要把 mark 的集合索引写成通用取值逻辑。
+
 ### mark 类型内容
+
+以下示例适用于业务字段直接位于图元数据上的普通图表；Treemap 使用上面的专项取值方式。
 
 ```javascript
 tooltip: {
@@ -56,11 +83,12 @@ tooltip: {
 }
 ```
 
-### dimension 类型内容（axis触发）
+### dimension 类型内容（按维度聚合）
 
 ```javascript
 tooltip: {
-  trigger: 'axis',
+  trigger: 'hover',
+  activeType: 'dimension',
   dimension: {
     title: {
       value: (datum) => datum[0]?.category
@@ -75,7 +103,11 @@ tooltip: {
 }
 ```
 
-## 内容格式化
+## 模板字符串格式化
+
+`key` / `value` 接收普通字符串或回调；模板使用 `keyFormatter` / `valueFormatter`，不能把模板写进 value 后期待求值。例如 `content: [{key: '数量', valueFormatter: '{value:,.0f}'}]`。完整类型见 [ITooltipSpec](../type-details/ITooltipSpec-Type-Definition.md)。
+
+## 内容格式化（函数方式）
 
 ### 基础格式化
 
@@ -188,22 +220,26 @@ tooltip: {
 ```javascript
 tooltip: {
   // 偏移
-  offsetX: 10,
-  offsetY: 10,
+  offset: { x: 10, y: 10 },
   
-  // 固定位置（不跟随鼠标）
-  fixedPosition: true,
-  position: {
-    x: 100,
-    y: 100
+  // dimension tooltip 可通过回调自定义位置
+  dimension: {
+    position: (event, params) => {
+      return {
+        x: event.canvasX + 20,
+        y: event.canvasY + 20
+      };
+    }
   },
-  
-  // 或使用函数
-  position: (event, params) => {
-    return {
-      x: event.canvasX + 20,
-      y: event.canvasY + 20
-    };
+
+  // mark tooltip 也支持单独配置
+  mark: {
+    position: (event, params) => {
+      return {
+        x: event.canvasX + 12,
+        y: event.canvasY + 12
+      };
+    }
   },
   
   // 限制在图表区域内
@@ -222,7 +258,11 @@ tooltip: {
   showDelay: 50,
   
   // 隐藏延迟  
-  hideDelay: 100,
+  hideTimer: 100,
+
+  // 显示触发与关闭触发可分离
+  trigger: 'hover',
+  triggerOff: 'hover',
   
   // 过渡动画
   transitionDuration: 100
@@ -301,7 +341,8 @@ series: [
 ```javascript
 tooltip: {
   visible: true,
-  trigger: 'axis',
+  trigger: 'hover',
+  activeType: 'dimension',
   
   dimension: {
     title: {
@@ -349,7 +390,9 @@ tooltip: {
   },
   
   enterable: false,
+  offset: { x: 8, y: 8 },
   confine: true,
+  hideTimer: 120,
   transitionDuration: 150
 }
 ```

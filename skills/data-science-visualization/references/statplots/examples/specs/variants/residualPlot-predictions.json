@@ -1,0 +1,182 @@
+{
+  "type": "residualPlot",
+  "title": "外部预测残差",
+  "data": [
+    {
+      "id": "0",
+      "fittedValue": 0.0,
+      "actual": 0.0
+    },
+    {
+      "id": "1",
+      "fittedValue": 0.2,
+      "actual": 0.2739109923558638
+    },
+    {
+      "id": "2",
+      "fittedValue": 0.4,
+      "actual": 0.5238259194618589
+    },
+    {
+      "id": "3",
+      "fittedValue": 0.6,
+      "actual": 0.7150401502987077
+    },
+    {
+      "id": "4",
+      "fittedValue": 0.8,
+      "actual": 0.8406358682461804
+    },
+    {
+      "id": "5",
+      "fittedValue": 1.0,
+      "actual": 0.9304203162068755
+    },
+    {
+      "id": "6",
+      "fittedValue": 1.2,
+      "actual": 1.039608729114764
+    },
+    {
+      "id": "7",
+      "fittedValue": 1.4,
+      "actual": 1.221171377607599
+    },
+    {
+      "id": "8",
+      "fittedValue": 1.6,
+      "actual": 1.4956897995826177
+    },
+    {
+      "id": "9",
+      "fittedValue": 1.8,
+      "actual": 1.8355630863143466
+    },
+    {
+      "id": "10",
+      "fittedValue": 2.0,
+      "actual": 2.174125403350525
+    },
+    {
+      "id": "11",
+      "fittedValue": 2.2,
+      "actual": 2.437386037662924
+    },
+    {
+      "id": "12",
+      "fittedValue": 2.4,
+      "actual": 2.583297580018323
+    },
+    {
+      "id": "13",
+      "fittedValue": 2.6,
+      "actual": 2.6278217218346787
+    },
+    {
+      "id": "14",
+      "fittedValue": 2.8,
+      "actual": 2.6423199852026333
+    },
+    {
+      "id": "15",
+      "fittedValue": 3.0,
+      "actual": 2.720971105982973
+    },
+    {
+      "id": "16",
+      "fittedValue": 3.2,
+      "actual": 2.93300131868995
+    },
+    {
+      "id": "17",
+      "fittedValue": 3.4,
+      "actual": 3.283936218300597
+    },
+    {
+      "id": "18",
+      "fittedValue": 3.6,
+      "actual": 3.7072470183439794
+    },
+    {
+      "id": "19",
+      "fittedValue": 3.8,
+      "actual": 4.093275942722304
+    },
+    {
+      "id": "20",
+      "fittedValue": 4.0,
+      "actual": 4.343083880804109
+    },
+    {
+      "id": "21",
+      "fittedValue": 4.2,
+      "actual": 4.420778457932694
+    },
+    {
+      "id": "22",
+      "fittedValue": 4.4,
+      "actual": 4.376779873528979
+    },
+    {
+      "id": "23",
+      "fittedValue": 4.6,
+      "actual": 4.327816983088768
+    },
+    {
+      "id": "24",
+      "fittedValue": 4.8,
+      "actual": 4.401130684490368
+    },
+    {
+      "id": "25",
+      "fittedValue": 5.0,
+      "actual": 4.669531979489058
+    },
+    {
+      "id": "26",
+      "fittedValue": 5.2,
+      "actual": 5.110418046992419
+    },
+    {
+      "id": "27",
+      "fittedValue": 5.4,
+      "actual": 5.611451604729734
+    },
+    {
+      "id": "28",
+      "fittedValue": 5.6,
+      "actual": 6.022788525006469
+    },
+    {
+      "id": "29",
+      "fittedValue": 5.8,
+      "actual": 6.231655736327219
+    },
+    {
+      "id": "30",
+      "fittedValue": 6.0,
+      "actual": 6.22216629621281
+    },
+    {
+      "id": "31",
+      "fittedValue": 6.2,
+      "actual": 6.088810215410906
+    },
+    {
+      "id": "32",
+      "fittedValue": 6.4,
+      "actual": 5.994189501317513
+    },
+    {
+      "id": "33",
+      "fittedValue": 6.6,
+      "actual": 6.089711852748971
+    },
+    {
+      "id": "34",
+      "fittedValue": 6.8,
+      "actual": 6.43792004058036
+    }
+  ],
+  "input": "predictions"
+}

@@ -1,6 +1,6 @@
 # 小提琴图 `violinPlot`
 
-[TS 类型](../types/plots/violin/types.d.ts) · [最小输入](../examples/specs/minimal/violinPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/violinPlot.md)
+[TS 类型](../types/plots/violin/types.d.ts) · [最小输入](../examples/specs/minimal/violinPlot.json) · [公共约束](common.md)
 
 从原始样本比较不同分类、系列的核密度分布形状。编译阶段与 kdePlot 共用 vutils KDE；调用方不需要计算 density。
 

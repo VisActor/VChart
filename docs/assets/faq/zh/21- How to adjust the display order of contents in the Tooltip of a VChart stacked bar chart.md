@@ -270,6 +270,6 @@ window['vchart'] = vchart;</br>
 ## 相关文档
 
 *  github：https://github.com/VisActor/VChart</br>
-*  [`stackInverse`](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FbarChart%23region.stackInverse)[配置项](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FbarChart%23region.stackInverse)</br>
-*  [tooltip配置](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FbarChart%23tooltip.dimension.updateContent)</br>
+*  [`stackInverse`](https://visactor.com/vchart/option/barChart#region.stackInverse)[配置项](https://visactor.com/vchart/option/barChart#region.stackInverse)</br>
+*  [tooltip配置](https://visactor.com/vchart/option/barChart#tooltip.dimension.updateContent)</br>
 

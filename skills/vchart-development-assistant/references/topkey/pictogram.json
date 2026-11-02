@@ -1,0 +1,34 @@
+{
+  "type": {
+    "key": "type",
+    "oneDesc": "图表类型 pictogram；需要宿主注册扩展图型。"
+  },
+  "data": {
+    "key": "data",
+    "oneDesc": "实际 SVG 图形对应的数据，字段和口径由用户提供。"
+  },
+  "series": {
+    "key": "series",
+    "oneDesc": "系列配置，详见 IPictogramSeriesSpec。"
+  },
+  "nameField": {
+    "key": "nameField",
+    "oneDesc": "图形名称映射字段，根配置通过转换器传给系列。"
+  },
+  "valueField": {
+    "key": "valueField",
+    "oneDesc": "数值映射字段，根配置通过转换器传给系列。"
+  },
+  "svg": {
+    "key": "svg",
+    "oneDesc": "实际 SVG 内容，用于定义图形。"
+  },
+  "pictogram": {
+    "key": "pictogram",
+    "oneDesc": "图形样式与状态配置。"
+  },
+  "defaultFillColor": {
+    "key": "defaultFillColor",
+    "oneDesc": "默认填充颜色。"
+  }
+}

@@ -9,7 +9,7 @@ How to configure the highlight effect of Sankey diagram?</br>
 
 ## Description
 
-I added the following configuration based on this [demo](https%3A%2F%2Fvisactor.io%2Fvchart%2Fdemo%2Fsankey-chart%2Fbasic-sankey) (see Figure 1), but it did not achieve the effect of Figure 2. How should I configure it?</br>
+I added the following configuration based on this [demo](https://visactor.io/vchart/demo/sankey-chart/basic-sankey) (see Figure 1), but it did not achieve the effect of Figure 2. How should I configure it?</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/LxsWbZ32polNbdxE0wacNNfOnwe.gif' alt='' width='2246' height='1214'>
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/N8HGbXsK8oywycxIq07cZMSHn3B.gif' alt='' width='2690' height='1116'>

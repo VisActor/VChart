@@ -44,10 +44,10 @@ const spec = {*
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/L03Rbd8bXoPcO9x2h4TcwoO0nCg.gif' alt='' width='2434' height='1148'>
 
-Demo: [https://codesandbox.io/p/sandbox/vchart-disabletriggerevent-psxswy?file=%2Fsrc%2Findex.js%3A20%2C46](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fvchart-disabletriggerevent-psxswy%3Ffile%3D%252Fsrc%252Findex.js%253A20%252C46)</br>
+Demo: [https://codesandbox.io/p/sandbox/vchart-disabletriggerevent-psxswy?file=%2Fsrc%2Findex.js%3A20%2C46](https://codesandbox.io/p/sandbox/vchart-disabletriggerevent-psxswy?file=%2Fsrc%2Findex.js%3A20%2C46)</br>
 ## **Related Documents**
 
-Demo：[https://codesandbox.io/p/sandbox/vchart-disabletriggerevent-psxswy?file=%2Fsrc%2Findex.js%3A20%2C46](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fvchart-disabletriggerevent-psxswy%3Ffile%3D%252Fsrc%252Findex.js%253A20%252C46)</br>
+Demo：[https://codesandbox.io/p/sandbox/vchart-disabletriggerevent-psxswy?file=%2Fsrc%2Findex.js%3A20%2C46](https://codesandbox.io/p/sandbox/vchart-disabletriggerevent-psxswy?file=%2Fsrc%2Findex.js%3A20%2C46)</br>
 Tutorial：</br>
-*  Initialize VChart: [https://visactor.io/vchart/api/API/vchart](https%3A%2F%2Fvisactor.io%2Fvchart%2Fapi%2FAPI%2Fvchart)</br>
-Github: [https://github.com/VisActor/VChart/](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart%2F)</br>
+*  Initialize VChart: [https://visactor.io/vchart/api/API/vchart](https://visactor.io/vchart/api/API/vchart)</br>
+Github: [https://github.com/VisActor/VChart/](https://github.com/VisActor/VChart/)</br>

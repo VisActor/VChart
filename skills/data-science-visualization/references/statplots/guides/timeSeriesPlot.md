@@ -1,6 +1,6 @@
 # 时间序列图 `timeSeriesPlot`
 
-[TS 类型](../types/plots/time-series/types.d.ts) · [最小输入](../examples/specs/minimal/timeSeriesPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/timeSeriesPlot.md)
+[TS 类型](../types/plots/time-series/types.d.ts) · [最小输入](../examples/specs/minimal/timeSeriesPlot.json) · [公共约束](common.md)
 
 接受原始时间观测，或显式声明外部估计结果。input 必填，带时区 ISO 时间转换为 UTC 数值坐标；每系列按时刻稳定排序，不修改输入。
 

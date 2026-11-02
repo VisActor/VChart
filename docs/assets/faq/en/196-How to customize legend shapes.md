@@ -95,10 +95,10 @@ window['vchart'] = vchart;</br>
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/XWXLb3cvvoDIIyxZsqhcRsxHnjb.gif' alt='' width='2332' height='950'>
 
-Demo: [https://codesandbox.io/p/sandbox/pie-legends-shap-6tq5k9?file=%2Fsrc%2Findex.ts%3A69%2C7](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fpie-legends-shap-6tq5k9%3Ffile%3D%252Fsrc%252Findex.ts%253A69%252C7)</br>
+Demo: [https://codesandbox.io/p/sandbox/pie-legends-shap-6tq5k9?file=%2Fsrc%2Findex.ts%3A69%2C7](https://codesandbox.io/p/sandbox/pie-legends-shap-6tq5k9?file=%2Fsrc%2Findex.ts%3A69%2C7)</br>
 ## **Related Documents**
 
-Demo: [https://codesandbox.io/p/sandbox/pie-legends-shap-6tq5k9?file=%2Fsrc%2Findex.ts%3A69%2C7](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fpie-legends-shap-6tq5k9%3Ffile%3D%252Fsrc%252Findex.ts%253A69%252C7)</br>
+Demo: [https://codesandbox.io/p/sandbox/pie-legends-shap-6tq5k9?file=%2Fsrc%2Findex.ts%3A69%2C7](https://codesandbox.io/p/sandbox/pie-legends-shap-6tq5k9?file=%2Fsrc%2Findex.ts%3A69%2C7)</br>
 API:</br>
-*  Legend shape: [https://visactor.io/vchart/option/pieChart-legends-discrete#item.shape.style.symbolType](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart-legends-discrete%23item.shape.style.symbolType)</br>
-Github: [https://github.com/VisActor/VChart/](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart%2F)</br>
+*  Legend shape: [https://visactor.io/vchart/option/pieChart-legends-discrete#item.shape.style.symbolType](https://visactor.io/vchart/option/pieChart-legends-discrete#item.shape.style.symbolType)</br>
+Github: [https://github.com/VisActor/VChart/](https://github.com/VisActor/VChart/)</br>

@@ -1,6 +1,6 @@
 # ROC 曲线 `rocCurve`
 
-[TS 类型](../types/plots/roc/types.d.ts) · [最小输入](../examples/specs/minimal/rocCurve.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/rocCurve.md)
+[TS 类型](../types/plots/roc/types.d.ts) · [最小输入](../examples/specs/minimal/rocCurve.json) · [公共约束](common.md)
 
 `data: [{actual: boolean, score: number, series?}]`，true 表示正类；score 是有限分数，越大越倾向正类，不要求位于 [0,1]。
 

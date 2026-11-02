@@ -1,6 +1,6 @@
 # SHAP 蜂群图 `shapBeeswarmPlot`
 
-[TS 类型](../types/plots/shap-beeswarm/types.d.ts) · [最小输入](../examples/specs/minimal/shapBeeswarmPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/shapBeeswarmPlot.md)
+[TS 类型](../types/plots/shap-beeswarm/types.d.ts) · [最小输入](../examples/specs/minimal/shapBeeswarmPlot.json) · [公共约束](common.md)
 
 查看各特征逐观测的 SHAP 贡献与特征值。
 

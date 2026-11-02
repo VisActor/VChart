@@ -1,6 +1,6 @@
 # 经验累积分布图 `ecdfPlot`
 
-[TS 类型](../types/plots/ecdf/types.d.ts) · [最小输入](../examples/specs/minimal/ecdfPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/ecdfPlot.md)
+[TS 类型](../types/plots/ecdf/types.d.ts) · [最小输入](../examples/specs/minimal/ecdfPlot.json) · [公共约束](common.md)
 
 从原始样本计算经验累积概率，保留真实跳点并比较不同系列。编译阶段复用 vutils.ecdf；`F(x) = 样本中 value ≤ x 的数量 / N`，使用右连续阶梯。
 

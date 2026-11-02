@@ -149,3 +149,15 @@ node --test packages/vchart/scripts/visual-test.test.mjs
 自检在独立临时目录中验证：相同产物通过、仅候选构建改变颜色产生差异、缺图不自动生成基线、脚本缺失/异常/外部请求/超时及构建命令失败被归类为执行错误。自检结束自动清理目录和服务。
 
 平台验收及实测耗时见 [验收摘要](./cases/ACCEPTANCE.md)。视觉测试不替代单元测试、性能测试及内网 BugServer 的发版前全量测试。
+
+## PR 工作流
+
+完整的适用范围、反馈处理、Photo 人工核查、当前提交批准与合入步骤，统一见[贡献指南：PR 检查与合入流程](../../../../CONTRIBUTING.zh-CN.md#pr-检查与合入流程)。是否启用以贡献指南中的维护者说明为准；不能把本地视觉通过当作 Photo 通过或仓库已开放。
+
+旧 Photo CI 的原验收分支精确例外仍保留；新 PR 交接规则见 [Bug Server CI](../../../../.github/workflows/bug-server.yml)。启用变量未配置时保持原行为，不能将本次代码合入理解为旧 CI 已全仓停用。保留现有徽章和仍有效的 fork、存量、push、手动及回调入口；未执行旧 CI 的整体退役。
+
+触发范围回归已接入单测 CI，也可在仓库根目录执行：
+
+```sh
+node --test .github/scripts/bug-server-gray-scope.test.cjs
+```

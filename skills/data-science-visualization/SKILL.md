@@ -13,7 +13,7 @@ description: 从真实表格或已有统计与模型结果生成简洁的交互�
 
 按 [问题与数据条件](references/chart-selection.md) 选择图义。含义不足时只澄清会改变图义的问题。用户已指定图型时尊重选择；数据不满足契约则说明原因，不静默换图、猜带宽或伪造结果。
 
-定位 [索引](references/statplots/index.json) 中选中 type 的条目，读取其 guide、typeFile 及必要 import 依赖、example 最小输入。索引每行一图，可按 type 定位；不要读完整联合声明或全部指南。特殊变体才读取 variantFile 中对应 type 的选项与固定链接。公共数值、区间或配色条件见 [公共约束](references/statplots/guides/common.md)。TS 是字段参考，最终仍由公共 validate/compile 校验。
+定位[本地索引](references/statplots/index.json)中选中 type 的条目，读取其本地 guide、typeFile 及必要 import 依赖、example 最小输入。索引每行一图，可按 type 定位；不要读完整联合声明或全部指南。特殊变体才读取 variantFile 中对应 type 的 options 和选中条目的本地 example，路径相对 references/statplots 根目录；不要预读全部变体示例。公共数值、区间或配色条件见 [公共约束](references/statplots/guides/common.md)。TS 是字段参考，最终仍由公共 validate/compile 校验。
 
 ## 生成与交付
 
@@ -25,7 +25,7 @@ python3 /实际技能目录/scripts/generate_visualization.py \
   --output /新的输出目录
 ```
 
-Python 3.11+，CSV/TSV/JSON 只需标准库；XLSX 可选 openpyxl 并明确 sheet。默认解释器太旧时指定已有可用版本。输出 HTML、可重放 request 和带来源的 data；输出目录必须不存在。HTML 内嵌使用数据，固定 VChart/statplots 2.1.8-alpha.0 CDN；打开需网络及外部脚本权限，无需 npm、TypeScript、MCP 或本地服务器。
+Python 3.11+，CSV/TSV/JSON 只需标准库；XLSX 可选 openpyxl 并明确 sheet。默认解释器太旧时指定已有可用版本。输出 HTML、可重放 request 和带来源的 data；输出目录必须不存在。HTML 内嵌使用数据，VChart/statplots 使用 [release.json](release.json) 指定的同版本固定 CDN；打开需网络及外部脚本权限，无需 npm、TypeScript、MCP 或本地服务器。
 
 标题写实际变量、比较对象和必要范围，轴/Tooltip 保留单位。交付 HTML 链接及影响解读的数据范围、缺失省略或小样本限制；不把相关当因果，不添加分析面板。不展开聚合频数、不默认采样/截断、不猜区间或降维坐标；原始模型计算和完整推断报告使用分析工作流。
 
@@ -35,4 +35,4 @@ Python 3.11+，CSV/TSV/JSON 只需标准库；XLSX 可选 openpyxl 并明确 she
 
 对话改图读取磁盘 visualization.request.json，保留全部使用行、ID、单位、固定条件和按需选项，修改请求后生成新目录。新增未内嵌字段时从已知原数据按真实 ID 补回；request 不是全列备份。浏览器后续选择不自动写回磁盘，不可读取时确认具体条件；用户请求保存当前视图时才提供 saveView。
 
-维护者修改上游 controller 源并经 sync 脚本生成副本，不手改 assets/statplot-controller.js。references/statplots 为同版本发布资源的生成快照；类型原字节复制、指南按章节提取，来源与转换规则见 manifest。使用者无需执行同步。
+请整体使用版本匹配的技能包。参考资源缺失或版本不一致时停止生成，更新完整技能包后再运行，不单独修改库版本。

@@ -1,6 +1,6 @@
 # 配对比较图 `pairedComparisonPlot`
 
-[TS 类型](../types/plots/paired/types.d.ts) · [最小输入](../examples/specs/minimal/pairedComparisonPlot.json) · [公共约束](common.md) · [完整文档](https://unpkg.com/@visactor/vchart-statplots@2.1.8-alpha.0/docs/plots/pairedComparisonPlot.md)
+[TS 类型](../types/plots/paired/types.d.ts) · [最小输入](../examples/specs/minimal/pairedComparisonPlot.json) · [公共约束](common.md)
 
 比较同一对象干预前后的两次观测。
 
