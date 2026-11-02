@@ -128,7 +128,9 @@ export abstract class BaseMarkArea extends BaseMarker<IMarkAreaSpec> implements 
             text: specLabel.formatMethod
               ? // type error here will be fixed in components
                 (specLabel.formatMethod(dataPoints, seriesData) as any)
-              : prevLabel?.text
+              : prevLabel?.text,
+            dx: typeof specLabel.dx === 'function' ? specLabel.dx(dataPoints, seriesData) : specLabel.dx,
+            dy: typeof specLabel.dy === 'function' ? specLabel.dy(dataPoints, seriesData) : specLabel.dy
           };
         }),
         limitRect,
