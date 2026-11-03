@@ -72,7 +72,7 @@ export async function main(configuration = {}) {
   if (options.help) {
     console.log(
       command +
-        ' [--baseline <40位SHA> [--offline] | --self-compare] [--dir <目录> | --case <id>]\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--offline 使用已准备提交与逐侧校验的依赖，不联网或安装。\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
+        ' [--baseline <40位SHA> [--offline] | --self-compare] [--dir <目录> | --case <id>]\n阶段接口：--phase build|capture|compare --request <请求文件>，格式见scripts/visual-stage.md。\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--offline 使用已准备提交与逐侧校验的依赖，不联网或安装。\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
     );
     return;
   }
