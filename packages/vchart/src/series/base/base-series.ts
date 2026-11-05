@@ -47,7 +47,8 @@ import type {
   ISeriesStackDataLeaf,
   ISeriesStackDataNode,
   ISeriesStackDataMeta,
-  ISeriesSeriesInfo
+  ISeriesSeriesInfo,
+  ISeriesInteractionTrigger
 } from '../interface';
 import { dataToDataView, dataViewFromDataView, updateDataViewInData } from '../../data/initialize';
 import { mergeFields, getFieldAlias } from '../../util/data';
@@ -194,6 +195,57 @@ export function markSeriesOnlyEffect(compareResult: IUpdateSpecResult) {
     series: true,
     render: true
   };
+}
+
+function triggerReverseState(trigger: Partial<IBaseTriggerOptions>) {
+  return (trigger as { reverseState?: string }).reverseState;
+}
+
+/**
+ * 自定义 element-select 只覆盖默认 select 的一部分 mark 时，事件覆盖按 mark 拆开，
+ * 但 selected_reverse 仍要作用到原来的整组 mark。
+ */
+function splitDefaultSelectByCustomElementSelect(
+  triggers: ISeriesInteractionTrigger[],
+  defaultSelect: ISeriesInteractionTrigger,
+  coveredMarkIds: Set<number>,
+  customSelects: ISeriesInteractionTrigger[]
+) {
+  const originalMarks = defaultSelect.marks;
+  const eventMarks = originalMarks.filter(mark => !coveredMarkIds.has(mark.id));
+  const defaultReverseState = triggerReverseState(defaultSelect.trigger);
+
+  if (eventMarks.length) {
+    defaultSelect.marks = eventMarks;
+  } else {
+    const index = triggers.indexOf(defaultSelect);
+    if (index >= 0) {
+      triggers.splice(index, 1);
+    }
+  }
+
+  if (!isValid(defaultReverseState)) {
+    return;
+  }
+
+  if (eventMarks.length) {
+    const carvedMarks = originalMarks.filter(mark => coveredMarkIds.has(mark.id));
+    if (carvedMarks.length) {
+      defaultSelect.reverseMarks = carvedMarks;
+    }
+  }
+
+  customSelects.forEach(customSelect => {
+    if (triggerReverseState(customSelect.trigger) !== defaultReverseState) {
+      return;
+    }
+
+    const eventMarkIds = new Set(customSelect.marks.map(mark => mark.id));
+    const reverseMarks = originalMarks.filter(mark => !eventMarkIds.has(mark.id));
+    if (reverseMarks.length) {
+      customSelect.reverseMarks = reverseMarks;
+    }
+  });
 }
 
 export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> implements ISeries {
@@ -894,7 +946,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
       finalSelectSpec.enable = true;
       finalSelectSpec = mergeSpec(finalSelectSpec, selectSpec);
     }
-    const res: { trigger: Partial<IBaseTriggerOptions>; marks: IMark[] }[] = [
+    const res: ISeriesInteractionTrigger[] = [
       {
         trigger: {
           type: TRIGGER_TYPE_ENUM.DIMENSION_HOVER as string
@@ -956,14 +1008,73 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     const { interactions } = this._spec;
     const res = this._parseDefaultInteractionConfig(mainMarks);
 
-    if (interactions && interactions.length) {
-      interactions.forEach(interaction => {
-        const marks: IMark[] = filterMarksOfInteraction(interaction, this.getMarks());
+    if (!interactions?.length) {
+      return res;
+    }
 
-        if (marks.length) {
-          res.push({ trigger: interaction, marks });
+    // Default select and custom element-select are not isEqual, so both would stay live and fight
+    // on the same mark. Only drop default select for marks the custom interaction actually matches.
+    // Reverse state stays on the original mark set, including marks whose click handling moved.
+    const defaultSelect = res.find(item => item.trigger.type === TRIGGER_TYPE_ENUM.ELEMENT_SELECT);
+    const defaultSelectMarkIds = defaultSelect ? new Set(defaultSelect.marks.map(mark => mark.id)) : undefined;
+    const coveredDefaultSelectMarkIds = new Set<number>();
+    const defaultReverseState = defaultSelect ? triggerReverseState(defaultSelect.trigger) : undefined;
+    const customSelects: ISeriesInteractionTrigger[] = [];
+
+    interactions.forEach(interaction => {
+      const marks: IMark[] = filterMarksOfInteraction(interaction, this.getMarks());
+      if (!marks.length) {
+        return;
+      }
+
+      let trigger: Partial<IBaseTriggerOptions> = interaction;
+      let overlapsDefaultSelect = false;
+      if (interaction.type === TRIGGER_TYPE_ENUM.ELEMENT_SELECT && defaultSelectMarkIds) {
+        const overlappingMarks = marks.filter(mark => defaultSelectMarkIds.has(mark.id));
+        if (overlappingMarks.length) {
+          overlapsDefaultSelect = true;
+          overlappingMarks.forEach(mark => coveredDefaultSelectMarkIds.add(mark.id));
+          // Default select applies selected_reverse. Custom element-select only fills state/trigger,
+          // so keep that reverse state unless the spec already sets reverseState.
+          // A partial override also needs triggerOff: blank click / click again must cancel the
+          // trigger that now owns the selection, while clicks on the other mark stay a selection.
+          const hasOwnReverse = 'reverseState' in interaction;
+          const specReverse = (interaction as { reverseState?: string }).reverseState;
+          const sharesDefaultReverse =
+            isValid(defaultReverseState) && (!hasOwnReverse || specReverse === defaultReverseState);
+          const coversEveryDefaultMark = [...defaultSelectMarkIds].every(id =>
+            overlappingMarks.some(mark => mark.id === id)
+          );
+          if (sharesDefaultReverse && (!hasOwnReverse || !coversEveryDefaultMark)) {
+            const triggerWithDefault = { ...interaction } as Partial<IBaseTriggerOptions> & {
+              reverseState?: string;
+              triggerOff?: unknown;
+              isMultiple?: boolean;
+              trigger?: string | string[];
+            };
+            if (!hasOwnReverse) {
+              triggerWithDefault.reverseState = defaultReverseState;
+            }
+            if (!coversEveryDefaultMark && !('triggerOff' in interaction)) {
+              const selectTrigger = triggerWithDefault.trigger ?? 'click';
+              triggerWithDefault.triggerOff = triggerWithDefault.isMultiple
+                ? ['empty']
+                : ['empty', ...(array(selectTrigger) as string[])];
+            }
+            trigger = triggerWithDefault;
+          }
         }
-      });
+      }
+
+      const entry: ISeriesInteractionTrigger = { trigger, marks };
+      res.push(entry);
+      if (overlapsDefaultSelect) {
+        customSelects.push(entry);
+      }
+    });
+
+    if (defaultSelect && coveredDefaultSelectMarkIds.size) {
+      splitDefaultSelectByCustomElementSelect(res, defaultSelect, coveredDefaultSelectMarkIds, customSelects);
     }
 
     return res;

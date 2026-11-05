@@ -20,6 +20,16 @@ import type { IBaseTriggerOptions } from '../../interaction/interface/trigger';
 // 使用类型约束系列支持的样式，但是感觉这样不合理 不使用这样的方式去做
 // export interface ISeries<A extends string> extends IModel
 
+export interface ISeriesInteractionTrigger {
+  trigger: Partial<IBaseTriggerOptions>;
+  marks: IMark[];
+  /**
+   * 不响应本触发器事件，但需要一起应用 reverse 状态的图元。
+   * 自定义 element-select 只覆盖部分 mark 时，从默认 select 拆出的图元仍应收到 selected_reverse。
+   */
+  reverseMarks?: IMark[];
+}
+
 export interface ISeries extends IModel {
   readonly type: string;
   readonly name?: string;
@@ -201,7 +211,7 @@ export interface ISeries extends IModel {
   legendSelectedFilter?: (component: ILegend, selectedKeys: StringOrNumber[]) => StringOrNumber[];
   parseLabelStyle?: (labelStyle: any, labelSpec: any, labelMark?: ILabelMark) => any;
 
-  getInteractionTriggers?: () => { trigger: Partial<IBaseTriggerOptions>; marks: IMark[] }[];
+  getInteractionTriggers?: () => ISeriesInteractionTrigger[];
 }
 
 export interface ICartesianSeries extends ISeries {

@@ -63,16 +63,14 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
   }
 
   resetAll = (e?: BaseEventParams) => {
-    const { state, reverseState, interaction } = this.options;
+    const { interaction } = this.options;
 
-    const statedGraphics = interaction.getStatedGraphics(this);
-
-    if (statedGraphics && statedGraphics.length) {
-      interaction.clearAllStatesOfTrigger(this, state, reverseState);
-      this.dispatchEvent('reset', { graphics: statedGraphics, options: this.options, ...e });
-
-      interaction.setStatedGraphics(this, []);
+    if (!interaction.hasActiveLinkedSelect(this)) {
+      return;
     }
+
+    const graphics = interaction.clearLinkedSelectStates(this);
+    this.dispatchEvent('reset', { graphics, options: this.options, ...e });
   };
 
   handleStart = (e: BaseEventParams) => {
@@ -136,7 +134,12 @@ export class ElementSelect extends BaseTrigger<IElementSelectOptions> implements
           }, this.options.triggerOff as number) as unknown as number;
         }
       }
-    } else if (this._resetType.includes('view') && statedGraphics && statedGraphics.length) {
+    } else if (
+      this._resetType.includes('view') &&
+      interaction.hasActiveLinkedSelect(this) &&
+      !(markGraphic && interaction.isGraphicInLinkedSelect(this, markGraphic))
+    ) {
+      // 同组另一个 trigger 的图元（例如 line / point）要交给那个 trigger 选中，不能当成空白取消。
       this.resetAll(e);
     }
   }

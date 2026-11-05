@@ -295,13 +295,24 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
       if (triggers && triggers.length) {
         const regionId = s.getRegion().id;
 
-        triggers.forEach(({ trigger, marks }) => {
+        triggers.forEach(({ trigger, marks, reverseMarks }) => {
           const sameTrigger = groupedTriggers.find(item => item.regionId === regionId && isEqual(item.config, trigger));
 
           if (sameTrigger) {
             sameTrigger.trigger.marks.push(...marks);
+            // reverseMarks 与 marks 一样按 region 合并，不放进 isEqual 的 config。
+            if (reverseMarks?.length) {
+              if (sameTrigger.trigger.reverseMarks) {
+                sameTrigger.trigger.reverseMarks.push(...reverseMarks);
+              } else {
+                sameTrigger.trigger.reverseMarks = [...reverseMarks];
+              }
+            }
           } else {
-            const mergedTrigger = { ...trigger, marks: [...marks] };
+            const mergedTrigger: Partial<IBaseTriggerOptions> = { ...trigger, marks: [...marks] };
+            if (reverseMarks?.length) {
+              mergedTrigger.reverseMarks = [...reverseMarks];
+            }
 
             groupedTriggers.push({
               regionId,
