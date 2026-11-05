@@ -42,6 +42,29 @@ When there are multiple axes, you can use this property to manually specify on w
 
 When there are multiple axes, you can use this property to manually specify on which axis the 0 scale is.
 
+#${prefix} crossValue(number)
+
+The tick value on the perpendicular axis where this axis is pinned. When omitted, the axis stays on the edge given by `orient` (default behavior). Only supported when `orient` is `left`/`right`/`top`/`bottom`.
+
+When set, the axis line, ticks, labels and unit move together to that tick; the **axis title stays on the original edge**, and grid lines stay put as well. The axis is raised above the series. Without a title it stops reserving space on the edge of the plot area (the plot area gets that band back); with a title it keeps reserving, because the title still lives there. An axis with an explicit `width` / `height` also keeps reserving that space, since an explicit size takes priority.
+
+- When the perpendicular axis is continuous, the value is a tick value on that axis; values outside its domain are clamped to the nearest end.
+- When the perpendicular axis is discrete (band), the value is a **zero-based index** into its domain and the axis is placed at the start edge of that band; an index greater than or equal to the band count is clamped to the end of the axis.
+- The perpendicular axis is picked in this order: `crossAxisId` > `crossAxisIndex` > the first axis that is perpendicular to this one, shares the same region, and whose domain covers the value.
+- `domainLine.onZero` is the line-only narrow version of `crossValue: 0`; when both are set, `crossValue` wins.
+
+#${prefix} crossAxisId(string|number)
+
+Specifies which axis `crossValue` refers to when the chart has multiple axes, matched against the `id` on that axis spec.
+
+- Tips: once specified, `crossValue` no longer has to fall inside that axis domain; out-of-range values are clamped to the nearest end.
+
+#${prefix} crossAxisIndex(number)
+
+Specifies which axis `crossValue` refers to when the chart has multiple axes.
+
+- Tips: **the index refers to the index in the `axes` array**.
+
 #${prefix} label(Object)
 
 Axis Label Configuration.
