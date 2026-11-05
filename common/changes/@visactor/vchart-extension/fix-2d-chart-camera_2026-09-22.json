@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart-extension",
+      "comment": "fix: 修复注册 3D 扩展后二维图表被误判为 3D，导致带缩放自定义图元在动画和悬停时闪烁的问题",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart-extension"
+}
