@@ -9,6 +9,13 @@ export const cases = [
     purpose: '标题重测后图例过滤不使绘图区坍缩',
     file: './components/title/title-resize-legend-layout.mjs'
   },
+  { id: 'injected-stage', purpose: '传入 Stage 的绘制准备、事件源与资源所有权', file: './api/injected-stage.mjs' },
+  { id: 'event-gesture-delay', purpose: '延迟 pinch 保留完整载荷并更新图表数据', file: './api/event-gesture-delay.mjs' },
+  {
+    id: 'event-throttle-propagation',
+    purpose: 'throttle 同步回调保留原事件并拦截后续 Stage 监听器',
+    file: './api/event-throttle-propagation.mjs'
+  },
   { id: 'linear-axis-update-bounds', purpose: '连续轴更新显式边界后实际域与柱几何同步', file: './components/axis/linear-axis-update-bounds.mjs' },
   { id: 'band-axis-update-spec', purpose: '分类轴 updateSpec 应用新的主题与标签样式', file: './components/axis/band-axis-update-spec.mjs' },
   { id: 'legend-piecewise-domain', purpose: '多节点连续色域图例的完整范围', file: './components/legend/legend-piecewise-domain.mjs' },
@@ -1177,6 +1184,11 @@ export const cases = [
     id: 'dimension-index-area',
     purpose: 'setDimensionIndex 定位来源指定维度的十字线',
     file: './api/state/dimension-index-area.mjs'
+  },
+  {
+    id: 'dimension-index-leave',
+    purpose: 'setDimensionIndex 激活维度后经留白移出画布清理折线点高亮',
+    file: './api/state/dimension-index-leave.mjs'
   },
   {
     id: 'custom-mark-text-click',

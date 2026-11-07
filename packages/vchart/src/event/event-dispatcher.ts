@@ -1,5 +1,6 @@
 import { Bubble } from './bubble';
 import { isValid, debounce, throttle, get, isFunction } from '@visactor/vutils';
+import type { FederatedPointerEvent, FederatedWheelEvent } from '@visactor/vrender-core';
 import {
   BASE_EVENTS,
   Event_Bubble_Level,
@@ -125,11 +126,6 @@ export class EventDispatcher implements IEventDispatcher {
         bubble?.release();
         bubbles.delete(eType);
         clean = true;
-      }
-
-      if ((handler?.wrappedCallback as any)?.cancel) {
-        // 取消debounce/throttle事件，释放闭包内部的上下文对象
-        (handler.wrappedCallback as any).cancel();
       }
     }
     // 某个事件下所有的监听取消之后删除语法层事件的代理
@@ -375,16 +371,57 @@ export class EventDispatcher implements IEventDispatcher {
     return Event_Bubble_Level.vchart;
   }
 
+  private _snapshotInputEvent(event: BaseEventParams['event']): BaseEventParams['event'] {
+    if (!isFunction(event?.clone) || !('pointerId' in event || 'deltaMode' in event)) {
+      return event;
+    }
+
+    // shortcut: VRender 1.1.14 clone drops extension payloads and fails on root events; remove when both are supported.
+    const input = event as FederatedPointerEvent | FederatedWheelEvent;
+    const EventConstructor = input.constructor as new (manager: typeof input.manager) => typeof input;
+    const snapshot = Object.assign(new EventConstructor(input.manager), input);
+    for (const key of [
+      'layer',
+      'page',
+      'canvas',
+      'viewport',
+      'client',
+      'movement',
+      'offset',
+      'global',
+      'screen'
+    ] as const) {
+      snapshot[key] = { ...input[key] };
+    }
+    snapshot.path = input.path?.slice() ?? [];
+    snapshot.detailPath = input.detailPath?.slice();
+    return snapshot;
+  }
+
   /**
    * 将用户 query 配置转换为最终事件筛选参数
    */
   private _parseQuery(handler: EventHandler<EventParams>): EventHandler<EventParams> {
     const query = handler.query;
     // 处理 query 带来的函数封装
-    if (query?.throttle) {
-      handler.wrappedCallback = throttle(handler.callback, query.throttle);
-    } else if (query?.debounce) {
-      handler.wrappedCallback = debounce(handler.callback, query.debounce);
+    if (query?.throttle || query?.debounce) {
+      const wrap = query.throttle ? throttle : debounce;
+      const callback = wrap(
+        (getParams: () => EventParams) => handler.callback(getParams()),
+        query.throttle || query.debounce
+      );
+      handler.wrappedCallback = Object.assign((params: EventParams) => {
+        let invoked = false;
+        const result = callback(() => {
+          invoked = true;
+          return params;
+        });
+        // throttle can invoke synchronously; only pending callbacks retain a snapshot.
+        if (!invoked && params.event) {
+          params.event = this._snapshotInputEvent(params.event);
+        }
+        return result;
+      }, callback);
     }
     let level = this._getQueryLevel(query);
     let type: string | null = null;

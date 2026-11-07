@@ -29,6 +29,7 @@ export class Bubble {
     if (!node) {
       return this;
     }
+    node.handler.wrappedCallback?.cancel?.();
     this._map.delete(handler.callback);
     const nodes = this._levelNodes.get(node.level);
     // 由于顶层 API 封装不是 handler 形式，因此通过 callback 唯一判断
@@ -64,6 +65,7 @@ export class Bubble {
   }
 
   release() {
+    this._map.forEach(({ handler }) => handler.wrappedCallback?.cancel?.());
     this._map.clear();
     this._levelNodes.clear();
   }

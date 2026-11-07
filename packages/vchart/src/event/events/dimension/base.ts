@@ -85,10 +85,14 @@ export class DimensionEvent implements IComposedEvent {
         }
       });
     }
+    this.onDispatch(dimensionInfo);
+    return dimensionInfo;
+  }
+
+  protected onDispatch(dimensionInfo: IDimensionInfo[]) {
     this._callback.call(null, {
       action: 'enter',
       dimensionInfo
     } as unknown as BaseEventParams);
-    return dimensionInfo;
   }
 }
