@@ -106,7 +106,7 @@ export class Event implements IEvent {
         this._eventDispatcher.unregister(eType, handler);
         this._removeEventHandler(eType, callback as EventCallback<EventParams>);
       } else {
-        this._eventDispatcher.unregister(eType);
+        this._eventHandlerMap.get(eType)?.forEach(handler => this._eventDispatcher.unregister(eType, handler));
         this._eventHandlerMap.delete(eType);
       }
     }

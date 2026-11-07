@@ -19,6 +19,7 @@ export type EventType =
   | 'pointermove'
   | 'pointerenter'
   | 'pointerleave'
+  | 'pointercancel'
   | 'pointerout'
   | 'mousedown'
   | 'mouseup'
@@ -202,7 +203,7 @@ export type EventHandler<Params extends EventParams> = {
   callback: EventCallback<Params>;
   query: EventQuery | null;
   // 如果有 debounce/throttle 配置则需要封装原始回调函数
-  wrappedCallback?: EventCallback<Params>;
+  wrappedCallback?: EventCallback<Params> & { cancel?: () => void };
   // 转换后的事件筛选配置
   filter?: EventFilter;
   // handler 是否被禁止触发
@@ -247,6 +248,7 @@ export type EventParamsDefinition = {
   pointermove: BaseEventParams;
   pointerenter: BaseEventParams;
   pointerleave: BaseEventParams;
+  pointercancel: BaseEventParams;
   pointerout: BaseEventParams;
   mousedown: BaseEventParams;
   mouseup: BaseEventParams;
