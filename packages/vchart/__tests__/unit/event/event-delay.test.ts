@@ -99,6 +99,9 @@ describe('[event] delayed input', () => {
       timeStamp: 123,
       target,
       currentTarget: target,
+      defaultPrevented: true,
+      propagationStopped: true,
+      propagationImmediatelyStopped: true,
       nativeEvent: {} as PointerEvent,
       originalEvent: new FederatedPointerEvent(),
       path: [target],
@@ -106,6 +109,7 @@ describe('[event] delayed input', () => {
       customPayload: payload,
       [payloadKey]: payload
     });
+    input.eventPhase = input.AT_TARGET;
     const coordinates = [
       'layer',
       'page',
@@ -131,7 +135,15 @@ describe('[event] delayed input', () => {
       expect(saved.manager).toBe(input.manager);
       expect(saved.timeStamp).toBe(123);
       expect(saved.target).toBe(target);
-      expect(saved.currentTarget).toBe(target);
+      expect(saved.currentTarget).toBeNull();
+      expect(saved.eventPhase).toBe(saved.NONE);
+      expect(saved.defaultPrevented).toBe(false);
+      expect(saved.propagationStopped).toBe(false);
+      expect(saved.propagationImmediatelyStopped).toBe(false);
+      expect(input.currentTarget).toBe(target);
+      expect(input.defaultPrevented).toBe(true);
+      expect(input.propagationStopped).toBe(true);
+      expect(input.propagationImmediatelyStopped).toBe(true);
       expect(saved.nativeEvent).toBe(input.nativeEvent);
       expect(saved.originalEvent).toBe(input.originalEvent);
       expect(saved.customPayload).toBe(payload);

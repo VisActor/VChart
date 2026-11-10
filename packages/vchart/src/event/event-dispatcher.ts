@@ -1,6 +1,5 @@
 import { Bubble } from './bubble';
 import { isValid, debounce, throttle, get, isFunction } from '@visactor/vutils';
-import type { FederatedPointerEvent, FederatedWheelEvent } from '@visactor/vrender-core';
 import {
   BASE_EVENTS,
   Event_Bubble_Level,
@@ -376,26 +375,7 @@ export class EventDispatcher implements IEventDispatcher {
       return event;
     }
 
-    // shortcut: VRender 1.1.14 clone drops extension payloads and fails on root events; remove when both are supported.
-    const input = event as FederatedPointerEvent | FederatedWheelEvent;
-    const EventConstructor = input.constructor as new (manager: typeof input.manager) => typeof input;
-    const snapshot = Object.assign(new EventConstructor(input.manager), input);
-    for (const key of [
-      'layer',
-      'page',
-      'canvas',
-      'viewport',
-      'client',
-      'movement',
-      'offset',
-      'global',
-      'screen'
-    ] as const) {
-      snapshot[key] = { ...input[key] };
-    }
-    snapshot.path = input.path?.slice() ?? [];
-    snapshot.detailPath = input.detailPath?.slice();
-    return snapshot;
+    return event.clone();
   }
 
   /**
