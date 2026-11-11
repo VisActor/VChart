@@ -29,7 +29,15 @@ export interface GestureConfig {
         interval?: number;
     };
 }
+export interface ScopedEventSource {
+    on(type: string, listener: (...args: any[]) => void): unknown;
+    off(type: string, listener: (...args: any[]) => void): unknown;
+}
 export interface IRenderOption {
+    eventSource?: {
+        canvas: ScopedEventSource;
+        window: ScopedEventSource;
+    };
     mode?: RenderMode;
     gestureConfig?: GestureConfig;
     modeParams?: {

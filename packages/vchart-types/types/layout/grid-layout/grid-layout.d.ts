@@ -1,7 +1,7 @@
 import type { utilFunctionCtx } from '../../typings/params';
 import type { IChart } from '../../chart/interface/chart';
-import type { IBoundsLike } from '@visactor/vutils';
 import type { IBaseLayout, IGridLayoutSpec, ElementSpec, ILayoutItem } from '../interface';
+import { type IBoundsLike } from '@visactor/vutils';
 import type { IRect } from '../../typings/space';
 type GridSize = {
     value: number;
@@ -30,6 +30,8 @@ export declare class GridLayout implements IBaseLayout {
     }[], gridSize: GridSize[], gridMax: number, maxSize: number): void;
     protected clearLayoutSize(): void;
     protected getItemGridInfo(item: ILayoutItem): ElementSpec;
+    protected isValidElementSpec(spec: ElementSpec): boolean;
+    protected getDefaultElementSpec(): ElementSpec;
     protected getSizeFromGrid(spec: ElementSpec, type: 'col' | 'row'): number | undefined;
     protected getSizeFromUser(spec: ElementSpec, type: 'col' | 'row'): number | undefined;
     protected setItemLayoutSizeToGrid(item: ILayoutItem, gridSpec: ElementSpec): void;
