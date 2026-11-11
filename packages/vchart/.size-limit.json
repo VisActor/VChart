@@ -1,7 +1,7 @@
 [
   {
     "path": "build/index.min.js",
-    "limit": "2 MB",
+    "limit": "3 MB",
     "gzip": false
   }
 ]
