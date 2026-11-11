@@ -1,5 +1,5 @@
 import { Event_Bubble_Level } from '../constant/event';
-import type { EventCallback, EventHandler, EventParams, EventBubbleLevel } from './interface';
+import type { EventHandler, EventParams, EventBubbleLevel } from './interface';
 
 export type BubbleNode = {
   handler: EventHandler<EventParams>;
@@ -7,7 +7,7 @@ export type BubbleNode = {
 };
 
 export class Bubble {
-  private _map: Map<EventCallback<EventParams>, BubbleNode> = new Map();
+  private _map: Map<EventHandler<EventParams>, BubbleNode> = new Map();
   private _levelNodes: Map<EventBubbleLevel, BubbleNode[]> = new Map();
 
   constructor() {
@@ -20,19 +20,19 @@ export class Bubble {
   addHandler(handler: EventHandler<EventParams>, level: EventBubbleLevel): this {
     const node: BubbleNode = { level, handler };
     this._levelNodes.get(level)?.push(node);
-    this._map.set(handler.callback, node);
+    this._map.set(handler, node);
     return this;
   }
 
   removeHandler(handler: EventHandler<EventParams>): this {
-    const node = this._map.get(handler.callback);
+    const node = this._map.get(handler);
     if (!node) {
       return this;
     }
-    this._map.delete(handler.callback);
+    node.handler.wrappedCallback?.cancel?.();
+    this._map.delete(handler);
     const nodes = this._levelNodes.get(node.level);
-    // 由于顶层 API 封装不是 handler 形式，因此通过 callback 唯一判断
-    const index = nodes?.findIndex(n => n.handler.callback === handler.callback);
+    const index = nodes?.indexOf(node);
     index !== undefined && index >= 0 && nodes?.splice(index, 1);
     return this;
   }
@@ -64,6 +64,7 @@ export class Bubble {
   }
 
   release() {
+    this._map.forEach(({ handler }) => handler.wrappedCallback?.cancel?.());
     this._map.clear();
     this._levelNodes.clear();
   }

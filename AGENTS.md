@@ -31,7 +31,8 @@ VChart 是高性能可视化渲染库。工程取舍应优先面向正确、文�
 - 每次提交 PR 前运行全量：`node packages/vchart/scripts/visual-test.mjs`。默认比较当前工作区（含未提交修改）与官方 develop。`--self-compare` 仅验证稳定性，不能代替基线比较。
 - 查看三图 HTML 或 `agent-summary.md`：视觉差异需要审查和说明，执行错误必须解决；无法运行、基线不支持新功能等阻断应如实记录，不得写成通过，不跳过用例或放宽阈值。
 - 新增功能、修复 bug 或发现覆盖空缺时，补充有明确目的的确定性回归用例，或补强相关用例；交互必须断言真实状态变化。登记到显式清单并按用例指南完成稳定性及反例检查。
-- 开发者或 Agent 独立新增用例不填写 `BugServer case IDs` 行，不填空值或占位 ID。现有迁移项保留真实来源，改写保留原 ID、合并保留多个。未来同步到 BugServer 成功后再补齐真实 ID；本期没有同步功能。
+- 开发者或 Agent 独立新增用例不填写 `BugServer case IDs` 行，不填空值或占位 ID。现有迁移项保留真实来源，改写保留原 ID、合并保留多个。管理员手动创建 BugServer 用例成功后再补齐真实 ID；本期没有同步功能。
+- 新增平台 case 遵循[BugServer case 流程](./packages/vchart/__tests__/visual/BUGSERVER_CASE_WORKFLOW.md)。只有对应项目管理员有新增权限；外部贡献者提供材料，由管理员代建。登录成功不代表可创建；禁止自行创建占位 ID。
 - 使用 Node.js 22；环境准备、全量/目录/单例命令、报告及清理见 [视觉测试说明](./packages/vchart/__tests__/visual/README.md)，目录与编写规范见 [用例指南](./packages/vchart/__tests__/visual/cases/README.md)。测试不替代必要的单元、性能及发版前全量测试。
 
 ## PR 工作流协作

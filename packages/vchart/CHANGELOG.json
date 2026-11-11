@@ -2,6 +2,18 @@
   "name": "@visactor/vchart",
   "entries": [
     {
+      "version": "2.2.2",
+      "tag": "@visactor/vchart_v2.2.2",
+      "date": "Wed, 11 Nov 2026 03:02:49 GMT",
+      "comments": {
+        "patch": [
+          {
+            "comment": "fix: validate grid layout indices and spans before accessing row and column size entries"
+          }
+        ]
+      }
+    },
+    {
       "version": "2.2.1",
       "tag": "@visactor/vchart_v2.2.1",
       "date": "Fri, 30 Oct 2026 09:15:10 GMT",

@@ -87,18 +87,23 @@ export default {
     // 执行来源配置或回调要求的动作并保存实际结果。
 
     const p = await page.evaluate(() => {
-      const g = window.__visualChart
-        .getStage()
-        .find(
-          g =>
+      const stage = window.__visualChart.getStage();
+      const g = stage.find(
+        g => {
+          const b = g.globalAABBBounds;
+          return (
             g.name === 'axis-label' &&
             g.type === 'text' &&
             g.cliped &&
-            g.globalAABBBounds.y1 > 30 &&
-            g.globalAABBBounds.y2 < 500,
-          true
-        );
-      if (!g) throw Error('来源未产生截断轴标签');
+            b.y1 > 30 &&
+            b.y2 < 500 &&
+            // 轴交点可能遮住标签中心，不能把边界框中心当作实际命中。
+            stage.pick((b.x1 + b.x2) / 2, (b.y1 + b.y2) / 2)?.graphic === g
+          );
+        },
+        true
+      );
+      if (!g) throw Error('来源未产生可命中的截断轴标签');
       const b = g.globalAABBBounds;
       return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2, text: String(g.attribute.text) };
     });

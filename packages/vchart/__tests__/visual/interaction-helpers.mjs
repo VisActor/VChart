@@ -34,7 +34,14 @@ export async function interactionTarget(page, name, index = 0, seriesIndex) {
           y: matrix.b * local.x + matrix.d * local.y + matrix.f
         };
       const b = g.globalAABBBounds;
-      return { x: (b.x1 + b.x2) / 2, y: (b.y1 + b.y2) / 2 };
+      // 中心可能被其他系列覆盖；只返回实际命中同一图元的位置。
+      const stage = window.__visualChart.getStage();
+      for (const rx of [0.5, 0.1, 0.9])
+        for (const ry of [0.5, 0.1, 0.9]) {
+          const point = { x: b.x1 + (b.x2 - b.x1) * rx, y: b.y1 + (b.y2 - b.y1) * ry };
+          if (stage.pick(point.x, point.y)?.graphic === g) return point;
+        }
+      throw new Error('没有可命中的交互位置：' + name + '/' + index);
     },
     { name, index, seriesIndex }
   );

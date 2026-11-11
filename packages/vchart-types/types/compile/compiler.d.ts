@@ -12,6 +12,7 @@ import type { MarkAnimationSpec } from '../animation/interface';
 type EventListener = {
     type: string;
     callback: (...args: any[]) => void;
+    unbind?: () => void;
 };
 export declare class Compiler implements ICompiler {
     private _count;
@@ -46,6 +47,7 @@ export declare class Compiler implements ICompiler {
     getStage(): IStage | undefined;
     private _dedupeStagePlugin;
     private _dedupePoptipPlugin;
+    private handleBeforeRender;
     initView(): void;
     getLayoutState(): LayoutState;
     updateLayoutTag(): void;

@@ -126,11 +126,6 @@ export class EventDispatcher implements IEventDispatcher {
         bubbles.delete(eType);
         clean = true;
       }
-
-      if ((handler?.wrappedCallback as any)?.cancel) {
-        // 取消debounce/throttle事件，释放闭包内部的上下文对象
-        (handler.wrappedCallback as any).cancel();
-      }
     }
     // 某个事件下所有的监听取消之后删除语法层事件的代理
     if (clean && this._isValidEvent(eType)) {
@@ -375,16 +370,38 @@ export class EventDispatcher implements IEventDispatcher {
     return Event_Bubble_Level.vchart;
   }
 
+  private _snapshotInputEvent(event: BaseEventParams['event']): BaseEventParams['event'] {
+    if (!isFunction(event?.clone) || !('pointerId' in event || 'deltaMode' in event)) {
+      return event;
+    }
+
+    return event.clone();
+  }
+
   /**
    * 将用户 query 配置转换为最终事件筛选参数
    */
   private _parseQuery(handler: EventHandler<EventParams>): EventHandler<EventParams> {
     const query = handler.query;
     // 处理 query 带来的函数封装
-    if (query?.throttle) {
-      handler.wrappedCallback = throttle(handler.callback, query.throttle);
-    } else if (query?.debounce) {
-      handler.wrappedCallback = debounce(handler.callback, query.debounce);
+    if (query?.throttle || query?.debounce) {
+      const wrap = query.throttle ? throttle : debounce;
+      const callback = wrap(
+        (getParams: () => EventParams) => handler.callback(getParams()),
+        query.throttle || query.debounce
+      );
+      handler.wrappedCallback = Object.assign((params: EventParams) => {
+        let invoked = false;
+        const result = callback(() => {
+          invoked = true;
+          return params;
+        });
+        // throttle can invoke synchronously; only pending callbacks retain a snapshot.
+        if (!invoked && params.event) {
+          params.event = this._snapshotInputEvent(params.event);
+        }
+        return result;
+      }, callback);
     }
     let level = this._getQueryLevel(query);
     let type: string | null = null;

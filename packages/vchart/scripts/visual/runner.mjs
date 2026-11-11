@@ -4,7 +4,16 @@ import { pathToFileURL } from 'node:url';
 import { createRequire } from 'node:module';
 import { randomUUID } from 'node:crypto';
 import { createRuntime, serve, fault, digest, atomicJson, fileManifest } from './runtime.mjs';
-import { git, workingTree, resolveBaseline, build, baselineBuild, official } from './build.mjs';
+import {
+  git,
+  workingTree,
+  resolveBaseline,
+  build,
+  baselineBuild,
+  official,
+  offlineConfiguration,
+  assertOfflineDependencyConfiguration
+} from './build.mjs';
 import { saveReport } from '../../__tests__/visual/report.mjs';
 
 /** 验证元数据和可执行契约，只导入实际使用的清单目录。 */
@@ -129,8 +138,29 @@ export async function executePhase(root, runDir, phase, url, ids, runtime) {
     throw fault('RESULT_SET_MISMATCH', `${phase} 缺少有效阶段结果`, error);
   }
   validateResults(result, ids);
-  if (!result.finalized || result.status === 'error' || (code !== 0 && !(code === 1 && result.status === 'diff')))
-    throw fault('EXECUTION_FAILED', `${phase} 阶段执行失败，请查看 ${phase}-result.json 和 ${phase}.log`);
+  // 只有正常结束的旧版业务失败可继续；阶段超时/中断不能被已完成用例掩盖。
+  const baselineAssertionFailure =
+    phase === 'baseline' &&
+    result.status === 'error' &&
+    result.tests.some(test => test.status === 'error') &&
+    result.tests.every(
+      test =>
+        test.status === 'passed' ||
+        (test.status === 'error' &&
+          test.businessAssertion === true &&
+          ['INTERACTION_ASSERTION_FAILED', 'CASE_ASSERTION_FAILED'].includes(test.code))
+    );
+  // 同时核对 reporter 原始终态和进程退出码，拒绝缺失终态及相互矛盾的成功结果。
+  const normalExit =
+    (result.endedStatus === 'passed' && result.status === 'passed' && code === 0) ||
+    (result.endedStatus === 'failed' && code === 1 && (result.status === 'diff' || baselineAssertionFailure));
+  if (result.finalized !== true || result.errors?.length || !normalExit)
+    throw fault(
+      'EXECUTION_FAILED',
+      `${phase} 阶段执行失败（结束状态 ${
+        result.endedStatus ?? 'missing'
+      }，退出码 ${code}），请查看 ${phase}-result.json 和 ${phase}.log`
+    );
   return result;
 }
 /** 持有锁的运行才能释放锁，避免误删另一次运行。 */
@@ -162,7 +192,7 @@ export async function runVisual(root, options, configuration = {}) {
     outputDirectory = '.vchart-visual',
     buildBundle = build
   } = configuration;
-  const runtime = createRuntime();
+  const runtime = createRuntime({ offline: options.offline === true });
   const detach = runtime.listenSignals();
   const output = path.join(root, outputDirectory);
   const runId = `${Date.now()}-${randomUUID().slice(0, 8)}`;
@@ -204,7 +234,14 @@ export async function runVisual(root, options, configuration = {}) {
     const suite = path.join(runDir, 'suite');
     const source = path.join(root, suitePath);
     await fs.mkdir(suite, { recursive: true });
-    for (const file of ['settings.mjs', 'playwright.config.mjs', 'visual.spec.mjs', 'reporter.mjs', 'page.html']) {
+    for (const file of [
+      'settings.mjs',
+      'playwright.config.mjs',
+      'visual.spec.mjs',
+      'reporter.mjs',
+      'assertions.mjs',
+      'page.html'
+    ]) {
       await fs.copyFile(path.join(root, 'packages/vchart/__tests__/visual', file), path.join(suite, file));
     }
     await fileManifest(source);
@@ -241,10 +278,17 @@ export async function runVisual(root, options, configuration = {}) {
         frozenPath: `suite/cases/${file.slice(2)}`
       }
     }));
+    // 离线依赖必须匹配实际工作区；提前保存快照也覆盖预检期间的源码变化。
+    if (runtime.offline) {
+      report.local = await workingTree(root);
+      assertOfflineDependencyConfiguration(root);
+      if (process.env.VISUAL_HEAD_DEPENDENCIES)
+        await offlineConfiguration(root, report.local.head, process.env.VISUAL_HEAD_DEPENDENCIES);
+    }
     report.environment = { ...report.environment, ...(await timed('preflightMs', () => preflight(root, runtime))) };
     await fs.symlink(path.join(root, 'packages/vchart/node_modules'), path.join(runDir, 'node_modules'), 'dir');
     runtime.defer(() => fs.rm(path.join(runDir, 'node_modules'), { force: true }));
-    report.local = await workingTree(root);
+    report.local ??= await workingTree(root);
     report.stage = 'fetch';
     const log = path.join(runDir, 'build.log');
     const sha = options['self-compare']
@@ -313,6 +357,26 @@ export async function runVisual(root, options, configuration = {}) {
         await releaseLock();
       } catch (error) {
         report.issues.push({ phase: 'cleanup', category: 'execution', code: 'CLEANUP_FAILED', message: String(error) });
+      }
+    }
+    // 截图及清理期间也可能发生编辑，结束快照必须与构建输入一致。
+    if (report.local) {
+      try {
+        report.localAfter = await workingTree(root);
+        if (report.local.head !== report.localAfter.head || report.local.digest !== report.localAfter.digest)
+          report.issues.push({
+            phase: 'source',
+            category: 'execution',
+            code: 'WORKSPACE_CHANGED',
+            message: '检查前后源码或 HEAD 发生变化，请重跑'
+          });
+      } catch (error) {
+        report.issues.push({
+          phase: 'source',
+          category: 'execution',
+          code: 'SOURCE_SNAPSHOT_FAILED',
+          message: error.message
+        });
       }
     }
     detach();

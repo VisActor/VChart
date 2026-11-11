@@ -74,6 +74,7 @@ export enum HOOK_EVENT {
 export const BASE_EVENTS = [
   'pointerdown',
   'pointerup',
+  'pointercancel',
   'pointerupoutside',
   'pointertap', // pointerEvent 下的 click 事件
   'pointerover',

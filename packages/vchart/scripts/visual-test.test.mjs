@@ -55,6 +55,9 @@ test('CLI rejects unknown cases and conflicting baseline options', () => {
     ['--dir', 'components', '--dir=charts'],
     ['--list', '--dir', 'components'],
     ['--check', '--dir', 'components'],
+    ['--offline'],
+    ['--offline', '--self-compare'],
+    ['--list', '--offline'],
     ['--baseline', ''],
     ['--baseline', 'a'.repeat(40), '--self-compare'],
     ['--update-snapshots'],
@@ -213,7 +216,7 @@ test(
           assert.ok(
             (await page.locator('[data-testid="selection"]').textContent()).includes(`选中 1 / ${caseMetadata.length}`)
           );
-          assert.match(await page.locator('header').textContent(), /所选用例完成比较/);
+          assert.match(await page.locator('header').textContent(), /所选用例执行完整/);
           assert.equal(
             await page.locator('a', { hasText: '查看冻结用例' }).getAttribute('href'),
             `suite/cases/${barFile}`
@@ -331,13 +334,79 @@ test(
             original.replace('export default {', 'const original = {') +
               '\nexport default {...original, async exercise() {}};\n'
           );
-          await assert.rejects(executePhase(dir, 'baseline', url, id), id);
+          // 超时仍抛错；明确的旧版业务断言失败可返回诊断，但不能变成通过。
+          let baselineResult;
+          try {
+            baselineResult = await executePhase(dir, 'baseline', url, id);
+          } catch (error) {
+            assert.equal(error.code, 'EXECUTION_FAILED');
+          }
+          if (baselineResult) {
+            assert.equal(baselineResult.status, 'error', id);
+            assert.ok(['CASE_ASSERTION_FAILED', 'INTERACTION_ASSERTION_FAILED'].includes(baselineResult.tests[0].code));
+          }
+          await assert.rejects(executePhase(dir, 'current', url, id), id);
           const result = JSON.parse(await fs.readFile(path.join(dir, 'baseline-result.json'), 'utf8'));
           assert.equal(result.tests[0].id, id);
           assert.equal(result.tests[0].status, 'error');
           await fs.writeFile(casesFile, original);
         }
         await fs.writeFile(configFile, config);
+      });
+      await t.test('baseline assertion failure preserves current evidence without creating a baseline', async () => {
+        const caseFile = path.join(dir, 'suite/cases', barFile);
+        const original = await fs.readFile(caseFile, 'utf8');
+        const snapshot = path.join(dir, 'snapshots/bar-stack.png');
+        await fs.rename(snapshot, `${snapshot}.saved`);
+        try {
+          await fs.writeFile(
+            caseFile,
+            original.replace('export default {', 'const original = {') +
+              '\nexport default {...original, async verify(page) { await original.verify(page); await page.evaluate(async () => { const { assertionError } = await import(new URL("/suite/assertions.mjs", location.href).href); if (window.__baselineRegression) throw assertionError("regression assertion fixture"); }); }};\n'
+          );
+          await fs.writeFile(
+            path.join(dir, 'baseline.js'),
+            Buffer.concat([bundle, Buffer.from('\nwindow.__baselineRegression=true;')])
+          );
+          const baseline = await executePhase(dir, 'baseline', url, 'bar-stack');
+          assert.equal(baseline.status, 'error');
+          assert.equal(baseline.tests[0].code, 'CASE_ASSERTION_FAILED');
+          const current = await executePhase(dir, 'current', url, 'bar-stack');
+          assert.equal(current.status, 'passed');
+          await assert.rejects(fs.access(snapshot));
+          const report = await saveReport(dir, summary());
+          assert.equal(report.status, 'diff');
+          assert.equal(report.cases[0].status, 'new_baseline');
+          assert.ok(report.cases[0].images.current);
+          assert.equal(report.cases[0].images.baseline, null);
+          assert.ok(report.cases[0].errors.some(error => error.code === 'CASE_ASSERTION_FAILED'));
+        } finally {
+          await fs.writeFile(caseFile, original);
+          await fs.writeFile(path.join(dir, 'baseline.js'), bundle);
+          await fs.rename(`${snapshot}.saved`, snapshot);
+        }
+      });
+      await t.test('browser closure cannot become a baseline business assertion', async () => {
+        // 真实浏览器关闭后触发 page.evaluate，当前阶段恢复正常，执行错误仍必须保留。
+        const caseFile = path.join(dir, 'suite/cases', barFile);
+        const original = await fs.readFile(caseFile, 'utf8');
+        try {
+          await fs.writeFile(caseFile, original.replace('export default {', 'const original = {') +
+            '\nexport default {...original, async exercise(page) { await page.close(); await page.evaluate(() => true); }};\n');
+          await assert.rejects(executePhase(dir, 'baseline', url, 'bar-stack'), { code: 'EXECUTION_FAILED' });
+          const baseline = JSON.parse(await fs.readFile(path.join(dir, 'baseline-result.json')));
+          assert.equal(baseline.endedStatus, 'failed');
+          assert.equal(baseline.tests[0].businessAssertion, false);
+          assert.ok(!['INTERACTION_ASSERTION_FAILED', 'CASE_ASSERTION_FAILED'].includes(baseline.tests[0].code));
+          assert.match(baseline.tests[0].errors.join('\n'), /Target page, context or browser has been closed/);
+          await fs.writeFile(caseFile, original);
+          assert.equal((await executePhase(dir, 'current', url, 'bar-stack')).status, 'passed');
+          const report = await saveReport(dir, summary());
+          assert.equal(report.status, 'error');
+          assert.equal(report.complete, false);
+          assert.equal(report.cases[0].status, 'error');
+          assert.ok(report.cases[0].errors.some(error => error.message.includes('has been closed')));
+        } finally { await fs.writeFile(caseFile, original); }
       });
       await t.test('server cannot expose files outside its allowlist', async () => {
         // 服务只能读取两份产物和冻结用例。
@@ -351,6 +420,58 @@ test(
     }
   }
 );
+
+test('source edits during screenshots cannot pass and retain both snapshots', { timeout: 60000 }, async () => {
+  // 故障只写独立 Git 夹具：两侧图片可一致，源码结束快照仍必须拒绝过期构建。
+  const dir = await fs.mkdtemp(path.join(root, '.vchart-visual/source-edit-'));
+  const git = args => {
+    const result = spawnSync('git', ['-c', 'core.hooksPath=/dev/null', ...args], { cwd: dir, encoding: 'utf8' });
+    assert.equal(result.status, 0, result.stderr);
+  };
+  try {
+    for (const folder of ['tools/bundler', 'packages/vutils-extension', 'packages/vchart']) {
+      await fs.mkdir(path.join(dir, folder), { recursive: true });
+      await fs.copyFile(path.join(root, folder, 'package.json'), path.join(dir, folder, 'package.json'));
+      await fs.symlink(path.join(root, folder, 'node_modules'), path.join(dir, folder, 'node_modules'), 'dir');
+    }
+    const suite = path.join(dir, 'packages/vchart/__tests__/visual');
+    await fs.cp(path.join(packageDir, '__tests__/visual'), suite, { recursive: true });
+    const marker = path.join(dir, 'source-marker.txt');
+    await fs.writeFile(marker, 'before');
+    await fs.writeFile(path.join(dir, '.gitignore'), 'node_modules\n.vchart-visual/\n');
+    const caseFile = path.join(suite, 'cases', caseMetadata.find(item => item.id === 'bar-stack').file);
+    const original = await fs.readFile(caseFile, 'utf8');
+    await fs.writeFile(
+      caseFile,
+      original.replace('export default {', 'const original = {') +
+        '\nexport default {...original, async verify(page) { await original.verify(page); const sourceFs = await import("node:fs"); sourceFs.writeFileSync(' +
+        JSON.stringify(marker) +
+        ', "after"); }};\n'
+    );
+    git(['init', '-q']);
+    git(['add', '.']);
+    git(['-c', 'user.name=Visual Test', '-c', 'user.email=visual@example.invalid', 'commit', '-qm', 'fixture']);
+    const code = await runVisual(
+      dir,
+      { 'self-compare': true, case: 'bar-stack' },
+      {
+        async buildBundle(_root, destination) {
+          await fs.copyFile(path.join(packageDir, 'build/index.js'), destination);
+        }
+      }
+    );
+    assert.equal(code, 2);
+    const runs = path.join(dir, '.vchart-visual/runs');
+    const result = JSON.parse(await fs.readFile(path.join(runs, (await fs.readdir(runs))[0], 'summary.json')));
+    assert.ok(result.issues.some(issue => issue.code === 'WORKSPACE_CHANGED'));
+    assert.equal(result.local.head, result.localAfter.head);
+    assert.notEqual(result.local.digest, result.localAfter.digest);
+    assert.equal(result.cases[0].status, 'passed');
+    assert.equal(result.status, 'error');
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true });
+  }
+});
 
 test('preparation errors preserve not-run cases and escape HTML', async () => {
   // 未进入 Playwright 的失败也生成可读报告，不伪造图片、通过状态或详细报告链接。
