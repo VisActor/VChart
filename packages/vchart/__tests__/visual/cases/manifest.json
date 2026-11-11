@@ -1,8 +1,12 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "995bd5e44ed4c9da70bff6efb3c1e9e2949964813b4ea2aac01d8e26a9345ae8",
+  "indexDigest": "1788ad6d5b37656fdaecdf02a609d8b4435819943706e1269bb03e78408e4200",
   "ids": [
     "title-resize-legend-layout",
+    "injected-stage",
+    "event-gesture-delay",
+    "event-subscription-ownership",
+    "event-throttle-propagation",
     "linear-axis-update-bounds",
     "band-axis-update-spec",
     "legend-piecewise-domain",
@@ -238,6 +242,7 @@
     "update-full-data-marker",
     "pie-update-zero",
     "dimension-index-area",
+    "dimension-index-leave",
     "custom-mark-text-click",
     "custom-mark-fill-click",
     "datazoom-min-max-span",
