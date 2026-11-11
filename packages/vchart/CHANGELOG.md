@@ -1,6 +1,13 @@
 # Change Log - @visactor/vchart
 
-This log was last generated on Fri, 30 Oct 2026 09:15:10 GMT and should not be manually modified.
+This log was last generated on Wed, 11 Nov 2026 03:02:49 GMT and should not be manually modified.
+
+## 2.2.2
+Wed, 11 Nov 2026 03:02:49 GMT
+
+### Patches
+
+- fix: validate grid layout indices and spans before accessing row and column size entries
 
 ## 2.2.1
 Fri, 30 Oct 2026 09:15:10 GMT

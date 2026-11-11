@@ -1,3 +1,14 @@
+# v2.2.2
+
+2026-11-11
+
+**🐛 问题修复**
+
+- **@visactor/vchart**: validate grid layout indices and spans before accessing row and column size entries
+
+**Full Changelog**: https://github.com/VisActor/VChart/compare/v2.2.1...v2.2.2
+
+[更多详情请查看 v2.2.2](https://github.com/VisActor/VChart/releases/tag/v2.2.2)
 # v2.2.1
 
 2026-10-30
