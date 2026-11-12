@@ -237,6 +237,76 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     this._mapViewData = null as any;
   }
 
+  /**
+   * 把标签组件的 postMatrix 重置为单位矩阵，并刷新「路径基准矩阵」。
+   *
+   * 纯交互缩放/平移时，标签不会重新编码，其基准 x/y 仍是布局期的位置，
+   * 需要靠 postMatrix 来跟随地图。但一旦数据更新触发标签重新编码（renderInner），
+   * 标签的基准 x/y 会经由 dataToPosition（走投影，已包含交互缩放）重新计算，
+   * 此时基准位置本身已经是缩放后的，残留的 postMatrix 会造成二次变换。
+   * 因此在重新编码路径上需要先把 postMatrix 清空。
+   *
+   * 同时，此刻路径 pathGroup 仍保留着交互累计矩阵（数据更新不重置路径矩阵），
+   * 而标签已按「当前投影帧」重新编码。两者参考系不同，必须把当前路径矩阵记为
+   * 基准 B，后续交互对标签只施加相对 B 之后的变换，避免重复计入已投影的缩放/平移。
+   */
+  private _resetLabelGraphicPostMatrix() {
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+    if (labelGraphic?.attribute.postMatrix) {
+      labelGraphic.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+    if (labelGraphic) {
+      const pathGroup = this.getRootMark()?.getProduct() as any;
+      const pathMatrix = pathGroup?.attribute?.postMatrix;
+      // 基准挂在共享标签图元上，而非 series：labelLayout: 'region' 下多个系列共享同一标签，
+      // 所有系列的 pathGroup 缩放一致，读/写同一个基准即可，避免后写覆盖先写。
+      labelGraphic._roamMatrixBaseline = pathMatrix ? pathMatrix.clone() : new Matrix();
+    }
+    return labelGraphic;
+  }
+
+  /**
+   * 把共享标签组件的 postMatrix 同步为「相对基准之后」的路径变换。
+   *
+   * 交互缩放/平移时，pathGroup 自身会增量累积变换（例如连续两次 1.5 倍缩放后为 2.25 倍）。
+   * 标签需要和地图保持完全一致的变换，因此这里采用「幂等地镜像」而非「增量叠加」：
+   * 每次交互后直接把标签矩阵设置为 `M_path · B⁻¹` 的克隆，其中 B 是标签最近一次重编码
+   * 时的路径基准矩阵（存于共享标签图元的 _roamMatrixBaseline，见 _resetLabelGraphicPostMatrix）。
+   *
+   * - 纯交互（无数据更新）：B 为单位矩阵，结果等于直接镜像 M_path，标签与地图完全一致。
+   * - 数据更新后再次交互：标签基准已按含 B 的投影重编码，这里只补上 B 之后新增的变换，
+   *   因此不会把已计入投影的那次缩放/平移重复一遍。
+   *
+   * 这样做天然解决了共享标签的重复变换问题（labelLayout: 'region' 下多个系列共享同一标签组件）：
+   * 同一次事件被每个系列各处理一次时，每个系列的 pathGroup 都已被缩放到相同的目标矩阵，
+   * 标签镜像其中任意一个都得到相同结果，重复设置也只是写入同一个值，而不会叠加。
+   * 它也不依赖任何「事件唯一标识」，因此调用方复用同一个 scaleCenter / delta 对象连续交互时同样正确。
+   */
+  private _syncLabelGraphicToPathGroup(pathGroup: any) {
+    const labelGraphic = this._labelMark?.getComponent()?.getComponent();
+    if (!labelGraphic) {
+      return;
+    }
+    const pathMatrix = pathGroup?.attribute.postMatrix;
+    if (!pathMatrix) {
+      labelGraphic.setAttributes({ postMatrix: new Matrix() });
+      return;
+    }
+    // L = M_path · B⁻¹：施加基准 B 之后新增的变换（B 为单位阵时即 M_path 本身）
+    const relative = pathMatrix.clone();
+    const b = labelGraphic._roamMatrixBaseline as Matrix | undefined;
+    const baselineIsIdentity = !b || (b.a === 1 && b.b === 0 && b.c === 0 && b.d === 1 && b.e === 0 && b.f === 0);
+    if (!baselineIsIdentity) {
+      const inv = b.getInverse();
+      relative.multiply(inv.a, inv.b, inv.c, inv.d, inv.e, inv.f);
+    }
+    labelGraphic.setAttributes({
+      postMatrix: relative
+    });
+  }
+
   handleZoom(e: ZoomEventParam) {
     const { scale, scaleCenter } = e;
     if (scale === 1) {
@@ -244,19 +314,17 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
     }
 
     const pathGroup = this.getRootMark().getProduct();
-    if (pathGroup) {
-      if (!pathGroup.attribute.postMatrix) {
-        pathGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      pathGroup.scale(scale, scale, scaleCenter);
+    if (!pathGroup) {
+      return;
     }
-    const vgrammarLabel = this._labelMark?.getComponent();
+    if (!pathGroup.attribute.postMatrix) {
+      pathGroup.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+    pathGroup.scale(scale, scale, scaleCenter);
 
-    if (vgrammarLabel) {
-      vgrammarLabel.renderInner();
-    }
+    this._syncLabelGraphicToPathGroup(pathGroup);
   }
 
   handlePan(e: PanEventParam) {
@@ -265,16 +333,25 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
       return;
     }
     const pathGroup = this.getRootMark().getProduct();
-    if (pathGroup) {
-      if (!pathGroup.attribute.postMatrix) {
-        pathGroup.setAttributes({
-          postMatrix: new Matrix()
-        });
-      }
-      pathGroup.translate(delta[0], delta[1]);
+    if (!pathGroup) {
+      return;
     }
-    const vgrammarLabel = this._labelMark?.getComponent();
+    if (!pathGroup.attribute.postMatrix) {
+      pathGroup.setAttributes({
+        postMatrix: new Matrix()
+      });
+    }
+    pathGroup.translate(delta[0], delta[1]);
 
+    this._syncLabelGraphicToPathGroup(pathGroup);
+  }
+
+  onLayoutEnd(): void {
+    super.onLayoutEnd();
+
+    this._resetLabelGraphicPostMatrix();
+
+    const vgrammarLabel = this._labelMark?.getComponent();
     if (vgrammarLabel) {
       vgrammarLabel.renderInner();
     }
@@ -332,6 +409,10 @@ export class MapSeries<T extends IMapSeriesSpec = IMapSeriesSpec> extends GeoSer
 
   viewDataUpdate(d: DataView): void {
     super.viewDataUpdate(d);
+    // 数据更新会触发共享标签组件重新编码（renderInner），标签基准 x/y 会经由
+    // dataToPosition（走投影，已包含交互缩放）重新计算。此时若保留交互阶段叠加的
+    // postMatrix，会与投影缩放重复，造成标签二次变换。因此在重新编码前先重置。
+    this._resetLabelGraphicPostMatrix();
     this._mapViewData?.getDataView()?.reRunAllTransform();
     this._mapViewData?.updateData();
   }
