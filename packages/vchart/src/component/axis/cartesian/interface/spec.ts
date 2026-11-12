@@ -17,7 +17,32 @@ export type ICartesianAxisSpec =
   | ICartesianLogAxisSpec
   | ICartesianSymlogAxisSpec;
 
-export type ICartesianVertical = {
+/**
+ * 轴钉在垂直方向那根轴的某个刻度上。只给四条边上的轴用：z 轴没有「对面那根轴」。
+ * @since 2.1.7
+ */
+export type ICartesianAxisCrossing = {
+  /**
+   * 本轴钉在垂直方向那根轴的哪个刻度值上。不配置时轴贴 `orient` 指定的那条边（默认行为）。
+   * 配置后轴线、刻度、标签、轴单位整体移动到该刻度处；网格线保持不动，轴标题保持在原来那条边上。
+   * 取值超出对面轴 domain 时会被 clamp 到端点。
+   * `domainLine.onZero` 是本配置 `crossValue: 0` 的「仅轴线」窄版。
+   * @since 2.1.7
+   */
+  crossValue?: number;
+  /**
+   * 多轴时手动指定 `crossValue` 参照哪根轴的刻度，取轴 spec 上的 `id`。
+   * @since 2.1.7
+   */
+  crossAxisId?: StringOrNumber;
+  /**
+   * 多轴时手动指定 `crossValue` 参照哪根轴的刻度，索引对应 `axes` 数组的下标。
+   * @since 2.1.7
+   */
+  crossAxisIndex?: number;
+};
+
+export type ICartesianVertical = ICartesianAxisCrossing & {
   /**
    * 坐标轴的位置
    */
@@ -37,7 +62,7 @@ export type ICartesianVertical = {
     bottom?: ILayoutNumber;
   };
 };
-export type ICartesianHorizontal = {
+export type ICartesianHorizontal = ICartesianAxisCrossing & {
   /**
    * 坐标轴的位置
    */
