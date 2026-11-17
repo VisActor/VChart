@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>不平衡分类：精确率与召回率</title><style>:root{color-scheme:light;--bg:#fff;--text:#162b39;--muted:#526777;--line:#dce3e9;--accent:#155ba5}
+*{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:1160px;margin:auto;padding:24px}h1{font-size:24px;line-height:1.3;margin:0 0 16px;overflow-wrap:anywhere}h2{font-size:18px;line-height:1.4;margin:0 0 12px;overflow-wrap:anywhere}
+.provenance,.source,.scope,.units,.chart-meta,.caption{color:var(--muted);font-size:12px;overflow-wrap:anywhere;margin:8px 0}.toolbar{border-bottom:1px solid var(--line);padding:0 0 16px;margin:0 0 20px}.card{margin:0 0 24px}.card:last-child{margin-bottom:0}
+.plot{height:420px;width:100%;min-width:0}.plot.pair{height:640px}.charts{min-width:0}.chart-error,#page-error{color:#b52a31;overflow-wrap:anywhere}
+button,select,input{font:inherit;max-width:100%;border:1px solid var(--line);border-radius:5px;padding:7px 11px;background:var(--bg);color:var(--text)}button{cursor:pointer}button:hover{border-color:var(--accent)}button:disabled{opacity:.5;cursor:default}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.actions,#controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end}.control{display:flex;flex-direction:column;gap:4px;min-width:120px;max-width:100%;font-size:13px}.range{display:flex;gap:6px}.range input{width:110px}#controls:not(:empty)+.actions{margin-top:12px}#summary{color:var(--muted);font-size:12px;margin:8px 0}
+body.dark{color-scheme:dark;--bg:#111c25;--text:#e2edf3;--muted:#a5bdcb;--line:#334954;--accent:#80b8ef}
+@media(max-width:600px){main{padding:16px 10px}h1{font-size:21px}.plot{height:360px}.plot.pair{height:540px}.actions button{font-size:13px}.control{min-width:100px}}
+</style></head>
+<body><main><header class="page-header"><h1>不平衡分类：精确率与召回率</h1></header>
+
+<p id="page-error" role="alert" hidden></p>
+<div class="charts"><section class="card" data-chart="main"><div id="dsv-main" class="plot " role="img" aria-label="不平衡分类：精确率与召回率">图表加载中</div><p class="empty" id="empty-main" role="status" hidden></p><p class="chart-error" id="error-main" role="alert" hidden></p><p class="caption">模拟评估 · true 为需复核正例，分数越高越偏向正例；虚线为正例率，点击图例可隐藏或恢复模型。</p></section></div>
+</main>
+<script type="application/json" id="visualization-data">{"charts":[{"caption":"模拟评估 · true 为需复核正例，分数越高越偏向正例；虚线为正例率，点击图例可隐藏或恢复模型。","id":"main","interactions":["legendFilter"],"source":{"label":"同一模拟留出集 · scores.json","note":"原创模拟测试数据，MIT；不是真实业务或模型评估结果。"},"spec":{"baseline":true,"data":[{"actual":true,"score":0.9,"series":"模型 A"},{"actual":false,"score":0.9,"series":"模型 A"},{"actual":false,"score":0.7,"series":"模型 A"},{"actual":false,"score":0.5,"series":"模型 A"},{"actual":true,"score":0.8,"series":"模型 A"},{"actual":false,"score":0.27,"series":"模型 A"},{"actual":false,"score":0.265,"series":"模型 A"},{"actual":false,"score":0.26,"series":"模型 A"},{"actual":false,"score":0.255,"series":"模型 A"},{"actual":false,"score":0.25,"series":"模型 A"},{"actual":false,"score":0.245,"series":"模型 A"},{"actual":false,"score":0.24,"series":"模型 A"},{"actual":true,"score":0.6,"series":"模型 A"},{"actual":false,"score":0.23,"series":"模型 A"},{"actual":false,"score":0.225,"series":"模型 A"},{"actual":false,"score":0.22,"series":"模型 A"},{"actual":false,"score":0.215,"series":"模型 A"},{"actual":false,"score":0.21,"series":"模型 A"},{"actual":false,"score":0.205,"series":"模型 A"},{"actual":false,"score":0.2,"series":"模型 A"},{"actual":false,"score":0.195,"series":"模型 A"},{"actual":false,"score":0.19,"series":"模型 A"},{"actual":false,"score":0.185,"series":"模型 A"},{"actual":false,"score":0.18,"series":"模型 A"},{"actual":false,"score":0.175,"series":"模型 A"},{"actual":false,"score":0.17,"series":"模型 A"},{"actual":true,"score":0.4,"series":"模型 A"},{"actual":false,"score":0.16,"series":"模型 A"},{"actual":false,"score":0.155,"series":"模型 A"},{"actual":false,"score":0.15,"series":"模型 A"},{"actual":false,"score":0.145,"series":"模型 A"},{"actual":false,"score":0.14,"series":"模型 A"},{"actual":false,"score":0.135,"series":"模型 A"},{"actual":false,"score":0.13,"series":"模型 A"},{"actual":false,"score":0.125,"series":"模型 A"},{"actual":false,"score":0.12,"series":"模型 A"},{"actual":false,"score":0.115,"series":"模型 A"},{"actual":false,"score":0.11,"series":"模型 A"},{"actual":false,"score":0.105,"series":"模型 A"},{"actual":false,"score":0.1,"series":"模型 A"},{"actual":true,"score":0.85,"series":"模型 B"},{"actual":false,"score":0.95,"series":"模型 B"},{"actual":false,"score":0.85,"series":"模型 B"},{"actual":false,"score":0.75,"series":"模型 B"},{"actual":true,"score":0.55,"series":"模型 B"},{"actual":false,"score":0.65,"series":"模型 B"},{"actual":false,"score":0.55,"series":"模型 B"},{"actual":false,"score":0.45,"series":"模型 B"},{"actual":false,"score":0.35,"series":"模型 B"},{"actual":false,"score":0.25,"series":"模型 B"},{"actual":false,"score":0.15,"series":"模型 B"},{"actual":false,"score":0.038,"series":"模型 B"},{"actual":true,"score":0.35,"series":"模型 B"},{"actual":false,"score":0.036,"series":"模型 B"},{"actual":false,"score":0.035,"series":"模型 B"},{"actual":false,"score":0.034,"series":"模型 B"},{"actual":false,"score":0.033,"series":"模型 B"},{"actual":false,"score":0.032,"series":"模型 B"},{"actual":false,"score":0.031,"series":"模型 B"},{"actual":false,"score":0.03,"series":"模型 B"},{"actual":false,"score":0.029,"series":"模型 B"},{"actual":false,"score":0.028,"series":"模型 B"},{"actual":false,"score":0.027,"series":"模型 B"},{"actual":false,"score":0.026,"series":"模型 B"},{"actual":false,"score":0.025,"series":"模型 B"},{"actual":false,"score":0.024,"series":"模型 B"},{"actual":true,"score":0.1,"series":"模型 B"},{"actual":false,"score":0.022,"series":"模型 B"},{"actual":false,"score":0.021,"series":"模型 B"},{"actual":false,"score":0.02,"series":"模型 B"},{"actual":false,"score":0.019,"series":"模型 B"},{"actual":false,"score":0.018,"series":"模型 B"},{"actual":false,"score":0.017,"series":"模型 B"},{"actual":false,"score":0.016,"series":"模型 B"},{"actual":false,"score":0.015,"series":"模型 B"},{"actual":false,"score":0.014,"series":"模型 B"},{"actual":false,"score":0.013,"series":"模型 B"},{"actual":false,"score":0.012,"series":"模型 B"},{"actual":false,"score":0.011,"series":"模型 B"},{"actual":false,"score":0.01,"series":"模型 B"}],"type":"precisionRecallCurve"}}],"controls":{},"dataset":null,"libraries":{"statplots":"2.2.2","vchart":"2.2.2"},"presentation":{"actions":[],"details":[]},"title":"不平衡分类：精确率与召回率","version":1}</script>
+<script src="https://unpkg.com/@visactor/vchart@2.2.2/build/index.min.js"></script>
+<script src="https://unpkg.com/@visactor/vchart-statplots@2.2.2/build/index.min.js"></script>
+<script>/* Shared browser lifecycle. Statistics and geometry belong to statplots. */
+(function (global) {
+  'use strict';
+  function create(options) {
+    const VChart = global.VChart;
+    const plots = global.VChartStatPlots;
+    if (typeof VChart?.default !== 'function' || typeof plots?.compileStatPlot !== 'function') {
+      throw new Error('图表库加载失败，请检查网络或外部脚本限制。');
+    }
+    plots.registerStatPlots();
+    let chart = null;
+    let lastSpec = null;
+    let queue = Promise.resolve();
+    let closed = false;
+    let releasing;
+    function compile(spec) {
+      const result = plots.validateStatPlot(spec);
+      if (!result.valid) throw new Error(result.errors.map(e => `${e.path}: ${e.message}`).join('\n'));
+      let input = spec;
+      if (options.showTitle === false) {
+        const { title, description, ...withoutTitle } = spec;
+        input = withoutTitle;
+      }
+      const compiled = plots.compileStatPlot(input);
+      if (options.animation !== undefined) compiled.animation = options.animation;
+      if (options.confineTooltip) compiled.tooltip = { ...compiled.tooltip, confine: true };
+      if (options.interactions !== undefined) {
+        if (compiled.brush && !options.interactions.includes('brush')) {
+          if (Array.isArray(compiled.brush)) compiled.brush = compiled.brush.map(brush => ({ ...brush, visible: false }));
+          else compiled.brush = { ...compiled.brush, visible: false };
+        }
+        if (compiled.legends && !options.interactions.includes('legendFilter')) {
+          if (Array.isArray(compiled.legends)) compiled.legends = compiled.legends.map(legend => ({ ...legend, interactive: false }));
+          else compiled.legends = { ...compiled.legends, interactive: false };
+        }
+      }
+      return compiled;
+    }
+    async function draw(compiled) {
+      if (chart) await chart.updateSpec(compiled);
+      else {
+        chart = new VChart.default(compiled, { dom: options.dom, autoFit: true });
+        await chart.renderAsync();
+      }
+    }
+    function drop() { if (chart) { chart.release(); chart = null; } }
+    function enqueue(action) {
+      if (closed) return Promise.reject(new Error('Chart controller released'));
+      const pending = queue.then(() => {
+        if (closed) throw new Error('Chart controller released');
+        return action();
+      });
+      queue = pending.catch(() => {});
+      return pending;
+    }
+    return {
+      get chart() { return chart; },
+      get spec() { return lastSpec; },
+      update(spec) {
+        return enqueue(async () => {
+          const compiled = compile(spec); // Errors here leave the previous chart untouched.
+          try { await draw(compiled); }
+          catch (error) {
+            drop();
+            if (lastSpec && !closed) {
+              try { await draw(compile(lastSpec)); }
+              catch (recovery) { drop(); throw new Error(`${error.message}; 恢复失败：${recovery.message}`); }
+            }
+            throw error;
+          }
+          lastSpec = spec;
+        });
+      },
+      exportPNG(name) {
+        return enqueue(async () => {
+          if (!chart) throw new Error('没有已成功绘制的图表');
+          await chart.exportImg(name);
+        });
+      },
+      release() {
+        if (!releasing) { closed = true; releasing = queue.then(drop); }
+        return releasing;
+      }
+    };
+  }
+  global.StatPlotController = { create };
+})(globalThis);
+</script><script>/* Semantic role mapping only. All statistics are computed by statplots. */
+(function (global) {
+  'use strict';
+  const roles = {
+    countPlot: [['category'], ['series']], histogram: [['value'], []],
+    kdePlot: [['value'], ['series']], ecdfPlot: [['value'], ['series']],
+    boxPlot: [['category', 'value'], ['series']], violinPlot: [['category', 'value'], ['series']],
+    stripPlot: [['category', 'value'], ['series']], scatterPlot: [['x', 'y'], ['series']],
+    hexbinPlot: [['x', 'y'], []], missingValueMatrix: [['variables'], []],
+    correlationMatrix: [['variables'], []], pairPlot: [['variables'], ['series']]
+  };
+  function require(condition, message) { if (!condition) throw new Error(message); }
+  function buildBoundSpec(binding, rows, columns) {
+    const { type, fields, options = {} } = binding;
+    require(Object.hasOwn(roles, type), '该图没有表格绑定');
+    const [required, optional] = roles[type];
+    require(required.every(role => Object.hasOwn(fields, role)) &&
+      Object.keys(fields).every(role => required.includes(role) || optional.includes(role)), `${type}: fields 角色不符合输入契约`);
+    require(!['type', 'data', 'variables'].some(key => Object.hasOwn(options, key)), 'options 不能覆盖 type/data/variables');
+    const byName = new Map(columns.map(column => [column.name, column]));
+    for (const [role, names] of Object.entries(fields)) {
+      const refs = role === 'variables' ? names : [names];
+      require(Array.isArray(refs) && refs.length && new Set(refs).size === refs.length, `${role}: 需要唯一列名`);
+      for (const name of refs) {
+        require(byName.has(name), `引用了不存在的列: ${name}`);
+        const expected = role === 'category' || role === 'series' ? 'string' : 'number';
+        if (type !== 'missingValueMatrix') require(byName.get(name).type === expected, `${name}: ${role} 需要 ${expected}`);
+      }
+    }
+    const matrix = Object.hasOwn(fields, 'variables');
+    let omittedN = 0;
+    let data;
+    const spec = { ...options, type };
+    if (matrix) {
+      const variables = fields.variables;
+      require(variables.length <= (type === 'pairPlot' ? 4 : 20), `${type}: 变量过多`);
+      const included = rows.filter(row => {
+        if (fields.series && row.values[fields.series] === null) { omittedN++; return false; }
+        return true;
+      });
+      if (type === 'pairPlot') require(included.length * variables.length * (variables.length - 1) <= 120000, 'pairPlot 超过 120000 点预算');
+      if (type === 'missingValueMatrix') require(included.length * variables.length <= 200000, '缺失矩阵超过 200000 网格预算');
+      data = { observations: included.map(row => ({
+        id: row.id, values: Object.fromEntries(variables.map(name => [name, row.values[name]])),
+        ...(fields.series ? { series: row.values[fields.series] } : {})
+      })) };
+      spec.variables = variables.slice();
+    } else {
+      data = [];
+      for (const row of rows) {
+        if (Object.values(fields).some(name => row.values[name] === null)) { omittedN++; continue; }
+        const record = Object.fromEntries(Object.entries(fields).map(([role, name]) => [role, row.values[name]]));
+        if (type === 'stripPlot' || type === 'scatterPlot') record.id = row.id;
+        data.push(record);
+      }
+      if (type === 'kdePlot' || type === 'violinPlot') {
+        const groups = new Set(data.map(row => JSON.stringify([type === 'violinPlot' ? row.category : null, row.series])));
+        require(groups.size <= 20, `${type} 最多 20 个分组，请明确范围`);
+      }
+      const labels = { ...options.fieldLabels };
+      for (const [role, name] of Object.entries(fields)) {
+        if (role === 'series') continue;
+        const column = byName.get(name);
+        labels[role] = `${column.label || name}${column.unit ? `（${column.unit}）` : ''}`;
+      }
+      spec.fieldLabels = labels;
+    }
+    spec.data = data;
+    return { spec, inputN: rows.length - omittedN, omittedN };
+  }
+  function filterRows(rows, filters) {
+    return rows.filter(row => filters.every(filter => {
+      const value = row.values[filter.field];
+      if (filter.kind === 'category') return filter.value === null || value === filter.value;
+      require(filter.kind === 'range' && Array.isArray(filter.value) && filter.value.length === 2,
+        '范围筛选需要闭区间');
+      require(filter.value[0] <= filter.value[1], '范围下界不能大于上界');
+      return value !== null && value >= filter.value[0] && value <= filter.value[1];
+    }));
+  }
+  global.StatPlotData = { buildBoundSpec, filterRows };
+})(globalThis);
+</script><script>(async function () {
+  'use strict';
+  const payload = JSON.parse(document.getElementById('visualization-data').textContent);
+  const status = window.__DSV_STATUS__ = { ready: false, charts: [], filteredN: payload.dataset?.rows.length ?? null, lastUpdateSucceeded: false };
+  const controllers = new Map();
+  window.__DSV_CONTROLLERS__ = controllers;
+  const clone = value => structuredClone(value);
+  let inputs = clone(payload.charts);
+  let filters = (payload.controls.initialFilters || []).map(filter => ({ ...filter,
+    value: filter.kind === 'range' ? [filter.value[0] ?? -Infinity, filter.value[1] ?? Infinity] : filter.value }));
+  let theme = (inputs[0].spec || inputs[0].binding.options || {}).theme || 'light';
+  let busy = false;
+  const filterControls = [], editors = [];
+  const pageError = document.getElementById('page-error');
+  const actions = Object.fromEntries(['apply','clear','theme','download','save-view'].map(id => [id, document.getElementById(id)]));
+  const byColumn = new Map((payload.dataset?.columns || []).map(column => [column.name, column]));
+  const titleOf = input => (input.spec || input.binding.options || {}).title || input.id;
+  const columnLabel = name => byColumn.get(name).label || name;
+  function node(tag, text, parent) {
+    const element = document.createElement(tag);
+    if (text !== undefined) element.textContent = text;
+    if (parent) parent.append(element);
+    return element;
+  }
+  function select(label, choices) {
+    const wrapper = node('label', undefined, document.getElementById('controls'));
+    wrapper.className = 'control'; node('span', label, wrapper);
+    const element = node('select', undefined, wrapper);
+    element.setAttribute('aria-label', label);
+    for (const [value, text] of choices) { const option = node('option', text, element); option.value = value; }
+    return element;
+  }
+  function buildControls() {
+    for (const control of payload.controls.filters || []) {
+      if (control.kind === 'category') {
+        const values = [...new Set(payload.dataset.rows.map(row => row.values[control.field]).filter(value => value !== null))];
+        const element = select(columnLabel(control.field), [['all', '全部'], ...values.map((value, i) => [String(i), value === '' ? '空字符串' : value])]);
+        filterControls.push({ ...control, element, values });
+      } else {
+        const wrapper = node('div', undefined, document.getElementById('controls')); wrapper.className = 'control';
+        node('span', columnLabel(control.field) + '（含端点）', wrapper);
+        const range = node('div', undefined, wrapper); range.className = 'range';
+        const lower = node('input', undefined, range), upper = node('input', undefined, range);
+        for (const [input, label] of [[lower, '下界'], [upper, '上界']]) {
+          input.type = 'number'; input.step = 'any'; input.placeholder = label;
+          input.setAttribute('aria-label', columnLabel(control.field) + ' ' + label);
+        }
+        filterControls.push({ ...control, lower, upper });
+      }
+    }
+    for (const control of payload.controls.variableSwitch || []) {
+      const input = inputs.find(input => input.id === control.chartId);
+      const roleName = { value: '数值', x: '横轴', y: '纵轴' }[control.role];
+      const element = select(`${titleOf(input)} · ${roleName}变量`, control.candidates.map(name => [name, columnLabel(name)]));
+      editors.push({ ...control, kind: 'variable', element });
+      element.addEventListener('change', () => {
+        const next = clone(inputs); next.find(input => input.id === control.chartId).binding.fields[control.role] = element.value;
+        perform(next, filters, [control.chartId], theme);
+      });
+    }
+    for (const control of payload.controls.parameters || []) {
+      const input = inputs.find(input => input.id === control.chartId);
+      const label = { 'binning.binCount': '分箱数', statistic: '统计量', method: '相关方法' }[control.path];
+      const names = { count: '计数', proportion: '比例', density: '密度', pearson: 'Pearson（线性）', spearman: 'Spearman（秩）', kendall: 'Kendall（秩）' };
+      const element = select(`${titleOf(input)} · ${label}`, [['default', '默认'], ...control.values.map(value => [JSON.stringify(value), names[value] || String(value)])]);
+      editors.push({ ...control, kind: 'parameter', element });
+      element.addEventListener('change', () => {
+        const next = clone(inputs); const target = next.find(input => input.id === control.chartId).binding;
+        target.options ||= {};
+        const parts = control.path.split('.'); let object = target.options;
+        for (const key of parts.slice(0, -1)) { object[key] ||= {}; object = object[key]; }
+        const key = parts[parts.length - 1];
+        if (element.value === 'default') delete object[key]; else object[key] = JSON.parse(element.value);
+        perform(next, filters, [control.chartId], theme);
+      });
+    }
+  }
+  function restoreControls() {
+    for (const control of filterControls) {
+      const accepted = filters.find(filter => filter.field === control.field && filter.kind === control.kind);
+      if (control.kind === 'category') control.element.value = !accepted || accepted.value === null ? 'all' : String(control.values.indexOf(accepted.value));
+      else {
+        control.lower.value = accepted && Number.isFinite(accepted.value[0]) ? accepted.value[0] : '';
+        control.upper.value = accepted && Number.isFinite(accepted.value[1]) ? accepted.value[1] : '';
+      }
+    }
+    for (const editor of editors) {
+      const binding = inputs.find(input => input.id === editor.chartId).binding;
+      const value = editor.kind === 'variable' ? binding.fields[editor.role]
+        : editor.path.split('.').reduce((value, key) => value?.[key], binding.options);
+      editor.element.value = editor.kind === 'variable' ? value : value === undefined ? 'default' : JSON.stringify(value);
+    }
+  }
+  function setBusy(value) {
+    busy = value; status.ready = !value;
+    document.querySelectorAll('.toolbar input,.toolbar select,.toolbar button').forEach(element => { element.disabled = value; });
+    if (actions['save-view']) actions['save-view'].disabled = value || !inputs.every(input => controllers.get(input.id)?.spec);
+    document.querySelectorAll('[data-png]').forEach(button => { button.disabled = value || !controllers.get(button.dataset.png)?.chart; });
+    if (!value && actions.download) actions.download.textContent = inputs.every(input => controllers.get(input.id)?.spec) ? '下载当前图表配置' : '下载输入配置';
+  }
+  function chartState(id) { return status.charts.find(chart => chart.id === id); }
+  function builtSpec(input, rows) {
+    return input.binding ? StatPlotData.buildBoundSpec(input.binding, rows, payload.dataset.columns)
+      : { spec: input.spec, inputN: null, omittedN: 0 };
+  }
+  function showMetadata(state, input) {
+    const element = document.getElementById('meta-' + input.id);
+    if (!element) return;
+    let text;
+    if (state.inputN === null) {
+      const data = input.spec.data;
+      text = `语义输入 ${Array.isArray(data) ? data.length : data.observations.length} 行（不推断原始样本量）`;
+    } else text = `本图输入 ${state.inputN} 条 · ${state.omittedN} 条缺少必要字段`;
+    element.textContent = text;
+  }
+  function summary() {
+    const element = document.getElementById('summary');
+    if (element) element.textContent = payload.dataset ?
+      `${payload.presentation.details.includes('counts') ? `原始 ${payload.dataset.source.originalN} 条 · ` : ''}当前筛选 ${status.filteredN} 条` : '';
+  }
+  async function updateOne(input, built) {
+    let controller = controllers.get(input.id);
+    if (!controller) {
+      controller = StatPlotController.create({ dom: 'dsv-' + input.id, animation: false, confineTooltip: true,
+        showTitle: false, interactions: input.interactions || [] });
+      controllers.set(input.id, controller);
+    }
+    if (!controller.chart) document.getElementById('dsv-' + input.id).replaceChildren();
+    await controller.update(built.spec);
+    message(document.getElementById('empty-' + input.id), built.inputN === 0 ? '暂无符合条件的数据' : '');
+  }
+  function message(element, text) { element.textContent = text; element.hidden = !text; }
+  function showFailure(id, error) {
+    const state = chartState(id); state.status = 'failed'; state.error = error.message;
+    message(document.getElementById('error-' + id), '此图未能生成，请检查数据或图表配置。');
+    if (!controllers.get(id)?.chart) document.getElementById('dsv-' + id).textContent = '此图未能生成';
+  }
+  async function perform(nextInputs, nextFilters, affected, nextTheme) {
+    if (busy) return;
+    setBusy(true); message(pageError, ''); status.error = null;
+    const previous = new Map(affected.map(id => [id, { spec: controllers.get(id)?.spec, state: { ...chartState(id) } }]));
+    const touched = [];
+    let updating;
+    try {
+      const rows = payload.dataset ? StatPlotData.filterRows(payload.dataset.rows, nextFilters) : [];
+      const pending = [];
+      for (const input of nextInputs.filter(input => affected.includes(input.id))) {
+        updating = input.id;
+        const built = builtSpec(input, rows);
+        await updateOne(input, built);
+        touched.push(input.id); pending.push({ input, built });
+      }
+      inputs = nextInputs; filters = clone(nextFilters); theme = nextTheme;
+      status.filteredN = payload.dataset ? rows.length : null;
+      for (const { input, built } of pending) {
+        const state = chartState(input.id);
+        Object.assign(state, { status: 'rendered', error: null, inputN: built.inputN, omittedN: built.omittedN });
+        message(document.getElementById('error-' + input.id), '');
+        showMetadata(state, input);
+      }
+      document.body.classList.toggle('dark', theme === 'dark');
+      status.lastUpdateSucceeded = true;
+    } catch (error) {
+      const recoveryErrors = [];
+      for (const id of touched) {
+        const old = previous.get(id);
+        try {
+          if (old.spec) await controllers.get(id).update(old.spec);
+          else { await controllers.get(id).release(); controllers.delete(id); document.getElementById('dsv-' + id).textContent = '此图未能生成'; }
+          Object.assign(chartState(id), old.state);
+          message(document.getElementById('empty-' + id), old.state.inputN === 0 ? '暂无符合条件的数据' : '');
+        } catch (recovery) { recoveryErrors.push(`${id}: ${recovery.message}`); showFailure(id, recovery); }
+      }
+      if (updating) showFailure(updating, error);
+      status.lastUpdateSucceeded = false;
+      status.error = `${error.message}${recoveryErrors.length ? '\n恢复失败：' + recoveryErrors.join('; ') : ''}`;
+      message(pageError, recoveryErrors.length ? '更新失败，部分图表未能恢复。' : '更新失败，已恢复上次成功条件。');
+    } finally {
+      restoreControls(); summary(); setBusy(false);
+    }
+  }
+  buildControls(); restoreControls(); setBusy(true);
+  const initialRows = payload.dataset ? StatPlotData.filterRows(payload.dataset.rows, filters) : [];
+  status.filteredN = payload.dataset ? initialRows.length : null;
+  for (const input of inputs) {
+    const state = { id: input.id, status: 'pending', error: null, inputN: null, omittedN: 0 };
+    status.charts.push(state);
+    try {
+      const built = builtSpec(input, initialRows);
+      await updateOne(input, built);
+      Object.assign(state, { status: 'rendered', inputN: built.inputN, omittedN: built.omittedN });
+      showMetadata(state, input);
+    } catch (error) { showFailure(input.id, error); }
+  }
+  document.body.classList.toggle('dark', theme === 'dark');
+  status.lastUpdateSucceeded = status.charts.every(chart => chart.status === 'rendered');
+  summary(); setBusy(false);
+  const fixedFilters = () => filters.filter(filter => !filterControls.some(control => control.field === filter.field && control.kind === filter.kind));
+  actions.apply?.addEventListener('click', () => {
+    const nextFilters = clone(fixedFilters());
+    for (const control of filterControls) {
+      if (control.kind === 'category') nextFilters.push({ field: control.field, kind: control.kind,
+        value: control.element.value === 'all' ? null : control.values[Number(control.element.value)] });
+      else if (control.lower.value !== '' || control.upper.value !== '') nextFilters.push({ field: control.field, kind: control.kind,
+        value: [control.lower.value === '' ? -Infinity : Number(control.lower.value), control.upper.value === '' ? Infinity : Number(control.upper.value)] });
+    }
+    perform(clone(inputs), nextFilters, inputs.filter(input => input.binding).map(input => input.id), theme);
+  });
+  actions.clear?.addEventListener('click', () => perform(clone(inputs), clone(fixedFilters()), inputs.filter(input => input.binding).map(input => input.id), theme));
+  actions.theme?.addEventListener('click', () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'; const next = clone(inputs);
+    for (const input of next) { if (input.spec) input.spec.theme = nextTheme; else { input.binding.options ||= {}; input.binding.options.theme = nextTheme; } }
+    perform(next, filters, next.map(input => input.id), nextTheme);
+  });
+  document.querySelectorAll('[data-png]').forEach(button => button.addEventListener('click', async () => {
+    try { await controllers.get(button.dataset.png).exportPNG(button.dataset.png); }
+    catch (error) { status.error = error.message; message(pageError, '图片导出失败，请重试。'); }
+  }));
+  function downloadJSON(data, filename) {
+    const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
+    const link = node('a'); link.href = url; link.download = filename; link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  actions.download?.addEventListener('click', () => {
+    const complete = inputs.every(input => controllers.get(input.id)?.spec);
+    const data = complete ? inputs.map(input => controllers.get(input.id).spec) : payload;
+    downloadJSON(data, complete ? 'statplots.json' : 'visualization.input.json');
+  });
+  actions['save-view']?.addEventListener('click', () => {
+    const request = { version: 1, title: payload.title, charts: inputs, presentation: payload.presentation, controls: { ...payload.controls,
+      initialFilters: filters.map(filter => ({ ...filter,
+        value: filter.kind === 'range' ? filter.value.map(bound => Number.isFinite(bound) ? bound : null) : filter.value })) } };
+    if (payload.dataset) {
+      request.dataset = { source: { records: payload.dataset.rows.map(row => row.values) }, columns: payload.dataset.columns };
+      if (payload.dataset.source.idColumn) request.dataset.idColumn = payload.dataset.source.idColumn;
+    }
+    downloadJSON(request, 'visualization.request.json');
+  });
+  window.addEventListener('beforeunload', () => controllers.forEach(controller => controller.release()));
+})();
+</script>
+</body></html>

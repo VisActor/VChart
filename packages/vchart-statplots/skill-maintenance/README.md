@@ -44,6 +44,10 @@ node packages/vchart-statplots/scripts/sync-visualization-skill.mjs --root /tmp/
 
 ## 测试与验收
 
+固定 Agent 任务见 [data-science-visualization 用例](../../../skill-cases/data-science-visualization/README.md)，覆盖 8 种不同的典型图型，包含独立输入和验收标准。它们不随 Skill 分发，也不自动视为已执行的模型或浏览器测试。
+
+已审查的任务、完整输入、最终 HTML/request/data 和预览见 [展示案例](../../../examples/data-science-visualization/README.md)；[最新结果与验证索引](../../../docs/superpowers/validation/2026-11-17-data-science-visualization-case-results.md)记录选定产物、实际检查范围及未决事项。原始执行与诊断证据留在本地，不进入 Skill 分发包。
+
 从仓库根目录运行，Python 使用已有 3.11+ 环境。XLSX 测试需要 openpyxl，技能结构校验需要 PyYAML；缺依赖导致跳过或无法运行应如实记录。
 
 ```sh

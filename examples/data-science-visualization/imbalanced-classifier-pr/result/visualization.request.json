@@ -1,0 +1,428 @@
+{
+  "version": 1,
+  "title": "不平衡分类：精确率与召回率",
+  "charts": [
+    {
+      "id": "main",
+      "spec": {
+        "type": "precisionRecallCurve",
+        "data": [
+          {
+            "actual": true,
+            "score": 0.9,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.9,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.7,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.5,
+            "series": "模型 A"
+          },
+          {
+            "actual": true,
+            "score": 0.8,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.27,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.265,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.26,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.255,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.25,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.245,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.24,
+            "series": "模型 A"
+          },
+          {
+            "actual": true,
+            "score": 0.6,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.23,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.225,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.22,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.215,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.21,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.205,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.2,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.195,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.19,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.185,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.18,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.175,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.17,
+            "series": "模型 A"
+          },
+          {
+            "actual": true,
+            "score": 0.4,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.16,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.155,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.15,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.145,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.14,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.135,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.13,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.125,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.12,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.115,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.11,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.105,
+            "series": "模型 A"
+          },
+          {
+            "actual": false,
+            "score": 0.1,
+            "series": "模型 A"
+          },
+          {
+            "actual": true,
+            "score": 0.85,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.95,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.85,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.75,
+            "series": "模型 B"
+          },
+          {
+            "actual": true,
+            "score": 0.55,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.65,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.55,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.45,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.35,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.25,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.15,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.038,
+            "series": "模型 B"
+          },
+          {
+            "actual": true,
+            "score": 0.35,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.036,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.035,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.034,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.033,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.032,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.031,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.03,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.029,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.028,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.027,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.026,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.025,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.024,
+            "series": "模型 B"
+          },
+          {
+            "actual": true,
+            "score": 0.1,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.022,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.021,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.02,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.019,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.018,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.017,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.016,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.015,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.014,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.013,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.012,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.011,
+            "series": "模型 B"
+          },
+          {
+            "actual": false,
+            "score": 0.01,
+            "series": "模型 B"
+          }
+        ],
+        "baseline": true
+      },
+      "source": {
+        "label": "同一模拟留出集 · scores.json",
+        "note": "原创模拟测试数据，MIT；不是真实业务或模型评估结果。"
+      },
+      "caption": "模拟评估 · true 为需复核正例，分数越高越偏向正例；虚线为正例率，点击图例可隐藏或恢复模型。",
+      "interactions": [
+        "legendFilter"
+      ]
+    }
+  ],
+  "controls": {},
+  "presentation": {
+    "actions": [],
+    "details": []
+  }
+}
