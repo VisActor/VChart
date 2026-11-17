@@ -1,0 +1,10 @@
+{
+  "context.md": {
+    "sha256": "9cf8ae4a115dca421e44e74e2692a325ac75b7f7700a8c492528e8aa10283808",
+    "provenance": "仓库维护者原创模拟测试材料；MIT；非真实观测或模型结果。"
+  },
+  "pca-scores.json": {
+    "sha256": "b48f96fff8b87ffd92808d6bb3ff35c63a4baa718f9dd8d746859db48d24ddd1",
+    "provenance": "仓库维护者原创模拟测试材料；MIT；非真实观测或模型结果。"
+  }
+}

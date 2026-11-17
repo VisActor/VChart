@@ -1,0 +1,190 @@
+{
+  "version": 1,
+  "title": "订单实付金额分布",
+  "charts": [
+    {
+      "id": "main",
+      "binding": {
+        "type": "histogram",
+        "fields": {
+          "value": "amount_cny"
+        },
+        "options": {
+          "binning": {
+            "binCount": 5
+          },
+          "statistic": "count",
+          "fieldLabels": {
+            "count": "订单数"
+          }
+        }
+      },
+      "caption": "模拟订单 · 保留零金额与长尾；缺失金额省略。"
+    }
+  ],
+  "controls": {
+    "parameters": [
+      {
+        "chartId": "main",
+        "path": "binning.binCount",
+        "values": [
+          5,
+          10,
+          20
+        ]
+      }
+    ]
+  },
+  "presentation": {
+    "actions": [],
+    "details": []
+  },
+  "dataset": {
+    "source": {
+      "records": [
+        {
+          "order_id": "0001",
+          "amount_cny": 0.0
+        },
+        {
+          "order_id": "0002",
+          "amount_cny": 0.0
+        },
+        {
+          "order_id": "0003",
+          "amount_cny": 10.0
+        },
+        {
+          "order_id": "0004",
+          "amount_cny": 20.0
+        },
+        {
+          "order_id": "0005",
+          "amount_cny": 20.0
+        },
+        {
+          "order_id": "0006",
+          "amount_cny": 30.0
+        },
+        {
+          "order_id": "0007",
+          "amount_cny": 40.0
+        },
+        {
+          "order_id": "0008",
+          "amount_cny": 50.0
+        },
+        {
+          "order_id": "0009",
+          "amount_cny": 60.0
+        },
+        {
+          "order_id": "0010",
+          "amount_cny": 70.0
+        },
+        {
+          "order_id": "0011",
+          "amount_cny": 80.0
+        },
+        {
+          "order_id": "0012",
+          "amount_cny": 90.0
+        },
+        {
+          "order_id": "0013",
+          "amount_cny": 100.0
+        },
+        {
+          "order_id": "0014",
+          "amount_cny": 100.0
+        },
+        {
+          "order_id": "0015",
+          "amount_cny": 110.0
+        },
+        {
+          "order_id": "0016",
+          "amount_cny": 120.0
+        },
+        {
+          "order_id": "0017",
+          "amount_cny": 130.0
+        },
+        {
+          "order_id": "0018",
+          "amount_cny": 140.0
+        },
+        {
+          "order_id": "0019",
+          "amount_cny": 150.0
+        },
+        {
+          "order_id": "0020",
+          "amount_cny": 160.0
+        },
+        {
+          "order_id": "0021",
+          "amount_cny": 180.0
+        },
+        {
+          "order_id": "0022",
+          "amount_cny": 200.0
+        },
+        {
+          "order_id": "0023",
+          "amount_cny": 240.0
+        },
+        {
+          "order_id": "0024",
+          "amount_cny": 280.0
+        },
+        {
+          "order_id": "0025",
+          "amount_cny": 320.0
+        },
+        {
+          "order_id": "0026",
+          "amount_cny": 400.0
+        },
+        {
+          "order_id": "0027",
+          "amount_cny": 500.0
+        },
+        {
+          "order_id": "0028",
+          "amount_cny": 800.0
+        },
+        {
+          "order_id": "0029",
+          "amount_cny": 1200.0
+        },
+        {
+          "order_id": "0030",
+          "amount_cny": 2000.0
+        },
+        {
+          "order_id": "0031",
+          "amount_cny": null
+        },
+        {
+          "order_id": "0032",
+          "amount_cny": null
+        }
+      ]
+    },
+    "columns": [
+      {
+        "name": "order_id",
+        "type": "string",
+        "label": "订单 ID"
+      },
+      {
+        "name": "amount_cny",
+        "type": "number",
+        "label": "实付金额",
+        "unit": "元"
+      }
+    ],
+    "idColumn": "order_id"
+  }
+}

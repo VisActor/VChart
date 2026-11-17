@@ -1,0 +1,654 @@
+{
+  "version": 1,
+  "title": "不同配送方案的时长分布",
+  "charts": [
+    {
+      "id": "main",
+      "binding": {
+        "type": "violinPlot",
+        "fields": {
+          "category": "service",
+          "value": "duration_hours"
+        },
+        "options": {
+          "estimation": {
+            "kernel": "gaussian",
+            "bandwidth": "scott"
+          },
+          "densityNormalization": "area"
+        }
+      },
+      "caption": "模拟配送 · Gaussian 核 / Scott 带宽 / area 归一化；轮廓宽度不代表订单数。"
+    }
+  ],
+  "controls": {},
+  "presentation": {
+    "actions": [],
+    "details": []
+  },
+  "dataset": {
+    "source": {
+      "records": [
+        {
+          "delivery_id": "D001",
+          "service": "标准配送",
+          "duration_hours": 36.0
+        },
+        {
+          "delivery_id": "D002",
+          "service": "标准配送",
+          "duration_hours": 36.9
+        },
+        {
+          "delivery_id": "D003",
+          "service": "标准配送",
+          "duration_hours": 37.8
+        },
+        {
+          "delivery_id": "D004",
+          "service": "标准配送",
+          "duration_hours": 38.7
+        },
+        {
+          "delivery_id": "D005",
+          "service": "标准配送",
+          "duration_hours": 39.6
+        },
+        {
+          "delivery_id": "D006",
+          "service": "标准配送",
+          "duration_hours": 40.5
+        },
+        {
+          "delivery_id": "D007",
+          "service": "标准配送",
+          "duration_hours": 41.4
+        },
+        {
+          "delivery_id": "D008",
+          "service": "标准配送",
+          "duration_hours": 42.3
+        },
+        {
+          "delivery_id": "D009",
+          "service": "标准配送",
+          "duration_hours": 43.2
+        },
+        {
+          "delivery_id": "D010",
+          "service": "标准配送",
+          "duration_hours": 44.1
+        },
+        {
+          "delivery_id": "D011",
+          "service": "标准配送",
+          "duration_hours": 45.0
+        },
+        {
+          "delivery_id": "D012",
+          "service": "标准配送",
+          "duration_hours": 45.9
+        },
+        {
+          "delivery_id": "D013",
+          "service": "标准配送",
+          "duration_hours": 37.2
+        },
+        {
+          "delivery_id": "D014",
+          "service": "标准配送",
+          "duration_hours": 38.1
+        },
+        {
+          "delivery_id": "D015",
+          "service": "标准配送",
+          "duration_hours": 39.0
+        },
+        {
+          "delivery_id": "D016",
+          "service": "标准配送",
+          "duration_hours": 39.9
+        },
+        {
+          "delivery_id": "D017",
+          "service": "标准配送",
+          "duration_hours": 40.8
+        },
+        {
+          "delivery_id": "D018",
+          "service": "标准配送",
+          "duration_hours": 41.7
+        },
+        {
+          "delivery_id": "D019",
+          "service": "标准配送",
+          "duration_hours": 42.6
+        },
+        {
+          "delivery_id": "D020",
+          "service": "标准配送",
+          "duration_hours": 43.5
+        },
+        {
+          "delivery_id": "D021",
+          "service": "标准配送",
+          "duration_hours": 44.4
+        },
+        {
+          "delivery_id": "D022",
+          "service": "标准配送",
+          "duration_hours": 45.3
+        },
+        {
+          "delivery_id": "D023",
+          "service": "标准配送",
+          "duration_hours": 46.2
+        },
+        {
+          "delivery_id": "D024",
+          "service": "标准配送",
+          "duration_hours": 47.1
+        },
+        {
+          "delivery_id": "D025",
+          "service": "标准配送",
+          "duration_hours": 36.0
+        },
+        {
+          "delivery_id": "D026",
+          "service": "标准配送",
+          "duration_hours": 36.9
+        },
+        {
+          "delivery_id": "D027",
+          "service": "标准配送",
+          "duration_hours": 37.8
+        },
+        {
+          "delivery_id": "D028",
+          "service": "标准配送",
+          "duration_hours": 38.7
+        },
+        {
+          "delivery_id": "D029",
+          "service": "标准配送",
+          "duration_hours": 39.6
+        },
+        {
+          "delivery_id": "D030",
+          "service": "标准配送",
+          "duration_hours": 40.5
+        },
+        {
+          "delivery_id": "D031",
+          "service": "标准配送",
+          "duration_hours": 41.4
+        },
+        {
+          "delivery_id": "D032",
+          "service": "标准配送",
+          "duration_hours": 42.3
+        },
+        {
+          "delivery_id": "D033",
+          "service": "标准配送",
+          "duration_hours": 43.2
+        },
+        {
+          "delivery_id": "D034",
+          "service": "标准配送",
+          "duration_hours": 44.1
+        },
+        {
+          "delivery_id": "D035",
+          "service": "标准配送",
+          "duration_hours": 45.0
+        },
+        {
+          "delivery_id": "D036",
+          "service": "标准配送",
+          "duration_hours": 45.9
+        },
+        {
+          "delivery_id": "D037",
+          "service": "标准配送",
+          "duration_hours": 37.2
+        },
+        {
+          "delivery_id": "D038",
+          "service": "标准配送",
+          "duration_hours": 38.1
+        },
+        {
+          "delivery_id": "D039",
+          "service": "标准配送",
+          "duration_hours": 39.0
+        },
+        {
+          "delivery_id": "D040",
+          "service": "标准配送",
+          "duration_hours": 39.9
+        },
+        {
+          "delivery_id": "D041",
+          "service": "标准配送",
+          "duration_hours": 40.8
+        },
+        {
+          "delivery_id": "D042",
+          "service": "标准配送",
+          "duration_hours": 41.7
+        },
+        {
+          "delivery_id": "D043",
+          "service": "标准配送",
+          "duration_hours": 42.6
+        },
+        {
+          "delivery_id": "D044",
+          "service": "标准配送",
+          "duration_hours": 43.5
+        },
+        {
+          "delivery_id": "D045",
+          "service": "标准配送",
+          "duration_hours": 44.4
+        },
+        {
+          "delivery_id": "D046",
+          "service": "标准配送",
+          "duration_hours": 45.3
+        },
+        {
+          "delivery_id": "D047",
+          "service": "标准配送",
+          "duration_hours": 46.2
+        },
+        {
+          "delivery_id": "D048",
+          "service": "标准配送",
+          "duration_hours": 47.1
+        },
+        {
+          "delivery_id": "D049",
+          "service": "加急配送",
+          "duration_hours": 18.0
+        },
+        {
+          "delivery_id": "D050",
+          "service": "加急配送",
+          "duration_hours": 18.6
+        },
+        {
+          "delivery_id": "D051",
+          "service": "加急配送",
+          "duration_hours": 19.2
+        },
+        {
+          "delivery_id": "D052",
+          "service": "加急配送",
+          "duration_hours": 19.8
+        },
+        {
+          "delivery_id": "D053",
+          "service": "加急配送",
+          "duration_hours": 20.4
+        },
+        {
+          "delivery_id": "D054",
+          "service": "加急配送",
+          "duration_hours": 21.0
+        },
+        {
+          "delivery_id": "D055",
+          "service": "加急配送",
+          "duration_hours": 21.6
+        },
+        {
+          "delivery_id": "D056",
+          "service": "加急配送",
+          "duration_hours": 22.2
+        },
+        {
+          "delivery_id": "D057",
+          "service": "加急配送",
+          "duration_hours": 28.0
+        },
+        {
+          "delivery_id": "D058",
+          "service": "加急配送",
+          "duration_hours": 28.6
+        },
+        {
+          "delivery_id": "D059",
+          "service": "加急配送",
+          "duration_hours": 29.2
+        },
+        {
+          "delivery_id": "D060",
+          "service": "加急配送",
+          "duration_hours": 29.8
+        },
+        {
+          "delivery_id": "D061",
+          "service": "加急配送",
+          "duration_hours": 30.4
+        },
+        {
+          "delivery_id": "D062",
+          "service": "加急配送",
+          "duration_hours": 31.0
+        },
+        {
+          "delivery_id": "D063",
+          "service": "加急配送",
+          "duration_hours": 31.6
+        },
+        {
+          "delivery_id": "D064",
+          "service": "加急配送",
+          "duration_hours": 32.2
+        },
+        {
+          "delivery_id": "D065",
+          "service": "加急配送",
+          "duration_hours": 18.0
+        },
+        {
+          "delivery_id": "D066",
+          "service": "加急配送",
+          "duration_hours": 18.6
+        },
+        {
+          "delivery_id": "D067",
+          "service": "加急配送",
+          "duration_hours": 19.2
+        },
+        {
+          "delivery_id": "D068",
+          "service": "加急配送",
+          "duration_hours": 19.8
+        },
+        {
+          "delivery_id": "D069",
+          "service": "加急配送",
+          "duration_hours": 20.4
+        },
+        {
+          "delivery_id": "D070",
+          "service": "加急配送",
+          "duration_hours": 21.0
+        },
+        {
+          "delivery_id": "D071",
+          "service": "加急配送",
+          "duration_hours": 21.6
+        },
+        {
+          "delivery_id": "D072",
+          "service": "加急配送",
+          "duration_hours": 22.2
+        },
+        {
+          "delivery_id": "D073",
+          "service": "加急配送",
+          "duration_hours": 28.0
+        },
+        {
+          "delivery_id": "D074",
+          "service": "加急配送",
+          "duration_hours": 28.6
+        },
+        {
+          "delivery_id": "D075",
+          "service": "加急配送",
+          "duration_hours": 29.2
+        },
+        {
+          "delivery_id": "D076",
+          "service": "加急配送",
+          "duration_hours": 29.8
+        },
+        {
+          "delivery_id": "D077",
+          "service": "加急配送",
+          "duration_hours": 30.4
+        },
+        {
+          "delivery_id": "D078",
+          "service": "加急配送",
+          "duration_hours": 31.0
+        },
+        {
+          "delivery_id": "D079",
+          "service": "加急配送",
+          "duration_hours": 31.6
+        },
+        {
+          "delivery_id": "D080",
+          "service": "加急配送",
+          "duration_hours": 32.2
+        },
+        {
+          "delivery_id": "D081",
+          "service": "加急配送",
+          "duration_hours": 18.0
+        },
+        {
+          "delivery_id": "D082",
+          "service": "加急配送",
+          "duration_hours": 18.6
+        },
+        {
+          "delivery_id": "D083",
+          "service": "加急配送",
+          "duration_hours": 19.2
+        },
+        {
+          "delivery_id": "D084",
+          "service": "加急配送",
+          "duration_hours": 19.8
+        },
+        {
+          "delivery_id": "D085",
+          "service": "加急配送",
+          "duration_hours": 20.4
+        },
+        {
+          "delivery_id": "D086",
+          "service": "加急配送",
+          "duration_hours": 21.0
+        },
+        {
+          "delivery_id": "D087",
+          "service": "加急配送",
+          "duration_hours": 21.6
+        },
+        {
+          "delivery_id": "D088",
+          "service": "加急配送",
+          "duration_hours": 22.2
+        },
+        {
+          "delivery_id": "D089",
+          "service": "加急配送",
+          "duration_hours": 28.0
+        },
+        {
+          "delivery_id": "D090",
+          "service": "加急配送",
+          "duration_hours": 28.6
+        },
+        {
+          "delivery_id": "D091",
+          "service": "加急配送",
+          "duration_hours": 29.2
+        },
+        {
+          "delivery_id": "D092",
+          "service": "加急配送",
+          "duration_hours": 29.8
+        },
+        {
+          "delivery_id": "D093",
+          "service": "加急配送",
+          "duration_hours": 30.4
+        },
+        {
+          "delivery_id": "D094",
+          "service": "加急配送",
+          "duration_hours": 31.0
+        },
+        {
+          "delivery_id": "D095",
+          "service": "加急配送",
+          "duration_hours": 31.6
+        },
+        {
+          "delivery_id": "D096",
+          "service": "加急配送",
+          "duration_hours": 32.2
+        },
+        {
+          "delivery_id": "D097",
+          "service": "经济配送",
+          "duration_hours": 44.0
+        },
+        {
+          "delivery_id": "D098",
+          "service": "经济配送",
+          "duration_hours": 45.1
+        },
+        {
+          "delivery_id": "D099",
+          "service": "经济配送",
+          "duration_hours": 46.2
+        },
+        {
+          "delivery_id": "D100",
+          "service": "经济配送",
+          "duration_hours": 47.3
+        },
+        {
+          "delivery_id": "D101",
+          "service": "经济配送",
+          "duration_hours": 48.4
+        },
+        {
+          "delivery_id": "D102",
+          "service": "经济配送",
+          "duration_hours": 49.5
+        },
+        {
+          "delivery_id": "D103",
+          "service": "经济配送",
+          "duration_hours": 50.6
+        },
+        {
+          "delivery_id": "D104",
+          "service": "经济配送",
+          "duration_hours": 51.7
+        },
+        {
+          "delivery_id": "D105",
+          "service": "经济配送",
+          "duration_hours": 52.8
+        },
+        {
+          "delivery_id": "D106",
+          "service": "经济配送",
+          "duration_hours": 53.9
+        },
+        {
+          "delivery_id": "D107",
+          "service": "经济配送",
+          "duration_hours": 55.0
+        },
+        {
+          "delivery_id": "D108",
+          "service": "经济配送",
+          "duration_hours": 56.1
+        },
+        {
+          "delivery_id": "D109",
+          "service": "经济配送",
+          "duration_hours": 44.7
+        },
+        {
+          "delivery_id": "D110",
+          "service": "经济配送",
+          "duration_hours": 45.8
+        },
+        {
+          "delivery_id": "D111",
+          "service": "经济配送",
+          "duration_hours": 46.9
+        },
+        {
+          "delivery_id": "D112",
+          "service": "经济配送",
+          "duration_hours": 48.0
+        },
+        {
+          "delivery_id": "D113",
+          "service": "经济配送",
+          "duration_hours": 49.1
+        },
+        {
+          "delivery_id": "D114",
+          "service": "经济配送",
+          "duration_hours": 50.2
+        },
+        {
+          "delivery_id": "D115",
+          "service": "经济配送",
+          "duration_hours": 51.3
+        },
+        {
+          "delivery_id": "D116",
+          "service": "经济配送",
+          "duration_hours": 52.4
+        },
+        {
+          "delivery_id": "D117",
+          "service": "经济配送",
+          "duration_hours": 53.5
+        },
+        {
+          "delivery_id": "D118",
+          "service": "经济配送",
+          "duration_hours": 54.6
+        },
+        {
+          "delivery_id": "D119",
+          "service": "经济配送",
+          "duration_hours": 55.7
+        },
+        {
+          "delivery_id": "D120",
+          "service": "经济配送",
+          "duration_hours": 56.8
+        }
+      ]
+    },
+    "columns": [
+      {
+        "name": "delivery_id",
+        "type": "string",
+        "label": "配送 ID"
+      },
+      {
+        "name": "service",
+        "type": "string",
+        "label": "配送方案"
+      },
+      {
+        "name": "duration_hours",
+        "type": "number",
+        "label": "配送时长",
+        "unit": "小时"
+      }
+    ],
+    "idColumn": "delivery_id"
+  }
+}
