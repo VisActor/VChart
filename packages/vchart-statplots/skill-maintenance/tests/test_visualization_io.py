@@ -94,6 +94,50 @@ class InputTests(unittest.TestCase):
         records.append({'measurement':1,'region':''})
         with self.assertRaisesRegex(ValueError,'最多 20 个分组'):
             build_payload(request,self.root)
+
+    def test_bound_group_budget_applies_only_fixed_initial_filters(self):
+        for kind in ['kdePlot', 'violinPlot']:
+            for condition in [
+                {'field':'region','kind':'category','value':'g0'},
+                {'field':'measurement','kind':'range','value':[None,0]},
+                {'field':'measurement','kind':'range','value':[20,None]},
+                {'field':'measurement','kind':'range','value':[0,0]},
+            ]:
+                with self.subTest(kind=kind, condition=condition):
+                    records=[{'measurement':i,'region':f'g{i}'} for i in range(21)]
+                    records.append({'measurement':None,'region':'missing'})
+                    fields={'value':'measurement','series':'region'}
+                    if kind=='violinPlot': fields['category']='region'
+                    request={'version':1,'title':'固定范围','dataset':{'source':{'records':records},'columns':[
+                        {'name':'measurement','type':'number'},{'name':'region','type':'string'}]},
+                        'charts':[{'id':'groups','binding':{'type':kind,'fields':fields,
+                            'options':{'estimation':{'bandwidth':0.5}}}}],
+                        'controls':{'initialFilters':[condition]}}
+                    payload=build_payload(request,self.root)
+                    self.assertEqual(len(payload['dataset']['rows']),22)
+                    self.assertEqual(payload['dataset']['source']['originalN'],22)
+                    self.assertEqual(payload['controls'],request['controls'])
+                    request['controls']['filters']=[{'field':condition['field'],'kind':condition['kind']}]
+                    with self.assertRaisesRegex(ValueError,'最多 20 个分组'):
+                        build_payload(request,self.root)
+
+    def test_fixed_filters_do_not_bypass_remaining_group_budget(self):
+        request={'version':1,'title':'固定范围预算','dataset':{'source':{'records':[
+            {'measurement':i,'region':f'g{i}'} for i in range(21)]},'columns':[
+                {'name':'measurement','type':'number'},{'name':'region','type':'string'}]},
+            'charts':[{'id':'groups','binding':{'type':'kdePlot',
+                'fields':{'value':'measurement','series':'region'}}}],
+            'controls':{'filters':[{'field':'region','kind':'category'}], 'initialFilters':[
+                {'field':'region','kind':'category','value':'g0'},
+                {'field':'measurement','kind':'range','value':[None,19]}]}}
+        self.assertEqual(len(build_payload(request,self.root)['dataset']['rows']),21)
+        request['controls']['initialFilters'][1]['value']=[None,20]
+        with self.assertRaisesRegex(ValueError,'最多 20 个分组'):
+            build_payload(request,self.root)
+        request['controls']={'initialFilters':[{'field':'region','kind':'category','value':None}]}
+        with self.assertRaisesRegex(ValueError,'最多 20 个分组'):
+            build_payload(request,self.root)
+
     def test_xlsx_missing_dependency_explains_conversion(self):
         from unittest.mock import patch
         request=copy.deepcopy(self.request);request['dataset']['source']={'path':'records.xlsx','format':'xlsx','sheet':'Sheet1'}

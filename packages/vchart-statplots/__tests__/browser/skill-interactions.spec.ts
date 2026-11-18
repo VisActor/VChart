@@ -3,6 +3,44 @@ import fs from 'fs';
 import path from 'path';
 import { generate, openGenerated, tableRequest, histogram, expectRendered, marks, artifacts } from './skill-helpers';
 
+for (const type of ['kdePlot', 'violinPlot']) {
+  test(`${type} budgets fixed groups and preserves their scope when clearing editable filters`, async ({ page }) => {
+    const fields =
+      type === 'violinPlot' ? { value: 'x', series: 'group', category: 'group' } : { value: 'x', series: 'group' };
+    const records = Array.from({ length: 42 }, (_, i) => ({ id: String(i), x: i / 2, group: `g${Math.floor(i / 2)}` }));
+    const request = {
+      ...tableRequest(
+        [{ id: 'groups', binding: { type, fields, options: { estimation: { bandwidth: 0.5 } } } }],
+        {
+          filters: [{ field: 'x', kind: 'range' }],
+          initialFilters: [{ field: 'group', kind: 'category', value: 'g0' }]
+        },
+        records
+      ),
+      presentation: { details: ['counts'] }
+    };
+    await openGenerated(page, generate(request));
+    await expectRendered(page);
+    await expect(page.locator('#summary')).toContainText('原始 42 条 · 当前筛选 2 条');
+    expect((await marks(page, 'groups')).length).toBeGreaterThan(0);
+    await page.getByLabel('年龄 下界', { exact: true }).fill('0.5');
+    await page.locator('#apply').click();
+    await expect(page.locator('#summary')).toContainText('当前筛选 1 条');
+    await expectRendered(page);
+    expect(
+      await page.evaluate(() => (window as any).__DSV_CONTROLLERS__.get('groups').spec.data.map((r: any) => r.value))
+    ).toEqual([0.5]);
+    await page.locator('#clear').click();
+    await expect(page.locator('#summary')).toContainText('当前筛选 2 条');
+    await expectRendered(page);
+    expect(
+      await page.evaluate(() => (window as any).__DSV_CONTROLLERS__.get('groups').spec.data.map((r: any) => r.series))
+    ).toEqual(['g0', 'g0']);
+    expect((await marks(page, 'groups')).length).toBeGreaterThan(0);
+    await expect(page.locator('#page-error')).toBeHidden();
+  });
+}
+
 test('generated HTML filters real counts, retains instance, hovers and exports current data', async ({ page }) => {
   const request = {
     ...tableRequest([histogram()], { filters: [{ field: 'group', kind: 'category' }] }),

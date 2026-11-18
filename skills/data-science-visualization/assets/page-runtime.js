@@ -140,13 +140,15 @@
     setBusy(true); message(pageError, ''); status.error = null;
     const previous = new Map(affected.map(id => [id, { spec: controllers.get(id)?.spec, state: { ...chartState(id) } }]));
     const touched = [];
+    let updating;
     try {
       const rows = payload.dataset ? StatPlotData.filterRows(payload.dataset.rows, nextFilters) : [];
       const pending = [];
       for (const input of nextInputs.filter(input => affected.includes(input.id))) {
-        touched.push(input.id);
         const built = builtSpec(input, rows);
+        updating = input.id;
         await updateOne(input, built);
+        touched.push(input.id); updating = undefined;
         pending.push({ input, built });
       }
       inputs = nextInputs; filters = clone(nextFilters); theme = nextTheme;
@@ -161,6 +163,9 @@
       status.lastUpdateSucceeded = true;
     } catch (error) {
       const recoveryErrors = [];
+      // The controller preserves or restores its accepted chart on failure.
+      // Only retry the failing chart if its own recovery left it without one.
+      if (updating && controllers.has(updating) && !controllers.get(updating).chart) touched.push(updating);
       for (const id of touched) {
         const old = previous.get(id);
         try {
