@@ -28,5 +28,5 @@ export const is3DChart = (spec: any) => {
     return true;
   }
 
-  return true;
+  return !!spec.series?.some((series: any) => is3DChartType(series.type));
 };
