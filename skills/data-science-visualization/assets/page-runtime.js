@@ -145,10 +145,11 @@
       const rows = payload.dataset ? StatPlotData.filterRows(payload.dataset.rows, nextFilters) : [];
       const pending = [];
       for (const input of nextInputs.filter(input => affected.includes(input.id))) {
-        updating = input.id;
         const built = builtSpec(input, rows);
+        updating = input.id;
         await updateOne(input, built);
-        touched.push(input.id); pending.push({ input, built });
+        touched.push(input.id); updating = undefined;
+        pending.push({ input, built });
       }
       inputs = nextInputs; filters = clone(nextFilters); theme = nextTheme;
       status.filteredN = payload.dataset ? rows.length : null;
@@ -162,16 +163,19 @@
       status.lastUpdateSucceeded = true;
     } catch (error) {
       const recoveryErrors = [];
+      // The controller preserves or restores its accepted chart on failure.
+      // Only retry the failing chart if its own recovery left it without one.
+      if (updating && controllers.has(updating) && !controllers.get(updating).chart) touched.push(updating);
       for (const id of touched) {
         const old = previous.get(id);
         try {
           if (old.spec) await controllers.get(id).update(old.spec);
           else { await controllers.get(id).release(); controllers.delete(id); document.getElementById('dsv-' + id).textContent = '此图未能生成'; }
           Object.assign(chartState(id), old.state);
+          if (old.state.status !== 'failed') message(document.getElementById('error-' + id), '');
           message(document.getElementById('empty-' + id), old.state.inputN === 0 ? '暂无符合条件的数据' : '');
         } catch (recovery) { recoveryErrors.push(`${id}: ${recovery.message}`); showFailure(id, recovery); }
       }
-      if (updating) showFailure(updating, error);
       status.lastUpdateSucceeded = false;
       status.error = `${error.message}${recoveryErrors.length ? '\n恢复失败：' + recoveryErrors.join('; ') : ''}`;
       message(pageError, recoveryErrors.length ? '更新失败，部分图表未能恢复。' : '更新失败，已恢复上次成功条件。');

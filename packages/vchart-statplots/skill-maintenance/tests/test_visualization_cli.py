@@ -8,6 +8,21 @@ import unittest
 from _paths import SKILL
 
 class CliTests(unittest.TestCase):
+    def test_bound_kde_group_budget_rejects_before_creating_output(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            records=[{'income':i,'region':f'g{i}'} for i in range(21)]
+            request={'version':1,'title':'分组预算','dataset':{'source':{'records':records},'columns':[
+                {'name':'income','type':'number'},{'name':'region','type':'string'}]},
+                'charts':[{'id':'density','binding':{'type':'kdePlot','fields':{
+                    'value':'income','series':'region'},'options':{'estimation':{'bandwidth':0.5}}}}]}
+            file=root/'request.json';file.write_text(json.dumps(request))
+            run=subprocess.run([sys.executable,str(SKILL/'scripts/generate_visualization.py'),
+                '--request',str(file),'--output',str(root/'out')],capture_output=True,text=True)
+            self.assertEqual(run.returncode,2,run.stderr)
+            self.assertIn('最多 20 个分组',run.stderr)
+            self.assertFalse((root/'out').exists())
+
     def test_copied_skill_runs_outside_repo_and_replays_without_source(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp);copy=root/'skill';shutil.copytree(SKILL,copy,ignore=shutil.ignore_patterns('__pycache__'))

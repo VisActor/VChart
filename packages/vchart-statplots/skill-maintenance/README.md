@@ -65,6 +65,8 @@ DSV_PYTHON=python3.11 ./node_modules/.bin/playwright test \
 
 涉及页面交互时补运行 skill-interactions.spec.ts 等相关用例。每图检查 rendered、真实图元与所请求的状态变化；文件或 canvas 存在不足以证明成功。确认 skill 副本不包含完整 manifest、包元数据或维护测试，也不依赖仓库路径。
 
+固定筛选预算回归登记在 `test_visualization_io.py` 与 `skill-interactions.spec.ts`：覆盖 KDE/violin 固定类别与范围、可清空条件的反例、完整源数据保留和清空后的真实图元。`skill-failures.spec.ts` 覆盖绑定构建/编译失败不重绘、跨图回滚、原生恢复失败与后续恢复，并断言原生更新次数。
+
 `test_skill_bundle.py` 检查整个技能包的使用端目录、本地 Markdown 链接及 JSON，并在仓库外、中文空格路径下使用 `-I -S -B` 禁用 site-packages 和字节码写入，清空 PATH，拒绝原仓库文件读取、网络及子进程调用。六份示例生成后删除原始 CSV，再逐份重放并核对图表与数据行。浏览器回归还会在生成后删除技能副本，使用真实 CDN 打开独立 HTML。
 
 复制技能时排除 `__pycache__`、`.DS_Store` 等运行或系统缓存；维护用 Git 忽略规则放在仓库根目录，不随技能分发。
