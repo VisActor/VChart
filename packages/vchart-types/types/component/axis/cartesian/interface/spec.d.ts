@@ -3,14 +3,19 @@ import type { IBandAxisSpec, ILinearAxisSpec, IGrid, ICommonAxisSpec } from '../
 import type { ICartesianDomainLine, ICartesianLabel, ITimeLayerType, ICartesianTitle, ICartesianAxisUnit } from './common';
 import type { AxisItemStateStyle } from '@visactor/vrender-components';
 export type ICartesianAxisSpec = ICartesianLinearAxisSpec | ICartesianBandAxisSpec | ICartesianTimeAxisSpec | ICartesianLogAxisSpec | ICartesianSymlogAxisSpec;
-export type ICartesianVertical = {
+export type ICartesianAxisCrossing = {
+    crossValue?: number;
+    crossAxisId?: StringOrNumber;
+    crossAxisIndex?: number;
+};
+export type ICartesianVertical = ICartesianAxisCrossing & {
     orient: 'left' | 'right';
     innerOffset?: {
         top?: ILayoutNumber;
         bottom?: ILayoutNumber;
     };
 };
-export type ICartesianHorizontal = {
+export type ICartesianHorizontal = ICartesianAxisCrossing & {
     orient: 'top' | 'bottom';
     innerOffset?: {
         left?: ILayoutNumber;
