@@ -32,7 +32,68 @@ test('hostile text stays data and native update failure recovers actual chart', 
   await page.locator('#apply').click();
   await expect(page.locator('#page-error')).toContainText('已恢复上次成功条件');
   expect(await page.evaluate(() => (window as any).__DSV_STATUS__.error)).toContain('native update failed');
+  await expectRendered(page);
+  await expect(page.locator('#error-hist')).toBeHidden();
+  expect(await page.evaluate(() => (window as any).__DSV_STATUS__.charts[0].error)).toBeNull();
   expect((await marks(page, 'hist')).map((g: any) => g.datum.count)).toEqual([4]);
   await page.locator('#clear').click();
   await expectRendered(page);
+  await page.evaluate(() => {
+    (window as any).__DSV_CONTROLLERS__.get('hist').update = async () => {
+      throw new Error('rollback unavailable');
+    };
+  });
+  await page.getByLabel('地区', { exact: true }).selectOption({ label: 'A' });
+  await page.locator('#apply').click();
+  await expect(page.locator('#page-error')).toContainText('部分图表未能恢复');
+  await expect(page.locator('#error-hist')).toBeVisible();
+  expect(await page.evaluate(() => (window as any).__DSV_STATUS__.charts[0].status)).toBe('failed');
+  expect(await page.evaluate(() => (window as any).__DSV_STATUS__.charts[0].error)).toContain('rollback unavailable');
+});
+
+test('KDE validation failure restores all chart cards and accepted filter state', async ({ page }) => {
+  const request = {
+    ...tableRequest(
+      [histogram(), { id: 'density', binding: { type: 'kdePlot', fields: { value: 'x' } } }],
+      { filters: [{ field: 'group', kind: 'category' }] },
+      [
+        { id: '001', x: 0, group: 'A' },
+        { id: '002', x: 0, group: 'A' },
+        { id: '003', x: 2, group: 'B' },
+        { id: '004', x: 4, group: 'B' }
+      ]
+    ),
+    presentation: { details: ['counts'] }
+  };
+  await openGenerated(page, generate(request));
+  await expectRendered(page);
+  await page.getByLabel('地区', { exact: true }).selectOption({ label: 'B' });
+  await page.locator('#apply').click();
+  await expect(page.locator('#summary')).toContainText('当前筛选 2 条');
+  const accepted = await page.evaluate(() =>
+    Array.from((window as any).__DSV_CONTROLLERS__.values(), (c: any) => c.spec)
+  );
+  await page.getByLabel('地区', { exact: true }).selectOption({ label: 'A' });
+  await page.locator('#apply').click();
+  await expect(page.locator('#page-error')).toContainText('已恢复上次成功条件');
+  await expectRendered(page);
+  for (const id of ['hist', 'density']) {
+    await expect(page.locator(`#error-${id}`)).toBeHidden();
+    await expect(page.locator(`#meta-${id}`)).toContainText('本图输入 2 条');
+  }
+  expect(await page.evaluate(() => (window as any).__DSV_STATUS__.charts.map((c: any) => c.error))).toEqual([
+    null,
+    null
+  ]);
+  expect(await page.evaluate(() => (window as any).__DSV_STATUS__.lastUpdateSucceeded)).toBe(false);
+  await expect(page.getByLabel('地区', { exact: true })).toHaveValue('1');
+  expect(
+    await page.evaluate(() => Array.from((window as any).__DSV_CONTROLLERS__.values(), (c: any) => c.spec))
+  ).toEqual(accepted);
+  expect((await marks(page, 'hist')).map((g: any) => g.datum.count)).toEqual([2]);
+  expect((await marks(page, 'density')).length).toBeGreaterThan(0);
+  await page.locator('#clear').click();
+  await expect(page.locator('#summary')).toContainText('当前筛选 4 条');
+  await expectRendered(page);
+  await expect(page.locator('#page-error')).toBeHidden();
 });
