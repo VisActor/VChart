@@ -33,9 +33,9 @@
     "@visactor/vrender-components": "1.1.15",
     "@visactor/vrender-animate": "1.1.15",
     "@visactor/vchart": "workspace:2.2.2",
-    "@visactor/vutils": "~1.0.28",
-    "@visactor/vdataset": "~1.0.28",
-    "@visactor/vlayouts": "~1.0.28"
+    "@visactor/vutils": "~1.0.29",
+    "@visactor/vdataset": "~1.0.29",
+    "@visactor/vlayouts": "~1.0.29"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
@@ -66,7 +66,7 @@
     "jest-electron": "^0.1.12",
     "ts-jest": "^26.0.0",
     "react-device-detect": "^2.2.2",
-    "@visactor/vscale": "~1.0.28"
+    "@visactor/vscale": "~1.0.29"
   },
   "publishConfig": {
     "access": "public",

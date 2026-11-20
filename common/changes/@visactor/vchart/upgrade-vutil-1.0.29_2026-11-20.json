@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/vchart",
+      "comment": "升级 VUtil 系列依赖至 ~1.0.29，修复形状词云放大重排时的文字重叠问题（#4591）。",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}
