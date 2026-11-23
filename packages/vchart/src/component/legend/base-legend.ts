@@ -174,6 +174,14 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
     this._forceLayout();
   }
 
+  protected _updateLegendData() {
+    this._legendData.getDataView().reRunAllTransform({ skipEqual: true });
+  }
+
+  protected _onRawDataUpdate() {
+    this._updateLegendData();
+  }
+
   protected initData() {
     const legendData = this._initLegendData();
     legendData.target.addListener('change', this._bindLegendDataChange.bind(this));
@@ -184,9 +192,7 @@ export abstract class BaseLegend<T extends ILegendCommonSpec> extends BaseCompon
       this._regions,
       s => {
         s.event.on(ChartEvent.rawDataUpdate, { filter: ({ model }) => model?.id === s.id }, () => {
-          this._legendData.getDataView().reRunAllTransform({
-            skipEqual: true
-          });
+          this._onRawDataUpdate();
         });
       },
       {

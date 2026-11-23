@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "897887144e07873200814d71548da897cf0dd77fdd5bbf5cc335a025b73b73a3",
+  "indexDigest": "e01bf52df3e752f7e0fbfb80f7f34221183e611c61f813d07d8b7f8a1c080941",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -10,6 +10,7 @@
     "linear-axis-update-bounds",
     "band-axis-update-spec",
     "legend-piecewise-domain",
+    "legend-data-scale-domain",
     "brush-link-data-key",
     "bar-stack",
     "line-gap",
