@@ -1257,6 +1257,12 @@ export const cases = [
     file: './components/scrollbar/scrollbar-axis-click-update.mjs'
   },
   {
+    id: 'sankey-scrollbar',
+    purpose: '桑基图横向滚轮与滑块拖动移动内容，滚动视口随绘图区调整',
+    file: './charts/sankey/sankey-scrollbar.mjs',
+    sourceExample: 'docs/assets/examples/zh/sankey-chart/sankey-with-scrollbar.md'
+  },
+  {
     id: 'sankey-selected-adjacency',
     purpose: '点击桑基节点时仅高亮相邻节点与连接，空白点击恢复',
     file: './charts/sankey/sankey-selected-adjacency.mjs'

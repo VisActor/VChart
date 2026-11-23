@@ -426,17 +426,19 @@ export class VChart implements IVChart {
     const runtimePluginInstallers: ((app?: IApp) => void)[] = [];
 
     if (poptip !== false) {
-      const poptipInstaller = Factory.getRuntimePluginInstaller('poptipForText');
-      if (poptipInstaller) {
-        poptipInstaller();
-        runtimePluginInstallers.push(poptipInstaller);
-      }
       pluginList.push('poptipForText');
     }
 
     if (spec.type === ChartTypeEnum.sankey) {
-      // 桑基图默认记载滚动条组件
       pluginList.push('scrollbar');
+    }
+
+    for (const name of pluginList) {
+      const installer = Factory.getRuntimePluginInstaller(name);
+      if (installer) {
+        installer();
+        runtimePluginInstallers.push(installer);
+      }
     }
 
     const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);
