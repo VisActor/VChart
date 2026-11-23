@@ -45,6 +45,7 @@ export interface IComponent extends ILayoutModel {
 
   // 数据
   getDatum: (childGraphic?: IGraphic) => any | undefined;
+  onGlobalScaleDomainUpdate?: () => void;
 }
 
 export interface IComponentConstructor extends IModelConstructor {

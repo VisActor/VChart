@@ -136,6 +136,18 @@ export class ContinuousLegend<
     return legendData;
   }
 
+  protected _onRawDataUpdate() {
+    if (this._field) {
+      this._updateLegendData();
+    }
+  }
+
+  onGlobalScaleDomainUpdate() {
+    if (!this._field) {
+      this._updateLegendData();
+    }
+  }
+
   protected _initSelectedData(): void {
     if (this._spec.defaultSelected) {
       this._selectedData = this._spec.defaultSelected.slice();
