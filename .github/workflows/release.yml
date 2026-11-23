@@ -117,7 +117,7 @@ jobs:
         run: node common/scripts/install-run-rush.js install --bypass-policy
 
       - name: Verify npm release recovery
-        run: node --test common/scripts/check-npm-release.test.cjs
+        run: node --test common/scripts/check-npm-release.test.cjs common/scripts/publish-release.test.js
 
       - name: Verify release artifact lifecycle
         run: node --test common/scripts/release-artifact-lifecycle.test.cjs
@@ -400,6 +400,44 @@ jobs:
         if: startsWith(github.ref_name, 'release/')
         run: node common/scripts/apply-release-version.js 'none' ${{ steps.semver_release.outputs.main }}
 
+      # 所有发布分支在第一次编译前写入最终版本。
+      - name: Parse semver (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        id: semver_hotfix
+        uses: xile611/read-package-version-action@main
+        with:
+          path: packages/vchart
+          semver_string: ${{ github.ref_name }}
+          semver_pattern: '^hotfix/(.*)$'
+
+      - name: update nextBump (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        uses: xile611/set-next-bump-of-rush@main
+        with:
+          release_version: ${{ steps.semver_hotfix.outputs.full }}
+          write_next_bump: true
+
+      - name: Generate rush version (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        run: node common/scripts/install-run-rush.js version --bump
+
+      - name: Update version (hotfix)
+        if: startsWith(github.ref_name, 'hotfix/')
+        run: node common/scripts/apply-release-version.js 'none' ${{ steps.semver_hotfix.outputs.main }}
+
+      - name: Parse semver (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/')
+        id: semver_prerelease
+        uses: xile611/read-package-version-action@main
+        with:
+          path: packages/vchart
+          semver_string: ${{ github.ref_name }}
+          semver_pattern: '^pre-release/(.*)$'
+
+      - name: Apply prereleaseName (pre-release)
+        if: startsWith(github.ref_name, 'pre-release/')
+        run: node common/scripts/apply-release-version.js ${{ steps.semver_prerelease.outputs.pre_release_name }} ${{ steps.semver_prerelease.outputs.main }}
+
       - name: Build VChart and its dependencies
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
@@ -411,26 +449,35 @@ jobs:
           NODE_OPTIONS: '--max_old_space_size=4096'
         run: |
           targets=(--only @visactor/vchart-statplots --only @visactor/react-vchart
-            --only @visactor/openinula-vchart --only @visactor/taro-vchart --only @visactor/lark-vchart --only @visactor/wx-vchart)
-          case "$GITHUB_REF_NAME" in
-            release/*|pre-release/*) targets+=(--only @visactor/vchart-extension) ;;
-          esac
+            --only @visactor/openinula-vchart --only @visactor/taro-vchart --only @visactor/lark-vchart --only @visactor/wx-vchart
+            --only @visactor/vchart-extension)
           node common/scripts/install-run-rush.js release-build --parallelism 2 "${targets[@]}"
 
-      - name: Check npm version (release)
-        if: startsWith(github.ref_name, 'release/')
-        id: npm_version_release
+      - name: Check npm release state
+        id: npm_release
         env:
-          PACKAGE_VERSION: ${{ steps.semver_release.outputs.main }}
+          PACKAGE_VERSION: ${{ steps.semver_release.outputs.main || steps.semver_hotfix.outputs.main || steps.semver_prerelease.outputs.full }}
           RESUME_PARTIAL_PUBLISH: ${{ inputs.resume_partial_publish }}
         run: node common/scripts/check-npm-release.js
 
-      - name: Publish to npm (release)
-        if: startsWith(github.ref_name, 'release/') && steps.npm_version_release.outputs.skip_publish != 'true'
-        run: node common/scripts/install-run-rush.js publish --publish --include-all --tag latest
-
-      - name: Update shrinkwrap
-        run: node common/scripts/install-run-rush.js update
+      - name: Pack, validate, and publish release packages
+        if: steps.npm_release.outputs.skip_publish == 'false'
+        env:
+          PACKAGE_VERSION: ${{ steps.semver_release.outputs.main || steps.semver_hotfix.outputs.main || steps.semver_prerelease.outputs.full }}
+          MISSING_PACKAGES: ${{ steps.npm_release.outputs.missing_packages }}
+          PRERELEASE_TAG: ${{ steps.semver_prerelease.outputs.pre_release_type }}
+        run: |
+          set -euo pipefail
+          case "$GITHUB_REF_NAME" in
+            release/*) dist_tag=latest ;;
+            hotfix/*) dist_tag=hotfix ;;
+            pre-release/*) dist_tag="$PRERELEASE_TAG" ;;
+          esac
+          pack_dir="$(mktemp -d "$RUNNER_TEMP/vchart-release.XXXXXX")"
+          trap 'rm -rf "$pack_dir"' EXIT
+          # Rush 使用仓库固定的 pnpm 和 prepack 钩子。上传使用同一份已核验 tarball。
+          node common/scripts/install-run-rush.js publish --include-all --publish --pack --release-folder "$pack_dir"
+          node common/scripts/publish-release.js "$pack_dir" "$PACKAGE_VERSION" "$dist_tag"
 
       - name: Get npm version (release)
         if: startsWith(github.ref_name, 'release/')
@@ -472,42 +519,6 @@ jobs:
           gh pr create --base main --head "$BRANCH" --title "$TITLE" --body "$BODY"
 
       # ===== Hotfix flow =====
-      - name: Parse semver (hotfix)
-        if: startsWith(github.ref_name, 'hotfix/')
-        id: semver_hotfix
-        uses: xile611/read-package-version-action@main
-        with:
-          path: packages/vchart
-          semver_string: ${{ github.ref_name }}
-          semver_pattern: '^hotfix/(.*)$'
-
-      - name: update nextBump (hotfix)
-        if: startsWith(github.ref_name, 'hotfix/')
-        uses: xile611/set-next-bump-of-rush@main
-        with:
-          release_version: ${{ steps.semver_hotfix.outputs.full }}
-          write_next_bump: true
-
-      - name: Generate rush version (hotfix)
-        if: startsWith(github.ref_name, 'hotfix/')
-        run: node common/scripts/install-run-rush.js version --bump
-
-      - name: Update version (hotfix)
-        if: startsWith(github.ref_name, 'hotfix/')
-        run: node common/scripts/apply-release-version.js 'none' ${{ steps.semver_hotfix.outputs.main }}
-
-      - name: Check npm version (hotfix)
-        if: startsWith(github.ref_name, 'hotfix/')
-        id: npm_version_hotfix
-        env:
-          PACKAGE_VERSION: ${{ steps.semver_hotfix.outputs.main }}
-          RESUME_PARTIAL_PUBLISH: ${{ inputs.resume_partial_publish }}
-        run: node common/scripts/check-npm-release.js
-
-      - name: Publish to npm (hotfix)
-        if: startsWith(github.ref_name, 'hotfix/') && steps.npm_version_hotfix.outputs.skip_publish != 'true'
-        run: node common/scripts/install-run-rush.js publish --publish --include-all --tag hotfix
-
       - name: Get npm version (hotfix)
         if: startsWith(github.ref_name, 'hotfix/')
         id: package_version_hotfix
@@ -528,31 +539,6 @@ jobs:
           fi
 
       # ===== Pre-release flow =====
-      - name: Parse semver (pre-release)
-        if: startsWith(github.ref_name, 'pre-release/')
-        id: semver_prerelease
-        uses: xile611/read-package-version-action@main
-        with:
-          path: packages/vchart
-          semver_string: ${{ github.ref_name }}
-          semver_pattern: '^pre-release/(.*)$'
-
-      - name: Apply prereleaseName (pre-release)
-        if: startsWith(github.ref_name, 'pre-release/')
-        run: node common/scripts/apply-release-version.js ${{ steps.semver_prerelease.outputs.pre_release_name }} ${{ steps.semver_prerelease.outputs.main }}
-
-      - name: Check npm version (pre-release)
-        if: startsWith(github.ref_name, 'pre-release/')
-        id: npm_version_prerelease
-        env:
-          PACKAGE_VERSION: ${{ steps.semver_prerelease.outputs.full }}
-          RESUME_PARTIAL_PUBLISH: ${{ inputs.resume_partial_publish }}
-        run: node common/scripts/check-npm-release.js
-
-      - name: Publish to npm (pre-release)
-        if: startsWith(github.ref_name, 'pre-release/') && steps.npm_version_prerelease.outputs.skip_publish != 'true'
-        run: node common/scripts/install-run-rush.js publish --publish --include-all --tag ${{ steps.semver_prerelease.outputs.pre_release_type }}
-
       - name: Get npm version (pre-release)
         if: startsWith(github.ref_name, 'pre-release/')
         id: package_version_prerelease

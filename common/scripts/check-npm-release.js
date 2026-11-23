@@ -52,26 +52,26 @@ function checkNpmRelease() {
   }
   if (missing.length === 0) {
     console.log(`All packages already have version ${version} on npm, skip publish.`);
-    return true;
+    return missing;
   }
   if (existing.length === 0) {
     console.log(`No package has version ${version} on npm, continue publish.`);
-    return false;
+    return missing;
   }
 
   console.log(`Partial npm publish detected for ${version}.`);
   console.log(`Existing packages: ${existing.join(' ')}`);
   console.log(`Missing packages: ${missing.join(' ')}`);
   if (process.env.GITHUB_EVENT_NAME === 'workflow_dispatch' && process.env.RESUME_PARTIAL_PUBLISH === 'true') {
-    console.log('Manual recovery enabled. Rush will skip existing versions and publish only missing packages.');
-    return false;
+    console.log('Manual recovery enabled. Only missing versions will be published.');
+    return missing;
   }
   throw new Error('Stop before publish. After reviewing the release source, use Run workflow with resume_partial_publish enabled.');
 }
 
 try {
-  const skip = checkNpmRelease();
-  fs.appendFileSync(process.env.GITHUB_OUTPUT, `skip_publish=${skip}\n`);
+  const missing = checkNpmRelease();
+  fs.appendFileSync(process.env.GITHUB_OUTPUT, `skip_publish=${!missing.length}\nmissing_packages=${missing.join(',')}\n`);
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;

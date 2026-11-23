@@ -114,68 +114,39 @@ function run() {
     updateNpmStep && updateNpmStep.run === 'npm install -g npm@^11.5.1',
     'release.yml must use the npm 11 line required for trusted publishing'
   );
-  const statplotsBuildStep = getStep(release, 'release', 'Build vchart-statplots');
-  assertRunIncludes(
-    statplotsBuildStep,
-    'node common/scripts/install-run-rush.js build --only @visactor/vchart-statplots',
-    'release.yml statplots build'
-  );
-  assert(!statplotsBuildStep.if, 'release.yml must build statplots for every release branch');
   const releaseSteps = getSteps(release, 'release');
-  const recoveryTestStep = getStep(release, 'release', 'Verify npm release recovery');
-  assertRunIncludes(recoveryTestStep, 'node --test common/scripts/check-npm-release.test.cjs', 'npm release recovery regression');
-  assert(!recoveryTestStep.if, 'release.yml must test npm release recovery for every release branch');
-  assert(
-    releaseSteps.indexOf(recoveryTestStep) > releaseSteps.indexOf(getStep(release, 'release', 'Install rush')) &&
-      ['release', 'hotfix', 'pre-release'].every(flow => {
-        const check = getStep(release, 'release', `Check npm version (${flow})`);
-        const publish = getStep(release, 'release', `Publish to npm (${flow})`);
-        return releaseSteps.indexOf(recoveryTestStep) < releaseSteps.indexOf(check) &&
-          releaseSteps.indexOf(check) < releaseSteps.indexOf(publish) &&
-          publish.run.includes('publish --publish --include-all --tag ') && !publish.run.includes('--force');
-      }),
-    'release.yml must test recovery before npm checks and keep Rush skip-existing publication without --force'
-  );
-  const artifactLifecycleStep = getStep(release, 'release', 'Verify release artifact lifecycle');
-  assertRunIncludes(
-    artifactLifecycleStep,
-    'node --test common/scripts/release-artifact-lifecycle.test.cjs',
-    'release.yml artifact lifecycle regression'
-  );
-  assert(!artifactLifecycleStep.if, 'release.yml must verify artifact lifecycle for every release branch');
-  const artifactLifecycleIndex = releaseSteps.indexOf(artifactLifecycleStep);
-  assert(
-    artifactLifecycleIndex > releaseSteps.indexOf(getStep(release, 'release', 'Install rush')) &&
-      ['release', 'hotfix', 'pre-release'].every(flow =>
-        artifactLifecycleIndex < releaseSteps.indexOf(getStep(release, 'release', `Publish to npm (${flow})`))
-      ),
-    'release.yml must verify artifact lifecycle after dependency installation and before any publication'
-  );
-  const statplotsBuildIndex = releaseSteps.indexOf(statplotsBuildStep);
-  assert(
-    statplotsBuildIndex > releaseSteps.indexOf(getStep(release, 'release', 'Build vutils-extension && vchart')) &&
-      statplotsBuildIndex < releaseSteps.indexOf(getStep(release, 'release', 'Check npm version (release)')),
-    'release.yml must build statplots after VChart and before publication checks'
-  );
-  assert(getStep(release, 'release', 'Check npm version (release)'), 'release.yml must check npm before stable publish');
-  assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (release)'), 'release npm check');
-  assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (hotfix)'), 'hotfix npm check');
-  assertUsesPublishablePackageSet(getStep(release, 'release', 'Check npm version (pre-release)'), 'pre-release npm check');
-  assertStepIfIncludes(
-    getStep(release, 'release', 'Publish to npm (release)'),
-    "steps.npm_version_release.outputs.skip_publish != 'true'",
-    'release.yml stable publish'
-  );
-  assertStepIfIncludes(
-    getStep(release, 'release', 'Publish to npm (hotfix)'),
-    "steps.npm_version_hotfix.outputs.skip_publish != 'true'",
-    'release.yml hotfix publish'
-  );
-  assertStepIfIncludes(
-    getStep(release, 'release', 'Publish to npm (pre-release)'),
-    "steps.npm_version_prerelease.outputs.skip_publish != 'true'",
-    'release.yml pre-release publish'
-  );
+  const install = getStep(release, 'release', 'Install rush');
+  const core = getStep(release, 'release', 'Build VChart and its dependencies');
+  const adapters = getStep(release, 'release', 'Build release adapters and extensions');
+  const check = getStep(release, 'release', 'Check npm release state');
+  const publish = getStep(release, 'release', 'Pack, validate, and publish release packages');
+  assertRunIncludes(core, 'build --to @visactor/vchart', 'VChart build');
+  assertRunIncludes(adapters, '--only @visactor/vchart-statplots', 'StatPlots release build');
+  assertRunIncludes(adapters, '--only @visactor/vchart-extension', 'Extension release build');
+  assert(!adapters.if, 'release.yml must build Extension and StatPlots on every release branch');
+  const recoveryTest = getStep(release, 'release', 'Verify npm release recovery');
+  assertRunIncludes(recoveryTest, 'common/scripts/check-npm-release.test.cjs', 'npm release recovery regression');
+  assertRunIncludes(recoveryTest, 'common/scripts/publish-release.test.js', 'packed release regression');
+  const artifactTest = getStep(release, 'release', 'Verify release artifact lifecycle');
+  assertRunIncludes(artifactTest, 'common/scripts/release-artifact-lifecycle.test.cjs', 'release artifact regression');
+  assert(!recoveryTest.if && !artifactTest.if, 'release tests must run on every release branch');
+  assertUsesPublishablePackageSet(check, 'npm release check');
+  assertStepIfIncludes(publish, "steps.npm_release.outputs.skip_publish == 'false'", 'release publish');
+  assertRunIncludes(publish, 'publish --include-all --publish --pack --release-folder', 'Rush tarball creation');
+  assertRunIncludes(publish, 'node common/scripts/publish-release.js', 'publish verified tarballs');
+  assert(publish.env.MISSING_PACKAGES === '${{ steps.npm_release.outputs.missing_packages }}',
+    'release publish must use the checked missing package set');
+  assert(!publish.run.includes('--force'), 'release publish must avoid overwriting existing versions');
+  const index = step => releaseSteps.indexOf(step);
+  for (const name of ['Update version (release)', 'Update version (hotfix)', 'Apply prereleaseName (pre-release)']) {
+    const step = getStep(release, 'release', name);
+    assert(step && index(step) < index(core), `${name} must precede all builds`);
+  }
+  assert(index(install) < index(recoveryTest) && index(install) < index(artifactTest) &&
+    index(recoveryTest) < index(check) && index(artifactTest) < index(check) &&
+    index(core) < index(adapters) && index(adapters) < index(check) && index(check) < index(publish),
+    'release.yml must test recovery and build all artifacts before preparing or publishing tarballs');
+
   const releasePolicyStep = getStep(release, 'release', 'Check version-policy version (release)');
   assertRunIncludes(releasePolicyStep, "common/config/rush/version-policies.json", 'release.yml version-policy check');
   assertRunIncludes(releasePolicyStep, 'skip_next_bump', 'release.yml version-policy check');
