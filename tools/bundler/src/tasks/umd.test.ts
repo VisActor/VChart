@@ -39,13 +39,20 @@ it('writes both UMD variants from one compiled ESM graph', async () => {
   }
 });
 
-it('keeps browser globals, external dependencies and version replacement', async () => {
+it('keeps the package root external but bundles its subpath in browser UMD', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'vchart-browser-umd-'));
   try {
     await fs.mkdir(path.join(root, 'src'));
+    const dependency = path.join(root, 'node_modules/test-external');
+    await fs.mkdir(dependency, { recursive: true });
+    await fs.writeFile(path.join(dependency, 'feature.js'), "export const feature = '-bundled';");
     await fs.writeFile(
       path.join(root, 'src/index.ts'),
-      "import { external } from 'test-external'; export const version: string = __VERSION__ + external;"
+      [
+        "import { external } from 'test-external';",
+        "import { feature } from 'test-external/feature.js';",
+        'export const version: string = __VERSION__ + external + feature;'
+      ].join('\n')
     );
     await buildUmd(
       {
@@ -62,7 +69,7 @@ it('keeps browser globals, external dependencies and version replacement', async
     );
     const context = { TestBundle: {}, TestExternal: { external: '-browser' } };
     vm.runInNewContext(await fs.readFile(path.join(root, 'dist/test.js'), 'utf8'), context);
-    expect(context.TestBundle).toMatchObject({ version: '1.0.0-browser' });
+    expect(context.TestBundle).toMatchObject({ version: '1.0.0-browser-bundled' });
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

@@ -29,12 +29,24 @@ async function bundleBrowser(config: Config, projectRoot: string, pkg: RawPackag
     target: 'es2018',
     tsconfig: path.resolve(__dirname, '../../tsconfig.browser.json'),
     define: config.envs,
-    external,
+    // esbuild 会把包名形式的 external 扩展到子路径，这里沿用 Rollup 的精确匹配。
+    plugins: external.length
+      ? [
+          {
+            name: 'exact-externals',
+            setup(builder) {
+              builder.onResolve({ filter: /./ }, ({ path: id }) =>
+                external.includes(id) ? { path: id, external: true } : null
+              );
+            }
+          }
+        ]
+      : [],
     write: false
   });
   return rollup({
     input,
-    external: id => external.some(name => id === name || id.startsWith(`${name}/`)),
+    external,
     plugins: [{ name: 'browser-entry', load: id => (id === input ? outputFiles[0]!.text : null) }]
   });
 }
