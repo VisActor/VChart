@@ -10,7 +10,7 @@ import type { ISeries } from '../../series/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 import type { IRegionQuerier } from '../../typings/params';
 import { isArray } from '@visactor/vutils';
-import { installScrollbarToApp, loadScrollbar } from '@visactor/vrender-components/scrollbar';
+import { installScrollbarToApp, loadScrollbar } from '@visactor/vrender-components';
 import type { IApp } from '@visactor/vrender-core';
 import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 import { getDatumOfGraphic } from '../../util/mark';
