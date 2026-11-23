@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "e01bf52df3e752f7e0fbfb80f7f34221183e611c61f813d07d8b7f8a1c080941",
+  "indexDigest": "9398cb5cfeb4272937e198d2be612a80f77906fc8e1a4f995394b340a91bab0b",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -19,6 +19,7 @@
     "axis-label",
     "waterfall",
     "legend-filter",
+    "sankey-legend-filter",
     "tooltip-hover",
     "datazoom-drag",
     "update-resize",

@@ -1157,32 +1157,26 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
     return this._rawStatisticsCache[field];
   }
 
-  private _collectByField(field: string): string[] {
-    const keyArray: any[] = [];
-    const rawData = this.getRawData()?.latestData?.[0];
-
-    if (!rawData) {
+  private _collectByField(field: string): StringOrNumber[] {
+    const { nodes, links } = this.getRawData()?.latestData?.[0] ?? {};
+    if (!nodes) {
       return [];
     }
 
-    if ((rawData as any).links) {
-      //node-link型数据
-      if ((rawData as any).nodes?.length) {
-        (rawData as any).nodes.forEach((node: any) => {
-          if (node[this._seriesField]) {
-            keyArray.push(node[this._seriesField]);
-          }
-        });
-      }
-    } else if ((rawData as any).nodes) {
-      const set = new Set<string>();
-      // 层级型数据
-      collectHierarchyField(set, (rawData as any).nodes, this._seriesField);
-
-      return Array.from(set);
+    if (links) {
+      const values: StringOrNumber[] = [];
+      (nodes as Datum[]).forEach(node => {
+        const value = this.getSeriesFieldValue(node, field);
+        if (isValid(value)) {
+          values.push(value);
+        }
+      });
+      return values;
     }
 
-    return keyArray;
+    const values = new Set<StringOrNumber>();
+    collectHierarchyField(values, nodes, field);
+    return Array.from(values);
   }
 
   onLayoutEnd(): void {

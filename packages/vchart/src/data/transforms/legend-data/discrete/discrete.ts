@@ -1,5 +1,7 @@
-import { isValid, isArray } from '@visactor/vutils';
+import { isValid } from '@visactor/vutils';
+import type { SankeyLayoutResult } from '@visactor/vlayouts';
 import type { ISeries } from '../../../../series/interface';
+import { SeriesTypeEnum } from '../../../../series/interface/type';
 import type { IDiscreteLegendData, IDiscreteLegendDataMakeOption, IDiscreteLegendFilterOption } from './interface';
 import { DEFAULT_DATA_SERIES_FIELD } from '../../../../constant/data';
 
@@ -38,7 +40,7 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
     return data;
   }
 
-  const selectedFilter = {};
+  const selectedFilter: Record<string, true> = Object.create(null);
   selectedData.forEach(s => {
     selectedFilter[s] = true;
   });
@@ -47,14 +49,19 @@ export const discreteLegendFilter = (data: Array<any>, op: IDiscreteLegendFilter
 
   if (customFilter) {
     return customFilter(data, selectedData, datumField);
-  } else if (isArray(data) && data[0]?.nodes) {
-    // data silter for sankey chart
-    data[0].nodes = data[0].nodes.filter((d: any) => selectedFilter[d.key] === true);
-    if (data[0]?.links) {
-      data[0].links = data[0].links.filter(
-        (d: any) => selectedFilter[d.source] === true && selectedFilter[d.target] === true
-      );
-    }
+  } else if (series.type === SeriesTypeEnum.sankey && data[0]?.nodes) {
+    const layout: SankeyLayoutResult[number] = data[0];
+    const visibleNodeKeys: Record<string, true> = Object.create(null);
+    // 图例值来自原始节点字段，连线端点使用布局节点的 key。
+    layout.nodes = layout.nodes.filter(({ datum, key }) => {
+      const legendValue = datum ? series.getSeriesFieldValue(datum, datumField) : key;
+      if (selectedFilter[legendValue] !== true) {
+        return false;
+      }
+      visibleNodeKeys[key] = true;
+      return true;
+    });
+    layout.links = layout.links.filter(({ source, target }) => visibleNodeKeys[source] && visibleNodeKeys[target]);
   } else {
     if (isValid(datumField)) {
       data = data.filter(d => selectedFilter[series.getSeriesFieldValue(d, datumField)] === true);

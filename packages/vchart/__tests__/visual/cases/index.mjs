@@ -69,6 +69,11 @@ export const cases = [
     sourceExample: 'packages/vchart/__tests__/runtime/browser/test-page/multiple-legend-layout.ts'
   },
   {
+    id: 'sankey-legend-filter',
+    purpose: '桑基图按节点名称筛选和恢复数字索引节点与连线',
+    file: './components/legend/sankey-legend-filter.mjs'
+  },
+  {
     id: 'tooltip-hover',
     purpose: '鼠标悬停后的 HTML tooltip（tooltip）',
     file: './components/tooltip/tooltip-hover.mjs',
