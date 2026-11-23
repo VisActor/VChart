@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "1788ad6d5b37656fdaecdf02a609d8b4435819943706e1269bb03e78408e4200",
+  "indexDigest": "897887144e07873200814d71548da897cf0dd77fdd5bbf5cc335a025b73b73a3",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -96,6 +96,7 @@
     "pie-zero-placeholder",
     "pie-show-all-zero",
     "word-cloud-enlarge",
+    "word-cloud-shape-relayout",
     "sunburst-gap",
     "circle-packing-padding",
     "treemap-hierarchy",

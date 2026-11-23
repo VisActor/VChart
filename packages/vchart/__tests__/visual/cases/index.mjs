@@ -457,6 +457,11 @@ export const cases = [
     file: './charts/word-cloud/word-cloud-enlarge.mjs'
   },
   {
+    id: 'word-cloud-shape-relayout',
+    purpose: '形状词云放大重排后隐藏放不下的词',
+    file: './charts/word-cloud/word-cloud-shape-relayout.mjs'
+  },
+  {
     id: 'sunburst-gap',
     purpose: '旭日图分层间隙和径向标签',
     file: './charts/sunburst/sunburst-gap.mjs'
