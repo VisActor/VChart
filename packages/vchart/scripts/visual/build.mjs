@@ -206,7 +206,7 @@ export async function build(root, destination, runtime, log) {
   for (const [folder, args] of [
     ['tools/bundler', ['build']],
     ['packages/vutils-extension', ['build:es']],
-    ['packages/vchart', ['build:umd', '--ignorePostTasks', '--ignoreUmdEntries', '--minify=false']]
+    ['packages/vchart', ['build:umd', '--ignorePostTasks', '--ignoreUmdEntries', '--minify=false', '--browserUmd']]
   ])
     await runtime.run(
       process.execPath,

@@ -94,7 +94,7 @@ jobs:
               test "$(git rev-parse HEAD)" = "$EXPECTED_SHA"
               node common/scripts/install-run-rush.js install --bypass-policy
               (cd packages/vutils-extension && node ../../common/scripts/install-run-rushx.js build:es)
-              (cd packages/vchart && node ../../common/scripts/install-run-rushx.js build:es)
+              (cd packages/vchart && node ../../common/scripts/install-run-rushx.js build:es --no-es-total-file)
               (cd packages/vchart-extension && node ../../common/scripts/install-run-rushx.js build:es)
               (cd tools/bugserver-trigger && node ../../common/scripts/install-run-rushx.js build)
               bundle_file=/tmp/source/tools/bugserver-trigger/dist/index.js

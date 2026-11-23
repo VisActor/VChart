@@ -7,6 +7,7 @@ module.exports = {
 
   umdOutputFilename: 'index',
   minify: false,
+  browserUmd: true,
 
   external: [],
 

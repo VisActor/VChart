@@ -10,6 +10,7 @@ module.exports = {
     umd: 'build'
   },
   umdOutputFilename: 'index',
+  umdCompress: false,
   noEmitOnError: false,
   globals: {
     'react': 'React',

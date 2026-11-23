@@ -5,6 +5,8 @@
 module.exports = {
   name: 'VChartExtension',
   formats: ['es', 'cjs', 'umd'],
+  bundleFromEs: true,
+  umdCompress: false,
   outputDir: {
     es: 'esm',
     cjs: 'cjs',

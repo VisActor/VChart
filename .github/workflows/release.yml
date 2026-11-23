@@ -400,46 +400,22 @@ jobs:
         if: startsWith(github.ref_name, 'release/')
         run: node common/scripts/apply-release-version.js 'none' ${{ steps.semver_release.outputs.main }}
 
-      - name: Build vutils-extension && vchart
+      - name: Build VChart and its dependencies
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
+        # lark-vchart 和 wx-vchart 的入口由 VChart 写入，Rush 依赖图不包含这条关系。
         run: node common/scripts/install-run-rush.js build --to @visactor/vchart
 
-      - name: Build vchart-statplots
+      - name: Build release adapters and extensions
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/vchart-statplots
-
-      - name: Build vchart-extension
-        if: startsWith(github.ref_name, 'release/') || startsWith(github.ref_name, 'pre-release/')
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/vchart-extension
-
-      - name: Build react-vchart
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/react-vchart
-
-      - name: Build openinula-vchart
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/openinula-vchart
-
-      - name: Build taro-vchart
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/taro-vchart
-
-      - name: Build lark-vchart
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/lark-vchart
-
-      - name: Build wx-vchart
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js build --only @visactor/wx-vchart
+        run: |
+          targets=(--only @visactor/vchart-statplots --only @visactor/react-vchart
+            --only @visactor/openinula-vchart --only @visactor/taro-vchart --only @visactor/lark-vchart --only @visactor/wx-vchart)
+          case "$GITHUB_REF_NAME" in
+            release/*|pre-release/*) targets+=(--only @visactor/vchart-extension) ;;
+          esac
+          node common/scripts/install-run-rush.js release-build --parallelism 2 "${targets[@]}"
 
       - name: Check npm version (release)
         if: startsWith(github.ref_name, 'release/')

@@ -51,7 +51,8 @@ export async function build(root, destination, runtime, log) {
       'build:umd',
       '--config',
       extensionConfig,
-      '--minify=false'
+      '--minify=false',
+      '--browserUmd'
     ],
     path.join(root, 'packages/vchart-extension'),
     log,

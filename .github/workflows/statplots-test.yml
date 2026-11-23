@@ -4,6 +4,8 @@ on:
     paths:
       - 'packages/vchart-statplots/**'
       - 'packages/vchart/src/**'
+      - 'packages/vchart/bundler.config.js'
+      - 'tools/bundler/**'
       - 'common/config/rush/**'
       - 'rush.json'
       - '.github/workflows/statplots-test.yml'
@@ -24,9 +26,15 @@ jobs:
           python3 -m pip install setuptools --break-system-packages
       - run: node common/scripts/install-run-rush.js install --ignore-hooks
       - run: node packages/vchart-statplots/node_modules/@playwright/test/cli.js install --with-deps chromium
-      - run: node common/scripts/install-run-rush.js build --to @visactor/vchart-statplots
+      - name: Build StatPlots browser test inputs
         env:
           NODE_OPTIONS: '--max-old-space-size=8192'
+        run: |
+          node common/scripts/install-run-rush.js build --only @internal/bundler --only @internal/typescript-json-schema --only @visactor/vutils-extension
+          # Node 下的示例和目录检查需要 CJS，浏览器回归需要 ESM。
+          npm run build:es --prefix packages/vchart -- --no-es-total-file --formats cjs
+          npm run build:umd --prefix packages/vchart -- --browserUmd --no-minify
+          npm run build --prefix packages/vchart-statplots -- --no-minify
       - run: npm run check:schema --prefix packages/vchart-statplots
       - name: Verify generated resources are not tracked
         run: test -z "$(git ls-files -- packages/vchart-statplots/schema packages/vchart-statplots/src/generated)"

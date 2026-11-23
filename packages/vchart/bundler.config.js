@@ -84,7 +84,8 @@ function externalizeFactoryRegistryForEsTotal() {
       if (
         (source === './factory-registry' || source === factoryRegistryExternalId) &&
         importer &&
-        path.normalize(importer).endsWith(path.normalize('src/core/factory.ts'))
+        (importer === path.join(__dirname, 'src/core/factory.ts') ||
+          importer === path.join(__dirname, 'esm/core/factory.js'))
       ) {
         return {
           id: factoryRegistryExternalId,
@@ -109,6 +110,8 @@ module.exports = {
     umd: 'build'
   },
   esTotalFile: true,
+  bundleFromEs: !bundle_analyze_mode,
+  umdCompress: bundle_analyze_mode ? undefined : false,
   input: {
     umd: umdInput
   },
