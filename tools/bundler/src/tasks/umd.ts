@@ -27,7 +27,9 @@ async function bundleBrowser(config: Config, projectRoot: string, pkg: RawPackag
     platform: 'browser',
     mainFields: ['browser', 'module', 'main'],
     target: 'es2018',
-    tsconfig: path.resolve(__dirname, '../../tsconfig.browser.json'),
+    tsconfig: config.browserTsconfig
+      ? path.resolve(projectRoot, config.browserTsconfig)
+      : path.resolve(__dirname, '../../tsconfig.browser.json'),
     define: config.envs,
     // esbuild 会把包名形式的 external 扩展到子路径，这里沿用 Rollup 的精确匹配。
     plugins: external.length

@@ -39,19 +39,24 @@ it('writes both UMD variants from one compiled ESM graph', async () => {
   }
 });
 
-it('keeps the package root external but bundles its subpath in browser UMD', async () => {
+it('keeps exact externals and resolves isolated browser dependencies', async () => {
   const root = await fs.mkdtemp(path.join(os.tmpdir(), 'vchart-browser-umd-'));
   try {
     await fs.mkdir(path.join(root, 'src'));
     const dependency = path.join(root, 'node_modules/test-external');
     await fs.mkdir(dependency, { recursive: true });
     await fs.writeFile(path.join(dependency, 'feature.js'), "export const feature = '-bundled';");
+    await fs.writeFile(path.join(root, 'isolated.js'), "export const suffix = '-isolated';");
+    await fs.writeFile(path.join(root, 'visual.json'), JSON.stringify({
+      compilerOptions: { paths: { 'separate-output': ['./isolated.js'] } }
+    }));
     await fs.writeFile(
       path.join(root, 'src/index.ts'),
       [
         "import { external } from 'test-external';",
         "import { feature } from 'test-external/feature.js';",
-        'export const version: string = __VERSION__ + external + feature;'
+        "import { suffix } from 'separate-output';",
+        'export const version: string = __VERSION__ + external + feature + suffix;'
       ].join('\n')
     );
     await buildUmd(
@@ -59,6 +64,7 @@ it('keeps the package root external but bundles its subpath in browser UMD', asy
         ...getDefaultConfig(),
         name: 'TestBundle',
         browserUmd: true,
+        browserTsconfig: 'visual.json',
         external: ['test-external'],
         globals: { 'test-external': 'TestExternal' },
         envs: { __VERSION__: '"1.0.0"' }
@@ -69,7 +75,7 @@ it('keeps the package root external but bundles its subpath in browser UMD', asy
     );
     const context = { TestBundle: {}, TestExternal: { external: '-browser' } };
     vm.runInNewContext(await fs.readFile(path.join(root, 'dist/test.js'), 'utf8'), context);
-    expect(context.TestBundle).toMatchObject({ version: '1.0.0-browser-bundled' });
+    expect(context.TestBundle).toMatchObject({ version: '1.0.0-browser-bundled-isolated' });
   } finally {
     await fs.rm(root, { recursive: true, force: true });
   }

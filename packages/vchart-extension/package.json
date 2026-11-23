@@ -19,7 +19,7 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "eslint": "eslint --debug --fix src/",
-    "build": "bundle",
+    "build": "bundle --clean",
     "build:umd": "bundle --clean -f  umd",
     "build:es": "bundle --clean -f  es",
     "build:cjs": "bundle --clean -f  cjs",

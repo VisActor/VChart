@@ -108,6 +108,8 @@ export interface Config {
   bundleFromEs?: boolean;
   // 浏览器测试使用 esbuild 合并依赖，仍输出 UMD。
   browserUmd?: boolean;
+  // 视觉构建可用同一套浏览器选项解析隔离目录中的依赖。
+  browserTsconfig?: string;
   // 是否打包出整个的es的文件
   esTotalFile: boolean;
   // 出现编译错误时是否输出产物文件, 如果为true，则会停止构建且不输出任何东西

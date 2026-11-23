@@ -77,16 +77,22 @@ export async function runStage(request) {
     cases = await freezeSuite(request, output);
     const ids = cases.map(item => item.id);
     if (request.stage === 'build') {
+      const photoWorkspace =
+        request.side === 'current' && request.photoMode !== 'manual' ? path.join(output, 'photo-workspace') : null;
       if (product === 'vtable') {
         const names = ['vtable', 'editors', 'gantt', 'plugins', 'sheet', 'vchart'].filter(name => name === 'vtable' || cases.some(item => item.bundles.includes(name)));
         await build(request.sourceRoot, output, request.side, names, runtime, path.join(output, 'build.log'));
-      } else await build(request.sourceRoot, path.join(output, `${request.side}.js`), runtime, path.join(output, 'build.log'));
-      if (request.side === 'current' && request.photoMode !== 'manual') {
-        for (const folder of ['tools/bundler/output', ...['vtable','vtable-editors','vtable-gantt','vtable-plugins','vutils-extension'].map(name => `packages/${name}/es`)]) {
+      } else {
+        await build(request.sourceRoot, path.join(output, `${request.side}.js`), runtime, path.join(output, 'build.log'), {
+          photoWorkspace
+        });
+      }
+      if (photoWorkspace) {
+        for (const folder of ['tools/bundler/output', ...['vtable','vtable-editors','vtable-gantt','vtable-plugins'].map(name => `packages/${name}/es`)]) {
           const full = path.join(request.sourceRoot, folder);
           if (await fs.stat(full).catch(error => { if (error.code === 'ENOENT') return null; throw error; })) {
-            await fs.mkdir(path.dirname(path.join(output, 'photo-workspace', folder)), { recursive: true });
-            await fs.cp(full, path.join(output, 'photo-workspace', folder), { recursive: true });
+            await fs.mkdir(path.dirname(path.join(photoWorkspace, folder)), { recursive: true });
+            await fs.cp(full, path.join(photoWorkspace, folder), { recursive: true });
           }
         }
       }

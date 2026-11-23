@@ -674,18 +674,19 @@ test('manifest, result identity, caches, locks and cleanup contracts', async t =
       assert.throws(() => parseOptions(['--help', '--unknown']), { code: 'INVALID_ARGUMENT' });
       assert.equal(spawnSync(process.execPath, [cli, '--help']).status, 0);
     });
-    await t.test('old bundle removed even if successful command produces nothing', async () => {
+    await t.test('visual build rejects absent output and preserves the published UMD', async () => {
       const repo = path.join(dir, 'fake-build');
       for (const folder of ['packages/vchart/build', 'packages/vutils-extension', 'tools/bundler', 'common/scripts'])
         await fs.mkdir(path.join(repo, folder), { recursive: true });
       spawnSync('git', ['init', '-q', repo]);
       await fs.writeFile(path.join(repo, '.gitignore'), 'packages/vchart/build/\n');
       await fs.writeFile(path.join(repo, 'packages/vchart/build/index.js'), 'old');
+      await fs.writeFile(path.join(repo, 'packages/vutils-extension/package.json'), '{}');
       await fs.writeFile(path.join(repo, 'common/scripts/install-run-rushx.js'), 'process.exit(0);');
       await assert.rejects(build(repo, path.join(dir, 'bundle.js'), runtime, path.join(dir, 'build.log')), {
         code: 'BUILD_FAILED'
       });
-      await assert.rejects(fs.access(path.join(repo, 'packages/vchart/build/index.js')));
+      assert.equal(await fs.readFile(path.join(repo, 'packages/vchart/build/index.js'), 'utf8'), 'old');
     });
     await t.test('working tree fingerprint includes uncommitted and untracked changes', async () => {
       const repo = path.join(dir, 'dirty');
