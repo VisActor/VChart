@@ -6,6 +6,15 @@ import path from 'path';
 const userConfigFilePath = path.resolve(__dirname, '../../fixtures/config/bundler.config.js');
 
 describe('config', () => {
+  it('keeps browser and aggregated ESM options independent', () => {
+    const args = parserCLIArgs(['--browserUmd', '--no-minify', '--no-es-total-file', '--ignoreESEntries']);
+    expect(getFinalConfig(args, { esTotalFile: true }, getDefaultConfig(), '1.0.0')).toMatchObject({
+      browserUmd: true,
+      esTotalFile: false,
+      minify: false
+    });
+    expect(args.ignoreESEntries).toBe(true);
+  });
   it('parser cli args', () => {
     const args = parserCLIArgs(
       `--envs version="'x.y.z'" -f es --formats cjs --envs __DEV__=true --config xxx.js -c yyy.js --name foo --name qux --clean -s false`

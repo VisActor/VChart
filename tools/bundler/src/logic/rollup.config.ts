@@ -9,13 +9,12 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import replace from '@rollup/plugin-replace';
-import terser from '@rollup/plugin-terser';
 import url from '@rollup/plugin-url';
 import Alias from '@rollup/plugin-alias';
 import * as path from 'path';
 import { Config } from './config';
 
-function getExternal(
+export function getExternal(
   rawPackageJson: RawPackageJson,
   userExternal: string[] | ((rawPackageJson: RawPackageJson) => string[])
 ): string[] {
@@ -40,7 +39,8 @@ export function getRollupOptions(
   entry: string,
   rawPackageJson: RawPackageJson,
   babelPlugins: BabelPlugins,
-  config: Config
+  config: Config,
+  fromEs = false
 ): RollupOptions {
   const { prePlugins = [], plugins = [], ...rollupOptions } = config.rollupOptions;
 
@@ -54,14 +54,18 @@ export function getRollupOptions(
       commonjs(),
       babel({ ...babelPlugins, babelHelpers: 'bundled' }),
       replace({ ...config.envs, preventAssignment: true }),
-      typescript({
-        tsconfig: path.resolve(projectRoot, config.tsconfig),
-        compilerOptions: {
-          sourceMap: false,
-          declaration: false,
-          composite: false
-        }
-      }),
+      ...(fromEs
+        ? []
+        : [
+            typescript({
+              tsconfig: path.resolve(projectRoot, config.tsconfig),
+              compilerOptions: {
+                sourceMap: false,
+                declaration: false,
+                composite: false
+              }
+            })
+          ]),
       url({
         limit: 8192, // 小于 8kb 的图片将被转换为 base64
         include: ['**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.svg'],
@@ -70,7 +74,6 @@ export function getRollupOptions(
         destDir: path.resolve(projectRoot, config.outputDir.umd!)
       }),
       Alias({ entries: config.alias }),
-      ...(config.minify ? [terser()] : []),
       ...(plugins as Plugin[])
     ]
   };

@@ -94,6 +94,13 @@ function writePrereleaseVersion(nextBump, preReleaseName, nextVersionStr, buildN
       });
     }
 
+    // 仓内精确 peer 与构建版本同步，保留兼容范围和第三方 peer。
+    for (const [dep, range] of Object.entries(pkgJson.peerDependencies || {})) {
+      if (published.includes(dep) && parseVersion(range)) {
+        jsonFile = setJsonFileByKey(jsonFile, pkgJson, ['peerDependencies', dep], nextVersion);
+      }
+    }
+
     fs.writeFileSync(pkgJsonPath, jsonFile)
   });
   

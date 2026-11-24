@@ -188,38 +188,80 @@ export async function offlineDependencies(root, worktree, sha) {
   }
 }
 
-/** 执行既有最小构建链，仅删除已知且被忽略的 UMD 目标以排除旧文件。 */
-export async function build(root, destination, runtime, log) {
-  const output = 'packages/vchart/build/index.js';
-  if (git(root, ['ls-files', '--', output])) throw fault('BUILD_FAILED', '构建目标被 Git 跟踪，拒绝删除');
-  try {
-    git(root, ['check-ignore', '--no-index', output]);
-  } catch {
-    throw fault('BUILD_FAILED', '构建目标不属于忽略的生成目录');
-  }
-  await fs.rm(path.join(root, output), { force: true });
+// 视觉构建在独立目录产生 UMD 和依赖，避免清理或覆盖可发布文件。
+export async function build(root, destination, runtime, log, { photoWorkspace } = {}) {
+  const work = await fs.mkdtemp(path.join(path.dirname(destination), 'visual-build-'));
   const env = {
     ...buildEnv,
     ...(runtime.offline ? { NODE_OPTIONS: '--max-old-space-size=2048' } : {}),
     NODE_PATH: path.join(root, 'tools/bundler/node_modules')
   };
-  for (const [folder, args] of [
-    ['tools/bundler', ['build']],
-    ['packages/vutils-extension', ['build:es']],
-    ['packages/vchart', ['build:umd', '--ignorePostTasks', '--ignoreUmdEntries', '--minify=false']]
-  ])
-    await runtime.run(
+  const run = (folder, args) =>
+    runtime.run(
       process.execPath,
       [path.join(root, 'common/scripts/install-run-rushx.js'), ...args],
       path.join(root, folder),
       log,
       { code: 'BUILD_FAILED', env }
     );
+
   try {
-    if (!(await fs.stat(path.join(root, output))).size) throw new Error('构建产物为空');
-    await fs.copyFile(path.join(root, output), destination);
+    const dependencyFolder = path.join(root, 'packages/vutils-extension');
+    const dependencyConfig = path.join(work, 'vutils.config.cjs');
+    const dependencyOutput = path.join(work, 'es');
+    await fs.writeFile(
+      dependencyConfig,
+      `module.exports = { ...require(${JSON.stringify(path.join(dependencyFolder, 'bundler.config.js'))}), outputDir: ${JSON.stringify({ es: dependencyOutput })} };
+`
+    );
+    // pnpm 的包链接相对于原工作区，放入运行目录时使用绝对目标。
+    const manifest = JSON.parse(await fs.readFile(path.join(dependencyFolder, 'package.json'), 'utf8'));
+    for (const name of Object.keys(manifest.dependencies ?? {})) {
+      const target = path.join(work, 'node_modules', name);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.symlink(await fs.realpath(path.join(dependencyFolder, 'node_modules', name)), target, 'dir');
+    }
+
+    const dependency = path.join(dependencyOutput, 'index.js');
+    const browserTsconfig = path.join(work, 'tsconfig.json');
+    await fs.writeFile(
+      browserTsconfig,
+      JSON.stringify({
+        extends: path.join(root, 'tools/bundler/tsconfig.browser.json'),
+        compilerOptions: { paths: { '@visactor/vutils-extension': [dependency] } }
+      })
+    );
+    const chartConfig = path.join(work, 'vchart.config.cjs');
+    const chartOutput = path.join(work, 'umd');
+    await fs.writeFile(
+      chartConfig,
+      `module.exports = { ...require(${JSON.stringify(path.join(root, 'packages/vchart/bundler.config.js'))}),
+        ...${JSON.stringify({
+          outputDir: { umd: chartOutput },
+          browserTsconfig,
+          alias: { '@visactor/vutils-extension': dependency }
+        })} };
+`
+    );
+    await run('tools/bundler', ['build']);
+    await run('packages/vutils-extension', ['build:es', '--config', dependencyConfig]);
+    await run('packages/vchart', [
+      'build:umd', '--config', chartConfig, '--ignorePostTasks', '--ignoreUmdEntries', '--minify=false', '--browserUmd'
+    ]);
+
+    const output = path.join(chartOutput, 'index.js');
+    if (!(await fs.stat(output)).size) throw new Error('构建产物为空');
+    if (photoWorkspace) {
+      const staged = path.join(photoWorkspace, 'packages/vutils-extension/es');
+      await fs.mkdir(path.dirname(staged), { recursive: true });
+      await fs.cp(dependencyOutput, staged, { recursive: true });
+    }
+    await fs.copyFile(output, destination);
   } catch (error) {
+    if (error.code === 'BUILD_FAILED') throw error;
     throw fault('BUILD_FAILED', `没有生成有效的新产物：${error.message}`, error);
+  } finally {
+    await fs.rm(work, { recursive: true, force: true });
   }
 }
 /** 验证缓存内容；损坏视为 miss，权限等真实 I/O 错误继续抛出。 */

@@ -71,7 +71,8 @@ test('全部缺失时发布，全部存在时跳过，并检查每个应发布�
   for (const [response, skip] of [[missing, false], [present, true]]) {
     const result = check(t, responses(response, response));
     assert.equal(result.status, 0, result.stderr);
-    assert.equal(result.output, `skip_publish=${skip}\n`);
+    const names = skip ? '' : '@visactor/first,@visactor/second';
+    assert.equal(result.output, `skip_publish=${skip}\nmissing_packages=${names}\n`);
     assert.equal(result.queries, '@visactor/first@2.2.0\n@visactor/second@2.2.0\n');
   }
 });
@@ -82,7 +83,7 @@ test('部分发布默认停止，只有手动事件加显式恢复输入才能�
       const result = check(t, responses(present, missing), { event, resume });
       const allowed = event === 'workflow_dispatch' && resume === 'true';
       assert.equal(result.status, allowed ? 0 : 1, result.stderr);
-      assert.equal(result.output, allowed ? 'skip_publish=false\n' : '');
+      assert.equal(result.output, allowed ? 'skip_publish=false\nmissing_packages=@visactor/second\n' : '');
       assert.match(result.stdout, /Existing packages: @visactor\/first/);
       assert.match(result.stdout, /Missing packages: @visactor\/second/);
       assert.match(result.stdout + result.stderr, allowed ? /Manual recovery enabled/ : /resume_partial_publish/);

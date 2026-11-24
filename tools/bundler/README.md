@@ -25,6 +25,8 @@ bundle -f es -w dev --env __DEV__=true --env __ID__="'my_id'"
 -e, --envs <key=value> 要替换的环境变量, eg. --env __DEV__=true --env __ID__="'my_id'"
 --clean 删除产物目录
 --minify 是否输出压缩后的 UMD 产物文件
+--no-es-total-file 只生成逐模块 ESM，跳过全量 ESM 文件
+--browserUmd 浏览器测试用 UMD，使用 esbuild 解析浏览器依赖
 -w, --watch 监听文件变化重新构建
 -s, --sourcemap 是否生成 sourcemap
 --ignorePostTasks, 不执行 postTasks
@@ -89,6 +91,12 @@ interface Config {
   clean: boolean;
   // 是否压缩 umd 产物文件
   minify: boolean;
+  // 跳过主 UMD 的 Terser compress 阶段，仍缩短变量名并移除空白。
+  umdCompress?: boolean;
+  // 本轮同时构建 ESM 时，复用编译产物打包；单独构建 UMD 时仍读取源码。
+  bundleFromEs?: boolean;
+  // Playwright 和 Photo 用的浏览器 UMD。发布构建沿用 Rollup 的解析与转换。
+  browserUmd?: boolean;
   // 出现编译错误时是否输出产物文件, 如果为true，则会停止构建且不输出任何东西
   noEmitOnError: boolean;
   // 传给给 @babel/preset-env 的 `targets` 字段 see: https://babeljs.io/docs/babel-preset-env#targets
@@ -113,3 +121,31 @@ type _ModuleKind = 'es' | 'cjs' | 'umd';
 rushx dev --root fixtures/config [options]
 rushx test
 ```
+
+## 构建性能验证（2026-11-21）
+
+基线为 `15d701eee`。在同一台 Apple M3 Pro 上使用 Node.js 22.22.2、Rush 5.148.0、pnpm 10.7.0 和同一套第三方依赖。发布冷构建计入各 Rush 构建命令的墙钟时间，依赖安装、发布和 tarball 校验单独执行。
+
+| 构建流程 | 优化前 | 优化后 | 节省 |
+| --- | ---: | ---: | ---: |
+| 完整发布构建 | 433.08 秒 | 274.54 秒 | 158.54 秒（36.6%） |
+| 单测前置构建 | 11.97 秒 | 0 秒 | 11.97 秒 |
+| Playwright VChart | 23.09 秒 | 6.76 秒 | 16.33 秒（70.7%） |
+| Playwright VChart + 扩展 | 26.77 秒 | 6.74 秒 | 20.03 秒（74.8%） |
+| StatPlots 浏览器测试前置构建 | 240.24 秒 | 37.68 秒 | 202.56 秒（84.3%） |
+| Photo 聚合包 | 48.16 秒 | 19.28 秒 | 28.88 秒（60.0%） |
+
+发布基线为原工作流八道构建步骤耗时之和。优化后先按原依赖链构建 VChart（194.35 秒），再以并发度 2 构建适配包和扩展（80.17 秒）。VChart 在第一阶段写入 Lark 和微信小程序入口。StatPlots 的基线使用同一轮发布中对应依赖链与 StatPlots 的两条命令之和，包含两次 Rush 启动。测试流水线的表格时间截至构建完成，浏览器比较和远端 Photo 任务独立计时。
+
+对比了 11 个 `npm pack` tarball 的 9,704 个文件。路径、权限、类型声明、source map 和包清单一致。最终冷构建的 12 个主要发布入口与已验收包逐字节一致。核对了 VChart、扩展、React 和 StatPlots 普通及压缩 UMD 的 CommonJS 和 AMD 导出，以及 VChart 全量 ESM 的 Factory 外部引用。ES5 与基线逐字节一致，小程序与鸿蒙入口通过 JavaScript 语法检查。
+
+| 压缩 UMD | 优化前 gzip | 优化后 gzip |
+| --- | ---: | ---: |
+| VChart | 637,854 B | 642,298 B |
+| VChart Extension | 216,277 B | 218,154 B |
+| React VChart | 647,635 B | 652,743 B |
+| StatPlots | 69,357 B | 70,457 B |
+
+gzip 使用级别 6。VChart 压缩 UMD 为 2,459,060 B，低于 3 MB 门槛。Photo 测试包 gzip 从 1,030,348 B 降到 999,277 B。
+
+VChart 625 项单测、StatPlots 672 项单测和 518 项浏览器测试、Bundler 9 项测试通过。StatPlots 最终构建保留示例与目录检查需要的 CJS，Schema、示例、目录检查及 UMD/ESM 入口复验均通过。VChart 与扩展的全量视觉比较共 273 项通过，Photo 聚合包 13 项本地抽测和发布压缩 UMD 10 项抽测通过。`injected-stage` 在全量视觉和发布抽测中都只出现一列 530 个像素的轻微色值变化，单通道最大差值为 5/255，两轮均通过项目原有阈值。GitHub runner 与远端 Photo 的耗时需以实际 CI 记录为准。

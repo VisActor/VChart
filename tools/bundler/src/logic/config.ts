@@ -48,7 +48,18 @@ export function parserCLIArgs(argv: string | string[]): Partial<CLIArgs> {
     },
     array: ['formats', 'envs', 'copy'],
     string: ['config'],
-    boolean: ['watch', 'less', 'clean', 'minify', 'sourcemap', 'ignorePostTasks', 'ignoreUmdEntries'],
+    boolean: [
+      'watch',
+      'less',
+      'clean',
+      'minify',
+      'sourcemap',
+      'ignorePostTasks',
+      'ignoreUmdEntries',
+      'ignoreESEntries',
+      'esTotalFile',
+      'browserUmd'
+    ],
     coerce: getCoerce(stringKeys)
   });
 }
@@ -91,6 +102,14 @@ export interface Config {
   clean: boolean;
   // 是否压缩 umd 产物文件
   minify: boolean;
+  // 主 UMD 可跳过 Terser 压缩，保留变量名缩短和空白移除。
+  umdCompress?: boolean;
+  // 完整构建先生成 ESM，再用同一轮 ESM 生成 Rollup 产物。
+  bundleFromEs?: boolean;
+  // 浏览器测试使用 esbuild 合并依赖，仍输出 UMD。
+  browserUmd?: boolean;
+  // 视觉构建可用同一套浏览器选项解析隔离目录中的依赖。
+  browserTsconfig?: string;
   // 是否打包出整个的es的文件
   esTotalFile: boolean;
   // 出现编译错误时是否输出产物文件, 如果为true，则会停止构建且不输出任何东西
