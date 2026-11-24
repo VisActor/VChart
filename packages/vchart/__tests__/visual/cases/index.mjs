@@ -417,6 +417,11 @@ export const cases = [
     file: './components/datazoom/datazoom-numeric-category.mjs'
   },
   {
+    id: 'datazoom-filter-update-empty',
+    purpose: '回填数据后 DataZoom 按原窗口筛选并恢复预览',
+    file: './components/datazoom/datazoom-filter-update-empty.mjs'
+  },
+  {
     id: 'waterfall-leader-line',
     purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
     file: './charts/waterfall/waterfall-leader-line.mjs'

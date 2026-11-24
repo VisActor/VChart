@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复 DataZoom 默认筛选模式下从空数据回填后主图和预览未刷新的问题（#4354）。",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

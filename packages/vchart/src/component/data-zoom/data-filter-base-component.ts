@@ -812,8 +812,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._data.getDataView().reRunAllTransform();
 
     // 3. 重新计算domain
-    const domain = this._computeDomainOfStateScale(isContinuous(this._stateScale.type));
-    this._stateScale.domain(domain, false);
+    const domain = this._updateStateScaleDomain();
 
     // 4. 重新计算start和end
     // 如果 spec 中有配置 start/end，使用 spec 中的配置
@@ -872,9 +871,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     this._start = Math.max(0, Math.min(1, start));
     this._end = Math.max(0, Math.min(1, end));
   }
-  protected _setStateFromAxis() {
+  protected _setStateFromAxis(resetWindow = true) {
     // 此时 state scale 进行了更新，stateFromSpec 中补分逻辑需要使用scale计算，重新获取一遍
-    this._setStateFromSpec();
+    if (resetWindow) {
+      this._setStateFromSpec();
+    }
     const axis = this._relatedAxisComponent as CartesianAxis<any>;
     this._startValue = statePointToData(this._start, this._stateScale, isReverse(axis, this._isHorizontal));
     this._endValue = statePointToData(this._end, this._stateScale, isReverse(axis, this._isHorizontal));
@@ -890,12 +891,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
     this._minSpan = Math.max(0, this._minSpan);
     this._maxSpan = Math.min(this._maxSpan, 1);
-    if (!axis) {
-      return;
-    }
-    // eslint-disable-next-line max-len
-    if ((!axis || this._filterMode !== 'axis') && (this._start !== 0 || this._end !== 1)) {
-      this._newDomain = parseDomainFromState(this._startValue, this._endValue, this._stateScale);
+    if (this._filterMode === 'filter') {
+      this._newDomain =
+        this._start === 0 && this._end === 1
+          ? undefined
+          : parseDomainFromState(this._startValue, this._endValue, this._stateScale);
     }
   }
   protected _initStateScale() {
@@ -931,6 +931,12 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       this._stateScale = fieldLinear ? new LinearScale() : new BandScale();
       this._stateScale.domain(this._computeDomainOfStateScale(fieldLinear), true).range(defaultRange);
     }
+  }
+
+  protected _updateStateScaleDomain() {
+    const domain = this._computeDomainOfStateScale(isContinuous(this._stateScale.type));
+    this._stateScale.domain(domain, false);
+    return domain;
   }
 
   protected _computeDomainOfStateScale(isContinuous?: boolean) {

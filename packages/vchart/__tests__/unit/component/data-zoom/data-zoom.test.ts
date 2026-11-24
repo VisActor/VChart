@@ -82,6 +82,72 @@ describe('DataZoom preview validity', () => {
     expectPreview();
   });
 
+  it('reapplies an unchanged filter window when data arrives or changes', () => {
+    const times = ['2:00', '4:00', '6:00', '8:00', '10:00', '12:00', '14:00', '16:00', '18:00'];
+    const values = [8, 9, 11, 14, 16, 17, 17, 16, 15];
+    const incoming = times.map((time, index) => ({ time, value: values[index] }));
+    chart = new VChart(
+      {
+        type: 'line',
+        animation: false,
+        data: { id: 'data0', values: [] },
+        xField: 'time',
+        yField: 'value',
+        dataZoom: [{ orient: 'bottom', start: 0, end: 0.4 }]
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const series = chart.getChart().getAllSeries()[0];
+    const viewRows = () =>
+      series.getViewData().latestData.map(({ time, value }: typeof incoming[number]) => ({ time, value }));
+    const previewPoints = () => (graphic('bottom', 'previewLine') as ILine).attribute.points.map(({ x, y }) => [x, y]);
+    const onZoom = jest.fn();
+    chart.on('dataZoomChange', onZoom);
+    expect(viewRows()).toEqual([]);
+
+    chart.updateDataSync('data0', incoming);
+    expect(viewRows()).toEqual(incoming.slice(0, 4));
+    expect(zoom('bottom').stateScale.domain()).toEqual(times);
+    expectPreview();
+
+    chart.updateDataSync('data0', []);
+    expect(viewRows()).toEqual([]);
+    const replacement = incoming.map(({ time, value }) => ({ time: 'new-' + time, value: value + 2 }));
+    chart.updateDataSync('data0', replacement);
+    expect(viewRows()).toEqual(replacement.slice(0, 4));
+    expect(zoom('bottom').stateScale.domain()).toEqual(replacement.map(row => row.time));
+    expectPreview();
+
+    const before = previewPoints();
+    const revised = replacement.map((row, index) => ({ ...row, value: index === 1 ? row.value + 7 : row.value }));
+    chart.updateDataSync('data0', revised);
+    expect(viewRows()).toEqual(revised.slice(0, 4));
+    expect(previewPoints()).not.toEqual(before);
+    expect(onZoom).not.toHaveBeenCalled();
+  });
+
+  it.each(['batch', 'data view'] as const)('keeps an interactive filter window across a %s update', async mode => {
+    chart = new VChart(makeSpec(rows), { dom, animation: false });
+    chart.renderSync();
+    const model = zoom('bottom');
+    const series = chart.getChart().getAllSeries()[0];
+    const visibleCategories = () => series.getViewData().latestData.map((row: Row) => row.category);
+    model.setStartAndEnd(0, 0.4);
+    expect(visibleCategories()).toEqual(['A', 'B']);
+    const replacement = rows.map(row => ({ ...row, category: 'new-' + row.category }));
+
+    if (mode === 'batch') {
+      await chart.updateDataInBatches([{ id: 'data', data: replacement }]);
+    } else {
+      series.getRawData().parseNewData(replacement);
+    }
+
+    expect(visibleCategories()).toEqual(['new-A', 'new-B']);
+    expect(model.stateScale.domain()).toEqual(['new-A', 'new-B', 'new-C']);
+    expectPreview();
+  });
+
   it('keeps numeric categories in axis order when the same field also has continuous statistics', () => {
     chart = new VChart(
       {
