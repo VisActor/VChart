@@ -129,6 +129,7 @@ pie: {
 
 {{ use: component-label(
   prefix = '#' + ${prefix},
+  hasSmartInvert = true,
 ) }}
 
 <!-- IArcLabelSpec -->
