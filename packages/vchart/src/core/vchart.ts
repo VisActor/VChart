@@ -5,6 +5,7 @@ import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/c
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
+import { SeriesTypeEnum } from '../series/interface/type';
 import {
   ChartTypeEnum,
   type DimensionIndexOption,
@@ -429,7 +430,12 @@ export class VChart implements IVChart {
       pluginList.push('poptipForText');
     }
 
-    if (spec.type === ChartTypeEnum.sankey) {
+    const { type, series } = this._spec as ISpec;
+    // 组合图可在 updateSpec 时为已有桑基系列开启滚动，届时仍使用原来的 Stage。
+    if (
+      type === ChartTypeEnum.sankey ||
+      (type === ChartTypeEnum.common && series?.some(seriesSpec => seriesSpec.type === SeriesTypeEnum.sankey))
+    ) {
       pluginList.push('scrollbar');
     }
 

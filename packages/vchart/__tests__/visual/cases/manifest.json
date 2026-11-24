@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "38c1fcc62877ddf8499cbb9161705579314af47b1c7a0475adf81d3aa1765cb8",
+  "indexDigest": "f3e0a8c119c9afc6314a72e74376b61f99e3d2401406b358c68dff08c7118c22",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -257,6 +257,7 @@
     "scrollbar-crosshair",
     "scrollbar-axis-click-update",
     "sankey-scrollbar",
+    "common-sankey-scrollbar",
     "sankey-selected-adjacency",
     "sankey-adjacency",
     "sankey-node-state",

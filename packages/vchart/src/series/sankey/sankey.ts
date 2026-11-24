@@ -41,6 +41,8 @@ import { getDatumOfGraphic } from '../../util';
 import { addRuntimeState } from '../../mark/utils/glyph';
 import { sankey } from '../../theme/builtin/common/series/sankey';
 import { addGraphicState, removeGraphicState } from '../../util/graphic-state';
+import { installScrollbarToApp, loadScrollbar } from '@visactor/vrender-components';
+import type { IApp } from '@visactor/vrender-core';
 
 export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> extends CartesianSeries<T> {
   static readonly type: string = SeriesTypeEnum.sankey;
@@ -244,7 +246,7 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
       overflow,
       interactive: !!overflow
     });
-    if (overflow && overflow !== 'hidden') {
+    if (overflow && overflow !== 'hidden' && this.getStage()?.getPluginsByName('scrollbar').length) {
       this._rootMark.setMarkConfig({ clip: true });
       this.setMarkStyle(
         this._rootMark,
@@ -1225,7 +1227,17 @@ export class SankeySeries<T extends ISankeySeriesSpec = ISankeySeriesSpec> exten
   }
 }
 
+const installScrollbar = (app?: IApp) => {
+  if (app) {
+    installScrollbarToApp(app);
+  } else {
+    loadScrollbar();
+  }
+};
+
 export const registerSankeySeries = () => {
+  Factory.registerRuntimePluginInstaller('scrollbar', installScrollbar);
+  installScrollbar();
   registerRectMark();
   registerLinkPathMark();
   registerTextMark();
