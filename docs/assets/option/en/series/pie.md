@@ -128,6 +128,7 @@ Label configuration.
 
 {{ use: component-label(
   prefix = '#' + ${prefix},
+  hasSmartInvert = true,
 ) }}
 
 <!-- IArcLabelSpec -->

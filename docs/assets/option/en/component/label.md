@@ -244,11 +244,12 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
 
 {{ if: ${hasSmartInvert} }}
 
-#${prefix} smartInvert(Object|false)
+#${prefix} smartInvert(boolean|Object)
 
-Smart Invert configuration.
+Smart inversion for labels. Set to `true` to use the default settings, `false` to disable it, or provide an object to customize the strategy.
 
-- In a histogram, when the label position is inside (`'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`) , it is enabled by default.
+- Bar chart labels use smart inversion by default at inside positions (`'inside'`, `'inside-top'`, `'inside-bottom'`, `'inside-right'`, `'inside-left'`).
+- Pie chart labels use smart inversion by default at inside positions (`'inside'`, `'inside-outer'`, `'inside-inner'`, `'inside-center'`). It is disabled by default for outside labels.
 
 ##${prefix} mode(string)
 
@@ -287,10 +288,10 @@ Four strategies for label fill color in intelligent inversion:
 
 - `'base'` uses the color of the element where the label is located
 - `'invertBase'` uses the color calculated by smart inversion
-- `'similarBase'` uses the complementary color of the color after intelligent inversion calculation
+- `'similarBase'` selects a fill color from `brightColor` and `darkColor`
 - `'null'` does not perform smart inversion and keeps the color set by `style.fill`
 
-The default setting is `'invertBase'`
+The default is `'invertBase'`. When the original label color has insufficient contrast against the mark, this strategy selects a readable color from `alternativeColors` and the default fallback colors.
 
 ##${prefix} strokeStrategy(string)
 
@@ -298,20 +299,20 @@ Four strategies for label stroke color in intelligent inversion:
 
 - `'base'` uses the color of the element where the label is located
 - `'invertBase'` uses the color calculated by smart inversion
-- `'similarBase'` uses the complementary color of the color after intelligent inversion calculation
+- `'similarBase'` selects a stroke color from `brightColor` and `darkColor`
 - `'null'` does not perform smart inversion and keeps the color set by `style.stroke`
 
 The default setting is `'base'`
 
 ##${prefix} brightColor(string)
 
-similarSeries uses this color when the foreground color has contrast with the bright color.
-The default setting is '#ffffff'.
+The `'similarBase'` strategy uses this color for the fill or stroke when its contrast ratio against the smart inversion result is greater than 4.5:1.
+The default is `'#ffffff'`. Use a six-digit hexadecimal value for a custom color, such as `'#ff0000'`.
 
-##${prefix} brightColor(string)
+##${prefix} darkColor(string)
 
-similarSeries uses this color when the foreground color has contrast with the dark color.
-The default setting is '#000000'.
+The `'similarBase'` strategy uses this color for the fill or stroke when the contrast ratio between `brightColor` and the smart inversion result is 4.5:1 or less.
+The default is `'#000000'`.
 
 ##${prefix} outsideEnable(boolean)
 
