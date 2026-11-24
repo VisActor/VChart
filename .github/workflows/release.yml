@@ -438,6 +438,10 @@ jobs:
         if: startsWith(github.ref_name, 'pre-release/')
         run: node common/scripts/apply-release-version.js ${{ steps.semver_prerelease.outputs.pre_release_name }} ${{ steps.semver_prerelease.outputs.main }}
 
+      - name: Refresh release lockfile
+        # 发布提交的 workspace 依赖及精确 peer 必须匹配目标版本，新的检出才能安装。
+        run: node common/scripts/install-run-rush.js update --bypass-policy
+
       - name: Build VChart and its dependencies
         env:
           NODE_OPTIONS: '--max_old_space_size=4096'
@@ -477,6 +481,7 @@ jobs:
           trap 'rm -rf "$pack_dir"' EXIT
           # Rush 使用仓库固定的 pnpm 和 prepack 钩子。上传使用同一份已核验 tarball。
           node common/scripts/install-run-rush.js publish --include-all --publish --pack --release-folder "$pack_dir"
+          node packages/vchart/node_modules/@playwright/test/cli.js install chromium
           node common/scripts/publish-release.js "$pack_dir" "$PACKAGE_VERSION" "$dist_tag"
 
       - name: Get npm version (release)

@@ -116,10 +116,13 @@ function run() {
   );
   const releaseSteps = getSteps(release, 'release');
   const install = getStep(release, 'release', 'Install rush');
+  const lock = getStep(release, 'release', 'Refresh release lockfile');
   const core = getStep(release, 'release', 'Build VChart and its dependencies');
   const adapters = getStep(release, 'release', 'Build release adapters and extensions');
   const check = getStep(release, 'release', 'Check npm release state');
   const publish = getStep(release, 'release', 'Pack, validate, and publish release packages');
+  assertRunIncludes(lock, 'update --bypass-policy', 'release lockfile refresh');
+  assert(!lock.if && releaseSteps.indexOf(lock) < releaseSteps.indexOf(core), 'all release builds must use the refreshed lockfile');
   assertRunIncludes(core, 'build --to @visactor/vchart', 'VChart build');
   assertRunIncludes(adapters, '--only @visactor/vchart-statplots', 'StatPlots release build');
   assertRunIncludes(adapters, '--only @visactor/vchart-extension', 'Extension release build');
@@ -133,6 +136,7 @@ function run() {
   assertUsesPublishablePackageSet(check, 'npm release check');
   assertStepIfIncludes(publish, "steps.npm_release.outputs.skip_publish == 'false'", 'release publish');
   assertRunIncludes(publish, 'publish --include-all --publish --pack --release-folder', 'Rush tarball creation');
+  assertRunIncludes(publish, 'playwright/test/cli.js install chromium', 'prepare Chromium for the packed UMD check');
   assertRunIncludes(publish, 'node common/scripts/publish-release.js', 'publish verified tarballs');
   assert(publish.env.MISSING_PACKAGES === '${{ steps.npm_release.outputs.missing_packages }}',
     'release publish must use the checked missing package set');
@@ -140,7 +144,7 @@ function run() {
   const index = step => releaseSteps.indexOf(step);
   for (const name of ['Update version (release)', 'Update version (hotfix)', 'Apply prereleaseName (pre-release)']) {
     const step = getStep(release, 'release', name);
-    assert(step && index(step) < index(core), `${name} must precede all builds`);
+    assert(step && index(step) < index(lock), `${name} must precede the lockfile refresh`);
   }
   assert(index(install) < index(recoveryTest) && index(install) < index(artifactTest) &&
     index(recoveryTest) < index(check) && index(artifactTest) < index(check) &&

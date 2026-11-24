@@ -1,5 +1,6 @@
 const { execFileSync } = require('node:child_process');
 const { readdirSync } = require('node:fs');
+const { createRequire } = require('node:module');
 const { resolve, posix } = require('node:path');
 const { createContext, runInContext } = require('node:vm');
 const { projects } = require('../../rush.json');
@@ -13,15 +14,20 @@ const readTar = (args, file) => execFileSync('tar', [args[0], file, ...args.slic
   maxBuffer: 16 * 1024 * 1024
 });
 
-// 加载实际待上传的 UMD，检查编译注入版本和 Factory 注册表命名空间。
-function verifyVChart(file, entry, version) {
+// 加载实际待上传的 UMD，校验各入口的运行时版本及主包 Factory 命名空间。
+function verifyUmd(file, entry, version, name, requireDependency) {
   const source = readTar(['-xOf', entry], file);
-  const context = createContext({ exports: {} });
-  context.module = { exports: context.exports };
+  const exports = {};
+  const context = createContext({ exports, module: { exports }, require: requireDependency });
   runInContext(source, context, { filename: entry, timeout: 5000 });
-  const factoryKey = JSON.stringify(`@visactor/vchart/factory-registry@${version}`);
-  if (context.module.exports.version !== version || !runInContext(`globalThis[Symbol.for(${factoryKey})]`, context)) {
-    throw new Error(`VChart runtime version or Factory registry does not match ${version}: ${entry}`);
+  if (context.module.exports.version !== version) {
+    throw new Error(`${name} runtime version does not match ${version}: ${entry}`);
+  }
+  if (name === '@visactor/vchart') {
+    const factoryKey = JSON.stringify(`@visactor/vchart/factory-registry@${version}`);
+    if (!runInContext(`globalThis[Symbol.for(${factoryKey})]`, context)) {
+      throw new Error(`VChart Factory registry does not match ${version}: ${entry}`);
+    }
   }
 }
 
@@ -35,7 +41,7 @@ function validatePackages(folder, version) {
     throw new Error('Tarball set does not match the publishable Rush projects.');
   }
 
-  return published.map(({ packageName: name }) => {
+  return published.map(({ packageName: name, projectFolder }) => {
     const file = resolve(folder, archiveName(name));
     const metadata = JSON.parse(readTar(['-xOf', 'package/package.json'], file));
     if (metadata.name !== name || metadata.version !== version) {
@@ -57,8 +63,13 @@ function validatePackages(folder, version) {
         }
       }
     }
-    if (name === '@visactor/vchart') {
-      for (const entry of metadata.unpkgFiles) verifyVChart(file, `package/${entry}`, version);
+    if (name === '@visactor/vchart' || name === '@visactor/react-vchart') {
+      const requireDependency = name === '@visactor/react-vchart'
+        ? createRequire(resolve(__dirname, '../..', projectFolder, 'package.json'))
+        : undefined;
+      for (const entry of ['build/index.js', 'build/index.min.js']) {
+        verifyUmd(file, `package/${entry}`, version, name, requireDependency);
+      }
     }
     return { name, file };
   });
@@ -79,11 +90,29 @@ function publishPackages(packages, tag, missing, run = execFileSync) {
   }
 }
 
-if (require.main === module) {
+// 浏览器验收读取同一批原包，所有检查通过后才写入 npm。
+async function verifyBrowserPackages(packages, version) {
+  const archives = new Map(packages.map(({ name, file }) => [name, file]));
+  const { verifyReleaseBrowser } = require('./verify-release-browser');
+  await verifyReleaseBrowser((name, entry) => readTar(['-xOf', `package/${entry}`], archives.get(name)), version);
+}
+
+// CLI 默认仅校验文件，发布模式额外执行浏览器验收。
+async function main() {
   const [, , folder, version, tag] = process.argv;
   const packages = validatePackages(folder, version);
   console.log(`Validated ${packages.length} release tarballs for ${version}.`);
-  if (tag !== undefined) publishPackages(packages, tag, new Set((process.env.MISSING_PACKAGES ?? '').split(',').filter(Boolean)));
+  if (tag !== undefined) {
+    await verifyBrowserPackages(packages, version);
+    publishPackages(packages, tag, new Set((process.env.MISSING_PACKAGES ?? '').split(',').filter(Boolean)));
+  }
 }
 
-module.exports = { validatePackages, publishPackages };
+if (require.main === module) {
+  main().catch(error => {
+    console.error(error);
+    process.exitCode = 1;
+  });
+}
+
+module.exports = { validatePackages, publishPackages, verifyBrowserPackages };

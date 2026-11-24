@@ -30,7 +30,7 @@ Release CI 通过统一脚本 `check-npm-release.js` 检查 `rush.json` 中全�
    gh workflow run release.yml --ref release/2.2.0 -F resume_partial_publish=true
    ```
 
-3. Workflow 先确定版本再构建，使用 Rush 与仓库固定的 pnpm 生成整批 tarball。校验实际包清单、依赖、入口与 VChart 运行时版本后，按原 tag 上传同一份 tarball，仅补发缺失版本。
+3. Workflow 先确定版本再构建，使用 Rush 与仓库固定的 pnpm 生成整批 tarball。校验实际包清单、依赖、入口与运行时版本，并在 Chromium 从实际包验证 Extension 与 React 的 3D 渲染后，按原 tag 上传同一份 tarball，仅补发缺失版本。
 4. 发布成功后继续既有版本文件提交与 release PR 流程。若发布途中再次失败，检查失败原因后按相同方式恢复；全部版本已经存在时会跳过上传。
 
 恢复输入代表维护者已经核对版本内容，并不自动证明已发布包与当前源码一致。日常 push 和默认手动运行继续保留部分发布拦截；本地回归只执行查询替身，不上传 npm。
