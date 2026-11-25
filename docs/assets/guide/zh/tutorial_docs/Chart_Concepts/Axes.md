@@ -85,14 +85,13 @@ axes: [
 
 ## 轴范围配置
 
-对于线性轴（type: 'linear'/'time'/'log'/'symlog'），我们提供了如下属性用于配置轴的数据范围：
+线性轴（`linear`）、时间轴（`time`）、对数轴（`log`）和对称对数轴（`symlog`）都支持用 `min`、`max`、`nice` 和 `expand` 配置轴范围。
 
-- `min`: 配置数值轴的最小值，优先级高于 `zero`，`nice`。
-- `max`: 配置数值轴的最大值，优先级高于 `zero`，`nice`。
-- `nice`: 是否根据数据将轴范围调整到相对规整的数值，比如当配置了 max = 999, nice 并不会将轴范围优化，当配置了 min 和 max，该配置项失效。到 1000。
-- `niceType`: 配置 nice 效果的类型，是精度优先还是 tickCount 优先（比如 tickCount 为 2 那 nice 出来的精度就很低）。不配置就默认是 tickCountFirst。
-- `zero`: 是否包含 0 值。当配置了 min 和 max，该配置项失效。
-- `expand`: 轴范围按比例扩展，如 `expand: { min: 0.1, max: 0.1 }`当配置了 min 和 max，该配置项失效。
+- `min` 和 `max` 分别固定下界和上界，优先于自动范围配置。时间轴的边界使用毫秒时间戳。
+- `nice` 将自动计算的边界调整为较规整的值。显式指定的边界保持原值。
+- `expand` 按数据范围的跨度扩展边界。例如，`expand: { min: 0.1, max: 0.1 }` 会将自动计算的两端各向外扩展 10%。
+- `niceType` 在线性轴和时间轴上选择 `nice` 的策略。`'tickCountFirst'` 优先考虑刻度数量，也是默认值。`'accurateFirst'` 优先考虑边界精度。对数轴和对称对数轴按各自的比例尺规则调整边界。
+- `zero` 控制自动范围是否强制包含 0。线性轴默认开启，时间轴和对称对数轴默认关闭。时间轴上的 0 表示 Unix 纪元起点。对数轴应保持 `zero: false`，值域的两端必须同号且避开 0。
 
 ```ts
 axes: [
@@ -116,6 +115,27 @@ axes: [
   }
 ];
 ```
+
+### 数值轴从 0 开始与自适应范围
+
+线性轴默认使用 `zero: true`。数据全为正值时，自动范围的下界会扩展到 0。数据全为负值时，上界会扩展到 0。
+
+如果折线图的 Y 值集中在较窄的区间，可以设置 `zero: false`，让 Y 轴范围更贴近数据。在以下示例中，保持 `nice: false`，将 `zero` 从 `true` 改为 `false` 后，Y 轴范围由 `[0, 98]` 变为 `[92, 98]`。
+
+```js
+const spec = {
+  type: 'line',
+  data: { values: [{ day: '周一', value: 92 }, { day: '周二', value: 98 }] },
+  xField: 'day',
+  yField: 'value',
+  axes: [
+    { orient: 'bottom', type: 'band' },
+    { orient: 'left', type: 'linear', zero: false, nice: false }
+  ]
+};
+```
+
+如果希望将一条轴的轴线放在另一条轴的 0 刻度处，可配置 `domainLine.onZero`。详见 [`zero` 配置参考](/vchart/option/lineChart-axes-linear#zero)和[零刻度轴线示例](/vchart/demo/axis/on-zero)。
 
 ## 轴 tick 配置
 
