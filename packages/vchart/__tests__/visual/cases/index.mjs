@@ -177,6 +177,11 @@ export const cases = [
     file: './charts/progress/progress-circular-gradient.mjs'
   },
   {
+    id: 'progress-circular-max-value',
+    purpose: '圆形进度按 maxValue 计算弧长',
+    file: './charts/progress/progress-circular-max-value.mjs'
+  },
+  {
     id: 'grid-multiple-axes',
     purpose: '三区域网格布局中多折线与独立数值轴',
     file: './layout/grid-multiple-axes.mjs'
