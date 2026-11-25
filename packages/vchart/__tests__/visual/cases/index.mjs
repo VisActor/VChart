@@ -502,6 +502,11 @@ export const cases = [
     file: './components/axis/axis-symlog.mjs'
   },
   {
+    id: 'mark-point-theme-switch',
+    purpose: '运行时主题切换与标注文字配色',
+    file: './components/marker/mark-point-theme-switch.mjs'
+  },
+  {
     id: 'mark-point-symbol',
     purpose: '标注点文字、端点配置与动态轴标签',
     file: './components/marker/mark-point-symbol.mjs'

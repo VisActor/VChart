@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复 markPoint 标注文字颜色未随主题切换的问题（#4364）。",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
