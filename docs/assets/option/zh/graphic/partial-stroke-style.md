@@ -1,18 +1,18 @@
 {{ target: graphic-partial-stroke-style }}
 
 {{ if: ${markType} === 'arc' }}
-#${prefix} stroke(string | Array )
+#${prefix} stroke(string|Object|Array|false|null)
 
-圆弧描边。支持使用 `'rgb(255,255,255)'`，`'rgba(255,255,255,1)'`，`'#fff'` 等方式设置为纯色，也支持设置为渐变色描边。  
-在 `1.4.0` 版本后，支持配置为数组形式。数组含义为：[外弧描边，终止边描边，内弧描边，起始边描边]。
+自 `1.4.0` 起，圆弧描边支持数组配置，元素依次对应外弧、终止边、内弧和起始边。
 
 {{ else }}
-
-#${prefix} stroke(string|Object)
-
-描边颜色。支持使用 `'rgb(255,255,255)'`，`'rgba(255,255,255,1)'`，`'#fff'` 等方式设置为纯色，也支持设置为渐变色描边。
+#${prefix} stroke(string|Object|false|null)
 
 {{ /if }}
+
+描边颜色。支持纯色（如 `'#fff'`、`'rgb(255,255,255)'`）和渐变色。
+
+设置为 `false` 可关闭描边。直接设置为 `null` 时，描边效果取决于图元的回退行为。
 
 - 渐变色使用
 
@@ -56,4 +56,4 @@ lineDash: [0];
 
 设置斜接面限制比例的属性。当获取属性值时，会返回当前的值（默认值是 10.0 ）。当给属性赋值时，0、负数、 Infinity 和 NaN 都会被忽略；除此之外都会被赋予一个新值。
 
-<!-- TODO stroke: boolean, strokeTop: boolean 确认 -->
+<!-- TODO strokeTop: boolean 确认 -->

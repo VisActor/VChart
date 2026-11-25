@@ -1,17 +1,18 @@
 {{ target: graphic-partial-stroke-style }}
 
 {{ if: ${markType} === 'arc' }}
-#${prefix} stroke(string | Array )
+#${prefix} stroke(string|Object|Array|false|null)
 
-Stroke color. Supports setting to a solid color using `'rgb (255, 255, 255)'`, `'rgba (255, 255, 255, 1)'`, `'#fff'`, etc., and also supports setting it to a gradient stroke color.
-
-Since version `1.4.0`, it supports configuration in array form. The array means: [outer arc stroke, end edge stroke, inner arc stroke, start edge stroke].
+Since `1.4.0`, arc strokes accept an array whose entries correspond to the outer arc, end edge, inner arc, and start edge, in that order.
 
 {{ else }}
-#${prefix} stroke(string|Object)
+#${prefix} stroke(string|Object|false|null)
 
 {{ /if }}
-Stroke color. Supports setting to a solid color using `'rgb (255, 255, 255)'`, `'rgba (255, 255, 255, 1)'`, `'#fff'`, etc., and also supports setting it to a gradient stroke color.
+
+Stroke color. Supports solid colors such as `'#fff'` and `'rgb(255,255,255)'`, as well as gradients.
+
+Set `stroke` to `false` to disable the stroke. When you set `stroke` directly to `null`, the result depends on the mark's fallback behavior.
 
 - Gradient color usage
 
@@ -55,4 +56,4 @@ An attribute used to set how the two connected parts (segments, arcs, curves) of
 
 An attribute that sets the limit ratio of the beveled surface. When the attribute value is obtained, the current value (the default value is 10.0) will be returned. When the attribute is set, 0, negative numbers, Infinity, and NaN will be ignored; all others will be assigned a new value.
 
-<!-- TODO stroke: boolean, strokeTop: boolean confirm -->
+<!-- TODO strokeTop: boolean confirm -->
