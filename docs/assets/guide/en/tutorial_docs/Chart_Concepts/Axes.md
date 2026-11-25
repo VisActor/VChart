@@ -85,13 +85,13 @@ axes: [
 
 ## Axis range configuration
 
-For linear axes (type: 'linear'/'time'/'log'/'symlog'), we provide the following properties for configuring the data range of the axes:
+The following options configure the domain of a linear axis (`type: 'linear'`).
 
 - `min`: configure the minimum value of the value axis, the priority is higher than `zero`, `nice`.
 - `max`: Configure the maximum value of the value axis, the priority is higher than `zero`, `nice`.
 - `nice`: Whether to adjust the axis range to a relatively regular value based on the data. For example, when max = 999 is configured, nice will not optimize the axis range. When min and max are configured, this configuration item becomes invalid. to 1000.
 - `niceType`: Configure the type of nice effect, whether accuracy is priority or tickCount is priority (for example, if tickCount is 2, the accuracy of nice will be very low). If not configured, the default is tickCountFirst.
-- `zero`: Whether to include 0 values. When min and max are configured, this configuration item becomes invalid.
+- `zero`: Controls whether the automatically computed axis domain is extended to include zero.
 - `expand`: The axis range is expanded proportionally, such as `expand: { min: 0.1, max: 0.1 }` When min and max are configured, this configuration item is invalid.
 
 ```ts
@@ -116,6 +116,27 @@ axes: [
   }
 ];
 ```
+
+### Starting a value axis at zero or fitting it to the data
+
+Linear axes default to `zero: true`. When all values are positive, the automatic domain extends down to zero. When all values are negative, it extends up to zero.
+
+If the Y values in a line chart fall within a narrow interval, use `zero: false` to fit the Y-axis domain more closely to the data. This example also disables `nice`, showing how the domain changes from `[0, 98]` with `zero: true` to `[92, 98]` with `zero: false`.
+
+```js
+const spec = {
+  type: 'line',
+  data: { values: [{ day: 'Mon', value: 92 }, { day: 'Tue', value: 98 }] },
+  xField: 'day',
+  yField: 'value',
+  axes: [
+    { orient: 'bottom', type: 'band' },
+    { orient: 'left', type: 'linear', zero: false, nice: false }
+  ]
+};
+```
+
+To place an axis line at the zero tick of another axis, use `domainLine.onZero`. See the [`zero` option reference](/vchart/option/lineChart-axes-linear#zero) and the [axis line at zero example](/vchart/demo/axis/on-zero).
 
 ## axis tick configuration
 
