@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-类似（https://www.visactor.io/vchart/demo/area-chart/null-value-area）这样的面积图里面数据比较多，比如几百条。当某些轴上的标签内容过长时，很容易出现重叠或者视觉过于密集的情况，需要按一定的间隔去展示X轴上的刻度。
+类似（<https://www.visactor.io/vchart/demo/area-chart/null-value-area>）这样的面积图里面数据比较多，比如几百条。当某些轴上的标签内容过长时，很容易出现重叠或者视觉过于密集的情况，需要按一定的间隔去展示X轴上的刻度。
 
 这类图表有配置使得坐标轴每隔几个点显示刻度，类似 echarts 的 interval 那种的么？
 

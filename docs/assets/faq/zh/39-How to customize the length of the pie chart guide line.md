@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-一般的饼图展示标签的时候都会额外绘制一个引导线用来连接扇区和对应的标签（类似 https://echarts.apache.org/examples/zh/editor.html?c=pie-simple），但是几个图表库常见的引导线逻辑都没有提供配置。如果我需要自定义这个引导线的长度应该怎么做呢？
+一般的饼图展示标签的时候都会额外绘制一个引导线用来连接扇区和对应的标签（类似 <https://echarts.apache.org/examples/zh/editor.html?c=pie-simple>），但是几个图表库常见的引导线逻辑都没有提供配置。如果我需要自定义这个引导线的长度应该怎么做呢？
 
 ![pie](/vchart/faq/80-0.png)
 
