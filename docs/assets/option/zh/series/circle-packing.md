@@ -35,13 +35,24 @@
 
 #${prefix} label(Object)
 
-标签 图元配置
+圆形节点上的文字标签配置。
 
 {{ use: common-mark(
   prefix = '#' + ${prefix}
 ) }}
 
 ##${prefix} style(Object)
+
+用 `label.style.fill` 设置标签的文字颜色，用 `label.style.fontSize` 设置字号（像素）。例如，可以在图表配置中加入以下内容。
+
+```ts
+label: {
+  style: {
+    fill: '#D4380D',
+    fontSize: 14
+  }
+}
+```
 
 {{ use: mark-style(
   markName = 'label'
