@@ -20,6 +20,19 @@ VChart 从 `v1.10.0` 开始，支持了格式化扩展插件，提供更多格�
 formatter: `"The population in {year} year is {population}"`。
 ```
 
+### 轴标签与图元标签
+
+模板中的变量名取决于标签的数据来源。
+
+| 配置位置 | 变量来源 | 示例 |
+| -------- | -------- | ---- |
+| `axes[].label.formatter` | 每个刻度有自己的数据对象，`label` 是该对象的刻度标签值 | `'{label:~s}'` 将轴刻度 `1500` 显示为 `1.5k` |
+| `label.formatter`（图表或系列） | 图元对应的数据行 | `'{count:~s}'` 将数据行的 `count` 值 `1500` 显示为 `1.5k` |
+
+如果只需格式化线性轴的当前刻度值，可以直接写 `formatter: '~s'`。如果要在模板中加上单位等文本，可以写 `formatter: '{label:~s} 次'`。
+
+时间轴通过 `layers[].timeFormat` 和 `layers[].timeFormatMode` 设置刻度标签，也可用 `label.formatMethod` 继续处理标签文本。用法见[坐标轴教程](/vchart/guide/tutorial_docs/Chart_Concepts/Axes)。
+
 ### 数值数据
 
 数值格式化采用和 [d3-formatter](https://d3js.org/d3-format) 类似的格式化约定。在格式化表达式中，与变量名之间用冒号隔开，例如：

@@ -60,11 +60,11 @@ formatMethod: text => {
 
 For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
-#${prefix} formatter(string)
+#${prefix} formatter(string|Array)
 
-String template, supported since `1.7.0` version.
+Format templates were introduced in version `1.7.0`. Pass a string or an array of strings.
 
-A string template that wraps the variable name with `{}`. The variable name is taken from the data attribute value.
+Wrap field names from the mark's data row in `{}`. For example, given `{ count: 1500 }`, `formatter: '{count:~s}'` displays `1.5k`.
 
 In pie charts, percentage stacked area charts, percentage stacked line charts, and percentage stacked column charts, percentage configuration is supported, `{_percent_}`
 

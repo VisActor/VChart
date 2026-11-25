@@ -40,7 +40,7 @@ VChart 中目前支持五种类型的坐标轴：
 
 1.  线性轴（type: 'linear'），适用于数值类型数据；
 2.  离散轴（type: 'band'），适用于离散数据；
-3.  时间轴（type: 'time'），适用于表示时间序列数据，具体的使用可以查看 [SequenceChart 时序图 demo](/vchart/demo/sequence-chart/social-media-event)；
+3.  时间轴（type: 'time'），按实际时间间隔展示时间序列数据；
     需要注意的是，直方图不支持离散轴，因为直方图用于统计数据间内的频率分布，主轴必须以值区间的形式传入，离散轴不支持该功能。
 4.  log 轴（type: 'log'），log 轴的特点是刻度之间的间隔是根据对数函数（通常是以 10 为底）计算的。这意味着数据的每个对数单位（大小单位）具有相同的物理长度，例如从 1 到 10、10 到 100、100 到 1000 等。对于数据的指数增长或指数下降情况，log 轴能够更好地显示数据的相对变化，具体的使用可以查看 [log 轴 demo](/vchart/demo/axis/log-axis)
 5.  symlog 轴（type: 'symlog'）, 与 log 轴不同的是，symlog 可以支持负数的情况，具体的使用可以查看 [symlog 轴 demo](/vchart/demo/axis/symlog-axis)
@@ -65,6 +65,48 @@ axes: [
   }
 ];
 ```
+
+### 时间轴
+
+把横轴设为 `type: 'time'`，并让 `xField` 指向数据中的时间字段。时间轴按实际经过的时间定位数据点，间隔两天的两个点在轴上的距离是间隔一天的两倍。
+
+时间字段使用毫秒级 Unix 时间戳（`number`）。如果源数据是 `Date` 对象，先调用 `.getTime()`。如果源数据是 ISO 8601 字符串，先用 `Date.parse()`，并在字符串中带上 `Z` 或明确的时区偏移量。秒级时间戳乘以 `1000` 即可转换为毫秒。如果设置轴范围的 `min` 和 `max`，也使用毫秒时间戳。
+
+```javascript livedemo
+const spec = {
+  type: 'line',
+  data: {
+    values: [
+      { time: Date.parse('2023-10-05T12:00:00.000Z'), count: 1500 },
+      { time: Date.parse('2023-10-06T12:00:00.000Z'), count: 2300 },
+      { time: Date.parse('2023-10-08T12:00:00.000Z'), count: 3100 }
+    ]
+  },
+  xField: 'time',
+  yField: 'count',
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'time',
+      layers: [{ tickStep: 86_400_000, timeFormat: '%m-%d', timeFormatMode: 'utc' }]
+    },
+    {
+      orient: 'left',
+      type: 'linear',
+      label: { formatter: '{label:~s}' }
+    }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+```
+
+- `layers[0].timeFormat` 控制第一层刻度的显示格式，默认值为 `'%Y%m%d'`。示例中的 `tickStep` 每隔 24 小时生成一个刻度。可在 `layers[1]` 设置第二层的时间格式与刻度。
+- `layers[0].timeFormatMode` 控制第一层标签显示为本地时间（`'local'`，默认）或 UTC（`'utc'`）。该设置只影响标签文本。
+- 时间轴的 `label.formatMethod` 接收格式化后的时间字符串。可以在示例的时间轴配置中添加 `label: { formatMethod: text => text + ' UTC' }`。时间轴使用 `layers[].timeFormat` 和 `label.formatMethod` 格式化标签，`label.formatter` 模板在时间轴上不生效。
+
+示例中的 Y 轴使用 `{label:~s}`，例如刻度值 `1500` 会显示为 `1.5k`。这里的 `label` 来自轴刻度数据。若要给折线的数据点显示同样的格式，在图表上配置 `label: { visible: true, formatter: '{count:~s}' }`，其中 `count` 是数据行的字段名。详见[格式化插件教程](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter)。
 
 ### 极坐标系下的坐标轴配置
 

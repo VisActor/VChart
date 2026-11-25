@@ -60,11 +60,11 @@ formatMethod: text => {
 
 更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
-#${prefix} formatter(string)
+#${prefix} formatter(string|Array)
 
-字符串模版，自`1.7.0`版本开始支持。
+格式化模板自 `1.7.0` 版本开始支持。可传入字符串或字符串数组。
 
-用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+用 `{}` 包裹图元对应数据行的字段名。例如，数据为 `{ count: 1500 }` 时，`formatter: '{count:~s}'` 显示 `1.5k`。
 
 例如，`formatter: 'type={type},value={value},percent={_percent_}'`
 
