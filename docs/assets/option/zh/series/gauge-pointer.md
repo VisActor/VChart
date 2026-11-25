@@ -56,7 +56,8 @@
 ) }}
 
 {{ use: graphic-rect(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 ##${prefix} style（path 版本）(Object)

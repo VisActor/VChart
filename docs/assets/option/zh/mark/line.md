@@ -2,7 +2,7 @@
 
 <!-- ILineMarkSpec -->
 
-#${prefix} curveType(string)
+#${prefix} curveType(string|Function)
 
 曲线插值类型。
 
@@ -20,7 +20,7 @@
 - `catmullRom`
 - `catmullRomClosed`
 
-#${prefix} defined(boolean)
+#${prefix} defined(boolean|Function)
 
 是否是有效数字。
 
@@ -28,10 +28,11 @@
 
 一个标志位，用于通知 sirius 是否执行 getLineSegmentConfigs 方法。
 
-#${prefix} strokeBoundsBuffer(number)
+#${prefix} strokeBoundsBuffer(number|Function)
 
 stroke 的有界缓冲区。
 
 {{ use: graphic-line(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = '|Function'
 ) }}

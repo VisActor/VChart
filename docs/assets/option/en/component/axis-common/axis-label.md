@@ -100,6 +100,8 @@ The function definition for label data filtering is as follows:
 
 Axis label style settings, support for function callbacks, when you need to go some personalized configuration can use the callback function.
 
+To vary attributes such as color by tick, set the callback on `label.style` and return an object with concrete attribute values.
+
 {{ use:component-common-style-callback(
   description = 'Axis label style'
 ) }}

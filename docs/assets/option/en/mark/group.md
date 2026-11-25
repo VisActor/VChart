@@ -2,20 +2,21 @@
 
 <!-- IGroupMarkSpec -->
 
-#${prefix} clip(boolean)
+#${prefix} clip(boolean|Function)
 Whether to clip the primitive.
 
-#${prefix} width(number)
+#${prefix} width(number|Function)
 width.
 
-#${prefix} height(number)
+#${prefix} height(number|Function)
 high.
 
-#${prefix} cornerRadius(number|number[])
+#${prefix} cornerRadius(number|Array|Function)
 Rounded corner configuration.
 1. If a value is passed in, the four corners will be uniformly rounded.
 2. If an array is passed in, they will be [top left, top right, bottom right, bottom left]
 
 {{ use: graphic-attribute(
   prefix = ${prefix},
+  callbackType = '|Function',
 ) }}

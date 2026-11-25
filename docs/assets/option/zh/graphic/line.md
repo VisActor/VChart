@@ -4,6 +4,7 @@
 
 {{ use: graphic-attribute(
   prefix = ${prefix},
+  callbackType = ${callbackType},
   noFill = true,
   noAngle = true,
   noTexture = true

@@ -96,12 +96,21 @@ The distance between the label and its corresponding data graphic element.
 
 Label graphic element style configuration.
 
+{{ var: callbackType = ${noStyleCallback} ? '' : '|Function' }}
+
+{{ if: ${callbackType} }}
+
+Each style property can be a callback that receives the label datum and returns the property value.
+
+{{ /if }}
+
 ##${prefix} type='text'(Object)
 
 Regular text style configuration.
 
 {{ use: graphic-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = ${callbackType}
 ) }}
 
 ##${prefix} type='rich'(Object)
@@ -109,7 +118,8 @@ Regular text style configuration.
 Rich text style configuration.
 
 {{ use: graphic-rich-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = ${callbackType}
 ) }}
 
 #${prefix} state(Object)

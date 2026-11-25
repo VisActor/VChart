@@ -2,15 +2,15 @@
 
 <!-- Canopus IImageGraphicAttribute -->
 
-#${prefix} width(number)
+#${prefix} width(number${callbackType})
 
 图片宽度。
 
-#${prefix} height(number)
+#${prefix} height(number${callbackType})
 
 图片高度。
 
-#${prefix} repeatX(string)
+#${prefix} repeatX(string${callbackType})
 
 图片在x方向的repeat方式。
 
@@ -19,7 +19,7 @@
 - `'repeat'` 
 - `'stretch'`
 
-#${prefix} repeatY(string)
+#${prefix} repeatY(string${callbackType})
 
 图片在y方向的repeat方式。
 
@@ -28,7 +28,7 @@
 - `'repeat'` 
 - `'stretch'`
 
-#${prefix} imageMode(string)
+#${prefix} imageMode(string${callbackType})
 
 自 `2.0.21` 版本开始支持。图片绘制模式，仅在 `repeatX` 和 `repeatY` 最终都为 `no-repeat` 时生效。
 
@@ -38,7 +38,7 @@
 - `'fill'`: 拉伸填满图元区域
 - `'auto'`: 按图片原始尺寸绘制
 
-#${prefix} imagePosition(string|Array<string | number>)
+#${prefix} imagePosition(string|Array${callbackType})
 
 自 `2.0.21` 版本开始支持。图片锚定位置，语义类似 CSS `background-position`。
 
@@ -47,22 +47,23 @@
 - 预设位置：`'top-left'`、`'top-center'`、`'top-right'`、`'center-left'`、`'center'`、`'center-right'`、`'bottom-left'`、`'bottom-center'`、`'bottom-right'`
 - 元组：`[x, y]`，其中 `x` / `y` 支持数值、关键字或百分比字符串，例如 `['25%', '75%']`
 
-#${prefix} imageScale(number)
+#${prefix} imageScale(number${callbackType})
 
 自 `2.0.21` 版本开始支持。图片额外缩放比例，仅在不重复平铺时生效。
 
-#${prefix} imageOffsetX(number)
+#${prefix} imageOffsetX(number${callbackType})
 
 自 `2.0.21` 版本开始支持。图片在 x 方向上的额外偏移量，仅在不重复平铺时生效。
 
-#${prefix} imageOffsetY(number)
+#${prefix} imageOffsetY(number${callbackType})
 
 自 `2.0.21` 版本开始支持。图片在 y 方向上的额外偏移量，仅在不重复平铺时生效。
 
-#${prefix} image(string | Object)
+#${prefix} image(string|Object${callbackType})
 
 图片资源，可传入url、HTMLImageElement 或 HTMLCanvasElement。
 
 {{ use: graphic-attribute(
   prefix = ${prefix},
+  callbackType = ${callbackType},
 ) }}

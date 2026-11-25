@@ -2,10 +2,11 @@
 
 {{ use: graphic-partial-stroke-style(
 prefix = ${prefix},
+callbackType = ${callbackType},
 markType = ${markType}
 ) }}
 
-#${prefix} outerBorder(Object)
+#${prefix} outerBorder(Object${callbackType})
 
 外描边配置。
 
@@ -23,7 +24,7 @@ outerBorder: {
 prefix = '#' + ${prefix}
 ) }}
 
-#${prefix} innerBorder(Object)
+#${prefix} innerBorder(Object${callbackType})
 
 内描边配置。
 

@@ -2,23 +2,24 @@
 
 <!-- ITextMarkSpec -->
 
-#${prefix} text(string|number|string[])
+#${prefix} text(string|number|Array|Function)
 
 Text to display. Accepts strings, numbers, string arrays, and number arrays.
 
 {{ use: graphic-fill-style(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = '|Function'
 ) }}
 
-#${prefix} dx(number)
+#${prefix} dx(number|Function)
 
 X-axis offset.
 
-#${prefix} dy(number)
+#${prefix} dy(number|Function)
 
 Y-axis offset.
 
-#${prefix} textAlign(string)
+#${prefix} textAlign(string|Function)
 
 Horizontal text alignment.
 
@@ -26,7 +27,7 @@ Horizontal text alignment.
 - `'center'` centers the text.
 - `'right'` or `'end'` aligns text to the right.
 
-#${prefix} textBaseline(string)
+#${prefix} textBaseline(string|Function)
 
 Text baseline.
 
@@ -36,15 +37,15 @@ Optional values:
 - `'bottom'`
 - `'middle'`
 
-#${prefix} fontSize(number)
+#${prefix} fontSize(number|Function)
 
 Font size in pixels.
 
-#${prefix} fontFamily(string)
+#${prefix} fontFamily(string|Function)
 
 Text font.
 
-#${prefix} fontWeight(string|number)
+#${prefix} fontWeight(string|number|Function)
 
 Font weight of the text.
 
@@ -56,7 +57,7 @@ Optional:
 - `'lighter'`
 - `100 | 200 | 300 | 400`...
 
-#${prefix} fontStyle(string)
+#${prefix} fontStyle(string|Function)
 
 Style of text font.
 
@@ -66,15 +67,15 @@ Optional:
 - `'italic'`
 - `'oblique'`
 
-#${prefix} maxLineWidth(number)
+#${prefix} maxLineWidth(number|Function)
 
 Maximum width of a line of text, in pixels. By default, text that exceeds this width is truncated.
 
-#${prefix} ellipsis(string)
+#${prefix} ellipsis(string|Function)
 
 String to show when text is truncated, such as `'…'`. Use it with `maxLineWidth`.
 
-#${prefix} suffixPosition(string) = 'end'
+#${prefix} suffixPosition(string|Function) = 'end'
 
 Supported since `1.7.3` version, used to configure the position of text omission, the default is to omit the tail.
 

@@ -3,5 +3,6 @@
 <!-- IRectMarkSpec -->
 
 {{ use: graphic-rect3d(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = '|Function'
 ) }}
