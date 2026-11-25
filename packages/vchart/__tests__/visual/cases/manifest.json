@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "9398cb5cfeb4272937e198d2be612a80f77906fc8e1a4f995394b340a91bab0b",
+  "indexDigest": "0f05d547be269348230381c38230b6846f2461dbdb31c85cb8f5e82158ace216",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -40,6 +40,7 @@
     "progress-linear-padding",
     "progress-linear-clamp",
     "progress-circular-gradient",
+    "progress-circular-max-value",
     "grid-multiple-axes",
     "axis-auto-hide",
     "label-stack-zero",

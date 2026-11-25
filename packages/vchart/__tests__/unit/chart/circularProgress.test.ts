@@ -1,4 +1,5 @@
-import VChart from '../../../src';
+import type { IArcGraphicAttribute } from '@visactor/vrender-core';
+import VChart, { type ICircularProgressChartSpec } from '../../../src';
 import { createDiv, removeDom } from '../../util/dom';
 
 const createCircularProgressTickMaskSpec = () => ({
@@ -101,6 +102,41 @@ describe('circularProgress chart test', () => {
 
   afterEach(() => {
     removeDom(container);
+  });
+
+  test.each<[string, Pick<ICircularProgressChartSpec, 'axes' | 'maxValue'>, number]>([
+    ['uses maxValue for the generated angle axis', { maxValue: 1000 }, 3.6],
+    ['uses maxValue for an angle axis without a maximum', { maxValue: 1000, axes: [{ orient: 'angle' }] }, 3.6],
+    ['prefers an explicit angle axis max', { maxValue: 1000, axes: [{ orient: 'angle', max: 40 }] }, 90],
+    [
+      'prefers an explicit angle axis range.max',
+      { maxValue: 1000, axes: [{ orient: 'angle', range: { max: 20 } }] },
+      180
+    ],
+    ['defaults the angle axis maximum to 1', {}, 360]
+  ])('%s', (_name, options, expectedDegrees) => {
+    const chart = new VChart(
+      {
+        type: 'circularProgress',
+        data: [{ values: [{ category: 'A', value: 10 }] }],
+        categoryField: 'category',
+        seriesField: 'category',
+        valueField: 'value',
+        animation: false,
+        ...options
+      },
+      { dom }
+    );
+
+    try {
+      chart.renderSync();
+      const graphics = chart.getChart().getAllSeries()[0].getSeriesMark().getGraphics();
+      expect(graphics).toHaveLength(1);
+      const { startAngle, endAngle } = graphics[0].attribute as IArcGraphicAttribute;
+      expect(((endAngle - startAngle) * 180) / Math.PI).toBeCloseTo(expectedDegrees);
+    } finally {
+      chart.release();
+    }
   });
 
   test('should pass tickMask arc clip paths to the progress group', () => {
