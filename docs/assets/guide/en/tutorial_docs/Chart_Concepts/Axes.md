@@ -85,14 +85,13 @@ axes: [
 
 ## Axis range configuration
 
-The following options configure the domain of a linear axis (`type: 'linear'`).
+Linear (`linear`), time (`time`), logarithmic (`log`), and symmetric logarithmic (`symlog`) axes all support `min`, `max`, `nice`, and `expand` for configuring the axis domain.
 
-- `min`: configure the minimum value of the value axis, the priority is higher than `zero`, `nice`.
-- `max`: Configure the maximum value of the value axis, the priority is higher than `zero`, `nice`.
-- `nice`: Whether to adjust the axis range to a relatively regular value based on the data. For example, when max = 999 is configured, nice will not optimize the axis range. When min and max are configured, this configuration item becomes invalid. to 1000.
-- `niceType`: Configure the type of nice effect, whether accuracy is priority or tickCount is priority (for example, if tickCount is 2, the accuracy of nice will be very low). If not configured, the default is tickCountFirst.
-- `zero`: Controls whether the automatically computed axis domain is extended to include zero.
-- `expand`: The axis range is expanded proportionally, such as `expand: { min: 0.1, max: 0.1 }` When min and max are configured, this configuration item is invalid.
+- `min` and `max` fix the lower and upper bounds, respectively, taking precedence over automatic domain settings. Use millisecond timestamps for time axis bounds.
+- `nice` rounds automatically computed bounds. Explicitly configured bounds keep their values.
+- `expand` extends the bounds by a proportion of the data span. For example, `expand: { min: 0.1, max: 0.1 }` extends each automatically computed bound outward by 10%.
+- `niceType` selects the `nice` strategy for linear and time axes. The default, `'tickCountFirst'`, prioritizes the tick count. Use `'accurateFirst'` to prioritize bound precision. Logarithmic and symmetric logarithmic axes round bounds according to their own scale rules.
+- `zero` controls whether the automatic domain expands to include zero. It defaults to `true` for linear axes and `false` for time and symmetric logarithmic axes. For a time axis, zero represents the Unix epoch. Keep `zero: false` for a logarithmic axis, where both domain bounds must have the same sign and lie away from zero.
 
 ```ts
 axes: [
