@@ -84,6 +84,43 @@ data: [
 ];
 ```
 
+### 入场动画
+
+仪表图的指针由 `gaugePointer` 系列绘制，`gauge` 配置项用于声明表盘系列。以 `gauge.type: 'circularProgress'` 为例，`progress` 是显示当前值的进度弧，`track` 是底轨。
+
+| 配置层级 | 淡入写法 | 作用范围 |
+| --- | --- | --- |
+| 图表顶层 | `animationAppear: { preset: 'fadeIn', duration: 600 }` | 显式设置 `gauge` 时，只配置指针系列。省略 `gauge` 时，默认生成的环形进度系列也会沿用顶层配置。 |
+| 表盘系列 | `gauge.animationAppear: { preset: 'fadeIn', duration: 1800 }` | 应用于显式声明的表盘系列。进度弧使用淡入预设，底轨沿用默认的淡入动画，两者都使用这里的时长。 |
+| 进度弧图元 | `gauge.animationAppear: { progress: { type: 'fadeIn', duration: 1800 } }` | 只配置 `progress` 图元的入场动画。底轨继续使用自己的默认动画。 |
+
+`duration` 的单位是毫秒。系列级配置用 `preset` 选择预设，图元级配置用 `type` 指定动画类型。若表盘使用分段系列（`gauge.type: 'gauge'`），对应的图元名为 `segment`。
+
+下面的示例让指针在 600 毫秒内淡入，进度弧在 1800 毫秒内淡入。
+
+```javascript livedemo
+const spec = {
+  type: 'gauge',
+  data: [{ id: 'gauge', values: [{ type: '完成度', value: 0.6 }] }],
+  categoryField: 'type',
+  valueField: 'value',
+  outerRadius: 0.8,
+  innerRadius: 0.55,
+  startAngle: -225,
+  endAngle: 45,
+  animationAppear: { preset: 'fadeIn', duration: 600 },
+  gauge: {
+    type: 'circularProgress',
+    animationAppear: {
+      progress: { type: 'fadeIn', duration: 1800 }
+    }
+  }
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+```
+
 ### 以组合图的形式声明更灵活的仪表图
 
 为了让仪表图有更拟物化的效果，可以以组合图的形式同时声明`gauge`和`gaugePointer`系列，并配置动画从而达到动态展示进度的效果。
