@@ -236,7 +236,9 @@ vchart.getDataSet().getDataView('temperatureData').latestData ===
 
 - `false`（默认）按当前数据统计类别。`domain` 仍用于筛掉取值范围之外的数据。
 - `true` 使用 `domain` 中的完整类别及其顺序。图例隐藏某个系列后，轴上仍会保留该系列对应类别的位置。
-- `'onlyFull'`（自 1.13.8 起支持）以 `domain` 的顺序显示当前数据中实际存在的类别。图例筛选后，轴只保留剩余数据中的类别。
+- `'onlyFull'`（自 1.13.8 起支持）在图例筛选后按剩余数据更新分类轴。类别顺序取决于图表的数据配置。
+
+在只有 `xField` 和 `yField` 的普通柱图中，如果希望已有类别按 `domain` 的顺序排列，可以在分类字段上同时设置 `sortIndex: 0`。
 
 在[分类轴锁定类别示例](/vchart/demo/bar-chart/bar-lock-statistics-by-domain)中，可以切换配置并点击图例，查看分类轴的变化。
 
