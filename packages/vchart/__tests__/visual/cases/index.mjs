@@ -1332,6 +1332,12 @@ export const cases = [
     file: './theme/theme-runtime-switch.mjs'
   },
   {
+    id: 'theme-switch-volcano-to-light',
+    purpose: '火山蓝原地切回亮色后恢复柱子默认样式',
+    file: './theme/theme-switch-volcano-to-light.mjs',
+    sourceExample: 'docs/assets/examples/zh/theme/theme-style.md'
+  },
+  {
     id: 'theme-chart-components',
     purpose: '来源图表主题启用柱标签并定位左侧图例',
     file: './theme/theme-chart-components.mjs'

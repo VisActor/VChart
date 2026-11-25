@@ -128,11 +128,15 @@ export class GroupMark extends BaseMark<IGroupMarkSpec> implements IGroupMark {
     const newAttrs = this._getAttrsFromConfig(style);
     this._product.context.finalAttrs = newAttrs;
 
+    const removedStyle = this._takeRemovedNormalStyle();
     // TODO: 需要优化，现在group mark 走了一些特殊逻辑
     if (this._product.context.diffState === DiffState.update) {
       const hasAnimation = this.hasAnimation();
       const diffAttrs = getDiffAttributesOfGraphic(this._product as unknown as IMarkGraphic, newAttrs);
       this._product.context.diffAttrs = diffAttrs;
+      if (removedStyle) {
+        this._resetGraphicStyle(this._product as unknown as IMarkGraphic, removedStyle, hasAnimation);
+      }
 
       if (!this.hasAnimationByState(this._product.context.animationState)) {
         if (hasAnimation) {

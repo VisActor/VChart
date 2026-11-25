@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "0f05d547be269348230381c38230b6846f2461dbdb31c85cb8f5e82158ace216",
+  "indexDigest": "c0e13f2cd9739c4808647eebceb8442510483ea8f95275ba3c73944260f9850e",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -271,6 +271,7 @@
     "legend-custom-value",
     "crosshair-polar-formatters",
     "theme-runtime-switch",
+    "theme-switch-volcano-to-light",
     "theme-chart-components",
     "funnel-extension-select",
     "media-query-width",

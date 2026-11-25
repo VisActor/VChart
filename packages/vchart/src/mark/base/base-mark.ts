@@ -187,6 +187,8 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   /** 默认的stateStyle */
   stateStyle: IMarkStateStyle<T> = {};
 
+  private _normalStyleBeforeReInit?: Partial<IAttrs<T>>;
+
   /** 状态管理器 */
   state: IMarkStateManager;
 
@@ -1815,8 +1817,34 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
     }
   }
 
+  protected _takeRemovedNormalStyle(): Record<string, undefined> | undefined {
+    const previousStyle = this._normalStyleBeforeReInit;
+    if (!previousStyle) {
+      return undefined;
+    }
+    this._normalStyleBeforeReInit = undefined;
+    const normalStyle = this.stateStyle.normal;
+    let removedStyle: Record<string, undefined>;
+    for (const key of Object.keys(previousStyle)) {
+      if (!this._unCompileChannel[key] && !(key in normalStyle)) {
+        (removedStyle ??= {})[key] = undefined;
+      }
+    }
+    return removedStyle;
+  }
+
+  protected _resetGraphicStyle(g: IMarkGraphic, removedStyle: Record<string, undefined>, hasAnimation: boolean) {
+    if (hasAnimation) {
+      g.setAttributesAndPreventAnimate(removedStyle);
+      this._commitPreventedAnimationStaticAttrs(g, removedStyle);
+    } else {
+      g.setAttributes(removedStyle);
+    }
+  }
+
   protected _runApplyGraphic(graphics: IMarkGraphic[]) {
     const hasAnimation = this.hasAnimation();
+    const removedStyle = this._takeRemovedNormalStyle();
 
     graphics.forEach((g, index) => {
       const finalAttrs = g.context.finalAttrs;
@@ -1851,6 +1879,10 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
       } else {
         const diffAttrs = this._excludeStateControlledDiffAttrs(g, getDiffAttributesOfGraphic(g, finalAttrs));
         g.context.diffAttrs = diffAttrs;
+        // 图元复用时，显式清掉这轮 encoder 不再输出的样式。
+        if (removedStyle && !g.context.reusing) {
+          this._resetGraphicStyle(g, removedStyle, hasAnimation);
+        }
         if (g.context.reusing) {
           g.runtimeStateCache = undefined;
           // 表示正在被复用，需要重设属性的
@@ -2321,6 +2353,7 @@ export class BaseMark<T extends ICommonSpec> extends GrammarItem implements IMar
   clearBeforeReInit() {
     this.state.clearAllStateInfo();
     this.uncommit();
+    this._normalStyleBeforeReInit ??= this.stateStyle.normal;
     this.stateStyle = {};
     this._initStyle();
     this.getGraphics().forEach(g => {

@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复原地切换主题后系列图元残留旧样式的问题（#4356）。",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
