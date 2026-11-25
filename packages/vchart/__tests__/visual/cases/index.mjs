@@ -767,6 +767,11 @@ export const cases = [
     file: './charts/waterfall/waterfall-absolute-label.mjs'
   },
   {
+    id: 'waterfall-stack-label-formatter',
+    purpose: '瀑布图堆积变化值标签的四位小数格式化',
+    file: './charts/waterfall/waterfall-stack-label-formatter.mjs'
+  },
+  {
     id: 'waterfall-total-tag',
     purpose: '瀑布图仅通过标记字段识别总计',
     file: './charts/waterfall/waterfall-total-tag.mjs'
