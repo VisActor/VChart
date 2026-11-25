@@ -11,7 +11,7 @@
 
 ## 如何开启轴截断
 
-轴截断式 VChart 主包就支持的功能，所以只需要在轴上开启，现在只有连续轴支持轴截断功能，配置示例如下：
+轴截断是 VChart 主包支持的功能，所以只需要在轴上开启，现在只有连续轴支持轴截断功能，配置示例如下：
 
 ```js
 axes: [
@@ -69,9 +69,65 @@ vchart.renderSync();
   VChartExtension.registerSeriesBreak();
   VChartExtension.appendSeriesBreakConfig(spec);
 
-  const vchart = new VChart.defatult(spec, { dom: 'chart' });
+  const vchart = new VChart.default(spec, { dom: 'chart' });
   vchart.renderSync();
 </script>
+```
+
+## 折线图绘图区截断
+
+折线图中只有一个极端值时，可以设置 `scopeType: 'length'`，让断轴两侧按保留的数值区间长度分配空间。在下例中，`min`、`max` 和截断区间保留了 `[-20, 120]` 与 `[23100, 23120]`，两段长度之比为 7:1。
+
+`appendSeriesBreakConfig(spec, { span: 'region' })` 会沿整个绘图区绘制截断标识。省略第二个参数时，标识只画在系列图元与断轴相交的位置。
+
+```javascript livedemo
+const { registerSeriesBreak, appendSeriesBreakConfig } = VChartExtension;
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+const seriesValues = [
+  { series: 'A', values: [0, 13, 4, 23100.7, 1, 5, 0] },
+  { series: 'B', values: [1, 5, 0, 4, 3, 53, 2] }
+];
+const spec = {
+  type: 'line',
+  height: 400,
+  data: {
+    values: seriesValues.flatMap(({ series, values }) =>
+      months.map((month, i) => ({ month, value: values[i], series }))
+    )
+  },
+  xField: 'month',
+  yField: 'value',
+  seriesField: 'series',
+  point: { visible: false },
+  line: { style: { curveType: 'monotone' } },
+  axes: [
+    { orient: 'bottom', type: 'band' },
+    {
+      orient: 'left',
+      type: 'linear',
+      min: -20,
+      max: 23120,
+      nice: false,
+      label: { lastVisible: true },
+      tick: { tickMode: 'd3', tickCount: 5 },
+      breaks: [
+        {
+          range: [120, 23100],
+          scopeType: 'length',
+          gap: 2,
+          breakSymbol: { style: { stroke: '#B1BBCB', lineDash: [3, 3] } }
+        }
+      ],
+      domainLine: { visible: true }
+    }
+  ]
+};
+
+registerSeriesBreak();
+appendSeriesBreakConfig(spec, { span: 'region' });
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
 ```
 
 ## 轴截断示例

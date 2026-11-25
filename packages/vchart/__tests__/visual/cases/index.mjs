@@ -352,6 +352,11 @@ export const cases = [
     file: './components/axis/axis-break.mjs'
   },
   {
+    id: 'axis-break-length-line',
+    purpose: '折线断轴按最终轴域分配两侧长度',
+    file: './components/axis/axis-break-length-line.mjs'
+  },
+  {
     id: 'axis-unit-position',
     purpose: '轴单位在指定位置显示',
     file: './components/axis/axis-unit-position.mjs'

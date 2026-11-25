@@ -74,6 +74,62 @@ If using the CDN import method, the registration method is as follows:
 </script>
 ```
 
+## Draw a break across a line chart
+
+When a line chart has a single outlier, set `scopeType: 'length'` to allocate space to each side of the break in proportion to its retained value range. The `min`, `max`, and break range below keep `[-20, 120]` and `[23100, 23120]`, a 7:1 ratio.
+
+`appendSeriesBreakConfig(spec, { span: 'region' })` draws the break marker across the plot area. Omit the second argument to draw markers where the series graphics cross the break.
+
+```javascript livedemo
+const { registerSeriesBreak, appendSeriesBreakConfig } = VChartExtension;
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'];
+const seriesValues = [
+  { series: 'A', values: [0, 13, 4, 23100.7, 1, 5, 0] },
+  { series: 'B', values: [1, 5, 0, 4, 3, 53, 2] }
+];
+const spec = {
+  type: 'line',
+  height: 400,
+  data: {
+    values: seriesValues.flatMap(({ series, values }) =>
+      months.map((month, i) => ({ month, value: values[i], series }))
+    )
+  },
+  xField: 'month',
+  yField: 'value',
+  seriesField: 'series',
+  point: { visible: false },
+  line: { style: { curveType: 'monotone' } },
+  axes: [
+    { orient: 'bottom', type: 'band' },
+    {
+      orient: 'left',
+      type: 'linear',
+      min: -20,
+      max: 23120,
+      nice: false,
+      label: { lastVisible: true },
+      tick: { tickMode: 'd3', tickCount: 5 },
+      breaks: [
+        {
+          range: [120, 23100],
+          scopeType: 'length',
+          gap: 2,
+          breakSymbol: { style: { stroke: '#B1BBCB', lineDash: [3, 3] } }
+        }
+      ],
+      domainLine: { visible: true }
+    }
+  ]
+};
+
+registerSeriesBreak();
+appendSeriesBreakConfig(spec, { span: 'region' });
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+```
+
 ## Axis Break Example
 
 - [Simple Bar Chart Axis Break](/vchart/demo/bar-chart/bar-break-by-axis)

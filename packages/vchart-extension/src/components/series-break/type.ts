@@ -1,5 +1,10 @@
 import type { IGroupGraphicAttribute, ILineGraphicAttribute, Point } from '@visactor/vchart';
 
+export interface SeriesBreakOptions {
+  /** 截断符号覆盖系列图元或整个绘图区，默认覆盖系列图元。 */
+  span?: 'series' | 'region';
+}
+
 export type SeriesBreakData = {
   /**
    * 起始点
