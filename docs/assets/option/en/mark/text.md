@@ -4,7 +4,11 @@
 
 #${prefix} text(string|number|string[])
 
-Text.
+Text to display. Accepts strings, numbers, string arrays, and number arrays.
+
+{{ use: graphic-fill-style(
+  prefix = ${prefix}
+) }}
 
 #${prefix} dx(number)
 
@@ -14,15 +18,13 @@ X-axis offset.
 
 Y-axis offset.
 
-#${prefix} textAlgin(string)
+#${prefix} textAlign(string)
 
-Text alignment.
+Horizontal text alignment.
 
-Optional values:
-
-- `'left'`: Align left
-- `'right'`: Align right
-- `'center'`: Align center
+- `'left'` or `'start'` aligns text to the left.
+- `'center'` centers the text.
+- `'right'` or `'end'` aligns text to the right.
 
 #${prefix} textBaseline(string)
 
@@ -33,6 +35,10 @@ Optional values:
 - `'top'`
 - `'bottom'`
 - `'middle'`
+
+#${prefix} fontSize(number)
+
+Font size in pixels.
 
 #${prefix} fontFamily(string)
 
@@ -60,13 +66,13 @@ Optional:
 - `'italic'`
 - `'oblique'`
 
-#${prefix} limit(number)
+#${prefix} maxLineWidth(number)
 
-Text length limit.
+Maximum width of a line of text, in pixels. By default, text that exceeds this width is truncated.
 
 #${prefix} ellipsis(string)
 
-Text truncation method.
+String to show when text is truncated, such as `'…'`. Use it with `maxLineWidth`.
 
 #${prefix} suffixPosition(string) = 'end'
 

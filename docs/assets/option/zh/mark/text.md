@@ -4,7 +4,11 @@
 
 #${prefix} text(string|number|string[])
 
-文本。
+要显示的文字内容。支持字符串、数字、字符串数组和数字数组。
+
+{{ use: graphic-fill-style(
+  prefix = ${prefix}
+) }}
 
 #${prefix} dx(number)
 
@@ -14,15 +18,13 @@ x 方向偏移。
 
 y 方向偏移。
 
-#${prefix} textAlgin(string)
+#${prefix} textAlign(string)
 
-文字对齐方式。
+文字的水平对齐方式。
 
-可选值：
-
-- `'left'`: 左对齐
-- `'right'`: 右对齐
-- `'center'`: 居中对齐
+- `'left'` 或 `'start'`：左对齐
+- `'center'`：居中
+- `'right'` 或 `'end'`：右对齐
 
 #${prefix} textBaseline(string)
 
@@ -33,6 +35,10 @@ y 方向偏移。
 - `'top'`
 - `'bottom'`
 - `'middle'`
+
+#${prefix} fontSize(number)
+
+字号，单位为像素。
 
 #${prefix} fontFamily(string)
 
@@ -60,13 +66,13 @@ y 方向偏移。
 - `'italic'`
 - `'oblique'`
 
-#${prefix} limit(number)
+#${prefix} maxLineWidth(number)
 
-文字长度限制。
+每行文字的最大宽度，单位为像素。默认情况下，超出宽度的文字会被截断。
 
 #${prefix} ellipsis(string)
 
-文字省略方式。
+截断文字时显示的省略符号，例如 `'…'`。与 `maxLineWidth` 配合使用。
 
 #${prefix} suffixPosition(string) = 'end'
 
