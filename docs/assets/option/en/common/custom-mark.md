@@ -31,7 +31,8 @@ Graphical type `symbol`
 ### style(Object)
 
 {{ use: graphic-symbol(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -57,7 +58,8 @@ Required configuration to specify the graphical type
 ### style(Object)
 
 {{ use: graphic-rule(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -83,7 +85,8 @@ Required configuration to specify the graphical type
 ### style(Object)
 
 {{ use: graphic-text(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -109,7 +112,8 @@ Required configuration to specify the graphical type
 ### style(Object)
 
 {{ use: graphic-rect(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -135,7 +139,8 @@ Required configuration to specify the graphical type
 ### style(Object)
 
 {{ use: graphic-path(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -162,6 +167,7 @@ Required configuration to specify the graphical type
 
 {{ use: graphic-arc(
   prefix = '###',
+  callbackType = '|Function',
   markType = 'arc'
 ) }}
 
@@ -188,7 +194,8 @@ Required configuration to specify the graphical type
 ### style(Object)
 
 {{ use: graphic-polygon(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -214,7 +221,8 @@ Required configuration to specify the graphical type
 ### style(Object)
 
 {{ use: graphic-image(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(

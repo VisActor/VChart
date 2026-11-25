@@ -157,6 +157,7 @@
 文字与引导线之间的间距，默认为 5px。
 
 {{ use: component-label(
+  noStyleCallback = true,
   prefix = '#' + ${prefix},
   noPosition = true,
   noOffset = true,
@@ -171,7 +172,8 @@
 ###${prefix} style(Object)
 
 {{ use: graphic-line(
-  prefix = '###' + ${prefix}
+  prefix = '###' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 ###${prefix} state(Object)

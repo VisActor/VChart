@@ -59,12 +59,15 @@ For specific usage of rich text, please refer to the[Rich Text Tutorial Document
 
 Label graphic element style configuration.
 
+Each style property can be a callback that receives the label datum and returns the property value.
+
 ##${prefix} type='text'(Object)
 
 Regular text style configuration.
 
 {{ use: graphic-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = '|Function'
 ) }}
 
 ##${prefix} type='rich'(Object)
@@ -72,7 +75,8 @@ Regular text style configuration.
 Rich text style configuration.
 
 {{ use: graphic-rich-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = '|Function'
 ) }}
 
 #${prefix} state(Object)

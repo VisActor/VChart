@@ -99,6 +99,8 @@ formatMethod: text => {
 
 坐标轴标签样式设置，支持函数回调，当需要走一些个性化配置时可以使用回调函数。
 
+要按刻度调整颜色等属性，请将回调配置在 `label.style`，并在返回的样式对象中提供具体属性值。
+
 {{ use:component-common-style-callback(
   description = '坐标轴标签样式'
 ) }}

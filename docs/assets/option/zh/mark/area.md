@@ -2,7 +2,7 @@
 
 <!-- IAreaMarkSpec -->
 
-#${prefix} curveType(string)
+#${prefix} curveType(string|Function)
 
 曲线插值类型。
 
@@ -20,7 +20,7 @@
 - `catmullRom`
 - `catmullRomClosed`
 
-#${prefix} orient(string) = `horizontal`
+#${prefix} orient(string|Function) = `horizontal`
 
 可选值：
 
@@ -29,4 +29,5 @@
 
 {{ use: graphic-attribute(
   prefix = ${prefix},
+  callbackType = '|Function',
 ) }}

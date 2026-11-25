@@ -2,15 +2,15 @@
 
 <!-- Canopus IImageGraphicAttribute -->
 
-#${prefix} width(number)
+#${prefix} width(number${callbackType})
 
 Image width.
 
-#${prefix} height(number)
+#${prefix} height(number${callbackType})
 
 Image height.
 
-#${prefix} repeatX(string)
+#${prefix} repeatX(string${callbackType})
 
 The repeat mode for the image in the x direction.
 
@@ -19,7 +19,7 @@ The repeat mode for the image in the x direction.
 - `'repeat'`
 - `'stretch'`
 
-#${prefix} repeatY(string)
+#${prefix} repeatY(string${callbackType})
 
 The repeat mode for the image in the y direction.
 
@@ -28,7 +28,7 @@ The repeat mode for the image in the y direction.
 - `'repeat'`
 - `'stretch'`
 
-#${prefix} imageMode(string)
+#${prefix} imageMode(string${callbackType})
 
 Supported since version `2.0.21`. Image drawing mode. Only effective when `repeatX` and `repeatY` both resolve to `no-repeat`.
 
@@ -38,7 +38,7 @@ Optional values:
 - `'fill'`: Stretch to fill the graphic area
 - `'auto'`: Draw with the image's intrinsic size
 
-#${prefix} imagePosition(string|Array<string | number>)
+#${prefix} imagePosition(string|Array${callbackType})
 
 Supported since version `2.0.21`. Image anchor position, similar to CSS `background-position`.
 
@@ -47,22 +47,23 @@ Supported forms:
 - Preset position: `'top-left'`, `'top-center'`, `'top-right'`, `'center-left'`, `'center'`, `'center-right'`, `'bottom-left'`, `'bottom-center'`, `'bottom-right'`
 - Tuple: `[x, y]`, where `x` / `y` can be a number, keyword, or percentage string, for example `['25%', '75%']`
 
-#${prefix} imageScale(number)
+#${prefix} imageScale(number${callbackType})
 
 Supported since version `2.0.21`. Additional image scale ratio. Only effective when the image is not repeated.
 
-#${prefix} imageOffsetX(number)
+#${prefix} imageOffsetX(number${callbackType})
 
 Supported since version `2.0.21`. Additional x offset of the image. Only effective when the image is not repeated.
 
-#${prefix} imageOffsetY(number)
+#${prefix} imageOffsetY(number${callbackType})
 
 Supported since version `2.0.21`. Additional y offset of the image. Only effective when the image is not repeated.
 
-#${prefix} image(string | Object)
+#${prefix} image(string|Object${callbackType})
 
 Image resource, can be a url, HTMLImageElement, or HTMLCanvasElement.
 
 {{ use: graphic-attribute(
   prefix = ${prefix},
+  callbackType = ${callbackType},
 ) }}

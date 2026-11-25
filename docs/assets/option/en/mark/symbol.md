@@ -2,19 +2,19 @@
 
 <!-- ISymbolMarkSpec -->
 
-#${prefix} dx(number)
+#${prefix} dx(number|Function)
 
 Offset in the x direction.
 
-#${prefix} dy(number)
+#${prefix} dy(number|Function)
 
 Offset in the y direction.
 
-#${prefix} size(number)
+#${prefix} size(number|Function)
 
 Size.
 
-#${prefix} shape(string)
+#${prefix} shape(string|Function)
 
 Shape.
 
