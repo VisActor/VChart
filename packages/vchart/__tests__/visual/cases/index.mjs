@@ -1032,6 +1032,11 @@ export const cases = [
     file: './components/tooltip/tooltip-position-inside.mjs'
   },
   {
+    id: 'tooltip-confine-scaled',
+    purpose: 'CSS 缩放后点击最右侧数据点，HTML tooltip 保持在可见画布内',
+    file: './components/tooltip/tooltip-confine-scaled.mjs'
+  },
+  {
     id: 'update-axis-sampling',
     purpose: '更新轴 sampling 开关后保留旋转标签',
     file: './api/update/update-axis-sampling.mjs'
