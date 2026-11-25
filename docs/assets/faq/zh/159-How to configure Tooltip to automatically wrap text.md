@@ -2,7 +2,7 @@
 
 # 问题描述
 
-类似 （https://visactor.io/vchart/demo/line-chart/null-value-line）这样的图表，tooltip的内容太长了，希望有换行效果
+类似 （<https://visactor.io/vchart/demo/line-chart/null-value-line>）这样的图表，tooltip的内容太长了，希望有换行效果
 ![demo](/vchart/faq/95-0.png)
 想要实现根据图表宽高和标签长度自动换行，该如何实现？
 

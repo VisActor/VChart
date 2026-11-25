@@ -2,7 +2,7 @@
 
 # 问题描述
 
-类似 （https://echarts.apache.org/examples/zh/editor.html?c=custom-profile）这样的图表，VChart如何配置支持？
+类似 （<https://echarts.apache.org/examples/zh/editor.html?c=custom-profile>）这样的图表，VChart如何配置支持？
 ![demo](/vchart/faq/100-0.png)
 
 # 解决方案
