@@ -91,7 +91,7 @@ export interface IFieldsMeta {
     type: 'ordinal' | 'linear'; // 维度类型，ordinal 为离散型，linear 为连续型。
     alias?: string; //  字段别名。
     domain?: any[]; // 当前维度的数值区间。在数值区间外的数据会被剔除。
-    lockStatisticsByDomain?: boolean; // 是否使用 domain 锁定统计信息。默认为 false 。
+    lockStatisticsByDomain?: boolean | 'onlyFull'; // 是否使用 domain 锁定统计信息。默认为 false。
     sortIndex?: number; // 当前维度的排序顺序，如果不设置，则不参与排序。可以多个维度按照此属性对数据进行排序。
     sortReverse?: boolean; // 当前维度在排序时是否逆序，只有在配置了 sortIndex 后才有效。默认为 false 。
 }
@@ -230,7 +230,15 @@ vchart.getDataSet().getDataView('temperatureData').latestData ===
 
 ##${prefix} fields(Object)
 
-考虑到数据维度处理比较常用，独立提供一个配置项，此配置内容会被转化为 [transform.fieldsTransform](TODO:)
+按字段名配置数据维度的取值范围、排序和别名。VChart 会将此配置传给内置的 `fields` 数据变换。
+
+`lockStatisticsByDomain` 配合该字段的 `domain` 使用。以下行为以分类轴为例。
+
+- `false`（默认）按当前数据统计类别。`domain` 仍用于筛掉取值范围之外的数据。
+- `true` 使用 `domain` 中的完整类别及其顺序。图例隐藏某个系列后，轴上仍会保留该系列对应类别的位置。
+- `'onlyFull'`（自 1.13.8 起支持）以 `domain` 的顺序显示当前数据中实际存在的类别。图例筛选后，轴只保留剩余数据中的类别。
+
+在[分类轴锁定类别示例](/vchart/demo/bar-chart/bar-lock-statistics-by-domain)中，可以切换配置并点击图例，查看分类轴的变化。
 
 ```ts
 // type
@@ -252,12 +260,14 @@ const spec = {
       ],
       fields: {
         date: {
-          type: 'ordinal' // 数据维度 date 的类型是离散类型
-          sortIndex: 1 // 数据会按照 date 进行排序
+          type: 'ordinal',
+          domain: ['1-3', '1-2', '1-4', '1-5'],
+          lockStatisticsByDomain: true, // 分类轴会为没有数据的 '1-5' 保留位置。
+          sortIndex: 1
         },
         value: {
-          type: 'linear' // 数据维度 value 的类型是连续类型
-          domain: [0,10000] // 会提出 value 值不在 0-10000内的数据
+          type: 'linear',
+          domain: [0, 10000] // 筛掉 value 不在 0 到 10000 之间的数据。
         },
         type: {
           alias: '类型' // 数据维度 type 的别名。如果图例对应这个维度，那么图例的标题文本默认值将是 '类型' 。
@@ -273,8 +283,7 @@ vchart.getDataSet().getDataView('fieldsData').latestData ===
     {date: '1-3', value: '230', type: '销售额'},
     {date: '1-2', value: '20', type: '利润'},
     {date: '1-2', value: '220', type: '销售额'},
-    {date: '1-4', value: '30', type: '销售额'}，
-    {date: '1-4', value: '-40', type: '销售额'}
+    {date: '1-4', value: '30', type: '销售额'}
   ]
 ```
 
