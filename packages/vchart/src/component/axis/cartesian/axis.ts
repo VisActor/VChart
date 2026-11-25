@@ -46,7 +46,7 @@ import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { AxisComponent } from '../base-axis';
-import type { IGraphic, IText } from '@visactor/vrender-core';
+import type { IGraphic, IText, ITextGraphicAttribute } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '../../../vrender-bridge';
 import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
@@ -528,22 +528,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                   plugin.onDidLayoutVertical(this.pluginService, this);
               });
             }
-
-            // 更新单位的显示位置
-            if (this._unitText) {
-              const { x, y } = this.getLayoutStartPoint();
-              const pos = isXAxis(this._orient)
-                ? {
-                    x: maxInArr<number>(this._scale.range()) + x,
-                    y
-                  }
-                : {
-                    x,
-                    y: minInArr<number>(this._scale.range()) + y
-                  };
-
-              this._unitText.setAttributes(pos);
-            }
           }
         }
       });
@@ -933,6 +917,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   protected _updateAxisLayout = () => {
+    // 显式设置轴尺寸时可能跳过包围盒测量，仍需按最终布局更新单位文字。
+    this._updateAxisUnit();
     if (!this._visible) {
       this._syncComponentVisibility();
       return;
@@ -1090,49 +1076,38 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._clearLayoutCache();
   }
 
+  private _updateAxisUnit(): IText | undefined {
+    const unit = this._spec.unit;
+    if (!this._visible || !unit?.visible) {
+      this._unitText?.setAttribute('visible', false);
+      return undefined;
+    }
+
+    const isX = isXAxis(this._orient);
+    const { x, y } = this.getLayoutStartPoint();
+    const attributes: Partial<ITextGraphicAttribute> = {
+      textAlign: isX || this._orient === 'left' ? 'left' : 'right',
+      textBaseline: isX ? 'middle' : 'bottom',
+      visible: true,
+      ...(unit.style as unknown as Partial<ITextGraphicAttribute>),
+      x: isX ? x + maxInArr<number>(this._scale.range()) : x,
+      y: isX ? y : y + minInArr<number>(this._scale.range()),
+      text: unit.text
+    };
+    if (this._unitText) {
+      this._unitText.setAttributes(attributes);
+    } else {
+      this._unitText = createText(attributes);
+      this._unitText.name = 'axis-unit';
+      this.getContainer()?.add(this._unitText);
+    }
+    return this._unitText;
+  }
+
   private _appendAxisUnit(bounds: IBounds, isX: boolean) {
-    if (this._spec.unit && this._spec.unit.visible) {
-      const { text, style } = this._spec.unit;
-      let pos;
-      let unitTextStyle: any;
-      const { x, y } = this.getLayoutStartPoint();
-      if (isX) {
-        pos = {
-          x: maxInArr<number>(this._scale.range()) + x,
-          y
-        };
-        unitTextStyle = {
-          textAlign: 'left',
-          textBaseline: 'middle'
-        };
-      } else {
-        pos = {
-          x,
-          y: minInArr<number>(this._scale.range()) + y
-        };
-        unitTextStyle = {
-          textAlign: this._orient === 'left' ? 'left' : 'right',
-          textBaseline: 'bottom'
-        };
-      }
-
-      unitTextStyle = {
-        ...unitTextStyle,
-        ...style,
-        x: pos.x,
-        y: pos.y,
-        text
-      };
-      if (this._unitText) {
-        this._unitText.setAttributes(unitTextStyle);
-      } else {
-        this._unitText = createText(unitTextStyle);
-        this._unitText.name = 'axis-unit';
-        this.getContainer()?.add(this._unitText);
-      }
-
-      // 左轴
-      const textBounds = this._unitText.AABBBounds;
+    const unitText = this._updateAxisUnit();
+    if (unitText) {
+      const textBounds = unitText.AABBBounds;
       if (!isX) {
         bounds.x1 += textBounds.x1 < bounds.x1 ? textBounds.x1 - bounds.x1 : 0;
         bounds.y1 += textBounds.y1 < bounds.y1 ? textBounds.y1 - bounds.y1 : 0;

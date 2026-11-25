@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "0f05d547be269348230381c38230b6846f2461dbdb31c85cb8f5e82158ace216",
+  "indexDigest": "57e833c2da3e7b6ea07704c419f67c3d315caa3351f47fe6f76c262054451524",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -76,6 +76,7 @@
     "axis-multilevel-wrap",
     "axis-break",
     "axis-unit-position",
+    "axis-unit-fixed-width",
     "mark-area-multiple",
     "mark-line-coordinates",
     "scale-domain-replace",
