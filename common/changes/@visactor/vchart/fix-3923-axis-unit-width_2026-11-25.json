@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复显式设置直角坐标轴宽度后单位文字不显示的问题（#3923）。",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

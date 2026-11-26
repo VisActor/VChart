@@ -378,13 +378,15 @@ export class LayoutItem implements ILayoutItem {
     // 保留布局使用的rect
     this._lastComputeRect = rect;
 
-    if (
+    const fixedSize =
       (this.layoutType === 'region-relative' || this.layoutType === 'region-relative-overlap') &&
       ((this._layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL &&
         (this.layoutOrient === 'left' || this.layoutOrient === 'right')) ||
         (this._layoutRectLevelMap.height === USER_LAYOUT_RECT_LEVEL &&
-          (this.layoutOrient === 'bottom' || this.layoutOrient === 'top')))
-    ) {
+          (this.layoutOrient === 'bottom' || this.layoutOrient === 'top')));
+    if (fixedSize && !this._model.shouldMeasureBoundsWithFixedSize?.()) {
+      const overflow = this._lastComputeOutBounds;
+      overflow.x1 = overflow.x2 = overflow.y1 = overflow.y2 = 0;
       return this._layoutRect;
     }
     // 将布局空间限制到 spec 设置内
@@ -399,6 +401,9 @@ export class LayoutItem implements ILayoutItem {
       this._lastComputeOutBounds.x2 = Math.ceil(bounds.x2 - rect.width);
       this._lastComputeOutBounds.y1 = Math.ceil(-bounds.y1);
       this._lastComputeOutBounds.y2 = Math.ceil(bounds.y2 - rect.height);
+    }
+    if (fixedSize) {
+      return this._layoutRect;
     }
     // 返回的布局大小也要限制到 spec 设置内
     let result = this.setRectInSpec(boundsInRect(bounds, rect));

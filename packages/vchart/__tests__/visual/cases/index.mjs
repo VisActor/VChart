@@ -357,6 +357,11 @@ export const cases = [
     file: './components/axis/axis-unit-position.mjs'
   },
   {
+    id: 'axis-unit-fixed-width',
+    purpose: '左右轴显式设宽后仍显示各自的单位文字',
+    file: './components/axis/axis-unit-fixed-width.mjs'
+  },
+  {
     id: 'mark-area-multiple',
     purpose: '多块标注区域与折线坐标映射',
     file: './components/marker/mark-area-multiple.mjs'

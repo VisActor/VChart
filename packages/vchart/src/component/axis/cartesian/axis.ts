@@ -46,7 +46,7 @@ import type { ICartesianTickDataOpt } from '@visactor/vrender-components';
 import type { DataSet } from '@visactor/vdataset';
 // eslint-disable-next-line no-duplicate-imports
 import { AxisComponent } from '../base-axis';
-import type { IGraphic, IText } from '@visactor/vrender-core';
+import type { IGraphic, IText, ITextGraphicAttribute } from '@visactor/vrender-core';
 // eslint-disable-next-line no-duplicate-imports
 import { createText } from '../../../vrender-bridge';
 import type { ICartesianChartSpec } from '../../../chart/cartesian/interface';
@@ -113,6 +113,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   private _latestBounds: IBounds;
   private _verticalLimitSize: number;
   private _unitText: IText;
+  private _unitOffsetY = 0;
 
   protected _layoutCache: {
     width: number;
@@ -528,22 +529,6 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
                   plugin.onDidLayoutVertical(this.pluginService, this);
               });
             }
-
-            // 更新单位的显示位置
-            if (this._unitText) {
-              const { x, y } = this.getLayoutStartPoint();
-              const pos = isXAxis(this._orient)
-                ? {
-                    x: maxInArr<number>(this._scale.range()) + x,
-                    y
-                  }
-                : {
-                    x,
-                    y: minInArr<number>(this._scale.range()) + y
-                  };
-
-              this._unitText.setAttributes(pos);
-            }
           }
         }
       });
@@ -710,6 +695,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     }
     return padding;
   };
+
+  shouldMeasureBoundsWithFixedSize() {
+    return this._visible && this._spec.unit?.visible === true;
+  }
 
   /**
    * bounds 预计算
@@ -933,6 +922,8 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   protected _updateAxisLayout = () => {
+    // 显式设置轴尺寸时可能跳过包围盒测量，仍需按最终布局更新单位文字。
+    this._updateAxisUnit();
     if (!this._visible) {
       this._syncComponentVisibility();
       return;
@@ -1090,50 +1081,55 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     this._clearLayoutCache();
   }
 
+  private _updateAxisUnit(): IText | undefined {
+    const unit = this._spec.unit;
+    if (!this._visible || !unit?.visible) {
+      this._unitText?.setAttribute('visible', false);
+      return undefined;
+    }
+
+    const isX = isXAxis(this._orient);
+    const { x, y } = this.getLayoutStartPoint();
+    const attributes: Partial<ITextGraphicAttribute> = {
+      textAlign: isX || this._orient === 'left' ? 'left' : 'right',
+      textBaseline: isX ? 'middle' : 'bottom',
+      visible: true,
+      dy: 0,
+      ...(unit.style as unknown as Partial<ITextGraphicAttribute>),
+      x: isX ? x + maxInArr<number>(this._scale.range()) : x,
+      y: isX ? y : y + minInArr<number>(this._scale.range()) + (isNil(unit.style?.dy) ? this._unitOffsetY : 0),
+      text: unit.text
+    };
+    if (this._unitText) {
+      this._unitText.setAttributes(attributes);
+    } else {
+      this._unitText = createText(attributes);
+      this._unitText.name = 'axis-unit';
+      this.getContainer()?.add(this._unitText);
+    }
+    return this._unitText;
+  }
+
   private _appendAxisUnit(bounds: IBounds, isX: boolean) {
-    if (this._spec.unit && this._spec.unit.visible) {
-      const { text, style } = this._spec.unit;
-      let pos;
-      let unitTextStyle: any;
-      const { x, y } = this.getLayoutStartPoint();
-      if (isX) {
-        pos = {
-          x: maxInArr<number>(this._scale.range()) + x,
-          y
-        };
-        unitTextStyle = {
-          textAlign: 'left',
-          textBaseline: 'middle'
-        };
-      } else {
-        pos = {
-          x,
-          y: minInArr<number>(this._scale.range()) + y
-        };
-        unitTextStyle = {
-          textAlign: this._orient === 'left' ? 'left' : 'right',
-          textBaseline: 'bottom'
-        };
-      }
-
-      unitTextStyle = {
-        ...unitTextStyle,
-        ...style,
-        x: pos.x,
-        y: pos.y,
-        text
-      };
-      if (this._unitText) {
-        this._unitText.setAttributes(unitTextStyle);
-      } else {
-        this._unitText = createText(unitTextStyle);
-        this._unitText.name = 'axis-unit';
-        this.getContainer()?.add(this._unitText);
-      }
-
-      // 左轴
-      const textBounds = this._unitText.AABBBounds;
+    this._unitOffsetY = 0;
+    const unitText = this._updateAxisUnit();
+    if (unitText) {
+      let textBounds = unitText.AABBBounds;
       if (!isX) {
+        // 固定宽度的纵轴在单位与刻度重叠时，将单位放到轴内容上方。
+        if (
+          isYAxis(this._orient) &&
+          this._layout.layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL &&
+          isNil(this._spec.unit.style?.dy) &&
+          textBounds.x1 < bounds.x2 &&
+          textBounds.x2 > bounds.x1 &&
+          textBounds.y1 < bounds.y2 &&
+          textBounds.y2 > bounds.y1
+        ) {
+          this._unitOffsetY = Math.floor(bounds.y1 - textBounds.y2);
+          unitText.setAttribute('y', unitText.attribute.y + this._unitOffsetY);
+          textBounds = unitText.AABBBounds;
+        }
         bounds.x1 += textBounds.x1 < bounds.x1 ? textBounds.x1 - bounds.x1 : 0;
         bounds.y1 += textBounds.y1 < bounds.y1 ? textBounds.y1 - bounds.y1 : 0;
       } else {
