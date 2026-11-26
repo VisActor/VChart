@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-类似 （https://www.visactor.io/vchart/demo/pie-chart/pie-indicator）这样的带指标卡环形图，
+类似 （<https://www.visactor.io/vchart/demo/pie-chart/pie-indicator>）这样的带指标卡环形图，
 这个指标卡里的数值现在是用户自己定义的，不支持自动变，但是可以计算之后更新这个值。指标卡里这个数字可以根据 hover 的扇区改变吗？该如何实现？
 
 ## 解决方案

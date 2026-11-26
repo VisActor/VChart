@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-类似 （https://www.visactor.io/vchart/demo/line-chart/multi-line）这样的折线图
+类似 （<https://www.visactor.io/vchart/demo/line-chart/multi-line>）这样的折线图
 坐标轴时间区间长度给定的情况下，该怎么设置坐标轴刻度的显示数量？例如我想只显示三个坐标轴刻度，或者自适应刻度数量。
 
 ## 解决方案

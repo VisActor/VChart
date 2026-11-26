@@ -7,16 +7,15 @@
 ) }}
 
 #${prefix} layers(Array)
-轴的层级配置。目前仅支持单层 / 双层，即 layers.length <= 2。
-其中，`layer[0]` 为主轴，即离坐标轴线最近的轴。
+时间轴的刻度标签最多支持两层。`layers[0]` 对应离轴线最近的第一层。配置 `layers[1]` 可添加第二层，两层可分别设置刻度和时间格式。
 
 ##${prefix} tickStep(number)
 
-tick 间隔。
+本层刻度的步长，与时间字段的时间戳单位一致。使用毫秒时间戳时，`86_400_000` 表示 24 小时。
 
 ##${prefix} timeFormat(string) = '%Y%m%d'
 
-时间转换格式。
+本层刻度标签的时间格式，例如 `'%Y-%m-%d'` 或 `'%H:%M'`。时间轴的 `label.formatMethod` 接收此处格式化后的字符串，可继续自定义文本。
 
 | **日期粒度** | **格式配置** | **日期内容**         | **示例**  | **数值范围** |
 | ------------ | ------------ | -------------------- | --------- | ------------ |
@@ -37,12 +36,12 @@ tick 间隔。
 
 ##${prefix} timeFormatMode(string) = 'local'
 
-时间转换模式。支持`'utc' | 'local'`模式。
+本层标签的显示时区。`'utc'` 使用 UTC，`'local'` 使用运行环境的本地时区。该设置只影响标签文本。
 
-##${prefix} tickCount(string) = 10
+##${prefix} tickCount(number|function) = 5
 
-期望的连续轴 tick 数量。
+本层建议的刻度数量，用法与 `tick.tickCount` 相同。
 
-##${prefix} forceTickCount(string) = 10
+##${prefix} forceTickCount(number)
 
-强制设置 tick 数量。
+本层强制生成的刻度数量。

@@ -10,7 +10,7 @@ option: lineChart#markPoint
 
 # markPoint Data Point Positioning
 
-markArea supports data point and arbitrary coordinate positioning methods, and this demonstrates the data point positioning effect.
+`markPoint` can be positioned at a data point or at arbitrary coordinates. This example adds plain and rich text annotations at data points.
 
 ## Key option
 
@@ -26,11 +26,11 @@ Data point positioning:
   - The `itemLine.startSymbol` attribute declares the decorative primitive style for the starting point of the guide line.
   - The `itemLine.endSymbol` attribute declares the decorative primitive style for the end point of the guide line.
 - The `itemContent` attribute is declared as the annotation content.
-  - The `itemContent.type` attribute declares the type of annotation content, supporting `'symbol' | 'text' | 'image' | 'richText'` types.
+  - Set `itemContent.type` to `'text'` for both plain and rich text annotations.
   - The `itemContent.offsetX` attribute declares the x-direction offset of the annotation content from the annotation point, used for positioning the annotation content and drawing the annotation line.
   - The `itemContent.offsetY` attribute declares the y-direction offset of the annotation content from the annotation point, used for positioning the annotation content and drawing the guide line.
   - The `itemContent.autoRotate` attribute declares whether the annotation content automatically rotates to the direction parallel to the guide line.
-  - The `itemContent.richText` attribute declares the annotation content style when `itemContent.type: richText`, and can also be applied to other annotation content types.
+  - For plain text, set `itemContent.style.text` to a string. For rich text, set `itemContent.style.type` to `'rich'` and provide an array of segments in `itemContent.style.text`.
 - `targetSymbol` is declared as a prefix mark, used to mark data points and highlight mark points.
 
 ## Demo source
@@ -92,16 +92,17 @@ const spec = {
       itemContent: {
         offsetY: 40,
         // offsetX: -200,
-        type: 'richText',
+        type: 'text',
         autoRotate: false,
         confine: true,
         position: 'insideBottom',
         style: {
+          type: 'rich',
           width: 100,
           height: 50,
           dx: 110,
           dy: 10,
-          textConfig: [
+          text: [
             {
               text: '2016\n',
               fontWeight: 'bold',
@@ -854,4 +855,4 @@ window['vchart'] = vchart;
 
 ## Related Tutorials
 
-[scrollBar](link)
+[Marker Data Annotation](/vchart/guide/tutorial_docs/Chart_Concepts/marker)

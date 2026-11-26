@@ -70,11 +70,11 @@ tick mask 下的图元是否强制和 tick 的边线对齐。
   markName = 'arc'
 ) }}
 
-###${prefix} innerPadding(number)
+###${prefix} innerPadding(number|Function)
 
 进度条内侧 padding（接受负值）。
 
-###${prefix} outerPadding(number)
+###${prefix} outerPadding(number|Function)
 
 进度条外侧 padding（接受负值）。
 
@@ -100,11 +100,11 @@ tick mask 下的图元是否强制和 tick 的边线对齐。
   markName = 'arc'
 ) }}
 
-###${prefix} innerPadding(number)
+###${prefix} innerPadding(number|Function)
 
 进度条内侧 padding（接受负值）。
 
-###${prefix} outerPadding(number)
+###${prefix} outerPadding(number|Function)
 
 进度条外侧 padding（接受负值）。
 

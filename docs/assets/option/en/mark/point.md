@@ -2,7 +2,7 @@
 
 <!-- ISymbolMarkSpec -->
 
-#${prefix} visible(boolean) = true
+#${prefix} visible(boolean|Function) = true
 
 Whether to display the title.
 
@@ -11,5 +11,6 @@ Whether to display the title.
 Same as symbolType. Declare using shape externally, the corresponding vrender graphic attribute is shape. -->
 
 {{ use: graphic-symbol(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = '|Function'
 ) }}

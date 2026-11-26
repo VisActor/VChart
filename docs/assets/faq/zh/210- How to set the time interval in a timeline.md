@@ -15,7 +15,7 @@ x轴 type=time时，tick间隔是怎么配置的呢，我希望自定义时间�
 
 ## 解决方案 
 
-可以通过配置axes.tickStep来控制时间轴的不同tick间的间隔，注意：tickStep需配置秒时间戳。</br>
+在时间轴的 `layers[0].tickStep` 中设置第一层刻度的间隔。间隔单位与时间字段一致。本例使用秒级时间戳，`28800` 表示 8 小时。如果使用毫秒级时间戳，`86_400_000` 表示 24 小时。
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/TSxibZbcqoEHGMxDGjhcA9q9nlg.gif' alt='' width='3254' height='1472'>
 
 

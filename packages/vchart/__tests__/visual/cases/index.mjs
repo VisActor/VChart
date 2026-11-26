@@ -777,6 +777,11 @@ export const cases = [
     file: './charts/waterfall/waterfall-absolute-label.mjs'
   },
   {
+    id: 'waterfall-stack-label-formatter',
+    purpose: '瀑布图堆积变化值标签的四位小数格式化',
+    file: './charts/waterfall/waterfall-stack-label-formatter.mjs'
+  },
+  {
     id: 'waterfall-total-tag',
     purpose: '瀑布图仅通过标记字段识别总计',
     file: './charts/waterfall/waterfall-total-tag.mjs'
@@ -1345,6 +1350,11 @@ export const cases = [
     id: 'theme-chart-components',
     purpose: '来源图表主题启用柱标签并定位左侧图例',
     file: './theme/theme-chart-components.mjs'
+  },
+  {
+    id: 'theme-radar-radius-axis-visibility',
+    purpose: '雷达图半径轴默认隐藏，主题可开启图元，轴配置可覆盖主题',
+    file: './theme/theme-radar-radius-axis-visibility.mjs'
   },
   {
     id: 'funnel-extension-select',

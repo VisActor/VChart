@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复瀑布图堆积标签忽略 formatter 配置的问题（#4487）。",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}

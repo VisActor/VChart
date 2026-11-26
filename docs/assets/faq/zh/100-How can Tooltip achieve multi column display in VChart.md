@@ -2,7 +2,7 @@
 
 # 问题描述
 
-类似 （https://visactor.io/vchart/demo/tooltip/format-method?keyword=tooltip）这样的图表，希望tooltip能格式化成多列
+类似 （<https://visactor.io/vchart/demo/tooltip/format-method?keyword=tooltip>）这样的图表，希望tooltip能格式化成多列
 ![demo](/vchart/faq/96-0.png)
 
 # 解决方案

@@ -52,11 +52,11 @@ tick mask 下的图元是否强制和 tick 的边线对齐。
 
 ##${prefix} style(Object)
 
-###${prefix} innerPadding(number)
+###${prefix} innerPadding(number|Function)
 
 扇区内侧 padding。
 
-###${prefix} outerPadding(number)
+###${prefix} outerPadding(number|Function)
 
 扇区外侧 padding。
 

@@ -1,38 +1,38 @@
 {{ target: mark-link-path }}
 
-#${prefix} x0(number)
+#${prefix} x0(number|Function)
 
 x0 coordinate.
 
-#${prefix} y0(number)
+#${prefix} y0(number|Function)
 
 y0 coordinate.
 
-#${prefix} x1(number)
+#${prefix} x1(number|Function)
 
 x1 coordinate.
 
-#${prefix} y1(number)
+#${prefix} y1(number|Function)
 
 y1 coordinate.
 
-#${prefix} thickness(number)
+#${prefix} thickness(number|Function)
 
 Thickness.
 
-#${prefix} curvature(number)
+#${prefix} curvature(number|Function)
 
 Curvature.
 
-#${prefix} round(boolean)
+#${prefix} round(boolean|Function)
 
 Round all coordinates.
 
-#${prefix} ratio(number)
+#${prefix} ratio(number|Function)
 
 Ratio of ordinary style path.
 
-#${prefix} align(string)
+#${prefix} align(string|Function)
 
 Alignment.
 
@@ -42,7 +42,7 @@ Optional values:
 - `end`
 - `center`
 
-#${prefix} pathType(string)
+#${prefix} pathType(string|Function)
 
 Path type.
 
@@ -52,19 +52,19 @@ Optional values:
 - `smooth`
 - `polyline`
 
-#${prefix} endArrow(boolean)
+#${prefix} endArrow(boolean|Function)
 
 Whether there is an end arrow.
 
-#${prefix} startArrow(boolean)
+#${prefix} startArrow(boolean|Function)
 
 Whether there is a start arrow.
 
-#${prefix} backgroundStyle(any)
+#${prefix} backgroundStyle(any|Function)
 
 Background style configuration.
 
-#${prefix} direction(string)
+#${prefix} direction(string|Function)
 
 Direction.
 
@@ -80,4 +80,5 @@ Optional values:
 
 {{ use: graphic-attribute(
   prefix = ${prefix},
+  callbackType = '|Function',
 ) }}

@@ -31,7 +31,8 @@
 ### style(Object)
 
 {{ use: graphic-symbol(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -57,7 +58,8 @@
 ### style(Object)
 
 {{ use: graphic-rule(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -83,7 +85,8 @@
 ### style(Object)
 
 {{ use: graphic-text(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -109,7 +112,8 @@
 ### style(Object)
 
 {{ use: graphic-rect(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -135,7 +139,8 @@
 ### style(Object)
 
 {{ use: graphic-path(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -161,7 +166,8 @@
 ### style(Object)
 
 {{ use: graphic-arc(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -187,7 +193,8 @@
 ### style(Object)
 
 {{ use: graphic-polygon(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
@@ -213,7 +220,8 @@
 ### style(Object)
 
 {{ use: graphic-image(
-  prefix = '###'
+  prefix = '###',
+  callbackType = '|Function'
 ) }}
 
 {{ use: common-layout-item(
