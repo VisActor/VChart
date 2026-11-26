@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "83b7b6fa9376bebe53c3de32a5c1dba74ec1d7c8524f6d1d3578032066ec5d05",
+  "indexDigest": "4cf5a3477441233a8f6842fe6d83cbbe0d5c333ed6959d154a91cb8aee1a0380",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -273,6 +273,7 @@
     "crosshair-polar-formatters",
     "theme-runtime-switch",
     "theme-chart-components",
+    "theme-radar-radius-axis-visibility",
     "funnel-extension-select",
     "media-query-width",
     "statplots-regression",

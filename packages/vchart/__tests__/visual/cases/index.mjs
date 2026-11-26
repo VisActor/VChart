@@ -1342,6 +1342,11 @@ export const cases = [
     file: './theme/theme-chart-components.mjs'
   },
   {
+    id: 'theme-radar-radius-axis-visibility',
+    purpose: '雷达图半径轴默认隐藏，主题可开启图元，轴配置可覆盖主题',
+    file: './theme/theme-radar-radius-axis-visibility.mjs'
+  },
+  {
     id: 'funnel-extension-select',
     purpose: '来源漏斗扩展图元、初始选择和后续点击选择切换',
     file: './charts/funnel/funnel-extension-select.mjs'

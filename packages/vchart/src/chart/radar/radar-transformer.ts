@@ -2,6 +2,9 @@ import { array } from '../../util';
 import { RoseLikeChartSpecTransformer } from '../polar';
 import type { IRoseChartSpec } from '../rose';
 import { mergeSpec } from '@visactor/vutils-extension';
+import { getPolarAxisTheme } from '../../component/axis/polar/util/common';
+import type { IPolarAxisCommonTheme } from '../../component/axis/polar/interface/theme';
+import type { IComponentTheme } from '../../component/interface';
 
 export class RadarChartSpecTransformer<
   T extends IRoseChartSpec = IRoseChartSpec
@@ -30,14 +33,21 @@ export class RadarChartSpecTransformer<
 
   transformSpec(spec: T) {
     super.transformSpec(spec);
-    //默认不显示轴的domainLine和Tick
-    (spec.axes ?? []).forEach((axis: any) => {
+    // 只检查配置的主题，避免把通用组件的内置可见性当成雷达图的显式设置。
+    const componentTheme: IComponentTheme | undefined = this._option.getTheme?.('component');
+    const getConfiguredComponentTheme = (_scope: string, key: string) => componentTheme?.[key];
+    spec.axes?.forEach(axis => {
       if (axis.orient === 'radius') {
-        ['domainLine', 'label', 'tick'].forEach(configName => {
-          if (!axis[configName]) {
+        const axisTheme: IPolarAxisCommonTheme = getPolarAxisTheme(
+          axis.orient,
+          axis.type ?? 'linear',
+          getConfiguredComponentTheme
+        );
+        for (const configName of ['domainLine', 'label', 'tick'] as const) {
+          if (!axis[configName] && axisTheme[configName]?.visible === undefined) {
             axis[configName] = { visible: false };
           }
-        });
+        }
         if (!axis.grid) {
           axis.grid = { visible: true };
         }
