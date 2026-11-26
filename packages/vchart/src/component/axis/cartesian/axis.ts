@@ -113,6 +113,7 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   private _latestBounds: IBounds;
   private _verticalLimitSize: number;
   private _unitText: IText;
+  private _unitOffsetY = 0;
 
   protected _layoutCache: {
     width: number;
@@ -695,6 +696,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
     return padding;
   };
 
+  shouldMeasureBoundsWithFixedSize() {
+    return this._visible && this._spec.unit?.visible === true;
+  }
+
   /**
    * bounds 预计算
    * @param rect
@@ -1089,9 +1094,10 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
       textAlign: isX || this._orient === 'left' ? 'left' : 'right',
       textBaseline: isX ? 'middle' : 'bottom',
       visible: true,
+      dy: 0,
       ...(unit.style as unknown as Partial<ITextGraphicAttribute>),
       x: isX ? x + maxInArr<number>(this._scale.range()) : x,
-      y: isX ? y : y + minInArr<number>(this._scale.range()),
+      y: isX ? y : y + minInArr<number>(this._scale.range()) + (isNil(unit.style?.dy) ? this._unitOffsetY : 0),
       text: unit.text
     };
     if (this._unitText) {
@@ -1105,10 +1111,25 @@ export abstract class CartesianAxis<T extends ICartesianAxisCommonSpec = ICartes
   }
 
   private _appendAxisUnit(bounds: IBounds, isX: boolean) {
+    this._unitOffsetY = 0;
     const unitText = this._updateAxisUnit();
     if (unitText) {
-      const textBounds = unitText.AABBBounds;
+      let textBounds = unitText.AABBBounds;
       if (!isX) {
+        // 固定宽度的纵轴在单位与刻度重叠时，将单位放到轴内容上方。
+        if (
+          isYAxis(this._orient) &&
+          this._layout.layoutRectLevelMap.width === USER_LAYOUT_RECT_LEVEL &&
+          isNil(this._spec.unit.style?.dy) &&
+          textBounds.x1 < bounds.x2 &&
+          textBounds.x2 > bounds.x1 &&
+          textBounds.y1 < bounds.y2 &&
+          textBounds.y2 > bounds.y1
+        ) {
+          this._unitOffsetY = Math.floor(bounds.y1 - textBounds.y2);
+          unitText.setAttribute('y', unitText.attribute.y + this._unitOffsetY);
+          textBounds = unitText.AABBBounds;
+        }
         bounds.x1 += textBounds.x1 < bounds.x1 ? textBounds.x1 - bounds.x1 : 0;
         bounds.y1 += textBounds.y1 < bounds.y1 ? textBounds.y1 - bounds.y1 : 0;
       } else {

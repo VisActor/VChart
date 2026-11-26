@@ -164,6 +164,8 @@ export interface ILayoutModel extends IModel {
   getLastComputeOutBounds: () => IBoundsLike;
 
   getBoundsInRect: (rect: ILayoutRect, fullRect: ILayoutRect) => IBoundsLike;
+  /** 指定占位尺寸后，是否仍需测量内容以计算溢出。 */
+  shouldMeasureBoundsWithFixedSize?: () => boolean;
 
   //布局周期
   afterSetLayoutStartPoint: (pos: ILayoutPoint) => void;
