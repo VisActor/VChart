@@ -1048,12 +1048,14 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
   afterInitMark(): void {
     this.event.emit(ChartEvent.afterInitMark, { model: this });
     this.setSeriesField(this._spec.seriesField);
+    this._initMarkStroke(this.getMarks());
+  }
 
-    // set mark stroke color follow series color
-    // only set normal state in the level lower than level Series
-    this.getMarks().forEach(m => {
-      if (m.stateStyle?.normal?.lineWidth) {
-        m.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
+  private _initMarkStroke(marks: IMark[]) {
+    // 默认描边跟随系列颜色，系列和用户定义的描边优先。
+    marks.forEach(mark => {
+      if (mark.stateStyle.normal?.lineWidth) {
+        mark.setAttribute('stroke', this.getColorAttribute(), 'normal', AttributeLevel.Base_Series);
       }
     });
   }
@@ -1275,6 +1277,7 @@ export abstract class BaseSeries<T extends ISeriesSpec> extends BaseModel<T> imp
     });
     this.initMarkStyle();
     this.initMarkState();
+    this._initMarkStroke(marks);
     marks.forEach(mark => {
       mark.commit(false);
     });

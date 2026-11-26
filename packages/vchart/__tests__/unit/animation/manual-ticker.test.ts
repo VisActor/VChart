@@ -1471,6 +1471,48 @@ const snapshotIssue4186Bars = (chart: VChart) =>
     .sort((a, b) => a.key.localeCompare(b.key));
 
 describe('manual ticker animation regressions', () => {
+  it('clears removed theme styles while animating the remaining style changes', () => {
+    const { container, dom } = createChartContainer();
+    const ticker = createManualTicker();
+    const themeName = 'theme-switch-animation';
+    const chart = new VChart(
+      {
+        type: 'bar',
+        data: { values: [{ category: 'A', value: 10 }] },
+        xField: 'category',
+        yField: 'value',
+        animationAppear: false,
+        animationUpdate: { duration: UPDATE_DURATION, easing: 'linear' }
+      } as IBarChartSpec,
+      { dom, ticker }
+    );
+    VChart.ThemeManager.registerTheme(themeName, {
+      series: { bar: { bar: { style: { fill: '#5B8FF9', cornerRadius: 6 } } } }
+    });
+    try {
+      chart.renderSync();
+      const [bar] = getBarGraphics(chart);
+      const lightFill = bar.attribute.fill;
+
+      chart.setCurrentThemeSync(themeName);
+      ticker.tickAt(ticker.getTime() + UPDATE_DURATION + 50);
+      expect(bar.attribute.fill).toBe('#5B8FF9');
+      expect(bar.attribute.cornerRadius).toBe(6);
+
+      chart.setCurrentThemeSync('light');
+      ticker.tickAt(ticker.getTime() + UPDATE_DURATION + 50);
+      expect(getBarGraphics(chart)[0]).toBe(bar);
+      expect(bar.attribute.fill).toBe(lightFill);
+      expect(bar.attribute.cornerRadius).toBeUndefined();
+      expect(getGraphicFinalAttribute(bar).cornerRadius).toBeUndefined();
+    } finally {
+      chart.release();
+      VChart.ThemeManager.removeTheme(themeName);
+      ticker.release();
+      removeDom(container);
+    }
+  });
+
   it('renders the correct bars after dataZoom interrupts a data update (#4186)', () => {
     const { container, dom } = createChartContainer();
     const reference = createChartContainer();
