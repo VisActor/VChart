@@ -5,6 +5,7 @@ import type { IDataValues, IMarkStateSpec, IInitOption } from '../typings/spec/c
 // eslint-disable-next-line no-duplicate-imports
 import { RenderModeEnum } from '../typings/spec/common';
 import type { ISeriesConstructor } from '../series/interface';
+import { SeriesTypeEnum } from '../series/interface/type';
 import {
   ChartTypeEnum,
   type DimensionIndexOption,
@@ -426,17 +427,24 @@ export class VChart implements IVChart {
     const runtimePluginInstallers: ((app?: IApp) => void)[] = [];
 
     if (poptip !== false) {
-      const poptipInstaller = Factory.getRuntimePluginInstaller('poptipForText');
-      if (poptipInstaller) {
-        poptipInstaller();
-        runtimePluginInstallers.push(poptipInstaller);
-      }
       pluginList.push('poptipForText');
     }
 
-    if (spec.type === ChartTypeEnum.sankey) {
-      // 桑基图默认记载滚动条组件
+    const { type, series } = this._spec as ISpec;
+    // 组合图可在 updateSpec 时为已有桑基系列开启滚动，届时仍使用原来的 Stage。
+    if (
+      type === ChartTypeEnum.sankey ||
+      (type === ChartTypeEnum.common && series?.some(seriesSpec => seriesSpec.type === SeriesTypeEnum.sankey))
+    ) {
       pluginList.push('scrollbar');
+    }
+
+    for (const name of pluginList) {
+      const installer = Factory.getRuntimePluginInstaller(name);
+      if (installer) {
+        installer();
+        runtimePluginInstallers.push(installer);
+      }
     }
 
     const logger = new Logger(this._option.logLevel ?? LoggerLevel.Error);

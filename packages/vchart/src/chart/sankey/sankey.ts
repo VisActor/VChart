@@ -10,7 +10,6 @@ import type { ISeries } from '../../series/interface';
 import type { IMark, IMarkGraphic } from '../../mark/interface/common';
 import type { IRegionQuerier } from '../../typings/params';
 import { isArray } from '@visactor/vutils';
-import { loadScrollbar } from '@visactor/vrender-components';
 import { registerMarkTooltipProcessor } from '../../component/tooltip/processor/mark-tooltip';
 import { getDatumOfGraphic } from '../../util/mark';
 
@@ -71,7 +70,6 @@ export class SankeyChart<T extends ISankeyChartSpec = ISankeyChartSpec> extends 
 
 export const registerSankeyChart = () => {
   registerMarkTooltipProcessor();
-  loadScrollbar();
   registerSankeySeries();
 
   Factory.registerChart(SankeyChart.type, SankeyChart);

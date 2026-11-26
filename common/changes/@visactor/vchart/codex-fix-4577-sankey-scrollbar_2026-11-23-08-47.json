@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复设置 overflow: 'scroll' 的桑基图无法滚动的问题（#4577）。",
+      "type": "none",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
