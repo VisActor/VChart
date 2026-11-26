@@ -1,4 +1,4 @@
-import { isEqual } from '@visactor/vutils';
+import { combineDomains } from '../../../../util/array';
 
 const setDomain = (min: number, max: number, breaks: number[]): [number, number][] =>
   breaks.reduce(
@@ -9,10 +9,7 @@ const setDomain = (min: number, max: number, breaks: number[]): [number, number]
     [[min, breaks[0]]]
   );
 
-function breakDomain(data: number[], points: number[]): [number, number][] {
-  // 默认数据已经排序
-  const min = data[0];
-  const max = data[data.length - 1];
+function breakDomain(min: number, max: number, points: number[]): [number, number][] {
   const breaks = points.filter(point => point > min && point < max);
   if (breaks.length === 0) {
     return [[min, max]];
@@ -23,74 +20,72 @@ function breakDomain(data: number[], points: number[]): [number, number][] {
 
 const sorter = (a: number, b: number) => a - b;
 
-const fillBins = (data: number[], points: number[]) => {
-  const bins: Array<{ count: number; sub: number[]; max: number; min: number }> = [
-    { count: 0, sub: [], max: points[0], min: points[0] }
-  ];
-  let i = 0;
-  let j = 0;
-  while (i < points.length) {
-    if (data[j] <= points[i]) {
-      bins[i].count += 1;
-      bins[i].sub.push(data[j]);
-      j += 1;
-    } else {
-      i += 1;
-      bins[i] = { count: 0, sub: [], max: points[i], min: points[i] };
+function breakCountScope(data: number[], points: number[]): [number, number][] {
+  const scope: [number, number][] = [];
+  let cursor = 0;
+  for (const point of points) {
+    const previous = cursor;
+    while (cursor < data.length && data[cursor] <= point) {
+      cursor++;
+    }
+    // 保留内部的空段，两端无数据的区间不参与计数。
+    if (previous < cursor || (cursor > 0 && cursor < data.length)) {
+      scope.push([previous / data.length, cursor / data.length]);
     }
   }
-  bins.forEach(bin => {
-    if (bin.count) {
-      bin.min = Math.min.apply(null, bin.sub);
-    }
-  });
-
-  const remain = data.slice(j);
-  bins[i] = { count: remain.length, sub: remain, min: points[points.length - 1], max: Math.max.apply(null, remain) };
-  return bins;
-};
-
-function breakScope(data: number[], points: number[], scopeType: 'count' | 'length' = 'count'): [number, number][] {
-  // 默认 data 和 points 已经排序
-  const bins = fillBins(data, points);
-
-  const totalLength =
-    scopeType === 'count'
-      ? data.length
-      : bins.reduce((res, bin, i) => {
-          return bin.count > 0 ? res + bin.max - bin.min : res;
-        }, 0);
-  const res: [number, number][] = [];
-  let acc = 0;
-
-  let resIndex = 0; // 因为有的结果会被剔除，所以要从 res 的真实索引上拿
-  bins.forEach((bin, i) => {
-    if (totalLength === 0) {
-      res.push([0, i / bins.length - 1]);
-    } else {
-      const length = scopeType === 'count' ? bin.count : bin.max - bin.min;
-      const b0 = res[resIndex - 1] ? res[resIndex - 1][1] : 0;
-      const b1 = i === bins.length - 1 ? 1 : Math.min((acc + length) / totalLength, 1);
-
-      if (b0 === b1 && (b0 === 0 || b0 === 1)) {
-      } else {
-        resIndex += 1;
-        res.push([b0, b1]);
-        acc += length;
-      }
-    }
-  });
-
-  return res;
+  if (cursor < data.length || !scope.length) {
+    scope.push([cursor ? cursor / data.length : 0, 1]);
+  }
+  return scope;
 }
 
-export function breakData(data: number[], points: number[], scopeType?: 'count' | 'length') {
+export function getLengthBreakScope(domain: number[], lengthSegments: boolean[]): [number, number][] {
+  let total = 0;
+  const scope: [number, number][] = lengthSegments.map((visible, index) => {
+    const start = total;
+    if (visible) {
+      total += domain[index + 1] - domain[index];
+    }
+    return [start, total];
+  });
+  if (total > 0) {
+    for (const segment of scope) {
+      segment[0] /= total;
+      segment[1] /= total;
+    }
+  } else {
+    scope[scope.length - 1][1] = 1;
+  }
+  return scope;
+}
+
+export function breakData(
+  data: number[],
+  points: number[],
+  scopeType?: 'count' | 'length',
+  bounds?: { min?: number; max?: number }
+) {
   // 现将数据和断点排序
   data.sort(sorter);
   points.sort(sorter);
 
-  return {
-    domain: breakDomain(data, points),
-    scope: breakScope(data, points, scopeType)
-  };
+  const min = data[0];
+  const max = data[data.length - 1];
+  if (scopeType !== 'length') {
+    return { domain: breakDomain(min, max, points), scope: breakCountScope(data, points) };
+  }
+
+  const domain = breakDomain(bounds?.min ?? min, bounds?.max ?? max, points);
+  let cursor = 0;
+  const lengthSegments = domain.map(([start, end], index) => {
+    // 端部保留轴域留白，内部区间只按严格落在两端之间的观测值判断。
+    if (index === 0 || index === domain.length - 1) {
+      return true;
+    }
+    while (cursor < data.length && data[cursor] <= start) {
+      cursor++;
+    }
+    return cursor < data.length && data[cursor] < end;
+  });
+  return { domain, scope: getLengthBreakScope(combineDomains(domain), lengthSegments), lengthSegments };
 }

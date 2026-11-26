@@ -9,7 +9,7 @@ import { isXAxis } from '../cartesian/util/common';
 import type { IOrientType } from '../../../typings/space';
 import type { IComponentOption } from '../../interface/common';
 import type { StringOrNumber } from '../../../typings';
-import { breakData } from './util/break-data';
+import { breakData, getLengthBreakScope } from './util/break-data';
 import type { IModel } from '../../../model/interface';
 
 export const e10 = Math.sqrt(50);
@@ -50,6 +50,7 @@ export interface LinearAxisMixin {
   _break: {
     domain: [number, number][];
     scope: [number, number][];
+    lengthSegments?: boolean[];
     breakDomains: [number, number][];
     breaks: ILinearAxisBreakSpec[];
   };
@@ -189,6 +190,7 @@ export class LinearAxisMixin {
 
   computeLinearDomain(data: { min: number; max: number; values: any[] }[]): number[] {
     let domain: number[] = [];
+    this._break = undefined;
 
     if (data.length) {
       const userSetBreaks = this._spec.breaks && this._spec.breaks.length;
@@ -218,16 +220,17 @@ export class LinearAxisMixin {
         }
         breakRanges.sort((a: [number, number], b: [number, number]) => a[0] - b[0]);
         if (breakRanges.length) {
-          const { domain: breakDomains, scope: breakScopes } = breakData(
-            values,
-            combineDomains(breakRanges),
-            this._spec.breaks[0].scopeType
-          );
+          const {
+            domain: breakDomains,
+            scope: breakScopes,
+            lengthSegments
+          } = breakData(values, combineDomains(breakRanges), this._spec.breaks[0].scopeType, this._domain);
 
           domain = combineDomains(breakDomains);
           this._break = {
             domain: breakDomains,
             scope: breakScopes,
+            lengthSegments,
             breakDomains: breakRanges,
             breaks
           };
@@ -432,6 +435,12 @@ export class LinearAxisMixin {
     this._updateNiceLabelFormatter(domain);
 
     this._domainAfterSpec = this._scale.domain();
+    if (this._break?.lengthSegments) {
+      const breakDomain = this._break.domain;
+      if (this._domainAfterSpec[0] !== breakDomain[0][0] || last(this._domainAfterSpec) !== last(breakDomain)[1]) {
+        this._break.scope = getLengthBreakScope(this._domainAfterSpec, this._break.lengthSegments);
+      }
+    }
     this._refreshVisibilityByData();
     this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
     this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });

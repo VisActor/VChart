@@ -4,6 +4,29 @@
 import { breakData } from '../../../../../../src/component/axis/mixin/util/break-data';
 
 describe('break data ', () => {
+  it('keeps one scope per segment when several breaks contain observations only at their boundaries', () => {
+    const { domain, scope } = breakData([0, 10, 16, 20, 40, 70, 90], [10, 16, 40, 70], 'length');
+
+    expect(domain).toEqual([
+      [0, 10],
+      [10, 16],
+      [16, 40],
+      [40, 70],
+      [70, 90]
+    ]);
+    expect(scope.flat()).toEqual([0, 10 / 54, 10 / 54, 10 / 54, 10 / 54, 34 / 54, 34 / 54, 34 / 54, 34 / 54, 1]);
+  });
+
+  it('collapses a length break with an observation exactly at its upper bound', () => {
+    const { scope } = breakData([0, 80, 90, 100], [20, 80], 'length');
+
+    expect(scope).toEqual([
+      [0, 0.5],
+      [0.5, 0.5],
+      [0.5, 1]
+    ]);
+  });
+
   it('break data by break points when scopeType is "length"', () => {
     const data = [
       44, 108, 128, 266, 180, 344, 345, 753, 3050, 6170, 3590, 7130, 3840, 7715, 3630, 7050, 3120, 3840, 420, 740, 240,
@@ -18,13 +41,12 @@ describe('break data ', () => {
       [3000, 7715]
     ]);
 
-    expect(scope.length).toEqual(3);
-    expect(scope[0][0]).toBeCloseTo(0);
-    expect(scope[0][1]).toBeCloseTo(0.06136455389584174);
-    expect(scope[1][0]).toBeCloseTo(0.06136455389584174);
-    expect(scope[1][1]).toBeCloseTo(0.36549589557260126);
-    expect(scope[2][0]).toBeCloseTo(0.36549589557260126);
-    expect(scope[2][1]).toBeCloseTo(1);
+    const total = 7715 - 44;
+    expect(scope).toEqual([
+      [0, (500 - 44) / total],
+      [(500 - 44) / total, (3000 - 44) / total],
+      [(3000 - 44) / total, 1]
+    ]);
   });
 
   it('break data by break points when scopeType is "count"', () => {

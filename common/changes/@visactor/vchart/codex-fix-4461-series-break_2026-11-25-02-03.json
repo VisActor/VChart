@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "comment": "修复折线图断轴的区间长度分配，并支持绘图区截断标识（#4461）。",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

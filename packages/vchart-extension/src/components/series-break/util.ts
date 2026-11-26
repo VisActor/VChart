@@ -3,7 +3,7 @@
  */
 import type { ILinearAxisBreakSpec, ILinearAxisSpec } from '@visactor/vchart/esm/component/axis';
 import type { ICartesianSeries, IMarkGraphic, ISpec } from '@visactor/vchart';
-import type { SeriesBreakData } from './type';
+import type { SeriesBreakData, SeriesBreakOptions } from './type';
 import type { IPointLike } from '@visactor/vchart';
 import { array, getIntersectPoint, isValid, PointService } from '@visactor/vchart';
 import type { IArea, ILine, Point } from '@visactor/vchart';
@@ -21,7 +21,11 @@ const areaOffset = 0;
  * @param config 系列标签的样式配置
  * @returns
  */
-export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: number[]) {
+export function getSeriesBreakConfig(
+  axesSpec: ILinearAxisSpec[],
+  axesIndex?: number[],
+  { span = 'series' }: SeriesBreakOptions = {}
+) {
   return {
     type: 'component',
     componentType: SERIES_BREAK,
@@ -34,7 +38,7 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: nu
         const vchart = ctx.vchart;
         const chart = vchart.getChart();
         const series = chart.getAllSeries()[0] as ICartesianSeries;
-        const isHorizontal = series.direction === 'horizontal';
+        const isHorizontal = series?.direction === 'horizontal';
         axesSpec.forEach((spec: any, index: number) => {
           const axisId = spec.id;
           const axisModel = isValid(axisId)
@@ -56,11 +60,28 @@ export function getSeriesBreakConfig(axesSpec: ILinearAxisSpec[], axesIndex?: nu
 
           // todo 这里用到了内部变量，不太安全
           array(axisModel._break?.breaks).forEach((breakConfig: ILinearAxisBreakSpec) => {
-            const { range, breakSymbol, gap = 5 } = breakConfig;
+            const { range, breakSymbol, gap = span === 'region' ? 6 : 5 } = breakConfig;
             const pos1 = axisModel.valueToPosition(range[0]);
             const pos2 = axisModel.valueToPosition(range[1]);
+            const center = (pos1 + pos2) / 2;
 
-            const posY = (pos1 + pos2) / 2 + (isHorizontal ? regionBounds.x1 : regionBounds.y1);
+            if (span === 'region') {
+              const { x1, y1, x2, y2 } = regionBounds;
+              const orient = axisModel.getOrient();
+              const isXAxis = orient === 'top' || orient === 'bottom';
+              const { width, height } = axisModel.getLayoutRect();
+              seriesBreakData.push({
+                start: isXAxis ? { x: x1 + center, y: y1 } : { x: x1, y: y1 + center },
+                end: isXAxis ? { x: x1 + center, y: y2 } : { x: x2, y: y1 + center },
+                gap: typeof gap === 'string' ? (parseFloat(gap) / 100) * (isXAxis ? width : height) : gap,
+                style: breakSymbol?.style,
+                axisId: parsedAxisId,
+                data: range
+              });
+              return;
+            }
+
+            const posY = center + (isHorizontal ? regionBounds.x1 : regionBounds.y1);
 
             chart.getAllSeries().forEach((s: ICartesianSeries) => {
               if (s.type === 'bar' || s.type === 'waterfall') {
@@ -355,7 +376,7 @@ function isPointInPolygon(point: Point, polygon: Point[]) {
   return inside;
 }
 
-export const appendSeriesBreakConfig = (rawSpec: ISpec) => {
+export const appendSeriesBreakConfig = (rawSpec: ISpec, options?: SeriesBreakOptions) => {
   if (rawSpec.axes?.length) {
     const breakedAxes = (rawSpec.axes as any[]).filter(
       (axis: any) => axis.breaks && axis.breaks.length && (axis as any).visible !== false
@@ -370,7 +391,8 @@ export const appendSeriesBreakConfig = (rawSpec: ISpec) => {
           breakedAxes as ILinearAxisSpec[],
           breakedAxes.map((axisSpec: any) => {
             return rawSpec.axes.indexOf(axisSpec as any);
-          })
+          }),
+          options
         )
       );
       return true;
