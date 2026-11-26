@@ -4,28 +4,30 @@
 
 {{ if: !${noFill} }}
 {{ use: graphic-fill-style(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = ${callbackType}
 ) }}
 {{ /if }}
 
 {{ if: !${noStroke} }}
 {{ use: graphic-stroke-style(
   prefix = ${prefix},
+  callbackType = ${callbackType},
   markType = ${markType}
 ) }}
 {{ /if }}
 
-#${prefix} opacity(number)
+#${prefix} opacity(number${callbackType})
 
 Overall transparency setting.
 
-#${prefix} cursor(string)
+#${prefix} cursor(string${callbackType})
 
 What is the cursor style when the mouse hovers over the graphic element? Same as CSS cursor.
 
 {{ if: !${noTexture} }}
 
-#${prefix} texture(string)
+#${prefix} texture(string${callbackType})
 
 Texture type configuration, supports: `'circle' | 'diamond' | 'rect' | 'vertical-line' | 'horizontal-line' | 'bias-lr' | 'bias-rl' | 'grid'`.
 
@@ -40,75 +42,75 @@ style: {
 }
 ```
 
-#${prefix} textureColor(string)
+#${prefix} textureColor(string${callbackType})
 
 Texture color.
 
-#${prefix} textureSize(number)
+#${prefix} textureSize(number${callbackType})
 
 Size of the texture unit.
 
-#${prefix} texturePadding(number)
+#${prefix} texturePadding(number${callbackType})
 
 Gap size between texture units.
 
 {{ /if }}
 
-#${prefix} pickable(boolean) = true
+#${prefix} pickable(boolean${callbackType}) = true
 
 Whether to support event pick-up, default is true.
 
-#${prefix} childrenPickable(boolean) = true
+#${prefix} childrenPickable(boolean${callbackType}) = true
 
 For group nodes, whether to support event pick-up of its child elements, default is true. If group `pickable` is off and `childrenPickable` is on, the child nodes of the group will still participate in event pick-up.
 
-#${prefix} zIndex(number)
+#${prefix} zIndex(number${callbackType})
 
 Display level configuration.
 
-#${prefix} visible(boolean) = true
+#${prefix} visible(boolean${callbackType}) = true
 
 Whether the element is visible.
 
-#${prefix} dx(number)
+#${prefix} dx(number${callbackType})
 
 Offset in the x direction.
 
-#${prefix} dy(number)
+#${prefix} dy(number${callbackType})
 
 Offset in the y direction.
 
 {{ if: !${noAngle} }}
 
-#${prefix} angle(number)
+#${prefix} angle(number${callbackType})
 
 Rotation angle.
 
 {{ /if }}
 
-#${prefix} scaleX(number) = 1
+#${prefix} scaleX(number${callbackType}) = 1
 Scale ratio in the x direction.
 
-#${prefix} scaleY(number) = 1
+#${prefix} scaleY(number${callbackType}) = 1
 Scale ratio in the y direction.
 
-#${prefix} scaleCenter([number|string, number|string])
+#${prefix} scaleCenter(Array${callbackType})
 
 Scale Center. Supported since version `1.4.0`.
 
 Can be configured with fixed coordinates, such as [100, 100], or percentage coordinates, such as ['50%', '50%'], which represents scaling around the center of the graphic element.
 
-#${prefix} pickStrokeBuffer(number) = 0
+#${prefix} pickStrokeBuffer(number${callbackType}) = 0
 
 Supported since version `1.7.3`, it is used to expand the picking range of strokes. 0 is the default line width, positive numbers widen the width, and negative numbers widen the width.
 
-#${prefix} boundsPadding(number|array)
+#${prefix} boundsPadding(number|array${callbackType})
 Bounds padding of the graphic bounding box, default value is 0, supports two formats:
 
 - number: set uniform padding for top, right, bottom, and left
 - array: padding array, format `[top, right, bottom, left]`, sets padding for each of the four directions separately
 
-#${prefix} html(object)
+#${prefix} html(object${callbackType})
 Supported since version `1.10.0`, used to configure the HTML overlay of the graphic element.
 
 ##${prefix} dom(string|HTMLElement)
@@ -119,7 +121,7 @@ DOM string or node.
 ) }}
 {{ /if }}
 
-#${prefix} react(object)
+#${prefix} react(object${callbackType})
 Supported since version `1.11.0`, used to configure the React overlay of the graphic element.
 
 ##${prefix} element(Object)

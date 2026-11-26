@@ -91,7 +91,7 @@ export interface IFieldsMeta {
   type: 'ordinal' | 'linear'; // Dimension type, 'ordinal' for discrete type, 'linear' for continuous type.
   alias?: string; // Field alias.
   domain?: any[]; // Value range of the current dimension. Data outside this range will be filtered out.
-  lockStatisticsByDomain?: boolean; // Whether to lock statistics information using the domain. Default is false.
+  lockStatisticsByDomain?: boolean | 'onlyFull'; // Whether to lock statistics using the domain. Default is false.
   sortIndex?: number; // Sorting order of the current dimension. If not set, it will not participate in sorting. Multiple dimensions can be sorted based on this property.
   sortReverse?: boolean; // Whether to sort the current dimension in reverse order during sorting. Only effective when sortIndex is configured. Default is false.
 }
@@ -236,7 +236,17 @@ vchart.getDataSet().getDataView('temperatureData').latestData ===
 
 ##${prefix} fields(Object)
 
-Considering that data dimension processing is quite common, a separate configuration item is provided. The content of this configuration will be converted to [transform.fieldsTransform](TODO:)
+Configure allowed values, sorting, and aliases by field name. VChart passes this configuration to the built-in `fields` transform.
+
+Set `lockStatisticsByDomain` together with the field's `domain`. The setting controls which categories appear on the axis.
+
+- `false` (default) derives categories from the current data. The field's `domain` still filters out values outside the allowed set.
+- `true` uses all categories in `domain` in the declared order. The axis keeps their positions when a series is hidden through the legend.
+- `'onlyFull'` (since 1.13.8) updates the category axis based on the remaining data after legend filtering. The category order depends on the chart's data configuration.
+
+In a basic column chart with just `xField` and `yField`, set `sortIndex: 0` on the categorical field to order existing categories by `domain`.
+
+Change the setting and click the legend in the [category axis domain example](/vchart/demo/bar-chart/bar-lock-statistics-by-domain) to compare the results.
 
 ```ts
 // type
@@ -258,8 +268,10 @@ const spec = {
       ],
       fields: {
         date: {
-          type: 'ordinal', // The data dimension 'date' is of ordinal type
-          sortIndex: 1 // The data will be sorted based on 'date'
+          type: 'ordinal',
+          domain: ['1-3', '1-2', '1-4', '1-5'],
+          lockStatisticsByDomain: true, // The category axis reserves a slot for '1-5'.
+          sortIndex: 1
         },
         value: {
           type: 'linear', // The data dimension 'value' is of linear type
@@ -280,8 +292,7 @@ vchart.getDataSet().getDataView('fieldsData').latestData ===
     { date: '1-3', value: '230', type: 'Sales' },
     { date: '1-2', value: '20', type: 'Profit' },
     { date: '1-2', value: '220', type: 'Sales' },
-    { date: '1-4', value: '30', type: 'Sales' },
-    { date: '1-4', value: '-40', type: 'Sales' }
+    { date: '1-4', value: '30', type: 'Sales' }
   ];
 ```
 

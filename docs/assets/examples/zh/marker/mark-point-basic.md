@@ -10,7 +10,7 @@ option: lineChart#markPoint
 
 # markPoint 数据点定位
 
-markArea 支持数据点 和 任意坐标定位方式, 此处展示数据点定位效果.
+`markPoint` 支持按数据点或任意坐标定位。此示例在数据点上添加普通文本和富文本标注。
 
 ## 关键配置
 
@@ -26,11 +26,11 @@ markArea 支持数据点 和 任意坐标定位方式, 此处展示数据点定�
   - `itemLine.startSymbol`属性声明为引导线起点的装饰图元样式
   - `itemLine.endSymbol`属性声明为引导线终点的装饰图元样式
 - `itemContent`属性声明为标注内容
-  - `itemContent.type` 属性声明为标注内容的类型, 支持`'symbol' | 'text' | 'image' | 'richText'`类型
+  - `itemContent.type` 设为 `'text'`，用于普通文本和富文本标注。
   - `itemContent.offsetX`属性声明为标注内容与标注点的 x 方向偏移, 用于定位标注内容和绘制标注线.
   - `itemContent.offsetY`属性声明为标注内容与标注点的 y 方向偏移, 用于定位标注内容和绘制引导线.
   - `itemContent.autoRotate`属性声明为标注内容是否自动旋转至引导线平行的方向.
-  - `itemContent.richText`属性声明为当`itemContent.type: richText`时, 标注内容的样式, 同理也可应用于其他标注内容类型.
+  - 普通文本将 `itemContent.style.text` 设为字符串。富文本将 `itemContent.style.type` 设为 `'rich'`，并在 `itemContent.style.text` 中提供片段数组。
 - `targetSymbol`声明为前置标记，用于标记数据点，突出标记点。
 
 ## 代码演示
@@ -92,17 +92,18 @@ const spec = {
       itemContent: {
         offsetY: 40,
         // offsetX: -200,
-        type: 'richText',
+        type: 'text',
         autoRotate: false,
         confine: true,
         position: 'insideBottom',
 
         style: {
+          type: 'rich',
           width: 100,
           height: 50,
           dx: 110,
           dy: 10,
-          textConfig: [
+          text: [
             {
               text: '2016\n',
               fontWeight: 'bold',
@@ -855,4 +856,4 @@ window['vchart'] = vchart;
 
 ## 相关教程
 
-[scrollBar](link)
+[Marker 数据标注](/vchart/guide/tutorial_docs/Chart_Concepts/marker)

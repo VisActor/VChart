@@ -2,29 +2,32 @@
 
 <!-- ITextMarkSpec -->
 
-#${prefix} text(string|number|string[])
+#${prefix} text(string|number|Array|Function)
 
-Text.
+Text to display. Accepts strings, numbers, string arrays, and number arrays.
 
-#${prefix} dx(number)
+{{ use: graphic-fill-style(
+  prefix = ${prefix},
+  callbackType = '|Function'
+) }}
+
+#${prefix} dx(number|Function)
 
 X-axis offset.
 
-#${prefix} dy(number)
+#${prefix} dy(number|Function)
 
 Y-axis offset.
 
-#${prefix} textAlgin(string)
+#${prefix} textAlign(string|Function)
 
-Text alignment.
+Horizontal text alignment.
 
-Optional values:
+- `'left'` or `'start'` aligns text to the left.
+- `'center'` centers the text.
+- `'right'` or `'end'` aligns text to the right.
 
-- `'left'`: Align left
-- `'right'`: Align right
-- `'center'`: Align center
-
-#${prefix} textBaseline(string)
+#${prefix} textBaseline(string|Function)
 
 Text baseline.
 
@@ -34,11 +37,15 @@ Optional values:
 - `'bottom'`
 - `'middle'`
 
-#${prefix} fontFamily(string)
+#${prefix} fontSize(number|Function)
+
+Font size in pixels.
+
+#${prefix} fontFamily(string|Function)
 
 Text font.
 
-#${prefix} fontWeight(string|number)
+#${prefix} fontWeight(string|number|Function)
 
 Font weight of the text.
 
@@ -50,7 +57,7 @@ Optional:
 - `'lighter'`
 - `100 | 200 | 300 | 400`...
 
-#${prefix} fontStyle(string)
+#${prefix} fontStyle(string|Function)
 
 Style of text font.
 
@@ -60,15 +67,15 @@ Optional:
 - `'italic'`
 - `'oblique'`
 
-#${prefix} limit(number)
+#${prefix} maxLineWidth(number|Function)
 
-Text length limit.
+Maximum width of a line of text, in pixels. By default, text that exceeds this width is truncated.
 
-#${prefix} ellipsis(string)
+#${prefix} ellipsis(string|Function)
 
-Text truncation method.
+String to show when text is truncated, such as `'…'`. Use it with `maxLineWidth`.
 
-#${prefix} suffixPosition(string) = 'end'
+#${prefix} suffixPosition(string|Function) = 'end'
 
 Supported since `1.7.3` version, used to configure the position of text omission, the default is to omit the tail.
 

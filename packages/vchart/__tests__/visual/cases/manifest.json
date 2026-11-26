@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "57e833c2da3e7b6ea07704c419f67c3d315caa3351f47fe6f76c262054451524",
+  "indexDigest": "3fb49504ecc42b9110a39b93dd80da35621f8cd1f19f68155352d6a1ad84bc4d",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -159,6 +159,7 @@
     "line-end-label",
     "waterfall-horizontal-total",
     "waterfall-absolute-label",
+    "waterfall-stack-label-formatter",
     "waterfall-total-tag",
     "richtext-axis-marker",
     "richtext-funnel-label",
@@ -273,6 +274,7 @@
     "crosshair-polar-formatters",
     "theme-runtime-switch",
     "theme-chart-components",
+    "theme-radar-radius-axis-visibility",
     "funnel-extension-select",
     "media-query-width",
     "statplots-regression",

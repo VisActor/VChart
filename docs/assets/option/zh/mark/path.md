@@ -2,10 +2,11 @@
 
 <!-- IPathMarkSpec -->
 
-#${prefix} path(string)
+#${prefix} path(string|Function)
 
 配置 svg path。
 
 {{ use: graphic-path(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = '|Function'
 ) }}

@@ -62,12 +62,12 @@ Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线�
 #${prefix} stroke(string)
 箱线图的描边颜色
 
-#${prefix} boxStroke(string)
+#${prefix} boxStroke(string|Function)
 箱体的描边颜色，可单独设置以区别于其他部分
 
 {{ use: common-version(version: '2.0.11') }}
 
-#${prefix} medianStroke(string)
+#${prefix} medianStroke(string|Function)
 中位数线的描边颜色，可单独设置以突出显示中位数
 
 {{ use: common-version(version: '2.0.11') }}
@@ -75,12 +75,12 @@ Q1-Q3 四分位数矩形的高度（垂直箱线图）或宽度（水平箱线�
 #${prefix} boxFill(string)
 箱体的填充颜色，为空则不填充
 
-#${prefix} minMaxFillOpacity(number)
+#${prefix} minMaxFillOpacity(number|Function)
 最小-最大值矩形的填充透明度
 
 仅在 `shaftShape='bar'` 模式下生效。
 
-#${prefix} boxCornerRadius(number)
+#${prefix} boxCornerRadius(number|Function)
 箱体的圆角半径，设置后箱体四角将显示为圆角
 
 {{ use: common-version(version: '2.0.11') }}
