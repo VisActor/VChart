@@ -127,6 +127,40 @@ describe('DataZoom preview validity', () => {
     expect(onZoom).not.toHaveBeenCalled();
   });
 
+  it('uses a continuous filter window when an unbound field gains numeric statistics', () => {
+    const incoming = [
+      { x: 0, y: 1 },
+      { x: 50, y: 3 },
+      { x: 100, y: 2 },
+      { x: 1000, y: 4 }
+    ];
+    chart = new VChart(
+      {
+        type: 'scatter',
+        animation: false,
+        data: { id: 'data', values: [], fields: { x: { lockStatisticsByDomain: true, domain: [] } } },
+        xField: 'x',
+        yField: 'y',
+        axes: [
+          { orient: 'bottom', type: 'linear' },
+          { orient: 'left', type: 'linear' }
+        ],
+        dataZoom: [{ orient: 'bottom', field: 'x', valueField: 'y', start: 0, end: 0.25 }]
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const model = zoom('bottom');
+    const series = chart.getChart().getAllSeries()[0];
+    expect(model.stateScale.type).toBe('band');
+
+    chart.updateFullDataSync({ id: 'data', values: incoming, fields: { x: { lockStatisticsByDomain: false } } });
+    expect(model.stateScale.type).toBe('linear');
+    expect(model.stateScale.domain()).toEqual([0, 1000]);
+    expect(series.getViewData().latestData.map((row: { x: number }) => row.x)).toEqual([0, 50, 100]);
+    expectPreview();
+  });
+
   it.each(['batch', 'data view'] as const)('keeps an interactive filter window across a %s update', async mode => {
     chart = new VChart(makeSpec(rows), { dom, animation: false });
     chart.renderSync();

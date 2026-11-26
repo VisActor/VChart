@@ -422,6 +422,11 @@ export const cases = [
     file: './components/datazoom/datazoom-filter-update-empty.mjs'
   },
   {
+    id: 'datazoom-field-statistics-update',
+    purpose: '无关联轴的 DataZoom 随字段统计变化切换比例尺并更新筛选及预览',
+    file: './components/datazoom/datazoom-field-statistics-update.mjs'
+  },
+  {
     id: 'waterfall-leader-line',
     purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
     file: './charts/waterfall/waterfall-leader-line.mjs'

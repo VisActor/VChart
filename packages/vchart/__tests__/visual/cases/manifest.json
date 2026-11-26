@@ -89,6 +89,7 @@
     "datazoom-preview",
     "datazoom-numeric-category",
     "datazoom-filter-update-empty",
+    "datazoom-field-statistics-update",
     "waterfall-leader-line",
     "label-smart-invert",
     "radar-series",

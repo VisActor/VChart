@@ -129,13 +129,20 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     // 首次布局会初始化筛选窗口，后续数据更新才重新应用该窗口。
     if (this._filterMode === 'filter' && this._hasInitStateScale) {
       const previousDomain = this._newDomain;
+      const wasContinuous = isContinuous(this._stateScale.type);
+      const continuous = !this._relatedAxisComponent && this._field ? this._isStateFieldContinuous() : wasContinuous;
+      const scaleTypeChanged = continuous !== wasContinuous;
       const { start, end, startValue, endValue, updateDataAfterChange } = this._spec;
-      // 关联轴的域可能已被旧窗口筛空，缩放和预览都使用更新后的原始数据域。
-      this._updateStateScaleDomain();
+      if (scaleTypeChanged) {
+        this._initStateScale(continuous);
+      } else {
+        // 关联轴的域可能已被旧窗口筛空，缩放和预览都使用更新后的原始数据域。
+        this._updateStateScaleDomain();
+      }
       this._updateScaleRange();
       this._setStateFromAxis(isValid(start) || isValid(end) || isValid(startValue) || isValid(endValue));
       this._previewStateScale = null;
-      if (!isFunction(updateDataAfterChange) && !isEqual(previousDomain, this._newDomain)) {
+      if (!isFunction(updateDataAfterChange) && (scaleTypeChanged || !isEqual(previousDomain, this._newDomain))) {
         this.effect.onZoomChange();
       }
     } else {

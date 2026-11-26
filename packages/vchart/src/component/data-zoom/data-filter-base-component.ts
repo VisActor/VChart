@@ -898,7 +898,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
           : parseDomainFromState(this._startValue, this._endValue, this._stateScale);
     }
   }
-  protected _initStateScale() {
+  protected _initStateScale(fieldLinear?: boolean) {
     const defaultRange = [0, 1];
     if (this._relatedAxisComponent) {
       const scale = (this._relatedAxisComponent as CartesianAxis<any>).getScale().clone() as
@@ -911,26 +911,28 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
       (scale as IBandLikeScale).bandwidth?.('auto', true);
       scale.rangeFactor(defaultRange as [number, number], true).range(defaultRange);
     } else {
-      let fieldLinear = true;
-      if (this._field) {
-        eachSeries(
-          this._regions,
-          s => {
-            const stats = s.getRawDataStatisticsByField(this._field);
-            if (!isValidNumber(stats?.min) || !isValidNumber(stats?.max)) {
-              fieldLinear = false;
-            }
-          },
-          {
-            userId: this._seriesUserId,
-            specIndex: this._seriesIndex
-          }
-        );
-      }
-
+      fieldLinear ??= this._isStateFieldContinuous();
       this._stateScale = fieldLinear ? new LinearScale() : new BandScale();
       this._stateScale.domain(this._computeDomainOfStateScale(fieldLinear), true).range(defaultRange);
     }
+  }
+
+  protected _isStateFieldContinuous() {
+    const field = this._field;
+    return (
+      !field ||
+      !eachSeries(
+        this._regions,
+        s => {
+          const stats = s.getRawDataStatisticsByField(field);
+          return !isValidNumber(stats?.min) || !isValidNumber(stats?.max);
+        },
+        {
+          userId: this._seriesUserId,
+          specIndex: this._seriesIndex
+        }
+      )
+    );
   }
 
   protected _updateStateScaleDomain() {
