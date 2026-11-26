@@ -77,13 +77,15 @@ export function breakData(
 
   const domain = breakDomain(bounds?.min ?? min, bounds?.max ?? max, points);
   let cursor = 0;
-  const lengthSegments = domain.map(([, end], index) => {
-    const previous = cursor;
-    while (cursor < data.length && data[cursor] <= end) {
+  const lengthSegments = domain.map(([start, end], index) => {
+    // 端部保留轴域留白，内部区间只按严格落在两端之间的观测值判断。
+    if (index === 0 || index === domain.length - 1) {
+      return true;
+    }
+    while (cursor < data.length && data[cursor] <= start) {
       cursor++;
     }
-    // 端部保留轴域留白，只有没有观测值的内部区间才压缩到同一位置。
-    return cursor > previous || index === 0 || index === domain.length - 1;
+    return cursor < data.length && data[cursor] < end;
   });
   return { domain, scope: getLengthBreakScope(combineDomains(domain), lengthSegments), lengthSegments };
 }

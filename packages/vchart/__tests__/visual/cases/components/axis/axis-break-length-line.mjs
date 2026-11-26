@@ -3,8 +3,8 @@ import { verifyRendered } from '../../../helpers.mjs';
 /**
  * 验证目的：折线图按最终轴域分配断轴两侧的长度。
  * 关键配置：线性轴的 min、max 及 breaks.scopeType: 'length'。
- * 场景条件：单个极端值紧邻断轴上边界，下边界仍有多条折线。
- * 最终检查：断点共享像素位置，且上下两段的长度为 7:1。
+ * 场景条件：截断上界及其上方都有观测值，轴域两端保留留白。
+ * 最终检查：断点共享像素位置，且下段与上段的长度之比为 7:1。
  */
 export default {
   createSpec() {
@@ -16,8 +16,8 @@ export default {
       seriesField: 'series',
       data: {
         values: months.flatMap((month, i) => [
-          { month, value: [0, -1, 23100.7, 2, 0][i], series: 'A' },
-          { month, value: [1, 8, 4, 53, 2][i], series: 'B' }
+          { month, value: [0, -1, 23100, 2, 0][i], series: 'A' },
+          { month, value: [1, 8, 4, 53, 23110][i], series: 'B' }
         ])
       },
       axes: [
