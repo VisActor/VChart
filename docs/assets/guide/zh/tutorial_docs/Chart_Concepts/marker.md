@@ -16,7 +16,7 @@ Marker 是为增强数据感知、辅助数据叙事而设计的图表辅助标�
 
 MarkPoint 是数据标注点，可以表示某个具体数据在图表中的位置。通过使用 MarkPoint，用户可以对特定数据进行突出展示，使得读者更加直观地了解该数据点的详细数据。
 
-MarkPoint 可通过 `markPoint` 属性进行配置:
+使用 `markPoint` 配置标注点。普通文本和富文本都将 `itemContent.type` 设为 `'text'`。普通文本在 `style.text` 中填写字符串，富文本则将 `style.type` 设为 `'rich'`，再在 `style.text` 中填写片段数组。
 
 ```ts
 {
@@ -28,10 +28,17 @@ MarkPoint 可通过 `markPoint` 属性进行配置:
     },
     // 配置标注内容
     itemContent: {
-      type: 'richText', //
+      type: 'text',
+      style: {
+        type: 'rich',
+        text: [
+          { text: '2016 年人口：', fontWeight: 'bold' },
+          { text: '899447' }
+        ]
+      }
     },
     itemLine: {
-      type: 'type-do',
+      type: 'type-do'
     }
   }
 }
