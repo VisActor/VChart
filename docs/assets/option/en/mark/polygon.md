@@ -2,10 +2,10 @@
 
 <!-- IPolygonMarkSpec -->
 
-#${prefix} points(Array)
+#${prefix} points(Array|Function)
 
 Polygon vertices.
 
-#${prefix} cornerRadius(number|number[])
+#${prefix} cornerRadius(number|Array|Function)
 
 Polygon rounded corners.

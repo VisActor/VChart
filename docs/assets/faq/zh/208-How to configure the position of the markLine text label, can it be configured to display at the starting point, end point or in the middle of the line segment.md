@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-类似 （https://www.visactor.io/vchart/demo/marker/mark-line-basic）这样的使用了markLine做轴空间定位的图表，
+类似 （<https://www.visactor.io/vchart/demo/marker/mark-line-basic>）这样的使用了markLine做轴空间定位的图表，
 想要实现 markLine 中的 label 显示在线的起点、线的终点或者线段中间，该如何实现？
 
 ## 解决方案

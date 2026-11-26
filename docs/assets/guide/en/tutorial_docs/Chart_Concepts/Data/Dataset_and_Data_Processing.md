@@ -23,7 +23,7 @@ In addition, there are several concepts related to data processing
 The `DataSet` instance has interfaces for obtaining `DataView`, registering `parser`, and `transform`. At the same time, the creation of `DataView` requires specifying a `DataSet` object.
 
 ```js
-import { DataSet, csvParser, dataViewParser, statistics } from '@visactor/vdataset';
+import { DataSet, DataView, csvParser, dataViewParser, statistics } from '@visactor/vdataset';
 
 const dataSet = new DataSet();
 // parser, transform registration
@@ -35,126 +35,63 @@ const dataView = new DataView(dataSet, { name: 'data' });
 
 ### parser
 
-`parser` is a tool for parsing raw data. It is a function with the following type:
+A parser turns raw input into data a `DataView` can use. It receives the raw data, parser options, and the current `DataView`.
 
-```js
-// data is the raw content received by DataView, option is the input parameter when the parser is executed, the dataView is the current data view being parsed
-export type Parser = (data: any, options: Object, dataView: DataView) => any;
+```ts
+export type Parser = (data: any, options: any, dataView: DataView) => any;
 ```
 
-Usage example:
+Use the `csv` parser registered above to read CSV. It returns strings for all columns. For example, the first row has a `value` of `'16.9'`.
 
 ```js
-export interface ICsvParserOptions {
-  delimiter?: string;
-}
-const csvParser = (data: string, option: ICsvParserOptions, dataView: DataView) => {
-  /** ...*/
-};
-// Register parser first
-dataSet.registerParser('csv', csvParser);
-// use
 dataView.parse(
   `year,group,value
 1990,18-34,16.9
-1990,35-49,12.2
-1990,50-64,10.2
-1990,65+,5.2
-1991,18-34,17
-1991,35-49,17.8
-1991,50-64,10
-1991,65+,4.8
-1993,18-34,26.5
-1993,35-49,23.8
-1993,50-64,16.8
-1993,65+,6.6
-`,
-  {
-    type: 'csv',
-    option: {
-      delimiter: ','
-    }
-  }
+1990,35-49,12.2`,
+  { type: 'csv' }
 );
 ```
 
 ### transform
 
-`parser` is a data transformation tool. A `DataView` can have multiple `transform`, which are executed sequentially, and the data obtained by the next `transform` is the result of the transformation of the previous `transform`.
+A transform processes data. A `DataView` can run multiple transforms in sequence, passing each transform's output to the next. The `level` option controls their order.
 
-Type:
-
-```js
-export type Transform = (data: any, options?: Object) => any;
-type TransformName = string;
-export interface ITransformOptions {
-  type: TransformName;
-  options?: Object;
-  level?: number; // If level is configured, the transform on DataView will be sorted according to level
-}
+```ts
+export type Transform = (data: any, options?: any) => any;
 ```
 
-Usage example:
+Use the `statistics` transform registered above to average `value` by year. The output stores the year in `group` and the average in `avg`.
 
 ```js
-export interface IStatisticsOptions {
-  fields: string[];
-  operations: Array<
-    | 'count'
-    | 'max'
-    | 'min'
-    | 'mean'
-    | 'average'
-    | 'median'
-    | 'mode'
-    | 'product'
-    | 'standardDeviation'
-    | 'sum'
-    | 'sumSimple'
-    | 'variance'
-  >;
-  as?: string[];
-  groupBy?: string;
-}
-const statisticsTransform = (data: string, option: IStatisticsOptions) => {
-  /** ...*/
-};
-// Register the transform first
-dataSet.registerTransform('statistics', statisticsTransform);
-// use
 dataView.transform({
   type: 'statistics',
-  option: {
-    fields: ['year'],
+  options: {
+    fields: ['value'],
     operations: ['average'],
     as: ['avg'],
-    groupBy: 'group'
+    groupBy: 'year'
   }
 });
 ```
 
 ### Usage Examples
 
-Now let's use an example to explain how to use DataSet to handle data and use it in a chart.
+This example combines two CSV data sets that record the proportion of adults in a region who accept same-sex relationships. One covers adults under 50, and the other covers adults aged 50 and older. The bars show the proportions by age group, and the line shows the average for each year.
 
-In the example below, the data is the percentage of the adult population that "accept the same-sex relationships" in an area for 3 years. One data set is for data under the age of 50, the other is for data over the age of 50. We will perform the following operations
-
-1. Parse the 2 CSV data sets separately, obtaining 2 data views dataView1 and dataView2
-2. Use a new data view dataViewMerge, depending on dataView1 and dataView2, to merge their data.
-3. Then create a new data view dataViewAvg and perform statistics on the data obtained in step 2 to get an average value data.
-4. Use dataViewMerge and dataViewAvg to draw a combination chart, using a bar chart to display the original proportion data, and a line to represent the average value.
+Install `@visactor/vchart` and `@visactor/vdataset`, and give the chart a container with a width and height, such as `<div id="chart" style="width: 640px; height: 360px"></div>`.
 
 ```js
-// Referenced content
-import { DataSet, csvParser, dataViewParser, statistics } from '@visactor/vdataset';
-// Create dataset instance
+import VChart from '@visactor/vchart';
+import { DataSet, DataView, csvParser, dataViewParser, map, statistics } from '@visactor/vdataset';
+
 const dataSet = new DataSet();
-// Register parser, transform
+// Register the parsers and transforms. mergeDataView reads the latest rows from each dependency.
 dataSet.registerParser('csv', csvParser);
-dataSet.registerParser('dataview-', dataViewParser);
+dataSet.registerParser('dataview', dataViewParser);
+dataSet.registerTransform('mergeDataView', views => views.flatMap(view => view.latestData));
+dataSet.registerTransform('map', map);
 dataSet.registerTransform('statistics', statistics);
 
-// 2 sets of raw data
 const dataLess50 = `year,group,value
 1990,18-34,16.9
 1990,35-49,12.2
@@ -172,57 +109,30 @@ const dataOver50 = `year,group,value
 1993,65+,6.6
 `;
 
-// Parse 2 sets of raw data
+// Parse the two CSV data sets. All column values are strings at this stage.
 const dataView1 = new DataView(dataSet, { name: 'dataView1' });
 dataView1.parse(dataLess50, { type: 'csv' });
 const dataView2 = new DataView(dataSet, { name: 'dataView2' });
 dataView2.parse(dataOver50, { type: 'csv' });
 
-// Create dataViewMerge
+// Merge the rows, then convert the value column to numbers for the chart.
 const dataViewMerge = new DataView(dataSet, { name: 'dataViewMerge' });
-// Make it refer to dataView1, dataView2
 dataViewMerge.parse([dataView1, dataView2], { type: 'dataview' });
-// Now let's implement a merge transform ourselves
-const mergeDataViewTransform = (data: DataView[], opt) => {
-  // At this point, the data we receive is an array data = [dataView1,dataView2]
-  const result = [];
-  data.forEach(d => {
-    // The latestData property of the dataView is its final data
-    result.push(...d.latestData);
-  });
-  return result;
-};
-// Register merge transform
-dataSet.registerTransform('mergeDataView', mergeDataViewTransform);
-// Use merge transform to merge data
 dataViewMerge.transform({ type: 'mergeDataView' });
+dataViewMerge.transform({
+  type: 'map',
+  options: { callback: row => ({ ...row, value: Number(row.value) }) }
+});
+// The first two merged rows:
+// { year: '1990', group: '18-34', value: 16.9 }
+// { year: '1990', group: '35-49', value: 12.2 }
 
-/**
- * At this point, dataViewMerge data processing is complete.
- * The final data content is as follows
-  [
-    { year: '1990', group: '18-34', value: 16.9 },
-    { year: '1990', group: '35-49', value: 12.2 },
-    { year: '1991', group: '18-34', value: 17 },
-    { year: '1991', group: '35-49', value: 17.8 },
-    { year: '1993', group: '18-34', value: 26.5 },
-    { year: '1993', group: '35-49', value: 23.8 },
-    { year: '1990', group: '50-64', value: 10.2 },
-    { year: '1990', group: '65+', value: 5.2 },
-    { year: '1991', group: '50-64', value: 10 },
-    { year: '1991', group: '65+', value: 4.8 },
-    { year: '1993', group: '50-64', value: 16.8 },
-    { year: '1993', group: '65+', value: 6.6 }
-  ]
-*/
-
-// Create average value data, make it refer to dataViewMerge
+// Read the merged rows and aggregate them by year. group holds the grouping key and avg holds the average.
 const dataViewAvg = new DataView(dataSet, { name: 'dataViewAvg' });
 dataViewAvg.parse([dataViewMerge], { type: 'dataview' });
-// At this point, the data content in dataViewAvg is the same as that in dataViewMerge
-// The built-in statistics transform can generate statistical data
+dataViewAvg.transform({ type: 'mergeDataView' });
 dataViewAvg.transform({
-  type: 'statistics'
+  type: 'statistics',
   options: {
     fields: ['value'],
     operations: ['average'],
@@ -230,52 +140,42 @@ dataViewAvg.transform({
     groupBy: 'year'
   }
 });
-/**
- * So far, dataViewAvg data processing has been completed
- * The final data content is as follows
-  [
-    { year: '1990', group: '18-34', value: 11.125 },
-    { year: '1991', group: '18-34', value: 12.4 },
-    { year: '1993', group: '18-34', value: 18.425 },
-  ]
-*/
-
+// Statistics output:
+// [
+//   { group: '1990', avg: 11.125, max: 16.9, min: 5.2, average: 11.125, sum: 44.5 },
+//   { group: '1991', avg: 12.4, max: 17.8, min: 4.8, average: 12.4, sum: 49.6 },
+//   { group: '1993', avg: 18.425, max: 26.5, min: 6.6, average: 18.425, sum: 73.7 }
+// ]
 
 const spec = {
   type: 'common',
-  stackField: 'stack',
-  seriesField: 'type',
-  data: [
-    dataViewMerge,
-    dataViewAvg
-  ],
+  data: [dataViewMerge, dataViewAvg],
   series: [
     {
       type: 'bar',
-      dataId: 'dataViewMerge', // use id to correspond to data
+      dataId: 'dataViewMerge',
       xField: 'year',
       yField: 'value',
       seriesField: 'group'
     },
     {
       type: 'line',
-      dataId: 'dataViewAvg', // use id to correspond to data
-      xField: 'year',
-      yField: 'avg',
-    },
+      dataId: 'dataViewAvg',
+      xField: 'group',
+      yField: 'avg'
+    }
   ],
   axes: [{ orient: 'left' }, { orient: 'bottom', type: 'band' }]
 };
 
-const vchart = new VChart(spec, { dom: CONTAINER_ID });
+const vchart = new VChart(spec, { dom: 'chart', dataSet });
 vchart.renderSync();
-
 ```
+
+With `@visactor/vdataset@1.0.29`, `statistics` also returns `max`, `min`, `average`, and `sum`. The line uses `group` and `avg`.
 
 ### Dependency Update
 
-Regarding dependency update, in the example above, if data needs to be updated, for example, the data increases from `[1990, 1991, 1993]` to `[1990, 1991, 1993, 1995, 1997]`, you only need to update the corresponding `dataView1` and `dataView2`. `dataViewMerge` and `dataViewAvg` used by the chart will be automatically updated. The chart content will also change accordingly.
+Replace either CSV data set with `dataView1.parseNewData(updatedCsv)` or `dataView2.parseNewData(updatedCsv)`. The dependent views run their transforms again, and the chart redraws with the updated merged rows and statistics.
 
-This is because when the dependency relationship of dataView is established, an update link will be created by default. When the upper data is updated, the lower data will be automatically notified to update.
-
-We can use the same DataSet in multiple charts and use dependency updates to easily achieve data-based linkage effects.
+Pass the same `DataSet` and relevant `DataView` instances to multiple charts to keep those charts in sync as the data changes.

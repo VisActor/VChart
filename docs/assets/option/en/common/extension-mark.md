@@ -29,7 +29,8 @@ Graphical type `symbol`
 ##${prefix} style(Object)
 
 {{ use: graphic-symbol(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 #${prefix} extensionMark.rule(Object)
@@ -47,7 +48,8 @@ Required configuration to specify the graphical type
 ##${prefix} style(Object)
 
 {{ use: graphic-rule(
- prefix = '##' + ${prefix}
+ prefix = '##' + ${prefix},
+ callbackType = '|Function'
 ) }}
 
 #${prefix} extensionMark.text(Object)
@@ -65,7 +67,8 @@ Required configuration to specify the graphical type
 ##${prefix} style(Object)
 
 {{ use: graphic-text(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 #${prefix} extensionMark.rect(Object)
@@ -83,7 +86,8 @@ Required configuration to specify the graphical type
 ##${prefix} style(Object)
 
 {{ use: graphic-rect(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 #${prefix} extensionMark.path(Object)
@@ -101,7 +105,8 @@ Required configuration to specify the graphical type
 ##${prefix} style(Object)
 
 {{ use: graphic-path(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 #${prefix} extensionMark.arc(Object)
@@ -120,6 +125,7 @@ Required configuration to specify the graphical type
 
 {{ use: graphic-arc(
   prefix = '##' + ${prefix},
+  callbackType = '|Function',
   markType = 'arc'
 ) }}
 
@@ -138,7 +144,8 @@ Required configuration to specify the graphical type
 ##${prefix} style(Object)
 
 {{ use: graphic-polygon(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 #${prefix} extensionMark.image(Object)
@@ -156,7 +163,8 @@ Required configuration to specify the graphical type
 ##${prefix} style(Object)
 
 {{ use: graphic-image(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 #${prefix} extensionMark.group(Object)

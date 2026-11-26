@@ -52,11 +52,11 @@ Sector style configuration.
 
 ##${prefix} style(Object)
 
-###${prefix} innerPadding(number)
+###${prefix} innerPadding(number|Function)
 
 Inner padding of the sector.
 
-###${prefix} outerPadding(number)
+###${prefix} outerPadding(number|Function)
 
 Outer padding of the sector.
 

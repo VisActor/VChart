@@ -2,7 +2,7 @@
 
 <!-- ISymbolMarkSpec -->
 
-#${prefix} visible(boolean) = true
+#${prefix} visible(boolean|Function) = true
 
 是否显示标题。
 
@@ -11,5 +11,6 @@
 同 symbolType。对外声明使用 shape，vrender 图形属性对应的是 shape。 -->
 
 {{ use: graphic-symbol(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = '|Function'
 ) }}

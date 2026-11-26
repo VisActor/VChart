@@ -2,7 +2,7 @@
 
 <!-- IFillStyle -->
 
-#${prefix} fill(string|Object)
+#${prefix} fill(string|Object${callbackType})
 
 Fill color. Supports setting to pure color in ways like `rgb(255,255,255)`, `rgba(255,255,255,1)`, `#fff`, and also supports setting to gradient color fill.
 
@@ -10,11 +10,11 @@ Fill color. Supports setting to pure color in ways like `rgb(255,255,255)`, `rgb
 
 {{ use: graphic-gradient }}
 
-#${prefix} fillOpacity(number)
+#${prefix} fillOpacity(number${callbackType})
 
 Fill opacity.
 
-#${prefix} shadowBlur(number)
+#${prefix} shadowBlur(number${callbackType})
 
 The blur size of the graphic shadow. This property is used together with shadowColor, shadowOffsetX, and shadowOffsetY to set the shadow effect of the graphic.
 
@@ -27,19 +27,19 @@ Example:
 }
 ```
 
-#${prefix} shadowColor(string)
+#${prefix} shadowColor(string${callbackType})
 
 Shadow color.
 
-#${prefix} shadowOffsetX(number)
+#${prefix} shadowOffsetX(number${callbackType})
 
 The offset distance of the shadow in the horizontal direction.
 
-#${prefix} shadowOffsetY(number)
+#${prefix} shadowOffsetY(number${callbackType})
 
 The offset distance of the shadow in the vertical direction.
 
-#${prefix} background(string|HtmlImageElement|HtmlCanvasElement)
+#${prefix} background(string|HtmlImageElement|HtmlCanvasElement${callbackType})
 
 Supported since `1.2.0` version, background configuration for graphics, which can be configured as a pure color, image element, or canvas element.
 
@@ -78,7 +78,7 @@ const spec = {
 
 ```
 
-#${prefix} backgroundMode(string)
+#${prefix} backgroundMode(string${callbackType})
 
 Background fill mode, related to specific graphic elements. Optional values:
 
@@ -91,7 +91,7 @@ Background fill mode, related to specific graphic elements. Optional values:
 - `'no-repeat-fill'`: Supported since version `2.0.21`. No repeat, stretch to fill the graphic area
 - `'no-repeat-auto'`: Supported since version `2.0.21`. No repeat, draw with the image's intrinsic size
 
-#${prefix} backgroundPosition(string|Array<string | number>)
+#${prefix} backgroundPosition(string|Array${callbackType})
 
 Supported since version `2.0.21`. Background image anchor position, similar to CSS `background-position`. Only effective when the background is an image and the final mode is `no-repeat`.
 
@@ -101,37 +101,37 @@ Supported forms:
 - Preset position: `'top-left'`, `'top-center'`, `'top-right'`, `'center-left'`, `'center'`, `'center-right'`, `'bottom-left'`, `'bottom-center'`, `'bottom-right'`
 - Tuple: `[x, y]`, where `x` / `y` can be a number, keyword, or percentage string, for example `['25%', '75%']`
 
-#${prefix} backgroundFit(boolean)
+#${prefix} backgroundFit(boolean${callbackType})
 
 Whether to fit the background exactly, only effective in `repeat-x`, `repeat-y`, or `no-repeat` mode.
 
-#${prefix} backgroundKeepAspectRatio(boolean)
+#${prefix} backgroundKeepAspectRatio(boolean${callbackType})
 
 Whether to maintain the aspect ratio of the background image.
 
-#${prefix} backgroundScale(number)
+#${prefix} backgroundScale(number${callbackType})
 
 Background image scale, only effective in `no-repeat` mode.
 
-#${prefix} backgroundOffsetX(number)
+#${prefix} backgroundOffsetX(number${callbackType})
 
 Background image horizontal offset, only effective in `no-repeat` mode.
 
-#${prefix} backgroundOffsetY(number)
+#${prefix} backgroundOffsetY(number${callbackType})
 
 Background image vertical offset, only effective in `no-repeat` mode.
 
-#${prefix} backgroundClip(boolean)
+#${prefix} backgroundClip(boolean${callbackType})
 
 Whether the background image is clipped, whether to call clip to avoid drawing outside the graphic element.
 
-#${prefix} backgroundCornerRadius(number|Array<number>)
+#${prefix} backgroundCornerRadius(number|Array${callbackType})
 
 Background corner radius. Can be configured as:
 
 - Number: Uniformly set the corner radius for all four corners
 - Array: Set corner radius for [top-left, top-right, bottom-right, bottom-left] individually
 
-#${prefix} backgroundOpacity(number)
+#${prefix} backgroundOpacity(number${callbackType})
 
 Background opacity, value range 0-1.

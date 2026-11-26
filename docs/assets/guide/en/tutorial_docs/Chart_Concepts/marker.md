@@ -16,7 +16,7 @@ In VChart, according to the positioning and shape of the markers, the Marker dat
 
 MarkPoint is a data annotation point that can represent the position of a specific data in the chart. By using MarkPoint, users can highlight specific data, making it easier for readers to see the detailed data of that data point.
 
-MarkPoint can be configured through the `markPoint` attribute:
+Use `markPoint` to configure the annotation. Set `itemContent.type` to `'text'` for both plain and rich text. For plain text, provide a string in `style.text`. For rich text, set `style.type` to `'rich'` and provide an array of segments in `style.text`.
 
 ```ts
 {
@@ -28,10 +28,17 @@ MarkPoint can be configured through the `markPoint` attribute:
     },
     // Configure the annotation content
     itemContent: {
-      type: 'richText',
+      type: 'text',
+      style: {
+        type: 'rich',
+        text: [
+          { text: '2016 population: ', fontWeight: 'bold' },
+          { text: '899447' }
+        ]
+      }
     },
     itemLine: {
-      type: 'type-do',
+      type: 'type-do'
     }
   }
 }

@@ -1125,8 +1125,8 @@ window['vchart'] = vchart;
 
 时间轴配置:
 
-- `type`属性用于配置轴的类型, 此处推荐配置`time`用以映射时序数据, 需要注意的是时间轴仅支持时间戳数据
-- `layers` 属性用于配置时间轴子母轴的配置, 当轴为时间轴时方可生效. 第 0 项表示母轴, 即下方的轴; 第 1 项表示子轴, 即上方的轴. 通过`timeFormat`配置标签的时间格式. 通过 tickStep 配置时间的间隔秒数.
+- 将 `type` 设为 `'time'` 可按实际时间间隔映射数据。时间字段的转换方式见[坐标轴教程](/vchart/guide/tutorial_docs/Chart_Concepts/Axes)。
+- `layers[0]` 配置离轴线最近的第一层标签，`layers[1]` 配置第二层。每层通过 `timeFormat` 设置标签格式，通过 `tickStep` 设置刻度间隔。`tickStep` 的单位与时间字段一致。
 
 dot 系列配置:
 

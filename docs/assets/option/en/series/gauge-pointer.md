@@ -56,7 +56,8 @@ Center coordinate. Proportional value, range 0~1.
 ) }}
 
 {{ use: graphic-rect(
-  prefix = '##' + ${prefix}
+  prefix = '##' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 ##${prefix} style (path version) (Object)

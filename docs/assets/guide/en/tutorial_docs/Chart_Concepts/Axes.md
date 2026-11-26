@@ -40,7 +40,7 @@ There are currently five types of axes supported in VChart:
 
 1. Linear axis (type: 'linear'), suitable for numerical data;
 2. Discrete axis (type: 'band'), suitable for discrete data;
-3. Time axis (type: 'time'), suitable for representing time series data, for specific usage please refer to [SequenceChart Time Series Chart demo](/vchart/demo/sequence-chart/social-media-event);
+3. Time axis (type: 'time'), positions time series data by elapsed time;
    It should be noted that histograms do not support discrete axes, as histograms are used to count the frequency distribution of data intervals, and the main axis must be passed in as value intervals, which the discrete axis does not support.
 4. Log axis (type: 'log'), the characteristic of the log axis is that the interval between the scales is calculated according to the logarithmic function (usually base 10). This means that each logarithmic unit (unit of size) of the data has the same physical length, e.g. from 1 to 10, 10 to 100, 100 to 1000, etc. For exponential growth or decline of data, the log axis can better show the relative change of data, the specific use can be viewed [log axis demo](/vchart/demo/axis/log-axis)
 5. Symlog axis (type: 'symlog'), unlike the log axis, symlog can support negative numbers. For specific usage, the specific use can be viewed[symlog axis demo](/vchart/demo/axis/symlog-axis)
@@ -66,6 +66,48 @@ axes: [
 ];
 ```
 
+### Time axis
+
+Set the horizontal axis to `type: 'time'` and point `xField` to the time field in your data. The time axis positions points by elapsed time, so a two-day gap takes up twice the space of a one-day gap.
+
+Use Unix timestamps in milliseconds (`number`) for the time field. Call `.getTime()` on `Date` objects to convert them. For ISO 8601 strings, include `Z` or an explicit time zone offset and convert them with `Date.parse()`. Multiply timestamps in seconds by `1000` to convert them to milliseconds. Use millisecond timestamps for `min` and `max` if you set explicit axis bounds.
+
+```javascript livedemo
+const spec = {
+  type: 'line',
+  data: {
+    values: [
+      { time: Date.parse('2023-10-05T12:00:00.000Z'), count: 1500 },
+      { time: Date.parse('2023-10-06T12:00:00.000Z'), count: 2300 },
+      { time: Date.parse('2023-10-08T12:00:00.000Z'), count: 3100 }
+    ]
+  },
+  xField: 'time',
+  yField: 'count',
+  axes: [
+    {
+      orient: 'bottom',
+      type: 'time',
+      layers: [{ tickStep: 86_400_000, timeFormat: '%m-%d', timeFormatMode: 'utc' }]
+    },
+    {
+      orient: 'left',
+      type: 'linear',
+      label: { formatter: '{label:~s}' }
+    }
+  ]
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+```
+
+- `layers[0].timeFormat` sets the display format of the first layer's ticks and defaults to `'%Y%m%d'`. The example's `tickStep` generates a tick every 24 hours. Use `layers[1]` to configure the second layer's format and ticks.
+- `layers[0].timeFormatMode` displays the first layer's labels in local time (`'local'`, the default) or UTC (`'utc'`). This setting affects label text only.
+- The time axis's `label.formatMethod` receives the formatted time string. Try adding `label: { formatMethod: text => text + ' UTC' }` to the time axis in the example. Time axes use `layers[].timeFormat` and `label.formatMethod` for label formatting. The `label.formatter` template has no effect on a time axis.
+
+The example's Y-axis uses `{label:~s}`, so a tick value of `1500`, for example, displays as `1.5k`. Here `label` comes from the axis tick data. To format the data point labels in the same way, set `label: { visible: true, formatter: '{count:~s}' }` on the chart, where `count` is a field in the data row. See the [formatter plugin guide](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter).
+
 ### Polar coordinate system axis configuration
 
 In the polar coordinate system, the radius axis defaults to type 'linear', while the angle axis defaults to type 'band'.
@@ -85,14 +127,13 @@ axes: [
 
 ## Axis range configuration
 
-For linear axes (type: 'linear'/'time'/'log'/'symlog'), we provide the following properties for configuring the data range of the axes:
+Linear (`linear`), time (`time`), logarithmic (`log`), and symmetric logarithmic (`symlog`) axes all support `min`, `max`, `nice`, and `expand` for configuring the axis domain.
 
-- `min`: configure the minimum value of the value axis, the priority is higher than `zero`, `nice`.
-- `max`: Configure the maximum value of the value axis, the priority is higher than `zero`, `nice`.
-- `nice`: Whether to adjust the axis range to a relatively regular value based on the data. For example, when max = 999 is configured, nice will not optimize the axis range. When min and max are configured, this configuration item becomes invalid. to 1000.
-- `niceType`: Configure the type of nice effect, whether accuracy is priority or tickCount is priority (for example, if tickCount is 2, the accuracy of nice will be very low). If not configured, the default is tickCountFirst.
-- `zero`: Whether to include 0 values. When min and max are configured, this configuration item becomes invalid.
-- `expand`: The axis range is expanded proportionally, such as `expand: { min: 0.1, max: 0.1 }` When min and max are configured, this configuration item is invalid.
+- `min` and `max` fix the lower and upper bounds, respectively, taking precedence over automatic domain settings. Use millisecond timestamps for time axis bounds.
+- `nice` rounds automatically computed bounds. Explicitly configured bounds keep their values.
+- `expand` extends the bounds by a proportion of the data span. For example, `expand: { min: 0.1, max: 0.1 }` extends each automatically computed bound outward by 10%.
+- `niceType` selects the `nice` strategy for linear and time axes. The default, `'tickCountFirst'`, prioritizes the tick count. Use `'accurateFirst'` to prioritize bound precision. Logarithmic and symmetric logarithmic axes round bounds according to their own scale rules.
+- `zero` controls whether the automatic domain expands to include zero. It defaults to `true` for linear axes and `false` for time and symmetric logarithmic axes. For a time axis, zero represents the Unix epoch. Keep `zero: false` for a logarithmic axis, where both domain bounds must have the same sign and lie away from zero.
 
 ```ts
 axes: [
@@ -116,6 +157,27 @@ axes: [
   }
 ];
 ```
+
+### Starting a value axis at zero or fitting it to the data
+
+Linear axes default to `zero: true`. When all values are positive, the automatic domain extends down to zero. When all values are negative, it extends up to zero.
+
+If the Y values in a line chart fall within a narrow interval, use `zero: false` to fit the Y-axis domain more closely to the data. This example also disables `nice`, showing how the domain changes from `[0, 98]` with `zero: true` to `[92, 98]` with `zero: false`.
+
+```js
+const spec = {
+  type: 'line',
+  data: { values: [{ day: 'Mon', value: 92 }, { day: 'Tue', value: 98 }] },
+  xField: 'day',
+  yField: 'value',
+  axes: [
+    { orient: 'bottom', type: 'band' },
+    { orient: 'left', type: 'linear', zero: false, nice: false }
+  ]
+};
+```
+
+To place an axis line at the zero tick of another axis, use `domainLine.onZero`. See the [`zero` option reference](/vchart/option/lineChart-axes-linear#zero) and the [axis line at zero example](/vchart/demo/axis/on-zero).
 
 ## axis tick configuration
 

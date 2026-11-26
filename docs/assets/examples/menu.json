@@ -535,6 +535,13 @@
           }
         },
         {
+          "path": "bar-lock-statistics-by-domain",
+          "title": {
+            "zh": "柱状图锁定分类轴类别",
+            "en": "Locking Categories on a Column Chart Axis"
+          }
+        },
+        {
           "path": "group-column",
           "title": {
             "zh": "分组柱状图",

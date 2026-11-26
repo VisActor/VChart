@@ -160,16 +160,11 @@
 
 标注内容。
 
-#### type(string)
+#### type(string) = 'text'
 
-标注内容类型。
+标注内容类型。使用 `'text'` 配置普通文本或富文本，使用 `'symbol'` 配置图形，使用 `'image'` 配置图片。
 
-可选值：
-
-- 'symbol'
-- 'text'
-- 'image'
-- 'richText'
+历史配置 `itemContent.type: 'richText'` 仍可使用。迁移时将 `itemContent.type` 改为 `'text'`，将富文本片段从 `style.textConfig` 移至 `style.text`，并设置 `style.type: 'rich'`。
 
 #### position(string)
 
@@ -222,6 +217,8 @@
 
 #### text(Object)
 
+对于普通文本，可在此配置标签内容 `text` 和背景 `labelBackground`。设置了 `itemContent.text.style` 时，优先使用该处的文本样式。
+
 {{ use: component-marker-label(
   prefix = '####',
   noConfine = true,
@@ -230,6 +227,35 @@
 ) }}
 
 #### style(Object)
+
+标注内容的样式。当 `itemContent.type` 为 `'text'` 时，普通文本可直接设置 `style.text` 和字体样式。
+
+```ts
+const itemContent = {
+  type: 'text',
+  style: {
+    text: '2016 年人口：899447',
+    fontSize: 14
+  }
+}
+```
+
+富文本需要设置 `style.type: 'rich'`，并将 `style.text` 写成片段数组。每个片段都可以设置独立的字体样式。
+
+```ts
+const itemContent = {
+  type: 'text',
+  style: {
+    type: 'rich',
+    text: [
+      { text: '2016 年人口：', fontWeight: 'bold' },
+      { text: '899447', fill: '#E8346D' }
+    ]
+  }
+}
+```
+
+历史配置中的 `itemContent.textStyle` 可迁移至 `itemContent.style`。
 
 {{ use: component-marker-style-callback(
   description = 'image | text | richText | symbol style'
