@@ -76,4 +76,33 @@ describe('DomTooltipHandler', () => {
     expect(titleDom.textContent).toBe(title);
     expect(titleDom.querySelector('img')).toBeNull();
   });
+
+  it('confines HTML tooltip to the visible chart width when canvas coordinates are scaled', () => {
+    const canvas = document.createElement('canvas');
+    container.appendChild(canvas);
+
+    for (const element of [container, canvas]) {
+      Object.defineProperty(element, 'offsetWidth', { value: 320 });
+      element.getBoundingClientRect = () => ({ x: 0, y: 0, width: 320, height: 180 } as DOMRect);
+    }
+
+    const handler = createHandler({ confine: true, renderMode: 'html', parentElement: container }, container) as any;
+    handler._env = 'desktop-browser';
+    handler._compiler = { getCanvas: () => canvas };
+    handler._initFromSpec();
+    handler.initEl();
+
+    const { x } = handler._getActualTooltipPosition(
+      { activeType: 'mark', data: [{ datum: {} }] },
+      {
+        tooltipSpec: handler._component.getSpec(),
+        event: { canvasX: 620, canvasY: 40 },
+        chart: { getCanvasRect: () => ({ width: 640, height: 360 }) }
+      },
+      { width: 100, height: 30 }
+    );
+
+    expect(x).toBeGreaterThanOrEqual(0);
+    expect(x + 100).toBeLessThanOrEqual(320);
+  });
 });

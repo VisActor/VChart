@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复图表容器经 CSS 缩放后，启用 confine 的 HTML tooltip 仍可能超出图表边界的问题（#4399）。",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
