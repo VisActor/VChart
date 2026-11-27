@@ -1,4 +1,5 @@
 name: Bug Server CI
+run-name: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork && format('fork-handoff/{0}/{1}/{2}/{3}', github.event.number, github.event.pull_request.head.repo.id, github.event.pull_request.head.sha, github.event.pull_request.base.sha) || github.event.pull_request.title || github.event.head_commit.message }}
 
 # 这里业务方根据需求设置
 on:
@@ -40,6 +41,9 @@ jobs:
           BASE_REPOSITORY_ID: ${{ github.event.pull_request.base.repo.id }}
           CREATED_AT: ${{ github.event.pull_request.created_at }}
           REPOSITORY: ${{ github.repository }}
+          # Public fork rollout scope. The controller and BugServer also verify the PR.
+          FORK_SOURCE_ID: '1474225605'
+          FORK_SINCE: '1795771524000'
           INTERNAL_SINCE: ${{ vars.VISACTOR_WORKFLOW_INTERNAL_SINCE }}
         run: |
           shopt -u nocasematch
@@ -65,6 +69,16 @@ jobs:
               if not re.fullmatch(r'[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z', created):
                   raise SystemExit('Invalid PR creation time')
               skip = int(datetime.fromisoformat(created.replace('Z', '+00:00')).timestamp() * 1000) > int(since)
+          if (e['EVENT_NAME'] == 'pull_request' and e['REPOSITORY'] == e['BASE_REPOSITORY'] == 'VisActor/VChart'
+              and e['BASE_REF'] == 'develop' and e['BASE_REPOSITORY_ID'] == '649544592'
+              and e['HEAD_REPOSITORY'] != e['REPOSITORY'] and e.get('FORK_SINCE')
+              and e['HEAD_REPOSITORY_ID'] != e['BASE_REPOSITORY_ID']
+              and re.fullmatch(r'[1-9][0-9]*', e['HEAD_REPOSITORY_ID'])
+              and (e.get('FORK_SOURCE_ID') == 'all' or e['HEAD_REPOSITORY_ID'] == e.get('FORK_SOURCE_ID'))):
+              since = e['FORK_SINCE']
+              if not re.fullmatch(r'[1-9][0-9]{0,15}', since) or int(since) > 8640000000000000:
+                  raise SystemExit('Invalid VISACTOR_WORKFLOW_FORK_SINCE')
+              skip = int(datetime.strptime(e['CREATED_AT'], '%Y-%m-%dT%H:%M:%S%z').timestamp() * 1000) > int(since)
           print('true' if skip else 'false')
           PY
             )
