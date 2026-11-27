@@ -4,9 +4,27 @@
  */
 /** 本地用例元数据的唯一清单；模块必须保持浏览器和 Node 均可导入。 */
 export const cases = [
+  {
+    id: 'title-resize-legend-layout',
+    purpose: '标题重测后图例过滤不使绘图区坍缩',
+    file: './components/title/title-resize-legend-layout.mjs'
+  },
+  { id: 'injected-stage', purpose: '传入 Stage 的绘制准备、事件源与资源所有权', file: './api/injected-stage.mjs' },
+  { id: 'event-gesture-delay', purpose: '延迟 pinch 保留完整载荷并更新图表数据', file: './api/event-gesture-delay.mjs' },
+  { id: 'event-subscription-ownership', purpose: '跨 source 复用回调时完整解绑并隔离实例', file: './api/event-subscription-ownership.mjs' },
+  {
+    id: 'event-throttle-propagation',
+    purpose: 'throttle 同步回调保留原事件并拦截后续 Stage 监听器',
+    file: './api/event-throttle-propagation.mjs'
+  },
   { id: 'linear-axis-update-bounds', purpose: '连续轴更新显式边界后实际域与柱几何同步', file: './components/axis/linear-axis-update-bounds.mjs' },
   { id: 'band-axis-update-spec', purpose: '分类轴 updateSpec 应用新的主题与标签样式', file: './components/axis/band-axis-update-spec.mjs' },
   { id: 'legend-piecewise-domain', purpose: '多节点连续色域图例的完整范围', file: './components/legend/legend-piecewise-domain.mjs' },
+  {
+    id: 'legend-data-scale-domain',
+    purpose: '连续图例在热力图颜色比例尺的定义域更新后匹配数据范围',
+    file: './components/legend/legend-data-scale-domain.mjs'
+  },
   { id: 'brush-link-data-key', purpose: '不同变量面板按观测标识联动框选', file: './interaction/brush-link-data-key.mjs' },
   {
     id: 'bar-stack',
@@ -49,6 +67,11 @@ export const cases = [
     purpose: '图例点击筛选（multiple-legend-layout）',
     file: './components/legend/legend-filter.mjs',
     sourceExample: 'packages/vchart/__tests__/runtime/browser/test-page/multiple-legend-layout.ts'
+  },
+  {
+    id: 'sankey-legend-filter',
+    purpose: '桑基图按节点名称筛选和恢复数字索引节点与连线',
+    file: './components/legend/sankey-legend-filter.mjs'
   },
   {
     id: 'tooltip-hover',
@@ -152,6 +175,11 @@ export const cases = [
     id: 'progress-circular-gradient',
     purpose: '圆形进度渐变及内外留白',
     file: './charts/progress/progress-circular-gradient.mjs'
+  },
+  {
+    id: 'progress-circular-max-value',
+    purpose: '圆形进度按 maxValue 计算弧长',
+    file: './charts/progress/progress-circular-max-value.mjs'
   },
   {
     id: 'grid-multiple-axes',
@@ -444,6 +472,11 @@ export const cases = [
     file: './charts/word-cloud/word-cloud-enlarge.mjs'
   },
   {
+    id: 'word-cloud-shape-relayout',
+    purpose: '形状词云放大重排后隐藏放不下的词',
+    file: './charts/word-cloud/word-cloud-shape-relayout.mjs'
+  },
+  {
     id: 'sunburst-gap',
     purpose: '旭日图分层间隙和径向标签',
     file: './charts/sunburst/sunburst-gap.mjs'
@@ -732,6 +765,11 @@ export const cases = [
     id: 'waterfall-absolute-label',
     purpose: '瀑布图绝对值堆叠标签与字段总计',
     file: './charts/waterfall/waterfall-absolute-label.mjs'
+  },
+  {
+    id: 'waterfall-stack-label-formatter',
+    purpose: '瀑布图堆积变化值标签的四位小数格式化',
+    file: './charts/waterfall/waterfall-stack-label-formatter.mjs'
   },
   {
     id: 'waterfall-total-tag',
@@ -1174,6 +1212,11 @@ export const cases = [
     file: './api/state/dimension-index-area.mjs'
   },
   {
+    id: 'dimension-index-leave',
+    purpose: 'setDimensionIndex 激活维度后经留白移出画布清理折线点高亮',
+    file: './api/state/dimension-index-leave.mjs'
+  },
+  {
     id: 'custom-mark-text-click',
     purpose: '来源 customMark 点击回调修改实际图元',
     file: './interaction/custom-mark-text-click.mjs'
@@ -1297,6 +1340,11 @@ export const cases = [
     id: 'theme-chart-components',
     purpose: '来源图表主题启用柱标签并定位左侧图例',
     file: './theme/theme-chart-components.mjs'
+  },
+  {
+    id: 'theme-radar-radius-axis-visibility',
+    purpose: '雷达图半径轴默认隐藏，主题可开启图元，轴配置可覆盖主题',
+    file: './theme/theme-radar-radius-axis-visibility.mjs'
   },
   {
     id: 'funnel-extension-select',

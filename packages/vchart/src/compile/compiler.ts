@@ -28,6 +28,7 @@ import { createStageFromApp, getVRenderAppEnvParams, resolveVRenderApp } from '.
 type EventListener = {
   type: string;
   callback: (...args: any[]) => void;
+  unbind?: () => void;
 };
 
 const POPTIP_FOR_TEXT_PLUGIN_NAME = 'poptipForText';
@@ -143,6 +144,10 @@ export class Compiler implements ICompiler {
     this._dedupeStagePlugin(POPTIP_FOR_TEXT_PLUGIN_NAME);
   }
 
+  private handleBeforeRender = () => {
+    this._compileChart?.onBeforeRender();
+  };
+
   initView() {
     if (this._released) {
       return;
@@ -220,7 +225,12 @@ export class Compiler implements ICompiler {
     }
 
     this._dedupePoptipPlugin();
-    this._stage.enableIncrementalAutoRender();
+    if (!externalStage) {
+      this._stage.enableIncrementalAutoRender();
+    } else {
+      // The caller owns stage scheduling; chart preparation still runs before each draw.
+      this._stage.hooks.beforeRender.tap('chart-event', this.handleBeforeRender);
+    }
 
     // 之前vgrammar 设置了一些默认配置
     (this._stage as any).setTheme({
@@ -605,8 +615,8 @@ export class Compiler implements ICompiler {
     const animationState = markAnimationStates.every(state => state === AnimationStateEnum.appear)
       ? AnimationStateEnum.appear
       : markAnimationStates.every(state => state === AnimationStateEnum.disappear)
-      ? AnimationStateEnum.disappear
-      : AnimationStateEnum.none;
+        ? AnimationStateEnum.disappear
+        : AnimationStateEnum.none;
     if (!this._stage.context) {
       this._stage.context = {};
     }
@@ -732,9 +742,20 @@ export class Compiler implements ICompiler {
         };
         callback.call(null, params);
       }.bind(this);
-      this._windowListeners.set(callback, { type, callback: wrappedCallback });
-      const windowObject = this._getGlobalThis();
-      windowObject?.addEventListener(type, wrappedCallback);
+      const emitter = this._option.eventSource?.window;
+      const domTarget = this._getGlobalThis();
+      if (emitter) {
+        emitter.on(type, wrappedCallback);
+      } else {
+        domTarget?.addEventListener(type, wrappedCallback);
+      }
+      this._windowListeners.set(callback, {
+        type,
+        callback: wrappedCallback,
+        unbind: emitter
+          ? () => emitter.off(type, wrappedCallback)
+          : () => domTarget?.removeEventListener(type, wrappedCallback)
+      });
     } else if (source === Event_Source_Type.canvas) {
       const wrappedCallback = function wrappedCallback(event: any) {
         // TODO: vgrammar 暂未提供基于事件直接筛选相应 mark 的能力，这里无法获取到相应的 item
@@ -751,9 +772,20 @@ export class Compiler implements ICompiler {
         };
         callback.call(null, params);
       }.bind(this);
-      this._canvasListeners.set(callback, { type, callback: wrappedCallback });
-      const canvasObject = this.getStage()?.window;
-      canvasObject?.addEventListener(type, wrappedCallback);
+      const emitter = this._option.eventSource?.canvas;
+      const domTarget = this.getStage()?.window;
+      if (emitter) {
+        emitter.on(type, wrappedCallback);
+      } else {
+        domTarget?.addEventListener(type, wrappedCallback);
+      }
+      this._canvasListeners.set(callback, {
+        type,
+        callback: wrappedCallback,
+        unbind: emitter
+          ? () => emitter.off(type, wrappedCallback)
+          : () => domTarget?.removeEventListener(type, wrappedCallback)
+      });
     }
   }
 
@@ -770,14 +802,10 @@ export class Compiler implements ICompiler {
       wrappedCallback && this._stage?.removeEventListener(type, wrappedCallback);
       this._viewListeners.delete(callback);
     } else if (source === Event_Source_Type.window) {
-      const windowObject = this._getGlobalThis();
-      const wrappedCallback = this._windowListeners.get(callback)?.callback;
-      wrappedCallback && windowObject?.removeEventListener(type, wrappedCallback);
+      this._windowListeners.get(callback)?.unbind?.();
       this._windowListeners.delete(callback);
     } else if (source === Event_Source_Type.canvas) {
-      const canvasObject = this.getStage()?.window;
-      const wrappedCallback = this._canvasListeners.get(callback)?.callback;
-      canvasObject && wrappedCallback && canvasObject?.removeEventListener(type, wrappedCallback);
+      this._canvasListeners.get(callback)?.unbind?.();
       this._canvasListeners.delete(callback);
     }
   }
@@ -787,10 +815,17 @@ export class Compiler implements ICompiler {
 
     if (stage) {
       stage.hooks.afterRender.unTap('chart-event', this.handleStageRender);
+      stage.hooks.beforeRender.unTap('chart-event', this.handleBeforeRender);
     }
 
     // 相应的事件remove在model中完成
     this._viewListeners.clear();
+    this._windowListeners.forEach(({ type }, callback) =>
+      this.removeEventListener(Event_Source_Type.window, type, callback)
+    );
+    this._canvasListeners.forEach(({ type }, callback) =>
+      this.removeEventListener(Event_Source_Type.canvas, type, callback)
+    );
     this._windowListeners.clear();
     this._canvasListeners.clear();
   }

@@ -2,10 +2,10 @@
 
 <!-- IPolygonMarkSpec -->
 
-#${prefix} points(Array)
+#${prefix} points(Array|Function)
 
 多边形顶点。
 
-#${prefix} cornerRadius(number|number[])
+#${prefix} cornerRadius(number|Array|Function)
 
 多边形圆角。

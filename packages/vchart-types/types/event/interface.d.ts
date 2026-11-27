@@ -9,7 +9,7 @@ import type { SeriesType } from '../series/interface';
 import type { TooltipEventParams } from '../component/tooltip/interface/event';
 import type { ILayoutItem } from '../layout/interface';
 import type { IVChart } from '../core/interface';
-export type EventType = 'pointerdown' | 'pointerup' | 'pointerupoutside' | 'pointertap' | 'pointerover' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointerout' | 'mousedown' | 'mouseup' | 'mouseupoutside' | 'rightdown' | 'rightup' | 'rightupoutside' | 'click' | 'dblclick' | 'mousemove' | 'mouseover' | 'mouseout' | 'mouseenter' | 'mouseleave' | 'wheel' | 'touchstart' | 'touchend' | 'touchendoutside' | 'touchmove' | 'touchcancel' | 'tap' | 'dragstart' | 'drag' | 'dragenter' | 'dragleave' | 'dragover' | 'dragend' | 'drop' | 'pan' | 'panstart' | 'panend' | 'press' | 'pressup' | 'pressend' | 'pinch' | 'pinchstart' | 'pinchend' | 'swipe' | keyof typeof ChartEvent | keyof typeof HOOK_EVENT | string;
+export type EventType = 'pointerdown' | 'pointerup' | 'pointerupoutside' | 'pointertap' | 'pointerover' | 'pointermove' | 'pointerenter' | 'pointerleave' | 'pointercancel' | 'pointerout' | 'mousedown' | 'mouseup' | 'mouseupoutside' | 'rightdown' | 'rightup' | 'rightupoutside' | 'click' | 'dblclick' | 'mousemove' | 'mouseover' | 'mouseout' | 'mouseenter' | 'mouseleave' | 'wheel' | 'touchstart' | 'touchend' | 'touchendoutside' | 'touchmove' | 'touchcancel' | 'tap' | 'dragstart' | 'drag' | 'dragenter' | 'dragleave' | 'dragover' | 'dragend' | 'drop' | 'pan' | 'panstart' | 'panend' | 'press' | 'pressup' | 'pressend' | 'pinch' | 'pinchstart' | 'pinchend' | 'swipe' | keyof typeof ChartEvent | keyof typeof HOOK_EVENT | string;
 export type EventBubbleLevel = keyof typeof Event_Bubble_Level;
 export type ComponentType = 'axis' | 'dataZoom' | 'indicator' | 'legend' | 'markLine' | 'markArea' | 'markPoint' | 'tooltip' | 'title' | 'label' | 'totalLabel' | 'customMark';
 export type EventTargetType = MarkType | ComponentType | SeriesType;
@@ -58,7 +58,9 @@ export type EventFilter = {
 export type EventHandler<Params extends EventParams> = {
     callback: EventCallback<Params>;
     query: EventQuery | null;
-    wrappedCallback?: EventCallback<Params>;
+    wrappedCallback?: EventCallback<Params> & {
+        cancel?: () => void;
+    };
     filter?: EventFilter;
     prevented?: boolean;
 };
@@ -93,6 +95,7 @@ export type EventParamsDefinition = {
     pointermove: BaseEventParams;
     pointerenter: BaseEventParams;
     pointerleave: BaseEventParams;
+    pointercancel: BaseEventParams;
     pointerout: BaseEventParams;
     mousedown: BaseEventParams;
     mouseup: BaseEventParams;

@@ -113,7 +113,16 @@ def convert(value, column, csv_input, missing, location):
     require(math.isfinite(number), f'{location}: 数值必须有限')
     return number
 
-def check_plot_budget(spec):
+def filter_rows(rows, filters):
+    def matches(row, condition):
+        value = row['values'][condition['field']]
+        if condition['kind'] == 'category':
+            return condition['value'] is None or value == condition['value']
+        lower, upper = condition['value']
+        return value is not None and (lower is None or value >= lower) and (upper is None or value <= upper)
+    return [row for row in rows if all(matches(row, condition) for condition in filters)]
+
+def check_plot_budget(spec, binding_fields=None):
     kind = spec.get('type')
     variables = spec.get('variables', [])
     data = spec.get('data', [])
@@ -128,7 +137,13 @@ def check_plot_budget(spec):
         if kind == 'missingValueMatrix':
             require(len(rows)*len(variables) <= 200000, 'missingValueMatrix 超过 200000 网格预算')
     if kind in {'kdePlot', 'violinPlot'}:
-        groups = {(r.get('category') if kind == 'violinPlot' else None, r.get('series')) for r in rows}
+        if binding_fields is None:
+            groups = {(r.get('category') if kind == 'violinPlot' else None, r.get('series')) for r in rows}
+        else:
+            # Match data-bindings.js: omit rows missing any bound drawing role.
+            groups = {(r['values'][binding_fields['category']] if kind == 'violinPlot' else None,
+                       r['values'][binding_fields['series']] if 'series' in binding_fields else None)
+                      for r in rows if all(r['values'][name] is not None for name in binding_fields.values())}
         require(len(groups) <= 20, f'{kind} 最多 20 个分组，请明确范围')
 
 def build_payload(request, base_dir):
@@ -271,11 +286,14 @@ def build_payload(request, base_dir):
         for initial in controls.get('initialFilters', []):
             if initial['kind'] == 'category' and initial['value'] is not None:
                 require(any(row['values'][initial['field']] == initial['value'] for row in rows), '初始类别不在数据中')
+        fixed_filters = [initial for initial in controls.get('initialFilters', [])
+                         if (initial['field'], initial['kind']) not in declarations]
+        budget_rows = filter_rows(rows, fixed_filters) if fixed_filters else rows
         for chart in charts:
             if 'binding' in chart:
                 binding = chart['binding']
                 check_plot_budget({'type':binding['type'],'variables':binding['fields'].get('variables', []),
-                                   'data':{'observations':rows}})
+                                   'data':{'observations':budget_rows}}, binding['fields'])
     else:
         require(not needed, '表格绑定或控件需要 dataset')
     payload = {'version':1,'title':title,'libraries':{'vchart':version,'statplots':version},

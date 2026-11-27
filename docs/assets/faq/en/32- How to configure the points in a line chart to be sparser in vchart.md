@@ -21,11 +21,11 @@ Sampling can achieve this function. You can use the sampling and samplingFactor 
 *  `'sum'`: Take the sum of the filtered point.</br>
 *  `'average'`: Take the average value of the filtered point.</br>
 Through samplingFactor, you can configure the sampling intensity, which is within the range of [0,1]. The smaller the samplingFactor, the greater the sampling intensity.</br>
-Reference: [https://visactor.io/vchart/option/lineChart#sampling](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FlineChart%23sampling)</br>
+Reference: [https://visactor.io/vchart/option/lineChart#sampling](https://visactor.io/vchart/option/lineChart#sampling)</br>
 ## **Solution 2**
 
 You can only hide the points by setting markOverlap: true.</br>
-Reference: [https://visactor.io/vchart/option/lineChart#markOverlap](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FlineChart%23markOverlap)</br>
+Reference: [https://visactor.io/vchart/option/lineChart#markOverlap](https://visactor.io/vchart/option/lineChart#markOverlap)</br>
 # **Code Example**
 
 ```
@@ -56,9 +56,9 @@ window['vchart'] = vchart;</br>
 After running the code, the data points are sampled to be more sparse.</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/FZOEbpU0eotYYcxqgufc9hhLnCc.gif' alt='' width='1330' height='1048'>
 
-Online demo: [https://codesandbox.io/p/sandbox/line-chart-single-selected-forked-4px87p?file=%2Fsrc%2Findex.ts%3A18%2C2](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fline-chart-single-selected-forked-4px87p%3Ffile%3D%252Fsrc%252Findex.ts%253A18%252C2)</br>
+Online demo: [https://codesandbox.io/p/sandbox/line-chart-single-selected-forked-4px87p?file=%2Fsrc%2Findex.ts%3A18%2C2](https://codesandbox.io/p/sandbox/line-chart-single-selected-forked-4px87p?file=%2Fsrc%2Findex.ts%3A18%2C2)</br>
 # **Related Documents**
 
-*  VChart line segment sampling configuration: [https://visactor.io/vchart/option/lineChart#sampling](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FlineChart%23sampling)</br>
-*  VChart point anti-overlap configuration: [https://visactor.io/vchart/option/lineChart#markOverlap](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FlineChart%23markOverlap)</br>
-*  VChart github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart line segment sampling configuration: [https://visactor.io/vchart/option/lineChart#sampling](https://visactor.io/vchart/option/lineChart#sampling)</br>
+*  VChart point anti-overlap configuration: [https://visactor.io/vchart/option/lineChart#markOverlap](https://visactor.io/vchart/option/lineChart#markOverlap)</br>
+*  VChart github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>

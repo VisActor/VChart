@@ -8,7 +8,7 @@ title: 0. 如何实现柱形图同维度数据前后重叠而不是堆叠效果�
 
 ## 问题描述
 
-类似 （https://www.visactor.io/vchart/demo/bar-chart/stack-column）这样的堆积柱状图，</br>
+类似 （<https://www.visactor.io/vchart/demo/bar-chart/stack-column>）这样的堆积柱状图，</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/UgdfbSyQBoQlzdxMBePcRnScnAd.gif' alt='' width='812' height='510'>
 
 想要实现不同颜色的柱子都从y轴0刻度开始画，前后重叠，而不是上下堆积，该如何实现？</br>

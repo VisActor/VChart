@@ -127,10 +127,10 @@ window['vchart'] = vchart;</br>
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/Z6nZbmfq6oOFn4x606VcTBRqnHg.gif' alt='' width='1320' height='198'>
 
-Demo: [https://codesandbox.io/p/sandbox/segment-linear-progress-3v4w5q?file=%2Fsrc%2Findex.ts%3A4%2C14-103%2C2](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fsegment-linear-progress-3v4w5q%3Ffile%3D%252Fsrc%252Findex.ts%253A4%252C14-103%252C2)</br>
+Demo: [https://codesandbox.io/p/sandbox/segment-linear-progress-3v4w5q?file=%2Fsrc%2Findex.ts%3A4%2C14-103%2C2](https://codesandbox.io/p/sandbox/segment-linear-progress-3v4w5q?file=%2Fsrc%2Findex.ts%3A4%2C14-103%2C2)</br>
 ## **Related Documents**
 
-Demo：[https://codesandbox.io/p/sandbox/segment-linear-progress-3v4w5q?file=%2Fsrc%2Findex.ts%3A4%2C14-103%2C2](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fsegment-linear-progress-3v4w5q%3Ffile%3D%252Fsrc%252Findex.ts%253A4%252C14-103%252C2)</br>
+Demo：[https://codesandbox.io/p/sandbox/segment-linear-progress-3v4w5q?file=%2Fsrc%2Findex.ts%3A4%2C14-103%2C2](https://codesandbox.io/p/sandbox/segment-linear-progress-3v4w5q?file=%2Fsrc%2Findex.ts%3A4%2C14-103%2C2)</br>
 API：</br>
-*  Extension mark: [https://visactor.io/vchart/option/linearProgressChart#extensionMark](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FlinearProgressChart%23extensionMark)</br>
-Github：[https://github.com/VisActor/VChart/](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart%2F)</br>
+*  Extension mark: [https://visactor.io/vchart/option/linearProgressChart#extensionMark](https://visactor.io/vchart/option/linearProgressChart#extensionMark)</br>
+Github：[https://github.com/VisActor/VChart/](https://github.com/VisActor/VChart/)</br>

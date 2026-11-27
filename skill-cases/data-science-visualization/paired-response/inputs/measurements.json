@@ -1,0 +1,127 @@
+[
+  {
+    "device_id": "001",
+    "phase": "升级前",
+    "latency_ms": 120
+  },
+  {
+    "device_id": "003",
+    "phase": "升级前",
+    "latency_ms": 110
+  },
+  {
+    "device_id": "005",
+    "phase": "升级前",
+    "latency_ms": 160
+  },
+  {
+    "device_id": "007",
+    "phase": "升级前",
+    "latency_ms": 170
+  },
+  {
+    "device_id": "009",
+    "phase": "升级前",
+    "latency_ms": 190
+  },
+  {
+    "device_id": "011",
+    "phase": "升级前",
+    "latency_ms": 210
+  },
+  {
+    "device_id": "013",
+    "phase": "升级前",
+    "latency_ms": 230
+  },
+  {
+    "device_id": "002",
+    "phase": "升级后",
+    "latency_ms": 125
+  },
+  {
+    "device_id": "004",
+    "phase": "升级后",
+    "latency_ms": 130
+  },
+  {
+    "device_id": "006",
+    "phase": "升级后",
+    "latency_ms": 115
+  },
+  {
+    "device_id": "008",
+    "phase": "升级后",
+    "latency_ms": 185
+  },
+  {
+    "device_id": "010",
+    "phase": "升级后",
+    "latency_ms": 175
+  },
+  {
+    "device_id": "012",
+    "phase": "升级后",
+    "latency_ms": 200
+  },
+  {
+    "device_id": "011",
+    "phase": "升级后",
+    "latency_ms": 190
+  },
+  {
+    "device_id": "009",
+    "phase": "升级后",
+    "latency_ms": 170
+  },
+  {
+    "device_id": "007",
+    "phase": "升级后",
+    "latency_ms": 150
+  },
+  {
+    "device_id": "005",
+    "phase": "升级后",
+    "latency_ms": 165
+  },
+  {
+    "device_id": "003",
+    "phase": "升级后",
+    "latency_ms": 110
+  },
+  {
+    "device_id": "001",
+    "phase": "升级后",
+    "latency_ms": 100
+  },
+  {
+    "device_id": "012",
+    "phase": "升级前",
+    "latency_ms": 220
+  },
+  {
+    "device_id": "010",
+    "phase": "升级前",
+    "latency_ms": 200
+  },
+  {
+    "device_id": "008",
+    "phase": "升级前",
+    "latency_ms": 180
+  },
+  {
+    "device_id": "006",
+    "phase": "升级前",
+    "latency_ms": 140
+  },
+  {
+    "device_id": "004",
+    "phase": "升级前",
+    "latency_ms": 150
+  },
+  {
+    "device_id": "002",
+    "phase": "升级前",
+    "latency_ms": 130
+  }
+]

@@ -19,7 +19,7 @@ Gauge Chart
 
 ##${prefix} gauge(Object)
 
-Configure the gauge chart background panel series. Optional for `gauge` and `circularProgress` series.
+Configure the dial using either the `gauge` or `circularProgress` series. Use `gauge.animationAppear` to set its entrance animation. See the [gauge chart guide](/vchart/guide/tutorial_docs/Chart_Types/Gauge) for configuration levels and a fade-in example.
 
 ##${prefix} gauge（gauge series version）(Object)
 gauge series version。

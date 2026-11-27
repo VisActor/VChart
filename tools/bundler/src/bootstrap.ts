@@ -99,24 +99,24 @@ async function bootstrap() {
     taskList.push(Tasks.CLEAN_FOLDER);
   }
 
-  if (Array.isArray(config.formats) && config.formats) {
-    const subBuildTasks: string[] = [];
+  const fromEs = config.bundleFromEs && config.formats?.includes('es') && !config.watch && !config.browserUmd;
+  if (Array.isArray(config.formats) && config.formats.length) {
+    const moduleTasks: string[] = [];
+    const bundleTasks: string[] = [];
     const moduleKind: Record<'es' | 'cjs', 'es2015' | 'commonjs'> = {
       es: 'es2015',
       cjs: 'commonjs'
     };
     config.formats.forEach((format: _ModuleKind) => {
       const taskName = `Build ${format}`;
-      subBuildTasks.push(taskName);
       if (format === 'umd') {
-        if (config.minify) {
-          subBuildTasks.push(`${taskName}_min`);
-          _task(`${taskName}_min`, () => buildUmd(config, PROJECT_ROOT, rawPackageJson, true));
-        }
-        _task(`${taskName}`, () => buildUmd(config, PROJECT_ROOT, rawPackageJson, false));
+        bundleTasks.push(taskName);
+        _task(taskName, () =>
+          buildUmd(config, PROJECT_ROOT, rawPackageJson, config.minify ? [false, true] : [false], fromEs)
+        );
         return;
       } else if (format === 'es' && config.esTotalFile) {
-        subBuildTasks.push(`${taskName}_total`);
+        bundleTasks.push(`${taskName}_total`);
         _task(`${taskName}_total`, () =>
           buildES(
             {
@@ -126,11 +126,13 @@ async function bootstrap() {
             },
             PROJECT_ROOT,
             rawPackageJson,
-            false
+            false,
+            fromEs
           )
         );
       }
 
+      moduleTasks.push(taskName);
       _task(taskName, () =>
         compile(
           sources,
@@ -144,7 +146,15 @@ async function bootstrap() {
         )
       );
     });
-    taskList.push(taker.parallel(subBuildTasks));
+    // 依赖本轮 ESM 的打包任务在模块写入完成后执行。
+    if (fromEs) {
+      taskList.push(taker.parallel(moduleTasks));
+      if (bundleTasks.length) {
+        taskList.push(taker.parallel(bundleTasks));
+      }
+    } else {
+      taskList.push(taker.parallel([...moduleTasks, ...bundleTasks]));
+    }
   }
 
   if (!args.ignoreUmdEntries && Array.isArray(config.umdEntries) && config.umdEntries.length > 0) {
@@ -155,10 +165,11 @@ async function bootstrap() {
 
       _task(`${taskName}_min`, () =>
         buildUmd(
-          { ...config, input: { umd: `${entry}.ts` }, umdOutputFilename: entry },
+          { ...config, input: { umd: `${entry}.ts` }, umdOutputFilename: entry, umdCompress: undefined },
           PROJECT_ROOT,
           rawPackageJson,
-          true
+          [true],
+          fromEs
         )
       );
     });
@@ -175,7 +186,8 @@ async function bootstrap() {
           { ...config, input: { umd: `${entry}.ts` }, minify: true, umdOutputFilename: entry },
           PROJECT_ROOT,
           rawPackageJson,
-          true
+          true,
+          fromEs
         )
       );
     });

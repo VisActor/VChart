@@ -106,5 +106,5 @@ const spec = {
 
 ## 相关文档
 
-*  [github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
-*  [style.zIndex配置文档](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart%23line.style.zIndex)</br>
+*  [github](https://github.com/VisActor/VChart)</br>
+*  [style.zIndex配置文档](https://visactor.com/vchart/option/lineChart#line.style.zIndex)</br>

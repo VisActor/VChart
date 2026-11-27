@@ -82,7 +82,11 @@ Pie chart inner sector radius. The default value is 0.
 
 #${prefix} cornerRadius(number)
 
-Pie chart sector corner radius. The default value is 0.
+The ratio of the sector corner radius to the layout radius (`layoutRadius`). The recommended range is `[0, 1]`, and the default is `0`. For example, with a layout radius of 100 pixels, `cornerRadius: 0.1` gives a corner radius of 10 pixels.
+
+`pie.style.cornerRadius` specifies the corner radius in pixels. It also accepts a callback that returns a pixel value based on the sector's data. When both options are set, `pie.style.cornerRadius` takes precedence, even when it is explicitly set to `0`.
+
+The rendered corner radius is limited by the sector's thickness and angle.
 
 #${prefix} startAngle(number) = -90
 
@@ -128,6 +132,7 @@ Label configuration.
 
 {{ use: component-label(
   prefix = '#' + ${prefix},
+  hasSmartInvert = true,
 ) }}
 
 <!-- IArcLabelSpec -->

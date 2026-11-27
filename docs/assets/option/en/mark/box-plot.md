@@ -62,12 +62,12 @@ No stroke is displayed in `shaftShape='bar'` mode.
 #${prefix} stroke(string)
 The stroke color of the box plot
 
-#${prefix} boxStroke(string)
+#${prefix} boxStroke(string|Function)
 The stroke color of the box, can be set separately to distinguish from other parts
 
 {{ use: common-version(version: '2.0.11') }}
 
-#${prefix} medianStroke(string)
+#${prefix} medianStroke(string|Function)
 The stroke color of the median line, can be set separately to highlight the median
 
 {{ use: common-version(version: '2.0.11') }}
@@ -75,12 +75,12 @@ The stroke color of the median line, can be set separately to highlight the medi
 #${prefix} boxFill(string)
 The fill color of the box, no fill if empty
 
-#${prefix} minMaxFillOpacity(number)
+#${prefix} minMaxFillOpacity(number|Function)
 The fill opacity of the min-max rectangle
 
 Only effective when `shaftShape='bar'`.
 
-#${prefix} boxCornerRadius(number)
+#${prefix} boxCornerRadius(number|Function)
 The corner radius of the box, rounded corners will be displayed when set
 
 {{ use: common-version(version: '2.0.11') }}

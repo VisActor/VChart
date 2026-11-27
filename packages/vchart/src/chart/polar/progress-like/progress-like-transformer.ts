@@ -21,7 +21,7 @@ export class ProgressLikeChartSpecTransformer<T extends IPolarChartSpec> extends
 
   protected _transformProgressAxisSpec(
     spec: T,
-    angleAxisDefaultSpec: IPolarAxisSpec,
+    angleAxisDefaultSpec: IPolarLinearAxisSpec,
     radiusAxisDefaultSpec: IPolarAxisSpec,
     angleAxisAppendSpec?: Partial<IPolarAxisSpec>,
     radiusAxisAppendSpec?: Partial<IPolarAxisSpec>
@@ -51,7 +51,7 @@ export class ProgressLikeChartSpecTransformer<T extends IPolarChartSpec> extends
     if (isNil(radiusAxis.type)) {
       radiusAxis.type = 'band';
     }
-    const domain = getLinearAxisSpecDomain(angleAxis, { min: 0, max: 1 });
+    const domain = getLinearAxisSpecDomain(angleAxis, { min: 0, max: angleAxisDefaultSpec.max ?? 1 });
     if (isNil(angleAxis.min)) {
       angleAxis.min = domain.min;
     }

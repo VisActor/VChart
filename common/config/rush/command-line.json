@@ -18,6 +18,14 @@
       "allowWarningsInSuccessfulBuild": true
     },
     {
+      "name": "release-build",
+      "summary": "Build release packages in dependency order with bounded parallelism",
+      "shellCommand": "npm run --if-present build",
+      "enableParallelism": true,
+      "commandKind": "bulk",
+      "allowWarningsInSuccessfulBuild": true
+    },
+    {
       "name": "compile",
       "summary": "",
       "enableParallelism": false,

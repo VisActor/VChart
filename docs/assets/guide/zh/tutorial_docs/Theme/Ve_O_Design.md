@@ -29,7 +29,7 @@ yarn add @visactor/react-vchart
 
 ### 安装
 
-[https://www.npmjs.com/package/@visactor/vchart-ve-o-theme](https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40visactor%2Fvchart-ve-o-theme)
+[https://www.npmjs.com/package/@visactor/vchart-ve-o-theme](https://www.npmjs.com/package/@visactor/vchart-ve-o-theme)
 
 ```bash
 # npm
@@ -91,7 +91,7 @@ interface IInitVChartVeOThemeOption {
 - `medical` - 医疗行业色板
 - `newEnergy` - 新能源行业色板
 
-可在 demo 中（https://www.visactor.io/vchart/theme/demo/veo）通过下拉框切换色板进行预览。
+可在 demo 中（<https://www.visactor.io/vchart/theme/demo/veo>）通过下拉框切换色板进行预览。
 
 主题包提供了这些数据色板的初始化和切换的功能。在使用上，除了可以在上文提到的初始化参数 option 中配置 `colorScheme`，也可以对数据色板进行热更新。示例如下：
 

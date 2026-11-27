@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "comment": "修复连续图例在全局颜色比例尺更新后仍显示旧数据范围的问题（#4587）。",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart"
+}

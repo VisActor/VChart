@@ -41,6 +41,15 @@ export async function workingTree(root) {
 }
 /** 从固定官方地址获取并固定提交；fork 的 origin 不参与解析。 */
 export async function resolveBaseline(root, sha, runtime, log) {
+  if (runtime.offline) {
+    try {
+      if (!/^[a-f0-9]{40}$/i.test(sha ?? '') || git(root, ['rev-parse', `${sha}^{commit}`]) !== sha.toLowerCase())
+        throw new Error('提交不符');
+      return sha.toLowerCase();
+    } catch (error) {
+      throw fault('BASELINE_FETCH_FAILED', '离线基线提交缺失或不符', error);
+    }
+  }
   await runtime.run('git', ['fetch', '--no-tags', official, sha || 'refs/heads/develop'], root, log, {
     code: 'BASELINE_FETCH_FAILED'
   });
@@ -48,33 +57,211 @@ export async function resolveBaseline(root, sha, runtime, log) {
   if (sha && resolved !== sha.toLowerCase()) throw fault('BASELINE_FETCH_FAILED', '基线 SHA 与请求不一致');
   return resolved;
 }
-/** 执行既有最小构建链，仅删除已知且被忽略的 UMD 目标以排除旧文件。 */
-export async function build(root, destination, runtime, log) {
-  const output = 'packages/vchart/build/index.js';
-  if (git(root, ['ls-files', '--', output])) throw fault('BUILD_FAILED', '构建目标被 Git 跟踪，拒绝删除');
-  try {
-    git(root, ['check-ignore', '--no-index', output]);
-  } catch {
-    throw fault('BUILD_FAILED', '构建目标不属于忽略的生成目录');
+/** 仅将源码工程清单和 Rush 配置纳入依赖契约。 */
+function isDependencyConfiguration(file) {
+  return (
+    file === 'rush.json' ||
+    file === 'package.json' ||
+    file.endsWith('/package.json') ||
+    file.startsWith('common/config/rush/')
+  );
+}
+/** 核对工作区与指定提交的依赖配置；默认拒绝未提交变化，保留普通源码修改。 */
+export function assertOfflineDependencyConfiguration(root, reference = 'HEAD') {
+  const options = { cwd: root, encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 };
+  const changed = [
+    ...execFileSync(
+      'git',
+      ['diff', '--no-ext-diff', '--no-textconv', '--name-only', '--no-renames', '-z', reference, '--'],
+      options
+    ).split('\0'),
+    ...execFileSync('git', ['ls-files', '--others', '--exclude-standard', '-z'], options).split('\0')
+  ].find(isDependencyConfiguration);
+  if (changed)
+    throw fault(
+      'DEPENDENCIES_CHANGED',
+      `离线依赖配置不同：${JSON.stringify(changed)}；配置修改须先提交，并分别准备候选与基线依赖`
+    );
+}
+
+/** 逐侧核对完整源码配置集合、内容和边界，不依赖快照自身的 Git 元数据。 */
+export async function offlineConfiguration(root, sha, snapshot = process.env.VISUAL_BASELINE_DEPENDENCIES ?? root) {
+  const directory = await fs.realpath(snapshot);
+  // 复用实际工作区时还须比较双侧文件集合；别名和缓存命中不能绕过新增配置检查。
+  if (directory === (await fs.realpath(root))) assertOfflineDependencyConfiguration(root, sha);
+  const files = new Set([
+    'rush.json',
+    'common/config/rush/pnpm-lock.yaml',
+    ...git(root, ['ls-tree', '-r', '--name-only', '-z', sha]).split('\0').filter(isDependencyConfiguration)
+  ]);
+  const parents = new Set(),
+    projects = new Set();
+  for (const file of files) {
+    if (file === 'package.json' || file.endsWith('/package.json')) projects.add(path.dirname(file));
+    for (let parent = path.dirname(file); parent !== '.'; parent = path.dirname(parent)) parents.add(parent);
   }
-  await fs.rm(path.join(root, output), { force: true });
-  for (const [folder, args] of [
-    ['tools/bundler', ['build']],
-    ['packages/vutils-extension', ['build:es']],
-    ['packages/vchart', ['build:umd', '--ignorePostTasks', '--ignoreUmdEntries', '--minify=false']]
-  ])
-    await runtime.run(
+  const generated = new Set([
+    'build',
+    'build-es5',
+    'dist',
+    'es',
+    'cjs',
+    'lib',
+    'output',
+    'coverage',
+    '.next',
+    '.cache',
+    '.rollup.cache',
+    '.nyc_output',
+    'rush-logs'
+  ]);
+  const actual = new Set();
+  // 只使用固定产物排除规则；Rush 目录和冻结提交已有配置不受排除影响，不读取快照的 Git/ignore 策略。
+  async function visit(relative, ancestors) {
+    const full = path.join(directory, relative),
+      real = await fs.realpath(full);
+    if (real !== directory && !real.startsWith(directory + path.sep))
+      throw fault('DEPENDENCIES_CHANGED', '离线依赖配置不同：目录越界');
+    if (ancestors.has(real)) throw fault('DEPENDENCIES_CHANGED', '离线依赖配置不同：目录循环引用');
+    const next = new Set(ancestors).add(real);
+    for (const entry of await fs.readdir(full, { withFileTypes: true })) {
+      const name = path.join(relative, entry.name),
+        rush = name.startsWith('common/config/rush/');
+      if (
+        !rush &&
+        !parents.has(name) &&
+        (['.git', 'node_modules', '.rush', '.vtable-visual', '.vchart-visual'].includes(entry.name) ||
+          name === 'common/temp' ||
+          (generated.has(entry.name) && (!relative || projects.has(relative))))
+      )
+        continue;
+      let kind = entry;
+      if (entry.isSymbolicLink()) {
+        const target = await fs.realpath(path.join(directory, name));
+        if (!target.startsWith(directory + path.sep) && target !== directory)
+          throw fault('DEPENDENCIES_CHANGED', '离线依赖配置不同：链接越界');
+        kind = await fs.stat(target);
+      }
+      if (kind.isDirectory()) await visit(name, next);
+      else if (isDependencyConfiguration(name)) {
+        if (!kind.isFile() || !files.has(name))
+          throw fault('DEPENDENCIES_CHANGED', `离线快照包含额外或无效配置：${JSON.stringify(name)}`);
+        actual.add(name);
+      }
+    }
+  }
+  await visit('', new Set());
+  const missing = [...files].find(file => !actual.has(file));
+  if (missing) throw fault('DEPENDENCIES_CHANGED', `离线快照缺少配置：${JSON.stringify(missing)}`);
+  for (const file of files) {
+    const resolved = await fs.realpath(path.join(directory, file));
+    if (
+      !resolved.startsWith(directory + path.sep) ||
+      !(await fs.readFile(resolved)).equals(
+        execFileSync('git', ['show', `${sha}:${file}`], { cwd: root, maxBuffer: 64 * 1024 * 1024 })
+      )
+    )
+      throw fault('DEPENDENCIES_CHANGED', '离线依赖配置不同，需要按各侧提交分别准备后再运行');
+  }
+  return directory;
+}
+
+/** 复用只读第三方存储，复制每侧项目链接以解析到该侧源码，不执行安装。 */
+export async function offlineDependencies(root, worktree, sha) {
+  const directory = await offlineConfiguration(root, sha);
+  await fs.mkdir(path.join(worktree, 'common'), { recursive: true });
+  await fs.symlink(path.join(directory, 'common/temp'), path.join(worktree, 'common/temp'), 'dir');
+  const packages = git(worktree, ['ls-files', '--', 'package.json', '**/package.json']).split('\n').filter(Boolean);
+  for (const file of packages) {
+    const relative = path.join(path.dirname(file), 'node_modules');
+    if (
+      await fs
+        .stat(path.join(directory, relative))
+        .catch(error => (error.code === 'ENOENT' ? null : Promise.reject(error)))
+    ) {
+      await fs.mkdir(path.dirname(path.join(worktree, relative)), { recursive: true });
+      await fs.cp(await fs.realpath(path.join(directory, relative)), path.join(worktree, relative), {
+        recursive: true,
+        verbatimSymlinks: true
+      });
+    }
+  }
+}
+
+// 视觉构建在独立目录产生 UMD 和依赖，避免清理或覆盖可发布文件。
+export async function build(root, destination, runtime, log, { photoWorkspace } = {}) {
+  const work = await fs.mkdtemp(path.join(path.dirname(destination), 'visual-build-'));
+  const env = {
+    ...buildEnv,
+    ...(runtime.offline ? { NODE_OPTIONS: '--max-old-space-size=2048' } : {}),
+    NODE_PATH: path.join(root, 'tools/bundler/node_modules')
+  };
+  const run = (folder, args) =>
+    runtime.run(
       process.execPath,
       [path.join(root, 'common/scripts/install-run-rushx.js'), ...args],
       path.join(root, folder),
       log,
-      { code: 'BUILD_FAILED', env: buildEnv }
+      { code: 'BUILD_FAILED', env }
     );
+
   try {
-    if (!(await fs.stat(path.join(root, output))).size) throw new Error('构建产物为空');
-    await fs.copyFile(path.join(root, output), destination);
+    const dependencyFolder = path.join(root, 'packages/vutils-extension');
+    const dependencyConfig = path.join(work, 'vutils.config.cjs');
+    const dependencyOutput = path.join(work, 'es');
+    await fs.writeFile(
+      dependencyConfig,
+      `module.exports = { ...require(${JSON.stringify(path.join(dependencyFolder, 'bundler.config.js'))}), outputDir: ${JSON.stringify({ es: dependencyOutput })} };
+`
+    );
+    // pnpm 的包链接相对于原工作区，放入运行目录时使用绝对目标。
+    const manifest = JSON.parse(await fs.readFile(path.join(dependencyFolder, 'package.json'), 'utf8'));
+    for (const name of Object.keys(manifest.dependencies ?? {})) {
+      const target = path.join(work, 'node_modules', name);
+      await fs.mkdir(path.dirname(target), { recursive: true });
+      await fs.symlink(await fs.realpath(path.join(dependencyFolder, 'node_modules', name)), target, 'dir');
+    }
+
+    const dependency = path.join(dependencyOutput, 'index.js');
+    const browserTsconfig = path.join(work, 'tsconfig.json');
+    await fs.writeFile(
+      browserTsconfig,
+      JSON.stringify({
+        extends: path.join(root, 'tools/bundler/tsconfig.browser.json'),
+        compilerOptions: { paths: { '@visactor/vutils-extension': [dependency] } }
+      })
+    );
+    const chartConfig = path.join(work, 'vchart.config.cjs');
+    const chartOutput = path.join(work, 'umd');
+    await fs.writeFile(
+      chartConfig,
+      `module.exports = { ...require(${JSON.stringify(path.join(root, 'packages/vchart/bundler.config.js'))}),
+        ...${JSON.stringify({
+          outputDir: { umd: chartOutput },
+          browserTsconfig,
+          alias: { '@visactor/vutils-extension': dependency }
+        })} };
+`
+    );
+    await run('tools/bundler', ['build']);
+    await run('packages/vutils-extension', ['build:es', '--config', dependencyConfig]);
+    await run('packages/vchart', [
+      'build:umd', '--config', chartConfig, '--ignorePostTasks', '--ignoreUmdEntries', '--minify=false', '--browserUmd'
+    ]);
+
+    const output = path.join(chartOutput, 'index.js');
+    if (!(await fs.stat(output)).size) throw new Error('构建产物为空');
+    if (photoWorkspace) {
+      const staged = path.join(photoWorkspace, 'packages/vutils-extension/es');
+      await fs.mkdir(path.dirname(staged), { recursive: true });
+      await fs.cp(dependencyOutput, staged, { recursive: true });
+    }
+    await fs.copyFile(output, destination);
   } catch (error) {
+    if (error.code === 'BUILD_FAILED') throw error;
     throw fault('BUILD_FAILED', `没有生成有效的新产物：${error.message}`, error);
+  } finally {
+    await fs.rm(work, { recursive: true, force: true });
   }
 }
 /** 验证缓存内容；损坏视为 miss，权限等真实 I/O 错误继续抛出。 */
@@ -125,6 +312,7 @@ export async function baselineBuild(
   timed,
   { buildBundle = build, buildKey = '', outputDirectory = '.vchart-visual' } = {}
 ) {
+  if (runtime.offline) await offlineConfiguration(root, sha);
   const log = path.join(runDir, 'build.log');
   const key = digest(
     JSON.stringify({
@@ -159,10 +347,18 @@ export async function baselineBuild(
   });
   await runtime.run('git', ['worktree', 'add', '--detach', worktree, sha], root, log, { code: 'BUILD_FAILED' });
   await timed('baselineInstallMs', () =>
-    runtime.run(process.execPath, ['common/scripts/install-run-rush.js', 'install', '--ignore-hooks'], worktree, log, {
-      code: 'BUILD_FAILED',
-      env: { NODE_ENV: 'development' }
-    })
+    runtime.offline
+      ? offlineDependencies(root, worktree, sha)
+      : runtime.run(
+          process.execPath,
+          ['common/scripts/install-run-rush.js', 'install', '--ignore-hooks'],
+          worktree,
+          log,
+          {
+            code: 'BUILD_FAILED',
+            env: { NODE_ENV: 'development' }
+          }
+        )
   );
   await timed('baselineCompileMs', () => buildBundle(worktree, path.join(runDir, 'baseline.js'), runtime, log));
   await publishCache(cache, key, await fs.readFile(path.join(runDir, 'baseline.js')));

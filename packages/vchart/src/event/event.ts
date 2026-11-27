@@ -21,7 +21,7 @@ export class Event implements IEvent {
 
   private _composedEventMap: Map<EventCallback<EventParams>, { eventType: EventType; event: IComposedEvent }> =
     new Map();
-  private _eventHandlerMap: Map<EventType, Map<EventCallback<EventParams>, EventHandler<EventParams>>> = new Map();
+  private _eventHandlerMap: Map<EventType, Set<EventHandler<EventParams>>> = new Map();
   getComposedEventMap() {
     return this._composedEventMap;
   }
@@ -85,28 +85,15 @@ export class Event implements IEvent {
         }
       }
     } else {
-      if (callback) {
-        const storedHandler = this._getEventHandler(eType, callback as EventCallback<EventParams>);
-        const handler: EventHandler<EventParamsDefinition[Evt]> = (storedHandler as unknown as EventHandler<
-          EventParamsDefinition[Evt]
-        >) ?? {
-          callback,
-          query: null,
-          // 卸载事件时无需处理 source 以外的参数
-          filter: {
-            nodeName: null,
-            type: eType,
-            level: null,
-            source: (query as EventQuery).source,
-            markName: null,
-            filter: null,
-            userId: null
-          }
-        };
-        this._eventDispatcher.unregister(eType, handler);
-        this._removeEventHandler(eType, callback as EventCallback<EventParams>);
-      } else {
-        this._eventDispatcher.unregister(eType);
+      const handlers = this._eventHandlerMap.get(eType);
+      const source = typeof query === 'function' ? undefined : query?.source;
+      handlers?.forEach(handler => {
+        if ((!callback || handler.callback === callback) && (!source || handler.filter?.source === source)) {
+          this._eventDispatcher.unregister(eType, handler);
+          handlers.delete(handler);
+        }
+      });
+      if (!handlers?.size) {
         this._eventHandlerMap.delete(eType);
       }
     }
@@ -152,23 +139,8 @@ export class Event implements IEvent {
       return;
     }
     if (!this._eventHandlerMap.has(eventType)) {
-      this._eventHandlerMap.set(eventType, new Map());
+      this._eventHandlerMap.set(eventType, new Set());
     }
-    this._eventHandlerMap.get(eventType).set(handler.callback, handler);
-  }
-
-  private _getEventHandler(eventType: EventType, callback: EventCallback<EventParams>) {
-    return this._eventHandlerMap.get(eventType)?.get(callback);
-  }
-
-  private _removeEventHandler(eventType: EventType, callback: EventCallback<EventParams>) {
-    const handlerMap = this._eventHandlerMap.get(eventType);
-    if (!handlerMap) {
-      return;
-    }
-    handlerMap.delete(callback);
-    if (!handlerMap.size) {
-      this._eventHandlerMap.delete(eventType);
-    }
+    this._eventHandlerMap.get(eventType).add(handler);
   }
 }

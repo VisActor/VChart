@@ -93,6 +93,6 @@ window['vchart'] = vchart;</br>
 
 ## **Related Documentation**
 
-Related configuration: [https://www.visactor.io/vchart/option/barChart-axes-linear#label.formatMethod](https%3A%2F%2Fwww.visactor.io%2Fvchart%2Foption%2FbarChart-axes-linear%23label.formatMethod)
- Axes axis tutorial: [https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Axes](https%3A%2F%2Fwww.visactor.io%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FAxes)
- github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+Related configuration: [https://www.visactor.io/vchart/option/barChart-axes-linear#label.formatMethod](https://www.visactor.io/vchart/option/barChart-axes-linear#label.formatMethod)
+ Axes axis tutorial: [https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Axes](https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Axes)
+ github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>

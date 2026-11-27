@@ -196,6 +196,8 @@ Thanks to [Semi](https://semi.design/) for providing the theme visualization cus
 
 ## 🤝 Contribution [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/VisActor/VChart/blob/main/CONTRIBUTING.md#your-first-pull-request)
 
+Before submitting a PR, read [PR checks and merge process](./CONTRIBUTING.md#pr-checks-and-merge-process) for local testing, automated CR, unit and visual checks, manual BugServer Photo verification, and maintainer approval and merge. See the guide for the activation status and scope of the new workflow.
+
 If you would like to contribute, please read the [Code of Conduct](./CODE_OF_CONDUCT.md) and our [contributing guide](./CONTRIBUTING.md) first。
 
 Small streams converge to make great rivers and seas!

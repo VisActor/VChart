@@ -19,7 +19,7 @@
 
 ##${prefix} gauge(Object)
 
-配置仪表图背景板系列。可选配`gauge`以及`circularProgress`系列。
+配置仪表图背景板系列。可选配`gauge`以及`circularProgress`系列。通过 `gauge.animationAppear` 设置表盘的入场动画。配置层级与淡入示例见[仪表图教程](/vchart/guide/tutorial_docs/Chart_Types/Gauge)。
 
 ##${prefix} gauge（gauge 系列版本）(Object)
 gauge 系列版本。

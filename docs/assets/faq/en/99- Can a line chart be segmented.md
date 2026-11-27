@@ -116,8 +116,8 @@ window['vchart'] = vchart;</br>
 After running the code, the point corresponding to 10:00 will not be displayed, and the line chart will be segmented.</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/EUlSbIVCQo2wy2xVlYTcegsJnMh.gif' alt='' width='1000' height='578'>
 
-Online demo: [https://codesandbox.io/p/sandbox/line-point-split-fq7wkh?file=%2Fsrc%2Findex.ts%3A49%2C2](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fline-point-split-fq7wkh%3Ffile%3D%252Fsrc%252Findex.ts%253A49%252C2)</br>
+Online demo: [https://codesandbox.io/p/sandbox/line-point-split-fq7wkh?file=%2Fsrc%2Findex.ts%3A49%2C2](https://codesandbox.io/p/sandbox/line-point-split-fq7wkh?file=%2Fsrc%2Findex.ts%3A49%2C2)</br>
 # Related Documents
 
-*  VChart official website: [https://visactor.io/vchart/](https%3A%2F%2Fvisactor.io%2Fvchart%2F)</br>
-*  VChart GitHub: [GitHub - VisActor/VChart: VChart, more than just a cross-platform charting library, but also an expressive data storyteller.](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart official website: [https://visactor.io/vchart/](https://visactor.io/vchart/)</br>
+*  VChart GitHub: [GitHub - VisActor/VChart: VChart, more than just a cross-platform charting library, but also an expressive data storyteller.](https://github.com/VisActor/VChart)</br>

@@ -179,6 +179,6 @@ const spec = {
 
 ## 相关文档
 
-*  [github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
-*  [Marker数据标注教程](https%3A%2F%2Fvisactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2Fmarker)</br>
-*  [MarkArea配置文档](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart%23markArea)</br>
+*  [github](https://github.com/VisActor/VChart)</br>
+*  [Marker数据标注教程](https://visactor.com/vchart/guide/tutorial_docs/Chart_Concepts/marker)</br>
+*  [MarkArea配置文档](https://visactor.com/vchart/option/lineChart#markArea)</br>

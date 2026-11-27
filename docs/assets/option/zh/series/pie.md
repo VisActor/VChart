@@ -83,7 +83,11 @@ pie: {
 
 #${prefix} cornerRadius(number)
 
-饼图扇区圆角半径。默认值为 0。
+饼图扇区的圆角半径相对于布局半径 `layoutRadius` 的比例。建议取值范围为 `[0, 1]`，默认值为 `0`。例如，布局半径为 100 像素时，`cornerRadius: 0.1` 会换算为 10 像素。
+
+`pie.style.cornerRadius` 直接以像素指定圆角半径，也可以通过回调根据扇区数据返回像素值。两者同时设置时，优先使用 `pie.style.cornerRadius`，包括显式设置为 `0` 的情况。
+
+实际绘制的圆角半径受扇区厚度和夹角限制。
 
 #${prefix} startAngle(number) = -90
 
@@ -129,6 +133,7 @@ pie: {
 
 {{ use: component-label(
   prefix = '#' + ${prefix},
+  hasSmartInvert = true,
 ) }}
 
 <!-- IArcLabelSpec -->

@@ -1,10 +1,10 @@
 import type { utilFunctionCtx } from '../../typings/params';
 import type { IChart } from '../../chart/interface/chart';
-import type { IBoundsLike } from '@visactor/vutils';
 import type { IBaseLayout, IGridLayoutSpec, ElementSpec, ILayoutItem } from '../interface';
-import { isFunction, isValid, isValidNumber } from '@visactor/vutils';
+import { isFunction, isValid, isValidNumber, type IBoundsLike } from '@visactor/vutils';
 import type { IRect } from '../../typings/space';
 import { Factory } from '../../core/factory';
+import { error } from '../../util/debug';
 
 type GridSize = {
   value: number;
@@ -32,6 +32,7 @@ export class GridLayout implements IBaseLayout {
   protected _onError: (...args: any[]) => void;
 
   constructor(gridInfo: IGridLayoutSpec, ctx: utilFunctionCtx) {
+    this._onError = ctx?.onError;
     this.standardizationSpec(gridInfo);
     this._gridInfo = gridInfo;
     this._col = gridInfo.col;
@@ -40,8 +41,6 @@ export class GridLayout implements IBaseLayout {
     this._rowSize = new Array(this._row).fill(null);
     this._colElements = new Array(this._col).fill([]);
     this._rowElements = new Array(this._row).fill([]);
-    this._onError = ctx?.onError;
-
     this.initUserSetting();
   }
 
@@ -92,7 +91,7 @@ export class GridLayout implements IBaseLayout {
     maxSize: number
   ) {
     userSetting.forEach(userSet => {
-      if (userSet.index < 0 && userSet.index >= gridMax) {
+      if (!Number.isInteger(userSet.index) || userSet.index < 0 || userSet.index >= gridMax) {
         return;
       }
       if (isValidNumber(userSet.size)) {
@@ -155,17 +154,40 @@ export class GridLayout implements IBaseLayout {
       }
       return false;
     });
-    // default
-    if (!result) {
-      result = {
-        col: 0,
-        colSpan: 1,
-        row: 0,
-        rowSpan: 1
-      } as ElementSpec;
+    if (result && !this.isValidElementSpec(result)) {
+      (this._onError ?? error)(`invalid grid layout element: row, col, rowSpan or colSpan is out of bounds`);
+      result = undefined;
     }
+    // default
+    result ??= this.getDefaultElementSpec();
     this._elementMap.set(item, result);
     return result;
+  }
+
+  protected isValidElementSpec(spec: ElementSpec): boolean {
+    const colSpan = spec.colSpan ?? 1;
+    const rowSpan = spec.rowSpan ?? 1;
+    return (
+      Number.isInteger(spec.col) &&
+      Number.isInteger(spec.row) &&
+      Number.isInteger(colSpan) &&
+      Number.isInteger(rowSpan) &&
+      spec.col >= 0 &&
+      spec.row >= 0 &&
+      colSpan > 0 &&
+      rowSpan > 0 &&
+      spec.col + colSpan <= this._col &&
+      spec.row + rowSpan <= this._row
+    );
+  }
+
+  protected getDefaultElementSpec(): ElementSpec {
+    return {
+      col: 0,
+      colSpan: 1,
+      row: 0,
+      rowSpan: 1
+    } as ElementSpec;
   }
 
   protected getSizeFromGrid(spec: ElementSpec, type: 'col' | 'row'): number | undefined {

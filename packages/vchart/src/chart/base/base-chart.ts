@@ -866,6 +866,7 @@ export class BaseChart<T extends IChartSpec> extends CompilableBase implements I
     // 但是考虑到组件也可能会有修改 scale 的逻辑
     // 增加一个属性设置优先级也许是必须的？
     this._globalScale.updateScaleDomain(domain);
+    this._components.forEach(component => component.onGlobalScaleDomainUpdate?.());
   }
 
   updateGlobalScale(result: IUpdateSpecResult) {

@@ -59,12 +59,15 @@ formatMethod: text => {
 
 标签图元样式配置。
 
+样式对象中的属性可使用回调函数。回调接收标签关联的数据项，并返回该属性的值。
+
 ##${prefix} type='text'(Object)
 
 常规文本样式配置。
 
 {{ use: graphic-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = '|Function'
 ) }}
 
 ##${prefix} type='rich'(Object)
@@ -72,7 +75,8 @@ formatMethod: text => {
 富文本样式配置。
 
 {{ use: graphic-rich-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = '|Function'
 ) }}
 
 #${prefix} state(Object)

@@ -1,0 +1,10 @@
+{
+  "context.md": {
+    "sha256": "965e78680e3ee0c685479fdae047b94c9ce565b788322c038ee147197f752735",
+    "provenance": "仓库维护者原创模拟测试材料；MIT；非真实观测或模型结果。"
+  },
+  "measurements.json": {
+    "sha256": "86294c2c5b799d25a18fd96666cc057ed776ebb702752128ba04f63153438e4d",
+    "provenance": "仓库维护者原创模拟测试材料；MIT；非真实观测或模型结果。"
+  }
+}

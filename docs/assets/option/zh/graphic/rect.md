@@ -2,16 +2,17 @@
 
 <!-- Canopus 图形属性，IRectGraphicAttribute -->
 
-#${prefix} cornerRadius(number|number[])
+#${prefix} cornerRadius(number|Array${callbackType})
 
 矩形的圆角配置，cornerRadius 的值可以是单个数字或者数组，分别指定 4 个方向的圆角大小。
 
-#${prefix} width(number)
+#${prefix} width(number${callbackType})
 宽度。
 
-#${prefix} height(number)
+#${prefix} height(number${callbackType})
 高度。
 
 {{ use: graphic-attribute(
   prefix = ${prefix},
+  callbackType = ${callbackType},
 ) }}

@@ -12,7 +12,7 @@ Is there a way to customize the shape of the tooltip in Vchart?</br>
 
 # Solution
 
-In the Vchart Spec, there are tooltip-related configurations. Configure the tooltip property to customize the tooltip shape. The mark attribute of the tooltip represents the effect when hovering over the graphic element. [https://visactor.io/vchart/option/pieChart#tooltip.mark](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23tooltip.mark). The mark.content represents the configuration of the content. Configure the shapeType field in mark.content to customize the shape of the tooltip.</br>
+In the Vchart Spec, there are tooltip-related configurations. Configure the tooltip property to customize the tooltip shape. The mark attribute of the tooltip represents the effect when hovering over the graphic element. [https://visactor.io/vchart/option/pieChart#tooltip.mark](https://visactor.io/vchart/option/pieChart#tooltip.mark). The mark.content represents the configuration of the content. Configure the shapeType field in mark.content to customize the shape of the tooltip.</br>
 # Code Example
 
 ```
@@ -70,9 +70,9 @@ window['vchart'] = vchart;</br>
 After running the code, the symbol of the tooltip becomes a rectangle.</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/IZV0bOt1YoazkjxzinBc5zT3nPh.gif' alt='' width='1272' height='904'>
 
-Online demo: [https://codesandbox.io/p/sandbox/tooltip-shape-cdzny7?file=%2Fsrc%2Findex.ts%3A44%2C2](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Ftooltip-shape-cdzny7%3Ffile%3D%252Fsrc%252Findex.ts%253A44%252C2)</br>
+Online demo: [https://codesandbox.io/p/sandbox/tooltip-shape-cdzny7?file=%2Fsrc%2Findex.ts%3A44%2C2](https://codesandbox.io/p/sandbox/tooltip-shape-cdzny7?file=%2Fsrc%2Findex.ts%3A44%2C2)</br>
 # Related Documents
 
-*  VChart official website: [https://visactor.io/vchart/](https%3A%2F%2Fvisactor.io%2Fvchart%2F)</br>
-*  VChart tooltip configuration: [https://visactor.io/vchart/option/pieChart#tooltip.mark](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23tooltip.mark)</br>
-*  VChart Github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart official website: [https://visactor.io/vchart/](https://visactor.io/vchart/)</br>
+*  VChart tooltip configuration: [https://visactor.io/vchart/option/pieChart#tooltip.mark](https://visactor.io/vchart/option/pieChart#tooltip.mark)</br>
+*  VChart Github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>

@@ -80180,7 +80180,7 @@
     },
     "Map<Function,(...args:any[])=>void>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80188,14 +80188,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<number,IGraphicRender>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80203,14 +80203,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<number,{layer:ILayer;group?:IGroup;zIndex:number;drawContribution?:IDrawContribution;}>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80218,14 +80218,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80233,14 +80233,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80248,14 +80248,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80263,14 +80263,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<Record<string,any>>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80278,14 +80278,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string,CompiledStateDefinition<any>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80293,14 +80293,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string,Map<number,IGraphicRender>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80308,14 +80308,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLCanvasElement|HTMLImageElement|IBackgroundConfig,{state:\"loading\"|\"fail\"|\"success\"|\"init\";data?:HTMLCanvasElement|HTMLImageElement;}>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80323,14 +80323,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string|HTMLElement,{container:string|HTMLElement;dom:any;wrapGroup:any;root?:any;}>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80338,14 +80338,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Map<string|number,IAnimate>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -80353,7 +80353,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
@@ -97726,6 +97726,13 @@
         "interactiveLayer": {
           "type": "boolean"
         },
+        "interactiveLayerMode": {
+          "enum": [
+            "static",
+            "virtual"
+          ],
+          "type": "string"
+        },
         "optimize": {
           "typeof": "function"
         },
@@ -97743,6 +97750,9 @@
         },
         "renderStyle": {
           "type": "string"
+        },
+        "requestRender": {
+          "typeof": "function"
         },
         "supportsPointerEvents": {
           "type": "boolean"
@@ -104586,34 +104596,34 @@
     },
     "Promise<FontFaceSet>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12835"
+        "__@toStringTag@12840"
       ],
       "type": "object"
     },
     "Promise<ServiceWorkerRegistration>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12835"
+        "__@toStringTag@12840"
       ],
       "type": "object"
     },
     "Promise<any>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         }
       },
       "required": [
-        "__@toStringTag@12835"
+        "__@toStringTag@12840"
       ],
       "type": "object"
     },
@@ -118681,7 +118691,7 @@
     },
     "Set<IGraphic<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -118689,14 +118699,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGlyphGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -118704,14 +118714,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<IGroupGraphicAttribute>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -118719,14 +118729,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<Partial<IGraphicAttribute>>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -118734,14 +118744,14 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"
     },
     "Set<SharedStateScope<any>>": {
       "properties": {
-        "__@toStringTag@12835": {
+        "__@toStringTag@12840": {
           "type": "string"
         },
         "size": {
@@ -118749,7 +118759,7 @@
         }
       },
       "required": [
-        "__@toStringTag@12835",
+        "__@toStringTag@12840",
         "size"
       ],
       "type": "object"

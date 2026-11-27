@@ -112,6 +112,6 @@ window['vchart'] = vchart;</br>
 
 ## 相关文档
 
-*  [富文本和 Dom 扩展](https%3A%2F%2Fvisactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FRichtext_and_Dom)</br>
-*  [VChart github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  [富文本和 Dom 扩展](https://visactor.com/vchart/guide/tutorial_docs/Richtext_and_Dom)</br>
+*  [VChart github](https://github.com/VisActor/VChart)</br>
 

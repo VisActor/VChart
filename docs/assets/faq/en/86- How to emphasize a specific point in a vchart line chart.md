@@ -11,7 +11,7 @@ I'm using vchart to create a line chart and I'm wondering if it's possible to em
 # **Solution**
 
 Yes, it's possible to achieve this. You can use the `opacity` and `size` options to highlight a certain point based on its data. By setting the opacity and size of the point, it will stand out more.</br>
-You can refer to the following link for more information on how to configure the mark function of a chart element: [https://visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Series/Mark](https%3A%2F%2Fvisactor.io%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FSeries%2FMark)</br>
+You can refer to the following link for more information on how to configure the mark function of a chart element: [https://visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Series/Mark](https://visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Series/Mark)</br>
 # **Code Example**
 
 ```
@@ -98,8 +98,8 @@ vchart.renderSync();</br>
 After running the code, the points in the Eyeliner dimension of the EU line segment are emphasized.</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/EqFfbkzosofFfbxh4DHcCh4VnEd.gif' alt='' width='1268' height='1054'>
 
-Online demo: [https://codesandbox.io/p/sandbox/line-chart-single-selected-forked-4px87p?file=%2Fsrc%2Findex.ts%3A3%2C1](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fline-chart-single-selected-forked-4px87p%3Ffile%3D%252Fsrc%252Findex.ts%253A3%252C1)</br>
+Online demo: [https://codesandbox.io/p/sandbox/line-chart-single-selected-forked-4px87p?file=%2Fsrc%2Findex.ts%3A3%2C1](https://codesandbox.io/p/sandbox/line-chart-single-selected-forked-4px87p?file=%2Fsrc%2Findex.ts%3A3%2C1)</br>
 # **Related Documents**
 
-*  VChart mark function configuration: [https://visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Series/Mark](https%3A%2F%2Fvisactor.io%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FSeries%2FMark)</br>
-*  VChart Github: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart mark function configuration: [https://visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Series/Mark](https://visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Series/Mark)</br>
+*  VChart Github: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>

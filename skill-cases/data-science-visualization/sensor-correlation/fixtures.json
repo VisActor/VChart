@@ -1,0 +1,10 @@
+{
+  "context.md": {
+    "sha256": "d8f0ae2da10a620074d7685ee721d4816a9b3ea0e11cfb646344beb94b94157a",
+    "provenance": "仓库维护者原创模拟测试材料；MIT；非真实观测或模型结果。"
+  },
+  "sensors.csv": {
+    "sha256": "4d8690b53153157fe7a03aa7ea26e3c79500745e6766f932ee62c2afcab2a65b",
+    "provenance": "仓库维护者原创模拟测试材料；MIT；非真实观测或模型结果。"
+  }
+}

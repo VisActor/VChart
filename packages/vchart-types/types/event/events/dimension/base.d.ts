@@ -17,4 +17,5 @@ export declare class DimensionEvent implements IComposedEvent {
     dispatch(v: unknown, opt: {
         filter?: (axis: IAxis) => boolean;
     }): IDimensionInfo[];
+    protected onDispatch(dimensionInfo: IDimensionInfo[]): void;
 }

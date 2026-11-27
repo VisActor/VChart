@@ -16,7 +16,7 @@ When the x-axis type = time, how is the tick interval configured? I want to cust
 
 ## Solution
 
-You can control the interval between different ticks in the timeline by configuring axes.tickStep. Note: tickStep needs to be configured with a second timestamp.</br>
+Set the first layer’s tick interval with `layers[0].tickStep` on the time axis. The interval uses the same unit as the time field. In this example, timestamps are in seconds, so `28800` means 8 hours. With millisecond timestamps, `86_400_000` means 24 hours.
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/OjoFbuyJZoigDWxDTV4cLrL7nab.gif' alt='' width='3254' height='1472'>
 
 ## Code Example

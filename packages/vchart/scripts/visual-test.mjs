@@ -13,7 +13,10 @@ export function parseOptions(args) {
       args,
       tokens: true,
       options: {
+        phase: { type: 'string' },
+        request: { type: 'string' },
         baseline: { type: 'string' },
+        offline: { type: 'boolean' },
         case: { type: 'string' },
         dir: { type: 'string' },
         'self-compare': { type: 'boolean' },
@@ -25,6 +28,10 @@ export function parseOptions(args) {
   } catch (error) {
     throw fault('INVALID_ARGUMENT', error.message, error);
   }
+  if (values.phase !== undefined || values.request !== undefined) {
+    if (!['build', 'capture', 'compare'].includes(values.phase) || !values.request || Object.keys(values).some(key => !['phase', 'request'].includes(key))) throw fault('INVALID_ARGUMENT', '--phase与--request必须配套独立使用');
+    return values;
+  }
   if (values.help) return values;
   if (tokens.filter(token => token.kind === 'option' && token.name === 'dir').length > 1)
     throw fault('INVALID_ARGUMENT', '--dir 只能指定一次');
@@ -35,6 +42,7 @@ export function parseOptions(args) {
     (values.list || values.check) &&
     ((values.list && values.check) ||
       values.baseline !== undefined ||
+      values.offline ||
       values.case !== undefined ||
       values.dir !== undefined ||
       values['self-compare'])
@@ -43,6 +51,7 @@ export function parseOptions(args) {
   if (values.baseline !== undefined && !/^[a-f0-9]{40}$/i.test(values.baseline))
     throw fault('INVALID_ARGUMENT', '--baseline 需要完整 40 位 SHA');
   if (values.baseline && values['self-compare']) throw fault('INVALID_ARGUMENT', '--baseline 与 --self-compare 互斥');
+  if (values.offline && !values.baseline) throw fault('INVALID_ARGUMENT', '--offline 需要已准备的 --baseline 完整 SHA');
   if (values.case !== undefined && !/^[a-z][a-z0-9-]*$/.test(values.case))
     throw fault('INVALID_ARGUMENT', '--case 需要有效用例 ID');
   return values;
@@ -52,11 +61,18 @@ export async function main(configuration = {}) {
   const { suitePath = 'packages/vchart/__tests__/visual', command = 'node packages/vchart/scripts/visual-test.mjs' } =
     configuration;
   const options = parseOptions(process.argv.slice(2));
+  if (options.phase) {
+    const request = JSON.parse(await fs.readFile(options.request, 'utf8'));
+    if (request.stage !== options.phase) throw fault('INVALID_ARGUMENT', '请求阶段不符');
+    const { runStage } = await import('./visual/stage.mjs');
+    process.exitCode = (await runStage(request)).code;
+    return;
+  }
   const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
   if (options.help) {
     console.log(
       command +
-        ' [--baseline <40位SHA> | --self-compare] [--dir <目录> | --case <id>]\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
+        ' [--baseline <40位SHA> [--offline] | --self-compare] [--dir <目录> | --case <id>]\n阶段接口：--phase build|capture|compare --request <请求文件>，格式见scripts/visual-stage.md。\n默认运行全部本地用例；--dir 递归运行 cases 内的一个目录（例如 components/label）。\n--offline 使用已准备提交与逐侧校验的依赖，不联网或安装。\n--list 列举用例；--check 本机环境检查；--help 帮助\n默认：官方 VisActor/VChart develop。退出码：0 通过，1 视觉差异，2 执行错误。'
     );
     return;
   }

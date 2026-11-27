@@ -60,11 +60,11 @@ formatMethod: text => {
 
 For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
-#${prefix} formatter(string)
+#${prefix} formatter(string|Array)
 
-String template, supported since `1.7.0` version.
+Format templates were introduced in version `1.7.0`. Pass a string or an array of strings.
 
-A string template that wraps the variable name with `{}`. The variable name is taken from the data attribute value.
+Wrap field names from the mark's data row in `{}`. For example, given `{ count: 1500 }`, `formatter: '{count:~s}'` displays `1.5k`.
 
 In pie charts, percentage stacked area charts, percentage stacked line charts, and percentage stacked column charts, percentage configuration is supported, `{_percent_}`
 
@@ -96,12 +96,21 @@ The distance between the label and its corresponding data graphic element.
 
 Label graphic element style configuration.
 
+{{ var: callbackType = ${noStyleCallback} ? '' : '|Function' }}
+
+{{ if: ${callbackType} }}
+
+Each style property can be a callback that receives the label datum and returns the property value.
+
+{{ /if }}
+
 ##${prefix} type='text'(Object)
 
 Regular text style configuration.
 
 {{ use: graphic-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = ${callbackType}
 ) }}
 
 ##${prefix} type='rich'(Object)
@@ -109,7 +118,8 @@ Regular text style configuration.
 Rich text style configuration.
 
 {{ use: graphic-rich-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = ${callbackType}
 ) }}
 
 #${prefix} state(Object)
@@ -244,11 +254,12 @@ Overlap avoidance strategy for labels, providing 4 avoidance strategies, respect
 
 {{ if: ${hasSmartInvert} }}
 
-#${prefix} smartInvert(Object|false)
+#${prefix} smartInvert(boolean|Object)
 
-Smart Invert configuration.
+Smart inversion for labels. Set to `true` to use the default settings, `false` to disable it, or provide an object to customize the strategy.
 
-- In a histogram, when the label position is inside (`'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`) , it is enabled by default.
+- Bar chart labels use smart inversion by default at inside positions (`'inside'`, `'inside-top'`, `'inside-bottom'`, `'inside-right'`, `'inside-left'`).
+- Pie chart labels use smart inversion by default at inside positions (`'inside'`, `'inside-outer'`, `'inside-inner'`, `'inside-center'`). It is disabled by default for outside labels.
 
 ##${prefix} mode(string)
 
@@ -287,10 +298,10 @@ Four strategies for label fill color in intelligent inversion:
 
 - `'base'` uses the color of the element where the label is located
 - `'invertBase'` uses the color calculated by smart inversion
-- `'similarBase'` uses the complementary color of the color after intelligent inversion calculation
+- `'similarBase'` selects a fill color from `brightColor` and `darkColor`
 - `'null'` does not perform smart inversion and keeps the color set by `style.fill`
 
-The default setting is `'invertBase'`
+The default is `'invertBase'`. When the original label color has insufficient contrast against the mark, this strategy selects a readable color from `alternativeColors` and the default fallback colors.
 
 ##${prefix} strokeStrategy(string)
 
@@ -298,20 +309,20 @@ Four strategies for label stroke color in intelligent inversion:
 
 - `'base'` uses the color of the element where the label is located
 - `'invertBase'` uses the color calculated by smart inversion
-- `'similarBase'` uses the complementary color of the color after intelligent inversion calculation
+- `'similarBase'` selects a stroke color from `brightColor` and `darkColor`
 - `'null'` does not perform smart inversion and keeps the color set by `style.stroke`
 
 The default setting is `'base'`
 
 ##${prefix} brightColor(string)
 
-similarSeries uses this color when the foreground color has contrast with the bright color.
-The default setting is '#ffffff'.
+The `'similarBase'` strategy uses this color for the fill or stroke when its contrast ratio against the smart inversion result is greater than 4.5:1.
+The default is `'#ffffff'`. Use a six-digit hexadecimal value for a custom color, such as `'#ff0000'`.
 
-##${prefix} brightColor(string)
+##${prefix} darkColor(string)
 
-similarSeries uses this color when the foreground color has contrast with the dark color.
-The default setting is '#000000'.
+The `'similarBase'` strategy uses this color for the fill or stroke when the contrast ratio between `brightColor` and the smart inversion result is 4.5:1 or less.
+The default is `'#000000'`.
 
 ##${prefix} outsideEnable(boolean)
 

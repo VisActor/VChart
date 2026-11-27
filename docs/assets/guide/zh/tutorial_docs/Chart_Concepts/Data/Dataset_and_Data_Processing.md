@@ -23,7 +23,7 @@ VChart 中使用了一个数据处理工具 `@visactor/vdataset` 。本篇教程
 `DataSet` 实例上有获取 `DataView`，注册 `parser`、`transform` 的接口。同时 `DataView` 的创建需要指定一个 `DataSet` 对象。
 
 ```js
-import { DataSet, csvParser, dataViewParser, statistics } from '@visactor/vdataset';
+import { DataSet, DataView, csvParser, dataViewParser, statistics } from '@visactor/vdataset';
 
 const dataSet = new DataSet();
 // parser，transform 的注册
@@ -35,110 +35,63 @@ const dataView = new DataView(dataSet, { name: 'data' });
 
 ### parser
 
-`parser` 是解析原始数据的工具。它本身是一个函数，类型如下：
+`parser` 将原始数据解析成数据视图可以使用的结构。解析函数接收原始数据、解析选项和当前的 `DataView`。
 
-```js
-// data 是DataView接收的原始内容，option 是执行parser时的传入参数，dataView 是当前进行 parser 的数据视图
-export type Parser = (data: any, options: Object, dataView: DataView) => any;
+```ts
+export type Parser = (data: any, options: any, dataView: DataView) => any;
 ```
 
-使用示例如下：
+使用上面注册的 `csv` 解析器读取 CSV。解析后，每列的值都是字符串。例如，第一行的 `value` 是 `'16.9'`。
 
 ```js
-export interface ICsvParserOptions {
-    delimiter?: string;
-}
-const csvParser = (data: string, option: ICsvParserOptions, dataView: DataView) => {
-  /** ...*/
-};
-// 先对 parser，进行注册
-dataSet.registerParser('csv', csvParser);
-// 使用
-dataView.parse(`year,group,value
+dataView.parse(
+  `year,group,value
 1990,18-34,16.9
-1990,35-49,12.2
-1990,50-64,10.2
-1990,65+,5.2
-1991,18-34,17
-1991,35-49,17.8
-1991,50-64,10
-1991,65+,4.8
-1993,18-34,26.5
-1993,35-49,23.8
-1993,50-64,16.8
-1993,65+,6.6
-`, {
-    type: 'csv'
-    option: {
-      delimiter: ','
-    }
-  });
+1990,35-49,12.2`,
+  { type: 'csv' }
+);
 ```
 
 ### transform
 
-`parser` 是数据变换工具，同一个 `DataView` 可以有多个 `transform` ，它们会依次执行，下一个 `transform` 拿到的数据是上一个 `transform` 变换后的结果
+`transform` 用于变换数据。同一个 `DataView` 可以依次执行多个 transform，后一个 transform 使用前一个的输出。配置 `level` 时，transform 会按 `level` 排序。
 
-类型如下：
-
-```js
-export type Transform = (data: any, options?: Object) => any;
-type TransformName = string;
-export interface ITransformOptions {
-  type: TransformName;
-  options?: Object;
-  level?: number; // 如果配置了 level ，DataView 上的 transform 会按照level排序
-}
+```ts
+export type Transform = (data: any, options?: any) => any;
 ```
 
-使用示例如下：
+使用上面注册的 `statistics`，按年份对 CSV 数据的 `value` 求平均值。统计结果中的 `group` 是年份，`avg` 是平均值。
 
 ```js
-export interface IStatisticsOptions {
-    fields: string[];
-    operations: Array<'count' | 'max' | 'min' | 'mean' | 'average' | 'median' | 'mode' | 'product' | 'standardDeviation' | 'sum' | 'sumSimple' | 'variance'>;
-    as?: string[];
-    groupBy?: string;
-}
-const statisticsTransform = (data: string, option: IStatisticsOptions) => {
-  /** ...*/
-};
-// 先对 transform 进行注册
-dataSet.registerTransform('statistics', statisticsTransform);
-// 使用
 dataView.transform({
-  type: 'statistics'
-  option: {
-    fields: ['year'],
+  type: 'statistics',
+  options: {
+    fields: ['value'],
     operations: ['average'],
     as: ['avg'],
-    groupBy: 'group'
+    groupBy: 'year'
   }
 });
 ```
 
 ### 使用示例
 
-下面我们用一个例子来说明如何使用 DataSet 处理数据，并在图表中使用。
+下面的示例将两份按年龄组划分的 CSV 数据合并。数据记录了某地区成年人对同性关系的接受比例，分别涵盖 50 岁以下和 50 岁及以上的人群。柱图显示各年龄组的比例，折线显示每年的平均值。
 
-下方的例子中数据是某地区 3 年的的成年人口中 `accept same-sex relationships` 比例数据，一份是 50 岁以下的数据，一份是 50 岁以上的数据。我们将进行如下操作
-
-1. 将 2 份 csv 数据分别解析，得到 2 个数据视图 dataView1 和 dataView2
-2. 使用一个新数据视图 dataViewMerge ，依赖 dataView1 和 dataView2 ，将他们的数据合并。
-3. 再创建一份新数据视图 dataViewAvg，对 2 中得到的数据进行统计，得到一份平均值数据。
-4. 使用 dataViewMerge 和 dataViewAvg 绘制一份组合图，使用柱图表示原本的比例数据，用线绘制平均值。
+安装 `@visactor/vchart` 和 `@visactor/vdataset`，并在页面中准备一个有宽高的图表容器，例如 `<div id="chart" style="width: 640px; height: 360px"></div>`。
 
 ```js
-// 引用内容
-import { DataSet, csvParser, dataViewParser, statistics } from '@visactor/vdataset';
-// 创建 dataset 实例
+import VChart from '@visactor/vchart';
+import { DataSet, DataView, csvParser, dataViewParser, map, statistics } from '@visactor/vdataset';
+
 const dataSet = new DataSet();
-// 注册 parser，transform
+// 注册解析器和变换。mergeDataView 读取各依赖视图的最新数据。
 dataSet.registerParser('csv', csvParser);
 dataSet.registerParser('dataview', dataViewParser);
+dataSet.registerTransform('mergeDataView', views => views.flatMap(view => view.latestData));
+dataSet.registerTransform('map', map);
 dataSet.registerTransform('statistics', statistics);
 
-// 2份原始数据
 const dataLess50 = `year,group,value
 1990,18-34,16.9
 1990,35-49,12.2
@@ -156,59 +109,30 @@ const dataOver50 = `year,group,value
 1993,65+,6.6
 `;
 
-// 解析2分原始数据
+// 解析两份 CSV。此时所有列的值都是字符串。
 const dataView1 = new DataView(dataSet, { name: 'dataView1' });
 dataView1.parse(dataLess50, { type: 'csv' });
 const dataView2 = new DataView(dataSet, { name: 'dataView2' });
 dataView2.parse(dataOver50, { type: 'csv' });
 
-// 创建 dataViewMerge
+// 合并两份数据，再将用于绘图的 value 列转换成数字。
 const dataViewMerge = new DataView(dataSet, { name: 'dataViewMerge' });
-// 令它引用 dataView1, dataView2
 dataViewMerge.parse([dataView1, dataView2], { type: 'dataview' });
-// 现在我们来自己实现一个 merge transform
-const mergeDataViewTransform = (data: DataView[], opt) => {
-  // 此时我们接收的 data 是一个数组 data = [dataView1,dataView2]
-  const result = [];
-  data.forEach(d => {
-    // dataView 的 latestData 属性就是它的最终数据
-    result.push(...d.latestData);
-  });
-  return result;
-};
-// 注册 merge transform
-dataSet.registerTransform('mergeDataView', mergeDataViewTransform);
-// 使用 merge transform 合并数据
 dataViewMerge.transform({ type: 'mergeDataView' });
+dataViewMerge.transform({
+  type: 'map',
+  options: { callback: row => ({ ...row, value: Number(row.value) }) }
+});
+// 合并后的前两行：
+// { year: '1990', group: '18-34', value: 16.9 }
+// { year: '1990', group: '35-49', value: 12.2 }
 
-/**
- * 至此，dataViewMerge 数据处理已经完成了。
- * 最终数据的内容如下
-  [
-    { year: '1990', group: '18-34', value: 16.9 },
-    { year: '1990', group: '35-49', value: 12.2 },
-    { year: '1991', group: '18-34', value: 17 },
-    { year: '1991', group: '35-49', value: 17.8 },
-    { year: '1993', group: '18-34', value: 26.5 },
-    { year: '1993', group: '35-49', value: 23.8 },
-    { year: '1990', group: '50-64', value: 10.2 },
-    { year: '1990', group: '65+', value: 5.2 },
-    { year: '1991', group: '50-64', value: 10 },
-    { year: '1991', group: '65+', value: 4.8 },
-    { year: '1993', group: '50-64', value: 16.8 },
-    { year: '1993', group: '65+', value: 6.6 }
-  ]
-*/
-
-// 创建平均值数据 令它引用 dataViewMerge
+// 读取合并后的数据并按年份统计。group 保存分组键，avg 保存平均值。
 const dataViewAvg = new DataView(dataSet, { name: 'dataViewAvg' });
 dataViewAvg.parse([dataViewMerge], { type: 'dataview' });
-// 内置的 copy transform。从依赖的 dataView 上浅拷贝数据，只会重新创建数据数组，数据对象不变。
-dataViewAvg.transform({ type: 'copyDataView' });
-// 此时 dataViewAvg 与 dataViewMerge 中的数据内容相同
-// 内置的 statistics transform 可以生成统计数据
+dataViewAvg.transform({ type: 'mergeDataView' });
 dataViewAvg.transform({
-  type: 'statistics'
+  type: 'statistics',
   options: {
     fields: ['value'],
     operations: ['average'],
@@ -216,52 +140,42 @@ dataViewAvg.transform({
     groupBy: 'year'
   }
 });
-/**
- * 至此，dataViewAvg 数据处理已经完成了
- * 最终数据的内容如下
-  [
-    { year: '1990', group: '18-34', value: 11.125 },
-    { year: '1991', group: '18-34', value: 12.4 },
-    { year: '1993', group: '18-34', value: 18.425 },
-  ]
-*/
-
+// 统计结果：
+// [
+//   { group: '1990', avg: 11.125, max: 16.9, min: 5.2, average: 11.125, sum: 44.5 },
+//   { group: '1991', avg: 12.4, max: 17.8, min: 4.8, average: 12.4, sum: 49.6 },
+//   { group: '1993', avg: 18.425, max: 26.5, min: 6.6, average: 18.425, sum: 73.7 }
+// ]
 
 const spec = {
   type: 'common',
-  stackField: 'stack',
-  seriesField: 'type',
-  data: [
-    dataViewMerge,
-    dataViewAvg
-  ],
+  data: [dataViewMerge, dataViewAvg],
   series: [
     {
       type: 'bar',
-      dataId: 'dataViewMerge', // 使用 id 对应数据
+      dataId: 'dataViewMerge',
       xField: 'year',
       yField: 'value',
       seriesField: 'group'
     },
     {
       type: 'line',
-      dataId: 'dataViewAvg', // 使用 id 对应数据
-      xField: 'year',
-      yField: 'avg',
-    },
+      dataId: 'dataViewAvg',
+      xField: 'group',
+      yField: 'avg'
+    }
   ],
   axes: [{ orient: 'left' }, { orient: 'bottom', type: 'band' }]
 };
 
-const vchart = new VChart(spec, { dom: CONTAINER_ID });
+const vchart = new VChart(spec, { dom: 'chart', dataSet });
 vchart.renderSync();
-
 ```
+
+使用 `@visactor/vdataset@1.0.29` 时，`statistics` 还返回了 `max`、`min`、`average` 和 `sum`。折线只读取 `group` 和 `avg`。
 
 ### 依赖更新
 
-关于依赖更新，在上方的例子中，如果需要进行数据更新，比如数据从 `[1990，1991，1993]` 增加到了 `[1990，1991，1993，1995，1997]` 只需要更新对应的 `dataView1` 和 `dataView2` 。图表使用的 `dataViewMerge` 和 `dataViewAvg` 会自动更新。图表内容也会发生对应的变化。
+用 `dataView1.parseNewData(updatedCsv)` 或 `dataView2.parseNewData(updatedCsv)` 替换对应的 CSV 数据。依赖视图会重新执行各自的 transform，图表也会根据更新后的合并数据和统计数据重绘。
 
-这是由于在 dataView 的依赖关系建立时，就会默认创建更新链路，当上方数据更新后，会自动通知下方数据更新。
-
-我们可以通过在多个图表中使用同一个 DataSet 的方式，通过依赖更新，非常简单的实现基于数据的联动效果。
+将同一个 `DataSet` 和相应的 `DataView` 传给多个图表，也可以让这些图表随数据更新联动。

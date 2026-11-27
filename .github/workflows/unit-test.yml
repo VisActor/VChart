@@ -27,6 +27,9 @@ jobs:
           cache: 'npm'
           cache-dependency-path: './common/config/rush/pnpm-lock.yaml'
 
+      - name: Test Photo CI handoff
+        run: node --test .github/scripts/bug-server-gray-scope.test.cjs
+
       - name: Install Python distutils (macOS)
         if: runner.os == 'macOS'
         run: |
@@ -57,14 +60,6 @@ jobs:
         # Install rush
       - name: Install rush
         run: node common/scripts/install-run-rush.js install --bypass-policy
-
-      - name: Build vutils-extension
-        run: node common/scripts/install-run-rush.js build --only @visactor/vutils-extension
-
-      - name: Build VChart
-        env:
-          NODE_OPTIONS: '--max_old_space_size=4096'
-        run: node common/scripts/install-run-rush.js run -p @visactor/vchart -s build:cjs
 
       - name: Test VChart
         run: node common/scripts/install-run-rush.js run -p @visactor/vchart -s test

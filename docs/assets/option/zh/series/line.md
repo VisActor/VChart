@@ -52,6 +52,12 @@ point 图元样式配置。
 
 ##${prefix} style(Object)
 
+折线图点标记的 `stroke` 有以下用法。
+
+- 省略 `stroke` 时，使用主题中的默认描边。在默认浅色主题下，描边为白色。
+- 直接设置 `stroke: null` 时，使用系列颜色描边。
+- 设置 `stroke: false` 时，关闭描边。使用回调按数据项关闭描边时，返回 `false`。
+
 {{ use: mark-style(
   markName = 'point'
 ) }}

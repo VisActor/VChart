@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "title": "同一设备升级前后的响应时间",
+  "charts": [
+    {
+      "id": "main",
+      "spec": {
+        "type": "pairedComparisonPlot",
+        "categoryOrder": [
+          "升级前",
+          "升级后"
+        ],
+        "data": [
+          {
+            "id": "001",
+            "category": "升级前",
+            "value": 120
+          },
+          {
+            "id": "003",
+            "category": "升级前",
+            "value": 110
+          },
+          {
+            "id": "005",
+            "category": "升级前",
+            "value": 160
+          },
+          {
+            "id": "007",
+            "category": "升级前",
+            "value": 170
+          },
+          {
+            "id": "009",
+            "category": "升级前",
+            "value": 190
+          },
+          {
+            "id": "011",
+            "category": "升级前",
+            "value": 210
+          },
+          {
+            "id": "013",
+            "category": "升级前",
+            "value": 230
+          },
+          {
+            "id": "002",
+            "category": "升级后",
+            "value": 125
+          },
+          {
+            "id": "004",
+            "category": "升级后",
+            "value": 130
+          },
+          {
+            "id": "006",
+            "category": "升级后",
+            "value": 115
+          },
+          {
+            "id": "008",
+            "category": "升级后",
+            "value": 185
+          },
+          {
+            "id": "010",
+            "category": "升级后",
+            "value": 175
+          },
+          {
+            "id": "012",
+            "category": "升级后",
+            "value": 200
+          },
+          {
+            "id": "011",
+            "category": "升级后",
+            "value": 190
+          },
+          {
+            "id": "009",
+            "category": "升级后",
+            "value": 170
+          },
+          {
+            "id": "007",
+            "category": "升级后",
+            "value": 150
+          },
+          {
+            "id": "005",
+            "category": "升级后",
+            "value": 165
+          },
+          {
+            "id": "003",
+            "category": "升级后",
+            "value": 110
+          },
+          {
+            "id": "001",
+            "category": "升级后",
+            "value": 100
+          },
+          {
+            "id": "012",
+            "category": "升级前",
+            "value": 220
+          },
+          {
+            "id": "010",
+            "category": "升级前",
+            "value": 200
+          },
+          {
+            "id": "008",
+            "category": "升级前",
+            "value": 180
+          },
+          {
+            "id": "006",
+            "category": "升级前",
+            "value": 140
+          },
+          {
+            "id": "004",
+            "category": "升级前",
+            "value": 150
+          },
+          {
+            "id": "002",
+            "category": "升级前",
+            "value": 130
+          }
+        ],
+        "fieldLabels": {
+          "category": "阶段",
+          "value": "响应时间（毫秒）"
+        }
+      },
+      "source": {
+        "label": "模拟设备阶段观测 · measurements.json",
+        "note": "原创模拟测试数据，MIT；不是真实业务或模型评估结果。"
+      },
+      "caption": "模拟观测 · 按设备 ID 配对，缺失阶段保留单点；本图不能证明升级因果。"
+    }
+  ],
+  "controls": {},
+  "presentation": {
+    "actions": [],
+    "details": []
+  }
+}

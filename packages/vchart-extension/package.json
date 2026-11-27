@@ -1,6 +1,6 @@
 {
   "name": "@visactor/vchart-extension",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "description": "vchart extension package, including extension plugins and components",
   "sideEffects": false,
   "main": "cjs/index.js",
@@ -19,7 +19,7 @@
   "scripts": {
     "compile": "tsc --noEmit",
     "eslint": "eslint --debug --fix src/",
-    "build": "bundle",
+    "build": "bundle --clean",
     "build:umd": "bundle --clean -f  umd",
     "build:es": "bundle --clean -f  es",
     "build:cjs": "bundle --clean -f  cjs",
@@ -28,14 +28,14 @@
     "test:visual": "node scripts/visual-test.mjs"
   },
   "dependencies": {
-    "@visactor/vrender-core": "1.1.12",
-    "@visactor/vrender-kits": "1.1.12",
-    "@visactor/vrender-components": "1.1.12",
-    "@visactor/vrender-animate": "1.1.12",
-    "@visactor/vchart": "workspace:2.2.0",
-    "@visactor/vutils": "~1.0.28",
-    "@visactor/vdataset": "~1.0.28",
-    "@visactor/vlayouts": "~1.0.28"
+    "@visactor/vrender-core": "1.1.16",
+    "@visactor/vrender-kits": "1.1.16",
+    "@visactor/vrender-components": "1.1.16",
+    "@visactor/vrender-animate": "1.1.16",
+    "@visactor/vchart": "workspace:2.2.2",
+    "@visactor/vutils": "~1.0.29",
+    "@visactor/vdataset": "~1.0.29",
+    "@visactor/vlayouts": "~1.0.29"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",
@@ -66,7 +66,7 @@
     "jest-electron": "^0.1.12",
     "ts-jest": "^26.0.0",
     "react-device-detect": "^2.2.2",
-    "@visactor/vscale": "~1.0.28"
+    "@visactor/vscale": "~1.0.29"
   },
   "publishConfig": {
     "access": "public",

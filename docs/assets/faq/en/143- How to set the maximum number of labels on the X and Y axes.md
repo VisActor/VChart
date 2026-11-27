@@ -296,6 +296,6 @@ window['vchart'] = vchart;</br>
 
 ## Related Documents
 
-*  [Axes Tutorial](https%3A%2F%2Fwww.visactor.io%2Fvchart%2Fguide%2Ftutorial_docs%2FChart_Concepts%2FAxes)</br>
-*  [VChart github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  [Axes Tutorial](https://www.visactor.io/vchart/guide/tutorial_docs/Chart_Concepts/Axes)</br>
+*  [VChart github](https://github.com/VisActor/VChart)</br>
 

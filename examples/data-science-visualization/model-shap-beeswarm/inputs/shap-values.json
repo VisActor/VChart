@@ -1,0 +1,4322 @@
+[
+  {
+    "id": "S001",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.2,
+    "featureValue": 0
+  },
+  {
+    "id": "S002",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.8,
+    "featureValue": 0
+  },
+  {
+    "id": "S003",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.4,
+    "featureValue": 1
+  },
+  {
+    "id": "S004",
+    "feature": "近30天逾期次数",
+    "shapValue": 0,
+    "featureValue": 1
+  },
+  {
+    "id": "S005",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.4,
+    "featureValue": 2
+  },
+  {
+    "id": "S006",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.8,
+    "featureValue": 2
+  },
+  {
+    "id": "S007",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.2,
+    "featureValue": 3
+  },
+  {
+    "id": "S008",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.6,
+    "featureValue": 3
+  },
+  {
+    "id": "S009",
+    "feature": "近30天逾期次数",
+    "shapValue": 2,
+    "featureValue": 4
+  },
+  {
+    "id": "S010",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.4,
+    "featureValue": 4
+  },
+  {
+    "id": "S011",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.8,
+    "featureValue": 5
+  },
+  {
+    "id": "S012",
+    "feature": "近30天逾期次数",
+    "shapValue": 3.2,
+    "featureValue": 5
+  },
+  {
+    "id": "S013",
+    "feature": "近30天逾期次数",
+    "shapValue": -2.025,
+    "featureValue": 0
+  },
+  {
+    "id": "S014",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.85,
+    "featureValue": 0
+  },
+  {
+    "id": "S015",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.725,
+    "featureValue": 0
+  },
+  {
+    "id": "S016",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.65,
+    "featureValue": 0
+  },
+  {
+    "id": "S017",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.6,
+    "featureValue": 0
+  },
+  {
+    "id": "S018",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.55,
+    "featureValue": 0
+  },
+  {
+    "id": "S019",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.5,
+    "featureValue": 0
+  },
+  {
+    "id": "S020",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.45,
+    "featureValue": 0
+  },
+  {
+    "id": "S021",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.425,
+    "featureValue": 0
+  },
+  {
+    "id": "S022",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.375,
+    "featureValue": 0
+  },
+  {
+    "id": "S023",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.35,
+    "featureValue": 0
+  },
+  {
+    "id": "S024",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.325,
+    "featureValue": 0
+  },
+  {
+    "id": "S025",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.3,
+    "featureValue": 0
+  },
+  {
+    "id": "S026",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.275,
+    "featureValue": 0
+  },
+  {
+    "id": "S027",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.25,
+    "featureValue": 0
+  },
+  {
+    "id": "S028",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.225,
+    "featureValue": 0
+  },
+  {
+    "id": "S029",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.2,
+    "featureValue": 0
+  },
+  {
+    "id": "S030",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.175,
+    "featureValue": 0
+  },
+  {
+    "id": "S031",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.15,
+    "featureValue": 0
+  },
+  {
+    "id": "S032",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.125,
+    "featureValue": 0
+  },
+  {
+    "id": "S033",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.1,
+    "featureValue": 0
+  },
+  {
+    "id": "S034",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.1,
+    "featureValue": 0
+  },
+  {
+    "id": "S035",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.075,
+    "featureValue": 0
+  },
+  {
+    "id": "S036",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.05,
+    "featureValue": 0
+  },
+  {
+    "id": "S037",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.025,
+    "featureValue": 0
+  },
+  {
+    "id": "S038",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.025,
+    "featureValue": 0
+  },
+  {
+    "id": "S039",
+    "feature": "近30天逾期次数",
+    "shapValue": -1.0,
+    "featureValue": 0
+  },
+  {
+    "id": "S040",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.975,
+    "featureValue": 0
+  },
+  {
+    "id": "S041",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.975,
+    "featureValue": 0
+  },
+  {
+    "id": "S042",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.95,
+    "featureValue": 0
+  },
+  {
+    "id": "S043",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.925,
+    "featureValue": 0
+  },
+  {
+    "id": "S044",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.925,
+    "featureValue": 0
+  },
+  {
+    "id": "S045",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.9,
+    "featureValue": 0
+  },
+  {
+    "id": "S046",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.9,
+    "featureValue": 0
+  },
+  {
+    "id": "S047",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.875,
+    "featureValue": 0
+  },
+  {
+    "id": "S048",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.85,
+    "featureValue": 0
+  },
+  {
+    "id": "S049",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.85,
+    "featureValue": 1
+  },
+  {
+    "id": "S050",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.825,
+    "featureValue": 1
+  },
+  {
+    "id": "S051",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.825,
+    "featureValue": 1
+  },
+  {
+    "id": "S052",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.8,
+    "featureValue": 1
+  },
+  {
+    "id": "S053",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.8,
+    "featureValue": 1
+  },
+  {
+    "id": "S054",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.775,
+    "featureValue": 1
+  },
+  {
+    "id": "S055",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.775,
+    "featureValue": 1
+  },
+  {
+    "id": "S056",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.75,
+    "featureValue": 1
+  },
+  {
+    "id": "S057",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.725,
+    "featureValue": 1
+  },
+  {
+    "id": "S058",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.725,
+    "featureValue": 1
+  },
+  {
+    "id": "S059",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.7,
+    "featureValue": 1
+  },
+  {
+    "id": "S060",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.7,
+    "featureValue": 1
+  },
+  {
+    "id": "S061",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.675,
+    "featureValue": 1
+  },
+  {
+    "id": "S062",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.675,
+    "featureValue": 1
+  },
+  {
+    "id": "S063",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.65,
+    "featureValue": 1
+  },
+  {
+    "id": "S064",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.65,
+    "featureValue": 1
+  },
+  {
+    "id": "S065",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.65,
+    "featureValue": 1
+  },
+  {
+    "id": "S066",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.625,
+    "featureValue": 1
+  },
+  {
+    "id": "S067",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.625,
+    "featureValue": 1
+  },
+  {
+    "id": "S068",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.6,
+    "featureValue": 1
+  },
+  {
+    "id": "S069",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.6,
+    "featureValue": 1
+  },
+  {
+    "id": "S070",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.575,
+    "featureValue": 1
+  },
+  {
+    "id": "S071",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.575,
+    "featureValue": 1
+  },
+  {
+    "id": "S072",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.55,
+    "featureValue": 1
+  },
+  {
+    "id": "S073",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.55,
+    "featureValue": 1
+  },
+  {
+    "id": "S074",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.525,
+    "featureValue": 1
+  },
+  {
+    "id": "S075",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.525,
+    "featureValue": 1
+  },
+  {
+    "id": "S076",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.5,
+    "featureValue": 1
+  },
+  {
+    "id": "S077",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.5,
+    "featureValue": 1
+  },
+  {
+    "id": "S078",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.5,
+    "featureValue": 1
+  },
+  {
+    "id": "S079",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.475,
+    "featureValue": 1
+  },
+  {
+    "id": "S080",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.475,
+    "featureValue": 1
+  },
+  {
+    "id": "S081",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.45,
+    "featureValue": 1
+  },
+  {
+    "id": "S082",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.45,
+    "featureValue": 1
+  },
+  {
+    "id": "S083",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.425,
+    "featureValue": 1
+  },
+  {
+    "id": "S084",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.425,
+    "featureValue": 1
+  },
+  {
+    "id": "S085",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.4,
+    "featureValue": 1
+  },
+  {
+    "id": "S086",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.4,
+    "featureValue": 1
+  },
+  {
+    "id": "S087",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.4,
+    "featureValue": 1
+  },
+  {
+    "id": "S088",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.375,
+    "featureValue": 1
+  },
+  {
+    "id": "S089",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.375,
+    "featureValue": 1
+  },
+  {
+    "id": "S090",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.35,
+    "featureValue": 1
+  },
+  {
+    "id": "S091",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.35,
+    "featureValue": 1
+  },
+  {
+    "id": "S092",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.325,
+    "featureValue": 1
+  },
+  {
+    "id": "S093",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.325,
+    "featureValue": 1
+  },
+  {
+    "id": "S094",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.325,
+    "featureValue": 1
+  },
+  {
+    "id": "S095",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.3,
+    "featureValue": 1
+  },
+  {
+    "id": "S096",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.3,
+    "featureValue": 1
+  },
+  {
+    "id": "S097",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.275,
+    "featureValue": 2
+  },
+  {
+    "id": "S098",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.275,
+    "featureValue": 2
+  },
+  {
+    "id": "S099",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.275,
+    "featureValue": 2
+  },
+  {
+    "id": "S100",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.25,
+    "featureValue": 2
+  },
+  {
+    "id": "S101",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.25,
+    "featureValue": 2
+  },
+  {
+    "id": "S102",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.225,
+    "featureValue": 2
+  },
+  {
+    "id": "S103",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.225,
+    "featureValue": 2
+  },
+  {
+    "id": "S104",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.2,
+    "featureValue": 2
+  },
+  {
+    "id": "S105",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.2,
+    "featureValue": 2
+  },
+  {
+    "id": "S106",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.2,
+    "featureValue": 2
+  },
+  {
+    "id": "S107",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.175,
+    "featureValue": 2
+  },
+  {
+    "id": "S108",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.175,
+    "featureValue": 2
+  },
+  {
+    "id": "S109",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.15,
+    "featureValue": 2
+  },
+  {
+    "id": "S110",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.15,
+    "featureValue": 2
+  },
+  {
+    "id": "S111",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.15,
+    "featureValue": 2
+  },
+  {
+    "id": "S112",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.125,
+    "featureValue": 2
+  },
+  {
+    "id": "S113",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.125,
+    "featureValue": 2
+  },
+  {
+    "id": "S114",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.1,
+    "featureValue": 2
+  },
+  {
+    "id": "S115",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.1,
+    "featureValue": 2
+  },
+  {
+    "id": "S116",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.1,
+    "featureValue": 2
+  },
+  {
+    "id": "S117",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.075,
+    "featureValue": 2
+  },
+  {
+    "id": "S118",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.075,
+    "featureValue": 2
+  },
+  {
+    "id": "S119",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.05,
+    "featureValue": 2
+  },
+  {
+    "id": "S120",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.05,
+    "featureValue": 2
+  },
+  {
+    "id": "S121",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.025,
+    "featureValue": 2
+  },
+  {
+    "id": "S122",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.025,
+    "featureValue": 2
+  },
+  {
+    "id": "S123",
+    "feature": "近30天逾期次数",
+    "shapValue": -0.025,
+    "featureValue": 2
+  },
+  {
+    "id": "S124",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.0,
+    "featureValue": 2
+  },
+  {
+    "id": "S125",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.0,
+    "featureValue": 2
+  },
+  {
+    "id": "S126",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.025,
+    "featureValue": 2
+  },
+  {
+    "id": "S127",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.025,
+    "featureValue": 2
+  },
+  {
+    "id": "S128",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.025,
+    "featureValue": 2
+  },
+  {
+    "id": "S129",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.05,
+    "featureValue": 2
+  },
+  {
+    "id": "S130",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.05,
+    "featureValue": 2
+  },
+  {
+    "id": "S131",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.075,
+    "featureValue": 2
+  },
+  {
+    "id": "S132",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.075,
+    "featureValue": 2
+  },
+  {
+    "id": "S133",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.1,
+    "featureValue": 2
+  },
+  {
+    "id": "S134",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.1,
+    "featureValue": 2
+  },
+  {
+    "id": "S135",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.1,
+    "featureValue": 2
+  },
+  {
+    "id": "S136",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.125,
+    "featureValue": 2
+  },
+  {
+    "id": "S137",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.125,
+    "featureValue": 2
+  },
+  {
+    "id": "S138",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.15,
+    "featureValue": 2
+  },
+  {
+    "id": "S139",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.15,
+    "featureValue": 2
+  },
+  {
+    "id": "S140",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.175,
+    "featureValue": 2
+  },
+  {
+    "id": "S141",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.175,
+    "featureValue": 2
+  },
+  {
+    "id": "S142",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.175,
+    "featureValue": 2
+  },
+  {
+    "id": "S143",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.2,
+    "featureValue": 2
+  },
+  {
+    "id": "S144",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.2,
+    "featureValue": 2
+  },
+  {
+    "id": "S145",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.225,
+    "featureValue": 2
+  },
+  {
+    "id": "S146",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.225,
+    "featureValue": 2
+  },
+  {
+    "id": "S147",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.25,
+    "featureValue": 2
+  },
+  {
+    "id": "S148",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.25,
+    "featureValue": 2
+  },
+  {
+    "id": "S149",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.25,
+    "featureValue": 2
+  },
+  {
+    "id": "S150",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.275,
+    "featureValue": 2
+  },
+  {
+    "id": "S151",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.275,
+    "featureValue": 2
+  },
+  {
+    "id": "S152",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.3,
+    "featureValue": 2
+  },
+  {
+    "id": "S153",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.3,
+    "featureValue": 2
+  },
+  {
+    "id": "S154",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.325,
+    "featureValue": 2
+  },
+  {
+    "id": "S155",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.325,
+    "featureValue": 2
+  },
+  {
+    "id": "S156",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.35,
+    "featureValue": 2
+  },
+  {
+    "id": "S157",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.35,
+    "featureValue": 3
+  },
+  {
+    "id": "S158",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.375,
+    "featureValue": 3
+  },
+  {
+    "id": "S159",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.375,
+    "featureValue": 3
+  },
+  {
+    "id": "S160",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.4,
+    "featureValue": 3
+  },
+  {
+    "id": "S161",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.4,
+    "featureValue": 3
+  },
+  {
+    "id": "S162",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.425,
+    "featureValue": 3
+  },
+  {
+    "id": "S163",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.425,
+    "featureValue": 3
+  },
+  {
+    "id": "S164",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.45,
+    "featureValue": 3
+  },
+  {
+    "id": "S165",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.45,
+    "featureValue": 3
+  },
+  {
+    "id": "S166",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.475,
+    "featureValue": 3
+  },
+  {
+    "id": "S167",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.475,
+    "featureValue": 3
+  },
+  {
+    "id": "S168",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.5,
+    "featureValue": 3
+  },
+  {
+    "id": "S169",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.5,
+    "featureValue": 3
+  },
+  {
+    "id": "S170",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.525,
+    "featureValue": 3
+  },
+  {
+    "id": "S171",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.525,
+    "featureValue": 3
+  },
+  {
+    "id": "S172",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.55,
+    "featureValue": 3
+  },
+  {
+    "id": "S173",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.55,
+    "featureValue": 3
+  },
+  {
+    "id": "S174",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.575,
+    "featureValue": 3
+  },
+  {
+    "id": "S175",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.575,
+    "featureValue": 3
+  },
+  {
+    "id": "S176",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.6,
+    "featureValue": 3
+  },
+  {
+    "id": "S177",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.6,
+    "featureValue": 3
+  },
+  {
+    "id": "S178",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.625,
+    "featureValue": 3
+  },
+  {
+    "id": "S179",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.625,
+    "featureValue": 3
+  },
+  {
+    "id": "S180",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.65,
+    "featureValue": 3
+  },
+  {
+    "id": "S181",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.65,
+    "featureValue": 3
+  },
+  {
+    "id": "S182",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.675,
+    "featureValue": 3
+  },
+  {
+    "id": "S183",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.7,
+    "featureValue": 3
+  },
+  {
+    "id": "S184",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.7,
+    "featureValue": 3
+  },
+  {
+    "id": "S185",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.725,
+    "featureValue": 3
+  },
+  {
+    "id": "S186",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.725,
+    "featureValue": 3
+  },
+  {
+    "id": "S187",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.75,
+    "featureValue": 3
+  },
+  {
+    "id": "S188",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.775,
+    "featureValue": 3
+  },
+  {
+    "id": "S189",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.775,
+    "featureValue": 3
+  },
+  {
+    "id": "S190",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.8,
+    "featureValue": 3
+  },
+  {
+    "id": "S191",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.8,
+    "featureValue": 3
+  },
+  {
+    "id": "S192",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.825,
+    "featureValue": 3
+  },
+  {
+    "id": "S193",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.85,
+    "featureValue": 3
+  },
+  {
+    "id": "S194",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.85,
+    "featureValue": 3
+  },
+  {
+    "id": "S195",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.875,
+    "featureValue": 3
+  },
+  {
+    "id": "S196",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.9,
+    "featureValue": 3
+  },
+  {
+    "id": "S197",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.9,
+    "featureValue": 3
+  },
+  {
+    "id": "S198",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.925,
+    "featureValue": 3
+  },
+  {
+    "id": "S199",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.95,
+    "featureValue": 3
+  },
+  {
+    "id": "S200",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.975,
+    "featureValue": 3
+  },
+  {
+    "id": "S201",
+    "feature": "近30天逾期次数",
+    "shapValue": 0.975,
+    "featureValue": 3
+  },
+  {
+    "id": "S202",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.0,
+    "featureValue": 3
+  },
+  {
+    "id": "S203",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.025,
+    "featureValue": 3
+  },
+  {
+    "id": "S204",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.05,
+    "featureValue": 3
+  },
+  {
+    "id": "S205",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.075,
+    "featureValue": 4
+  },
+  {
+    "id": "S206",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.075,
+    "featureValue": 4
+  },
+  {
+    "id": "S207",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.1,
+    "featureValue": 4
+  },
+  {
+    "id": "S208",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.125,
+    "featureValue": 4
+  },
+  {
+    "id": "S209",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.15,
+    "featureValue": 4
+  },
+  {
+    "id": "S210",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.175,
+    "featureValue": 4
+  },
+  {
+    "id": "S211",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.2,
+    "featureValue": 4
+  },
+  {
+    "id": "S212",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.225,
+    "featureValue": 4
+  },
+  {
+    "id": "S213",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.25,
+    "featureValue": 4
+  },
+  {
+    "id": "S214",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.275,
+    "featureValue": 4
+  },
+  {
+    "id": "S215",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.3,
+    "featureValue": 4
+  },
+  {
+    "id": "S216",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.325,
+    "featureValue": 4
+  },
+  {
+    "id": "S217",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.35,
+    "featureValue": 4
+  },
+  {
+    "id": "S218",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.375,
+    "featureValue": 4
+  },
+  {
+    "id": "S219",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.4,
+    "featureValue": 4
+  },
+  {
+    "id": "S220",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.45,
+    "featureValue": 4
+  },
+  {
+    "id": "S221",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.475,
+    "featureValue": 4
+  },
+  {
+    "id": "S222",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.5,
+    "featureValue": 4
+  },
+  {
+    "id": "S223",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.55,
+    "featureValue": 4
+  },
+  {
+    "id": "S224",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.575,
+    "featureValue": 4
+  },
+  {
+    "id": "S225",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.625,
+    "featureValue": 4
+  },
+  {
+    "id": "S226",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.65,
+    "featureValue": 4
+  },
+  {
+    "id": "S227",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.7,
+    "featureValue": 4
+  },
+  {
+    "id": "S228",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.75,
+    "featureValue": 4
+  },
+  {
+    "id": "S229",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.8,
+    "featureValue": 4
+  },
+  {
+    "id": "S230",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.85,
+    "featureValue": 5
+  },
+  {
+    "id": "S231",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.9,
+    "featureValue": 5
+  },
+  {
+    "id": "S232",
+    "feature": "近30天逾期次数",
+    "shapValue": 1.975,
+    "featureValue": 5
+  },
+  {
+    "id": "S233",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.05,
+    "featureValue": 5
+  },
+  {
+    "id": "S234",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.125,
+    "featureValue": 5
+  },
+  {
+    "id": "S235",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.2,
+    "featureValue": 5
+  },
+  {
+    "id": "S236",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.325,
+    "featureValue": 5
+  },
+  {
+    "id": "S237",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.45,
+    "featureValue": 5
+  },
+  {
+    "id": "S238",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.625,
+    "featureValue": 5
+  },
+  {
+    "id": "S239",
+    "feature": "近30天逾期次数",
+    "shapValue": 2.875,
+    "featureValue": 6
+  },
+  {
+    "id": "S240",
+    "feature": "近30天逾期次数",
+    "shapValue": 3.375,
+    "featureValue": 6
+  },
+  {
+    "id": "S001",
+    "feature": "负债收入比",
+    "shapValue": -0.6,
+    "featureValue": 0.15
+  },
+  {
+    "id": "S002",
+    "feature": "负债收入比",
+    "shapValue": -0.4,
+    "featureValue": 0.2
+  },
+  {
+    "id": "S003",
+    "feature": "负债收入比",
+    "shapValue": -0.2,
+    "featureValue": 0.25
+  },
+  {
+    "id": "S004",
+    "feature": "负债收入比",
+    "shapValue": 0,
+    "featureValue": null
+  },
+  {
+    "id": "S005",
+    "feature": "负债收入比",
+    "shapValue": 0.2,
+    "featureValue": 0.35
+  },
+  {
+    "id": "S006",
+    "feature": "负债收入比",
+    "shapValue": 0.4,
+    "featureValue": 0.4
+  },
+  {
+    "id": "S007",
+    "feature": "负债收入比",
+    "shapValue": 0.6,
+    "featureValue": 0.45
+  },
+  {
+    "id": "S008",
+    "feature": "负债收入比",
+    "shapValue": 0.8,
+    "featureValue": 0.5
+  },
+  {
+    "id": "S009",
+    "feature": "负债收入比",
+    "shapValue": 1,
+    "featureValue": 0.55
+  },
+  {
+    "id": "S010",
+    "feature": "负债收入比",
+    "shapValue": 1.2,
+    "featureValue": 0.6
+  },
+  {
+    "id": "S011",
+    "feature": "负债收入比",
+    "shapValue": 1.4,
+    "featureValue": 0.65
+  },
+  {
+    "id": "S012",
+    "feature": "负债收入比",
+    "shapValue": 1.6,
+    "featureValue": 0.7
+  },
+  {
+    "id": "S013",
+    "feature": "负债收入比",
+    "shapValue": -0.45,
+    "featureValue": null
+  },
+  {
+    "id": "S014",
+    "feature": "负债收入比",
+    "shapValue": -0.425,
+    "featureValue": 0.417
+  },
+  {
+    "id": "S015",
+    "feature": "负债收入比",
+    "shapValue": -0.425,
+    "featureValue": 0.407
+  },
+  {
+    "id": "S016",
+    "feature": "负债收入比",
+    "shapValue": -0.4,
+    "featureValue": 0.376
+  },
+  {
+    "id": "S017",
+    "feature": "负债收入比",
+    "shapValue": -0.4,
+    "featureValue": 0.354
+  },
+  {
+    "id": "S018",
+    "feature": "负债收入比",
+    "shapValue": -0.4,
+    "featureValue": 0.364
+  },
+  {
+    "id": "S019",
+    "feature": "负债收入比",
+    "shapValue": -0.375,
+    "featureValue": 0.397
+  },
+  {
+    "id": "S020",
+    "feature": "负债收入比",
+    "shapValue": -0.375,
+    "featureValue": 0.425
+  },
+  {
+    "id": "S021",
+    "feature": "负债收入比",
+    "shapValue": -0.35,
+    "featureValue": 0.424
+  },
+  {
+    "id": "S022",
+    "feature": "负债收入比",
+    "shapValue": -0.35,
+    "featureValue": 0.397
+  },
+  {
+    "id": "S023",
+    "feature": "负债收入比",
+    "shapValue": -0.325,
+    "featureValue": 0.369
+  },
+  {
+    "id": "S024",
+    "feature": "负债收入比",
+    "shapValue": -0.325,
+    "featureValue": 0.369
+  },
+  {
+    "id": "S025",
+    "feature": "负债收入比",
+    "shapValue": -0.3,
+    "featureValue": 0.398
+  },
+  {
+    "id": "S026",
+    "feature": "负债收入比",
+    "shapValue": -0.3,
+    "featureValue": 0.431
+  },
+  {
+    "id": "S027",
+    "feature": "负债收入比",
+    "shapValue": -0.3,
+    "featureValue": 0.439
+  },
+  {
+    "id": "S028",
+    "feature": "负债收入比",
+    "shapValue": -0.275,
+    "featureValue": 0.417
+  },
+  {
+    "id": "S029",
+    "feature": "负债收入比",
+    "shapValue": -0.275,
+    "featureValue": 0.386
+  },
+  {
+    "id": "S030",
+    "feature": "负债收入比",
+    "shapValue": -0.25,
+    "featureValue": 0.376
+  },
+  {
+    "id": "S031",
+    "feature": "负债收入比",
+    "shapValue": -0.25,
+    "featureValue": 0.398
+  },
+  {
+    "id": "S032",
+    "feature": "负债收入比",
+    "shapValue": -0.225,
+    "featureValue": 0.434
+  },
+  {
+    "id": "S033",
+    "feature": "负债收入比",
+    "shapValue": -0.225,
+    "featureValue": 0.451
+  },
+  {
+    "id": "S034",
+    "feature": "负债收入比",
+    "shapValue": -0.2,
+    "featureValue": 0.436
+  },
+  {
+    "id": "S035",
+    "feature": "负债收入比",
+    "shapValue": -0.2,
+    "featureValue": 0.404
+  },
+  {
+    "id": "S036",
+    "feature": "负债收入比",
+    "shapValue": -0.2,
+    "featureValue": 0.386
+  },
+  {
+    "id": "S037",
+    "feature": "负债收入比",
+    "shapValue": -0.175,
+    "featureValue": 0.4
+  },
+  {
+    "id": "S038",
+    "feature": "负债收入比",
+    "shapValue": -0.175,
+    "featureValue": 0.435
+  },
+  {
+    "id": "S039",
+    "feature": "负债收入比",
+    "shapValue": -0.15,
+    "featureValue": 0.46
+  },
+  {
+    "id": "S040",
+    "feature": "负债收入比",
+    "shapValue": -0.15,
+    "featureValue": 0.454
+  },
+  {
+    "id": "S041",
+    "feature": "负债收入比",
+    "shapValue": -0.125,
+    "featureValue": 0.424
+  },
+  {
+    "id": "S042",
+    "feature": "负债收入比",
+    "shapValue": -0.125,
+    "featureValue": 0.399
+  },
+  {
+    "id": "S043",
+    "feature": "负债收入比",
+    "shapValue": -0.125,
+    "featureValue": 0.404
+  },
+  {
+    "id": "S044",
+    "feature": "负债收入比",
+    "shapValue": -0.1,
+    "featureValue": 0.435
+  },
+  {
+    "id": "S045",
+    "feature": "负债收入比",
+    "shapValue": -0.1,
+    "featureValue": 0.466
+  },
+  {
+    "id": "S046",
+    "feature": "负债收入比",
+    "shapValue": -0.075,
+    "featureValue": 0.469
+  },
+  {
+    "id": "S047",
+    "feature": "负债收入比",
+    "shapValue": -0.075,
+    "featureValue": 0.444
+  },
+  {
+    "id": "S048",
+    "feature": "负债收入比",
+    "shapValue": -0.05,
+    "featureValue": 0.414
+  },
+  {
+    "id": "S049",
+    "feature": "负债收入比",
+    "shapValue": -0.05,
+    "featureValue": 0.409
+  },
+  {
+    "id": "S050",
+    "feature": "负债收入比",
+    "shapValue": -0.05,
+    "featureValue": null
+  },
+  {
+    "id": "S051",
+    "feature": "负债收入比",
+    "shapValue": -0.025,
+    "featureValue": 0.469
+  },
+  {
+    "id": "S052",
+    "feature": "负债收入比",
+    "shapValue": -0.025,
+    "featureValue": 0.482
+  },
+  {
+    "id": "S053",
+    "feature": "负债收入比",
+    "shapValue": 0.0,
+    "featureValue": 0.463
+  },
+  {
+    "id": "S054",
+    "feature": "负债收入比",
+    "shapValue": 0.0,
+    "featureValue": 0.431
+  },
+  {
+    "id": "S055",
+    "feature": "负债收入比",
+    "shapValue": 0.025,
+    "featureValue": 0.417
+  },
+  {
+    "id": "S056",
+    "feature": "负债收入比",
+    "shapValue": 0.025,
+    "featureValue": 0.436
+  },
+  {
+    "id": "S057",
+    "feature": "负债收入比",
+    "shapValue": 0.05,
+    "featureValue": 0.471
+  },
+  {
+    "id": "S058",
+    "feature": "负债收入比",
+    "shapValue": 0.05,
+    "featureValue": 0.492
+  },
+  {
+    "id": "S059",
+    "feature": "负债收入比",
+    "shapValue": 0.05,
+    "featureValue": 0.481
+  },
+  {
+    "id": "S060",
+    "feature": "负债收入比",
+    "shapValue": 0.075,
+    "featureValue": 0.45
+  },
+  {
+    "id": "S061",
+    "feature": "负债收入比",
+    "shapValue": 0.075,
+    "featureValue": 0.429
+  },
+  {
+    "id": "S062",
+    "feature": "负债收入比",
+    "shapValue": 0.1,
+    "featureValue": 0.438
+  },
+  {
+    "id": "S063",
+    "feature": "负债收入比",
+    "shapValue": 0.1,
+    "featureValue": 0.472
+  },
+  {
+    "id": "S064",
+    "feature": "负债收入比",
+    "shapValue": 0.125,
+    "featureValue": 0.5
+  },
+  {
+    "id": "S065",
+    "feature": "负债收入比",
+    "shapValue": 0.125,
+    "featureValue": 0.498
+  },
+  {
+    "id": "S066",
+    "feature": "负债收入比",
+    "shapValue": 0.125,
+    "featureValue": 0.47
+  },
+  {
+    "id": "S067",
+    "feature": "负债收入比",
+    "shapValue": 0.15,
+    "featureValue": 0.442
+  },
+  {
+    "id": "S068",
+    "feature": "负债收入比",
+    "shapValue": 0.15,
+    "featureValue": 0.443
+  },
+  {
+    "id": "S069",
+    "feature": "负债收入比",
+    "shapValue": 0.175,
+    "featureValue": 0.472
+  },
+  {
+    "id": "S070",
+    "feature": "负债收入比",
+    "shapValue": 0.175,
+    "featureValue": 0.504
+  },
+  {
+    "id": "S071",
+    "feature": "负债收入比",
+    "shapValue": 0.2,
+    "featureValue": 0.512
+  },
+  {
+    "id": "S072",
+    "feature": "负债收入比",
+    "shapValue": 0.2,
+    "featureValue": 0.49
+  },
+  {
+    "id": "S073",
+    "feature": "负债收入比",
+    "shapValue": 0.2,
+    "featureValue": 0.459
+  },
+  {
+    "id": "S074",
+    "feature": "负债收入比",
+    "shapValue": 0.225,
+    "featureValue": 0.45
+  },
+  {
+    "id": "S075",
+    "feature": "负债收入比",
+    "shapValue": 0.225,
+    "featureValue": 0.472
+  },
+  {
+    "id": "S076",
+    "feature": "负债收入比",
+    "shapValue": 0.25,
+    "featureValue": 0.507
+  },
+  {
+    "id": "S077",
+    "feature": "负债收入比",
+    "shapValue": 0.25,
+    "featureValue": 0.524
+  },
+  {
+    "id": "S078",
+    "feature": "负债收入比",
+    "shapValue": 0.275,
+    "featureValue": 0.509
+  },
+  {
+    "id": "S079",
+    "feature": "负债收入比",
+    "shapValue": 0.275,
+    "featureValue": 0.477
+  },
+  {
+    "id": "S080",
+    "feature": "负债收入比",
+    "shapValue": 0.3,
+    "featureValue": 0.46
+  },
+  {
+    "id": "S081",
+    "feature": "负债收入比",
+    "shapValue": 0.3,
+    "featureValue": 0.474
+  },
+  {
+    "id": "S082",
+    "feature": "负债收入比",
+    "shapValue": 0.3,
+    "featureValue": 0.509
+  },
+  {
+    "id": "S083",
+    "feature": "负债收入比",
+    "shapValue": 0.325,
+    "featureValue": 0.533
+  },
+  {
+    "id": "S084",
+    "feature": "负债收入比",
+    "shapValue": 0.325,
+    "featureValue": 0.527
+  },
+  {
+    "id": "S085",
+    "feature": "负债收入比",
+    "shapValue": 0.35,
+    "featureValue": 0.497
+  },
+  {
+    "id": "S086",
+    "feature": "负债收入比",
+    "shapValue": 0.35,
+    "featureValue": 0.472
+  },
+  {
+    "id": "S087",
+    "feature": "负债收入比",
+    "shapValue": 0.375,
+    "featureValue": null
+  },
+  {
+    "id": "S088",
+    "feature": "负债收入比",
+    "shapValue": 0.375,
+    "featureValue": 0.51
+  },
+  {
+    "id": "S089",
+    "feature": "负债收入比",
+    "shapValue": 0.4,
+    "featureValue": 0.54
+  },
+  {
+    "id": "S090",
+    "feature": "负债收入比",
+    "shapValue": 0.4,
+    "featureValue": 0.543
+  },
+  {
+    "id": "S091",
+    "feature": "负债收入比",
+    "shapValue": 0.4,
+    "featureValue": 0.517
+  },
+  {
+    "id": "S092",
+    "feature": "负债收入比",
+    "shapValue": 0.425,
+    "featureValue": 0.488
+  },
+  {
+    "id": "S093",
+    "feature": "负债收入比",
+    "shapValue": 0.425,
+    "featureValue": 0.484
+  },
+  {
+    "id": "S094",
+    "feature": "负债收入比",
+    "shapValue": 0.45,
+    "featureValue": 0.511
+  },
+  {
+    "id": "S095",
+    "feature": "负债收入比",
+    "shapValue": 0.45,
+    "featureValue": 0.545
+  },
+  {
+    "id": "S096",
+    "feature": "负债收入比",
+    "shapValue": 0.475,
+    "featureValue": 0.557
+  },
+  {
+    "id": "S097",
+    "feature": "负债收入比",
+    "shapValue": 0.475,
+    "featureValue": 0.538
+  },
+  {
+    "id": "S098",
+    "feature": "负债收入比",
+    "shapValue": 0.5,
+    "featureValue": 0.507
+  },
+  {
+    "id": "S099",
+    "feature": "负债收入比",
+    "shapValue": 0.5,
+    "featureValue": 0.493
+  },
+  {
+    "id": "S100",
+    "feature": "负债收入比",
+    "shapValue": 0.525,
+    "featureValue": 0.513
+  },
+  {
+    "id": "S101",
+    "feature": "负债收入比",
+    "shapValue": 0.525,
+    "featureValue": 0.548
+  },
+  {
+    "id": "S102",
+    "feature": "负债收入比",
+    "shapValue": 0.55,
+    "featureValue": 0.569
+  },
+  {
+    "id": "S103",
+    "feature": "负债收入比",
+    "shapValue": 0.55,
+    "featureValue": 0.558
+  },
+  {
+    "id": "S104",
+    "feature": "负债收入比",
+    "shapValue": 0.575,
+    "featureValue": 0.527
+  },
+  {
+    "id": "S105",
+    "feature": "负债收入比",
+    "shapValue": 0.575,
+    "featureValue": 0.506
+  },
+  {
+    "id": "S106",
+    "feature": "负债收入比",
+    "shapValue": 0.6,
+    "featureValue": 0.517
+  },
+  {
+    "id": "S107",
+    "feature": "负债收入比",
+    "shapValue": 0.6,
+    "featureValue": 0.551
+  },
+  {
+    "id": "S108",
+    "feature": "负债收入比",
+    "shapValue": 0.625,
+    "featureValue": 0.578
+  },
+  {
+    "id": "S109",
+    "feature": "负债收入比",
+    "shapValue": 0.625,
+    "featureValue": 0.577
+  },
+  {
+    "id": "S110",
+    "feature": "负债收入比",
+    "shapValue": 0.65,
+    "featureValue": 0.549
+  },
+  {
+    "id": "S111",
+    "feature": "负债收入比",
+    "shapValue": 0.65,
+    "featureValue": 0.522
+  },
+  {
+    "id": "S112",
+    "feature": "负债收入比",
+    "shapValue": 0.675,
+    "featureValue": 0.523
+  },
+  {
+    "id": "S113",
+    "feature": "负债收入比",
+    "shapValue": 0.675,
+    "featureValue": 0.553
+  },
+  {
+    "id": "S114",
+    "feature": "负债收入比",
+    "shapValue": 0.7,
+    "featureValue": 0.586
+  },
+  {
+    "id": "S115",
+    "feature": "负债收入比",
+    "shapValue": 0.7,
+    "featureValue": 0.594
+  },
+  {
+    "id": "S116",
+    "feature": "负债收入比",
+    "shapValue": 0.725,
+    "featureValue": 0.571
+  },
+  {
+    "id": "S117",
+    "feature": "负债收入比",
+    "shapValue": 0.725,
+    "featureValue": 0.541
+  },
+  {
+    "id": "S118",
+    "feature": "负债收入比",
+    "shapValue": 0.75,
+    "featureValue": 0.533
+  },
+  {
+    "id": "S119",
+    "feature": "负债收入比",
+    "shapValue": 0.75,
+    "featureValue": 0.557
+  },
+  {
+    "id": "S120",
+    "feature": "负债收入比",
+    "shapValue": 0.775,
+    "featureValue": 0.592
+  },
+  {
+    "id": "S121",
+    "feature": "负债收入比",
+    "shapValue": 0.775,
+    "featureValue": 0.609
+  },
+  {
+    "id": "S122",
+    "feature": "负债收入比",
+    "shapValue": 0.8,
+    "featureValue": 0.594
+  },
+  {
+    "id": "S123",
+    "feature": "负债收入比",
+    "shapValue": 0.825,
+    "featureValue": 0.563
+  },
+  {
+    "id": "S124",
+    "feature": "负债收入比",
+    "shapValue": 0.825,
+    "featureValue": null
+  },
+  {
+    "id": "S125",
+    "feature": "负债收入比",
+    "shapValue": 0.85,
+    "featureValue": 0.562
+  },
+  {
+    "id": "S126",
+    "feature": "负债收入比",
+    "shapValue": 0.85,
+    "featureValue": 0.598
+  },
+  {
+    "id": "S127",
+    "feature": "负债收入比",
+    "shapValue": 0.875,
+    "featureValue": 0.623
+  },
+  {
+    "id": "S128",
+    "feature": "负债收入比",
+    "shapValue": 0.875,
+    "featureValue": 0.616
+  },
+  {
+    "id": "S129",
+    "feature": "负债收入比",
+    "shapValue": 0.9,
+    "featureValue": 0.587
+  },
+  {
+    "id": "S130",
+    "feature": "负债收入比",
+    "shapValue": 0.925,
+    "featureValue": 0.564
+  },
+  {
+    "id": "S131",
+    "feature": "负债收入比",
+    "shapValue": 0.925,
+    "featureValue": 0.571
+  },
+  {
+    "id": "S132",
+    "feature": "负债收入比",
+    "shapValue": 0.95,
+    "featureValue": 0.604
+  },
+  {
+    "id": "S133",
+    "feature": "负债收入比",
+    "shapValue": 0.975,
+    "featureValue": 0.635
+  },
+  {
+    "id": "S134",
+    "feature": "负债收入比",
+    "shapValue": 0.975,
+    "featureValue": 0.638
+  },
+  {
+    "id": "S135",
+    "feature": "负债收入比",
+    "shapValue": 1.0,
+    "featureValue": 0.613
+  },
+  {
+    "id": "S136",
+    "feature": "负债收入比",
+    "shapValue": 1.025,
+    "featureValue": 0.586
+  },
+  {
+    "id": "S137",
+    "feature": "负债收入比",
+    "shapValue": 1.025,
+    "featureValue": 0.583
+  },
+  {
+    "id": "S138",
+    "feature": "负债收入比",
+    "shapValue": 1.05,
+    "featureValue": 0.611
+  },
+  {
+    "id": "S139",
+    "feature": "负债收入比",
+    "shapValue": 1.075,
+    "featureValue": 0.647
+  },
+  {
+    "id": "S140",
+    "feature": "负债收入比",
+    "shapValue": 1.075,
+    "featureValue": 0.66
+  },
+  {
+    "id": "S141",
+    "feature": "负债收入比",
+    "shapValue": 1.1,
+    "featureValue": 0.642
+  },
+  {
+    "id": "S142",
+    "feature": "负债收入比",
+    "shapValue": 1.125,
+    "featureValue": 0.612
+  },
+  {
+    "id": "S143",
+    "feature": "负债收入比",
+    "shapValue": 1.15,
+    "featureValue": 0.601
+  },
+  {
+    "id": "S144",
+    "feature": "负债收入比",
+    "shapValue": 1.15,
+    "featureValue": 0.622
+  },
+  {
+    "id": "S145",
+    "feature": "负债收入比",
+    "shapValue": 1.175,
+    "featureValue": 0.66
+  },
+  {
+    "id": "S146",
+    "feature": "负债收入比",
+    "shapValue": 1.2,
+    "featureValue": 0.682
+  },
+  {
+    "id": "S147",
+    "feature": "负债收入比",
+    "shapValue": 1.225,
+    "featureValue": 0.673
+  },
+  {
+    "id": "S148",
+    "feature": "负债收入比",
+    "shapValue": 1.25,
+    "featureValue": 0.643
+  },
+  {
+    "id": "S149",
+    "feature": "负债收入比",
+    "shapValue": 1.275,
+    "featureValue": 0.626
+  },
+  {
+    "id": "S150",
+    "feature": "负债收入比",
+    "shapValue": 1.3,
+    "featureValue": 0.639
+  },
+  {
+    "id": "S151",
+    "feature": "负债收入比",
+    "shapValue": 1.325,
+    "featureValue": 0.676
+  },
+  {
+    "id": "S152",
+    "feature": "负债收入比",
+    "shapValue": 1.35,
+    "featureValue": 0.706
+  },
+  {
+    "id": "S153",
+    "feature": "负债收入比",
+    "shapValue": 1.375,
+    "featureValue": 0.707
+  },
+  {
+    "id": "S154",
+    "feature": "负债收入比",
+    "shapValue": 1.4,
+    "featureValue": 0.682
+  },
+  {
+    "id": "S155",
+    "feature": "负债收入比",
+    "shapValue": 1.425,
+    "featureValue": 0.659
+  },
+  {
+    "id": "S156",
+    "feature": "负债收入比",
+    "shapValue": 1.475,
+    "featureValue": 0.665
+  },
+  {
+    "id": "S157",
+    "feature": "负债收入比",
+    "shapValue": 1.5,
+    "featureValue": 0.7
+  },
+  {
+    "id": "S158",
+    "feature": "负债收入比",
+    "shapValue": 1.55,
+    "featureValue": 0.738
+  },
+  {
+    "id": "S159",
+    "feature": "负债收入比",
+    "shapValue": 1.6,
+    "featureValue": 0.75
+  },
+  {
+    "id": "S160",
+    "feature": "负债收入比",
+    "shapValue": 1.625,
+    "featureValue": 0.734
+  },
+  {
+    "id": "S161",
+    "feature": "负债收入比",
+    "shapValue": 1.7,
+    "featureValue": null
+  },
+  {
+    "id": "S162",
+    "feature": "负债收入比",
+    "shapValue": 1.75,
+    "featureValue": 0.712
+  },
+  {
+    "id": "S163",
+    "feature": "负债收入比",
+    "shapValue": 1.825,
+    "featureValue": 0.746
+  },
+  {
+    "id": "S164",
+    "feature": "负债收入比",
+    "shapValue": 1.9,
+    "featureValue": 0.795
+  },
+  {
+    "id": "S165",
+    "feature": "负债收入比",
+    "shapValue": 2.025,
+    "featureValue": 0.829
+  },
+  {
+    "id": "S166",
+    "feature": "负债收入比",
+    "shapValue": 2.2,
+    "featureValue": 0.839
+  },
+  {
+    "id": "S167",
+    "feature": "负债收入比",
+    "shapValue": 2.55,
+    "featureValue": 0.861
+  },
+  {
+    "id": "S168",
+    "feature": "负债收入比",
+    "shapValue": -2.55,
+    "featureValue": 0.05
+  },
+  {
+    "id": "S169",
+    "feature": "负债收入比",
+    "shapValue": -2.2,
+    "featureValue": 0.057
+  },
+  {
+    "id": "S170",
+    "feature": "负债收入比",
+    "shapValue": -2.025,
+    "featureValue": 0.118
+  },
+  {
+    "id": "S171",
+    "feature": "负债收入比",
+    "shapValue": -1.9,
+    "featureValue": 0.16
+  },
+  {
+    "id": "S172",
+    "feature": "负债收入比",
+    "shapValue": -1.825,
+    "featureValue": 0.166
+  },
+  {
+    "id": "S173",
+    "feature": "负债收入比",
+    "shapValue": -1.75,
+    "featureValue": 0.146
+  },
+  {
+    "id": "S174",
+    "feature": "负债收入比",
+    "shapValue": -1.7,
+    "featureValue": 0.132
+  },
+  {
+    "id": "S175",
+    "feature": "负债收入比",
+    "shapValue": -1.625,
+    "featureValue": 0.146
+  },
+  {
+    "id": "S176",
+    "feature": "负债收入比",
+    "shapValue": -1.6,
+    "featureValue": 0.185
+  },
+  {
+    "id": "S177",
+    "feature": "负债收入比",
+    "shapValue": -1.55,
+    "featureValue": 0.221
+  },
+  {
+    "id": "S178",
+    "feature": "负债收入比",
+    "shapValue": -1.5,
+    "featureValue": 0.228
+  },
+  {
+    "id": "S179",
+    "feature": "负债收入比",
+    "shapValue": -1.475,
+    "featureValue": 0.206
+  },
+  {
+    "id": "S180",
+    "feature": "负债收入比",
+    "shapValue": -1.425,
+    "featureValue": 0.182
+  },
+  {
+    "id": "S181",
+    "feature": "负债收入比",
+    "shapValue": -1.4,
+    "featureValue": 0.183
+  },
+  {
+    "id": "S182",
+    "feature": "负债收入比",
+    "shapValue": -1.375,
+    "featureValue": 0.214
+  },
+  {
+    "id": "S183",
+    "feature": "负债收入比",
+    "shapValue": -1.35,
+    "featureValue": 0.251
+  },
+  {
+    "id": "S184",
+    "feature": "负债收入比",
+    "shapValue": -1.325,
+    "featureValue": 0.265
+  },
+  {
+    "id": "S185",
+    "feature": "负债收入比",
+    "shapValue": -1.3,
+    "featureValue": 0.248
+  },
+  {
+    "id": "S186",
+    "feature": "负债收入比",
+    "shapValue": -1.275,
+    "featureValue": 0.219
+  },
+  {
+    "id": "S187",
+    "feature": "负债收入比",
+    "shapValue": -1.25,
+    "featureValue": 0.21
+  },
+  {
+    "id": "S188",
+    "feature": "负债收入比",
+    "shapValue": -1.225,
+    "featureValue": 0.232
+  },
+  {
+    "id": "S189",
+    "feature": "负债收入比",
+    "shapValue": -1.2,
+    "featureValue": 0.27
+  },
+  {
+    "id": "S190",
+    "feature": "负债收入比",
+    "shapValue": -1.175,
+    "featureValue": 0.292
+  },
+  {
+    "id": "S191",
+    "feature": "负债收入比",
+    "shapValue": -1.15,
+    "featureValue": 0.281
+  },
+  {
+    "id": "S192",
+    "feature": "负债收入比",
+    "shapValue": -1.15,
+    "featureValue": 0.252
+  },
+  {
+    "id": "S193",
+    "feature": "负债收入比",
+    "shapValue": -1.125,
+    "featureValue": 0.233
+  },
+  {
+    "id": "S194",
+    "feature": "负债收入比",
+    "shapValue": -1.1,
+    "featureValue": 0.246
+  },
+  {
+    "id": "S195",
+    "feature": "负债收入比",
+    "shapValue": -1.075,
+    "featureValue": 0.282
+  },
+  {
+    "id": "S196",
+    "feature": "负债收入比",
+    "shapValue": -1.075,
+    "featureValue": 0.31
+  },
+  {
+    "id": "S197",
+    "feature": "负债收入比",
+    "shapValue": -1.05,
+    "featureValue": 0.308
+  },
+  {
+    "id": "S198",
+    "feature": "负债收入比",
+    "shapValue": -1.025,
+    "featureValue": null
+  },
+  {
+    "id": "S199",
+    "feature": "负债收入比",
+    "shapValue": -1.025,
+    "featureValue": 0.256
+  },
+  {
+    "id": "S200",
+    "feature": "负债收入比",
+    "shapValue": -1.0,
+    "featureValue": 0.259
+  },
+  {
+    "id": "S201",
+    "feature": "负债收入比",
+    "shapValue": -0.975,
+    "featureValue": 0.29
+  },
+  {
+    "id": "S202",
+    "feature": "负债收入比",
+    "shapValue": -0.975,
+    "featureValue": 0.324
+  },
+  {
+    "id": "S203",
+    "feature": "负债收入比",
+    "shapValue": -0.95,
+    "featureValue": 0.331
+  },
+  {
+    "id": "S204",
+    "feature": "负债收入比",
+    "shapValue": -0.925,
+    "featureValue": 0.308
+  },
+  {
+    "id": "S205",
+    "feature": "负债收入比",
+    "shapValue": -0.925,
+    "featureValue": 0.279
+  },
+  {
+    "id": "S206",
+    "feature": "负债收入比",
+    "shapValue": -0.9,
+    "featureValue": 0.272
+  },
+  {
+    "id": "S207",
+    "feature": "负债收入比",
+    "shapValue": -0.875,
+    "featureValue": 0.297
+  },
+  {
+    "id": "S208",
+    "feature": "负债收入比",
+    "shapValue": -0.875,
+    "featureValue": 0.333
+  },
+  {
+    "id": "S209",
+    "feature": "负债收入比",
+    "shapValue": -0.85,
+    "featureValue": 0.349
+  },
+  {
+    "id": "S210",
+    "feature": "负债收入比",
+    "shapValue": -0.85,
+    "featureValue": 0.333
+  },
+  {
+    "id": "S211",
+    "feature": "负债收入比",
+    "shapValue": -0.825,
+    "featureValue": 0.302
+  },
+  {
+    "id": "S212",
+    "feature": "负债收入比",
+    "shapValue": -0.825,
+    "featureValue": 0.286
+  },
+  {
+    "id": "S213",
+    "feature": "负债收入比",
+    "shapValue": -0.8,
+    "featureValue": 0.303
+  },
+  {
+    "id": "S214",
+    "feature": "负债收入比",
+    "shapValue": -0.775,
+    "featureValue": 0.339
+  },
+  {
+    "id": "S215",
+    "feature": "负债收入比",
+    "shapValue": -0.775,
+    "featureValue": 0.362
+  },
+  {
+    "id": "S216",
+    "feature": "负债收入比",
+    "shapValue": -0.75,
+    "featureValue": 0.355
+  },
+  {
+    "id": "S217",
+    "feature": "负债收入比",
+    "shapValue": -0.75,
+    "featureValue": 0.325
+  },
+  {
+    "id": "S218",
+    "feature": "负债收入比",
+    "shapValue": -0.725,
+    "featureValue": 0.302
+  },
+  {
+    "id": "S219",
+    "feature": "负债收入比",
+    "shapValue": -0.725,
+    "featureValue": 0.309
+  },
+  {
+    "id": "S220",
+    "feature": "负债收入比",
+    "shapValue": -0.7,
+    "featureValue": 0.342
+  },
+  {
+    "id": "S221",
+    "feature": "负债收入比",
+    "shapValue": -0.7,
+    "featureValue": 0.372
+  },
+  {
+    "id": "S222",
+    "feature": "负债收入比",
+    "shapValue": -0.675,
+    "featureValue": 0.374
+  },
+  {
+    "id": "S223",
+    "feature": "负债收入比",
+    "shapValue": -0.675,
+    "featureValue": 0.348
+  },
+  {
+    "id": "S224",
+    "feature": "负债收入比",
+    "shapValue": -0.65,
+    "featureValue": 0.319
+  },
+  {
+    "id": "S225",
+    "feature": "负债收入比",
+    "shapValue": -0.65,
+    "featureValue": 0.317
+  },
+  {
+    "id": "S226",
+    "feature": "负债收入比",
+    "shapValue": -0.625,
+    "featureValue": 0.345
+  },
+  {
+    "id": "S227",
+    "feature": "负债收入比",
+    "shapValue": -0.625,
+    "featureValue": 0.379
+  },
+  {
+    "id": "S228",
+    "feature": "负债收入比",
+    "shapValue": -0.6,
+    "featureValue": 0.39
+  },
+  {
+    "id": "S229",
+    "feature": "负债收入比",
+    "shapValue": -0.6,
+    "featureValue": 0.37
+  },
+  {
+    "id": "S230",
+    "feature": "负债收入比",
+    "shapValue": -0.575,
+    "featureValue": 0.338
+  },
+  {
+    "id": "S231",
+    "feature": "负债收入比",
+    "shapValue": -0.575,
+    "featureValue": 0.327
+  },
+  {
+    "id": "S232",
+    "feature": "负债收入比",
+    "shapValue": -0.55,
+    "featureValue": 0.348
+  },
+  {
+    "id": "S233",
+    "feature": "负债收入比",
+    "shapValue": -0.55,
+    "featureValue": 0.383
+  },
+  {
+    "id": "S234",
+    "feature": "负债收入比",
+    "shapValue": -0.525,
+    "featureValue": 0.403
+  },
+  {
+    "id": "S235",
+    "feature": "负债收入比",
+    "shapValue": -0.525,
+    "featureValue": null
+  },
+  {
+    "id": "S236",
+    "feature": "负债收入比",
+    "shapValue": -0.5,
+    "featureValue": 0.359
+  },
+  {
+    "id": "S237",
+    "feature": "负债收入比",
+    "shapValue": -0.5,
+    "featureValue": 0.339
+  },
+  {
+    "id": "S238",
+    "feature": "负债收入比",
+    "shapValue": -0.475,
+    "featureValue": 0.351
+  },
+  {
+    "id": "S239",
+    "feature": "负债收入比",
+    "shapValue": -0.475,
+    "featureValue": 0.385
+  },
+  {
+    "id": "S240",
+    "feature": "负债收入比",
+    "shapValue": -0.45,
+    "featureValue": 0.412
+  },
+  {
+    "id": "S001",
+    "feature": "账户月龄",
+    "shapValue": 0.55,
+    "featureValue": 6
+  },
+  {
+    "id": "S002",
+    "feature": "账户月龄",
+    "shapValue": 0.45,
+    "featureValue": 12
+  },
+  {
+    "id": "S003",
+    "feature": "账户月龄",
+    "shapValue": 0.35,
+    "featureValue": 18
+  },
+  {
+    "id": "S004",
+    "feature": "账户月龄",
+    "shapValue": 0.25,
+    "featureValue": 24
+  },
+  {
+    "id": "S005",
+    "feature": "账户月龄",
+    "shapValue": 0.15,
+    "featureValue": 30
+  },
+  {
+    "id": "S006",
+    "feature": "账户月龄",
+    "shapValue": 0.05,
+    "featureValue": 36
+  },
+  {
+    "id": "S007",
+    "feature": "账户月龄",
+    "shapValue": -0.05,
+    "featureValue": 42
+  },
+  {
+    "id": "S008",
+    "feature": "账户月龄",
+    "shapValue": -0.15,
+    "featureValue": 48
+  },
+  {
+    "id": "S009",
+    "feature": "账户月龄",
+    "shapValue": -0.25,
+    "featureValue": 54
+  },
+  {
+    "id": "S010",
+    "feature": "账户月龄",
+    "shapValue": -0.35,
+    "featureValue": 60
+  },
+  {
+    "id": "S011",
+    "feature": "账户月龄",
+    "shapValue": -0.45,
+    "featureValue": 66
+  },
+  {
+    "id": "S012",
+    "feature": "账户月龄",
+    "shapValue": -0.55,
+    "featureValue": 72
+  },
+  {
+    "id": "S013",
+    "feature": "账户月龄",
+    "shapValue": 0.375,
+    "featureValue": 53
+  },
+  {
+    "id": "S014",
+    "feature": "账户月龄",
+    "shapValue": 0.4,
+    "featureValue": 55
+  },
+  {
+    "id": "S015",
+    "feature": "账户月龄",
+    "shapValue": 0.4,
+    "featureValue": 53
+  },
+  {
+    "id": "S016",
+    "feature": "账户月龄",
+    "shapValue": 0.425,
+    "featureValue": 48
+  },
+  {
+    "id": "S017",
+    "feature": "账户月龄",
+    "shapValue": 0.425,
+    "featureValue": 45
+  },
+  {
+    "id": "S018",
+    "feature": "账户月龄",
+    "shapValue": 0.425,
+    "featureValue": 46
+  },
+  {
+    "id": "S019",
+    "feature": "账户月龄",
+    "shapValue": 0.45,
+    "featureValue": 50
+  },
+  {
+    "id": "S020",
+    "feature": "账户月龄",
+    "shapValue": 0.45,
+    "featureValue": 53
+  },
+  {
+    "id": "S021",
+    "feature": "账户月龄",
+    "shapValue": 0.475,
+    "featureValue": 53
+  },
+  {
+    "id": "S022",
+    "feature": "账户月龄",
+    "shapValue": 0.475,
+    "featureValue": 48
+  },
+  {
+    "id": "S023",
+    "feature": "账户月龄",
+    "shapValue": 0.5,
+    "featureValue": 44
+  },
+  {
+    "id": "S024",
+    "feature": "账户月龄",
+    "shapValue": 0.5,
+    "featureValue": 43
+  },
+  {
+    "id": "S025",
+    "feature": "账户月龄",
+    "shapValue": 0.525,
+    "featureValue": 47
+  },
+  {
+    "id": "S026",
+    "feature": "账户月龄",
+    "shapValue": 0.525,
+    "featureValue": 51
+  },
+  {
+    "id": "S027",
+    "feature": "账户月龄",
+    "shapValue": 0.55,
+    "featureValue": 52
+  },
+  {
+    "id": "S028",
+    "feature": "账户月龄",
+    "shapValue": 0.55,
+    "featureValue": 48
+  },
+  {
+    "id": "S029",
+    "feature": "账户月龄",
+    "shapValue": 0.575,
+    "featureValue": 43
+  },
+  {
+    "id": "S030",
+    "feature": "账户月龄",
+    "shapValue": 0.575,
+    "featureValue": 41
+  },
+  {
+    "id": "S031",
+    "feature": "账户月龄",
+    "shapValue": 0.6,
+    "featureValue": 44
+  },
+  {
+    "id": "S032",
+    "feature": "账户月龄",
+    "shapValue": 0.6,
+    "featureValue": 48
+  },
+  {
+    "id": "S033",
+    "feature": "账户月龄",
+    "shapValue": 0.625,
+    "featureValue": 50
+  },
+  {
+    "id": "S034",
+    "feature": "账户月龄",
+    "shapValue": 0.625,
+    "featureValue": 47
+  },
+  {
+    "id": "S035",
+    "feature": "账户月龄",
+    "shapValue": 0.65,
+    "featureValue": 42
+  },
+  {
+    "id": "S036",
+    "feature": "账户月龄",
+    "shapValue": 0.65,
+    "featureValue": 39
+  },
+  {
+    "id": "S037",
+    "feature": "账户月龄",
+    "shapValue": 0.675,
+    "featureValue": 41
+  },
+  {
+    "id": "S038",
+    "feature": "账户月龄",
+    "shapValue": 0.675,
+    "featureValue": 45
+  },
+  {
+    "id": "S039",
+    "feature": "账户月龄",
+    "shapValue": 0.7,
+    "featureValue": 48
+  },
+  {
+    "id": "S040",
+    "feature": "账户月龄",
+    "shapValue": 0.7,
+    "featureValue": 47
+  },
+  {
+    "id": "S041",
+    "feature": "账户月龄",
+    "shapValue": 0.725,
+    "featureValue": 42
+  },
+  {
+    "id": "S042",
+    "feature": "账户月龄",
+    "shapValue": 0.725,
+    "featureValue": 38
+  },
+  {
+    "id": "S043",
+    "feature": "账户月龄",
+    "shapValue": 0.75,
+    "featureValue": 38
+  },
+  {
+    "id": "S044",
+    "feature": "账户月龄",
+    "shapValue": 0.75,
+    "featureValue": 42
+  },
+  {
+    "id": "S045",
+    "feature": "账户月龄",
+    "shapValue": 0.775,
+    "featureValue": 45
+  },
+  {
+    "id": "S046",
+    "feature": "账户月龄",
+    "shapValue": 0.775,
+    "featureValue": 45
+  },
+  {
+    "id": "S047",
+    "feature": "账户月龄",
+    "shapValue": 0.8,
+    "featureValue": 41
+  },
+  {
+    "id": "S048",
+    "feature": "账户月龄",
+    "shapValue": 0.825,
+    "featureValue": 36
+  },
+  {
+    "id": "S049",
+    "feature": "账户月龄",
+    "shapValue": 0.825,
+    "featureValue": 35
+  },
+  {
+    "id": "S050",
+    "feature": "账户月龄",
+    "shapValue": 0.85,
+    "featureValue": 38
+  },
+  {
+    "id": "S051",
+    "feature": "账户月龄",
+    "shapValue": 0.875,
+    "featureValue": 42
+  },
+  {
+    "id": "S052",
+    "feature": "账户月龄",
+    "shapValue": 0.875,
+    "featureValue": 43
+  },
+  {
+    "id": "S053",
+    "feature": "账户月龄",
+    "shapValue": 0.9,
+    "featureValue": 40
+  },
+  {
+    "id": "S054",
+    "feature": "账户月龄",
+    "shapValue": 0.9,
+    "featureValue": 35
+  },
+  {
+    "id": "S055",
+    "feature": "账户月龄",
+    "shapValue": 0.925,
+    "featureValue": 32
+  },
+  {
+    "id": "S056",
+    "feature": "账户月龄",
+    "shapValue": 0.95,
+    "featureValue": 34
+  },
+  {
+    "id": "S057",
+    "feature": "账户月龄",
+    "shapValue": 0.95,
+    "featureValue": 39
+  },
+  {
+    "id": "S058",
+    "feature": "账户月龄",
+    "shapValue": 0.975,
+    "featureValue": 41
+  },
+  {
+    "id": "S059",
+    "feature": "账户月龄",
+    "shapValue": 1.0,
+    "featureValue": 39
+  },
+  {
+    "id": "S060",
+    "feature": "账户月龄",
+    "shapValue": 1.025,
+    "featureValue": 34
+  },
+  {
+    "id": "S061",
+    "feature": "账户月龄",
+    "shapValue": 1.025,
+    "featureValue": 30
+  },
+  {
+    "id": "S062",
+    "feature": "账户月龄",
+    "shapValue": 1.05,
+    "featureValue": 31
+  },
+  {
+    "id": "S063",
+    "feature": "账户月龄",
+    "shapValue": 1.075,
+    "featureValue": 35
+  },
+  {
+    "id": "S064",
+    "feature": "账户月龄",
+    "shapValue": 1.1,
+    "featureValue": 38
+  },
+  {
+    "id": "S065",
+    "feature": "账户月龄",
+    "shapValue": 1.125,
+    "featureValue": 37
+  },
+  {
+    "id": "S066",
+    "feature": "账户月龄",
+    "shapValue": 1.15,
+    "featureValue": 32
+  },
+  {
+    "id": "S067",
+    "feature": "账户月龄",
+    "shapValue": 1.15,
+    "featureValue": 27
+  },
+  {
+    "id": "S068",
+    "feature": "账户月龄",
+    "shapValue": 1.175,
+    "featureValue": 27
+  },
+  {
+    "id": "S069",
+    "feature": "账户月龄",
+    "shapValue": 1.2,
+    "featureValue": 30
+  },
+  {
+    "id": "S070",
+    "feature": "账户月龄",
+    "shapValue": 1.225,
+    "featureValue": 34
+  },
+  {
+    "id": "S071",
+    "feature": "账户月龄",
+    "shapValue": 1.25,
+    "featureValue": 34
+  },
+  {
+    "id": "S072",
+    "feature": "账户月龄",
+    "shapValue": 1.275,
+    "featureValue": 30
+  },
+  {
+    "id": "S073",
+    "feature": "账户月龄",
+    "shapValue": 1.325,
+    "featureValue": 25
+  },
+  {
+    "id": "S074",
+    "feature": "账户月龄",
+    "shapValue": 1.35,
+    "featureValue": 22
+  },
+  {
+    "id": "S075",
+    "feature": "账户月龄",
+    "shapValue": 1.375,
+    "featureValue": 25
+  },
+  {
+    "id": "S076",
+    "feature": "账户月龄",
+    "shapValue": 1.4,
+    "featureValue": 28
+  },
+  {
+    "id": "S077",
+    "feature": "账户月龄",
+    "shapValue": 1.45,
+    "featureValue": 30
+  },
+  {
+    "id": "S078",
+    "feature": "账户月龄",
+    "shapValue": 1.475,
+    "featureValue": 26
+  },
+  {
+    "id": "S079",
+    "feature": "账户月龄",
+    "shapValue": 1.525,
+    "featureValue": 21
+  },
+  {
+    "id": "S080",
+    "feature": "账户月龄",
+    "shapValue": 1.55,
+    "featureValue": 17
+  },
+  {
+    "id": "S081",
+    "feature": "账户月龄",
+    "shapValue": 1.6,
+    "featureValue": 18
+  },
+  {
+    "id": "S082",
+    "feature": "账户月龄",
+    "shapValue": 1.65,
+    "featureValue": 21
+  },
+  {
+    "id": "S083",
+    "feature": "账户月龄",
+    "shapValue": 1.725,
+    "featureValue": 23
+  },
+  {
+    "id": "S084",
+    "feature": "账户月龄",
+    "shapValue": 1.775,
+    "featureValue": 20
+  },
+  {
+    "id": "S085",
+    "feature": "账户月龄",
+    "shapValue": 1.85,
+    "featureValue": 14
+  },
+  {
+    "id": "S086",
+    "feature": "账户月龄",
+    "shapValue": 1.95,
+    "featureValue": 8
+  },
+  {
+    "id": "S087",
+    "feature": "账户月龄",
+    "shapValue": 2.05,
+    "featureValue": 6
+  },
+  {
+    "id": "S088",
+    "feature": "账户月龄",
+    "shapValue": 2.225,
+    "featureValue": 6
+  },
+  {
+    "id": "S089",
+    "feature": "账户月龄",
+    "shapValue": 2.575,
+    "featureValue": 6
+  },
+  {
+    "id": "S090",
+    "feature": "账户月龄",
+    "shapValue": -2.575,
+    "featureValue": 127
+  },
+  {
+    "id": "S091",
+    "feature": "账户月龄",
+    "shapValue": -2.225,
+    "featureValue": 115
+  },
+  {
+    "id": "S092",
+    "feature": "账户月龄",
+    "shapValue": -2.05,
+    "featureValue": 107
+  },
+  {
+    "id": "S093",
+    "feature": "账户月龄",
+    "shapValue": -1.95,
+    "featureValue": 103
+  },
+  {
+    "id": "S094",
+    "feature": "账户月龄",
+    "shapValue": -1.85,
+    "featureValue": 104
+  },
+  {
+    "id": "S095",
+    "feature": "账户月龄",
+    "shapValue": -1.775,
+    "featureValue": 107
+  },
+  {
+    "id": "S096",
+    "feature": "账户月龄",
+    "shapValue": -1.725,
+    "featureValue": 107
+  },
+  {
+    "id": "S097",
+    "feature": "账户月龄",
+    "shapValue": -1.65,
+    "featureValue": 102
+  },
+  {
+    "id": "S098",
+    "feature": "账户月龄",
+    "shapValue": -1.6,
+    "featureValue": 96
+  },
+  {
+    "id": "S099",
+    "feature": "账户月龄",
+    "shapValue": -1.55,
+    "featureValue": 93
+  },
+  {
+    "id": "S100",
+    "feature": "账户月龄",
+    "shapValue": -1.525,
+    "featureValue": 95
+  },
+  {
+    "id": "S101",
+    "feature": "账户月龄",
+    "shapValue": -1.475,
+    "featureValue": 98
+  },
+  {
+    "id": "S102",
+    "feature": "账户月龄",
+    "shapValue": -1.45,
+    "featureValue": 100
+  },
+  {
+    "id": "S103",
+    "feature": "账户月龄",
+    "shapValue": -1.4,
+    "featureValue": 97
+  },
+  {
+    "id": "S104",
+    "feature": "账户月龄",
+    "shapValue": -1.375,
+    "featureValue": 92
+  },
+  {
+    "id": "S105",
+    "feature": "账户月龄",
+    "shapValue": -1.35,
+    "featureValue": 88
+  },
+  {
+    "id": "S106",
+    "feature": "账户月龄",
+    "shapValue": -1.325,
+    "featureValue": 88
+  },
+  {
+    "id": "S107",
+    "feature": "账户月龄",
+    "shapValue": -1.275,
+    "featureValue": 92
+  },
+  {
+    "id": "S108",
+    "feature": "账户月龄",
+    "shapValue": -1.25,
+    "featureValue": 95
+  },
+  {
+    "id": "S109",
+    "feature": "账户月龄",
+    "shapValue": -1.225,
+    "featureValue": 94
+  },
+  {
+    "id": "S110",
+    "feature": "账户月龄",
+    "shapValue": -1.2,
+    "featureValue": 89
+  },
+  {
+    "id": "S111",
+    "feature": "账户月龄",
+    "shapValue": -1.175,
+    "featureValue": 85
+  },
+  {
+    "id": "S112",
+    "feature": "账户月龄",
+    "shapValue": -1.15,
+    "featureValue": 84
+  },
+  {
+    "id": "S113",
+    "feature": "账户月龄",
+    "shapValue": -1.15,
+    "featureValue": 87
+  },
+  {
+    "id": "S114",
+    "feature": "账户月龄",
+    "shapValue": -1.125,
+    "featureValue": 91
+  },
+  {
+    "id": "S115",
+    "feature": "账户月龄",
+    "shapValue": -1.1,
+    "featureValue": 91
+  },
+  {
+    "id": "S116",
+    "feature": "账户月龄",
+    "shapValue": -1.075,
+    "featureValue": 87
+  },
+  {
+    "id": "S117",
+    "feature": "账户月龄",
+    "shapValue": -1.05,
+    "featureValue": 82
+  },
+  {
+    "id": "S118",
+    "feature": "账户月龄",
+    "shapValue": -1.025,
+    "featureValue": 80
+  },
+  {
+    "id": "S119",
+    "feature": "账户月龄",
+    "shapValue": -1.025,
+    "featureValue": 83
+  },
+  {
+    "id": "S120",
+    "feature": "账户月龄",
+    "shapValue": -1.0,
+    "featureValue": 87
+  },
+  {
+    "id": "S121",
+    "feature": "账户月龄",
+    "shapValue": -0.975,
+    "featureValue": 89
+  },
+  {
+    "id": "S122",
+    "feature": "账户月龄",
+    "shapValue": -0.95,
+    "featureValue": 86
+  },
+  {
+    "id": "S123",
+    "feature": "账户月龄",
+    "shapValue": -0.95,
+    "featureValue": 81
+  },
+  {
+    "id": "S124",
+    "feature": "账户月龄",
+    "shapValue": -0.925,
+    "featureValue": 78
+  },
+  {
+    "id": "S125",
+    "feature": "账户月龄",
+    "shapValue": -0.9,
+    "featureValue": 79
+  },
+  {
+    "id": "S126",
+    "feature": "账户月龄",
+    "shapValue": -0.9,
+    "featureValue": 84
+  },
+  {
+    "id": "S127",
+    "feature": "账户月龄",
+    "shapValue": -0.875,
+    "featureValue": 86
+  },
+  {
+    "id": "S128",
+    "feature": "账户月龄",
+    "shapValue": -0.875,
+    "featureValue": 85
+  },
+  {
+    "id": "S129",
+    "feature": "账户月龄",
+    "shapValue": -0.85,
+    "featureValue": 80
+  },
+  {
+    "id": "S130",
+    "feature": "账户月龄",
+    "shapValue": -0.825,
+    "featureValue": 76
+  },
+  {
+    "id": "S131",
+    "feature": "账户月龄",
+    "shapValue": -0.825,
+    "featureValue": 76
+  },
+  {
+    "id": "S132",
+    "feature": "账户月龄",
+    "shapValue": -0.8,
+    "featureValue": 80
+  },
+  {
+    "id": "S133",
+    "feature": "账户月龄",
+    "shapValue": -0.775,
+    "featureValue": 84
+  },
+  {
+    "id": "S134",
+    "feature": "账户月龄",
+    "shapValue": -0.775,
+    "featureValue": 83
+  },
+  {
+    "id": "S135",
+    "feature": "账户月龄",
+    "shapValue": -0.75,
+    "featureValue": 79
+  },
+  {
+    "id": "S136",
+    "feature": "账户月龄",
+    "shapValue": -0.75,
+    "featureValue": 74
+  },
+  {
+    "id": "S137",
+    "feature": "账户月龄",
+    "shapValue": -0.725,
+    "featureValue": 73
+  },
+  {
+    "id": "S138",
+    "feature": "账户月龄",
+    "shapValue": -0.725,
+    "featureValue": 76
+  },
+  {
+    "id": "S139",
+    "feature": "账户月龄",
+    "shapValue": -0.7,
+    "featureValue": 81
+  },
+  {
+    "id": "S140",
+    "feature": "账户月龄",
+    "shapValue": -0.7,
+    "featureValue": 82
+  },
+  {
+    "id": "S141",
+    "feature": "账户月龄",
+    "shapValue": -0.675,
+    "featureValue": 78
+  },
+  {
+    "id": "S142",
+    "feature": "账户月龄",
+    "shapValue": -0.675,
+    "featureValue": 73
+  },
+  {
+    "id": "S143",
+    "feature": "账户月龄",
+    "shapValue": -0.65,
+    "featureValue": 71
+  },
+  {
+    "id": "S144",
+    "feature": "账户月龄",
+    "shapValue": -0.65,
+    "featureValue": 73
+  },
+  {
+    "id": "S145",
+    "feature": "账户月龄",
+    "shapValue": -0.625,
+    "featureValue": 78
+  },
+  {
+    "id": "S146",
+    "feature": "账户月龄",
+    "shapValue": -0.625,
+    "featureValue": 80
+  },
+  {
+    "id": "S147",
+    "feature": "账户月龄",
+    "shapValue": -0.6,
+    "featureValue": 78
+  },
+  {
+    "id": "S148",
+    "feature": "账户月龄",
+    "shapValue": -0.6,
+    "featureValue": 73
+  },
+  {
+    "id": "S149",
+    "feature": "账户月龄",
+    "shapValue": -0.575,
+    "featureValue": 69
+  },
+  {
+    "id": "S150",
+    "feature": "账户月龄",
+    "shapValue": -0.575,
+    "featureValue": 70
+  },
+  {
+    "id": "S151",
+    "feature": "账户月龄",
+    "shapValue": -0.55,
+    "featureValue": 75
+  },
+  {
+    "id": "S152",
+    "feature": "账户月龄",
+    "shapValue": -0.55,
+    "featureValue": 78
+  },
+  {
+    "id": "S153",
+    "feature": "账户月龄",
+    "shapValue": -0.525,
+    "featureValue": 77
+  },
+  {
+    "id": "S154",
+    "feature": "账户月龄",
+    "shapValue": -0.525,
+    "featureValue": 72
+  },
+  {
+    "id": "S155",
+    "feature": "账户月龄",
+    "shapValue": -0.5,
+    "featureValue": 68
+  },
+  {
+    "id": "S156",
+    "feature": "账户月龄",
+    "shapValue": -0.5,
+    "featureValue": 68
+  },
+  {
+    "id": "S157",
+    "feature": "账户月龄",
+    "shapValue": -0.475,
+    "featureValue": 71
+  },
+  {
+    "id": "S158",
+    "feature": "账户月龄",
+    "shapValue": -0.475,
+    "featureValue": 75
+  },
+  {
+    "id": "S159",
+    "feature": "账户月龄",
+    "shapValue": -0.45,
+    "featureValue": 76
+  },
+  {
+    "id": "S160",
+    "feature": "账户月龄",
+    "shapValue": -0.45,
+    "featureValue": 72
+  },
+  {
+    "id": "S161",
+    "feature": "账户月龄",
+    "shapValue": -0.425,
+    "featureValue": 67
+  },
+  {
+    "id": "S162",
+    "feature": "账户月龄",
+    "shapValue": -0.425,
+    "featureValue": 66
+  },
+  {
+    "id": "S163",
+    "feature": "账户月龄",
+    "shapValue": -0.425,
+    "featureValue": 68
+  },
+  {
+    "id": "S164",
+    "feature": "账户月龄",
+    "shapValue": -0.4,
+    "featureValue": 73
+  },
+  {
+    "id": "S165",
+    "feature": "账户月龄",
+    "shapValue": -0.4,
+    "featureValue": 75
+  },
+  {
+    "id": "S166",
+    "feature": "账户月龄",
+    "shapValue": -0.375,
+    "featureValue": 72
+  },
+  {
+    "id": "S167",
+    "feature": "账户月龄",
+    "shapValue": -0.375,
+    "featureValue": 67
+  },
+  {
+    "id": "S168",
+    "feature": "账户月龄",
+    "shapValue": -0.35,
+    "featureValue": 64
+  },
+  {
+    "id": "S169",
+    "feature": "账户月龄",
+    "shapValue": -0.35,
+    "featureValue": 66
+  },
+  {
+    "id": "S170",
+    "feature": "账户月龄",
+    "shapValue": -0.35,
+    "featureValue": 70
+  },
+  {
+    "id": "S171",
+    "feature": "账户月龄",
+    "shapValue": -0.325,
+    "featureValue": 73
+  },
+  {
+    "id": "S172",
+    "feature": "账户月龄",
+    "shapValue": -0.325,
+    "featureValue": 71
+  },
+  {
+    "id": "S173",
+    "feature": "账户月龄",
+    "shapValue": -0.3,
+    "featureValue": 66
+  },
+  {
+    "id": "S174",
+    "feature": "账户月龄",
+    "shapValue": -0.3,
+    "featureValue": 63
+  },
+  {
+    "id": "S175",
+    "feature": "账户月龄",
+    "shapValue": -0.275,
+    "featureValue": 63
+  },
+  {
+    "id": "S176",
+    "feature": "账户月龄",
+    "shapValue": -0.275,
+    "featureValue": 67
+  },
+  {
+    "id": "S177",
+    "feature": "账户月龄",
+    "shapValue": -0.275,
+    "featureValue": 71
+  },
+  {
+    "id": "S178",
+    "feature": "账户月龄",
+    "shapValue": -0.25,
+    "featureValue": 71
+  },
+  {
+    "id": "S179",
+    "feature": "账户月龄",
+    "shapValue": -0.25,
+    "featureValue": 66
+  },
+  {
+    "id": "S180",
+    "feature": "账户月龄",
+    "shapValue": -0.225,
+    "featureValue": 62
+  },
+  {
+    "id": "S181",
+    "feature": "账户月龄",
+    "shapValue": -0.225,
+    "featureValue": 61
+  },
+  {
+    "id": "S182",
+    "feature": "账户月龄",
+    "shapValue": -0.225,
+    "featureValue": 64
+  },
+  {
+    "id": "S183",
+    "feature": "账户月龄",
+    "shapValue": -0.2,
+    "featureValue": 69
+  },
+  {
+    "id": "S184",
+    "feature": "账户月龄",
+    "shapValue": -0.2,
+    "featureValue": 70
+  },
+  {
+    "id": "S185",
+    "feature": "账户月龄",
+    "shapValue": -0.175,
+    "featureValue": 66
+  },
+  {
+    "id": "S186",
+    "feature": "账户月龄",
+    "shapValue": -0.175,
+    "featureValue": 61
+  },
+  {
+    "id": "S187",
+    "feature": "账户月龄",
+    "shapValue": -0.175,
+    "featureValue": 59
+  },
+  {
+    "id": "S188",
+    "feature": "账户月龄",
+    "shapValue": -0.15,
+    "featureValue": 61
+  },
+  {
+    "id": "S189",
+    "feature": "账户月龄",
+    "shapValue": -0.15,
+    "featureValue": 66
+  },
+  {
+    "id": "S190",
+    "feature": "账户月龄",
+    "shapValue": -0.125,
+    "featureValue": 68
+  },
+  {
+    "id": "S191",
+    "feature": "账户月龄",
+    "shapValue": -0.125,
+    "featureValue": 66
+  },
+  {
+    "id": "S192",
+    "feature": "账户月龄",
+    "shapValue": -0.125,
+    "featureValue": 61
+  },
+  {
+    "id": "S193",
+    "feature": "账户月龄",
+    "shapValue": -0.1,
+    "featureValue": 58
+  },
+  {
+    "id": "S194",
+    "feature": "账户月龄",
+    "shapValue": -0.1,
+    "featureValue": 59
+  },
+  {
+    "id": "S195",
+    "feature": "账户月龄",
+    "shapValue": -0.075,
+    "featureValue": 63
+  },
+  {
+    "id": "S196",
+    "feature": "账户月龄",
+    "shapValue": -0.075,
+    "featureValue": 67
+  },
+  {
+    "id": "S197",
+    "feature": "账户月龄",
+    "shapValue": -0.075,
+    "featureValue": 66
+  },
+  {
+    "id": "S198",
+    "feature": "账户月龄",
+    "shapValue": -0.05,
+    "featureValue": 61
+  },
+  {
+    "id": "S199",
+    "feature": "账户月龄",
+    "shapValue": -0.05,
+    "featureValue": 57
+  },
+  {
+    "id": "S200",
+    "feature": "账户月龄",
+    "shapValue": -0.025,
+    "featureValue": 56
+  },
+  {
+    "id": "S201",
+    "feature": "账户月龄",
+    "shapValue": -0.025,
+    "featureValue": 60
+  },
+  {
+    "id": "S202",
+    "feature": "账户月龄",
+    "shapValue": -0.025,
+    "featureValue": 64
+  },
+  {
+    "id": "S203",
+    "feature": "账户月龄",
+    "shapValue": 0.0,
+    "featureValue": 65
+  },
+  {
+    "id": "S204",
+    "feature": "账户月龄",
+    "shapValue": 0.0,
+    "featureValue": 61
+  },
+  {
+    "id": "S205",
+    "feature": "账户月龄",
+    "shapValue": 0.025,
+    "featureValue": 56
+  },
+  {
+    "id": "S206",
+    "feature": "账户月龄",
+    "shapValue": 0.025,
+    "featureValue": 55
+  },
+  {
+    "id": "S207",
+    "feature": "账户月龄",
+    "shapValue": 0.025,
+    "featureValue": 57
+  },
+  {
+    "id": "S208",
+    "feature": "账户月龄",
+    "shapValue": 0.05,
+    "featureValue": 62
+  },
+  {
+    "id": "S209",
+    "feature": "账户月龄",
+    "shapValue": 0.05,
+    "featureValue": 64
+  },
+  {
+    "id": "S210",
+    "feature": "账户月龄",
+    "shapValue": 0.075,
+    "featureValue": 61
+  },
+  {
+    "id": "S211",
+    "feature": "账户月龄",
+    "shapValue": 0.075,
+    "featureValue": 56
+  },
+  {
+    "id": "S212",
+    "feature": "账户月龄",
+    "shapValue": 0.075,
+    "featureValue": 53
+  },
+  {
+    "id": "S213",
+    "feature": "账户月龄",
+    "shapValue": 0.1,
+    "featureValue": 55
+  },
+  {
+    "id": "S214",
+    "feature": "账户月龄",
+    "shapValue": 0.1,
+    "featureValue": 59
+  },
+  {
+    "id": "S215",
+    "feature": "账户月龄",
+    "shapValue": 0.125,
+    "featureValue": 62
+  },
+  {
+    "id": "S216",
+    "feature": "账户月龄",
+    "shapValue": 0.125,
+    "featureValue": 60
+  },
+  {
+    "id": "S217",
+    "feature": "账户月龄",
+    "shapValue": 0.125,
+    "featureValue": 56
+  },
+  {
+    "id": "S218",
+    "feature": "账户月龄",
+    "shapValue": 0.15,
+    "featureValue": 52
+  },
+  {
+    "id": "S219",
+    "feature": "账户月龄",
+    "shapValue": 0.15,
+    "featureValue": 52
+  },
+  {
+    "id": "S220",
+    "feature": "账户月龄",
+    "shapValue": 0.175,
+    "featureValue": 56
+  },
+  {
+    "id": "S221",
+    "feature": "账户月龄",
+    "shapValue": 0.175,
+    "featureValue": 60
+  },
+  {
+    "id": "S222",
+    "feature": "账户月龄",
+    "shapValue": 0.175,
+    "featureValue": 60
+  },
+  {
+    "id": "S223",
+    "feature": "账户月龄",
+    "shapValue": 0.2,
+    "featureValue": 56
+  },
+  {
+    "id": "S224",
+    "feature": "账户月龄",
+    "shapValue": 0.2,
+    "featureValue": 51
+  },
+  {
+    "id": "S225",
+    "feature": "账户月龄",
+    "shapValue": 0.225,
+    "featureValue": 50
+  },
+  {
+    "id": "S226",
+    "feature": "账户月龄",
+    "shapValue": 0.225,
+    "featureValue": 54
+  },
+  {
+    "id": "S227",
+    "feature": "账户月龄",
+    "shapValue": 0.225,
+    "featureValue": 58
+  },
+  {
+    "id": "S228",
+    "feature": "账户月龄",
+    "shapValue": 0.25,
+    "featureValue": 59
+  },
+  {
+    "id": "S229",
+    "feature": "账户月龄",
+    "shapValue": 0.25,
+    "featureValue": 55
+  },
+  {
+    "id": "S230",
+    "feature": "账户月龄",
+    "shapValue": 0.275,
+    "featureValue": 50
+  },
+  {
+    "id": "S231",
+    "feature": "账户月龄",
+    "shapValue": 0.275,
+    "featureValue": 48
+  },
+  {
+    "id": "S232",
+    "feature": "账户月龄",
+    "shapValue": 0.275,
+    "featureValue": 51
+  },
+  {
+    "id": "S233",
+    "feature": "账户月龄",
+    "shapValue": 0.3,
+    "featureValue": 55
+  },
+  {
+    "id": "S234",
+    "feature": "账户月龄",
+    "shapValue": 0.3,
+    "featureValue": 57
+  },
+  {
+    "id": "S235",
+    "feature": "账户月龄",
+    "shapValue": 0.325,
+    "featureValue": 55
+  },
+  {
+    "id": "S236",
+    "feature": "账户月龄",
+    "shapValue": 0.325,
+    "featureValue": 50
+  },
+  {
+    "id": "S237",
+    "feature": "账户月龄",
+    "shapValue": 0.35,
+    "featureValue": 47
+  },
+  {
+    "id": "S238",
+    "feature": "账户月龄",
+    "shapValue": 0.35,
+    "featureValue": 48
+  },
+  {
+    "id": "S239",
+    "feature": "账户月龄",
+    "shapValue": 0.35,
+    "featureValue": 52
+  },
+  {
+    "id": "S240",
+    "feature": "账户月龄",
+    "shapValue": 0.375,
+    "featureValue": 56
+  }
+]

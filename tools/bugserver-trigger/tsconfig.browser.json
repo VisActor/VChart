@@ -1,0 +1,11 @@
+{
+  "extends": "../bundler/tsconfig.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@visactor/vutils-extension": [
+        "../../packages/vutils-extension/es/index.js",
+        "../../packages/vutils-extension/src/index.ts"
+      ]
+    }
+  }
+}

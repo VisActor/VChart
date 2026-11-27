@@ -84,6 +84,43 @@ data: [
 ];
 ```
 
+### Entrance animation
+
+The `gaugePointer` series draws the pointer. The `gauge` option defines the dial series. With `gauge.type: 'circularProgress'`, `progress` is the arc that shows the current value and `track` is the background arc.
+
+| Configuration level | Fade-in configuration | Scope |
+| --- | --- | --- |
+| Chart | `animationAppear: { preset: 'fadeIn', duration: 600 }` | Applies only to the pointer series when you explicitly set `gauge`. When you omit `gauge`, the automatically generated circular progress series also uses this configuration. |
+| Dial series | `gauge.animationAppear: { preset: 'fadeIn', duration: 1800 }` | Applies to the explicitly configured dial series. The progress arc uses the fade-in preset and the track uses its default fade-in animation. Both use the configured duration. |
+| Progress mark | `gauge.animationAppear: { progress: { type: 'fadeIn', duration: 1800 } }` | Configures the entrance animation of the `progress` mark only. The track keeps its default animation. |
+
+The `duration` is in milliseconds. Use `preset` to select a preset at the series level and `type` to select an animation at the mark level. For a segmented dial (`gauge.type: 'gauge'`), the mark is named `segment`.
+
+In this example, the pointer fades in over 600 milliseconds and the progress arc fades in over 1800 milliseconds.
+
+```javascript livedemo
+const spec = {
+  type: 'gauge',
+  data: [{ id: 'gauge', values: [{ type: 'Completion', value: 0.6 }] }],
+  categoryField: 'type',
+  valueField: 'value',
+  outerRadius: 0.8,
+  innerRadius: 0.55,
+  startAngle: -225,
+  endAngle: 45,
+  animationAppear: { preset: 'fadeIn', duration: 600 },
+  gauge: {
+    type: 'circularProgress',
+    animationAppear: {
+      progress: { type: 'fadeIn', duration: 1800 }
+    }
+  }
+};
+
+const vchart = new VChart(spec, { dom: CONTAINER_ID });
+vchart.renderSync();
+```
+
 ### Declaring more flexible gauge charts in the form of combined charts
 
 In order to make the gauge chart more mimetic, you can declare the `gauge` and `gaugePointer` series in the form of a combined chart and configure animations to dynamically display the progress effect.

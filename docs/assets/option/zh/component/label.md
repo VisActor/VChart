@@ -60,11 +60,11 @@ formatMethod: text => {
 
 更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
-#${prefix} formatter(string)
+#${prefix} formatter(string|Array)
 
-字符串模版，自`1.7.0`版本开始支持。
+格式化模板自 `1.7.0` 版本开始支持。可传入字符串或字符串数组。
 
-用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+用 `{}` 包裹图元对应数据行的字段名。例如，数据为 `{ count: 1500 }` 时，`formatter: '{count:~s}'` 显示 `1.5k`。
 
 例如，`formatter: 'type={type},value={value},percent={_percent_}'`
 
@@ -94,12 +94,21 @@ formatMethod: text => {
 
 标签图元样式配置。
 
+{{ var: callbackType = ${noStyleCallback} ? '' : '|Function' }}
+
+{{ if: ${callbackType} }}
+
+样式对象中的属性可使用回调函数。回调接收标签关联的数据项，并返回该属性的值。
+
+{{ /if }}
+
 ##${prefix} type='text'(Object)
 
 常规文本样式配置。
 
 {{ use: graphic-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = ${callbackType}
 ) }}
 
 ##${prefix} type='rich'(Object)
@@ -107,7 +116,8 @@ formatMethod: text => {
 富文本样式配置。
 
 {{ use: graphic-rich-text(
-   prefix = '##' + ${prefix}
+   prefix = '##' + ${prefix},
+   callbackType = ${callbackType}
 ) }}
 
 #${prefix} state(Object)
@@ -240,11 +250,12 @@ hover 状态样式配置。
 
 {{ if: ${hasSmartInvert} }}
 
-#${prefix} smartInvert(Object|false)
+#${prefix} smartInvert(boolean|Object)
 
-智能反色配置，大部分图表中默认关闭了智能反色，除以下场景：
+标签智能反色配置。设为 `true` 时使用默认配置，设为 `false` 时关闭，也可以传入对象自定义反色策略。
 
-- 在柱状图中，当标签位置为内部（ `'inside'` | `'inside-top'` | `'inside-bottom'` | `'inside-right'` | `'inside-left'`） 时，默认开启。
+- 柱状图的内部标签默认开启（`'inside'`、`'inside-top'`、`'inside-bottom'`、`'inside-right'`、`'inside-left'`）。
+- 饼图的内部标签默认开启（`'inside'`、`'inside-outer'`、`'inside-inner'`、`'inside-center'`），外部标签默认关闭。
 
 ##${prefix} mode(string)
 
@@ -283,10 +294,10 @@ label 填充色在智能反色时的四种策略：
 
 - `'base'` 使用标签所在图元的颜色
 - `'invertBase'` 使用经过智能反色计算后的颜色
-- `'similarBase'` 使用经过智能反色计算后的颜色的互补色
+- `'similarBase'` 从 `brightColor` 和 `darkColor` 中选择填充色
 - `'null'` 不执行智能反色，保持`style.fill`设置的颜色
 
-默认设置为`'invertBase'`
+默认值为 `'invertBase'`。当标签原色与图元背景的对比度不足时，该策略会从 `alternativeColors` 和默认备选色中选择可读的颜色。
 
 ##${prefix} strokeStrategy(string)
 
@@ -294,20 +305,20 @@ label 描边色在智能反色时的四种策略：
 
 - `'base'` 使用标签所在图元的颜色
 - `'invertBase'` 使用经过智能反色计算后的颜色
-- `'similarBase'` 使用经过智能反色计算后的颜色的互补色
+- `'similarBase'` 从 `brightColor` 和 `darkColor` 中选择描边色
 - `'null'` 不执行智能反色，保持`style.stroke`设置的颜色
 
 默认设置为`'base'`
 
 ##${prefix} brightColor(string)
 
-前景色与亮色具有对比度时，similarSeries 使用该色。
-默认设置为'#ffffff'。
+当填充或描边采用 `'similarBase'` 策略，且智能反色结果与该颜色的对比度大于 4.5:1 时，使用该颜色。
+默认值为 `'#ffffff'`。自定义时请使用六位十六进制色值，例如 `'#ff0000'`。
 
-##${prefix} brightColor(string)
+##${prefix} darkColor(string)
 
-前景色与暗色具有对比度时，similarSeries 使用该色。
-默认设置为'#000000'。
+当填充或描边采用 `'similarBase'` 策略，且智能反色结果与 `brightColor` 的对比度小于或等于 4.5:1 时，使用该颜色。
+默认值为 `'#000000'`。
 
 ##${prefix} outsideEnable(boolean)
 

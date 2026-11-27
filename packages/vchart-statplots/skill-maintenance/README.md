@@ -44,6 +44,10 @@ node packages/vchart-statplots/scripts/sync-visualization-skill.mjs --root /tmp/
 
 ## 测试与验收
 
+固定 Agent 任务见 [data-science-visualization 用例](../../../skill-cases/data-science-visualization/README.md)，覆盖 8 种不同的典型图型，包含独立输入和验收标准。它们不随 Skill 分发，也不自动视为已执行的模型或浏览器测试。
+
+已审查的任务、完整输入、最终 HTML/request/data 和预览见 [展示案例](../../../examples/data-science-visualization/README.md)；[最新结果与验证索引](../../../docs/superpowers/validation/2026-11-17-data-science-visualization-case-results.md)记录选定产物、实际检查范围及未决事项。原始执行与诊断证据留在本地，不进入 Skill 分发包。
+
 从仓库根目录运行，Python 使用已有 3.11+ 环境。XLSX 测试需要 openpyxl，技能结构校验需要 PyYAML；缺依赖导致跳过或无法运行应如实记录。
 
 ```sh
@@ -60,6 +64,8 @@ DSV_PYTHON=python3.11 ./node_modules/.bin/playwright test \
 ```
 
 涉及页面交互时补运行 skill-interactions.spec.ts 等相关用例。每图检查 rendered、真实图元与所请求的状态变化；文件或 canvas 存在不足以证明成功。确认 skill 副本不包含完整 manifest、包元数据或维护测试，也不依赖仓库路径。
+
+固定筛选预算回归登记在 `test_visualization_io.py` 与 `skill-interactions.spec.ts`：覆盖 KDE/violin 固定类别与范围、可清空条件的反例、完整源数据保留和清空后的真实图元。`skill-failures.spec.ts` 覆盖绑定构建/编译失败不重绘、跨图回滚、原生恢复失败与后续恢复，并断言原生更新次数。
 
 `test_skill_bundle.py` 检查整个技能包的使用端目录、本地 Markdown 链接及 JSON，并在仓库外、中文空格路径下使用 `-I -S -B` 禁用 site-packages 和字节码写入，清空 PATH，拒绝原仓库文件读取、网络及子进程调用。六份示例生成后删除原始 CSV，再逐份重放并核对图表与数据行。浏览器回归还会在生成后删除技能副本，使用真实 CDN 打开独立 HTML。
 

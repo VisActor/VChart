@@ -160,16 +160,11 @@ Guide line style.
 
 Mark content.
 
-#### type(string)
+#### type(string) = 'text'
 
-Mark content type.
+Use `'text'` for plain or rich text, `'symbol'` for a symbol, and `'image'` for an image.
 
-Optional values:
-
-- 'symbol'
-- 'text'
-- 'image'
-- 'richText'
+Existing configurations with `itemContent.type: 'richText'` still work. To migrate, set `itemContent.type` to `'text'`, move the rich text segments from `style.textConfig` to `style.text`, and set `style.type` to `'rich'`.
 
 #### position(string)
 
@@ -218,7 +213,7 @@ Since version 1.8.7, whether to automatically adjust item content so that it is 
 
 #### text(Object)
 
-For mark content type 'text', the text style.
+For plain text, use this object to set the label content with `text` and the background with `labelBackground`. If `itemContent.text.style` is set, its text styles take precedence.
 
 {{ use: component-marker-label(
   prefix = '####',
@@ -228,6 +223,35 @@ For mark content type 'text', the text style.
 ) }}
 
 #### style(Object)
+
+The style of the annotation content. When `itemContent.type` is `'text'`, set `style.text` and the font attributes directly for plain text.
+
+```ts
+const itemContent = {
+  type: 'text',
+  style: {
+    text: '2016 population: 899447',
+    fontSize: 14
+  }
+}
+```
+
+For rich text, set `style.type` to `'rich'` and provide an array of segments in `style.text`. Each segment can have its own font attributes.
+
+```ts
+const itemContent = {
+  type: 'text',
+  style: {
+    type: 'rich',
+    text: [
+      { text: '2016 population: ', fontWeight: 'bold' },
+      { text: '899447', fill: '#E8346D' }
+    ]
+  }
+}
+```
+
+To migrate a configuration that uses `itemContent.textStyle`, move those settings to `itemContent.style`.
 
 {{ use: component-marker-style-callback(
   description = 'image | text | richText | symbol style'

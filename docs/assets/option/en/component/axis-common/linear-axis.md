@@ -43,9 +43,26 @@ Optional values:
 
 Example: If the data range is 0~6000 and the tickCount is 2, the `tickCountFirst` range will be [0, 10000], while the `accurateFirst` range will be [0, 6000], but 10000 will not be displayed.
 
+{{ if: ${type} === 'linear' }}
 #${prefix} zero(boolean) = true
+{{ else }}
+#${prefix} zero(boolean) = false
+{{ /if }}
 
-**Applies only when the axis is a linear or time axis**. Whether to include 0 value. When min and max are configured, this option is invalid.
+Controls whether the automatically computed axis domain is extended to include zero. The default is `true` for linear axes and `false` for time axes, where zero represents the Unix epoch.
+
+- With `true`, an entirely positive domain extends down to zero and an entirely negative domain extends up to zero. A domain that already includes zero keeps its bounds.
+- With `false`, the axis skips this extension. The domain can still include zero when the data spans zero or when settings such as `nice` or `expand` extend it to zero.
+
+The following examples use `nice: false` and leave `min`, `max`, and `expand` unset.
+
+| Data domain  | `zero: true` | `zero: false` |
+| ------------ | ------------ | ------------- |
+| `[92, 98]`   | `[0, 98]`    | `[92, 98]`    |
+| `[-98, -92]` | `[-98, 0]`   | `[-98, -92]`  |
+| `[-3, 7]`    | `[-3, 7]`    | `[-3, 7]`     |
+
+Explicit `min` and `max` take precedence for the lower and upper bounds, respectively. For example, with a data domain of `[92, 98]`, `min: 90` fixes the lower bound at 90 even with `zero: true`.
 
 #${prefix} expand(Object)
 

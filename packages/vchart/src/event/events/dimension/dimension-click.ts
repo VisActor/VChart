@@ -3,20 +3,23 @@ import type { BaseEventParams, EventHandler, EventParamsDefinition, EventType } 
 import { DimensionEvent } from './base';
 
 export class DimensionClickEvent extends DimensionEvent {
+  private _eventHandler?: EventHandler<BaseEventParams>;
+
   register<Evt extends EventType>(eType: Evt, handler: EventHandler<EventParamsDefinition[Evt]>) {
     this._callback = handler.callback;
 
-    this._eventDispatcher.register<'pointertap'>('pointertap', {
+    this._eventHandler = {
       query: { ...handler.query, source: Event_Source_Type.chart },
       callback: this.onClick
-    });
+    };
+    this._eventDispatcher.register('pointertap', this._eventHandler);
   }
 
   unregister() {
-    this._eventDispatcher.unregister('pointertap', {
-      query: null,
-      callback: this.onClick
-    });
+    if (this._eventHandler) {
+      this._eventDispatcher.unregister('pointertap', this._eventHandler);
+      this._eventHandler = undefined;
+    }
   }
 
   private onClick = (params: BaseEventParams) => {

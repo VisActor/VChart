@@ -12,7 +12,7 @@ Can the labels of a VChart pie chart be customized? I want to add the values to 
 
 # Solution
 
-The label configuration of a pie chart is in the `label` field: [https://visactor.io/vchart/option/pieChart#label](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23label). There is a property called `formatMethod` in this field, which is used to format the label content: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23label.formatMethod). By configuring a function, the label can be formatted. The function receives parameters including the original text and data, and returns a string representing the formatted label text.</br>
+The label configuration of a pie chart is in the `label` field: [https://visactor.io/vchart/option/pieChart#label](https://visactor.io/vchart/option/pieChart#label). There is a property called `formatMethod` in this field, which is used to format the label content: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https://visactor.io/vchart/option/pieChart#label.formatMethod). By configuring a function, the label can be formatted. The function receives parameters including the original text and data, and returns a string representing the formatted label text.</br>
 # Code Example
 
 ```
@@ -71,12 +71,12 @@ window['vchart'] = vchart;</br>
 # Result
 
 After running the code, the labels can be formatted.</br>
-Online demo: [https://codesandbox.io/p/sandbox/pie-label-format-9k8wlr?file=%2Fsrc%2Findex.ts%3A48%2C2](https%3A%2F%2Fcodesandbox.io%2Fp%2Fsandbox%2Fpie-label-format-9k8wlr%3Ffile%3D%252Fsrc%252Findex.ts%253A48%252C2)</br>
+Online demo: [https://codesandbox.io/p/sandbox/pie-label-format-9k8wlr?file=%2Fsrc%2Findex.ts%3A48%2C2](https://codesandbox.io/p/sandbox/pie-label-format-9k8wlr?file=%2Fsrc%2Findex.ts%3A48%2C2)</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/SjKWbR6kTo8Y55xj6WhcAiCknNc.gif' alt='' width='1266' height='944'>
 
 # Related Documents
 
-*  VChart official website: [https://visactor.io/vchart/](https%3A%2F%2Fvisactor.io%2Fvchart%2F)</br>
-*  formatMethod documentation: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23label.formatMethod)</br>
-*  VChart GitHub: [https://github.com/VisActor/VChart](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
+*  VChart official website: [https://visactor.io/vchart/](https://visactor.io/vchart/)</br>
+*  formatMethod documentation: [https://visactor.io/vchart/option/pieChart#label.formatMethod](https://visactor.io/vchart/option/pieChart#label.formatMethod)</br>
+*  VChart GitHub: [https://github.com/VisActor/VChart](https://github.com/VisActor/VChart)</br>
 

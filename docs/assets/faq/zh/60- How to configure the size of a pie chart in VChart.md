@@ -65,6 +65,6 @@ window['vchart'] = vchart;</br>
 
 ## 相关文档
 
-*  [饼图配置项](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FpieChart%23outerRadius)</br>
+*  [饼图配置项](https://visactor.io/vchart/option/pieChart#outerRadius)</br>
 *  github：https://github.com/VisActor/VChart</br>
 

@@ -22,6 +22,4 @@ export declare class Event implements IEvent {
     allow<Evt extends EventType>(eType: Evt): this;
     release(): void;
     private _addEventHandler;
-    private _getEventHandler;
-    private _removeEventHandler;
 }

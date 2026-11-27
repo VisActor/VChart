@@ -4,6 +4,7 @@ module.exports = {
   formats: ['es', 'cjs', 'umd'],
   outputDir: { es: 'esm', cjs: 'cjs', umd: 'build' },
   umdOutputFilename: 'index',
+  umdCompress: false,
   noEmitOnError: true,
   sourcemap: false,
   external: ['@visactor/vchart'],

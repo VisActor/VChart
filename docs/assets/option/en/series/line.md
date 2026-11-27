@@ -52,6 +52,12 @@ Point graphic style configuration.
 
 ##${prefix} style(Object)
 
+For point markers in a line chart, `stroke` works as follows.
+
+- Omit `stroke` to use the theme's default stroke, which is white in the default light theme.
+- Set `stroke: null` directly to use the series color as the stroke.
+- Set `stroke: false` to disable the stroke. To disable the stroke for individual data points, return `false` from the stroke callback.
+
 {{ use: mark-style(
   markName = 'point'
 ) }}

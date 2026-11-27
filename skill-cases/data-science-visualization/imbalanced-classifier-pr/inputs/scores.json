@@ -1,0 +1,242 @@
+[
+  {
+    "sample_id": "T001",
+    "actual": true,
+    "score_a": 0.9,
+    "score_b": 0.85
+  },
+  {
+    "sample_id": "T002",
+    "actual": false,
+    "score_a": 0.9,
+    "score_b": 0.95
+  },
+  {
+    "sample_id": "T003",
+    "actual": false,
+    "score_a": 0.7,
+    "score_b": 0.85
+  },
+  {
+    "sample_id": "T004",
+    "actual": false,
+    "score_a": 0.5,
+    "score_b": 0.75
+  },
+  {
+    "sample_id": "T005",
+    "actual": true,
+    "score_a": 0.8,
+    "score_b": 0.55
+  },
+  {
+    "sample_id": "T006",
+    "actual": false,
+    "score_a": 0.27,
+    "score_b": 0.65
+  },
+  {
+    "sample_id": "T007",
+    "actual": false,
+    "score_a": 0.265,
+    "score_b": 0.55
+  },
+  {
+    "sample_id": "T008",
+    "actual": false,
+    "score_a": 0.26,
+    "score_b": 0.45
+  },
+  {
+    "sample_id": "T009",
+    "actual": false,
+    "score_a": 0.255,
+    "score_b": 0.35
+  },
+  {
+    "sample_id": "T010",
+    "actual": false,
+    "score_a": 0.25,
+    "score_b": 0.25
+  },
+  {
+    "sample_id": "T011",
+    "actual": false,
+    "score_a": 0.245,
+    "score_b": 0.15
+  },
+  {
+    "sample_id": "T012",
+    "actual": false,
+    "score_a": 0.24,
+    "score_b": 0.038
+  },
+  {
+    "sample_id": "T013",
+    "actual": true,
+    "score_a": 0.6,
+    "score_b": 0.35
+  },
+  {
+    "sample_id": "T014",
+    "actual": false,
+    "score_a": 0.23,
+    "score_b": 0.036
+  },
+  {
+    "sample_id": "T015",
+    "actual": false,
+    "score_a": 0.225,
+    "score_b": 0.035
+  },
+  {
+    "sample_id": "T016",
+    "actual": false,
+    "score_a": 0.22,
+    "score_b": 0.034
+  },
+  {
+    "sample_id": "T017",
+    "actual": false,
+    "score_a": 0.215,
+    "score_b": 0.033
+  },
+  {
+    "sample_id": "T018",
+    "actual": false,
+    "score_a": 0.21,
+    "score_b": 0.032
+  },
+  {
+    "sample_id": "T019",
+    "actual": false,
+    "score_a": 0.205,
+    "score_b": 0.031
+  },
+  {
+    "sample_id": "T020",
+    "actual": false,
+    "score_a": 0.2,
+    "score_b": 0.03
+  },
+  {
+    "sample_id": "T021",
+    "actual": false,
+    "score_a": 0.195,
+    "score_b": 0.029
+  },
+  {
+    "sample_id": "T022",
+    "actual": false,
+    "score_a": 0.19,
+    "score_b": 0.028
+  },
+  {
+    "sample_id": "T023",
+    "actual": false,
+    "score_a": 0.185,
+    "score_b": 0.027
+  },
+  {
+    "sample_id": "T024",
+    "actual": false,
+    "score_a": 0.18,
+    "score_b": 0.026
+  },
+  {
+    "sample_id": "T025",
+    "actual": false,
+    "score_a": 0.175,
+    "score_b": 0.025
+  },
+  {
+    "sample_id": "T026",
+    "actual": false,
+    "score_a": 0.17,
+    "score_b": 0.024
+  },
+  {
+    "sample_id": "T027",
+    "actual": true,
+    "score_a": 0.4,
+    "score_b": 0.1
+  },
+  {
+    "sample_id": "T028",
+    "actual": false,
+    "score_a": 0.16,
+    "score_b": 0.022
+  },
+  {
+    "sample_id": "T029",
+    "actual": false,
+    "score_a": 0.155,
+    "score_b": 0.021
+  },
+  {
+    "sample_id": "T030",
+    "actual": false,
+    "score_a": 0.15,
+    "score_b": 0.02
+  },
+  {
+    "sample_id": "T031",
+    "actual": false,
+    "score_a": 0.145,
+    "score_b": 0.019
+  },
+  {
+    "sample_id": "T032",
+    "actual": false,
+    "score_a": 0.14,
+    "score_b": 0.018
+  },
+  {
+    "sample_id": "T033",
+    "actual": false,
+    "score_a": 0.135,
+    "score_b": 0.017
+  },
+  {
+    "sample_id": "T034",
+    "actual": false,
+    "score_a": 0.13,
+    "score_b": 0.016
+  },
+  {
+    "sample_id": "T035",
+    "actual": false,
+    "score_a": 0.125,
+    "score_b": 0.015
+  },
+  {
+    "sample_id": "T036",
+    "actual": false,
+    "score_a": 0.12,
+    "score_b": 0.014
+  },
+  {
+    "sample_id": "T037",
+    "actual": false,
+    "score_a": 0.115,
+    "score_b": 0.013
+  },
+  {
+    "sample_id": "T038",
+    "actual": false,
+    "score_a": 0.11,
+    "score_b": 0.012
+  },
+  {
+    "sample_id": "T039",
+    "actual": false,
+    "score_a": 0.105,
+    "score_b": 0.011
+  },
+  {
+    "sample_id": "T040",
+    "actual": false,
+    "score_a": 0.1,
+    "score_b": 0.01
+  }
+]

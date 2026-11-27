@@ -19,7 +19,7 @@ In VChart, you can configure the axis through the `axes`property. `Axes`receives
 Configure `axes [0].label `to rich text by formatting function `formatMethod`.</br>
 `formatMethod `returns a configuration object with rich text content</br>
 1. `Type: 'rich' `: defines the return text type as rich text</br>
-1. `Text `: Detailed configuration of rich text. Supports two types of text and image. Detailed configuration can refer to the [configuration item document ](https%3A%2F%2Fvisactor.io%2Fvchart%2Foption%2FbarChart%23title.textStyle.character).</br>
+1. `Text `: Detailed configuration of rich text. Supports two types of text and image. Detailed configuration can refer to the [configuration item document ](https://visactor.io/vchart/option/barChart#title.textStyle.character).</br>
 ```
 formatMethod: (value, data, c, d) => {
   return {

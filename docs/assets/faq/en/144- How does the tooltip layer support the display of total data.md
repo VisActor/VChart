@@ -168,6 +168,6 @@ const spec = {
 
 ## Related documents
 
-*  [github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
-*  [tooltip configuration](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FbarChart%23tooltip.dimension.updateContent)</br>
-*  [tooltip formatted content example](https%3A%2F%2Fvisactor.com%2Fvchart%2Fdemo%2Ftooltip%2Fformat-method)</br>
+*  [github](https://github.com/VisActor/VChart)</br>
+*  [tooltip configuration](https://visactor.com/vchart/option/barChart#tooltip.dimension.updateContent)</br>
+*  [tooltip formatted content example](https://visactor.com/vchart/demo/tooltip/format-method)</br>

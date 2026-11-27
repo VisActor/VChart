@@ -8,7 +8,7 @@ title: 6. 如何配置桑基图的高亮效果</br>
 
 ## 问题描述
 
-我在这个 [demo](https%3A%2F%2Fvisactor.io%2Fvchart%2Fdemo%2Fsankey-chart%2Fbasic-sankey) 的基础上添加了如下配置（见 图1），没有实现图 2 的效果，请问要如何配置？</br>
+我在这个 [demo](https://visactor.io/vchart/demo/sankey-chart/basic-sankey) 的基础上添加了如下配置（见 图1），没有实现图 2 的效果，请问要如何配置？</br>
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/MpLabX9eQoCwwNxHdk2cyWRjn9g.gif' alt='' width='2246' height='1214'>
 
 <img src='https://cdn.jsdelivr.net/gh/xuanhun/articles/visactor/img/DYnqbT7RQougzdxzzTfcTzW1nSf.gif' alt='' width='2690' height='1116'>

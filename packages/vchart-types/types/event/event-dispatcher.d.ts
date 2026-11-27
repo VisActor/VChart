@@ -26,6 +26,7 @@ export declare class EventDispatcher implements IEventDispatcher {
     private _onDelegateInteractionEvent;
     private _invoke;
     private _getQueryLevel;
+    private _snapshotInputEvent;
     private _parseQuery;
     private getEventBubble;
     private getEventListeners;

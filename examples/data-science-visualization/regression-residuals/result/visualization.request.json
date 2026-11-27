@@ -1,0 +1,129 @@
+{
+  "version": 1,
+  "title": "energy-model-v1 · holdout-demo 验证集残差",
+  "charts": [
+    {
+      "id": "main",
+      "spec": {
+        "type": "residualPlot",
+        "input": "predictions",
+        "data": [
+          {
+            "id": "V001",
+            "actual": 19.0,
+            "fittedValue": 10.0
+          },
+          {
+            "id": "V002",
+            "actual": 19.0,
+            "fittedValue": 12.0
+          },
+          {
+            "id": "V003",
+            "actual": 19.0,
+            "fittedValue": 14.0
+          },
+          {
+            "id": "V004",
+            "actual": 19.0,
+            "fittedValue": 16.0
+          },
+          {
+            "id": "V005",
+            "actual": 19.0,
+            "fittedValue": 18.0
+          },
+          {
+            "id": "V006",
+            "actual": 19.0,
+            "fittedValue": 20.0
+          },
+          {
+            "id": "V007",
+            "actual": 19.0,
+            "fittedValue": 22.0
+          },
+          {
+            "id": "V008",
+            "actual": 19.0,
+            "fittedValue": 24.0
+          },
+          {
+            "id": "V009",
+            "actual": 19.0,
+            "fittedValue": 26.0
+          },
+          {
+            "id": "V010",
+            "actual": 19.0,
+            "fittedValue": 28.0
+          },
+          {
+            "id": "V011",
+            "actual": 21.0,
+            "fittedValue": 30.0
+          },
+          {
+            "id": "V012",
+            "actual": 25.0,
+            "fittedValue": 32.0
+          },
+          {
+            "id": "V013",
+            "actual": 29.0,
+            "fittedValue": 34.0
+          },
+          {
+            "id": "V014",
+            "actual": 33.0,
+            "fittedValue": 36.0
+          },
+          {
+            "id": "V015",
+            "actual": 37.0,
+            "fittedValue": 38.0
+          },
+          {
+            "id": "V016",
+            "actual": 41.0,
+            "fittedValue": 40.0
+          },
+          {
+            "id": "V017",
+            "actual": 45.0,
+            "fittedValue": 42.0
+          },
+          {
+            "id": "V018",
+            "actual": 49.0,
+            "fittedValue": 44.0
+          },
+          {
+            "id": "V019",
+            "actual": 53.0,
+            "fittedValue": 46.0
+          },
+          {
+            "id": "V020",
+            "actual": 57.0,
+            "fittedValue": 48.0
+          }
+        ],
+        "fieldLabels": {
+          "fittedValue": "预测耗电量（kWh）",
+          "residual": "原始残差（kWh）"
+        }
+      },
+      "source": {
+        "label": "energy-model-v1 / holdout-demo · 模拟已有预测",
+        "note": "原创模拟测试数据，MIT；不是真实业务或模型评估结果。"
+      },
+      "caption": "模拟模型输出 · 原始残差 = 观测 − 预测（kWh）；直接使用已有预测，不重新拟合。"
+    }
+  ],
+  "controls": {},
+  "presentation": {
+    "actions": [],
+    "details": []
+  }
+}

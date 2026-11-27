@@ -137,7 +137,7 @@ window['vchart'] = vchart;</br>
 ```
 ## 相关文档
 
-*  [github](https%3A%2F%2Fgithub.com%2FVisActor%2FVChart)</br>
-*  [轴标签](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart-axes-band%23label.formatMethod)[`formatMethod`](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart-axes-band%23label.formatMethod)[配置文档](https%3A%2F%2Fvisactor.com%2Fvchart%2Foption%2FlineChart-axes-band%23label.formatMethod)</br>
-*  [html扩展插件教程](https%3A%2F%2Fvisactor.com%2Fvchart%2Fguide%2Ftutorial_docs%2FRichtext_and_Dom)</br>
+*  [github](https://github.com/VisActor/VChart)</br>
+*  [轴标签](https://visactor.com/vchart/option/lineChart-axes-band#label.formatMethod)[`formatMethod`](https://visactor.com/vchart/option/lineChart-axes-band#label.formatMethod)[配置文档](https://visactor.com/vchart/option/lineChart-axes-band#label.formatMethod)</br>
+*  [html扩展插件教程](https://visactor.com/vchart/guide/tutorial_docs/Richtext_and_Dom)</br>
 

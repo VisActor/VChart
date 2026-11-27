@@ -1,0 +1,448 @@
+{
+  "formatVersion": 1,
+  "date": "2026-11-17",
+  "skill": {
+    "path": "skills/data-science-visualization",
+    "sourceCommit": "2254704c6f00f91c19d486e07006b323f5cf6dc8",
+    "instructionSha256": "1c12e976f02d927d864c0a730a91c0ca5e0e5703c03a6c2e895ec9480a89d3b2",
+    "localRuntimeChanges": false
+  },
+  "libraries": {
+    "vchart": "2.2.2",
+    "statplots": "2.2.2"
+  },
+  "environment": {
+    "host": "Codex 当前会话",
+    "model": "宿主未提供可核对的模型标识",
+    "python": "3.11.16",
+    "node": "22.23.3",
+    "browser": "Codex 内置浏览器；PCA/SHAP 另使用 Playwright Chromium",
+    "browserVersion": "原始记录未导出确切浏览器版本"
+  },
+  "evaluationLimitations": [
+    "当前会话参与过用例编写，不是独立盲测。",
+    "前 6 例及 PCA 的代表 Tooltip 记录使用点击定位，未单独证明无点击悬停路径。",
+    "完整会话日志未导出，保留了可获得的截图、AX 文本及工程检查记录。",
+    "PCA/SHAP 的旧空画布捕获帧未在后续复现，不能唯一归因。"
+  ],
+  "cases": [
+    {
+      "name": "order-value-histogram",
+      "sourceRun": "2026-11-17-run-01",
+      "type": "histogram",
+      "inputScale": "32 笔订单，30 个有效金额",
+      "files": {
+        "examples/data-science-visualization/order-value-histogram/prompt.md": {
+          "bytes": 1280,
+          "sha256": "37223639660aa8b6b897aa8b8da9d996353fc281f9e77b4e514a6cae3699eb88"
+        },
+        "examples/data-science-visualization/order-value-histogram/inputs/context.md": {
+          "bytes": 436,
+          "sha256": "0cb21587d8ea44c6568af56b2354e0ddec757536b97e7bb42b739e6f7b32aa66"
+        },
+        "examples/data-science-visualization/order-value-histogram/inputs/orders.csv": {
+          "bytes": 290,
+          "sha256": "5e8a205296a6fec89cabdd1c867480d53ed8cb77d9a9f3e981ba50dd2e3ea840"
+        },
+        "examples/data-science-visualization/order-value-histogram/result/visualization.data.json": {
+          "bytes": 2864,
+          "sha256": "ab08f4a3d0d34ab3e429eb18e4b797de6cc04ed00b999271f6db67b18902459f"
+        },
+        "examples/data-science-visualization/order-value-histogram/result/visualization.html": {
+          "bytes": 29063,
+          "sha256": "8160d56b86dc3eb3175f51626083fc832a207ea5e079681d81a103c3d563fe24"
+        },
+        "examples/data-science-visualization/order-value-histogram/result/visualization.request.json": {
+          "bytes": 3693,
+          "sha256": "6464e63d5a2b8c7903fc18f986fb11de8637e70edeb66fadce67b631364bf6dc"
+        },
+        "examples/data-science-visualization/order-value-histogram/preview.png": {
+          "bytes": 67550,
+          "sha256": "ee8bdab753a225809f67791c77832e40ad3adc801f97723161d8468afa8d5996"
+        }
+      },
+      "observations": {
+        "tooltip": "点击定位首箱、末箱及切换后的首箱，核对区间与计数。",
+        "interaction": "5→10→20→5 的真实下拉操作已核对，柱形和 Tooltip 同步改变。",
+        "noClickHoverVerified": false
+      }
+    },
+    {
+      "name": "delivery-time-violin",
+      "sourceRun": "2026-11-17-run-01",
+      "type": "violinPlot",
+      "inputScale": "120 笔配送，三组",
+      "files": {
+        "examples/data-science-visualization/delivery-time-violin/prompt.md": {
+          "bytes": 1349,
+          "sha256": "d64e9e1c47c6f0aa1d0a8102168fa2cad2f6e6a3738b53ff85f3649b74d0f11c"
+        },
+        "examples/data-science-visualization/delivery-time-violin/inputs/context.md": {
+          "bytes": 446,
+          "sha256": "240d6589a9bc36d0dcd9ee0e50f76c5e29ac839ac70a357fb974a34f18c20b39"
+        },
+        "examples/data-science-visualization/delivery-time-violin/inputs/deliveries.csv": {
+          "bytes": 2795,
+          "sha256": "32827023f600b08b07dd4802d0f2f0509c8128ce560b2a0ceaf07714cb787469"
+        },
+        "examples/data-science-visualization/delivery-time-violin/result/visualization.data.json": {
+          "bytes": 12156,
+          "sha256": "b79143e5c084d1adeb5378f90d8c5f682e6f8221675b0873b25e153b4fbc0a5b"
+        },
+        "examples/data-science-visualization/delivery-time-violin/result/visualization.html": {
+          "bytes": 38328,
+          "sha256": "89fa671815aac2cfa473d17fa43c99f8bb641a6e4d0c20055dbf0d8c3c809141"
+        },
+        "examples/data-science-visualization/delivery-time-violin/result/visualization.request.json": {
+          "bytes": 15992,
+          "sha256": "d5be4006c52624165d7477054e653e40620fb6d9e5f08e6fbd4e4716b9e56dad"
+        },
+        "examples/data-science-visualization/delivery-time-violin/preview.png": {
+          "bytes": 116760,
+          "sha256": "c34f86579b598b0509858a56b8d013949bdda0140e61536a7b05bd20ba57bd9f"
+        }
+      },
+      "observations": {
+        "tooltip": "点击定位三组轮廓，核对 N、原始极值、实际带宽及峰值密度。",
+        "interaction": "未请求额外控件，页面未添加。",
+        "noClickHoverVerified": false
+      }
+    },
+    {
+      "name": "sensor-correlation",
+      "sourceRun": "2026-11-17-run-01",
+      "type": "correlationMatrix",
+      "inputScale": "12 台设备，四个测量变量",
+      "files": {
+        "examples/data-science-visualization/sensor-correlation/prompt.md": {
+          "bytes": 1433,
+          "sha256": "46d221dfdad22c8fe706d01cd66e58a040148ec714e39796fd2c0d75c6e49e84"
+        },
+        "examples/data-science-visualization/sensor-correlation/inputs/context.md": {
+          "bytes": 540,
+          "sha256": "d8f0ae2da10a620074d7685ee721d4816a9b3ea0e11cfb646344beb94b94157a"
+        },
+        "examples/data-science-visualization/sensor-correlation/inputs/sensors.csv": {
+          "bytes": 244,
+          "sha256": "4d8690b53153157fe7a03aa7ea26e3c79500745e6766f932ee62c2afcab2a65b"
+        },
+        "examples/data-science-visualization/sensor-correlation/result/sensors-labeled.csv": {
+          "bytes": 231,
+          "sha256": "fe0b19e5f25bf39abec599783052362806d5c2cc53e9bc8d1e2686c28cf19e98"
+        },
+        "examples/data-science-visualization/sensor-correlation/result/visualization.data.json": {
+          "bytes": 2602,
+          "sha256": "09d6874ce5bcf3163c7fd35fc40e54ec5a96f8d680f57ca6e498548cdd5aeaaa"
+        },
+        "examples/data-science-visualization/sensor-correlation/result/visualization.html": {
+          "bytes": 29008,
+          "sha256": "f48f9e55905eb83b9b9259833de611368de7822aafccf2360ecfb2ac0abdcf15"
+        },
+        "examples/data-science-visualization/sensor-correlation/result/visualization.request.json": {
+          "bytes": 3609,
+          "sha256": "b47239c61e55305ea57f4e373ea723dd690329f2d3b6e6b80373c9fa29211000"
+        },
+        "examples/data-science-visualization/sensor-correlation/preview.png": {
+          "bytes": 148084,
+          "sha256": "4c0160d0b6c660cd17a6e75ebe15798639eca1d7ae33965a63e3f8b08df033ae"
+        }
+      },
+      "observations": {
+        "tooltip": "点击定位温度–压力、压力–流量及电压–电压，核对相关值、N 和 NA 原因。",
+        "interaction": "Pearson→Spearman→Kendall→Pearson 的真实下拉操作已核对，Tooltip 中 method 更新。",
+        "noClickHoverVerified": false
+      }
+    },
+    {
+      "name": "paired-response",
+      "sourceRun": "2026-11-17-run-01",
+      "type": "pairedComparisonPlot",
+      "inputScale": "13 台设备，25 条阶段观测",
+      "files": {
+        "examples/data-science-visualization/paired-response/prompt.md": {
+          "bytes": 1317,
+          "sha256": "da8724a6a144356a44a5fc97b3653bfb76fdcf50d3753bb2e169af64284c48ec"
+        },
+        "examples/data-science-visualization/paired-response/inputs/context.md": {
+          "bytes": 550,
+          "sha256": "965e78680e3ee0c685479fdae047b94c9ce565b788322c038ee147197f752735"
+        },
+        "examples/data-science-visualization/paired-response/inputs/measurements.json": {
+          "bytes": 2028,
+          "sha256": "86294c2c5b799d25a18fd96666cc057ed776ebb702752128ba04f63153438e4d"
+        },
+        "examples/data-science-visualization/paired-response/result/visualization.data.json": {
+          "bytes": 1836,
+          "sha256": "2618df6bf9c95f298fbf7b543d954fa1c014414e38c9dc7bb0dba581ee6f1c60"
+        },
+        "examples/data-science-visualization/paired-response/result/visualization.html": {
+          "bytes": 28028,
+          "sha256": "1a6ab752b5ba33d56257238c012feda4414c2cc55c5b74af548d17ce565ad447"
+        },
+        "examples/data-science-visualization/paired-response/result/visualization.request.json": {
+          "bytes": 3598,
+          "sha256": "c5b7ce0e761ac96d0d45427a585b4e11095c8b02027d95a91f1c74f3604ee3e3"
+        },
+        "examples/data-science-visualization/paired-response/preview.png": {
+          "bytes": 130589,
+          "sha256": "152829cd833703c4b1660381d7f89122a9604ad459b75dbb4eadbef676ca5e78"
+        }
+      },
+      "observations": {
+        "tooltip": "点击定位 001 两阶段、005 升级后及 013 未配对单点，核对 ID、阶段和值。",
+        "interaction": "未请求额外控件，阶段顺序及未配对单点已查看。",
+        "noClickHoverVerified": false
+      }
+    },
+    {
+      "name": "regression-residuals",
+      "sourceRun": "2026-11-17-run-01",
+      "type": "residualPlot",
+      "inputScale": "20 条已有预测",
+      "files": {
+        "examples/data-science-visualization/regression-residuals/prompt.md": {
+          "bytes": 1380,
+          "sha256": "b8539d8939d5ade84b9b1c7394a891ac4501d1219965c40f832d5ce83a25b54b"
+        },
+        "examples/data-science-visualization/regression-residuals/inputs/context.md": {
+          "bytes": 560,
+          "sha256": "d9e16c5232c18c0c3aed34de6178465ea43be2f39f36f446262892584180830e"
+        },
+        "examples/data-science-visualization/regression-residuals/inputs/predictions.csv": {
+          "bytes": 255,
+          "sha256": "db77e1335a2157d997d9f31f6172ecb061688491049fc6f60001c7dd3bf45150"
+        },
+        "examples/data-science-visualization/regression-residuals/result/visualization.data.json": {
+          "bytes": 1597,
+          "sha256": "e436915921e9b019b35fb51be7137b1ee2c15057b53dcb9c0ecfa1a7f503554d"
+        },
+        "examples/data-science-visualization/regression-residuals/result/visualization.html": {
+          "bytes": 27826,
+          "sha256": "a0ac88e470fa3992fa5da7a0d0a0e4dfb5305387f491b7373c6e4be2af14f774"
+        },
+        "examples/data-science-visualization/regression-residuals/result/visualization.request.json": {
+          "bytes": 3008,
+          "sha256": "4d729b1026e7f83300c6e11ce7f02388f5d282a8029eb2e6121fb19650953f2e"
+        },
+        "examples/data-science-visualization/regression-residuals/preview.png": {
+          "bytes": 105106,
+          "sha256": "f2d3b8d0e8adc850773106ab760cb0905ee8ed57ffbe2b9286a85d3611dfc947"
+        }
+      },
+      "observations": {
+        "tooltip": "点击定位 V001、V010、V020，核对预测与正负残差及单位。",
+        "interaction": "未请求额外控件，零线和原始残差横纵轴已查看。",
+        "noClickHoverVerified": false
+      }
+    },
+    {
+      "name": "imbalanced-classifier-pr",
+      "sourceRun": "2026-11-17-run-01",
+      "type": "precisionRecallCurve",
+      "inputScale": "40 个样本，两个模型",
+      "files": {
+        "examples/data-science-visualization/imbalanced-classifier-pr/prompt.md": {
+          "bytes": 1391,
+          "sha256": "eda50c59e310c9e8a354dfcb3a240e35ac586d415ec39803557d7d1d93655c1a"
+        },
+        "examples/data-science-visualization/imbalanced-classifier-pr/inputs/context.md": {
+          "bytes": 587,
+          "sha256": "a210e74c9619b0570663ec991a612435f32df7b4410aef60913336690adf293a"
+        },
+        "examples/data-science-visualization/imbalanced-classifier-pr/inputs/scores.json": {
+          "bytes": 3868,
+          "sha256": "0cd9ad00822c6c0a1358e855baae6d1437183771af3b5f2acadc4cdf0a323b2e"
+        },
+        "examples/data-science-visualization/imbalanced-classifier-pr/result/visualization.data.json": {
+          "bytes": 4617,
+          "sha256": "ed41231335abf3da502646d7c87aa8dccba98a700126cacd37e64dbf01f8f233"
+        },
+        "examples/data-science-visualization/imbalanced-classifier-pr/result/visualization.html": {
+          "bytes": 30843,
+          "sha256": "abe85b077fba6e527c23f85fff8cc9b66865bd4fde4c07c7852524d42063f613"
+        },
+        "examples/data-science-visualization/imbalanced-classifier-pr/result/visualization.request.json": {
+          "bytes": 9849,
+          "sha256": "deeda8fd6c16b528735ad5834d0265ce73be45490cd8b64a05a2ee1c4f0d4e65"
+        },
+        "examples/data-science-visualization/imbalanced-classifier-pr/preview.png": {
+          "bytes": 107230,
+          "sha256": "a891027c14a91350862805ccb0d490a2f7a9f836ea7b92e71050fb4e70b5a69d"
+        }
+      },
+      "observations": {
+        "tooltip": "点击定位模型 A 的 0.9/0.8 阈值及恢复后的模型 B，核对指标。",
+        "interaction": "真实点击图例隐藏/恢复 B；A 的 AP、N 和正例率保持，B 恢复后可再次读取。",
+        "noClickHoverVerified": false
+      }
+    },
+    {
+      "name": "pca-projection",
+      "sourceRun": "2026-11-17-run-02",
+      "type": "embeddingPlot",
+      "inputScale": "30 个二维得分",
+      "files": {
+        "examples/data-science-visualization/pca-projection/prompt.md": {
+          "bytes": 1362,
+          "sha256": "33edc51a8a8c9d3bcaa5a0eaf234915109df539635d07d2391e72d8af61f80f7"
+        },
+        "examples/data-science-visualization/pca-projection/inputs/context.md": {
+          "bytes": 622,
+          "sha256": "9cf8ae4a115dca421e44e74e2692a325ac75b7f7700a8c492528e8aa10283808"
+        },
+        "examples/data-science-visualization/pca-projection/inputs/pca-scores.json": {
+          "bytes": 2769,
+          "sha256": "b48f96fff8b87ffd92808d6bb3ff35c63a4baa718f9dd8d746859db48d24ddd1"
+        },
+        "examples/data-science-visualization/pca-projection/result/visualization.data.json": {
+          "bytes": 2258,
+          "sha256": "7ecbb983ddbccba9bcc6e672b7abfb36817e13b2c593ad5db9eccdcfc637bfa6"
+        },
+        "examples/data-science-visualization/pca-projection/result/visualization.html": {
+          "bytes": 28430,
+          "sha256": "fb9eedc4685711b132537b216ee5c48fc8c461c54aaea3c5640aefa7a8d70f9e"
+        },
+        "examples/data-science-visualization/pca-projection/result/visualization.request.json": {
+          "bytes": 4850,
+          "sha256": "4896b137ac5b24914149657e71fbaf0913f669c311087929384266c15cb000a3"
+        },
+        "examples/data-science-visualization/pca-projection/preview.png": {
+          "bytes": 33566,
+          "sha256": "77709c10b8901f3f8839a6dfedd6218b315cf15b3c432f2d335a6c2a55bcbb43"
+        }
+      },
+      "observations": {
+        "tooltip": "点击定位 P001、P011、P021，核对 ID、批次、坐标及轴解释方差。",
+        "interaction": "仅静态图例；补充了指针移出、尺寸和像素对照，旧空帧根因仍未确认。",
+        "noClickHoverVerified": false
+      }
+    },
+    {
+      "name": "model-shap-beeswarm",
+      "sourceRun": "2026-11-17-run-02",
+      "type": "shapBeeswarmPlot",
+      "inputScale": "240 个样本，720 条特征记录",
+      "files": {
+        "examples/data-science-visualization/model-shap-beeswarm/prompt.md": {
+          "bytes": 1616,
+          "sha256": "1bb813a65efaafcdaae90b6a30508fab58d5b6849bcc92ed66e6bd83d3e1553f"
+        },
+        "examples/data-science-visualization/model-shap-beeswarm/inputs/context.md": {
+          "bytes": 1519,
+          "sha256": "aa176d19bcd13f01ac70a4cc5e0205045308ab7a7d455947bc02f0834ee8fd37"
+        },
+        "examples/data-science-visualization/model-shap-beeswarm/inputs/shap-values.json": {
+          "bytes": 78451,
+          "sha256": "99ead08475403f073a1f16938f5829e563867506d1fec2561ffca545471ff04a"
+        },
+        "examples/data-science-visualization/model-shap-beeswarm/result/visualization.data.json": {
+          "bytes": 57626,
+          "sha256": "9201ea1c51574adcdb7636a80dfa7ef1b6177423decd6cc90b9102d3e671e162"
+        },
+        "examples/data-science-visualization/model-shap-beeswarm/result/visualization.html": {
+          "bytes": 83881,
+          "sha256": "6939c3729583449ce8ee2887a1272eda443a95c52d8657219d236c46e0a41214"
+        },
+        "examples/data-science-visualization/model-shap-beeswarm/result/visualization.request.json": {
+          "bytes": 113971,
+          "sha256": "fbcd986ad50ebdb9b727d65335b77bb9d52b76966acb38e3b014539c8c6d623a"
+        },
+        "examples/data-science-visualization/model-shap-beeswarm/preview.png": {
+          "bytes": 144285,
+          "sha256": "ab0143652d71e22b692e7e9c48154b69ca6f8d744f6c479bf724881b775a8660"
+        }
+      },
+      "observations": {
+        "tooltip": "DPR 1/2 各 9 次无点击悬停，覆盖原正负/零贡献、缺失值及每行堆叠上下缘；另有 CUA 点击定位核对。",
+        "interaction": "每行 240 图元，纵向跨度约 51–60 px；1100px 宽度下 5 个拥挤点保留，未采样或隐藏。",
+        "noClickHoverVerified": true
+      }
+    }
+  ],
+  "preCommitReview": {
+    "date": "2026-11-17",
+    "stagedFiles": 117,
+    "source": "exported from Git index; no ignored run directories used as artifact dependencies",
+    "stagedLinksVerified": true,
+    "stagedInputFactsAndHashesVerified": true,
+    "standaloneReplays": 8,
+    "previewsVerified": 8,
+    "browser": {
+      "name": "isolated Playwright Chromium",
+      "version": "153.0.8010.12",
+      "libraries": "SHA-256 verified published VChart/statplots 2.2.2 cache; not a fresh CDN availability test"
+    },
+    "cases": [
+      {
+        "name": "order-value-histogram",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "selectOption API 5 -> 10 -> 20 -> 5; bin boundaries/counts verified",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      },
+      {
+        "name": "delivery-time-violin",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "not requested",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      },
+      {
+        "name": "sensor-correlation",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "selectOption API Pearson -> Spearman -> Kendall -> Pearson; tooltip methods verified",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      },
+      {
+        "name": "paired-response",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "not requested",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      },
+      {
+        "name": "regression-residuals",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "not requested",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      },
+      {
+        "name": "imbalanced-classifier-pr",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "real canvas legend click B hide/restore; both PR and baseline data filtered, A AP/N/rate preserved",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      },
+      {
+        "name": "pca-projection",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "not requested",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      },
+      {
+        "name": "model-shap-beeswarm",
+        "rendered": true,
+        "representativeNoClickHover": true,
+        "controlCheck": "not requested",
+        "initialConfigurationRestored": true,
+        "pageErrors": []
+      }
+    ],
+    "limitations": [
+      "Native keyboard dropdown attempts did not change the selected value in this headless environment and are not counted as passed. Dropdown state checks use the supported selectOption API; the original CUA click records remain separate.",
+      "This is a representative browser audit, not a fresh blind Agent evaluation or an exhaustive point/browser matrix.",
+      "The historical PCA/SHAP blank capture was not reproduced and remains unassigned.",
+      "No runtime source change or PR; full VChart visual baseline comparison was not run."
+    ]
+  }
+}

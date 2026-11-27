@@ -9,7 +9,7 @@ title: 45. VChart 可以服务端渲染吗</br>
 可以服务端渲染吗？想要在服务端提供获取图表图片的服务。</br>
 ## 解决方案 
 
-VChart 支持Node服务端渲染。VChart 使用的绘图库 VRender 支持了Node环境渲染。除了 VChart 外，只需要在服务端安装 [canvas](https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fcanvas) 包即可。</br>
+VChart 支持Node服务端渲染。VChart 使用的绘图库 VRender 支持了Node环境渲染。除了 VChart 外，只需要在服务端安装 [canvas](https://www.npmjs.com/package/canvas) 包即可。</br>
 
 
 ## 代码示例  
