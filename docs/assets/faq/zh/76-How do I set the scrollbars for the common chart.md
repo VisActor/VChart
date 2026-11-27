@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-类似 （https://www.visactor.io/vchart/demo/combination/col-line）这样的组合图，通常有多个轴或多个数据区域，我应该如何配置滚动条从而使其控制指定区域的滚动？
+类似 （<https://www.visactor.io/vchart/demo/combination/col-line>）这样的组合图，通常有多个轴或多个数据区域，我应该如何配置滚动条从而使其控制指定区域的滚动？
 [common chart scrollbar](/vchart/faq/11-0.png)
 
 ## 解决方案

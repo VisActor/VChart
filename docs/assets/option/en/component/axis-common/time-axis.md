@@ -6,16 +6,15 @@
 ) }}
 
 #${prefix} layers(Array)
-Hierarchical configuration of axes. Currently only supports single layer/double layer, ie layers.length <= 2.
-Among them, `layer[0]` is the main axis, which is the axis closest to the coordinate axis.
+The time axis supports up to two layers of tick labels. `layers[0]` is the first layer, closest to the axis line. Add `layers[1]` to configure the second layer. Each layer can have its own ticks and time format.
 
 ##${prefix} tickStep(number)
 
-tick interval.
+The tick step for this layer, in the same unit as the time field's timestamps. With millisecond timestamps, `86_400_000` means 24 hours.
 
 ##${prefix} timeFormat(string) = '%Y%m%d'
 
-Time conversion format.
+The time format for this layer's tick labels, such as `'%Y-%m-%d'` or `'%H:%M'`. The time axis's `label.formatMethod` receives the formatted string for further customization.
 
 | **Date Granularity** | **Format Configuration** | **Date Content**            | **Example** | **Numerical Range** |
 | -------------------- | ------------------------ | --------------------------- | ----------- | ------------------- |
@@ -36,12 +35,12 @@ Time conversion format.
 
 ##${prefix} timeFormatMode(string) = 'local'
 
-Time conversion mode. Support `'utc' | 'local'` mode.
+The time zone for this layer's labels. `'utc'` uses UTC and `'local'` uses the runtime's local time zone. This setting affects label text only.
 
-##${prefix} tickCount(string) = 10
+##${prefix} tickCount(number|function) = 5
 
-The desired number of consecutive axis ticks.
+The suggested tick count for this layer. It works the same way as `tick.tickCount`.
 
-##${prefix} forceTickCount(string) = 10
+##${prefix} forceTickCount(number)
 
-Mandatory set the number of ticks.
+The exact number of ticks to generate for this layer.

@@ -69,11 +69,11 @@ Progress bar style.
   markName = 'arc'
 ) }}
 
-###${prefix} innerPadding(number)
+###${prefix} innerPadding(number|Function)
 
 Inner padding of the progress bar (accepts negative values).
 
-###${prefix} outerPadding(number)
+###${prefix} outerPadding(number|Function)
 
 Outer padding of the progress bar (accepts negative values).
 
@@ -99,11 +99,11 @@ Background style.
   markName = 'arc'
 ) }}
 
-###${prefix} innerPadding(number)
+###${prefix} innerPadding(number|Function)
 
 Inner padding of the progress bar (accepts negative values).
 
-###${prefix} outerPadding(number)
+###${prefix} outerPadding(number|Function)
 
 Outer padding of the progress bar (accepts negative values).
 

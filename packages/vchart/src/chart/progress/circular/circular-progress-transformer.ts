@@ -23,7 +23,8 @@ export class CircularProgressChartSpecTransformer<
       spec,
       {
         orient: 'angle',
-        visible: false
+        visible: false,
+        max: spec.maxValue
       },
       {
         orient: 'radius',

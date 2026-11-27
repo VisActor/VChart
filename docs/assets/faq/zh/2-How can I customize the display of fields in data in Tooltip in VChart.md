@@ -2,7 +2,7 @@
 
 # 问题描述
 
-类似 （https://visactor.io/vchart/demo/bar-chart/group-stack-percentage-column）这样的图表，希望tooltip能自定义展示数据中的字段
+类似 （<https://visactor.io/vchart/demo/bar-chart/group-stack-percentage-column>）这样的图表，希望tooltip能自定义展示数据中的字段
 ![demo](/vchart/faq/97-0.png)
 
 # 解决方案

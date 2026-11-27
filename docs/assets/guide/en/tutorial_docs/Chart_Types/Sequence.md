@@ -1125,8 +1125,8 @@ Global configurations:
 
 Time Axis Configuration:
 
-- The `type` attribute is used to configure the axis type. Here, it is recommended to configure `time` to map time series data; note that the time axis only supports timestamp data.
-- The `layers` attribute is used to configure the parent and child axis configurations for the time axis, which is effective only when the axis is a time axis. The 0th item represents the parent axis, i.e., the bottom axis; the 1st item represents the child axis, i.e., the top axis. Configure the time format of the label through `timeFormat`. Configure the interval in seconds through tickStep.
+- Set `type` to `'time'` to position points by elapsed time. See the [axis guide](/vchart/guide/tutorial_docs/Chart_Concepts/Axes) for how to convert time values.
+- `layers[0]` configures the first layer of labels, closest to the axis line. `layers[1]` configures the second. Each layer uses `timeFormat` for its label format and `tickStep` for spacing. The tick step uses the same unit as the time field.
 
 dot series configuration:
 

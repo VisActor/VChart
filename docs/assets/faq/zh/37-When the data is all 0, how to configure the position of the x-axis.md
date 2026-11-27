@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-类似 （https://www.visactor.io/vchart/demo/line-chart/basic-line）这样的数据全为0的折线图，
+类似 （<https://www.visactor.io/vchart/demo/line-chart/basic-line>）这样的数据全为0的折线图，
 x 轴的位置会使折线居中。想要调整 X 轴的位置，使 X 轴与 Y 刻度为 0 对齐，该如何实现？
 
 ## 解决方案

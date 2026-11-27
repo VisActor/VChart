@@ -4,11 +4,12 @@
 
 
 {{ use: graphic-line(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = ${callbackType}
 ) }}
 
-#${prefix} x1(number)
+#${prefix} x1(number${callbackType})
 终点x坐标。
 
-#${prefix} y1(number)
+#${prefix} y1(number${callbackType})
 终点y坐标。

@@ -2,7 +2,7 @@
 
 <!-- TextPoptip -->
 
-#${prefix} poptip(object)
+#${prefix} poptip(object${callbackType})
 Configuration for the text pop-up box.
 
 ##${prefix} position(string)

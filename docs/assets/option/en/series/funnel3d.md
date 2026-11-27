@@ -145,6 +145,7 @@ Whether the text is aligned.
 The space between the text and the guideline, default is 5px.
 
 {{ use: component-label(
+  noStyleCallback = true,
   prefix = '#' + ${prefix},
   noPosition = true,
   noOffset = true,
@@ -156,7 +157,8 @@ Guideline style settings.
 ###${prefix} style(Object)
 
 {{ use: graphic-line(
-  prefix = '###' + ${prefix}
+  prefix = '###' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 ###${prefix} state(Object)

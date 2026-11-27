@@ -56,7 +56,9 @@ Declare a discrete axis.
 
 ## axes.time(Object)
 
-Time axis configuration.
+The time axis positions data points by elapsed time. Use Unix timestamps in milliseconds for the time field. Convert `Date` objects with `.getTime()` and ISO 8601 strings such as `'2023-10-05T12:00:00.000Z'` with `Date.parse()`. Use millisecond timestamps for explicit `min` and `max` bounds as well.
+
+Set `layers[0].timeFormat` and `layers[0].timeFormatMode` to format the first layer's tick labels. See the [axis guide](/vchart/guide/tutorial_docs/Chart_Concepts/Axes) for a runnable example.
 
 ### type(string) = 'time'
 

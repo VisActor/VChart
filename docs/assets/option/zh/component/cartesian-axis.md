@@ -55,7 +55,9 @@
 
 ## axes.time(Object)
 
-时间轴配置。
+时间轴按实际时间间隔定位数据点。时间字段使用毫秒级 Unix 时间戳。`Date` 对象可用 `.getTime()` 转换，ISO 8601 字符串（如 `'2023-10-05T12:00:00.000Z'`）可用 `Date.parse()` 转换。显式配置的 `min` 和 `max` 也使用毫秒时间戳。
+
+通过 `layers[0].timeFormat` 和 `layers[0].timeFormatMode` 设置第一层刻度标签。用法和可运行示例见[坐标轴教程](/vchart/guide/tutorial_docs/Chart_Concepts/Axes)。
 
 ### type(string) = 'time'
 

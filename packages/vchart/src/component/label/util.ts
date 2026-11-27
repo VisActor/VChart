@@ -288,7 +288,7 @@ export function stackLabel(
         const offset = labelSpec.offset || 0;
 
         const datum = datumTransform ? datumTransform(label.data) : label.data;
-        const attribute = textAttribute(labelInfo, datum, labelSpec.formatMethod);
+        const attribute = textAttribute(labelInfo, datum, labelSpec.formatMethod, labelSpec.formatter);
 
         attribute.x = stackLabelX(datum, series, pos, offset);
         attribute.y = stackLabelY(datum, series, pos, offset);

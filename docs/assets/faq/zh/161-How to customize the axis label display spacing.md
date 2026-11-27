@@ -2,7 +2,7 @@
 
 ## 问题描述
 
-类似 （https://visactor.io/vchart/demo/line-chart/basic-line）这样的折线图，
+类似 （<https://visactor.io/vchart/demo/line-chart/basic-line>）这样的折线图，
 想要实现自定义轴 label 的显示间距，该如何实现？
 
 ## 解决方案

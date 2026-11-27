@@ -2,7 +2,7 @@
 
 <!-- TextPoptip -->
 
-#${prefix} poptip(object)
+#${prefix} poptip(object${callbackType})
 文本弹出框的配置。
 
 ##${prefix} position(string)

@@ -20,6 +20,19 @@ The formatted string supports replacement with data content, and the variable na
 formatter: `"The population in {year} year is {population}"`。
 ```
 
+### Axis and mark labels
+
+Template variable names come from the data that each label describes.
+
+| Configuration | Variable source | Example |
+| ------------- | --------------- | ------- |
+| `axes[].label.formatter` | Each tick has its own data object. Its `label` field holds the tick label value. | `'{label:~s}'` displays a tick value of `1500` as `1.5k`. |
+| `label.formatter` (chart or series) | The data row for the mark | `'{count:~s}'` displays a row's `count` of `1500` as `1.5k`. |
+
+To format just the current tick value on a linear axis, you can write `formatter: '~s'`. To add text such as a unit, use a template such as `formatter: '{label:~s} events'`.
+
+For time axes, set the tick label format with `layers[].timeFormat` and `layers[].timeFormatMode`. Use `label.formatMethod` to customize the formatted text. See the [axis guide](/vchart/guide/tutorial_docs/Chart_Concepts/Axes).
+
 ### Numeric
 
 The numeric formatting adopts a formatting convention similar to [d3-formatter](https://d3js.org/d3-format). In the formatting expression, it is separated from the variable name by a colon, for example:

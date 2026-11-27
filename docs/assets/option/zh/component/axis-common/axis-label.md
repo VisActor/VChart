@@ -24,8 +24,8 @@
 ```ts
   /**
    * 轴标签内容格式化函数
-   * @param text 原始标签文本值
-   * @param datum 图形数据
+   * @param text 原始刻度值。时间轴传入按当前层 timeFormat 格式化后的时间字符串。
+   * @param datum 轴刻度数据
    * @returns 格式化后的文本
    */
   formatMethod?: (text: string | string[], datum?: any) => string | string[]
@@ -58,13 +58,13 @@ formatMethod: text => {
 
 更详细的富文本使用方式请参考[富文本教程](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
-#${prefix} formatter(string|string[])
+#${prefix} formatter(string|Array)
 
-格式化字符串模版，自`1.10.0`版本开始支持。
+格式化字符串模板，支持字符串或字符串数组，自 `1.10.0` 版本开始支持。
 
-用`{}`包裹变量名的字符串模版，变量名取自数据属性值。
+模板变量取自轴刻度数据。`label` 是刻度数据上的标签字段。例如，`formatter: '{label:~s}'` 将刻度 `1500` 显示为 `1.5k`。在线性轴上，只格式化当前刻度值时也可以写 `formatter: '~s'`。
 
-例如，`formatter: '{label:~s}'`
+此属性在时间轴上不生效。时间轴通过 `layers[].timeFormat` 和 `label.formatMethod` 设置标签文本。
 
 详细使用文档请参考[教程文档](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter)和[Demo](/vchart/demo/label/label-formatter)。
 
@@ -98,6 +98,8 @@ formatMethod: text => {
 #${prefix} style(Object|Function)
 
 坐标轴标签样式设置，支持函数回调，当需要走一些个性化配置时可以使用回调函数。
+
+要按刻度调整颜色等属性，请将回调配置在 `label.style`，并在返回的样式对象中提供具体属性值。
 
 {{ use:component-common-style-callback(
   description = '坐标轴标签样式'

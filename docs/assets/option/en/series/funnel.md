@@ -156,6 +156,7 @@ Whether the text is aligned.
 The spacing between text and guide line, default is 5px.
 
 {{ use: component-label(
+  noStyleCallback = true,
   prefix = '#' + ${prefix},
   noPosition = true,
   noOffset = true,
@@ -170,7 +171,8 @@ Min length of guide line. Default is 20px. Supported since version `1.12.7`
 ###${prefix} style(Object)
 
 {{ use: graphic-line(
-  prefix = '###' + ${prefix}
+  prefix = '###' + ${prefix},
+  callbackType = '|Function'
 ) }}
 
 ###${prefix} state(Object)

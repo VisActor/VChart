@@ -30,6 +30,8 @@ Bar graphic style configuration.
   markName = 'bar'
 ) }}
 
+For example, set `bar.style.fillOpacity` to `datum => datum.y > 10 ? 1 : 0.4` to vary the fill opacity by datum.
+
 {{ use: mark-rect(
   prefix = '##' + ${prefix}
 ) }}

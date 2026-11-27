@@ -24,9 +24,9 @@ Axis label content formatting function, the function definition is as follows:
 
 ```ts
   /**
-   * :: Axis label content formatting functions
-   * @param text Original label text value
-   * @param datum Graphic data
+   * Axis label formatting callback
+   * @param text Raw tick value. Time axes pass the time string formatted with the current layer's timeFormat.
+   * @param datum Axis tick data
    * @returns Formatted text
    */
   formatMethod?: (text: string | string[], datum?: any) => string | string[]
@@ -59,13 +59,13 @@ formatMethod: text => {
 
 For specific usage of rich text, please refer to the[Rich Text Tutorial Document](/vchart/guide/tutorial_docs/extend/Richtext_and_Dom)
 
-#${prefix} formatter(string | string[])
+#${prefix} formatter(string|Array)
 
-Formatter string template, supported since version `1.10.0`.
+Format template as a string or an array of strings, supported since version `1.10.0`.
 
-The string template with the variable name wrapped in `{}`, the variable name is taken from the data attribute value.
+Template variables come from the tick data. `label` is the tick's label field. For example, `formatter: '{label:~s}'` displays a tick value of `1500` as `1.5k`. On a linear axis, you can also use `formatter: '~s'` to format just the current tick value.
 
-For example: `formatter: '{label:~s}'`
+This property has no effect on time axes. Use `layers[].timeFormat` and `label.formatMethod` to set the label text on a time axis.
 
 For detailed usage, please refer to the [Tutorial Document](/vchart/guide/tutorial_docs/Chart_Plugins/Formatter) and [Demo](/vchart/demo/label/label-formatter).
 
@@ -99,6 +99,8 @@ The function definition for label data filtering is as follows:
 #${prefix} style(Object|Function)
 
 Axis label style settings, support for function callbacks, when you need to go some personalized configuration can use the callback function.
+
+To vary attributes such as color by tick, set the callback on `label.style` and return an object with concrete attribute values.
 
 {{ use:component-common-style-callback(
   description = 'Axis label style'

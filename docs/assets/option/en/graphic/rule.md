@@ -3,13 +3,14 @@
 <!-- Canopus Graphic Attributes, IRuleGraphicAttribute -->
 
 {{ use: graphic-line(
-  prefix = ${prefix}
+  prefix = ${prefix},
+  callbackType = ${callbackType}
 ) }}
 
-#${prefix} x1(number)
+#${prefix} x1(number${callbackType})
 x coordinate of end point.
 
-#${prefix} y1(number)
+#${prefix} y1(number${callbackType})
 y coordinate of end point.
 
 

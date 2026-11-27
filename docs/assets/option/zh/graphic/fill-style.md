@@ -2,7 +2,7 @@
 
 <!-- IFillStyle -->
 
-#${prefix} fill(string|Object)
+#${prefix} fill(string|Object${callbackType})
 
 填充颜色。支持使用 `rgb(255,255,255)`，`rgba(255,255,255,1)`，`#fff` 等方式设置为纯色，也支持设置为渐变色填充。
 
@@ -10,11 +10,11 @@
 
 {{ use: graphic-gradient }}
 
-#${prefix} fillOpacity(number)
+#${prefix} fillOpacity(number${callbackType})
 
 填充透明度。
 
-#${prefix} shadowBlur(number)
+#${prefix} shadowBlur(number${callbackType})
 
 图形阴影的模糊大小。该属性配合 shadowColor,shadowOffsetX, shadowOffsetY 一起设置图形的阴影效果。
 
@@ -27,19 +27,19 @@
 }
 ```
 
-#${prefix} shadowColor(string)
+#${prefix} shadowColor(string${callbackType})
 
 阴影颜色。
 
-#${prefix} shadowOffsetX(number)
+#${prefix} shadowOffsetX(number${callbackType})
 
 阴影水平方向上的偏移距离。
 
-#${prefix} shadowOffsetY(number)
+#${prefix} shadowOffsetY(number${callbackType})
 
 阴影垂直方向上的偏移距离。
 
-#${prefix} background(string|HtmlImageElement|HtmlCanvasElement)
+#${prefix} background(string|HtmlImageElement|HtmlCanvasElement${callbackType})
 
 自`1.2.0`版本开始支持，图形的背景配置，可以配置为纯色、图片元素或canvas元素。
 
@@ -78,7 +78,7 @@ const spec = {
 
 ```
 
-#${prefix} backgroundMode(string)
+#${prefix} backgroundMode(string${callbackType})
 
 背景填充模式，与具体图元有关。可选值：
 
@@ -91,7 +91,7 @@ const spec = {
 - `'no-repeat-fill'`: 自 `2.0.21` 版本开始支持，不平铺，拉伸填满图元区域
 - `'no-repeat-auto'`: 自 `2.0.21` 版本开始支持，不平铺，按图片原始尺寸绘制
 
-#${prefix} backgroundPosition(string|Array<string | number>)
+#${prefix} backgroundPosition(string|Array${callbackType})
 
 自 `2.0.21` 版本开始支持。背景图锚定位置，语义类似 CSS `background-position`，仅在图片背景且最终为 `no-repeat` 时生效。
 
@@ -101,37 +101,37 @@ const spec = {
 - 预设位置：`'top-left'`、`'top-center'`、`'top-right'`、`'center-left'`、`'center'`、`'center-right'`、`'bottom-left'`、`'bottom-center'`、`'bottom-right'`
 - 元组：`[x, y]`，其中 `x` / `y` 支持数值、关键字或百分比字符串，例如 `['25%', '75%']`
 
-#${prefix} backgroundFit(boolean)
+#${prefix} backgroundFit(boolean${callbackType})
 
 是否正好填充背景，只在 `repeat-x`、`repeat-y` 或 `no-repeat` 模式下生效。
 
-#${prefix} backgroundKeepAspectRatio(boolean)
+#${prefix} backgroundKeepAspectRatio(boolean${callbackType})
 
 是否保持背景图的宽高比。
 
-#${prefix} backgroundScale(number)
+#${prefix} backgroundScale(number${callbackType})
 
 背景图缩放比例，只在 `no-repeat` 模式下生效。
 
-#${prefix} backgroundOffsetX(number)
+#${prefix} backgroundOffsetX(number${callbackType})
 
 背景图水平方向偏移，只在 `no-repeat` 模式下生效。
 
-#${prefix} backgroundOffsetY(number)
+#${prefix} backgroundOffsetY(number${callbackType})
 
 背景图垂直方向偏移，只在 `no-repeat` 模式下生效。
 
-#${prefix} backgroundClip(boolean)
+#${prefix} backgroundClip(boolean${callbackType})
 
 背景图是否裁切，是否调用 clip 避免绘制到图元外部。
 
-#${prefix} backgroundCornerRadius(number|Array<number>)
+#${prefix} backgroundCornerRadius(number|Array${callbackType})
 
 背景圆角半径。可以配置为：
 
 - 数值：统一设置四个角的圆角
 - 数组：分别设置 [左上, 右上, 右下, 左下] 四个角的圆角
 
-#${prefix} backgroundOpacity(number)
+#${prefix} backgroundOpacity(number${callbackType})
 
 背景透明度，取值范围 0-1。

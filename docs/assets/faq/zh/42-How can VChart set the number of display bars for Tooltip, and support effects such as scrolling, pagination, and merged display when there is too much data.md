@@ -2,7 +2,7 @@
 
 # 问题描述
 
-类似 （https://visactor.io/vchart/demo/tooltip/format-method?keyword=tooltip）这样的图表，希望tooltip能多行显示
+类似 （<https://visactor.io/vchart/demo/tooltip/format-method?keyword=tooltip>）这样的图表，希望tooltip能多行显示
 ![demo](/vchart/faq/98-0.png)
 
 # 解决方案

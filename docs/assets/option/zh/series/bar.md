@@ -30,6 +30,8 @@ bar 图元样式配置。
   markName = 'bar'
 ) }}
 
+例如，可将 `bar.style.fillOpacity` 设置为 `datum => datum.y > 10 ? 1 : 0.4`，按每根柱子的数据设置填充透明度。
+
 {{ use: mark-rect(
   prefix = '##' + ${prefix}
 ) }}

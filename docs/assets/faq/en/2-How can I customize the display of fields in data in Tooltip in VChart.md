@@ -2,7 +2,7 @@
 
 # Question Description
 
-Seemly to（https://visactor.io/vchart/demo/bar-chart/group-stack-percentage-column）I hope Tooltip can customize the fields in the displayed data
+Seemly to（<https://visactor.io/vchart/demo/bar-chart/group-stack-percentage-column>）I hope Tooltip can customize the fields in the displayed data
 ![demo](/vchart/faq/97-0.png)
 
 # Solution
