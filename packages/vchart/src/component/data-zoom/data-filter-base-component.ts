@@ -61,7 +61,6 @@ import type { IGraphic, IGroup } from '@visactor/vrender-core';
 import { AttributeLevel } from '../../constant/attribute';
 import type { IGroupMark } from '../../mark/interface/mark';
 import { DataFilterEvent } from './data-filter-event';
-import { ChartEvent } from '../../constant/event';
 
 export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec = IDataFilterComponentSpec>
   extends BaseComponent<AdaptiveSpec<T, 'width' | 'height'>>
@@ -183,11 +182,6 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   /*** start: init event and event dispatch ***/
   protected _initEvent() {
     this._dataFilterEvent.initZoomEvent();
-
-    this._relatedAxisComponent?.event.on(ChartEvent.scaleRawDomainUpdate, ({ model }) => {
-      // eslint-disable-next-line no-console
-      console.log('scaleRawDomainUpdate', (model as unknown as { getRawDomain: () => any }).getRawDomain());
-    });
   }
   protected _handleChange(start: number, end: number, updateComponent?: boolean) {
     const zoomLock = this._spec?.zoomLock ?? false;
