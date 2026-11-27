@@ -814,12 +814,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     // 3. 重新计算domain
     const domain = this._updateStateScaleDomain();
 
-    // 4. 重新计算start和end
-    // 如果 spec 中有配置 start/end，使用 spec 中的配置
-    // 否则保持当前的 start/end
-    if (isValid(this._spec.start) || isValid(this._spec.end)) {
-      this._setStateFromSpec();
-    }
+    // 4. 用当前窗口更新组件；窗口配置在初始化或 spec 更新时生效。
     this._handleChange(this._start, this._end, true);
 
     // 5. 重新布局

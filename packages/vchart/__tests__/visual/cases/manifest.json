@@ -93,6 +93,7 @@
     "datazoom-filter-update-axis-bounds",
     "datazoom-filter-update-axis-zero",
     "datazoom-filter-update-axis-domain",
+    "datazoom-filter-update-interactive-window",
     "waterfall-leader-line",
     "label-smart-invert",
     "radar-series",

@@ -133,7 +133,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       const wasContinuous = isContinuous(this._stateScale.type);
       const continuous = !this._relatedAxisComponent && this._field ? this._isStateFieldContinuous() : wasContinuous;
       const scaleTypeChanged = continuous !== wasContinuous;
-      const { start, end, startValue, endValue, updateDataAfterChange } = this._spec;
+      const { updateDataAfterChange } = this._spec;
       if (scaleTypeChanged) {
         this._initStateScale(continuous);
       } else {
@@ -141,7 +141,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._updateStateScaleDomain();
       }
       this._updateScaleRange();
-      this._setStateFromAxis(isValid(start) || isValid(end) || isValid(startValue) || isValid(endValue));
+      // 数据更新沿用当前窗口，初始窗口配置只在初始化时读取。
+      this._setStateFromAxis(false);
       this._previewStateScale = null;
       if (!isFunction(updateDataAfterChange) && (scaleTypeChanged || !isEqual(previousDomain, this._newDomain))) {
         this.effect.onZoomChange();

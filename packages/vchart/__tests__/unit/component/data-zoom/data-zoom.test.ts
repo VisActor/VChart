@@ -1,4 +1,5 @@
 import VChart, { type IBarChartSpec } from '../../../../src';
+import type { ScrollBar } from '../../../../src/component/data-zoom/scroll-bar/scroll-bar';
 import type { DataZoom } from '../../../../src/component/data-zoom/data-zoom/data-zoom';
 import type { IGroup, ILine } from '@visactor/vrender-core';
 import { createDiv, removeDom } from '../../../util/dom';
@@ -336,8 +337,141 @@ describe('DataZoom preview validity', () => {
     expectPreview();
   });
 
+  describe.each([
+    ['percent', { start: 0, end: 0.25 }],
+    ['value', { startValue: 0, endValue: 25, rangeMode: ['value', 'value'] }],
+    ['mixed', { start: 0, endValue: 25, rangeMode: ['percent', 'value'] }]
+  ])('interactive window initialized with %s bounds', (_name, window) => {
+    it.each(['sync', 'full', 'batch', 'data view'] as const)('survives a %s data update', async mode => {
+      const createRows = (offset: number) => [20, 60, 80].map((x, index) => ({ x, y: offset + index }));
+      chart = new VChart(
+        {
+          type: 'scatter',
+          animation: false,
+          data: { id: 'data', values: createRows(1) },
+          xField: 'x',
+          yField: 'y',
+          axes: [
+            { id: 'x-axis', orient: 'bottom', type: 'linear', min: 0, max: 100, nice: false },
+            { orient: 'left', type: 'linear' }
+          ],
+          dataZoom: [{ axisId: 'x-axis', orient: 'bottom', ...window }]
+        } as any,
+        { dom, animation: false }
+      );
+      chart.renderSync();
+      const model = zoom('bottom');
+      const series = chart.getChart().getAllSeries()[0];
+      const visible = () => series.getViewData().latestData.map(({ x, y }: { x: number; y: number }) => ({ x, y }));
+      expect(visible()).toEqual(createRows(1).slice(0, 1));
+      model.setStartAndEnd(0.5, 1);
+      expect(visible()).toEqual(createRows(1).slice(1));
+      const onZoom = jest.fn();
+      chart.on('dataZoomChange', onZoom);
+      const updated = createRows(5);
+      if (mode === 'sync') {
+        chart.updateDataSync('data', updated);
+      } else if (mode === 'full') {
+        chart.updateFullDataSync({ id: 'data', values: updated });
+      } else if (mode === 'batch') {
+        await chart.updateDataInBatches([{ id: 'data', data: updated }]);
+      } else {
+        series.getRawData().parseNewData(updated);
+      }
+      expect(visible()).toEqual(updated.slice(1));
+      expect(model.getVRenderComponents()[0].attribute).toMatchObject({ start: 0.5, end: 1 });
+      expect(model.stateScale.domain()).toEqual([0, 100]);
+      expect(onZoom).not.toHaveBeenCalled();
+    });
+  });
+
+  it('keeps the current percentage window when the data domain changes or becomes empty', () => {
+    const createRows = (values: number[]) => values.map((x, i) => ({ x, y: i + 1 }));
+    chart = new VChart(
+      {
+        type: 'scatter',
+        animation: false,
+        xField: 'x',
+        yField: 'y',
+        data: { id: 'data', values: createRows([0, 20, 60, 80, 100]) },
+        axes: [
+          { orient: 'bottom', type: 'linear', nice: false },
+          { orient: 'left', type: 'linear' }
+        ],
+        dataZoom: [{ orient: 'bottom', start: 0, end: 0.25 }]
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const model = zoom('bottom');
+    model.setStartAndEnd(0.5, 1);
+    const visible = () =>
+      chart
+        .getChart()
+        .getAllSeries()[0]
+        .getViewData()
+        .latestData.map((row: { x: number }) => row.x);
+    expect(visible()).toEqual([60, 80, 100]);
+    const updated = createRows([20, 60, 120, 160, 200]);
+    chart.updateDataSync('data', updated);
+    expect(model.stateScale.domain()).toEqual([0, 200]);
+    expect(visible()).toEqual([120, 160, 200]);
+    chart.updateDataSync('data', []);
+    expect(visible()).toEqual([]);
+    chart.updateDataSync('data', updated);
+    expect(visible()).toEqual([120, 160, 200]);
+    expect(model.getVRenderComponents()[0].attribute).toMatchObject({ start: 0.5, end: 1 });
+    model.setStartAndEnd(0, 1);
+    chart.updateDataSync('data', updated);
+    expect(visible()).toEqual(updated.map(row => row.x));
+  });
+
+  it('keeps the current ScrollBar window through the shared data update lifecycle', () => {
+    const spec = makeSpec(rows);
+    spec.dataZoom = [];
+    spec.scrollBar = [{ orient: 'bottom', start: 0, end: 0.25 }];
+    chart = new VChart(spec, { dom, animation: false });
+    chart.renderSync();
+    const scroll = chart
+      .getChart()
+      .getAllComponents()
+      .find(component => component.type === 'scrollBar') as ScrollBar;
+    scroll.setStartAndEnd(0.5, 1);
+    chart.updateDataSync(
+      'data',
+      rows.map(row => ({ ...row, value: row.value + 1 }))
+    );
+    expect(scroll.getVRenderComponents()[0].attribute).toMatchObject({ range: [0.5, 1] });
+  });
+
+  it('applies an explicit window spec update after interaction', () => {
+    const spec = makeSpec(rows);
+    spec.dataZoom = [{ orient: 'bottom', start: 0, end: 0.1 }];
+    chart = new VChart(spec, { dom, animation: false });
+    chart.renderSync();
+    zoom('bottom').setStartAndEnd(0.9, 1);
+    const visible = () =>
+      chart
+        .getChart()
+        .getAllSeries()[0]
+        .getViewData()
+        .latestData.map((row: Row) => row.category);
+    expect(visible()).toEqual(['C']);
+
+    chart.updateSpecSync({ ...spec, dataZoom: [{ orient: 'bottom', start: 0.4, end: 0.5 }] });
+    expect(visible()).toEqual(['B']);
+    expect(zoom('bottom').getVRenderComponents()[0].attribute).toMatchObject({ start: 0.4, end: 0.5 });
+    chart.updateDataSync(
+      'data',
+      rows.map(row => ({ ...row, value: row.value + 1 }))
+    );
+    expect(visible()).toEqual(['B']);
+  });
+
   it.each(['batch', 'data view'] as const)('keeps an interactive filter window across a %s update', async mode => {
-    chart = new VChart(makeSpec(rows), { dom, animation: false });
+    const spec = makeSpec(rows);
+    spec.dataZoom = [{ orient: 'bottom', start: 0.9, end: 1 }];
+    chart = new VChart(spec, { dom, animation: false });
     chart.renderSync();
     const model = zoom('bottom');
     const series = chart.getChart().getAllSeries()[0];

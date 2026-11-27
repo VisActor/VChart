@@ -41,7 +41,7 @@ const vrenderPackageExportMappers = {
 module.exports = {
   preset: 'ts-jest',
   runner: 'jest-electron/runner',
-  testEnvironment: 'jest-electron/environment',
+  testEnvironment: path.resolve(__dirname, 'jest-environment.js'),
   testRegex: '/__tests__/.*\\.test\\.(js|ts)$',
   silent: true,
   globals: {
@@ -91,5 +91,6 @@ module.exports = {
     '^@visactor/vchart$': path.resolve(__dirname, './src/index.ts'),
     '@visactor/vutils-extension': path.resolve(__dirname, '../vutils-extension/src/index.ts')
   },
-  setupFiles: ['./setup-mock.js']
+  setupFiles: ['./setup-mock.js'],
+  setupFilesAfterEnv: [path.resolve(__dirname, '__tests__/util/setup-lifecycle.ts')]
 };
