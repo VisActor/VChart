@@ -274,7 +274,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   effect: IEffect = {
     onZoomChange: (tag?: 'startHandler' | 'endHandler') => {
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
-      if (axis && this._filterMode === 'axis') {
+      if (this._filterMode === 'axis') {
         const axisScale = axis.getScale() as IBandLikeScale;
         const axisSpec = axis.getSpec() as ICartesianBandAxisSpec;
         // 判断是否允许自由更改轴 bandSize
@@ -536,7 +536,11 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
         this._relatedAxisComponent = bandAxis;
       }
     }
-    if (this._relatedAxisComponent && this._filterMode === 'axis') {
+    // 无关联轴时沿用字段筛选行为，后续窗口、transform 和事件共用实际执行模式。
+    if (!this._relatedAxisComponent) {
+      this._filterMode = 'filter';
+    }
+    if (this._filterMode === 'axis') {
       (this._relatedAxisComponent as CartesianAxis<any>).autoIndentOnce = true;
     }
   }
@@ -723,7 +727,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     dataSet.multipleDataViewAddListener(dataCollection, 'change', this._handleDataCollectionChangeBound);
   }
   protected _addTransformToSeries() {
-    if (!this._relatedAxisComponent || this._filterMode !== 'axis') {
+    if (this._filterMode === 'filter') {
       registerDataSetInstanceTransform(this._option.dataSet, 'dataFilterWithNewDomain', dataFilterWithNewDomain);
       registerDataSetInstanceTransform(this._option.dataSet, 'lockStatisticsFilter', lockStatisticsFilter);
 

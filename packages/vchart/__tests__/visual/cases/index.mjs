@@ -452,6 +452,11 @@ export const cases = [
     file: './components/datazoom/datazoom-value-window-update.mjs'
   },
   {
+    id: 'datazoom-field-axis-mode',
+    purpose: '未关联轴的字段窗口在 axis 配置下仍正确筛选范围柱',
+    file: './components/datazoom/datazoom-field-axis-mode.mjs'
+  },
+  {
     id: 'datazoom-log-window-update',
     purpose: '对数轴值窗口的定位、交互反向映射和更新后的值锚点保持',
     file: './components/datazoom/datazoom-log-window-update.mjs'

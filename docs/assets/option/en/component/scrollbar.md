@@ -58,3 +58,5 @@ Optional values:
 - 'axis'
 
 When `filterMode` is set to `filter`, it means filtering multiple data, which will affect the scale calculation of the axis; when `filterMode` is set to `axis`, it only affects the coordinate corresponding range of the corresponding axis and does not filter the data.
+
+When `field` is specified without binding an axis through `axisId` or `axisIndex`, no axis is selected automatically. In this case, data is filtered by the field even if `filterMode` is `axis`.
