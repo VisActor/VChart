@@ -68,12 +68,15 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         this._component.setAttribute('range', [start, end]);
       }
 
+      this._updateWindowFromInteraction(start, end);
       this._start = start;
       this._end = end;
       const axis = this._relatedAxisComponent as CartesianAxis<any>;
       const reverse = isReverse(axis, this._isHorizontal);
-      const startValue = statePointToData(start, this._stateScale, reverse);
-      const endValue = statePointToData(end, this._stateScale, reverse);
+      const [startValue, endValue] = this._resolveWindowValues(
+        statePointToData(start, this._stateScale, reverse),
+        statePointToData(end, this._stateScale, reverse)
+      );
       const hasChange = isFunction(this._spec.updateDataAfterChange)
         ? this._spec.updateDataAfterChange(start, end, startValue, endValue)
         : this._handleStateChange(startValue, endValue);

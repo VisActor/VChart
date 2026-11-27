@@ -74,6 +74,8 @@
 
 其中 `filterMode` 设置为 `filter` 的时候，表示多数据进行过滤，会影响轴的刻度计算；`filterMode` 设置为 `axis` 的时候，只是影响对应轴的坐标对应范围，不对数据进行过滤。
 
+配置 `field` 且未通过 `axisId` 或 `axisIndex` 关联轴时，不会自动绑定轴；此时即使配置为 `axis`，仍按字段筛选数据。
+
 #${prefix} start(number) = 0
 
 起点配置（比例）：范围[0, 1]。
@@ -93,6 +95,8 @@
 #${prefix} rangeMode([string | string])
 
 起点和终点的配置模式：只有模式和配置匹配时才生效，比如 rangeMode: ['percent', 'value']，那么必须 start 和 endValue 都配置才可以生效。
+
+数据更新时，`percent` 端点保持当前比例，`value` 端点保持当前数据值，并随数据域重新计算手柄位置。拖动会更新当前模式下的端点值，不会恢复初始配置。调用组件的 `setStartAndEnd(start, end, rangeMode)` 时采用传入的模式；省略第三个参数时，两个端点均使用 `percent` 模式。
 
 #${prefix} autoIndent(boolean)
 

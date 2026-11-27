@@ -615,8 +615,8 @@ export class Compiler implements ICompiler {
     const animationState = markAnimationStates.every(state => state === AnimationStateEnum.appear)
       ? AnimationStateEnum.appear
       : markAnimationStates.every(state => state === AnimationStateEnum.disappear)
-        ? AnimationStateEnum.disappear
-        : AnimationStateEnum.none;
+      ? AnimationStateEnum.disappear
+      : AnimationStateEnum.none;
     if (!this._stage.context) {
       this._stage.context = {};
     }
@@ -837,6 +837,7 @@ export class Compiler implements ICompiler {
     const releaseVRenderAppRef = this._releaseVRenderAppRef;
 
     this.clearNextRender();
+    this.clearProgressive();
     this.releaseEvent();
     // vgrammar release
     this.releaseGrammar(true);
@@ -988,6 +989,7 @@ export class Compiler implements ICompiler {
     if (this._progressiveRafId) {
       const cancelRaf = vglobal.getSpecifiedCancelAnimationFrame(10);
       cancelRaf(this._progressiveRafId);
+      this._progressiveRafId = null;
     }
 
     if (this._progressiveMarks && this._progressiveMarks.length) {

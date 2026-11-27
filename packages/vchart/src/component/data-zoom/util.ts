@@ -3,7 +3,7 @@ import { array, isNil } from '../../util';
 import type { DataView } from '@visactor/vdataset';
 import { objFlat } from '../../data/transforms/obj-flat';
 import type { IBandLikeScale, IBaseScale } from '@visactor/vscale';
-import { isContinuous } from '@visactor/vscale';
+import { isContinuous, ScaleEnum } from '@visactor/vscale';
 import type { CartesianAxis, ICartesianBandAxisSpec } from '../axis/cartesian';
 export interface IDataFilterWithNewDomainOption {
   getNewDomain: () => any[];
@@ -178,35 +178,27 @@ export const dataFilterComputeDomain = (data: Array<any>, op: IDataFilterCompute
   return resultData;
 };
 
+/** 按比例尺的反向映射解析窗口位置，仅保留两端线性映射的精确快路径。 */
 export const statePointToData = (state: number, scale: IBaseScale, reverse: boolean) => {
-  const domain = scale.domain();
-
-  // continuous scale: 本来可以用scale invert，但scale invert在大数据场景下性能不太好，所以这里自行计算
-  if (isContinuous(scale.type)) {
-    if (reverse) {
-      return domain[0] + (last(domain) - domain[0]) * (1 - state);
+  const range = scale.range();
+  if (scale.type === ScaleEnum.Linear && range.length === 2) {
+    const domain = scale.domain();
+    if (domain.length === 2) {
+      // 两端线性映射保留直接计算，避免像素往返误差将边界值排除在筛选区间外。
+      return domain[0] + (domain[1] - domain[0]) * (reverse ? 1 - state : state);
     }
-    return domain[0] + (last(domain) - domain[0]) * state;
   }
-
-  // discete scale: 根据bandSize计算不准确, bandSize不是最新的, 导致index计算错误, 所以仍然使用invert
-  let range = scale.range();
-  if (reverse) {
-    range = range.slice().reverse();
-  }
-  const posInRange: number = range[0] + (last(range) - range[0]) * state;
-  return scale.invert(posInRange);
+  const start = reverse ? last(range) : range[0];
+  const end = reverse ? range[0] : last(range);
+  const value = scale.invert(start + (end - start) * state);
+  // 连续窗口使用数值锚点，时间比例尺的 Date 统一转换为时间戳。
+  return isContinuous(scale.type) ? +value : value;
 };
 
-export const dataToStatePoint = (data: number | string, scale: IBaseScale, isHorizontal: boolean) => {
-  const pos = scale.scale(data);
-  let range = scale.range();
-
-  if (!isHorizontal && isContinuous(scale.type)) {
-    range = range.slice().reverse();
-  }
-
-  return Math.max(0, Math.min(1, (pos - range[0]) / (last(range) - range[0])));
+export const dataToStatePoint = (data: number | string, scale: IBaseScale, reverse: boolean) => {
+  const range = scale.range();
+  const percent = (scale.scale(data) - range[0]) / (last(range) - range[0]);
+  return reverse ? 1 - percent : percent;
 };
 
 export const isReverse = (axisComponent: CartesianAxis<any>, isHorizontal: boolean) => {
@@ -228,13 +220,6 @@ export const getAxisBandSize = (axisSpec?: ICartesianBandAxisSpec) => {
   return undefined;
 };
 
-export const modeCheck = (statePoint: 'start' | 'end', mode: string, spec: any): any => {
-  if (statePoint === 'start') {
-    return (mode === 'percent' && isValid(spec.start)) || (mode === 'value' && isValid(spec.startValue));
-  }
-  return (mode === 'percent' && isValid(spec.end)) || (mode === 'value' && isValid(spec.endValue));
-};
-
 export const parseDomainFromState = (startValue: number | string, endValue: number | string, scale: IBaseScale) => {
   if (isContinuous(scale.type)) {
     return [Math.min(endValue as number, startValue as number), Math.max(endValue as number, startValue as number)];
@@ -242,32 +227,9 @@ export const parseDomainFromState = (startValue: number | string, endValue: numb
   const allDomain = scale.domain();
   const startIndex = allDomain.indexOf(startValue);
   const endIndex = allDomain.indexOf(endValue);
-  return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
-};
-
-export const parseDomainFromStateAndValue = (
-  start: number,
-  startValue: number | string,
-  end: number,
-  endValue: number | string,
-  scale: IBaseScale
-) => {
-  if (isContinuous(scale.type)) {
-    const domain = scale.domain();
-    const min = domain[0];
-    const total = last(domain) - min;
-    const resultStart = isValid(start) ? min + total * start : +startValue;
-    const resultEnd = isValid(end) ? min + total * end : +endValue;
-    return [Math.min(resultEnd, resultStart), Math.max(resultEnd, resultStart)];
+  // 值窗口的分类尚未回填时，没有可确定的分类区间。
+  if (startIndex < 0 || endIndex < 0) {
+    return [];
   }
-  const allDomain = scale.domain();
-  const range = scale.range();
-  const rangeSize = range[range.length - 1] - range[0];
-  const startIndex = isValid(start)
-    ? allDomain.indexOf(scale.invert(rangeSize * start + range[0]))
-    : allDomain.indexOf(startValue);
-  const endIndex = isValid(end)
-    ? allDomain.indexOf(scale.invert(rangeSize * end + range[0]))
-    : allDomain.indexOf(endValue);
   return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
 };

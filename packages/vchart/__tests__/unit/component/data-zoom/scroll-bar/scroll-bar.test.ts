@@ -112,6 +112,7 @@ describe('ScrollBar', () => {
       getInverse: () => false
     };
     (scrollBar as any).event = { emit };
+    (scrollBar as any)._setStateFromSpec();
     (scrollBar as any)._start = 0;
     (scrollBar as any)._end = 1;
 

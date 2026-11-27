@@ -95,11 +95,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       } else {
         const axis = this._relatedAxisComponent as CartesianAxis<any>;
 
-        const startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
-        const endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
+        let startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
+        let endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
         if (!isValid(startValue) || !isValid(endValue)) {
           return;
         }
+        this._updateWindowFromInteraction(start, end);
+        [startValue, endValue] = this._resolveWindowValues(startValue, endValue);
         this._start = start;
         this._end = end;
         const hasChange = isFunction(this._spec.updateDataAfterChange)
@@ -125,8 +127,24 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   protected _handleDataCollectionChange() {
     const data = this._data.getDataView();
     data.reRunAllTransform();
-    // 数据更新后，重新计算scale的domain和range，保证datazoom组件的预览图和数据保持一致
-    this._initAfterLayout();
+    // 首次布局会初始化筛选窗口，后续数据更新才重新应用该窗口。
+    if (this._hasInitStateScale) {
+      const wasContinuous = isContinuous(this._stateScale.type);
+      const continuous = !this._relatedAxisComponent && this._field ? this._isStateFieldContinuous() : wasContinuous;
+      const scaleTypeChanged = continuous !== wasContinuous;
+      if (scaleTypeChanged) {
+        this._initStateScale(continuous);
+      } else {
+        // 关联轴可能已被旧窗口筛空，使用原始数据并保留轴的域配置。
+        this._updateStateScaleDomain();
+      }
+      this._updateScaleRange();
+      // 数据更新沿用当前窗口，初始窗口配置只在初始化时读取。
+      this._updateWindowFromData(scaleTypeChanged);
+      this._previewStateScale = null;
+    } else {
+      this._initAfterLayout();
+    }
 
     const domain = this._computeDomainOfValueScale();
 
@@ -138,7 +156,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       this._updateValueScaleRange();
 
       if (this._component) {
-        this._createOrUpdateComponent(true);
+        this._createOrUpdateComponent();
       }
     }
   }
@@ -453,9 +471,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       delayType: spec.delayType,
       delayTime: isValid(spec.delayType) ? spec.delayTime ?? 30 : 0,
       realTime: spec.realTime ?? true,
-      previewData: isNeedPreview && this._data.getLatestData(),
-      previewPointsX: isNeedPreview && this._dataToPositionX,
-      previewPointsY: isNeedPreview && this._dataToPositionY,
       tolerance: this._spec.tolerance,
       isReverse: isReverse(this._relatedAxisComponent as CartesianAxis<any>, this._isHorizontal),
       ...(this._getComponentAttrs(isNeedPreview) as any)
@@ -475,7 +490,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     };
   }
 
-  protected _createOrUpdateComponent(changeData?: boolean) {
+  protected _createOrUpdateComponent() {
     if (this._visible) {
       const xScale = this._isHorizontal ? this._stateScale : this._valueScale;
       const yScale = this._isHorizontal ? this._valueScale : this._stateScale;
@@ -483,32 +498,23 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         this._isScaleValid(xScale) && this._isScaleValid(yScale) && this._spec.showBackgroundChart !== false;
       const attrs = this._getAttrs(isNeedPreview);
 
-      const axis = this._relatedAxisComponent as CartesianAxis<any>;
+      const previewData = this._data.getLatestData();
 
       if (this._component) {
+        this._component.setPreviewData(previewData);
         this._component.setAttributes(attrs);
-        if (changeData) {
-          this._component.setPreviewData(this._data.getDataView().latestData);
-          if (isNeedPreview) {
-            if (this._isHorizontal) {
-              this._component.setPreviewPointsY1(this._dataToPositionY2);
-            } else {
-              this._component.setPreviewPointsX1(this._dataToPositionX2);
-            }
-            this._component.setStatePointToData((state: number) =>
-              statePointToData(state, this._stateScale, isReverse(axis, this._isHorizontal))
-            );
-          }
-        }
       } else {
+        const axis = this._relatedAxisComponent as CartesianAxis<any>;
         const container = this.getContainer();
         this._component = new DataZoomComponent(attrs);
-        this._component.setPreviewData(this._data.getDataView().latestData);
+        this._component.setPreviewData(previewData);
+        this._component.setPreviewPointsX(this._dataToPositionX);
+        this._component.setPreviewPointsY(this._dataToPositionY);
 
         if (this._isHorizontal) {
-          isNeedPreview && this._component.setPreviewPointsY1(this._dataToPositionY2);
+          this._component.setPreviewPointsY1(this._dataToPositionY2);
         } else {
-          isNeedPreview && this._component.setPreviewPointsX1(this._dataToPositionX2);
+          this._component.setPreviewPointsX1(this._dataToPositionX2);
         }
         this._component.setStatePointToData((state: number) =>
           statePointToData(state, this._stateScale, isReverse(axis, this._isHorizontal))

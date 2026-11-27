@@ -13,6 +13,7 @@ export interface StatisticsDomain {
 export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
+  setScaleDomainFromData: (domain: StringOrNumber[], scale: IBaseScale) => StringOrNumber[];
   getScales: () => IBaseScale[];
   getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
   getInverse: () => boolean;

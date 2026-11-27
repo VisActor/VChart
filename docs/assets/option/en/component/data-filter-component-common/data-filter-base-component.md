@@ -74,6 +74,8 @@ Optional values:
 
 When `filterMode` is set to `filter`, it means filtering multiple data, which will affect the scale calculation of the axis; when `filterMode` is set to `axis`, it only affects the coordinate corresponding range of the corresponding axis and does not filter the data.
 
+When `field` is specified without binding an axis through `axisId` or `axisIndex`, no axis is selected automatically. In this case, data is filtered by the field even if `filterMode` is `axis`.
+
 #${prefix} start(number) = 0
 
 Start configuration (percentage): Range [0, 1].
@@ -93,6 +95,8 @@ End data configuration: When not configured, it is converted according to end.
 #${prefix} rangeMode([string | string])
 
 Start and end configuration modes: Only when the mode and configuration match does it take effect, such as rangeMode: ['percent', 'value'], then both start and endValue must be configured to take effect.
+
+On data updates, a `percent` endpoint retains its current ratio, while a `value` endpoint retains its current data value and recalculates its handle position from the new domain. Dragging updates the endpoints in their current modes without restoring the initial configuration. The component API `setStartAndEnd(start, end, rangeMode)` uses the supplied modes; omitting the third argument sets both endpoints to `percent` mode.
 
 #${prefix} autoIndent(boolean)
 

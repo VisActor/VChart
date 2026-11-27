@@ -1,5 +1,5 @@
 import { isValidNumber, isNil, isValid, isFunction, last } from '@visactor/vutils';
-import type { LinearScale } from '@visactor/vscale';
+import type { IBaseScale, ILinearScale, LinearScale } from '@visactor/vscale';
 import { combineDomains, maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg, ILinearAxisBreakSpec, ITick } from '../interface';
@@ -17,6 +17,11 @@ export const e5 = Math.sqrt(10);
 export const e2 = Math.sqrt(2);
 const DEFAULT_TICK_COUNT = 5;
 
+interface DomainBounds {
+  min?: number;
+  max?: number;
+}
+
 export interface LinearAxisMixin {
   _scale: LinearScale;
   _scales: LinearScale[];
@@ -26,14 +31,13 @@ export interface LinearAxisMixin {
   /**
    * spec中申明的min,max
    */
-  _domain: { min?: number; max?: number };
+  _domain: DomainBounds;
   /**
    * 记录一下解析spec后，获取到的domain，
    * 用于在插件（如0值对齐等功能）中使用
    */
   _domainAfterSpec: number[];
-  _softMinValue?: number;
-  _softMaxValue?: number;
+  _softDomainBounds?: DomainBounds;
   _expand?: { max?: number; min?: number };
   _tick: ITick | undefined;
   /**
@@ -79,7 +83,7 @@ export class LinearAxisMixin {
     this.setScaleNice();
   }
 
-  setLinearScaleNice() {
+  setLinearScaleNice(scale: ILinearScale = this._scale, softBounds = this._softDomainBounds) {
     if (!this._nice) {
       return false;
     }
@@ -99,7 +103,9 @@ export class LinearAxisMixin {
       }
 
       // 记录本次 nice 使用的轴长，供布局结束后判断是否需要用真实绘图区轴长重算
-      this._lastNiceAxisLength = rangeSize;
+      if (scale === this._scale) {
+        this._lastNiceAxisLength = rangeSize;
+      }
 
       // tickCount需要一致，不然会导致效果不一致, fix #2050
       tickCount = tick.tickCount({
@@ -116,40 +122,36 @@ export class LinearAxisMixin {
     if (this._spec.niceType === 'accurateFirst') {
       tickCount = Math.max(DEFAULT_TICK_COUNT, tickCount);
     }
-    const { min, max } = this._domain ?? {};
-    if (isNil(min) && isNil(max) && isNil(this._softMaxValue) && isNil(this._softMinValue)) {
-      return this._scale.nice(tickCount);
-    } else if ((isValid(min) || isValid(this._softMinValue)) && isNil(max) && isNil(this._softMaxValue)) {
-      return this._scale.niceMax(tickCount);
-    } else if (isNil(min) && isNil(this._softMinValue) && (isValid(max) || isValid(this._softMaxValue))) {
-      return this._scale.niceMin(tickCount);
-    }
-
-    return false;
+    return this._niceScale(scale, softBounds, tickCount);
   }
 
-  setLogScaleNice() {
+  setLogScaleNice(scale: ILinearScale = this._scale, softBounds = this._softDomainBounds) {
     if (!this._nice) {
       return false;
     }
 
-    const { min, max } = this._domain ?? {};
-    if (isNil(min) && isNil(max) && isNil(this._softMaxValue) && isNil(this._softMinValue)) {
-      return this._scale.nice();
-    } else if ((isValid(min) || isValid(this._softMinValue)) && isNil(max) && isNil(this._softMaxValue)) {
-      return this._scale.niceMax();
-    } else if (isNil(min) && isNil(this._softMinValue) && (isValid(max) || isValid(this._softMaxValue))) {
-      return this._scale.niceMin();
+    return this._niceScale(scale, softBounds);
+  }
+
+  protected _niceScale(scale: ILinearScale, softBounds?: DomainBounds, tickCount?: number) {
+    const min = this._domain?.min ?? softBounds?.min;
+    const max = this._domain?.max ?? softBounds?.max;
+    if (isNil(min) && isNil(max)) {
+      return scale.nice(tickCount);
+    } else if (isValid(min) && isNil(max)) {
+      return scale.niceMax(tickCount);
+    } else if (isNil(min) && isValid(max)) {
+      return scale.niceMin(tickCount);
     }
 
     return false;
   }
 
-  setScaleNice() {
+  setScaleNice(scale: ILinearScale = this._scale, softBounds = this._softDomainBounds) {
     if (this._spec.type === 'log') {
-      return this.setLogScaleNice();
+      return this.setLogScaleNice(scale, softBounds);
     }
-    return this.setLinearScaleNice();
+    return this.setLinearScaleNice(scale, softBounds);
   }
 
   /**
@@ -237,16 +239,19 @@ export class LinearAxisMixin {
       } else {
         domain = [minDomain, maxDomain];
       }
-    } else {
-      // default value for linear axis
-      domain[0] = 0;
-      domain[1] = 0;
     }
-    this.setSoftDomainMinMax(domain);
+    this._applyDataDomainBounds(domain, (this._softDomainBounds ??= {}));
+    return domain;
+  }
+
+  protected _applyDataDomainBounds(domain: number[], softBounds: DomainBounds) {
+    if (!domain.length) {
+      domain.push(0, 0);
+    }
+    this.setSoftDomainMinMax(domain, softBounds);
     this.expandDomain(domain);
     this.includeZero(domain);
     this.setDomainMinMax(domain);
-    return domain;
   }
 
   protected expandDomain(domain: number[]): void {
@@ -356,7 +361,7 @@ export class LinearAxisMixin {
     isValid(max) && (domain[domain.length - 1] = max);
   }
 
-  protected setSoftDomainMinMax(domain: number[]): void {
+  protected setSoftDomainMinMax(domain: number[], softBounds: DomainBounds): void {
     const { softMin, softMax } = this._spec;
 
     if (isValid(softMin)) {
@@ -368,7 +373,7 @@ export class LinearAxisMixin {
 
       if (softMinValue <= domain[0]) {
         domain[0] = softMinValue;
-        this._softMinValue = softMinValue;
+        softBounds.min = softMinValue;
       }
     }
 
@@ -383,7 +388,7 @@ export class LinearAxisMixin {
         domain[domain.length - 1] = softMaxValue;
       }
 
-      this._softMaxValue = softMaxValue;
+      softBounds.max = softMaxValue;
     }
   }
 
@@ -415,6 +420,24 @@ export class LinearAxisMixin {
    */
   protected updateScaleDomainByModel(domain?: number[]) {
     domain = domain ?? this._scale.domain();
+    this._setScaleDomain(domain, this._scale, this._softDomainBounds);
+    this._updateNiceLabelFormatter(domain);
+
+    this._domainAfterSpec = this._scale.domain();
+    this._refreshVisibilityByData();
+    this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
+    this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
+  }
+
+  /** 让其他组件的比例尺应用轴的域规则，轴自身仍按系列视图统计更新。 */
+  setScaleDomainFromData(domain: number[], scale: IBaseScale): number[] {
+    const softBounds: DomainBounds = {};
+    this._applyDataDomainBounds(domain, softBounds);
+    this._setScaleDomain(domain, scale as ILinearScale, softBounds);
+    return scale.domain();
+  }
+
+  protected _setScaleDomain(domain: number[], scale: ILinearScale, softBounds?: DomainBounds) {
     // 其他模块的设置 domain
     this.extendDomain(domain);
     this.includeZero(domain);
@@ -422,19 +445,13 @@ export class LinearAxisMixin {
     this.setDomainMinMax(domain);
     // nice 优先级最高
     this.niceDomain(domain);
-    this._scale.domain(domain, this._nice);
+    scale.domain(domain, this._nice);
     // 设置scale的nice-min-max
     if (this._nice) {
-      const niced = this.setScaleNice();
+      const niced = this.setScaleNice(scale, softBounds);
 
-      !niced && this._scale.rescale();
+      !niced && scale.rescale();
     }
-    this._updateNiceLabelFormatter(domain);
-
-    this._domainAfterSpec = this._scale.domain();
-    this._refreshVisibilityByData();
-    this.event.emit(ChartEvent.scaleDomainUpdate, { model: this as any });
-    this.event.emit(ChartEvent.scaleUpdate, { model: this as any, value: 'domain' });
   }
 
   getDomainAfterSpec() {

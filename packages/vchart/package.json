@@ -44,7 +44,7 @@
     "eslint:check": "eslint .",
     "eslint:err": "eslint . --quiet",
     "test": "jest",
-    "test-cov": "jest -w 16 --coverage",
+    "test-cov": "jest --coverage",
     "test-live": "npm run test-watch __tests__/unit",
     "test-watch": "cross-env DEBUG_MODE=1 jest --watch",
     "ci": "ts-node --transpileOnly --skipProject ./scripts/trigger-test.ts",

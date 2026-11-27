@@ -417,6 +417,51 @@ export const cases = [
     file: './components/datazoom/datazoom-numeric-category.mjs'
   },
   {
+    id: 'datazoom-filter-update-empty',
+    purpose: '回填数据后 DataZoom 按原窗口筛选并恢复预览',
+    file: './components/datazoom/datazoom-filter-update-empty.mjs'
+  },
+  {
+    id: 'datazoom-field-statistics-update',
+    purpose: '无关联轴的 DataZoom 随字段统计变化切换比例尺并更新筛选及预览',
+    file: './components/datazoom/datazoom-field-statistics-update.mjs'
+  },
+  {
+    id: 'datazoom-filter-update-axis-bounds',
+    purpose: '更新数据后按关联线性轴的固定边界计算 DataZoom 筛选窗口',
+    file: './components/datazoom/datazoom-filter-update-axis-bounds.mjs'
+  },
+  {
+    id: 'datazoom-filter-update-axis-zero',
+    purpose: '更新数据后，按关联线性轴的含零域计算 DataZoom 窗口',
+    file: './components/datazoom/datazoom-filter-update-axis-zero.mjs'
+  },
+  {
+    id: 'datazoom-filter-update-axis-domain',
+    purpose: '更新数据后，DataZoom 按关联分类轴的显式域及顺序保留筛选窗口',
+    file: './components/datazoom/datazoom-filter-update-axis-domain.mjs'
+  },
+  {
+    id: 'datazoom-filter-update-interactive-window',
+    purpose: '更新数据后保留用户拖动后的 DataZoom 窗口与筛选结果',
+    file: './components/datazoom/datazoom-filter-update-interactive-window.mjs'
+  },
+  {
+    id: 'datazoom-value-window-update',
+    purpose: '数据域扩张后保留 DataZoom 的值窗口并重算手柄百分比',
+    file: './components/datazoom/datazoom-value-window-update.mjs'
+  },
+  {
+    id: 'datazoom-field-axis-mode',
+    purpose: '未关联轴的字段窗口在 axis 配置下仍正确筛选范围柱',
+    file: './components/datazoom/datazoom-field-axis-mode.mjs'
+  },
+  {
+    id: 'datazoom-log-window-update',
+    purpose: '对数轴值窗口的定位、交互反向映射和更新后的值锚点保持',
+    file: './components/datazoom/datazoom-log-window-update.mjs'
+  },
+  {
     id: 'waterfall-leader-line',
     purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
     file: './charts/waterfall/waterfall-leader-line.mjs'

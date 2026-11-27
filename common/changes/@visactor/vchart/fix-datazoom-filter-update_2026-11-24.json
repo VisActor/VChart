@@ -1,0 +1,11 @@
+{
+  "changes": [
+    {
+      "comment": "修复 DataZoom 默认筛选模式下的数据更新与预览，保留关联轴域、交互窗口及 value/mixed 模式的端点语义，按实际比例尺映射对数轴窗口，并保留无关联轴时的字段筛选行为（#4354）。",
+      "type": "patch",
+      "packageName": "@visactor/vchart"
+    }
+  ],
+  "packageName": "@visactor/vchart",
+  "email": "dingling112@gmail.com"
+}
