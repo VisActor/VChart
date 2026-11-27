@@ -41,6 +41,9 @@ const vrenderPackageExportMappers = {
 module.exports = {
   preset: 'ts-jest',
   runner: 'jest-electron/runner',
+  // jest-electron 0.1.12 在新窗口 ready 时重跑已有窗口的套件。
+  // 固定单窗口，避免同一全局对象内并发加载模块与清理注册表。
+  maxWorkers: 1,
   testEnvironment: path.resolve(__dirname, 'jest-environment.js'),
   testRegex: '/__tests__/.*\\.test\\.(js|ts)$',
   silent: true,

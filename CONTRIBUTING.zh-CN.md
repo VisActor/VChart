@@ -160,6 +160,8 @@ git push origin docs/add-funnel-demo
 
 完成与改动相关的单元测试，并按本仓库[视觉测试说明](./packages/vchart/__tests__/visual/README.md)执行必要验证。现有提交前全量视觉测试要求继续适用。
 
+VChart 的 Jest 单测使用 Electron，当前 `jest-electron@0.1.12` 在新窗口就绪时会重跑已有窗口中的套件，多窗口运行可能让同一全局对象内的模块加载与注册表清理交叉执行。`packages/vchart/jest.config.js` 统一设置 `maxWorkers: 1`，普通测试和覆盖率测试均沿用此配置；不要通过命令行增加 worker。升级运行器并验证窗口隔离后再恢复并发。此限制只影响测试耗时，不改变图表运行时。
+
 在 PR 中说明测试命令、结果、预期视觉变化和未完成项。无法运行的测试应写明原因；自比较只能验证稳定性，不能代替与官方基线的比较。
 
 ### 浏览器全量包的体积预算
