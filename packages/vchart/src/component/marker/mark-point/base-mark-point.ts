@@ -1,4 +1,4 @@
-import type { IMarkPoint, IMarkPointSpec } from './interface';
+import type { IItemContent, IMarkPoint, IMarkPointSpec } from './interface';
 import {
   computeClipRange,
   computeOffsetFromRegion,
@@ -13,12 +13,19 @@ import type { MarkPointAttrs } from '@visactor/vrender-components';
 import { MarkPoint as MarkPointComponent } from '@visactor/vrender-components';
 import { array, isValid, merge } from '@visactor/vutils';
 import { transformToGraphic } from '../../../util/style';
+import { queryColorFromColorScheme } from '../../../theme/color-scheme/util';
 import { BaseMarker } from '../base-marker';
 import { LayoutZIndex } from '../../../constant/layout';
 import { STATE_VALUE_ENUM } from '../../../compile/mark/interface';
 import { DimensionEventEnum, type DimensionEventParams } from '../../../event/events/dimension/interface';
 import type { IGraphic, IGroup } from '@visactor/vrender-core';
-import type { IMarkerLabelSpec, IMarkerLabelWithoutRefSpec } from '../interface';
+import type { IMarkerLabelSpec } from '../interface';
+
+const getTextLabelStyle = (
+  label: IMarkerLabelSpec & { textStyle?: IMarkerLabelSpec['style'] },
+  textStyle: IMarkerLabelSpec['style'],
+  style: IItemContent['style']
+) => label?.style ?? label?.textStyle ?? textStyle ?? style;
 
 const isRichTextStyle = (style: any) => style?.type === 'rich';
 
@@ -110,6 +117,24 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
     return 'cartesian';
   }
 
+  private _getTextLabelAttrs(label: IMarkerLabelSpec, style: ReturnType<typeof getTextLabelStyle>) {
+    const attrs = transformLabelAttributes(
+      { ...label, style: merge({ dx: 0, dy: 0 }, style) },
+      this._markerData,
+      this._markAttributeContext
+    );
+    if (attrs.textStyle && attrs.textStyle.fill === undefined) {
+      const fill = queryColorFromColorScheme(this.getColorScheme(), {
+        type: 'palette',
+        key: 'primaryFontColor'
+      });
+      if (fill !== undefined) {
+        attrs.textStyle.fill = fill;
+      }
+    }
+    return attrs;
+  }
+
   protected _createMarkerComponent() {
     const { itemContent = {}, itemLine = {}, targetSymbol = {} } = this._spec;
     const region = this._relativeSeries.getRegion();
@@ -142,7 +167,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
 
     if (type === 'text') {
       itemContentState = label?.state ?? state;
-      const labelStyle = label?.style ?? label?.textStyle ?? textStyle ?? (style as Pick<IMarkerLabelSpec, 'style'>);
+      const labelStyle = getTextLabelStyle(label, textStyle, style);
       if (isRichTextStyle(labelStyle)) {
         itemContentType = 'richText';
         defaultStyle = {
@@ -155,18 +180,7 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
           this._markAttributeContext
         );
       } else {
-        defaultStyle = {
-          dx: 0,
-          dy: 0
-        };
-        itemContentStyle = transformLabelAttributes(
-          {
-            ...label,
-            style: merge(defaultStyle, labelStyle)
-          },
-          this._markerData,
-          this._markAttributeContext
-        );
+        itemContentStyle = this._getTextLabelAttrs(label, labelStyle);
       }
     } else if ((type as any) === 'richText') {
       itemContentState = richText?.state ?? state;
@@ -278,17 +292,8 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
 
   protected _markerLayout() {
     const spec = this._spec;
-    const data = this._markerData;
     const relativeSeries = this._relativeSeries;
-
     const { point } = this._computePointsAttr();
-
-    const seriesData = this._getRelativeDataView().latestData;
-    const dataPoints = data
-      ? data.latestData[0] && data.latestData[0].latestData
-        ? data.latestData[0].latestData
-        : data.latestData
-      : seriesData;
     const { itemLine = {}, itemContent = {} } = this._spec;
     const region = this._relativeSeries.getRegion();
     const { visible: itemLineVisible, line = {}, ...restItemLine } = itemLine;
@@ -302,15 +307,6 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
         : {
             visible: false
           };
-    const labelAttrs = transformLabelAttributes(
-      {
-        ...itemContent.text,
-        style: merge({ dx: 0, dy: 0 }, itemContent.text?.style ?? itemContent.style)
-      } as IMarkerLabelWithoutRefSpec,
-      data,
-      this._markAttributeContext
-    ) as any;
-
     let limitRect;
     if (spec.clip || spec.itemContent?.confine) {
       const { minX, maxX, minY, maxY } = computeClipRange([relativeSeries.getRegion()]);
@@ -322,30 +318,31 @@ export abstract class BaseMarkPoint extends BaseMarker<IMarkPointSpec> implement
       };
     }
     if (this._markerComponent) {
-      const attribute = this._markerComponent.attribute ?? {};
-      const textStyle = (attribute.itemContent as any)?.textStyle ?? {};
-      const specText = this._spec.itemContent.text?.text;
-      const offsetX = transformOffset(itemContent.offsetX, region);
-      const offsetY = transformOffset(itemContent.offsetY, region);
+      const contentAttrs = {
+        ...this._markerComponent.attribute.itemContent,
+        offsetX: computeOffsetFromRegion(point, transformOffset(itemContent.offsetX, region), region),
+        offsetY: computeOffsetFromRegion(point, transformOffset(itemContent.offsetY, region), region)
+      };
+      if (contentAttrs.type === 'text') {
+        const {
+          text: label,
+          textStyle,
+          style: itemStyle
+        } = itemContent as IItemContent & {
+          textStyle?: IMarkerLabelSpec['style'];
+        };
+        const style = this._getTextLabelAttrs(label, getTextLabelStyle(label, textStyle, itemStyle));
+        if (label?.formatMethod) {
+          const seriesData = this._getRelativeDataView().latestData;
+          const markerData = this._markerData?.latestData;
+          const dataPoints = markerData?.[0]?.latestData ?? markerData ?? seriesData;
+          style.text = label.formatMethod(dataPoints, seriesData);
+        }
+        contentAttrs.style = style;
+      }
       this._markerComponent.setAttributes({
         position: point === undefined ? { x: null, y: null } : point, // setAttrs时merge时undefined会被忽略, 所以这里做转换
-        itemContent: {
-          ...attribute.itemContent,
-          panel: labelAttrs.panel ?? (attribute.itemContent as any)?.panel,
-          padding: labelAttrs.padding ?? (attribute.itemContent as any)?.padding,
-          textStyle: {
-            ...textStyle,
-            ...(labelAttrs.textStyle ?? {}),
-            text: this._spec.itemContent.text?.formatMethod
-              ? // type error here will be fixed in components
-                (this._spec.itemContent.text.formatMethod(dataPoints, seriesData) as any)
-              : isValid(specText)
-              ? specText
-              : textStyle.text
-          },
-          offsetX: computeOffsetFromRegion(point, offsetX, region),
-          offsetY: computeOffsetFromRegion(point, offsetY, region)
-        } as any,
+        itemContent: contentAttrs,
         itemLine: itemLineAttrs,
         limitRect,
         dx: this._layoutOffsetX,

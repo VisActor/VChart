@@ -2818,7 +2818,7 @@ describe('vchart scoped update effects', () => {
         expect(marker?._markerComponent?.attribute?.position).not.toEqual(position);
         expect(marker?._markerComponent?.attribute?.itemContent?.offsetY).toBe(-24);
         expect(marker?._markerComponent?.attribute?.itemContent?.offsetY).not.toBe(offsetY);
-        expect(marker?._markerComponent?.attribute?.itemContent?.textStyle?.text).toBe('after');
+        expect(marker?._markerComponent?.attribute?.itemContent?.style?.text).toBe('after');
       }
     });
   });
@@ -2890,8 +2890,8 @@ describe('vchart scoped update effects', () => {
       expect(markerAfterRemoval.getMarkerData()).toBeNull();
       expect(Object.values(markerDataBeforeRemoval.dataSet.dataViewMap)).not.toContain(markerDataBeforeRemoval);
       expect(markerAfterRemoval?._markerComponent?.attribute?.itemLine?.lineStyle?.stroke).toBe('#4A5568');
-      expect(markerAfterRemoval?._markerComponent?.attribute?.itemContent?.textStyle?.fill).toBe('#4A5568');
-      expect(markerAfterRemoval?._markerComponent?.attribute?.itemContent?.panel?.fill).toBe('#4A5568');
+      expect(markerAfterRemoval?._markerComponent?.attribute?.itemContent?.style?.textStyle?.fill).toBe('#4A5568');
+      expect(markerAfterRemoval?._markerComponent?.attribute?.itemContent?.style?.panel?.fill).toBe('#4A5568');
 
       spies.updateDataSpec.mockClear();
       spies.updateGlobalScaleDomain.mockClear();

@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "4cf5a3477441233a8f6842fe6d83cbbe0d5c333ed6959d154a91cb8aee1a0380",
+  "indexDigest": "d839730edbd90fde77dcd0714d1d4f16b684697b502e4452da2c25bc41373b59",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -106,6 +106,7 @@
     "heatmap-correlation",
     "bar-percent",
     "axis-symlog",
+    "mark-point-theme-switch",
     "mark-point-symbol",
     "crosshair-polar-default",
     "update-indicator-visible",
