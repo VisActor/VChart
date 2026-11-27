@@ -137,7 +137,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       if (scaleTypeChanged) {
         this._initStateScale(continuous);
       } else {
-        // 关联轴的域可能已被旧窗口筛空，缩放和预览都使用更新后的原始数据域。
+        // 关联轴可能已被旧窗口筛空，使用原始数据并保留轴的域配置。
         this._updateStateScaleDomain();
       }
       this._updateScaleRange();
@@ -268,14 +268,19 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   /*** start: scale of background chart ***/
   protected _updateStateScaleDomain() {
     const axis = this._relatedAxisComponent as IAxis;
-    if (
-      this._filterMode === 'filter' &&
-      isContinuous(this._stateScale.type) &&
-      axis?.setScaleDomainFromData &&
-      !this._spec.customDomain
-    ) {
-      const domain = this._data.getLatestData().length ? this._computeDomainOfStateScale(true) : [0, 0];
-      return axis.setScaleDomainFromData(domain, this._stateScale as ILinearScale);
+    if (this._filterMode === 'filter' && axis && !this._spec.customDomain) {
+      if (isContinuous(this._stateScale.type) && axis.setScaleDomainFromData) {
+        const domain = this._data.getLatestData().length ? this._computeDomainOfStateScale(true) : [0, 0];
+        return axis.setScaleDomainFromData(domain, this._stateScale as ILinearScale);
+      }
+      if (isDiscrete(this._stateScale.type)) {
+        const axisDomain = axis.getSpec().domain;
+        if (axisDomain?.length) {
+          // 分类轴的显式域包含顺序及尚无数据的分类，不能用数据行顺序覆盖。
+          this._stateScale.domain(axisDomain, false);
+          return axisDomain;
+        }
+      }
     }
     return super._updateStateScaleDomain();
   }

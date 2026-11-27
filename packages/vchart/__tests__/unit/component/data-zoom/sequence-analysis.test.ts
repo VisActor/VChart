@@ -20,7 +20,7 @@ describe('sequence analysis DataZoom', () => {
       getYAxisHelper: () => ({ getAxisId: () => 11, getScale: () => yScale })
     };
     const zoom: any = new DataZoom({}, { dataSet } as any);
-    zoom._relatedAxisComponent = { id: 10 };
+    zoom._relatedAxisComponent = { id: 10, getSpec: () => ({}) };
     zoom._regions = [
       { getSeries: () => [{ ...series, id: 2, type: 'link', getSpec: () => ({ fromField: 'from' }) }, series] }
     ];

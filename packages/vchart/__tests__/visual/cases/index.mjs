@@ -437,6 +437,11 @@ export const cases = [
     file: './components/datazoom/datazoom-filter-update-axis-zero.mjs'
   },
   {
+    id: 'datazoom-filter-update-axis-domain',
+    purpose: '更新数据后，DataZoom 按关联分类轴的显式域及顺序保留筛选窗口',
+    file: './components/datazoom/datazoom-filter-update-axis-domain.mjs'
+  },
+  {
     id: 'waterfall-leader-line',
     purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
     file: './charts/waterfall/waterfall-leader-line.mjs'

@@ -128,6 +128,91 @@ describe('DataZoom preview validity', () => {
   });
 
   it.each([
+    ['string', ['A', 'B', 'C', 'D']],
+    ['numeric', [10, 20, 30, 40]]
+  ])('preserves an explicit %s category domain across data updates', (_name, domain) => {
+    const categories = domain as (string | number)[];
+    const createRows = (order: number[], offset: number) =>
+      order.map((index, i) => ({ category: categories[index], value: i + offset }));
+    chart = new VChart(
+      {
+        type: 'bar',
+        animation: false,
+        xField: 'category',
+        yField: 'value',
+        data: { id: 'data', values: createRows([1, 0, 2, 3], 1) },
+        axes: [
+          { id: 'x-axis', orient: 'bottom', type: 'band', domain: categories },
+          { orient: 'left', type: 'linear' }
+        ],
+        dataZoom: [{ axisId: 'x-axis', orient: 'bottom', start: 0, end: 0.1 }]
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const model = zoom('bottom');
+    const series = chart.getChart().getAllSeries()[0];
+    const viewRows = () => series.getViewData().latestData.map(({ category, value }: Row) => ({ category, value }));
+    expect(model.stateScale.domain()).toEqual(categories);
+    expect(viewRows()).toEqual([{ category: categories[0], value: 2 }]);
+
+    // 仅更新数值，窗口仍对应显式域的首个分类。
+    chart.updateDataSync('data', createRows([1, 0, 2, 3], 5));
+    expect(model.stateScale.domain()).toEqual(categories);
+    expect(viewRows()).toEqual([{ category: categories[0], value: 6 }]);
+
+    // 缺失分类和空数据均不能压缩显式域。
+    chart.updateDataSync('data', createRows([3, 1], 10));
+    expect(model.stateScale.domain()).toEqual(categories);
+    expect(viewRows()).toEqual([]);
+    chart.updateDataSync('data', []);
+    expect(model.stateScale.domain()).toEqual(categories);
+    expect(viewRows()).toEqual([]);
+    chart.updateDataSync('data', createRows([3, 2, 1, 0], 20));
+    expect(model.stateScale.domain()).toEqual(categories);
+    expect(viewRows()).toEqual([{ category: categories[0], value: 23 }]);
+    expectPreview();
+
+    model.setStartAndEnd(0.9, 1);
+    expect(viewRows()).toEqual([{ category: categories[3], value: 20 }]);
+  });
+
+  it.each([
+    ['an omitted axis domain', undefined, undefined, ['B', 'A', 'C', 'D']],
+    ['an empty axis domain', [], undefined, ['B', 'A', 'C', 'D']],
+    ['a custom DataZoom domain', ['A', 'B', 'C', 'D'], ['C', 'B', 'A', 'D'], ['C', 'B', 'A', 'D']]
+  ])('respects %s when updating data', (_name, domain, customDomain, expected) => {
+    const createRows = (offset: number) =>
+      ['B', 'A', 'C', 'D'].map((category, index) => ({ category, value: index + offset }));
+    chart = new VChart(
+      {
+        type: 'bar',
+        animation: false,
+        xField: 'category',
+        yField: 'value',
+        data: { id: 'data', values: createRows(1) },
+        axes: [
+          { id: 'x-axis', orient: 'bottom', type: 'band', domain },
+          { orient: 'left', type: 'linear' }
+        ],
+        dataZoom: [{ axisId: 'x-axis', orient: 'bottom', start: 0, end: 0.1, customDomain }]
+      } as IBarChartSpec,
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const updated = createRows(5);
+    chart.updateDataSync('data', updated);
+    expect(zoom('bottom').stateScale.domain()).toEqual(expected);
+    expect(
+      chart
+        .getChart()
+        .getAllSeries()[0]
+        .getViewData()
+        .latestData.map(({ category, value }: Row) => ({ category, value }))
+    ).toEqual(updated.filter(row => row.category === expected[0]));
+  });
+
+  it.each([
     [
       'both bounds',
       {
