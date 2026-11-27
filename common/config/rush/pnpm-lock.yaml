@@ -396,6 +396,9 @@ importers:
       '@visactor/vchart-extension':
         specifier: workspace:2.2.2
         version: link:../vchart-extension
+      '@visactor/vutils':
+        specifier: ~1.0.29
+        version: 1.0.29
     devDependencies:
       '@babel/core':
         specifier: 7.20.12

@@ -9,6 +9,7 @@
     "cjs"
   ],
   "scripts": {
+    "test": "node scripts/test-spec-update.cjs",
     "build": "bundle --clean",
     "build:tt": "taro build --type tt",
     "build:lark": "taro build --type lark",
@@ -44,7 +45,8 @@
   "license": "MIT",
   "dependencies": {
     "@visactor/vchart": "workspace:2.2.2",
-    "@visactor/vchart-extension": "workspace:2.2.2"
+    "@visactor/vchart-extension": "workspace:2.2.2",
+    "@visactor/vutils": "~1.0.29"
   },
   "devDependencies": {
     "@internal/bundler": "workspace:*",

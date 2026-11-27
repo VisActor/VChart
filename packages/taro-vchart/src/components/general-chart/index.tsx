@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { isEqual } from '@visactor/vutils';
 import {
   TTCanvas,
   style_cs_canvas,
@@ -83,7 +84,7 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
     if (
       this.ttCanvas &&
       this.ttCanvas.chartInstance &&
-      JSON.stringify(prevProps.spec) !== JSON.stringify(this.props.spec)
+      !isEqual(prevProps.spec, this.props.spec)
     ) {
       this.ttCanvas.updateSpec(this.props);
     }
