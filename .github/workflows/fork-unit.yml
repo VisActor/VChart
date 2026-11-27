@@ -115,4 +115,5 @@ jobs:
           "$RUNNER_TEMP/fork-test" bridge 'mkdir -p "$HOME" && node common/scripts/install-run-rush.js install --bypass-policy'
       - name: Test VChart
         run: |
-          "$RUNNER_TEMP/fork-test" none 'JEST_ELECTRON_NO_SANDBOX=1 xvfb-run -a node common/scripts/install-run-rush.js run -p @visactor/vchart -s test'
+          # 直接执行 Rush run 最终调用的包脚本，避免离线测试时下载 Rush 命令插件。
+          "$RUNNER_TEMP/fork-test" none 'JEST_ELECTRON_NO_SANDBOX=1 xvfb-run -a npm --prefix packages/vchart test -- --runInBand'
