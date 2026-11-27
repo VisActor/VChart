@@ -68,6 +68,7 @@ export class ScrollBar<T extends IScrollBarSpec = IScrollBarSpec> extends DataFi
         this._component.setAttribute('range', [start, end]);
       }
 
+      this._updateWindowFromInteraction(start, end);
       this._start = start;
       this._end = end;
       const axis = this._relatedAxisComponent as CartesianAxis<any>;

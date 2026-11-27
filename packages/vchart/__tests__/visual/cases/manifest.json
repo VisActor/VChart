@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "indexDigest": "561730612589c4c84fe875be40641f617035f95d2e704621d9b9b15befade855",
+  "indexDigest": "727b55abe9f5e54db459f6541697db748f6f3280fa203656bb0fe1b49609386d",
   "ids": [
     "title-resize-legend-layout",
     "injected-stage",
@@ -94,6 +94,7 @@
     "datazoom-filter-update-axis-zero",
     "datazoom-filter-update-axis-domain",
     "datazoom-filter-update-interactive-window",
+    "datazoom-value-window-update",
     "waterfall-leader-line",
     "label-smart-invert",
     "radar-series",

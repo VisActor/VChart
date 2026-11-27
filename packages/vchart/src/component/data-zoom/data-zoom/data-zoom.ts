@@ -1,5 +1,4 @@
 import {
-  isEqual,
   isFunction,
   isNil,
   isNumber,
@@ -22,7 +21,6 @@ import { LayoutLevel, LayoutZIndex } from '../../../constant/layout';
 import { ChartEvent } from '../../../constant/event';
 import type { IDataZoomSpec } from './interface';
 import { Factory } from '../../../core/factory';
-import type { IAxis } from '../../axis';
 import type { CartesianAxis } from '../../axis/cartesian';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
@@ -102,6 +100,7 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
         if (!isValid(startValue) || !isValid(endValue)) {
           return;
         }
+        this._updateWindowFromInteraction(start, end);
         this._start = start;
         this._end = end;
         const hasChange = isFunction(this._spec.updateDataAfterChange)
@@ -128,12 +127,10 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
     const data = this._data.getDataView();
     data.reRunAllTransform();
     // 首次布局会初始化筛选窗口，后续数据更新才重新应用该窗口。
-    if (this._filterMode === 'filter' && this._hasInitStateScale) {
-      const previousDomain = this._newDomain;
+    if (this._hasInitStateScale) {
       const wasContinuous = isContinuous(this._stateScale.type);
       const continuous = !this._relatedAxisComponent && this._field ? this._isStateFieldContinuous() : wasContinuous;
       const scaleTypeChanged = continuous !== wasContinuous;
-      const { updateDataAfterChange } = this._spec;
       if (scaleTypeChanged) {
         this._initStateScale(continuous);
       } else {
@@ -142,11 +139,8 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       }
       this._updateScaleRange();
       // 数据更新沿用当前窗口，初始窗口配置只在初始化时读取。
-      this._setStateFromAxis(false);
+      this._updateWindowFromData(scaleTypeChanged);
       this._previewStateScale = null;
-      if (!isFunction(updateDataAfterChange) && (scaleTypeChanged || !isEqual(previousDomain, this._newDomain))) {
-        this.effect.onZoomChange();
-      }
     } else {
       this._initAfterLayout();
     }
@@ -267,25 +261,6 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   /*** end: set attributes & bind related axis and region ***/
 
   /*** start: scale of background chart ***/
-  protected _updateStateScaleDomain() {
-    const axis = this._relatedAxisComponent as IAxis;
-    if (this._filterMode === 'filter' && axis && !this._spec.customDomain) {
-      if (isContinuous(this._stateScale.type) && axis.setScaleDomainFromData) {
-        const domain = this._data.getLatestData().length ? this._computeDomainOfStateScale(true) : [0, 0];
-        return axis.setScaleDomainFromData(domain, this._stateScale as ILinearScale);
-      }
-      if (isDiscrete(this._stateScale.type)) {
-        const axisDomain = axis.getSpec().domain;
-        if (axisDomain?.length) {
-          // 分类轴的显式域包含顺序及尚无数据的分类，不能用数据行顺序覆盖。
-          this._stateScale.domain(axisDomain, false);
-          return axisDomain;
-        }
-      }
-    }
-    return super._updateStateScaleDomain();
-  }
-
   protected _initValueScale() {
     const domain = this._computeDomainOfValueScale();
 

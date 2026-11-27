@@ -1,5 +1,5 @@
 import { isValidNumber, isNil, isValid, isFunction, last } from '@visactor/vutils';
-import type { ILinearScale, LinearScale } from '@visactor/vscale';
+import type { IBaseScale, ILinearScale, LinearScale } from '@visactor/vscale';
 import { combineDomains, maxInArr, minInArr } from '../../../util/array';
 import { getLinearAxisSpecDomain } from '../util';
 import type { IAxisLocationCfg, ILinearAxisBreakSpec, ITick } from '../interface';
@@ -239,16 +239,15 @@ export class LinearAxisMixin {
       } else {
         domain = [minDomain, maxDomain];
       }
-    } else {
-      // default value for linear axis
-      domain[0] = 0;
-      domain[1] = 0;
     }
     this._applyDataDomainBounds(domain, (this._softDomainBounds ??= {}));
     return domain;
   }
 
   protected _applyDataDomainBounds(domain: number[], softBounds: DomainBounds) {
+    if (!domain.length) {
+      domain.push(0, 0);
+    }
     this.setSoftDomainMinMax(domain, softBounds);
     this.expandDomain(domain);
     this.includeZero(domain);
@@ -431,10 +430,10 @@ export class LinearAxisMixin {
   }
 
   /** 让其他组件的比例尺应用轴的域规则，轴自身仍按系列视图统计更新。 */
-  setScaleDomainFromData(domain: number[], scale: ILinearScale): number[] {
+  setScaleDomainFromData(domain: number[], scale: IBaseScale): number[] {
     const softBounds: DomainBounds = {};
     this._applyDataDomainBounds(domain, softBounds);
-    this._setScaleDomain(domain, scale, softBounds);
+    this._setScaleDomain(domain, scale as ILinearScale, softBounds);
     return scale.domain();
   }
 

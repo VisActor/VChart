@@ -1,5 +1,6 @@
 import { DataSet, DataView } from '@visactor/vdataset';
 import { BandScale, LinearScale, type IBandLikeScale } from '@visactor/vscale';
+import { AxisComponent } from '../../../../src/component/axis/base-axis';
 import { DataZoom } from '../../../../src/component/data-zoom/data-zoom/data-zoom';
 import { dataFilterWithNewDomain } from '../../../../src/component/data-zoom/util';
 
@@ -20,15 +21,22 @@ describe('sequence analysis DataZoom', () => {
       getYAxisHelper: () => ({ getAxisId: () => 11, getScale: () => yScale })
     };
     const zoom: any = new DataZoom({}, { dataSet } as any);
-    zoom._relatedAxisComponent = { id: 10, getSpec: () => ({}) };
+    zoom._relatedAxisComponent = {
+      id: 10,
+      getScale: () => xScale,
+      getInverse: () => false,
+      setScaleDomainFromData: AxisComponent.prototype.setScaleDomainFromData
+    };
     zoom._regions = [
       { getSeries: () => [{ ...series, id: 2, type: 'link', getSpec: () => ({ fromField: 'from' }) }, series] }
     ];
     zoom._stateField = 'state';
     zoom._valueField = 'value';
     zoom._stateScale = new BandScale();
-    zoom._handleChange = jest.fn();
+    zoom._createOrUpdateComponent = jest.fn();
+    zoom.effect.onZoomChange = jest.fn();
     zoom._initData();
+    zoom._setStateFromSpec();
     expect(zoom._parseFieldOfSeries({ id: 2 })).toEqual(['from_xField']);
     expect(zoom._data.getLatestData()).toEqual([
       { state: 'A', value: 0 },
@@ -63,7 +71,12 @@ describe('sequence analysis DataZoom', () => {
       getYAxisHelper: () => ({ getAxisId: () => id + 10, getScale: () => yScale })
     });
     const zoom: any = new DataZoom({}, { dataSet } as any);
-    zoom._relatedAxisComponent = { id: 10 };
+    zoom._relatedAxisComponent = {
+      id: 10,
+      getScale: () => xScale,
+      getInverse: () => false,
+      setScaleDomainFromData: AxisComponent.prototype.setScaleDomainFromData
+    };
     zoom._regions = [
       {
         getSeries: () => [
@@ -75,8 +88,10 @@ describe('sequence analysis DataZoom', () => {
     zoom._stateField = 'state';
     zoom._valueField = 'value';
     zoom._stateScale = new LinearScale();
-    zoom._handleChange = jest.fn();
+    zoom._createOrUpdateComponent = jest.fn();
+    zoom.effect.onZoomChange = jest.fn();
     zoom._initData();
+    zoom._setStateFromSpec();
     expect(zoom._data.getLatestData()).toEqual([
       { state: 10, value: 2 },
       { state: 20, value: 3 }

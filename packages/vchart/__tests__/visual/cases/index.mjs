@@ -447,6 +447,11 @@ export const cases = [
     file: './components/datazoom/datazoom-filter-update-interactive-window.mjs'
   },
   {
+    id: 'datazoom-value-window-update',
+    purpose: '数据域扩张后保留 DataZoom 的值窗口并重算手柄百分比',
+    file: './components/datazoom/datazoom-value-window-update.mjs'
+  },
+  {
     id: 'waterfall-leader-line',
     purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
     file: './charts/waterfall/waterfall-leader-line.mjs'

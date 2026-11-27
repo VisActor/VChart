@@ -1,4 +1,4 @@
-import type { BandScale } from '@visactor/vscale';
+import type { IBaseScale, BandScale } from '@visactor/vscale';
 import type { Dict } from '@visactor/vutils';
 import { array, isArray } from '@visactor/vutils';
 import type { Datum, IOrientType, IPolarOrientType, StringOrNumber } from '../../../typings';
@@ -181,6 +181,11 @@ export class BandAxisMixin {
     return Array.from(tempSet) as StringOrNumber[];
   }
 
+  setScaleDomainFromData(domain: StringOrNumber[], scale: IBaseScale): StringOrNumber[] {
+    scale.domain(this._spec.domain?.length ? this._spec.domain : domain, false);
+    return scale.domain();
+  }
+
   protected updateScaleDomain() {
     if (!this.isSeriesDataEnable()) {
       return;
@@ -192,7 +197,7 @@ export class BandAxisMixin {
     for (let i = 0; i < this._scales.length; i++) {
       if (userDomain && userDomain.length && i === 0) {
         // 当数字映射字段存在分组时，只作用于第一个分组的domain，如 xField: ['x', 'type']
-        this._scales[i].domain(userDomain);
+        this.setScaleDomainFromData(userDomain, this._scales[i]);
       } else {
         const data = this.collectData(i);
         const domain = this.computeBandDomain(data);
@@ -267,7 +272,7 @@ export class BandAxisMixin {
     for (let i = 0; i < this._scales.length; i++) {
       if (userDomain && userDomain.length && i === 0) {
         // 当数字映射字段存在分组时，只作用于第一个分组的domain，如 xField: ['x', 'type']
-        this._scales[i].domain(userDomain);
+        this.setScaleDomainFromData(userDomain, this._scales[i]);
       } else {
         const data = this.collectData(i, true);
         const domain = this.computeBandDomain(data);

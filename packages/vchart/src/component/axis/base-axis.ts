@@ -90,6 +90,12 @@ export abstract class AxisComponent<T extends ICommonAxisSpec & Record<string, a
     return this._scale;
   }
 
+  /** 将未筛选的数据域应用到独立比例尺，不更新轴自身或发送轴事件。 */
+  setScaleDomainFromData(domain: StringOrNumber[], scale: IBaseScale): StringOrNumber[] {
+    scale.domain(domain, false);
+    return scale.domain();
+  }
+
   protected _scales: IBaseScale[] = [];
   getScales() {
     return this._scales;

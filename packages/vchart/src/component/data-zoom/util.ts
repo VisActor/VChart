@@ -242,6 +242,10 @@ export const parseDomainFromState = (startValue: number | string, endValue: numb
   const allDomain = scale.domain();
   const startIndex = allDomain.indexOf(startValue);
   const endIndex = allDomain.indexOf(endValue);
+  // 值窗口的分类尚未回填时，没有可确定的分类区间。
+  if (startIndex < 0 || endIndex < 0) {
+    return [];
+  }
   return allDomain.slice(Math.min(startIndex, endIndex), Math.max(startIndex, endIndex) + 1);
 };
 
