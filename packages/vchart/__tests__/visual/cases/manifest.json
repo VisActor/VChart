@@ -91,6 +91,7 @@
     "datazoom-filter-update-empty",
     "datazoom-field-statistics-update",
     "datazoom-filter-update-axis-bounds",
+    "datazoom-filter-update-axis-zero",
     "waterfall-leader-line",
     "label-smart-invert",
     "radar-series",

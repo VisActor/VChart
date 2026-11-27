@@ -63,7 +63,7 @@ describe('sequence analysis DataZoom', () => {
       getYAxisHelper: () => ({ getAxisId: () => id + 10, getScale: () => yScale })
     });
     const zoom: any = new DataZoom({}, { dataSet } as any);
-    zoom._relatedAxisComponent = { id: 10, getSpec: () => ({ type: 'linear' }) };
+    zoom._relatedAxisComponent = { id: 10 };
     zoom._regions = [
       {
         getSeries: () => [

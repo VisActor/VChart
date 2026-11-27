@@ -1,4 +1,4 @@
-import type { IContinuousScale, IBaseScale, CustomTicksFunc } from '@visactor/vscale';
+import type { IContinuousScale, IBaseScale, ILinearScale, CustomTicksFunc } from '@visactor/vscale';
 import type { CoordinateType, Datum, IPolarOrientType, StringOrNumber } from '../../../typings';
 import type { IComponent } from '../../interface/common';
 import type { ICartesianAxisSpec } from '../cartesian/interface';
@@ -13,6 +13,7 @@ export interface StatisticsDomain {
 export interface IAxis extends IComponent {
   valueToPosition: (value: any) => number;
   getScale: () => IBaseScale;
+  setScaleDomainFromData?: (domain: number[], scale: ILinearScale) => number[];
   getScales: () => IBaseScale[];
   getOrient: () => ICartesianAxisSpec['orient'] | IPolarOrientType;
   getInverse: () => boolean;

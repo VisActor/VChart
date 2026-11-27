@@ -178,6 +178,45 @@ describe('DataZoom preview validity', () => {
     }
   );
 
+  it.each([
+    ['includes zero by default', { nice: false }, [10, 20, 40], [0, 40], [20, 40]],
+    ['allows zero to be excluded', { nice: false, zero: false }, [10, 20, 40], [10, 40], [40]],
+    ['rounds automatic bounds', {}, [10, 25, 31, 41], [0, 50], [25, 31, 41]],
+    [
+      'applies soft bounds and expansion',
+      { nice: false, zero: false, softMin: 0, expand: { max: 0.5 } },
+      [10, 20, 30, 40],
+      [0, 60],
+      [30, 40]
+    ]
+  ] as const)('%s in the DataZoom domain after updating data', (_name, axis, values, domain, retained) => {
+    const createRows = (offset: number) => values.map((x, index) => ({ x, y: index + offset }));
+    chart = new VChart(
+      {
+        type: 'scatter',
+        animation: false,
+        data: { id: 'data', values: createRows(1) },
+        xField: 'x',
+        yField: 'y',
+        axes: [
+          { id: 'x-axis', orient: 'bottom', type: 'linear', ...axis },
+          { orient: 'left', type: 'linear' }
+        ],
+        dataZoom: [{ axisId: 'x-axis', orient: 'bottom', start: 0.5, end: 1 }]
+      },
+      { dom, animation: false }
+    );
+    chart.renderSync();
+    const series = chart.getChart().getAllSeries()[0];
+    const retainedX = () => series.getViewData().latestData.map((row: { x: number }) => row.x);
+    expect(retainedX()).toEqual(retained);
+
+    chart.updateDataSync('data', createRows(5));
+
+    expect(retainedX()).toEqual(retained);
+    expect(zoom('bottom').stateScale.domain()).toEqual(domain);
+  });
+
   it('uses a continuous filter window when an unbound field gains numeric statistics', () => {
     const incoming = [
       { x: 0, y: 1 },
@@ -296,7 +335,7 @@ describe('DataZoom preview validity', () => {
     expect(xCalls.length).toBeGreaterThan(0);
     expect(xCalls.every(([, isNumeric]) => isNumeric === true)).toBe(true);
     expect(series.getRawDataStatisticsByField('x', true).values).toBeUndefined();
-    expect(zoom('bottom').stateScale.domain()).toEqual([0, 9999]);
+    expect(zoom('bottom').stateScale.domain()).toEqual([0, 10000]);
     statistics.mockRestore();
   });
 });
