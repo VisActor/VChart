@@ -95,12 +95,13 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
       } else {
         const axis = this._relatedAxisComponent as CartesianAxis<any>;
 
-        const startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
-        const endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
+        let startValue = statePointToData(start, this._stateScale, isReverse(axis, this._isHorizontal));
+        let endValue = statePointToData(end, this._stateScale, isReverse(axis, this._isHorizontal));
         if (!isValid(startValue) || !isValid(endValue)) {
           return;
         }
         this._updateWindowFromInteraction(start, end);
+        [startValue, endValue] = this._resolveWindowValues(startValue, endValue);
         this._start = start;
         this._end = end;
         const hasChange = isFunction(this._spec.updateDataAfterChange)

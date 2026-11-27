@@ -9,7 +9,6 @@ import {
   getAxisBandSize,
   isReverse,
   lockStatisticsFilter,
-  parseDomainFromStateAndValue,
   parseDomainFromState,
   statePointToData
 } from './util';
@@ -264,7 +263,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     }
   }
 
-  protected _handleStateChange = (startValue: number, endValue: number, tag?: string) => {
+  protected _handleStateChange = (startValue: StringOrNumber, endValue: StringOrNumber, tag?: string) => {
     this._startValue = startValue;
     this._endValue = endValue;
     this._newDomain = parseDomainFromState(this._startValue, this._endValue, this._stateScale);
@@ -440,13 +439,7 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     // 第一次渲染, 根据配置强制触发start和end变更
     if (!this._hasInitStateScale) {
       if (this._start !== 0 || this._end !== 1) {
-        this._newDomain = parseDomainFromStateAndValue(
-          this._spec.start,
-          this._startValue,
-          this._spec.end,
-          this._endValue,
-          this._stateScale
-        );
+        // 初始筛选域已由 _syncWindowState 按比例尺和窗口模式解析。
         this.effect.onZoomChange();
       }
       this._hasInitStateScale = true;
@@ -851,6 +844,17 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
     updateWindowFromRange(this._window, start, end, this._stateScale, this._isWindowReverse());
   }
 
+  protected _resolveWindowValues(
+    startValue: StringOrNumber,
+    endValue: StringOrNumber
+  ): [StringOrNumber, StringOrNumber] {
+    // 值模式直接使用锚点，不能通过比例尺往返转换损失 API 输入的边界精度。
+    return [
+      this._window.start.mode === 'value' ? this._window.start.value : startValue,
+      this._window.end.mode === 'value' ? this._window.end.value : endValue
+    ];
+  }
+
   protected _updateWindowFromData(scaleTypeChanged = false) {
     const previousStart = this._start;
     const previousEnd = this._end;
@@ -870,14 +874,10 @@ export abstract class DataFilterBaseComponent<T extends IDataFilterComponentSpec
   protected _syncWindowState() {
     const reverse = this._isWindowReverse();
     [this._start, this._end] = windowToRange(this._window, this._stateScale, reverse);
-    this._startValue =
-      this._window.start.mode === 'value'
-        ? this._window.start.value
-        : statePointToData(this._start, this._stateScale, reverse);
-    this._endValue =
-      this._window.end.mode === 'value'
-        ? this._window.end.value
-        : statePointToData(this._end, this._stateScale, reverse);
+    [this._startValue, this._endValue] = this._resolveWindowValues(
+      statePointToData(this._start, this._stateScale, reverse),
+      statePointToData(this._end, this._stateScale, reverse)
+    );
     this._minSpan = this._spec.minSpan ?? 0;
     this._maxSpan = this._spec.maxSpan ?? 1;
     if (isContinuous(this._stateScale.type) && this._stateScale.domain()[0] !== last(this._stateScale.domain())) {

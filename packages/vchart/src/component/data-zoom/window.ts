@@ -1,8 +1,8 @@
-import { isContinuous, type IBaseScale } from '@visactor/vscale';
-import { isValid, last } from '@visactor/vutils';
+import type { IBaseScale } from '@visactor/vscale';
+import { isValid } from '@visactor/vutils';
 import type { IDataFilterComponentSpec } from './interface';
 import type { StringOrNumber } from '../../typings';
-import { statePointToData } from './util';
+import { dataToStatePoint, statePointToData } from './util';
 
 type WindowMode = 'percent' | 'value';
 interface WindowEndpoint {
@@ -30,18 +30,11 @@ export function windowToRange(window: DataFilterWindow, scale: IBaseScale, rever
     if (mode === 'percent') {
       return Math.max(0, Math.min(1, value as number));
     }
-    const domain = scale.domain();
-    let percent: number;
-    if (isContinuous(scale.type)) {
-      percent = ((value as number) - domain[0]) / (last(domain) - domain[0]);
-    } else {
-      const range = scale.range();
-      percent = (scale.scale(value) - range[0]) / (last(range) - range[0]);
-    }
+    const percent = dataToStatePoint(value, scale, reverse);
     if (!Number.isFinite(percent)) {
       return fallback;
     }
-    return Math.max(0, Math.min(1, reverse ? 1 - percent : percent));
+    return Math.max(0, Math.min(1, percent));
   };
   return [toPercent(window.start, 0), toPercent(window.end, 1)];
 }

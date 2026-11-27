@@ -452,6 +452,11 @@ export const cases = [
     file: './components/datazoom/datazoom-value-window-update.mjs'
   },
   {
+    id: 'datazoom-log-window-update',
+    purpose: '对数轴值窗口的定位、交互反向映射和更新后的值锚点保持',
+    file: './components/datazoom/datazoom-log-window-update.mjs'
+  },
+  {
     id: 'waterfall-leader-line',
     purpose: '反向类目轴瀑布图的连接线与变化值堆叠标签',
     file: './charts/waterfall/waterfall-leader-line.mjs'
