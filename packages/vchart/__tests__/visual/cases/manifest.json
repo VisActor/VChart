@@ -90,6 +90,7 @@
     "datazoom-numeric-category",
     "datazoom-filter-update-empty",
     "datazoom-field-statistics-update",
+    "datazoom-filter-update-axis-bounds",
     "waterfall-leader-line",
     "label-smart-invert",
     "radar-series",

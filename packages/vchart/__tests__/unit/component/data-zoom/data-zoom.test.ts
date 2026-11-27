@@ -127,6 +127,57 @@ describe('DataZoom preview validity', () => {
     expect(onZoom).not.toHaveBeenCalled();
   });
 
+  it.each([
+    [
+      'both bounds',
+      {
+        bounds: { min: 0, max: 100 },
+        initial: [20, 40],
+        updated: [20, 40],
+        domain: [0, 100],
+        retained: [20, 40]
+      }
+    ],
+    [
+      'only the upper bound',
+      {
+        bounds: { max: 100 },
+        initial: [20, 40, 80],
+        updated: [10, 50, 60, 120],
+        domain: [10, 100],
+        retained: [10, 50]
+      }
+    ]
+  ] as const)(
+    'preserves %s of the bound axis when updating the filter window',
+    (_name, { bounds, initial, updated, domain, retained }) => {
+      const createRows = (values: readonly number[], offset: number) =>
+        values.map((x, index) => ({ x, y: index + offset }));
+      chart = new VChart(
+        {
+          type: 'scatter',
+          animation: false,
+          data: { id: 'data', values: createRows(initial, 1) },
+          xField: 'x',
+          yField: 'y',
+          axes: [
+            { id: 'x-axis', orient: 'bottom', type: 'linear', zero: false, nice: false, ...bounds },
+            { orient: 'left', type: 'linear' }
+          ],
+          dataZoom: [{ axisId: 'x-axis', orient: 'bottom', start: 0, end: 0.5 }]
+        },
+        { dom, animation: false }
+      );
+      chart.renderSync();
+      const series = chart.getChart().getAllSeries()[0];
+
+      chart.updateDataSync('data', createRows(updated, 3));
+
+      expect(series.getViewData().latestData.map((row: { x: number }) => row.x)).toEqual(retained);
+      expect(zoom('bottom').stateScale.domain()).toEqual(domain);
+    }
+  );
+
   it('uses a continuous filter window when an unbound field gains numeric statistics', () => {
     const incoming = [
       { x: 0, y: 1 },

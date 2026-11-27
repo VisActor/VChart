@@ -23,6 +23,7 @@ import { ChartEvent } from '../../../constant/event';
 import type { IDataZoomSpec } from './interface';
 import { Factory } from '../../../core/factory';
 import type { CartesianAxis } from '../../axis/cartesian';
+import { getLinearAxisSpecDomain } from '../../axis/util';
 import { DataZoomSpecTransformer } from './data-zoom-transformer';
 import { getFormatFunction } from '../../util';
 import { dataZoom } from '../../../theme/builtin/common/component/data-zoom';
@@ -265,6 +266,18 @@ export class DataZoom<T extends IDataZoomSpec = IDataZoomSpec> extends DataFilte
   /*** end: set attributes & bind related axis and region ***/
 
   /*** start: scale of background chart ***/
+  protected _computeDomainOfStateScale(continuous?: boolean) {
+    const domain = super._computeDomainOfStateScale(continuous);
+    const axis = this._relatedAxisComponent;
+    if (this._filterMode === 'filter' && continuous && axis && !this._spec.customDomain) {
+      // 使用原始数据计算自动边界，显式边界遵循关联轴的配置。
+      const { min, max } = getLinearAxisSpecDomain(axis.getSpec());
+      domain[0] = min ?? domain[0];
+      domain[1] = max ?? domain[1];
+    }
+    return domain;
+  }
+
   protected _initValueScale() {
     const domain = this._computeDomainOfValueScale();
 
