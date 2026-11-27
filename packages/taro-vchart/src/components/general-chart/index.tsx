@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Canvas } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import { isEqual } from '@visactor/vutils';
 import {
   TTCanvas,
   style_cs_canvas,
   style_cs_canvas_hidden,
   style_cs_tooltip_canvas,
-  style_container,
-  isSpecEqual
+  style_container
 } from '../../utils';
 
 import { IChartProps, IVChart, IDomRef, RenderMode } from '../../typings';
@@ -84,7 +84,7 @@ export class GeneralChart extends React.Component<GeneralChartProps> {
     if (
       this.ttCanvas &&
       this.ttCanvas.chartInstance &&
-      !isSpecEqual(prevProps.spec, this.props.spec)
+      !isEqual(prevProps.spec, this.props.spec)
     ) {
       this.ttCanvas.updateSpec(this.props);
     }

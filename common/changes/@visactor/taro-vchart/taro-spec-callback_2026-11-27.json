@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@visactor/taro-vchart",
+      "comment": "fix: Taro 图表在 spec 回调引用变化时更新",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@visactor/taro-vchart"
+}

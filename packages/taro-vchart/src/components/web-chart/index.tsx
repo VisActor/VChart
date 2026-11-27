@@ -1,5 +1,5 @@
 import React from 'react';
-import { isSpecEqual } from '../../utils';
+import { isEqual } from '@visactor/vutils';
 import { IChartProps, IVChart, RenderMode } from '../../typings';
 
 export interface WebChartProps extends IChartProps {
@@ -49,7 +49,7 @@ export class WebChart extends React.Component<WebChartProps> {
 
     const { spec, onChartReady } = this.props;
 
-    if (!isSpecEqual(prevProps.spec, spec)) {
+    if (!isEqual(prevProps.spec, spec)) {
       this.vchart.updateSpec(spec, true);
       onChartReady && onChartReady(this.vchart);
     }
